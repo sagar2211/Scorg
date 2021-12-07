@@ -1,0 +1,160 @@
+<div class="emr-container-fluid container-fluid px-0">
+    <div class="card-header p-1 border-dash-bottom" *ngIf="addEditDiv">
+        <button title="Back to Template Mapping list" class="btn btn-sm border-0 back-arrow-btn" (click)="cancelTemplateMapping();addEditDiv=false;" type="button"><i class="icon fa-fw icon-arrow"
+        aria-hidden="true"></i>
+    </button>
+        <h6 class="mb-0 d-inline-block align-middle"> Add Template Mapping</h6>
+    </div>
+    <div class="container-fluid bg-light py-2" *ngIf="addEditDiv">
+        <form [formGroup]="entityTemplateMapForm" (ngSubmit)="addUpdateTemplateMapping()">
+            <div class="form-row form-group">
+                <div class="col-3">
+                    <label for="login_id">Provider<sup>*</sup></label>
+                    <app-ng-select-typeahead [inputValue]="entityTemplateMapForm.value.entity?.id" [displayList]="entityList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" (recievedVal)="onSelectEntity($event)" [source]="'Provider'" [returnDataType]="'obj'" [isDisabled]="isNgSelectTypeHeadDisabled"
+                        [compInstance]="compInstance">
+                    </app-ng-select-typeahead>
+                    <small class="text-danger" *ngIf="entityTemplateMapFormControls['entity'].errors?.required && submitted">
+            Please Select Provider</small>
+                </div>
+                <div class="col-3">
+                    <label for="login_id">Category<sup>*</sup></label>
+                    <app-ng-select-typeahead [inputValue]="entityTemplateMapForm.value.templateCategory?.id" [displayList]="templateCategoryList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" (recievedVal)="onSelectTemplateCategory($event)" [source]="'Template Category'"
+                        [returnDataType]="'obj'" [isDisabled]="isNgSelectTypeHeadDisabled" [compInstance]="compInstance">
+                    </app-ng-select-typeahead>
+                    <small class="text-danger" *ngIf="entityTemplateMapFormControls['templateCategory'].errors?.required && submitted">
+            Please Select Category</small>
+                </div>
+                <div class="col-3">
+                    <label for="login_id">Event<sup>*</sup></label>
+                    <app-ng-select-typeahead [inputValue]="entityTemplateMapForm.value.templateEvent?.id" [displayList]="templateEventList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" (recievedVal)="onSelectTemplateEvent($event)" [source]="'Event'" [returnDataType]="'obj'"
+                        [compInstance]="compInstance">
+                    </app-ng-select-typeahead>
+                    <small class="text-danger" *ngIf="entityTemplateMapFormControls['templateEvent'].errors?.required && submitted">
+            Please Select Event</small>
+                </div>
+            </div>
+            <div class="form-row form-group">
+                <div class="col-3">
+                    <label for="login_id">Template<sup>*</sup></label>
+                    <app-ng-select-typeahead [inputValue]="entityTemplateMapForm.value.templateName?.id" [displayList]="templateMasterList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" (recievedVal)="onSelectTemplateName($event)" [source]="'Template'" [returnDataType]="'obj'"
+                        [compInstance]="compInstance">
+                    </app-ng-select-typeahead>
+                    <small class="text-danger" *ngIf="entityTemplateMapFormControls['templateName'].errors?.required && submitted">
+            Please Select Template</small>
+                </div>
+                <div class="col-3 align-self-center mt-custom-1-2">
+                    <div class="custom-control custom-checkbox custom-control-inline">
+                        <input type="checkbox" formControlName="isActive" class="custom-control-input" id="isActive">
+                        <label class="custom-control-label pointer" for="isActive">Active</label>
+                    </div>
+                </div>
+                <div class="col-6 text-right align-self-center mt-custom-1-2">
+                    <button class="btn btn-sm btn-outline-secondary mr-2" (click)="cancelTemplateMapping()" type="button">
+            CANCEL</button>
+                    <button type="submit" class="btn btn-sm btn-success" [attr.title]="entityTemplateMapForm.value.id ? 'Update' : 'Save'">
+            <span *ngIf="!!!entityTemplateMapForm.value.id"><i class="icon fa-fw icon-save" aria-hidden="true"></i>
+              SAVE</span><span *ngIf="entityTemplateMapForm.value.id"><i class="fas fa-fw fa-sync-alt"
+                aria-hidden="true"></i> UPDATE</span>
+          </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="container-fluid pt-2">
+        <div class="form-row form-group">
+            <div class="col-4">
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-sm pl-2rem" placeholder="Search By Provider/Category/Event/Template" [(ngModel)]="globalSearchKeyword" (keyup)="customeTemplateMappingFilter()">
+                    <div class="placeholder-icon">
+                        <i class="icon fa-fw icon-search text-muted" aria-hidden="true"></i>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-sm btn-outline-secondary border" type="button" title="Filter" (click)="showSearchFilter()"><i class="fa fa-fw fa-caret-down" aria-hidden="true"></i></button>
+                        <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear" (click)="clearSearchFilter();"><i class="fa fa-fw fa-eraser" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+                <div class="dropdown custom-dropdown" *ngIf="showTemplateFilter">
+                    <form [formGroup]="templateMappingListFilterForm" novalidate (ngSubmit)="customeTemplateMappingFilter()">
+                        <div id="SearchPopup" class="dropdown-menu pb-0 w-100 d-block shadow" role="menu">
+                            <h6 for="filter" class="border-bottom border-light pl-2 pb-2"><i class="fa fa-filter" aria-hidden="true"></i> Filter by</h6>
+                            <div class="container-fluid">
+                                <div class="card-body p-0">
+                                    <div class="form-row form-group">
+                                        <div class="col-6">
+                                            <label for="login_id">Provider</label>
+                                            <app-ng-select-typeahead [inputValue]="templateMappingListFilterForm.value.entity?.id" [thDisplayLabel]="'name'" [displayList]=entityList [thDisplayKey]="'id'" (recievedVal)="selectFilterEntity($event)" [source]="'Provider'" [returnDataType]="'obj'" [compInstance]="compInstance">
+                                            </app-ng-select-typeahead>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="login_id">Category</label>
+                                            <app-ng-select-typeahead [inputValue]="templateMappingListFilterForm.value.templateCategory?.id" [displayList]=templateCategoryList [thDisplayLabel]="'name'" [thDisplayKey]="'id'" (recievedVal)="selectFilterTemplateCategory($event)" [source]="'Category'"
+                                                [returnDataType]="'obj'">
+                                            </app-ng-select-typeahead>
+                                        </div>
+                                        <div class="col-6">
+                                            <label for="contain" class="">Status</label>
+                                            <select class="form-control form-control-sm" formControlName="status">
+                        <option value="">Select Status</option>
+                        <option value="true">Active</option>
+                        <option value="false">Inactive</option>
+                      </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row card-footer px-0 pt-1 pb-1">
+                                    <div class="col-12 text-right">
+                                        <button class="btn float-left btn-sm btn-outline-secondary" (click)="showSearchFilter()" type="button">CLOSE</button>
+                                        <button class="btn btn-sm btn-outline-warning mr-1" type="button" (click)="clearSearchFilter()"><i
+                        class="fas fa-fw fa-eraser" aria-hidden="true"></i>
+                      CLEAR</button>
+                                        <button class="btn btn-sm btn-outline-info" type="submit"> <i class="icon fa-fw icon-search"></i>
+                      SEARCH</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-8 text-right">
+                <select class="form-control form-control-sm float-right select-w" (change)="onPageSizeChanged($event.currentTarget.value)" id="page-size">
+          <option value="15" selected="">15</option>
+          <option value="30">30</option>
+          <option value="45">45</option>
+          <option value="100">100</option>
+        </select>
+            </div>
+        </div>
+        <ngx-datatable ngx-resize-watcher class="bootstrap" [headerHeight]="50" [footerHeight]="20" [rowHeight]="30" [rows]="templateMappingList" [columnMode]="'force'" [count]="page.totalElements" [limit]='page.size' (page)='onSetPage($event)'>
+            <ngx-datatable-column name="Provider" prop="entity_name"></ngx-datatable-column>
+            <ngx-datatable-column name="Category" prop="category_name" [width]="300"></ngx-datatable-column>
+            <ngx-datatable-column name="Event" prop="event_display_name" [width]="300"></ngx-datatable-column>
+            <ngx-datatable-column name="Template" prop="template_name"></ngx-datatable-column>
+            <ngx-datatable-column name="Status" cellClass="text-center" headerClass="text-center" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span *ngIf="row.template_isactive" class='active'>Active</span>
+                    <span *ngIf="!row.template_isactive" class='inactive'>Inactive</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Action" cellClass="text-center" headerClass="text-center" [width]="100" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value" let-isSelected="isSelected">
+                    <button class="bg-transparent border-0" [disabled]="!editPermission" [routerLink]="" placement="left" [ngbPopover]="popContent" container="body">
+            <i class="fa fa-fw fa-bars" aria-hidden="true"></i> <i class="fa fa-xs fa-caret-down"
+              aria-hidden="true"></i>
+          </button>
+                    <ng-template #popContent>
+                        <ul class="list-unstyled popover-content mb-0">
+                            <li><button class="btn btn-sm btn-block text-left edit" (click)="editTemplateMapping(row);addEditDiv=true"><i class="icon fa-fw icon-edit" aria-hidden="true"></i>
+                  Edit</button>
+                            </li>
+                            <!-- <li><button class="btn btn-sm btn-block text-left del" *ngIf="(row.template_isactive)"
+                                    (click)="deleteConfirmationPopup(row)"><i class="fa fa-fw fa-trash-alt mr-1"
+                                        aria-hidden="true"></i> Delete</button></li> -->
+                        </ul>
+                    </ng-template>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

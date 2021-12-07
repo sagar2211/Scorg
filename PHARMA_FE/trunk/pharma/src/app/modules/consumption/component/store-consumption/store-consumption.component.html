@@ -1,0 +1,187 @@
+<div class="custom-container-fluid container-patient-issue">
+    <form [formGroup]="storeConsumptionFrm" (ngSubmit)="saveStoreConsumption()">
+        <div class="card-body p-1 card-body-patient-issue">
+            <div class="form-row form-group mx-0">
+                <div class="col-2">
+                    <label>Consumption No.<sup>*</sup></label>
+                    <input type="text" class="form-control form-control-sm" formControlName="consumptionNo">
+                </div>
+                <div class="col-2">
+                    <label>Consumption Date</label>
+                    <app-date-picker [makeDisabled]="true"
+                        (dateChange)="storeConsumptionFrm.patchValue({ consumptionDate: $event  });"
+                        [inputDate]="storeConsumptionFrm?.value?.consumptionDate"></app-date-picker>
+                </div>
+            </div>
+            <div class="form-row form-group mx-0" formGroupName="itemObjForm">
+                <div class="col-2">
+                    <label>Item Code<sup>*</sup></label>
+                    <ng-select [items]="itemList$ | async" bindLabel="itemCode" (change)="onItemChange($event)"
+                        bindValue="itemId" formControlName="itemId" placeholder="Item Select"
+                        [typeahead]="itemListInput$">
+                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                            <p class="mb-0"><span [ngOptionHighlight]="search">{{item.itemDescription}}</span> <small>
+                                    {{item.itemCode }} {{item.unitName }}</small></p>
+                        </ng-template>
+                    </ng-select>
+                </div>
+                <div class="col-2">
+                    <label>Batch No.<sup>*</sup></label>
+                    <ng-select [items]="itemStockList" bindLabel="batchNo" (change)="onBatchSelect($event)"
+                        formControlName="batchNo" placeholder="Stock Select"></ng-select>
+                </div>
+                <div class="col-2">
+                    <label>Expiry Date<sup>*</sup></label>
+                    <app-date-picker [disable]="true"
+                        (dateChange)="storeConsumptionFrm.get('itemObjForm').patchValue({ expiryDate: $event  });"
+                        [inputDate]="storeConsumptionFrm?.value?.itemObjForm?.expiryDate">
+                    </app-date-picker>
+                </div>
+            </div>
+            <div class="form-row form-group mx-0" formGroupName="itemObjForm">
+                <div class="col-2">
+                    <label>Balance Qty.</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Type Balance Qty."
+                        formControlName="balanceQty">
+                </div>
+                <div class="col-2">
+                    <label>Consumption Qty.<sup>*</sup></label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Tye Consumption Qty."
+                        formControlName="qty">
+                    <span class="small text-danger"
+                        *ngIf="this.storeConsumptionFrm.get('itemObjForm').get('qty').errors?.isQtyLess">Should be
+                        greater than 0</span>
+                    <span class="small text-danger"
+                        *ngIf="this.storeConsumptionFrm.get('itemObjForm').get('qty').errors?.isQtyGreater">Should be
+                        less than equal to Bal Qty</span>
+                </div>
+                <div class="col-2">
+                    <label>Unit Rate</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Type Unit Rate"
+                        formControlName="unitRate">
+                </div>
+                <div class="col-2">
+                    <label>Amount</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Type Amount"
+                        formControlName="amount">
+                </div>
+                <div class="col-2">
+                    <label>Remark</label>
+                    <textarea rows="1" class="form-control form-control-sm vresize" formControlName="remark"
+                        placeholder="Type Remark"></textarea>
+                </div>
+                <div class="col-2">
+                    <button type="button" class="btn btn-sm btn-primary mt-custom-1-2 mr-1" (click)="onAddItem()"><i
+                            class="fa fa-fw fa-plus" aria-hidden="true"></i> ADD</button>
+                    <button type="button" class="btn btn-sm btn-outline-warning mt-custom-1-2"
+                        (click)="clearItemForm()"> <i class="fas fa-fw fa-eraser" aria-hidden="true"></i> CLEAR</button>
+                </div>
+            </div>
+            <div class="form-row form-group mx-0">
+                <div class="col-12">
+                    <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25"
+                        [footerHeight]="0" [rowHeight]="30" [rows]="itemList" [externalSorting]="true"
+                        [externalPaging]="true" [count]="itemList.length" [scrollbarH]="true">
+                        <ngx-datatable-column [frozenLeft]="true" name="Item" [sortable]="false" [width]="200">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.itemName + '('+row.itemCode+')'}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Batch No." cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span> {{row.batchNo}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Expiry" [sortable]="false" [width]="140">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.expiryDate | customDate: '' : 'DD-MM-YYYY' }}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Unit Rate" [sortable]="false" [width]="140">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.unitRate | number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Qty." [sortable]="false" [width]="140">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.qty}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Amount" [sortable]="false" [width]="140">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.amount | number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Remark" [sortable]="false" [width]="140">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.remark}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Action" [frozenRight]="true" cellClass="text-center"
+                            [sortable]="false" [width]="75">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex"
+                                let-value="value" let-isSelected="isSelected">
+                                <button type="button" (click)="onDeleteItem(i)" class="btn btn-xs btn-outline-danger">
+                                    <i class="icon fa-fw icon-trash" aria-hidden="true"></i></button>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+            <div class="form-row form-group mx-0">
+                <div class="col-4">
+                    <label>Remark</label>
+                    <textarea rows="5" class="form-control vresize" formControlName="remark"
+                        placeholder="Type Remark"></textarea>
+                </div>
+                <div class="col-8 text-right">
+                    <h5>Total Amount: {{storeConsumptionFrm.value.totalAmount | number:'1.2-2'}}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer py-1 border-top">
+            <div class="float-right">
+                <ng-container *ngxPermissionsOnly="constpermissionList.ADD_STORE_CONSUMPTION">
+                    <div class="is-approved form-group" *ngIf="consumptionId === -1">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Print</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isTakePrint" class="custom-control-input"
+                                id="isTakePrint">
+                            <label class="custom-control-label pointer"
+                                [class.active]="storeConsumptionFrm.value.isTakePrint" for="isTakePrint"></label>
+                            <span class="text-uppercase"
+                                [class.active]="storeConsumptionFrm.value.isTakePrint">{{storeConsumptionFrm.value.isTakePrint
+                                ?
+                                'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <button *ngIf="consumptionId === -1" type="submit" class="btn btn-success btn-sm"><i
+                            class="icon fa-fw icon-save" aria-hidden="true"></i>
+                        SAVE</button>
+                </ng-container>
+                <ng-container *ngxPermissionsOnly="constpermissionList.UPDATE_STORE_CONSUMPTION">
+                    <div class="is-approved form-group" *ngIf="consumptionId !== -1">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Print</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isTakePrint" class="custom-control-input"
+                                id="isTakePrint">
+                            <label class="custom-control-label pointer"
+                                [class.active]="storeConsumptionFrm.value.isTakePrint" for="isTakePrint"></label>
+                            <span class="text-uppercase"
+                                [class.active]="storeConsumptionFrm.value.isTakePrint">{{storeConsumptionFrm.value.isTakePrint
+                                ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <button *ngIf="consumptionId !== -1" type="submit" class="btn btn-primary-light btn-sm"><i
+                            class="fas fa-fw fa-sync-alt"></i>
+                        UPDATE</button>
+                </ng-container>
+                <button *ngIf="consumptionId !== -1" type="button" (click)="onClear()"
+                    class="btn btn-outline-warning btn-sm ml-1"><i class="fas fa-fw fa-eraser" aria-hidden="true"></i>
+                    CLEAR</button>
+            </div>
+        </div>
+    </form>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<app-print-data [printData]="printData" (printDiaglogClose)="true"></app-print-data>

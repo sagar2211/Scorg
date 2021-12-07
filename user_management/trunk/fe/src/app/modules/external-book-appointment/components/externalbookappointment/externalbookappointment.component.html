@@ -1,0 +1,58 @@
+<div class="navbar py-0">
+  <a class="navbar-brand" [routerLink]="">
+    <img src="./assets/img/hinduja-logo.png" alt="hinduja-logo">
+  </a>
+  <div class="collapse navbar-collapse d-inline-flex justify-content-end" id="navbarCollapse">
+    <div class="contact-details text-center">
+      <p class="mb-0">Need Help? Call 24/7</p>
+      <p class="mb-0"><span><i class="fas fa-fw fa-phone-alt"></i>777-777-7777 </span> | <span> <i
+            class="fas fa-fw fa-phone-alt"></i>888-888-8888 </span> | <span> <i
+            class="fas fa-fw fa-phone-alt"></i>999-999-999</span></p>
+    </div>
+  </div>
+</div>
+<div class="main-content">
+  <div class="search-box pt-2 mx-auto mb-5">
+    <div class="input-group mb-2">
+      <input type="text" class="form-control border-right-0" placeholder="Search Speciality, Doctors, Services etc">
+      <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search font-size-1 text-muted"></i>
+      </div>
+      <div class="input-group-append">
+        <button class="btn btn-search" type="button">
+          <i class="icon fa-fw icon-search font-weight-600" aria-hidden="true"></i></button>
+      </div>
+    </div>
+    <div class="search-list">
+      <span class="font-weight-500 d-inline-block mr-2"> Popular search: </span>
+      <ul class="list-inline d-inline-block mb-0">
+        <li class="list-inline-item"><a [routerLink]=""> Dermatologist </a></li>
+        <li class="list-inline-item"><a [routerLink]=""> Dentist </a></li>
+        <li class="list-inline-item"><a [routerLink]=""> Gynecologist </a></li>
+        <li class="list-inline-item dropdown">
+          <a class="dropdown-toggle" [routerLink]="" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false"> Others </a>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><a [routerLink]="" class="dropdown-item">abc</a></li>
+            <li><a [routerLink]="" class="dropdown-item">action</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="heading-box mt-5 mx-auto">
+    <div class="heading-title text-center">
+      <p class="mb-4">Healthcare’s only Patients for Life Platform™</p>
+    </div>
+    <div class="heading-para text-center">
+      <h2>Looking for a Doctor?</h2>
+      <p class="mb-0 font-size-1 font-weight-500">Access to the region's finest health care is conveniently located in
+        your neighborhood.</p>
+      <p class="mb-0 font-size-1 font-weight-500">Hinduja Hospital specialty care and primary care physicians are <br />
+        located throughout in India.</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer border-top text-center">
+  <p class="mb-0 font-size-dot-75">&copy; 2020 Scorg Technologies pvt ltd, All Rights Reserved</p>
+</div>

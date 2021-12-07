@@ -1,0 +1,19 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">Select Nursing Station</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+        (click)="modal.close('cancel')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="form-group w-50">
+        <label>Change Nursing Station:</label>
+        <ng-select bindLabel="nursingStation" [clearable]="false" [items]="stationArrayFiltered"
+            [(ngModel)]="selectedNursingStation" placeholder="Select Store"></ng-select>
+    </div>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-primary" (click)="changeStore();modal.close('changed')"><i
+            class="icon fa-fw icon-recheck"></i> CHANGE</button>
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.close('cancel')">CANCEL</button>
+</div>

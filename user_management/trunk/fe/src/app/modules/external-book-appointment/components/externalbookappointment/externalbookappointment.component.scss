@@ -1,0 +1,101 @@
+@import "../../../../../scss/main";
+
+.navbar {
+  position: fixed;
+  z-index: 1047;
+  height: 50px;
+  width: 100%;
+  top: 0;
+  flex-wrap: nowrap;
+  line-height: 50px;
+  background-color: $white;
+  border-bottom: 2px solid #d37a28;
+  @include transition(background-color 0.4s);
+
+  .contact-details {
+    width: 355px;
+    height: 40px;
+    color: #999999;
+    @extend .font-size-dot-875;
+    line-height: 1.3rem;
+  }
+}
+
+.footer {
+  position: fixed;
+  z-index: 1047;
+  height: 30px;
+  width: 100%;
+  bottom: 0;
+  line-height: 30px;
+  background-color: #f7f7f7;
+  @include transition(background-color 0.4s);
+}
+
+.main-content {
+  @extend .w-100;
+  margin: 50px 0px 30px 0px;
+
+  .search-box {
+    width: 440px;
+
+    .input-group {
+      @include input-placeholder {
+        color: #999999;
+      }
+      .form-control {
+        height: 45px;
+        padding-left: 2.5rem;
+        border: 1px solid #7388ff;
+        @include border-left-radius(13px);
+      }
+
+      .placeholder-icon {
+        top: 13px;
+        left: 12px;
+      }
+
+      .input-group-append {
+        margin-left: -10px;
+
+        .btn-search {
+          background-color: #7388ff;
+          border-color: #7388ff;
+          color: $white;
+          @include border-radius(13px);
+        }
+      }
+    }
+
+    .search-list {
+      .list-inline {
+        .list-inline-item {
+          a {
+            color: $gray-900;
+
+            &:hover {
+              color: #7388ff;
+              text-decoration: none;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .heading-box {
+    width: 780px;
+
+    .heading-title {
+      p {
+        border-bottom: 1px solid $gray-200;
+        font-size: 2.5rem;
+        font-weight: 300;
+      }
+    }
+
+    .heading-para {
+      color: $gray-750;
+    }
+  }
+}

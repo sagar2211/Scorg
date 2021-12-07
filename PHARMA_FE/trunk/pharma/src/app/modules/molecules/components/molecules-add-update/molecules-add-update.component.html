@@ -1,0 +1,87 @@
+<form [formGroup]="itemMasterForm" (ngSubmit)="saveValue()" *ngIf="loadForm">
+    <div class="modal-header">
+        <p class="modal-title text-uppercase">{{compData && compData.compData ? 'Update' : 'Add'}} Molecules
+        </p>
+        <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+</button>
+    </div>
+    <div class="modal-body custom-modal-body p-2">
+        <div class="form-row form-group">
+            <div class="col">
+                <label>Component Name</label>
+                <input #genName type="text" [readonly]="true" formControlName="name" placeholder="Name" class="form-control form-control-sm" autofocus>
+
+            </div>
+        </div>
+        <ng-container formArrayName="moleculesList">
+            <div class="form-row form-group">
+                <div class="col">
+                    <label>Molecule</label>
+                </div>
+                <div class="col">
+                    <label>Strength</label>
+                </div>
+                <div class="col">
+                    <label>Unit</label>
+                </div>
+                <div class="col"></div>
+            </div>
+            <div #formRow *ngFor="let item of moleculesList.controls; first as first; last as last; let i = index" [formGroupName]="i">
+                <div class="form-row form-group">
+                    <div class="col">
+                        <div class="form-row form-group">
+                            <div class="col-10">
+                                <ng-container *ngIf="!item.value.moleculeAddMode">
+                                    <ng-select #moleculeSelect [items]="itemList$ | async" bindLabel="moleculeName" (change)="selectMoleculeItem($event, i)" formControlName="molecule" placeholder="Select Item" [typeahead]="itemInput$">
+                                    </ng-select>
+                                </ng-container>
+                                <ng-container *ngIf="item.value.moleculeAddMode">
+                                    <input type="text" formControlName="moleculeAdd" placeholder="Molecule" class="form-control form-control-sm">
+                                </ng-container>
+                                <small class="text-danger" *ngIf="item.value.moleculeMsg && addedRow">{{item.value.moleculeMsg}}</small>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" title="{{item.value.moleculeAddMode ? 'Add Molecule' : 'Select Molecule'}}" class="btn btn-sm btn-outline-primary-light" (click)="moleculeAddMode(i);">
+                            <i class="fa fa-fw" [ngClass]="{'fa-plus': !item.value.moleculeAddMode, 'fa-times': item.value.moleculeAddMode}" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <input appOnlyNumbers type="text" formControlName="strength" placeholder="Strength" class="form-control form-control-sm">
+                        <small class="text-danger" *ngIf="!item.controls.strength.valid && addedRow">Please Add Value!</small>
+                    </div>
+                    <div class="col">
+                        <div class="form-row form-group">
+                            <div class="col-10">
+                                <ng-container *ngIf="!item.value.unitAddMode">
+                                    <ng-select [disable]="!item.value.strength" [items]="unitList$ | async" bindLabel="unitName" (change)="selectItem($event, i)" formControlName="unit" placeholder="Select Unit" [typeahead]="unitListInput$">
+                                    </ng-select>
+                                </ng-container>
+                                <ng-container *ngIf="item.value.unitAddMode">
+                                    <input type="text" [readonly]="!item.value.strength" formControlName="unitAdd" placeholder="Unit" class="form-control form-control-sm">
+                                </ng-container>
+                                <small class="text-danger" *ngIf="item.value.unitMsg && addedRow">{{item.value.unitMsg}}</small>
+                            </div>
+                            <div class="col-2">
+                                <button type="button" title="{{item.value.unitAddMode ? 'Add Unit' : 'Select Unit'}}" class="btn btn-sm btn-outline-primary-light" (click)="unitAddMode(i);">
+                            <i class="fa fa-fw" [ngClass]="{'fa-plus': !item.value.unitAddMode, 'fa-times': item.value.unitAddMode}" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-sm btn-outline-primary-light mr-1" *ngIf="last" (click)="addNewItem(i)"><i class="fa fa-fw fa-plus" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" *ngIf="item.valid || last" (click)="deleteItem(i, item.getRawValue())"><i class="fa fa-fw fa-trash" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="modal-footer py-1">
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.close('Cancel')">CANCEL</button>
+        <button type="button" class="btn btn-sm" [ngClass]="compData && compData.compData ? 'btn-outline-primary-light':'btn-outline-primary'" (click)="saveValue()"><i class="fa fa-fw"
+          [ngClass]="compData && compData.compData ? 'fa-sync-alt':'fa-plus'" aria-hidden="true"></i>
+      {{compData && compData.compData ? 'UPDATE' : 'ADD'}}</button>
+    </div>
+</form>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

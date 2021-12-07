@@ -1,0 +1,29 @@
+@import "../../../../scss/custom_bootstrap_theme";
+
+.col-suggesstion {
+  .nav-item {
+    flex: 0 0 20%;
+    max-width: 20%;
+  }
+}
+
+.master-height {
+  height: calc(100vh - 192px);
+  overflow-y: auto;
+}
+
+.placeholder-icon {
+  top: 11px;
+}
+
+.card-section {
+  height: calc(100vh - 110px);
+  overflow-y: auto;
+}
+
+@media screen and (max-width: 1280px) {
+
+  .card-section {
+    height: calc(100vh - 165px);
+  }
+}

@@ -1,0 +1,5 @@
+<form [formGroup]="specialityForm" *ngIf="loadForm">
+    <app-ng-select-typeahead [inputValue]="specialityForm.value.specialityVal?.id" [selectedValue]="specialityForm.value.specialityVal?.name" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" (recievedVal)="selectValue($event)" [source]="'Select Speciality'"
+        [returnDataType]="'obj'" [isDisabled]="isNgSelectTypeHeadDisabled" [compInstance]="compInstance" [searchFun]="getAllSpecialityList" [isSearchDataFromApi]="true">
+    </app-ng-select-typeahead>
+</form>

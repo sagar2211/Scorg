@@ -1,0 +1,113 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase" id="modal-basic-title">Image Annotations</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+    (click)="modal.dismiss('closeUploadModal')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-1 upload-annotations-modal-body">
+  <!-- <div class=container>
+    <div class="row">
+      <ng-container *ngIf="isShowDivUploadImage">
+        <div class="col-md-2">
+          <input type="file" (change)="chooseFile($event.target.files)" />
+        </div>
+        <div class="col-md-2">
+          <button (click)="openCamera();"><i class="fa fa-camera" aria-hidden="true"></i> Camera</button>
+        </div>
+        <div class="col-md-2">
+          <button *ngIf="isShowBtnUpload" (click)="addImageAnnotation('upload')" class="btn btn-primary">Upload</button>
+          <span class="upload" *ngIf="progress > 0">
+            {{progress}}%
+          </span>
+          <span class="upload" *ngIf="message">
+            {{message}}
+          </span>
+        </div>
+      </ng-container>
+      <div class="col-md-6 text-right">
+        <button class="btn btn-primary" (click)="isShowDivUploadImage=!isShowDivUploadImage">Add Image</button>
+      </div>
+    </div>
+    <div class="row" *ngIf="isShowCamera">
+      <app-camera (pictureTaken)="handleImage($event)"></app-camera>
+      <div class="snapshot" *ngIf="webcamImage">
+        <img [src]="webcamImage.imageAsDataUrl" />
+      </div>
+    </div>
+    <div class="col-sm-4 col-md-2 padding-left-5 padding-right-5 margin-bottom-10"
+      *ngFor="let item of docAnnotationImageFiles">
+      <div class="inv-img">
+        <div class="img-file">
+          <img class="img-responsive no-padding cursor-pointer" (click)="addImageAnnotation(item)"
+            src="{{fileServePath + item.thumbnail_path}}" max-height="100" max-width="75">
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!docAnnotationImageFiles.length">No Record found.</div>
+    <p class="margin-bottom-0 text-right padding-5">
+      <span class="pull-left image-annotation-name"></span>
+      <i class="fa fa-trash-o text-danger cursor-pointer" title="Delete File"></i>
+    </p>
+  </div> -->
+  <div class="form-row mx-0 my-1">
+    <div class="col-6 px-0">
+      <div class="input-group image-preview">
+        <!-- <div class="input-group-prepend">
+          <button class="btn btn-primary" (click)="isShowDivUploadImage=!isShowDivUploadImage"><i
+              class="fa fa-fw fa-plus"></i> Add Image</button>
+        </div> -->
+        <input type="text" class="form-control" [(ngModel)]="annotationDetail" placeholder="Enter Annotation Detail">
+        <div class="input-group-append">
+          <button type="button" class="btn btn-outline-secondary image-preview-input" (click)="openCamera();"><i
+              class="fa fa-fw fa-camera"></i></button>
+          <div class="btn btn btn-outline-secondary image-preview-input">
+            <i class="fa fa-fw fa-folder-open"></i> Browse
+            <input type="file" (change)="chooseFile($event.target.files)" accept="image/png, image/jpeg, image/gif"
+              name="input-file-preview" />
+          </div>
+          <button *ngIf="isShowBtnUpload" type="button" class="btn btn-outline-primary"
+            (click)="addImageAnnotation('upload')"> <span class="btn-label"><i class="fa fa-fw fa-upload"></i>
+            </span> Upload</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card mb-2" *ngIf="isShowCamera">
+    <div class="row">
+      <div class="col-6">
+        <app-camera (pictureTaken)="handleImage($event)"></app-camera>
+      </div>
+      <div class="col-6" *ngIf="webcamImage">
+        <img class="camera-capture" [src]="webcamImage.imageAsDataUrl">
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header cus-head py-1 border-dash-bottom">
+      <h6 class="mb-0">List of images</h6>
+    </div>
+    <div class="card-body p-1 list-card-body">
+      <div *ngIf="!docAnnotationImageFiles.length">No Record found.</div>
+      <div class="form-row mx-0">
+        <div class="col-2 text-center m-2" *ngFor="let item of docAnnotationImageFiles">
+          <div class="card text-center pointer">
+            <img class="card-img-top" (click)="editImageAnnotation(item)" src="{{fileServePath + item.thumbnail_path}}">
+            <div class="card-body p-1">
+              <h6 class="card-title mb-0">{{item.annotation_detail}}</h6>
+            </div>
+            <!-- <div class="card-footer">
+              <div class="row">
+                <div class="col">
+                  <a href="javaScript:Void(0);" class="text-danger"><i class="icon fa-fw icon-trash"
+                      aria-hidden="true"></i></a>
+                </div>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <app-alert-message [alertMessage]="alertMessage"></app-alert-message> -->

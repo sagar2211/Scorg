@@ -1,0 +1,60 @@
+<div class="custom-container-fluid global-setting">
+  <div class="card-body py-1 px-0">
+    <div class="row m-0">
+      <div class="col-2">
+        <p class="mb-1 font-weight-500">Share on total on bill rule</p>
+      </div>
+      <div class="col-4">
+        <ng-select [multiple]="true" [items]="['Final', 'Interim']" [(ngModel)]="settingVal"></ng-select>
+      </div>
+    </div>
+    <div class="row m-0">
+      <div class="col-2">
+        <p class="mb-1 font-weight-500">Referral Share applicable doctors</p>
+      </div>
+      <div class="col-4">
+        <ng-select [items]="['All', 'Selected']" [(ngModel)]="settingVal"></ng-select>
+      </div>
+    </div>
+    <div class="row m-0">
+      <div class="col-12">
+        <dx-data-grid #dataGridItem id="gridContainerPrescription" [dataSource]="selectedUserList" keyExpr="tempId" [showBorders]="true" (onEditorPreparing)="onEditorPreparing($event)">
+          <dxo-sorting mode="none"></dxo-sorting>
+          <dxo-paging [enabled]="false"></dxo-paging>
+          <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="true" [allowDeleting]="true" [useIcons]="true">
+          </dxo-editing>
+          <dxi-column dataField="user" calculateDisplayValue="user.name" caption="Doctor" [width]="300" [editorOptions]="editorOptions" [fixed]="true" [allowEditing]="allowEditing">
+            <dxo-lookup [dataSource]="itemMasterDataSource" displayExpr="name">
+            </dxo-lookup>
+        </dxi-column>
+          <dxi-column dataField="speciality" caption="speciality" [allowEditing]="false"></dxi-column>
+          <dxi-column dataField="sharePer" caption="share Per." [allowEditing]="allowEditing"></dxi-column>
+          <dxi-column type="buttons" caption="Action" [visible]="allowEditing" [width]="50" [fixed]="true">
+            <dxi-button name="Add" icon="add"  [visible]="isAddIconVisible" [onClick]="onAddNewItem"></dxi-button>
+            <dxi-button name="delete" icon="trash" [onClick]="onDelete"></dxi-button>
+        </dxi-column>
+          <div *dxTemplate="let item of 'itemTemplate' let i = index">
+            <div *ngIf="item === null" ; else elseBlock>
+                <span>(All)</span>
+            </div>
+            <div dx-template #elseBlock>
+                <div [ngOptionHighlight]="search" class="row m-0 table-item">
+                    <div class="col-12">
+                        {{item.name}}
+                    </div>
+                </div>
+            </div>
+        </div>
+      </dx-data-grid>
+      </div>
+    </div>
+    <div class="row m-0">
+      <div class="col-12">
+        Load grid for excluded doctor
+      </div>
+    </div>
+  </div>
+  <div class="card-footer py-0 border-top">
+    <button type="button" class="btn btn-outline-success btn-sm mr-2"> save</button>
+  </div>
+</div>

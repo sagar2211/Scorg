@@ -1,0 +1,105 @@
+<ul class="list-unstyled popover-content mb-0">
+  <!-- <li><button class="btn btn-sm btn-block text-left reset" *ngIf="currentAvailableSlot?.slotTime"
+      (click)="bookAppointment()"><i class="far fa-fw fa-check-circle mr-1" aria-hidden="true"></i>
+      {{currentAvailableSlot?.slotTime}} BOOK </button></li>
+  <li><button class="btn btn-sm btn-block text-left reset" disabled *ngIf="!currentAvailableSlot?.slotTime" data-content="No Slot Available"><i
+        class="far fa-fw fa-check-circle mr-1" aria-hidden="true"></i>
+      No Slot Available </button></li> -->
+  <li><button *ngxPermissionsOnly="[permissions.Queue_Extend_Hour]" class="btn btn-sm btn-block text-left active"
+      (click)="openZeroSlotsPopup(addZeroSlotPopupContent)"><i class="icon fa-fw icon-redo mr-1"></i> Modify
+      Schedule</button></li>
+  <li><button *ngxPermissionsOnly="[permissions.Queue_Print]" class="btn btn-sm btn-block text-left primary"
+      (click)="getPrintAppointment()" [disabled]="checkqlistStatus.checkInStatus === 'Stop'" type="button"><i
+        class="icon fa-fw icon-print mr-1"></i> Print</button></li>
+  <li>
+    <span *ngxPermissionsOnly="[permissions.Queue_Delay_Notification]">
+      <button
+        *ngIf="(!checkqlistStatus.isCheckIn && checkqlistStatus.checkInStatus === '') || (!checkqlistStatus.isCheckIn && !checkqlistStatus.isCheckOut)"
+        class="btn btn-sm btn-block text-left warning" (click)="delayNotification()" type="button"><i
+          class="icon fa-fw icon-bell mr-1" aria-hidden="true"></i> Delay
+        Notification</button>
+    </span>
+  </li>
+</ul>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+
+<ng-template #addZeroSlotPopupContent let-modal>
+  <div class="modal-header">
+    <p class="modal-title text-uppercase">Modify Schedule ({{ providerDetails.providerName }})</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+      (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body py-2">
+    <div class="form-row form-group">
+      <div class="col-5 mb-2">
+        <label for="info"> Date </label>
+        <app-date-picker [min]="minDate" (dateChange)="onDateChange($event)" [isClear]=false
+          [inputDate]="extendHoursDate">
+        </app-date-picker>
+      </div>
+
+      <div class="col-7">
+        <label *ngIf="!noScheduleFound" for="info">Schedule </label>
+        <select *ngIf="currentUserSchedule?.length>0" class="form-control form-control-sm pointer"
+          [(ngModel)]="selectedSchedule">
+          <!-- <option *ngIf value="">Select Schedule</option> -->
+          <option *ngFor="let item of currentUserSchedule" [ngValue]="item"
+            [selected]="item.formId == selectedScheduleIdFromQlist">
+            {{item.startTime + ' - ' + ((item.endTime === '00:00'  || item.endTime === '12:00 AM') ?  'Mid Night' : item.endTime)  }}</option>
+        </select>
+        <small class="text-danger">{{overLappingScheduleMessage}}</small>
+        <small class="text-danger" *ngIf="noScheduleFound">No Schedules found....</small>
+        <!-- <p class="mb-1 font-weight-500" for="info">Extend Hours</p> -->
+      </div>
+      <div class="col-5">
+        <label>Schedule Modify Type</label>
+        <select class="form-control form-control-sm pointer" (ngModelChange)="getFromTimeToTime($event)"
+          [(ngModel)]="selectedModifyType">
+          <option *ngFor="let item of modifyType">{{item}}</option>
+        </select>
+      </div>
+      <div *ngIf="(selectedModifyType == 'Extend' || selectedModifyType === 'Prepend'); else showTimeDiv" class="col-7">
+        <div class="form-row form-group">
+          <div class="col">
+            <label for="info">Hours </label>
+            <input type="number" min="0" (ngModelChange)="modelChangeEvent('hours')" appNumbersOnly
+              [(ngModel)]="extendedHours" class="form-control form-control-sm" />
+          </div>
+          <div class="col">
+            <label for="info">Minutes</label>
+            <input type="number" min="0" (ngModelChange)="modelChangeEvent('minute')" appNumbersOnly
+              [(ngModel)]="extendeMinute" class="form-control form-control-sm" />
+          </div>
+        </div>
+      </div>
+      <ng-template #showTimeDiv>
+        <div class="col-7">
+          <div class="form-row form-group">
+            <div class="col">
+              <label>Start time</label>
+              <app-time-drop-down [hoursList]="startTimeArray" [timeFormat]="timeFormateKey"
+                (selectedItem)="generateHoursList($event)">
+              </app-time-drop-down>
+            </div>
+            <div class="col">
+              <label>End time</label>
+              <app-time-drop-down [hoursList]="endTimeList" [timeFormat]="timeFormateKey" [selectedValue]=""
+                (selectedItem)="getTimeValuesOnChange($event)">
+              </app-time-drop-down>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
+      (click)="modal.dismiss('Cancel click')">CANCEL</button>
+    <button *ngIf="!noScheduleFound" (click)="saveZeroSlots()" type="submit"
+      class="btn btn-sm btn-success text-uppercase"><i class="icon fa-fw icon-save mr-1"
+        aria-hidden="true"></i>SAVE</button>
+  </div>
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</ng-template>

@@ -1,0 +1,154 @@
+<div class="custom-container-fluid">
+    <div class="p-2">
+        <div class="form-row form-group">
+            <div class="col-3">
+                <label>&nbsp;</label>
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-sm pl-2rem" [(ngModel)]="searchString"
+                        (ngModelChange)="this.subject.next();" placeholder="Search">
+                    <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear">
+                            <i class="fa fa-fw fa-eraser" aria-hidden="true" (click)="clearSearch();"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-1">
+                <label>&nbsp;</label>
+                <ng-select [clearable]="false" [items]="statusValues" (change)="getListData()" cross
+                    [(ngModel)]="status" placeholder="Status"></ng-select>
+            </div>
+            <div class="col-4">
+                <form>
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="entity_type">Start Date</label>
+                            <app-date-picker (dateChange)="startDate = $event;" [inputDate]="startDate">
+                            </app-date-picker>
+                        </div>
+                        <div class="col">
+                            <label for="provider">End Date</label>
+                            <app-date-picker (dateChange)="endDate = $event;" [inputDate]="endDate"></app-date-picker>
+                        </div>
+                        <div class="col">
+                            <label class="d-block">&nbsp;</label>
+                            <button class="btn btn-sm btn-outline-info mt-2" type="button" (click)="getListData()">
+                                <i class="icon fa-fw icon-search"></i> SEARCH
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col text-right">
+                <label class="d-block">&nbsp;</label>
+                <select class="form-control form-control-sm float-right select-w mt-2"
+                    (change)="onPageSizeChanged($event.currentTarget.value)">
+                    <option value="15" selected="">15</option>
+                    <option value="30">30</option>
+                    <option value="45">45</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+        </div>
+        <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25"
+            [footerHeight]="70" [rowHeight]="30" [rows]="dataList" [externalSorting]="true"
+            (sort)="onSortChanged($event)" [externalPaging]="externalPaging" [count]="page.totalElements"
+            [scrollbarH]="true" (page)='onSetPage($event)'>
+            <ngx-datatable-column name="Issue No." [frozenLeft]="true" prop="issueNo" [width]="200">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <a class="text-primary pointer text-underline"
+                        [routerLink]="['/inventory/issue/acceptIssue/', row.issueId]">{{row.issueNo}}</a>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Issue Date" prop="issueDate" [width]="100">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.issueDate | customDate: '' : 'DD-MM-YYYY'}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Indent No." prop="indentNo" [width]="175">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.indentNo}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Issue Type" prop="issueTypeName" [width]="220">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.issueTypeName}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Indent Remark" prop="indentRemark" [width]="150">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.indentRemark}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Status" prop="issueStatus" [width]="80">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.issueStatus}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Created By" prop="createdByUser" [width]="165">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.createdByUser}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Created Date" prop="createdDate" [width]="120">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.createdDate | customDate: '' : 'DD-MM-YYYY' }} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Last Updated By" prop="lastUpdatedByUser" [width]="140">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.lastUpdatedByUser}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Last Updated Date" prop="lastUpdatedDate" [width]="160">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.lastUpdatedDate | customDate: '' : 'DD-MM-YYYY'}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Action" [frozenRight]="true" cellClass="text-center" [sortable]="false"
+                [width]="75">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value"
+                    let-isSelected="isSelected">
+                    <button type="button" class="bg-transparent border-0" placement="left-bottom" [autoClose]="true"
+                        [ngbPopover]="popContent" container="body" #p="ngbPopover">
+                        <i class="fa fa-fw fa-bars" aria-hidden="true"></i> <i class="fa fa-xs fa-caret-down"
+                            aria-hidden="true"></i>
+                    </button>
+                    <ng-template #popContent>
+                        <ul class="list-unstyled popover-content mb-0">
+                            <li *ngxPermissionsOnly="constpermissionList.UPDATE_ISSUE_ACCEPTANCE">
+                                <button class="btn btn-sm btn-block text-left edit"
+                                    (click)="redirectToAcceptIssuePage(row)"><i class="icon fa-fw icon-edit mr-1"
+                                        aria-hidden="true"></i> Edit
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn btn-sm btn-block text-left inactive"
+                                    (click)="redirectToAcceptPage(row)"><i class="icon fa-fw icon-log mr-1"
+                                        aria-hidden="true"></i> Log
+                                </button>
+                            </li>
+                        </ul>
+                    </ng-template>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-footer>
+                <ng-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
+                    let-curPage="curPage" let-offset="offset" let-isVisible="isVisible" ngx-datatable-footer-template>
+                    <div class="mx-3">
+                        Showing {{ ((page.pageNumber - 1) * page.size) + 1}} to {{ ((page.pageNumber - 1) * page.size) +
+                        dataList.length}} of {{rowCount}} entries
+                    </div>
+                    <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'"
+                        [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'"
+                        [pagerNextIcon]="'datatable-icon-skip'" [page]="page.pageNumber" [size]="page.size"
+                        [count]="page.totalElements" [hidden]="!((page.totalElements / page.size) > 1)"
+                        (change)="onFooterPage($event)">
+                    </datatable-pager>
+                </ng-template>
+            </ngx-datatable-footer>
+        </ngx-datatable>
+    </div>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

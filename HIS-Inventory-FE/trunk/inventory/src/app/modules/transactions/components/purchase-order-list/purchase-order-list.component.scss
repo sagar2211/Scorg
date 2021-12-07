@@ -1,0 +1,20 @@
+:host ::ng-deep {
+  .ngx-datatable.fixed-row {
+    .datatable-header-inner {
+      .datatable-row-center {
+        .datatable-header-cell {
+          &[title="Purchase Amount"],
+          &[title="Discount"],
+          &[title="GST Amount"],
+          &[title="Net Amount"] {
+            text-align: right;
+          }
+        }
+      }
+    }
+
+    .datatable-body {
+      height: calc(100vh - 221px) !important;
+    }
+  }
+}

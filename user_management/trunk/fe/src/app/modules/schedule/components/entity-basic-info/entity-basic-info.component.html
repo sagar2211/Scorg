@@ -1,0 +1,168 @@
+<form [formGroup]="entityBasicForm" *ngIf="loadForm">
+  <div class="container-fluid">
+    <div class="form-row form-group">
+      <div class="col-3">
+        <label>Appointment Provider Type<sup>*</sup></label>
+        <p class="edit-input mb-0" *ngIf="showDataForEditMode">
+          {{historyData.basicInfo.selectedEntity.name}}
+        </p>
+        <ng-container *ngIf="!showDataForEditMode">
+        <app-ng-select-typeahead [inputValue]="entityBasicForm.value.selectedEntity?.id"
+          [selectedValue]="entityBasicForm.value.selectedEntity?.name" [thDisplayLabel]="'name'" [thDisplayKey]="'id'"
+          (recievedVal)="selectEntity($event)" [source]="'Provider Type'" [returnDataType]="'obj'"
+          [isDisabled]="isNgSelectTypeHeadDisabled" [displayList]="entityList">
+        </app-ng-select-typeahead>
+        </ng-container>
+      </div>
+      <div class="col-3"
+        *ngIf="entityBasicForm.value.selectedEntity && entityBasicForm.value.selectedEntity.key == 'service_provider'">
+        <label for="lab-service">Select Provider<sup>*</sup></label>
+        <p class="edit-input mb-0" *ngIf="showDataForEditMode">
+          {{historyData.basicInfo.selectedProvider.name}}
+        </p>
+        <ng-container *ngIf="!showDataForEditMode">
+        <app-ng-select-typeahead [inputValue]="entityBasicForm.value.selectedServiceProvider?.id"
+          [selectedValue]="entityBasicForm.value.selectedServiceProvider?.name" [thDisplayLabel]="'name'"
+          [thDisplayKey]="'id'" (recievedVal)="selectServiceProvider($event)" [source]="'Select Provider'"
+          [returnDataType]="'obj'" [isDisabled]="isNgSelectTypeHeadDisabled" [compInstance]="compInstance"
+          [searchFun]="getAllServiceProviderList" [isSearchDataFromApi]="true">
+        </app-ng-select-typeahead>
+        </ng-container>
+      </div>
+      <div class="col-3"
+        *ngIf="entityBasicForm.value.selectedEntity && entityBasicForm.value.selectedEntity.key == 'doctor' && specialityList.length > 0">
+        <label>Speciality</label>
+        <p class="edit-input mb-0" *ngIf="showDataForEditMode">
+          {{entityBasicForm.value.selectedSpeciality?.name}}
+        </p>
+        <ng-container *ngIf="!showDataForEditMode">
+        <app-ng-select-typeahead [inputValue]="entityBasicForm.value.selectedSpeciality?.id"
+          [selectedValue]="entityBasicForm.value.selectedSpeciality?.name" [thDisplayLabel]="'name'"
+          [thDisplayKey]="'id'" (recievedVal)="selectSepeciality($event)" [source]="'Select Speciality'"
+          [returnDataType]="'obj'" [isDisabled]="isNgSelectTypeHeadDisabled" [compInstance]="compInstance"
+          [searchFun]="getSpecialityListData" [isSearchDataFromApi]="true">
+        </app-ng-select-typeahead>
+        </ng-container>
+      </div>
+      <div class="col-3"
+        *ngIf="entityBasicForm.value.selectedEntity && entityBasicForm.value.selectedEntity.key == 'doctor'">
+        <label>Doctor<sup>*</sup></label>
+        <p class="edit-input mb-0" *ngIf="showDataForEditMode">
+          {{historyData.basicInfo.selectedProvider.name}}
+        </p>
+        <ng-container *ngIf="!showDataForEditMode">
+        <app-ng-select-typeahead [inputValue]="entityBasicForm.value.selectedDoctor?.id"
+          [selectedValue]="entityBasicForm.value.selectedDoctor?.name" [thDisplayLabel]="'name'" [thDisplayKey]="'id'"
+          (recievedVal)="selectDoctor($event)" [source]="'Select Doctor'" [returnDataType]="'obj'"
+          [isDisabled]="isNgSelectTypeHeadDisabled" [compInstance]="compInstance" [searchFun]="getAllDoctorList"
+          [isSearchDataFromApi]="true">
+        </app-ng-select-typeahead>
+        </ng-container>
+      </div>
+      <div class="col-3"
+        *ngIf="entityBasicForm.value.selectedEntity && entityBasicForm.value.selectedEntity.key == 'joint_clinic'">
+        <label>Joint Clinic<sup>*</sup></label>
+        <p class="edit-input mb-0" *ngIf="showDataForEditMode">
+          {{historyData.basicInfo.selectedProvider.name}}
+        <button class="btn btn-sm btn-link float-right p-0" type="button" [disabled]="disableAddJointClinic"
+          *ngIf="entityBasicForm.value.selectedEntity && entityBasicForm.value.selectedEntity.key == 'joint_clinic'"
+          (click)="addNewJointClinc()"><i
+            [ngClass]="entityBasicForm.value.selectedJointClinic?.id ? 'icon fa-fw icon-edit' : 'fa fa-fw fa-plus'"
+            aria-hidden="true"></i></button>
+        </p>
+        <ng-container *ngIf="!showDataForEditMode">
+        <div class="input-group flex-nowrap">
+          <div class="joint-width">
+            <app-ng-select-typeahead [inputValue]="entityBasicForm.value.selectedJointClinic?.id"
+              [selectedValue]="entityBasicForm.value.selectedJointClinic?.name" [thDisplayLabel]="'name'"
+              [thDisplayKey]="'id'" (recievedVal)="selectJointClinic($event)" [source]="'Select Joint Clinic'"
+              [returnDataType]="'obj'" [isDisabled]="isNgSelectTypeHeadDisabled" [compInstance]="compInstance"
+              [searchFun]="getAllJointClinicList" [isSearchDataFromApi]="true" [displayList]="jointClinicList">
+            </app-ng-select-typeahead>
+          </div>
+          <div class="input-group-append" title="{{entityBasicForm.value.selectedJointClinic?.id ? 'Update' : 'Add'}} Joint Clinic">
+            <button class="btn btn-sm btn-outline-secondary border py-0" type="button"
+              [disabled]="disableAddJointClinic"
+              *ngIf="entityBasicForm.value.selectedEntity && entityBasicForm.value.selectedEntity.key == 'joint_clinic'"
+              (click)="addNewJointClinc()"><i [ngClass]="entityBasicForm.value.selectedJointClinic?.id ? 'icon fa-fw icon-edit' : 'fa fa-fw fa-plus'" aria-hidden="true"></i></button>
+          </div>
+        </div>
+        </ng-container>
+      </div>
+      <div class="col-6 align-self-center" *ngIf="selectedDoctorsForJointClinic.length > 0">
+        <label>Joint Clinic Doctors</label>
+        <ul class="list-unstyled list-inline mb-0 edit-input">
+          <li class="list-inline-item"
+            *ngFor="let doctor of selectedDoctorsForJointClinic; let i = index; let l = last">
+            <label>{{doctor.name}}
+              <span *ngIf="!l">, </span>
+            </label></li>
+        </ul>
+      </div>
+    </div>
+    <div class="form-row">
+      <div formArrayName="selectedAppointmentTypes" class="col-12 form-group"
+        *ngIf="entityBasicForm.value.selectedEntity">
+        <label class="mr-4">Appointment Types<sup>*</sup> </label>
+        <div class="custom-control custom-checkbox custom-control-inline form-group mb-0 mt-2"
+          *ngFor="let appType of entityBasicForm['controls'].selectedAppointmentTypes['controls']; let l=index;"
+          [formGroupName]="l">
+          <input class="custom-control-input" formControlName="isSelected" type="checkbox" id="{{'app_type_'+ l}}"
+            (change)="saveBasicInfoValue();">
+          <label class="custom-control-label pointer"
+            [ngClass]="[appType.value.id === 7 ? 'dentists' : '',appType.value.id === 6 ? 'lateeveningsurgery':'', appType.value.id === 5 ? 'minorillness' :'',
+          appType.value.id === 4 ? 'routine' :'' ,appType.value.id === 3 ? 'emergency' :'' ,appType.value.id === 2 ? 'free' :'' ,appType.value.id === 1 ? 'privilege' :'']"
+            for="{{'app_type_'+ l}}">{{appType.get('name').value}}</label>
+        </div>
+      </div>
+    </div>
+    <div class="form-row form-group">
+      <div class="col-3">
+        <label>Schedule Type<sup>*</sup></label>
+        <app-type-head [displayList]="scheduleTypelist" [selectedData]="entityBasicForm.value.selectedScheduleType"
+          [inputValue]="entityBasicForm.value.selectedScheduleType?.name" [searchDataFromAPI]="false"
+          [searchKey]="'name'" [placeHolder]="'/ Select Schedule Type'" (selectedItem)="selectScheduleType($event)">
+        </app-type-head>
+      </div>
+      <div class="col-1">
+        <label>Token Prefix</label>
+        <input type="text" class="form-control form-control-sm" formControlName="tokenValue"
+          placeholder="{{entityBasicForm.value.selectedTokenType?.name}}" maxlength="3" (change)="saveBasicInfoValue()">
+      </div>
+      <div class="col-2">
+        <label>Advance Booking Days<sup>*</sup></label>
+        <app-number-only-input [inputVal]="entityBasicForm.value.advanceBookingDays" [disable]="false" [maxLength]="3"
+          [minVal]="1" [placeholder]="'Advance Booking Days'"
+          (numberChange)="patchNumberValues($event, 'advanceBookingDays')">
+        </app-number-only-input>
+      </div>
+    </div>
+    <div class="form-row form-group parallel-booking">
+      <div class="col-3">
+        <div class="card rounded-3">
+          <div class="card-header p-2"><label>Parallel Booking</label></div>
+          <div class="card-body">
+            <div class="form-row form-group allow-min-height">
+              <div class="col-6 align-self-center">
+                <div class="custom-control custom-checkbox mt-4">
+                  <input type="checkbox" class="custom-control-input" id="customCheck"
+                    formControlName="parallelBookingAllow"
+                    (change)="updateRequiredForApp(entityBasicForm.value.parallelBookingAllow);">
+                  <label class="custom-control-label pointer" for="customCheck">Allow</label>
+                </div>
+              </div>
+              <div class="col-6 align-self-center" *ngIf="entityBasicForm.value.parallelBookingAllow">
+                <label>Max Patients<sup>*</sup></label>
+                <app-number-only-input [inputVal]="entityBasicForm.value.parallelBookingValue" [disable]="false"
+                  [maxLength]="3" [minVal]="1" [placeholder]="'Max Patients'" [maxVal]="999"
+                  (numberChange)="patchNumberValues($event, 'parallelBookingValue')">
+                </app-number-only-input>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</form>

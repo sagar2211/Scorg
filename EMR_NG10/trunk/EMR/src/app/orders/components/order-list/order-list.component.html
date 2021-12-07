@@ -1,0 +1,189 @@
+<div class="card card-opd custom-order-hight border-0">
+    <div class="card-header p-0 pb-2 current">
+        <div class="form-row">
+            <div class="col-4">
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-sm pl-2rem" placeholder="Search By Name" id="searchInput" autocomplete="off" aria-label="Search" [(ngModel)]="searchTxt">
+                    <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div ngbDropdown placement="bottom-right" class="d-inline-block custom-dropdown py-0">
+                    <label class="btn btn-outline-primary dropdown-toggle btn-sm mb-0 pointer" id="csDropdown" ngbDropdownToggle>
+                        {{statusText}}
+                    </label>
+                    <ul class="font-size-dot-8 py-0" ngbDropdownMenu aria-labelledby="csDropdown">
+                        <li class="py-1 pl-2 border-bottom pointer" [ngClass]="{'active':'ALL' === statusText.split(' ')[0]}" (click)="onFilterClick('',allFilterCount)">
+                            ALL ({{allFilterCount}})</li>
+                        <li class="py-1 pl-2 border-bottom pointer" [ngClass]="{'active':'Approved' === statusText.split(' ')[0]}" (click)="onFilterClick('approved',approvedCount)">
+                            Approved Orders ({{approvedCount}})</li>
+                        <li class="py-1 pl-2 border-bottom pointer" [ngClass]="{'active':'Completed' === statusText.split(' ')[0]}" (click)="onFilterClick('completed',completedCount)">
+                            Completed Orders ({{completedCount}})</li>
+                        <li class="py-1 pl-2 border-bottom pointer" [ngClass]="{'active':'Pending' === statusText.split(' ')[0]}" (click)="onFilterClick('approvelPending',pendingWithMeCount)">
+                            Pending With Me ({{ pendingWithMeCount}})</li>
+                        <li class="py-1 pl-2 border-bottom pointer" [ngClass]="{'active':'My' === statusText.split(' ')[0]}" (click)="onFilterClick('myAllorder',myAllOrderCount)">
+                            My Orders ({{myAllOrderCount}})</li>
+                        <li class="py-1 pl-2 border-bottom pointer" [ngClass]="{'active':'Rejected' === statusText.split(' ')[0]}" (click)="onFilterClick('rejected',rejectedCount)">
+                            Rejected Orders ({{rejectedCount}})</li>
+                        <li class="py-1 pl-2 pointer" [ngClass]="{'active':'UnApproved' === statusText.split(' ')[0]}" (click)="onFilterClick('unApproved',unApprovedCount)">Un Approved Orders ({{unApprovedCount}})
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-5">
+                <div class="form-inline float-right">
+                    <ng-multiselect-dropdown class="mr-2" [placeholder]="'Select Category'" [data]="masterCategories" [(ngModel)]="selectedCategoryName" [settings]="dropdownSettings" (onSelect)="filterByCategoryKey($event)" (onDeSelect)="filterByCategoryKey($event)" (onSelectAll)="filterByCategoryKey($event)"
+                        (onDeSelectAll)="filterByCategoryKey($event)">
+                    </ng-multiselect-dropdown>
+                    <div class="input-group mr-2">
+                        <select class="form-control form-control-sm custom-order-select pointer" #sort name="project" (click)="sortingOrderList(selectedSortkey)" [(ngModel)]="selectedSortkey">
+                            <option *ngFor="let item of sortKeyList" [value]="item.key">{{item.name}}</option>
+                        </select>
+                        <div class="input-group-append">
+                            <button class="btn btn-sm btn-outline-primary-light" type="button" title="{{!selectedSortType ? 'ASC' : 'DESC'}}" (click)="selectedSortType=!selectedSortType;sortingOrderList(selectedSortkey)"><i
+                                    class="fas"
+                                    [ngClass]="!selectedSortType ? 'fa-sort-amount-up': 'fa-sort-amount-down'"></i></button>
+                        </div>
+                    </div>
+                    <button *ngIf="patientObj.type !== 'op'" class="btn btn-sm btn-white mr-2" type="button" (click)="openFilterPopup()">
+                        <i class="icon fa-fw icon-filter" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="order-table-height" *ngIf="allOrders.length; else norecordtemplate">
+        <table class="table table-bordered border-top-0 mb-0 cus-table">
+            <tbody>
+                <tr *ngIf="(allOrders.length && (isShowBulkapproveBtn || 'Pending' === statusText.split(' ')[0]))">
+                    <td class="align-bottom border-top-0">
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="checkAllStatus" [checked]='isSelectedAll' (change)="isSelectedAll = !isSelectedAll;selectAllOrder()">
+                            <label class="custom-control-label pointer" [class.active]="isSelectedAll" for='checkAllStatus'>
+                            </label>
+                        </div>
+                    </td>
+                    <td colspan="5">
+                        <button class="btn pull-right ml-2 btn-outline-primary btn-sm" type="button" (click)="allOrderStatusUpdate()">
+                            Approve</button>
+                        <button class="btn pull-right ml-2 btn-outline-primary btn-sm" type="button" (click)="allOrderStatusUpdate()">
+                            Defer</button>
+                        <button class="btn pull-right ml-2 btn-outline-primary btn-sm" type="button" (click)="allOrderStatusUpdate()">
+                            DC</button>
+                        <button class="btn pull-right ml-2 btn-outline-primary btn-sm" type="button" (click)="allOrderStatusUpdate()">
+                            Continue</button>
+                        <button class="btn pull-right ml-2 btn-outline-primary btn-sm" type="button" (click)="allOrderStatusUpdate()">
+                            Completed</button>
+                    </td>
+                </tr>
+                <tr class="border-top-0" *ngFor="let categoryOrder of allOrders | globalSearchDat : searchTxt: ['name'] let i = index;">
+                    <td class="align-middle border-top-0 order-checkbox" *ngIf="'Pending' === statusText.split(' ')[0]">
+                        <div class="custom-control custom-checkbox">
+                            <input [disabled]="categoryOrder.isDisbale" type="checkbox" class="custom-control-input" id={{i}} [checked]='categoryOrder.isSelected' (change)="categoryOrder.isSelected = !categoryOrder.isSelected;isBulkApprovedExist()">
+                            <label class="custom-control-label pointer" [class.active]="categoryOrder.isSelected" for={{i}}>
+                            </label>
+                        </div>
+                    </td>
+                    <td class="align-middle border-top-0 font-weight-500 order-category-name">
+                        <span class="custom-label">{{categoryOrder.categoryName}}</span>
+                    </td>
+                    <td class="align-middle border-top-0 order-medicine-name">
+                        <h6 *ngIf="categoryOrder.categoryKey==='medicineOrders'" class="mb-0">
+                            {{categoryOrder.medicineObj.name}}
+                            <small *ngIf="categoryOrder.medicineObj.dose">
+                                ({{categoryOrder.medicineObj.dose.dose}}{{categoryOrder.medicineObj?.dose?.doseUnit}})
+                            </small>&nbsp;
+                            <span *ngIf="categoryOrder.priority === 'SOS'" class="alert alert-success d-inline-block mb-0 p-0 px-1">
+                                <small>{{categoryOrder.priority}}</small>
+                            </span>
+                        </h6>
+                        <h6 *ngIf="categoryOrder.categoryKey!=='medicineOrders'" class="mb-0">
+                            {{categoryOrder.name}}
+                            <span *ngIf="categoryOrder.priority === 'SOS'" class="alert alert-success d-inline-block mb-0 p-0 px-1">
+                                <small>{{categoryOrder.priority}}</small>
+                            </span>
+                        </h6>
+                        <p *ngIf="categoryOrder.categoryKey==='medicineOrders'; else elseBlock" class="mb-0 small">
+                            <span *ngIf="categoryOrder.medicineObj.route" class="font-weight-500">Route:
+                                {{categoryOrder.medicineObj.route.name}}&nbsp;</span>
+                            <span *ngIf="categoryOrder.freqStartTime" class="font-weight-500">- Start Time:
+                                {{categoryOrder.freqStartTime}}</span>
+                            <span *ngIf="categoryOrder.medicineObj.instruction" class="font-weight-500">- Instruction:
+                                {{categoryOrder.medicineObj.instruction}}</span>
+                        </p>
+                        <ng-template #elseBlock>
+                            <p *ngIf="categoryOrder.categoryKey==='labOrders' || categoryOrder.categoryKey==='radiologyOrders'" class="mb-0 small">
+                                <span *ngIf="categoryOrder.categoryKey==='labOrders' && categoryOrder.specimen" class="font-weight-500">Specimen:
+                                    {{categoryOrder.specimen}}</span>
+                                <span *ngIf="(categoryOrder.categoryKey==='labOrders' || categoryOrder.categoryKey==='radiologyOrders') && categoryOrder.patientConsentNeeded" class="font-weight-500"> Patient Consent Needed:
+                                    {{categoryOrder.patientConsentNeeded}}</span>
+                                <span *ngIf="(categoryOrder.categoryKey==='labOrders' || categoryOrder.categoryKey==='radiologyOrders') && categoryOrder.reason" class="font-weight-500"> Patient Consent Needed: {{categoryOrder.reason}}</span>
+                                <span *ngIf="categoryOrder.categoryKey==='labOrders' && categoryOrder.labInstruction" class="font-weight-500">
+                                    Instruction: {{categoryOrder.labInstruction}}</span>
+                                <span *ngIf="categoryOrder.categoryKey==='radiologyOrders' && categoryOrder.radiologyInstruction" class="font-weight-500"> Instruction: {{categoryOrder.radiologyInstruction}}</span>
+                            </p>
+                        </ng-template>
+                        <p class="mb-0 small">Order Date: <span class="font-weight-500">{{
+                                ((categoryOrder.categoryKey==='medicineOrders') ? categoryOrder.order_date :
+                                categoryOrder.startDateTime) | customDate : '' : 'DD-MM-YYYY hh:mm A'}}</span>, By <span class="font-weight-500">Dr. {{categoryOrder.order_by?.user_name}}</span>
+                        </p>
+                    </td>
+                    <td class="align-middle border-top-0 order-frequency" *ngIf="categoryOrder.categoryKey==='medicineOrders'">
+                        <p class="mb-0 small">{{categoryOrder.medicineObj.frequencySchedule}}
+                        </p>
+                        <hr class="my-0">
+                        <p *ngIf="categoryOrder.medicineObj.frequencySchedule" class="mb-0 small">
+                            {{categoryOrder.medicineObj.duration}} days
+                        </p>
+                    </td>
+                    <td class="align-middle border-top-0 order-frequency" *ngIf="categoryOrder.categoryKey!=='medicineOrders'">
+                        <p *ngIf="categoryOrder.categoryKey==='labOrders' || categoryOrder.categoryKey==='radiologyOrders'" class="mb-0 small">
+                            {{categoryOrder.frequency}}
+                        </p>
+                        <p *ngIf="categoryOrder.categoryKey!=='labOrders' && categoryOrder.categoryKey!=='radiologyOrders'" class="mb-0 small">
+                            {{categoryOrder.frequency}}
+                        </p>
+                        <hr class="my-0">
+                        <p class="mb-0 small">
+                        </p>
+                    </td>
+                    <td class="align-middle border-top-0 order-status">
+                        <p class="mb-0 small">{{categoryOrder.status | uppercase}}
+                        </p>
+                    </td>
+                    <td class="align-middle border-top-0 order-action-btn" *ngIf="patientObj.type !== 'op'">
+                        <button [ngbPopover]="popContent" class="btn btn-sm btn-outline-primary px-1 py-0" type="button" container="body" placement="left">
+                            Action <i class="fa fa-fw fa-bars"></i><i class="fa fa-xs fa-caret-down"></i></button>
+                        <ng-template #popContent>
+                            <ul class="list-unstyled popover-content mb-0">
+                                <ng-container *ngFor="let action of orderStatusMasterList">
+                                    <li (click)="prepareReqForSaveOrderAction(categoryOrder.categoryKey, action.status_key, categoryOrder)" *ngIf="action.status_key == 'APPROVED' && categoryOrder.status === 'INITIATED'">
+                                        <button class="btn btn-sm btn-block text-left edit">{{action.action_name}}</button>
+                                    </li>
+                                    <ng-container *ngIf="action.status_key !== 'APPROVED' && action.status_key != 'INITIATED' && categoryOrder.status !== action.status_key">
+                                        <li (click)="prepareReqForSaveOrderAction(categoryOrder.categoryKey, action.status_key, categoryOrder)">
+                                            <button class="btn btn-sm btn-block text-left edit">{{action.action_name}}</button>
+                                        </li>
+                                    </ng-container>
+                                    <li *ngIf="categoryOrder.status === 'INITIATED' && action.status_key === 'INITIATED'" (click)="editOrder(categoryOrder, i)">
+                                        <button class="btn btn-sm btn-block text-left edit">Edit</button>
+                                    </li>
+                                    <li *ngIf="categoryOrder.status === 'INITIATED' && action.status_key === 'INITIATED'" (click)="discardOrder(categoryOrder, i)">
+                                        <button class="btn btn-sm btn-block text-left edit">Discard</button>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                        </ng-template>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <ng-template #norecordtemplate>
+        <div class="alert alert-warning m-1 text-capitalize w-50 mx-auto" role="alert">
+            <p class="mb-0"><i class="far fa-fw fa-lightbulb mr-1" aria-hidden="true"></i>No record Found</p>
+        </div>
+    </ng-template>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

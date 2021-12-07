@@ -1,0 +1,2321 @@
+/* You can add global styles to this file, and also import other style files */
+
+// vikra
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "~@swimlane/ngx-datatable/index.css";
+@import "~@swimlane/ngx-datatable/themes/bootstrap.css";
+@import "~@swimlane/ngx-datatable/assets/icons.css";
+// @import '~angular-tree-component/dist/angular-tree-component.css';
+@import "assets/fonts/roboto/roboto.css";
+@import "scss/fonts";
+@import "scss/main";
+// Scrollbar CSS
+@include scrollbar;
+// prevent img click or double click or drag
+img {
+    @include no-select;
+    pointer-events: none;
+}
+
+.text-primary-light {
+    color: #7d8bd8;
+}
+
+.text-pink {
+    color: #e83e8c;
+}
+
+.vertical-align-text-top {
+    vertical-align: text-top;
+}
+
+.word-break-all {
+    word-break: break-all;
+}
+
+// override button disabled
+button:disabled,
+button[disabled] {
+    color: #d4d4d4;
+}
+
+.cursor-not-allowed {
+    cursor: not-allowed !important;
+}
+
+// prevents all click
+.avoid-clicks {
+    pointer-events: none;
+    input,
+    select,
+    textarea,
+    label:before,
+    label:after {
+        background-color: $custom-control-indicator-disabled-bg !important;
+    }
+    .custom-control-input {
+        background-color: $custom-control-indicator-checked-disabled-bg !important;
+    }
+}
+
+// main column left and right start
+.column {
+    margin-top: 40px !important;
+    &.no-left-side {
+        &.left-side {
+            width: 0;
+            overflow: hidden;
+        }
+    }
+    &.no-left-side {
+        &.right-side {
+            width: 100vw;
+            margin: 0;
+            .custom-container-fluid {
+                width: calc(100vw - 15px);
+            }
+        }
+    }
+    &.left-side,
+    &.fixed-left-side {
+        background-color: $white;
+        width: 75px;
+        z-index: 999;
+        position: fixed;
+        height: calc(100vh - 40px);
+        @include custom-box-shadow(2px, 0, 4px, rgba(28, 25, 83, 0.12));
+        ul {
+            li {
+                position: relative;
+                @extend .text-center;
+                background-image: linear-gradient(to right, #ccc 40%, rgba(255, 255, 255, 0) 40%);
+                background-position: bottom;
+                background-size: 4px 0.55px;
+                background-repeat: repeat-x;
+                a.item {
+                    @extend .w-100;
+                    padding: 15px 0 5px;
+                    min-height: 75px;
+                    i {
+                        color: $gray-800;
+                        height: 24px;
+                        @extend .font-20;
+                        &.icon-user-plus,
+                        &.icon-lock,
+                        &.icon-list,
+                        &.icon-link,
+                        &.icon-address-card {
+                            font-size: 1.4rem;
+                        }
+                    }
+                    .label {
+                        width: 73px;
+                        color: $gray-800;
+                        font-size: 0.75rem;
+                        padding: 0 2px;
+                    }
+                    .item-arrow {
+                        top: 1px;
+                        right: 1px;
+                        height: 9px;
+                        opacity: 0.4;
+                        font-size: 0.9rem !important;
+                        @include transition(opacity 0.4s);
+                    }
+                    &:hover,
+                    &:focus {
+                        background-color: var(--bgLight);
+                        @include transition(background-color 0.4s);
+                        i,
+                        .label {
+                            color: $gray-800;
+                        }
+                        .item-arrow {
+                            opacity: 0;
+                            @include transition(opacity 0.4s);
+                        }
+                        .label {
+                            @extend .font-weight-500;
+                        }
+                    }
+                }
+                &.active {
+                    a.item {
+                        background-color: var(--bgColor);
+                        @include transition(background-color 0.4s);
+                        i,
+                        .label {
+                            color: var(--txtColor);
+                        }
+                        .label {
+                            @extend .font-weight-500;
+                        }
+                    }
+                }
+                &.item-hover {
+                    i.mx-auto {
+                        @include transition(all 0.3s ease-in-out);
+                    }
+                    &:hover {
+                        i.mx-auto {
+                            @include translateY(-1px);
+                        }
+                        .sub-menu {
+                            @extend .d-block;
+                             ::after {
+                                content: "";
+                                display: block;
+                                position: absolute;
+                                right: 100%;
+                                top: 0;
+                                width: 0;
+                                height: 0;
+                                border-top: 8px solid transparent;
+                                border-right: 8px solid var(--bgColor);
+                                border-bottom: 8px solid transparent;
+                                border-left: 8px solid transparent;
+                            }
+                        }
+                    }
+                    .sub-menu {
+                        @extend .position-absolute;
+                        width: 261px;
+                        background-color: $white;
+                        top: 0;
+                        margin-left: 75px;
+                        z-index: 1000;
+                        display: none;
+                        @include border-right-radius(4px);
+                        @include translateZ(0);
+                        @include box-shadow-multiple(0 3px 6px rgba($black, 0.16), 0 3px 6px rgba($black, 0.23));
+                        animation: submenu-fade-in 0.3s ease 1, submenu-move-up 0.3s ease-out 1;
+                        ul.sub-nav {
+                            max-height: 200px;
+                            overflow-y: auto;
+                            li {
+                                a.child-link {
+                                    @extend .d-block;
+                                    @extend .text-decoration-none;
+                                    @extend .position-relative;
+                                    outline: none;
+                                    min-height: 40px;
+                                    text-align: left;
+                                    padding: 10px 0 10px 15px;
+                                    color: $gray-800;
+                                    font-size: 0.75rem;
+                                    width: 230px;
+                                    i.child-icon {
+                                        font-size: 1rem;
+                                        @extend .align-top;
+                                    }
+                                }
+                                &:hover,
+                                &:focus {
+                                    background-color: var(--bgLight);
+                                    @include transition(background-color 0.4s);
+                                    i.child-icon {
+                                        &::after {
+                                            display: none;
+                                        }
+                                        @include translateX(-1px);
+                                        @include transition(transform 0.4s);
+                                    }
+                                    .link-text {
+                                        @extend .font-weight-500;
+                                    }
+                                }
+                                span.fav-link {
+                                    color: var(--bgColor) !important;
+                                }
+                                &.active {
+                                    a.child-link {
+                                        background-color: var(--bgColor);
+                                        i.child-icon {
+                                            color: var(--txtColor);
+                                        }
+                                        .link-text {
+                                            @extend .font-weight-500;
+                                            color: var(--txtColor);
+                                            background-color: var(--bgcolor);
+                                        }
+                                    }
+                                    span.fav-link {
+                                        background-color: $white !important;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                &.item-hover.active {
+                    .sub-menu {
+                         ::after {
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            right: 100%;
+                            top: 0;
+                            width: 0;
+                            height: 0;
+                            border-top: 8px solid transparent;
+                            border-right: 8px solid $gray-300;
+                            border-bottom: 8px solid transparent;
+                            border-left: 8px solid transparent;
+                        }
+                    }
+                }
+                @keyframes submenu-fade-in {
+                    from {
+                        opacity: 0;
+                    }
+                    to {
+                        opacity: 1;
+                    }
+                }
+                @keyframes submenu-move-up {
+                    from {
+                        margin-top: 10px;
+                    }
+                    to {
+                        margin-top: 0;
+                    }
+                }
+                &:last-child {
+                    background-image: none;
+                }
+            }
+        }
+    }
+    &.right-side,
+    &.fixed-right-side {
+        overflow: auto;
+        margin: 0 0 0 75px;
+        width: calc(100vw - 75px);
+        height: calc(100vh - 40px);
+    }
+}
+
+// main column left and right end
+// Input Placeholder CSS
+@include input-placeholder {
+    opacity: 0.1;
+    color: $gray-550;
+    font-weight: 400;
+    font-size: $word-font-size;
+}
+
+// Input Placeholder Icon CSS
+.placeholder-icon {
+    position: absolute;
+    right: auto;
+    left: 6px;
+    top: 6px;
+    opacity: 0.7;
+    z-index: 3;
+    pointer-events: none;
+    @include transition(opacity 0.8s);
+    &.right-icon {
+        right: 10px;
+        left: auto;
+    }
+    .icon-user,
+    .icon-lock {
+        font-size: 1.125rem;
+    }
+}
+
+//override placeholder-icon for login and forgot password screen
+.user-content {
+    .placeholder-icon {
+        top: 9px;
+    }
+}
+
+// Input Related CSS
+.form-control:focus+.placeholder-icon {
+    opacity: 1;
+    @extend .visible;
+    @include transition(opacity 0.8s);
+}
+
+input,
+select,
+textarea {
+    &.form-control {
+        @include border-radius(3px);
+    }
+}
+
+textarea.form-control:disabled,
+textarea.form-control[readonly] {
+    resize: none;
+}
+
+.input-group>.form-control:not(:first-child),
+.input-group>.custom-select:not(:first-child) {
+    @include border-left-radius(3px);
+}
+
+.custom-checkbox .custom-control-label::before,
+.custom-checkbox .custom-control-label::after {
+    top: 0.12rem;
+}
+
+// text-right at entitySchedule
+.form-control[type*="number"] {
+    @extend .text-right;
+}
+
+.form-control-xs {
+    line-height: 1.5 !important;
+    font-size: 0.8rem !important;
+    border-radius: 3px !important;
+    padding: 0.2rem 0.2rem !important;
+    height: calc(1.2em + 0.5rem + 2px) !important;
+}
+
+// Custom Form-Group CSS
+.form-group {
+    @extend .mb-2;
+    label {
+        @extend .font-size-dot-8;
+        @extend .line-height-1;
+        @extend .mb-0;
+        @extend .font-weight-500;
+        @include sm-max {
+            font-size: 0.7rem !important;
+        }
+        &.custom-control-label {
+            @extend .font-weight-500;
+            line-height: 1.8;
+            @include no-select;
+        }
+    }
+}
+
+.nav.custom-nav {
+    .nav-item {
+        .nav-link {
+            i {
+                width: 1.25em;
+                font-size: 1.2em;
+                text-align: left;
+                vertical-align: middle;
+                &.icon-application-settings {
+                    font-size: 0.95rem;
+                }
+            }
+            &:hover {
+                background-color: var(--bgLight) !important;
+                @include transition(background-color 0.4s);
+                i {
+                    @include translateX(-1px);
+                    @include transition(all 0.4s ease-in-out);
+                }
+                span {
+                    font-weight: 500;
+                }
+            }
+        }
+        &.active .nav-link {
+            color: var(--txtColor) !important;
+            background-color: var(--bgColor) !important;
+            @include transition(background-color 0.4s, color 0.4s);
+        }
+    }
+}
+
+// mini navbar CSS
+.filter {
+    .form-row {
+        .col.custom-dropdown {
+            flex: 0 0 400px;
+            max-width: 400px;
+        }
+        .col.apt-custom-dropdown {
+            flex: 0 0 77px;
+            max-width: 77px;
+        }
+        .col.add-patient {
+            flex: 0 0 135px;
+            max-width: 135px;
+        }
+        .col.filter-btn {
+            flex: 0 0 43px;
+            max-width: 43px;
+            >.btn {
+                @extend .line-height-1;
+                padding: 7px 5px 4px;
+                font-size: 1rem;
+            }
+        }
+    }
+}
+
+// Custom Nav Tabs CSS
+.custom-nav-tabs,
+ngb-tabset {
+    .nav-item {
+        a.nav-link {
+            color: $gray-700;
+            border-top-width: 0;
+            border-right-width: 0;
+            border-left-width: 0;
+            border-bottom: 3px solid transparent;
+            @include transition(border-bottom 0.5s, color 0.5s);
+            &:hover,
+            &.active,
+            &.current-section {
+                color: var(--bgColor);
+                border-bottom: 3px solid var(--bgColor);
+                @include transition(border-bottom 0.5s, color 0.5s);
+            }
+        }
+    }
+}
+
+// Custom Switch Button Css
+.custom-switch {
+    padding-left: 0 !important;
+    &.yes-no-btn {
+        padding-left: 1.95rem !important;
+        .custom-control-input {
+            &:checked {
+                .custom-control-label {
+                    &::after {
+                        -webkit-transform: translateX(2.56rem) !important;
+                        -moz-transform: translateX(2.56rem) !important;
+                        -ms-transform: translateX(2.56rem) !important;
+                        transform: translateX(2.56rem) !important;
+                    }
+                }
+            }
+        }
+        .custom-control-label {
+            &:before {
+                width: 65px;
+                @include border-radius(50px);
+            }
+            &.active {
+                &::after {
+                    -webkit-transform: translateX(2.56rem) !important;
+                    -moz-transform: translateX(2.56rem) !important;
+                    -ms-transform: translateX(2.56rem) !important;
+                    transform: translateX(2.56rem) !important;
+                }
+            }
+        }
+        span {
+            left: 40px;
+        }
+    }
+    .custom-control-input {
+        &:checked {
+            .custom-control-label {
+                &:before {
+                    background-color: $green-100 !important;
+                    border-color: $green-100 !important;
+                }
+                &::after {
+                    -webkit-transform: translateX(3.8rem) !important;
+                    -moz-transform: translateX(3.8rem) !important;
+                    -ms-transform: translateX(3.8rem) !important;
+                    transform: translateX(3.8rem) !important;
+                }
+            }
+        }
+    }
+    .custom-control-label {
+        &:before {
+            width: 85px;
+            height: 24px !important;
+            top: 0;
+            left: 0;
+            @include border-radius(20px);
+            background-color: $gray-500 !important;
+            border-color: $gray-500 !important;
+        }
+        &::after {
+            background-color: $white !important;
+            top: calc(0.14rem + 0px);
+            // left: calc(-1.95rem + 2px);
+            left: 2px;
+            width: calc(1.5rem - 4px);
+            height: calc(1.5rem - 4px);
+            @include border-radius(50%);
+            z-index: 0;
+        }
+        &.active {
+            &:before {
+                background-color: $green-100 !important;
+                border-color: $green-100 !important;
+            }
+            &::after {
+                -webkit-transform: translateX(3.8rem) !important;
+                -moz-transform: translateX(3.8rem) !important;
+                -ms-transform: translateX(3.8rem) !important;
+                transform: translateX(3.8rem) !important;
+            }
+        }
+    }
+    span {
+        position: absolute !important;
+        top: 4px;
+        left: 29px;
+        font-size: 0.7rem !important;
+        font-weight: 500 !important;
+        color: $gray-750 !important;
+        pointer-events: none !important;
+        @include no-select;
+        &.active {
+            left: 10px;
+            color: $white !important;
+        }
+    }
+}
+
+// Gender CSS
+.form-gender {
+    label {
+        margin-top: 6px;
+        &.error {
+            &:before {
+                border-color: $danger;
+            }
+        }
+    }
+    .custom-control {
+        &.custom-control-inline {
+            @extend .mr-3;
+            @include sm-tab-max {
+                margin-right: 0.2rem !important;
+            }
+            &:last-child {
+                @extend .mr-0;
+            }
+        }
+    }
+}
+
+// Login, Reset Password, Forgot Password CSS
+.fullscreen-img {
+    background: url("./assets/img/bg.jpg") no-repeat center center fixed;
+    @include background-size(cover);
+    .user-content {
+        margin-bottom: 9rem;
+        @include border-radius(10px);
+        @include medium-max {
+            margin-bottom: 0;
+        }
+        img {
+            height: 100px;
+        }
+        .top {
+            .brand-border {
+                width: 70px;
+                border-bottom: 2px solid $gray-600;
+            }
+        }
+        .user-box {
+            width: 400px;
+            @include medium-max {
+                padding: 2rem !important;
+            }
+            .view-height {
+                min-height: 3.875rem;
+            }
+            .enter-password {
+                flex: 1 1 100%;
+            }
+            .input-group .input-group-append {
+                .btn {
+                    height: 38px;
+                }
+            }
+        }
+    }
+}
+
+// type-head component with input-group
+.input-group {
+    app-type-head {
+        @extend .d-inline-block;
+        width: 85%;
+        input {
+            @include border-right-radius(0);
+        }
+        .type-head-dropdown {
+            .dropdown-icon {
+                right: 57px !important;
+                top: 3px !important;
+                @include medium-max {
+                    right: 43px !important;
+                }
+            }
+        }
+    }
+}
+
+// for all dropdown filters (to make left side menu at top)
+.custom-dropdown {
+    &.dropdown {
+        form {
+            .dropdown-menu {
+                z-index: 2;
+            }
+        }
+    }
+}
+
+// ng-select CSS
+.ng-select {
+    &.ng-select-focused:not(ng-select-opened)>.ng-select-container {
+        border-color: var(--bgLight);
+        @extend .shadow-none;
+    }
+    &.ng-select-opened .ng-select-container {
+        z-index: 998 !important;
+    }
+    &.invalid {
+        .ng-select-container {
+            border-color: $danger;
+        }
+    }
+    .ng-select-container {
+        min-height: 31px;
+        height: 31px !important;
+        @include border-radius(3px);
+        .ng-value-container {
+            @extend .font-size-dot-8;
+            max-height: unset;
+            @extend .font-weight-500;
+            color: $gray-700;
+            overflow-x: hidden;
+            .ng-placeholder {
+                @extend .font-weight-normal;
+                padding-left: unset;
+            }
+        }
+        .ng-clear-wrapper {
+            width: 15px;
+            .ng-clear {
+                margin-top: 4px;
+            }
+        }
+    }
+    @media screen and (max-width: 1280px) {
+        .ng-select-container {
+            min-height: 38px;
+            height: 38px !important;
+        }
+    }
+    .ng-dropdown-panel {
+        z-index: 4;
+        .ng-dropdown-panel-items {
+            max-height: 125px;
+            @extend .font-weight-500;
+            @extend .font-size-dot-8;
+            .ng-option {
+                white-space: pre-wrap;
+                text-overflow: unset;
+                padding: 3px 10px;
+                &:hover {
+                    color: $white;
+                    @extend .text-decoration-none;
+                    background-color: $primary;
+                }
+            }
+        }
+    }
+    .invalid {
+        .ng-select-container {
+            color: $danger;
+            border-color: $danger;
+        }
+    }
+}
+
+.patients-list {
+    .ng-select .ng-dropdown-panel {
+        @include box-shadow-multiple(0 1px 2px rgba($black, 0.1),
+        0 4px 8px rgba($black, 0.2));
+        .ng-dropdown-panel-items {
+            max-height: 224px;
+            .ng-option {
+                @extend .border-top;
+                &:first-child {
+                    @extend .border-0;
+                }
+                &:hover {
+                    small {
+                        color: $gray-300 !important;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.ng-select.ng-select-multiple {
+    .ng-select-container {
+        @extend .h-auto;
+        .ng-value-container {
+            padding-top: 1px;
+            .ng-value {
+                margin-top: 1px;
+                margin-bottom: 1px;
+                background-color: lighten($black, 95%);
+                border: 1px solid #ddd;
+                .ng-value-icon {
+                    @extend .float-right;
+                    border-left: unset;
+                    @extend .border-right-0;
+                    &:hover {
+                        @extend .bg-light;
+                    }
+                }
+            }
+            .ng-input {
+                @extend .p-0;
+            }
+        }
+        .ng-clear-wrapper {
+            @extend .d-none;
+        }
+    }
+    .ng-dropdown-panel {
+        z-index: 4;
+        .ng-dropdown-panel-items {
+            .ng-option {
+                &.ng-option-selected {
+                    @extend .d-none;
+                }
+            }
+        }
+    }
+}
+
+// Custom Listbox CSS
+.dual-list {
+    @extend .d-flex;
+    flex-direction: row;
+    align-content: flex-start;
+    justify-content: space-evenly;
+    .listbox {
+        width: 35%;
+        margin: 0;
+        flex-grow: 2;
+        .filter {
+            &::after {
+                top: -40px;
+                left: calc(100% - 21px);
+            }
+            .form-control {
+                @include border-bottom-radius(0);
+            }
+        }
+        div.record-picker {
+            overflow-x: hidden;
+            overflow-y: auto;
+            @extend .border;
+            position: relative;
+            @include border-radius(2px);
+            @extend .border-top-0;
+            ul {
+                padding: 0 0 1px 0;
+                height: calc(100vh - 310px);
+                min-height: unset !important;
+                li {
+                    font-size: $word-font-size;
+                    border-top: unset;
+                    @extend .border-bottom;
+                    @extend .d-block;
+                    padding: 2px 2px 2px 10px;
+                    margin-bottom: -1px;
+                    @include border-radius(2px);
+                    cursor: all-scroll;
+                    label {
+                        cursor: inherit;
+                        font-weight: inherit;
+                        @extend .m-1;
+                        margin-bottom: -1px;
+                        @include no-select;
+                    }
+                    &:hover {
+                        background-color: $gray-300;
+                    }
+                    &.disabled {
+                        opacity: 0.5;
+                        cursor: default;
+                    }
+                    &.selected {
+                        @extend .font-weight-500;
+                        background-color: rgba(63, 81, 181, 0.1);
+                    }
+                    &.selected::before {
+                        content: "\f00c";
+                        font-weight: 900;
+                        font-family: "Font Awesome 5 Free";
+                    }
+                }
+            }
+        }
+        .btn.btn-primary.btn-block {
+            @extend .btn-secondary;
+        }
+        .btn-primary.pull-left {
+            @extend .btn-outline-primary;
+            background-color: unset;
+        }
+        .btn-default {
+            @extend .ml-3;
+            @extend .btn-outline-secondary;
+        }
+        button.btn-block {
+            font-size: 1.3rem;
+        }
+    }
+    .buttonbox {
+        margin: 0 10px;
+        @extend .d-flex;
+        flex-direction: column;
+        @extend .justify-content-center;
+        .btn.btn-block {
+            @extend .d-block;
+            width: 70px;
+            @extend .m-1;
+            &:disabled {
+                @extend .btn-outline-secondary;
+            }
+        }
+    }
+}
+
+.role-permissions .dual-list .listbox div.record-picker ul {
+    height: calc(100vh - 297px);
+}
+
+// Ngx Datatable CSS
+.ngx-datatable.fixed-row,
+.ngx-datatable.fixed-header {
+    overflow: visible;
+    .datatable-header {
+        font-size: $word-font-size;
+        border: 1px solid $gray-400;
+        @extend .border-bottom-0;
+        @include border-top-radius(3px);
+        @extend .font-weight-500;
+        .datatable-header-inner {
+            .datatable-header-cell {
+                padding: 0.1rem 0.5rem;
+                background-color: rgba(244, 245, 251, 1);
+                @extend .border-right;
+                @extend .border-bottom-0;
+                &:last-child {
+                    border-right: 1px solid transparent;
+                }
+                .sort-btn {
+                    padding-top: 3px;
+                }
+                .datatable-header-cell-label {
+                    width: calc(100% - 13px); // leave room for sort icon
+                    @extend .float-left;
+                }
+            }
+            .datatable-row-left {
+                .datatable-header-cell {
+                    @extend .border-right;
+                }
+            }
+            .datatable-row-right {
+                text-align: center;
+                margin-left: -2px;
+                .datatable-header-cell {
+                    @extend .border-left;
+                    @extend .border-right-0;
+                }
+            }
+        }
+    }
+    .datatable-body {
+        @extend .d-block;
+        @extend .w-100;
+        overflow-y: auto;
+        overflow-x: auto;
+        @extend .border;
+        &::-webkit-scrollbar {
+            width: 10px !important;
+            height: 10px !important;
+        }
+        &::-moz-scrollbar {
+            width: 10px !important;
+            height: 10px !important;
+        }
+        .datatable-body-row {
+            border-top: unset;
+            @extend .border-bottom;
+            &.datatable-row-even {
+                background-color: rgba($primary, 0.02);
+            }
+            .datatable-body-cell {
+                padding: 0.2rem 0.5rem;
+                @extend .border-right;
+                overflow: visible !important;
+                &:last-child {
+                    border-right: 1px solid transparent;
+                }
+                .datatable-body-cell-label {
+                    white-space: nowrap;
+                    @extend .w-auto;
+                    @extend .overflow-hidden;
+                    text-overflow: ellipsis;
+                    .active {
+                        background-color: rgba(40, 167, 69, 0.2);
+                        color: $green-100;
+                        padding: 2px 8px;
+                        @include border-radius(13px);
+                    }
+                    .inactive {
+                        background-color: rgba(0, 0, 0, 0.2);
+                        color: $gray-800;
+                        padding: 2px 8px;
+                        @include border-radius(13px);
+                    }
+                    .deleted {
+                        background-color: rgba(239, 115, 139, 0.2);
+                        color: $danger;
+                        padding: 2px 8px;
+                        @include border-radius(13px);
+                    }
+                    .fa-xs {
+                        @extend .align-middle;
+                    }
+                }
+            }
+            .datatable-row-left {
+                .datatable-body-cell {
+                    background-color: #fff;
+                    @extend .border-right;
+                    @extend .border-bottom;
+                }
+            }
+            .datatable-row-right {
+                .datatable-body-cell {
+                    position: relative;
+                    left: 5px;
+                    background-color: #fff;
+                    @extend .border-left;
+                    @extend .border-bottom;
+                    @extend .border-right-0;
+                }
+            }
+            &.datatable-row-even {
+                .datatable-row-left {
+                    .datatable-body-cell {
+                        background-color: #fbfcfe;
+                    }
+                }
+            }
+            &.datatable-row-even {
+                .datatable-row-right {
+                    .datatable-body-cell {
+                        background-color: #fbfcfe;
+                    }
+                }
+            }
+        }
+    }
+    .datatable-footer {
+        background-color: rgba($primary, 0.06);
+        color: $gray-900;
+        margin-top: -1px;
+        @include border-bottom-radius(3px);
+        .datatable-footer-inner {
+            @extend .overflow-hidden;
+        }
+        .datatable-pager {
+            flex: 1 1 50%;
+            ul {
+                li {
+                    &.disabled {
+                        &:hover {
+                            a {
+                                color: unset;
+                            }
+                        }
+                    }
+                    a {
+                        color: $gray-900;
+                    }
+                    &.active,
+                    &:hover {
+                        a {
+                            color: $white;
+                        }
+                    }
+                }
+                &:not(.disabled).active a,
+                li:not(.disabled):hover a {
+                    background-color: $gray-600;
+                }
+            }
+        }
+    }
+}
+
+// Popover Button Hover CSS
+.popover {
+    @include box-shadow-multiple(0 3px 6px rgba($black, 0.16),
+    0 3px 6px rgba($black, 0.23));
+    @extend .border-0;
+    .popover-header {
+        @extend .p-2;
+        color: $white;
+        @extend .bg-primary;
+        @include border-top-radius(3px);
+    }
+    .popover-body {
+        @extend .p-2;
+        .popover-content {
+            //.btn:hover {
+            //background-color: $gray-50;
+            //}
+            .edit:hover,
+            .call:hover {
+                @extend .text-info;
+            }
+            .del:hover {
+                @extend .text-danger;
+            }
+            .warning:hover,
+            .logout:hover,
+            .appointment:hover,
+            .history:hover {
+                @extend .text-warning;
+            }
+            .primary:hover,
+            .reset:hover,
+            .time:hover,
+            .reschedule:hover,
+            .queue:hover,
+            .map:hover {
+                @extend .text-primary;
+                &[data-content*="No"] {
+                    @extend .text-danger;
+                }
+            }
+            .active:hover,
+            .calendar:hover,
+            .copy:hover {
+                @extend .text-success;
+            }
+            .inactive:hover {
+                @extend .text-secondary;
+            }
+            .delay:hover {
+                color: $cyan-100;
+            }
+            .skip:hover {
+                @extend .text-pink;
+            }
+            .notes:hover {
+                color: #bdbd0a;
+            }
+            .apt-history:hover,
+            .schedule:hover {
+                @extend .text-teal;
+            }
+        }
+    }
+}
+
+.popover.custom-popover {
+    max-width: 50% !important;
+    .popover-body {
+        height: 250px;
+        overflow-y: auto;
+    }
+}
+
+//No Data Start
+.no-data {
+    @extend .text-center;
+    @extend .alert;
+    @extend .alert-warning;
+    background-color: rgba($warning, 0.1);
+    @extend .p-0;
+    @extend .d-flex;
+    @extend .align-items-center;
+    &.danger {
+        @extend .alert-danger;
+    }
+    &.info {
+        @extend .alert-info;
+    }
+    .fa-stack {
+        height: 1.5em;
+        line-height: 1.5em;
+        width: 1.5em;
+        background-color: rgba($warning, 0.2);
+        .fa-exclamation-triangle {
+            font-size: 0.4em;
+            @extend .mt-1;
+        }
+    }
+    p {
+        @extend .font-size-dot-875;
+        @extend .font-weight-500;
+        @extend .mb-0;
+        @extend .ml-1;
+    }
+}
+
+//No Data End
+//Bell Notification Start
+.bell-notification {
+    right: 10px;
+    top: 10px;
+    width: 370px;
+    min-height: 80px;
+    font-size: 14px;
+    z-index: 1049;
+    @extend .shadow-lg;
+    .heart-beat {
+        width: 5em;
+        min-height: inherit;
+        border: 1px dashed $white;
+        @include border-radius(inherit);
+        .draw {
+            @include scale(1.4);
+            .icon,
+            .inner {
+                animation: beat 1.5s infinite linear forwards;
+            }
+            @keyframes beat {
+                0% {
+                    @include scale(1);
+                }
+                10% {
+                    @include scale(1);
+                }
+                50% {
+                    @include scale(1.1);
+                }
+                60% {
+                    @include scale(1.05);
+                }
+                75% {
+                    @include scale(1.15);
+                }
+            }
+            .circle {
+                top: 0;
+                left: 3px;
+                width: 30px;
+                height: 30px;
+                z-index: -1;
+                position: absolute;
+                @include border-radius(50%);
+            }
+            .inner {
+                background-color: rgba($black, 0.05);
+            }
+            .outer {
+                @include scale(1.2);
+                background-color: rgba($black, 0.03);
+                animation: outerbeat 1.5s infinite linear forwards;
+            }
+            @keyframes outerbeat {
+                0% {
+                    @include scale(1.2);
+                }
+                10% {
+                    @include scale(1.2);
+                }
+                50% {
+                    @include scale(1.3);
+                }
+                60% {
+                    @include scale(1.25);
+                }
+                75% {
+                    @include scale(1.3);
+                }
+            }
+        }
+    }
+}
+
+//Bell Notification End
+// Modal Popup CSS for all
+.modal-dialog {
+    .modal-header {
+        @extend .py-1;
+        @extend .text-white;
+        background-color: var(--bgColor) !important;
+        p {
+            padding-top: 2px;
+        }
+        .close {
+            text-shadow: none;
+        }
+    }
+}
+
+// Loader Start
+.no-event {
+    position: absolute;
+    top: 0;
+    left: 0;
+    @extend .w-100;
+    @extend .h-100;
+    z-index: 99999;
+    pointer-events: none;
+    @include no-select;
+    .box {
+        top: 45%;
+        left: 50%;
+        z-index: 100000;
+        width: 125px;
+        height: 95px;
+        padding: 10px 10px 5px;
+        position: absolute;
+        @extend .text-center;
+        @include border-radius(10px);
+        background-color: lighten($primary, 47%);
+        @include translate(-50%,
+        -50%);
+        @include box-shadow-multiple(0 2px 2px rgba($primary, 0.05),
+        0 2px 2px rgba($primary, 0.1));
+        .circle {
+            width: 50px;
+            height: 50px;
+            @extend .mx-auto;
+            @include border-radius(50%);
+            border: 5px solid $gray-50;
+            border-top: 5px solid rgba($primary, 0.9);
+            -webkit-animation: spin 0.8s linear infinite;
+            animation: spin 0.8s linear infinite;
+        }
+    }
+    .backdrop {
+        position: fixed;
+        @extend .w-100;
+        @extend .h-100;
+        z-index: 99999;
+        background-color: rgba($gray-500, 0.2);
+    }
+    * {
+        pointer-events: none;
+    }
+}
+
+@keyframes spin {
+    0% {
+        @include rotate(0);
+    }
+    100% {
+        @include rotate(360);
+    }
+}
+
+// DatePicker start
+.bs-datepicker {
+    @extend .shadow-none;
+    .bs-datepicker-container {
+        @extend .p-0;
+        .bs-datepicker-head {
+            background-color: $gray-50;
+            border: 1px solid #e9edf0;
+            border-bottom: none;
+            height: 40px;
+            padding: 5px;
+            button {
+                @extend .font-weight-500;
+                @extend .btn-outline-primary;
+                &:disabled {
+                    color: $gray-200;
+                }
+                span {
+                    top: -2px;
+                }
+            }
+        }
+        .bs-datepicker-body {
+            table {
+                th {
+                    color: $gray-900;
+                    @extend .font-weight-500;
+                }
+                td {
+                    span {
+                        margin: 2px;
+                        &.selected {
+                            @extend .font-weight-500;
+                            color: $white !important;
+                            background-color: $success !important;
+                        }
+                        &.disabled {
+                            color: rgba(181, 181, 181, 0.5) !important;
+                            background-color: transparent !important;
+                        }
+                        &.is-other-month {
+                            display: none !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// DatePicker end
+//template display start
+.full-screen {
+    .modal-dialog {
+        min-height: 100vh !important;
+        min-width: 100vw !important;
+        max-height: unset !important;
+        max-width: unset !important;
+        margin: 0 !important;
+        .modal-body {
+            padding: 0 !important;
+            .close {
+                position: absolute;
+                right: 6px;
+                top: 1px;
+                z-index: 999;
+                background-color: #a9a9a9;
+                @include border-radius(80px);
+                padding: 4px 12px;
+                span {
+                    font-size: 34px;
+                    color: $white;
+                    opacity: 1;
+                }
+            }
+            .branding {
+                width: 99.7%;
+            }
+        }
+    }
+}
+
+//Color css
+.ui-theme-settings {
+    .list-group {
+        .list-group-item {
+            h6 {
+                color: var(--bgColor);
+            }
+        }
+    }
+}
+
+.theme-settings-swatches {
+    .swatch-holder {
+        cursor: pointer;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        margin: 5px 5px 0;
+        @include transition(all 0.4s);
+        opacity: 0.7;
+        display: inline-block;
+        @include border-radius(30px);
+    }
+    .swatch-holder:hover {
+        opacity: 1;
+    }
+    .swatch-holder.active {
+        border: 2px solid #fff;
+        -webkit-box-shadow: 0 0 0 5px #afafaf;
+        -moz-box-shadow: 0 0 0 5px #afafaf;
+        box-shadow: 0 0 0 5px #afafaf;
+        opacity: 1;
+    }
+}
+
+//popover css of room selection popover
+.popover.room-list-popover {
+    width: 170px;
+    .popover-body {
+        max-height: 130px;
+        overflow-y: auto;
+    }
+}
+
+//iframe css
+.parent-iframe {
+    width: 99%;
+    margin: auto;
+    .cus-iframe {
+        width: 100%;
+        height: calc(100vh - 86px);
+        outline: none;
+        border: 1px solid #9a9a9a;
+    }
+}
+
+// Custom table Common CSS
+.custom-table {
+    border-collapse: unset;
+    @include border-radius(3px);
+    border-spacing: 0;
+    thead {
+        background-color: rgba(63, 81, 181, 0.06);
+        tr {
+            table-layout: fixed;
+            th {
+                @extend .p-1;
+                @extend .border-bottom-0;
+                @extend .border-top-0;
+                @extend .font-weight-500;
+                &:not(:last-child) {
+                    @extend .border-right;
+                }
+            }
+        }
+    }
+    tbody {
+        tr {
+            table-layout: fixed;
+            &:nth-of-type(even) {
+                background-color: rgba($primary, 0.02);
+            }
+            td,
+            th {
+                @extend .p-1;
+                @extend .align-middle;
+                &:not(:last-child) {
+                    @extend .border-right;
+                }
+            }
+            @media screen and (max-width: 1280px) {
+                td,
+                th {
+                    padding: 1rem !important;
+                }
+            }
+        }
+    }
+}
+
+// Calender Hover Tooltip CSS
+.cal-tooltip {
+    z-index: 9999 !important;
+    opacity: 1;
+    &.cal-tooltip-bottom {
+        padding: 8px 0;
+        .cal-tooltip-inner .apt-time {
+            top: 15px;
+        }
+    }
+    &.cal-tooltip-top .cal-tooltip-arrow {
+        border-top-color: $white;
+        border-width: 8px 8px 0 8px;
+    }
+    &.cal-tooltip-right .cal-tooltip-arrow {
+        border-right-color: $white;
+        border-width: 8px 8px 8px 0;
+    }
+    &.cal-tooltip-bottom .cal-tooltip-arrow {
+        border-bottom-color: $white;
+        border-width: 0 8px 8px 8px;
+    }
+    &.cal-tooltip-left .cal-tooltip-arrow {
+        border-left-color: $white;
+        border-width: 8px 0 8px 8px;
+    }
+    .cal-tooltip-inner {
+        width: 450px;
+        max-width: 450px;
+        text-align: left;
+        @extend .p-0;
+        color: $gray-700;
+        background-color: $white;
+        border-width: 3px 1px 1px 1px;
+        border-style: solid;
+        border-color: var(--bgColor);
+        @include border-radius(5px);
+        @include box-shadow-multiple(0 3px 6px rgba($black, 0.16),
+        0 3px 6px rgba($black, 0.23));
+        .calender-info {
+            position: relative;
+            background-color: #f0f3fb;
+            @include border-top-radius(5px);
+            h6 {
+                @extend .font-size-dot-9;
+                color: var(--bgColor);
+            }
+            // .history-status {
+            //   color: #e2b13c;
+            // }
+        }
+        .tooltip-height {
+            .col-label {
+                flex: 0 0 80px;
+                max-width: 80px;
+            }
+            .service-list {
+                display: inline-block;
+                padding: 1px 3px;
+                @include border-radius(4px);
+                margin-top: 1px;
+                margin-right: 2px;
+                margin-bottom: 3px;
+                background-color: var(--bgLight);
+                border: 0.55px solid #ddd;
+            }
+        }
+    }
+}
+
+// ICU Flow Sheet Common CSS
+.icu-flow {
+    .col-36 {
+        flex: 0 0 36%;
+        max-width: 36% !important;
+    }
+    .col-32 {
+        flex: 0 0 32%;
+        max-width: 32%;
+    }
+    .icu.card {
+        box-shadow: 0px 0px 5px 0px rgba(28, 25, 83, 0.12);
+        .card-header {
+            padding: 1px 5px;
+            // border-bottom: 1px dashed rgba(0, 0, 0, 0.125);
+        }
+        .card-body {
+            padding: 10px;
+            .table {
+                th {
+                    @extend .font-weight-500;
+                }
+                th,
+                td {
+                    @extend .align-middle;
+                    @extend .font-size-dot-8;
+                    padding: 0.13rem 0.3rem;
+                }
+                @media screen and (max-width: 1280px) {
+                    td,
+                    th {
+                        padding: 1rem !important;
+                    }
+                }
+                thead {
+                    tr:first-child th {
+                        border-top: none;
+                        border-bottom: none;
+                    }
+                }
+                tbody+tbody {
+                    border-top: none;
+                }
+                tbody.odd {
+                    background-color: #f5f5f5;
+                }
+                tbody.bg-light-blue {
+                    background-color: #ebf6f8;
+                }
+            }
+        }
+        .card-footer {
+            background-color: #f5f5f5;
+        }
+    }
+}
+
+
+/*ADD ORDER CSS START*/
+
+.col-suggesstion {
+    .nav[role="tablist"] {
+        background: $white !important;
+        .nav-item {
+            text-align: center;
+            .nav-link {
+                padding-left: 0.2rem;
+                padding-right: 0.2rem;
+            }
+        }
+    }
+    .tab-content {
+        height: calc(100vh - 204px);
+    }
+    .all-suggestion {
+        max-height: calc(100vh - 268px);
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    .route-suggestion {
+        max-height: calc(100vh - 194px);
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    .instructions-suggestion {
+        max-height: calc(100vh - 174px);
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    .btn-outline-primary-light {
+        &.text-left {
+            padding: 5px 10px 5px 28px;
+        }
+        color: #7d8bd8;
+        .text-darken {
+            color: #7d8bd8 !important;
+        }
+        &.favorite-btn {
+            font-size: calc(0.775em - -0.25 * (100vw - 30em) / 100);
+        }
+        &:hover,
+        &:not(:disabled):not(.disabled):active,
+        &.active {
+            color: $white !important;
+            background-color: #7d8bd8;
+            border-color: #7d8bd8;
+            .text-darken {
+                color: $white !important;
+            }
+        }
+    }
+    .form-control-sm {
+        height: calc(1.5em + 0.75rem + 2px);
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        &select {
+            padding: 0.375rem 0;
+        }
+    }
+    .placeholder-icon {
+        top: 11px;
+    }
+    .input-group-append {
+        .btn.btn-sm {
+            height: 38px !important;
+            font-size: 1rem;
+            padding: 0.375rem 0.75rem;
+        }
+    }
+}
+
+// .card-section {
+//   height: calc(100vh - 158px);
+//   overflow-y: auto;
+// }
+.examination-label {
+    margin-bottom: 2px !important;
+}
+
+
+/*ADD ORDER CSS END*/
+
+//For Queue Setting start
+.option-1 {
+    background-image: linear-gradient(45deg, #2193b0, #2193b0) !important;
+}
+
+.option-2 {
+    background-image: linear-gradient(45deg, #09203f, #537895) !important;
+}
+
+.option-3 {
+    background-image: linear-gradient(45deg, #644c94 0%, #9770b1) !important;
+}
+
+.option-4 {
+    background-image: linear-gradient(45deg, #243b55, #141e30) !important;
+}
+
+.option-5 {
+    background-image: linear-gradient(45deg, #3cba92, #0ba360) !important;
+}
+
+.option-6 {
+    background-image: linear-gradient(45deg, #636363, #303030) !important;
+}
+
+.option-7 {
+    background-image: linear-gradient(45deg, #a7a6cb, #8989ba) !important;
+}
+
+.option-8 {
+    background-image: linear-gradient(45deg, #dfa579, #c79081) !important;
+}
+
+.option-9 {
+    background-image: linear-gradient(45deg, #9bc5c3, #616161) !important;
+}
+
+//For Queue Setting end
+// Appointment type custom checkbox
+.custom-control-label.dentists:before {
+    border-color: $cyan !important;
+    border-width: 2px;
+}
+
+.custom-control-input:checked~.custom-control-label.dentists:before {
+    background-color: $cyan !important;
+}
+
+.custom-control-label.lateeveningsurgery:before {
+    border-color: $red !important;
+    border-width: 2px;
+}
+
+.custom-control-input:checked~.custom-control-label.lateeveningsurgery:before {
+    background-color: $red !important;
+}
+
+.custom-control-label.minorillness:before {
+    border-color: #bdbd0a !important;
+    border-width: 2px;
+}
+
+.custom-control-input:checked~.custom-control-label.minorillness:before {
+    background-color: #bdbd0a !important;
+}
+
+.custom-control-label.routine:before {
+    border-color: #7b807d !important;
+    border-width: 2px;
+}
+
+.custom-control-input:checked~.custom-control-label.routine:before {
+    background-color: #7b807d !important;
+}
+
+.custom-control-label.emergency:before {
+    border-color: #e3724b !important;
+    border-width: 2px;
+}
+
+.custom-control-input:checked~.custom-control-label.emergency:before {
+    background-color: #e3724b !important;
+}
+
+.custom-control-label.free:before {
+    border-color: #2dce89 !important;
+    border-width: 2px;
+}
+
+.custom-control-input:checked~.custom-control-label.free:before {
+    background-color: #2dce89 !important;
+}
+
+.custom-control-label.privilege:before {
+    border-color: $primary !important;
+    border-width: 2px;
+}
+
+.custom-control-input:checked~.custom-control-label.privilege:before {
+    background-color: $primary !important;
+}
+
+// Appointment status color CSS
+.status {
+    padding: 2px 8px;
+    @include border-radius(20px);
+    @extend .text-uppercase;
+}
+
+.status_calling {
+    color: $green !important;
+}
+
+.status_queue {
+    color: $primary !important;
+}
+
+.status_complete {
+    background-color: rgba($green-100, 0.12);
+    color: $green-100 !important;
+}
+
+.status_skip {
+    background-color: rgba($pink, 0.12);
+    color: $pink !important;
+}
+
+.status_inconsultation {
+    background-color: rgba($yellow, 0.12);
+    color: $yellow !important;
+}
+
+.status_absent {
+    background-color: rgba(189, 189, 10, 0.18);
+    color: #bdbd0a !important;
+}
+
+.status_onhold {
+    background-color: rgba(128, 0, 0, 0.12);
+    color: #800000 !important;
+}
+
+.status_tentative {
+    background-color: rgba($black, 0.12);
+    color: $gray-800 !important;
+}
+
+.status_confirmed {
+    background-color: rgba($primary, 0.12);
+    color: $primary !important;
+}
+
+.status_cancelled {
+    background-color: rgba(204, 24, 31, 0.12);
+    color: #cc181f !important;
+}
+
+.status_reschedule {
+    background-color: rgba($cyan, 0.12);
+    color: $teal !important;
+}
+
+.status_notserved {
+    background-color: rgba(206, 168, 99, 0.12);
+    color: #cea863 !important;
+}
+
+//visit modal popup for filter
+@media (min-width: 1200px) {
+    .visit-modal {
+        .modal-xl {
+            max-width: 730px !important;
+        }
+    }
+}
+
+//visit modal popup for filter
+@media (min-width: 1200px) {
+    .add-edit-order-set-modal {
+        .modal-xl {
+            max-width: 70% !important;
+        }
+    }
+    .add-edit-OT-patient-details {
+        .modal-lg {
+            max-width: 95% !important;
+        }
+    }
+}
+
+//foot examination modal
+@media (min-width: 1200px) {
+    .faq-modal,
+    .foot-examination,
+    .human-body {
+        .modal-xl {
+            max-width: 95% !important;
+        }
+    }
+}
+
+//foot examination modal
+@media (max-width: 1024px) {
+    .foot-examination,
+    .human-body {
+        .modal-xl {
+            max-width: 100%;
+        }
+    }
+}
+
+.score_Absent {
+    fill: red;
+}
+
+.score_Normal {
+    fill: green;
+}
+
+.score_Reduced {
+    fill: orange;
+}
+
+.score_no {
+    fill: white;
+}
+
+.score1 {
+    fill: green;
+}
+
+.score2 {
+    fill: #61b000;
+}
+
+.score3 {
+    fill: #c0e000;
+}
+
+.score4 {
+    fill: #fff500;
+}
+
+.score5 {
+    fill: #ffdb00
+}
+
+.score6 {
+    fill: #ffc200;
+}
+
+.score7 {
+    fill: #ffa900;
+}
+
+.score8 {
+    fill: #ff7900;
+}
+
+.score9 {
+    fill: #ff4200;
+}
+
+.score10 {
+    fill: #ff0800;
+}
+
+.score_Blank {
+    stroke: #413d3d;
+    fill: #b5b5b5;
+}
+
+pain-NT {
+    background-color: #ba1515;
+}
+
+.pain-one {
+    background-color: #018000;
+}
+
+.pain-two {
+    background-color: #61b000;
+}
+
+.pain-three {
+    background-color: #c0e000;
+}
+
+.pain-four {
+    background-color: #fff500;
+}
+
+.pain-five {
+    background-color: #ffdb00;
+}
+
+.pain-six {
+    background-color: #ffc200;
+}
+
+.pain-seven {
+    background-color: #ffa900;
+}
+
+.pain-eight {
+    background-color: #ff7900;
+}
+
+.pain-nine {
+    background-color: #ff4200;
+}
+
+.pain-ten {
+    background-color: #ff0800;
+}
+
+.pain-absent {
+    background-color: #ED4E2C;
+}
+
+.pain-reduced {
+    background-color: #F48828;
+}
+
+.pain-normal {
+    background-color: #54A939;
+}
+
+//ng2-select
+.ng2-dropdown-menu {
+    padding: 0 !important;
+    min-width: 50vw;
+    left: 11% !important;
+    z-index: 0;
+    max-height: 100px !important;
+    overflow-y: auto;
+    .ng2-dropdown-menu__options-container {
+        .ng2-menu-item {
+            height: 28px;
+            line-height: 18px;
+            border-bottom: 1px solid #efefef;
+        }
+    }
+}
+
+.human-body-summery-model-popup {
+    height: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+    .section {
+        .accordion {
+            .card {
+                .card-header {
+                    @extend .cus-head;
+                    @extend .p-0;
+                    @extend .border-dash-bottom;
+                    .btn-link {
+                        width: 100%;
+                        @extend .p-1;
+                        text-align: left;
+                    }
+                }
+                .card-body {
+                    @extend .p-1;
+                    @extend .border-bottom;
+                }
+                &:not(:first-of-type) {
+                    &:not(:last-of-type) {
+                        border-bottom: 1px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.custom-alert {
+    .alert {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+}
+
+// doctor dashboard
+.dr-tabs {
+    .tab-content {
+        height: calc(100vh - 101px);
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+}
+
+.col-date {
+    -webkit-box-flex: 0;
+    flex: 0 0 133px;
+    max-width: 133px;
+}
+
+.plus-minus-col-btn {
+    -webkit-box-flex: 0;
+    flex: 0 0 80px;
+    max-width: 80px;
+}
+
+@media screen and (max-width: 1280px) {
+    .col-date {
+        flex: 0 0 180px;
+        max-width: 180px;
+    }
+    .plus-minus-col-btn {
+        flex: 0 0 110px;
+        max-width: 110px;
+    }
+}
+
+.form-group {
+    &.custom-mb-0 {
+        margin-bottom: 0 !important;
+    }
+}
+
+.tribute-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: auto;
+    max-height: 300px;
+    max-width: 200px;
+    overflow: auto;
+    display: block;
+    z-index: 999999;
+    ul {
+        margin: 0;
+        margin-top: 2px;
+        padding: 0;
+        list-style: none;
+        background: #efefef;
+        li {
+            padding: 5px 5px;
+            cursor: pointer;
+            &.highlight {
+                background: #ddd;
+            }
+            &.no-match {
+                cursor: default;
+            }
+            span {
+                font-weight: bold;
+            }
+        }
+    }
+    .menu-highlighted {
+        font-weight: bold;
+    }
+    .tribute-demo-input {
+        outline: none;
+        border: 1px solid #eee;
+        padding: 3px 5px;
+        border-radius: 2px;
+        font-size: 15px;
+        min-height: 32px;
+        cursor: text;
+    }
+    .tribute-demo-input:focus {
+        border-color: #d1d1d1;
+        background-color: #fbfbfb;
+    }
+    #test-autocomplete-container {
+        position: relative;
+    }
+    #test-autocomplete-textarea-container {
+        position: relative;
+    }
+}
+
+[contenteditable="true"]:empty:before {
+    color: #6c757d !important;
+}
+
+//bullet-points
+.tag-list {
+    display: inline-block;
+    padding: 0 15px 0 10px;
+    position: relative;
+    @extend .font-size-dot-8;
+    &::before {
+        background: #efefef;
+        border-radius: 10px;
+        box-shadow: inset 1px 1px rgba(0, 0, 0, 0.25);
+        content: "";
+        height: 6px;
+        left: 0px;
+        position: absolute;
+        width: 6px;
+        top: 7px;
+    }
+}
+
+//Patient History tree
+tree-root {
+    .angular-tree-component {
+        padding: 0 0.5rem;
+        .node-content-wrapper,
+        .tree-children {
+            position: relative;
+        }
+        .node-content-wrapper {
+            position: relative;
+            padding: 0;
+            width: 100%;
+            .active,
+            .inactive {
+                display: inline-block;
+                padding: 2px 5px;
+                border-radius: 2px;
+                width: 100%;
+                font-size: 0.875rem;
+            }
+            .active {
+                background: $gray-200;
+            }
+        }
+        .node-content-wrapper::before,
+        .tree-children::after {
+            content: "";
+            position: absolute;
+        }
+        .node-content-wrapper-active,
+        .node-content-wrapper-focused,
+        .node-content-wrapper:hover,
+        .node-content-wrapper-active,
+        .node-content-wrapper.node-content-wrapper-active:hover,
+        .node-content-wrapper-active.node-content-wrapper-focused {
+            box-shadow: none;
+            background: unset;
+            .active {
+                background: $gray-200;
+            }
+            .inactive {
+                background: $gray-100;
+            }
+        }
+        .node-content-wrapper::before {
+            border-bottom: 1px solid lightgrey;
+            border-left: 1px solid lightgrey;
+            height: 28px;
+            top: -17px;
+            width: 9px;
+            left: -28px;
+        }
+        .tree-node-level-1>tree-node-wrapper>.node-wrapper>.node-content-wrapper::before {
+            display: none;
+        }
+        .tree-node-leaf>.node-wrapper>.node-content-wrapper::before {
+            width: 25px;
+        }
+        .tree-children::after {
+            border-left: 1px solid lightgrey;
+            height: 100%;
+            top: -15px;
+            left: -15px;
+        }
+        tree-node:last-child>.tree-node>.tree-children::after {
+            border-left: none;
+        }
+        .toggle-children {
+            z-index: 1;
+            background: url('data:image/svg+xml;utf8,<svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="folder" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-folder fa-w-16 fa-2x"><path fill="currentColor" d="M194.74 96l54.63 54.63c6 6 14.14 9.37 22.63 9.37h192c8.84 0 16 7.16 16 16v224c0 8.84-7.16 16-16 16H48c-8.84 0-16-7.16-16-16V112c0-8.84 7.16-16 16-16h146.74M48 64C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V176c0-26.51-21.49-48-48-48H272l-54.63-54.63c-6-6-14.14-9.37-22.63-9.37H48z"></path></svg>');
+            width: 18px;
+            height: 18px;
+            background-repeat: no-repeat;
+        }
+        .toggle-children-wrapper-expanded .toggle-children {
+            transform: none;
+            -webkit-transform: none;
+            -moz-transform: none;
+            -ms-transform: none;
+            -o-transform: none;
+            background: url('data:image/svg+xml;utf8,<svg aria-hidden="true" focusable="false" data-prefix="fal" data-icon="folder-open" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" class="svg-inline--fa fa-folder-open fa-w-18 fa-2x"><path fill="currentColor" d="M527.95 224H480v-48c0-26.51-21.49-48-48-48H272l-64-64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h385.057c28.068 0 54.135-14.733 68.599-38.84l67.453-112.464C588.24 264.812 565.285 224 527.95 224zM48 96h146.745l64 64H432c8.837 0 16 7.163 16 16v48H171.177c-28.068 0-54.135 14.733-68.599 38.84L32 380.47V112c0-8.837 7.163-16 16-16zm493.695 184.232l-67.479 112.464A47.997 47.997 0 0 1 433.057 416H44.823l82.017-136.696A48 48 0 0 1 168 256h359.975c12.437 0 20.119 13.568 13.72 24.232z"></path></svg>');
+        }
+    }
+}
+
+.custom-modal{
+    .modal-content{
+        height: calc(100vh - 56px) !important;
+    }
+    .modal-footer{
+        i{
+            display: none;
+        }
+        button{
+            &:nth-child(1){
+                background:  var(--bgColor);
+            color: white;
+            }
+        }
+    }
+    .text-muted{
+        font-size: 12px;
+    }
+
+}
+

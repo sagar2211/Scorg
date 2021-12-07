@@ -1,0 +1,4 @@
+<select class="form-control form-control-sm pointer" [ngModel]="selectedProvider"
+        (ngModelChange)="changeProvider($event)">
+    <option [ngValue]="provider" *ngFor="let provider of providerDetails">{{provider.providerName}} {{ (frontDeskProviderList.length) ? '(' + provider.providerTypeName + ')' : ''}}</option>
+</select>

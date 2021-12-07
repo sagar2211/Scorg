@@ -1,0 +1,66 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">{{messageDetails.modalTitle}} ({{ messageDetails.providerDetails.providerName }})</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="dismissModel('cancle')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body py-2" *ngIf="!isShowDelayHistoryActive; else historyBlock">
+  <!-- <p class="mb-2" [innerHtml]="messageDetails.modalBody"></p> -->
+  <div class="form-row form-group">
+    <div class="col-6 align-self-center">
+      <div class="custom-control custom-checkbox custom-control-inline">
+        <input type="checkbox" class="custom-control-input" id="sendsmscheck" name="sendsmscheck" type="checkbox"
+          [(ngModel)]="sendSmsConfirmation">
+        <label class="custom-control-label pointer" for="sendsmscheck">Send sms</label>
+      </div>
+    </div>
+    <div class="col-6">
+      <label for="delayMinutes">Select slot<sup>*</sup></label>
+      <select class="form-control form-control-sm pointer" [(ngModel)]="selectedSchedule" (change)="onSlotChange()">
+        <!-- <option value="">Select Schedule</option> -->
+        <option value="all">Select slot</option>
+        <option *ngFor="let item of scheduleTimeArray" [ngValue]="item">
+          {{item.startTime + ' - ' + ((item.endTime === '00:00'  || item.endTime === '12:00 AM') ?  'Mid Night' : item.endTime)}}</option>
+      </select>
+      <small *ngIf="!isSelectedScheduleValid" class="text-danger">Please select slot for delay</small>
+    </div>
+  </div>
+  <div class="form-row form-group">
+    <div class="col-6">
+      <label for="delayMinutes">Date<sup>*</sup></label>
+      <app-date-picker [min]="minDate" (dateChange)="onDateChange($event)" [inputDate]="startDate">
+      </app-date-picker>
+    </div>
+    <div class="col-6">
+      <label for="delayMinutes">Enter delay time in minutes<sup>*</sup></label>
+      <input class="form-control form-control-sm" type="number" placeholder="Minutes" appUpperCase
+        [(ngModel)]="delayMinutes" min="0">
+      <small class="text-danger" *ngIf="delayMinutes<=0">
+        Please Enter valid minutes!</small>
+    </div>
+  </div>
+  <div class="form-row form-group">
+    <div class="col-12">
+      <textarea class="form-control" rows="2" [(ngModel)]="confirmationMsg" placeholder="Please add remark...."></textarea>
+      <small *ngIf="messageText" class="text-danger">Please Add Message</small>
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1 justify-content-between px-2">
+  <button type="button" class="btn btn-sm mr-auto"
+    [ngClass]="{'btn-outline-primary': historyButton !== 'Back', 'btn-outline-secondary': historyButton === 'Back'}"
+    (click)="getDelayedHistoryForToday()">
+    <span><i
+        [ngClass]="{'icon fa-fw icon-history': historyButton !== 'Back', 'icon fa-fw icon-arrow': historyButton === 'Back'}"
+        aria-hidden="true"></i></span>
+    {{historyButton}}
+  </button>
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="dismissModel('cancle')">CANCEL</button>
+  <button *ngIf="!isShowDelayHistoryActive;" [disabled]="isCheckedIn || delayMinutes<=0 || !delayMinutes || selectedSchedule=='all'"
+    class="btn btn-sm btn-outline-primary" (click)="dismissModel('ok')">OK</button>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<ng-template #historyBlock>
+  <app-history-delay-notification [historyDate]="startDate" [historyData]="historyData" [timeFormateKey]="timeFormateKey">
+  </app-history-delay-notification>
+</ng-template>

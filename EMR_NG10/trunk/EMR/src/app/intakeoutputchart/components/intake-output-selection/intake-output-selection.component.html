@@ -1,0 +1,113 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">{{messageDetails.modalTitle}}, &nbsp; Time: {{reportRowData.intakeTime}}</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+        (click)="selectValueConfirm('cancel')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body p-2 selection-height">
+    <div class="card border-0 mb-3">
+        <div class="card-header py-1 border-dash-bottom">
+            <p class="mb-0 font-weight-500 font-size-dot-875">INTAKE</p>
+        </div>
+        <div class="card-body p-2">
+            <div class="form-row">
+                <div class="col-10">
+                    <div class="form-row form-group">
+                        <div class="col">
+                            <label for="intake">Intake IV Fluids Name</label>
+                            <app-iv-fluid-feed [disableFluidFeed]="false" [searchStringEdit]="" [loadType]="'fluid'"
+                                (selectedFluidFeedValueObj)="reportRowData.intakeIvFluidName = $event"
+                                [setValue]="reportRowData.intakeIvFluidName">
+                            </app-iv-fluid-feed>
+                        </div>
+                        <div class="col">
+                            <label for="intake">Intake IV Fluids Qty/ML</label>
+                            <input class="form-control form-control-sm" [(ngModel)]="reportRowData.intakeIvFluidQty"
+                                type="number">
+                        </div>
+                        <div class="col">
+                            <label for="intake">Intake RT Feeds Name</label>
+                            <app-iv-fluid-feed [disableFluidFeed]="false" [searchStringEdit]="" [loadType]="'feed'"
+                                (selectedFluidFeedValueObj)="reportRowData.intakeRtFeedName = $event"
+                                [setValue]="reportRowData.intakeRtFeedName">
+                            </app-iv-fluid-feed>
+                        </div>
+                        <div class="col">
+                            <label for="intake">Intake RT Feeds Qty/ML</label>
+                            <input class="form-control form-control-sm" [(ngModel)]="reportRowData.intakeRtFeedQty"
+                                type="number">
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <label class="total-txt" for="intake">Total Intake ml</label>
+                    <p class="mb-0 text-center py-1 font-weight-500"
+                        *ngIf="reportRowData.intakeIvFluidQty || reportRowData.intakeRtFeedQty">
+                        {{(reportRowData.intakeIvFluidQty ? reportRowData.intakeIvFluidQty: 0)
+                        + (reportRowData.intakeRtFeedQty ? reportRowData.intakeRtFeedQty : 0)}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card border-0 mb-3">
+        <div class="card-header py-1 border-dash-bottom">
+            <p class="mb-0 font-weight-500 font-size-dot-875">OUTPUT</p>
+        </div>
+        <div class="card-body p-2">
+            <div class="form-row">
+                <div class="col-10">
+                    <div class="form-row form-group">
+                        <div class="col">
+                            <label for="output">Output R. T. Aspiration ml</label>
+                            <input class="form-control form-control-sm" [(ngModel)]="reportRowData.outputRTQty"
+                                type="number">
+                        </div>
+                        <div class="col">
+                            <label for="output">Output Urine ml</label>
+                            <input class="form-control form-control-sm" [(ngModel)]="reportRowData.outputUrineQty"
+                                type="number">
+                        </div>
+                        <div class="col">
+                            <label for="output">Output Drains ml</label>
+                            <input class="form-control form-control-sm" [(ngModel)]="reportRowData.outputDrainQty"
+                                type="number">
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <label class="total-txt" for="output">Total Output ml</label>
+                    <p class="mb-0 text-center py-1 font-weight-500"
+                        *ngIf="reportRowData.outputRTQty || reportRowData.outputUrineQty || reportRowData.outputDrainQty">
+                        {{(reportRowData.outputRTQty ? reportRowData.outputRTQty : 0)
+                        + (reportRowData.outputUrineQty ? reportRowData.outputUrineQty: 0)
+                        + (reportRowData.outputDrainQty ? reportRowData.outputDrainQty : 0)}}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row form-group align-items-center font-weight-500 p-2">
+        <div class="col-10">
+            <p class="mb-0 text-right">Fluid Balance:</p>
+        </div>
+        <div class="col">
+            <p class="mb-0 text-center"
+                *ngIf="reportRowData.outputRTQty || reportRowData.intakeIvFluidQty || reportRowData.intakeRtFeedQty || reportRowData.outputUrineQty || reportRowData.outputDrainQty">
+                {{
+                (reportRowData.intakeIvFluidQty ? reportRowData.intakeIvFluidQty: 0) +
+                (reportRowData.intakeRtFeedQty ? reportRowData.intakeRtFeedQty : 0)
+                - ((reportRowData.outputRTQty ? reportRowData.outputRTQty : 0)
+                + (reportRowData.outputUrineQty ? reportRowData.outputUrineQty: 0)
+                + (reportRowData.outputDrainQty ? reportRowData.outputDrainQty : 0))}}
+            </p>
+        </div>
+    </div>
+</div>
+<div class="modal-footer p-2">
+    <button type="button" class="btn btn-sm btn-outline-success" (click)="selectValueConfirm('Ok');"><i
+            class="fas fa-fw fa-clipboard-check"></i>SELECT</button>
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="selectValueConfirm('cancel');">
+        CANCEL</button>
+</div>

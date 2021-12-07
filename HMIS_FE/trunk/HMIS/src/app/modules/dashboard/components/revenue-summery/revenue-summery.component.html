@@ -1,0 +1,110 @@
+<div class="card border-0 card-revenue-summary">
+  <div class="card-header border-bottom-0 p-0">
+      <div class="form-row align-items-center mx-0 pt-1">
+          <div class="col px-0">
+              <h6 class="font-size-dot-875 mb-0 pl-2">Revenue Summary</h6>
+          </div>
+          <div class="col px-0">
+              <!-- <div class="btn-group text-uppercase">
+                  <select class="form-control form-control-sm pointer"
+                      (change)="updateRevenueSummary(selectedSummary)" [(ngModel)]="selectedSummary">
+                      <option value="division_wise">Division Wise</option>
+                      <option value="department_wise">Department Wise</option>
+                      <option value="doctor_wise">Doctor Wise</option>
+                  </select>
+              </div> -->
+          </div>
+          <div class="col-switch px-0" title="Details">
+              <button class="btn btn-xs" (click)="showRevenueSummarySwitch()"
+                  [ngClass]="{'btn-outline-mbd': isRevenueSummarySwitch, 'btn-outline-primary': !isRevenueSummarySwitch}"><i
+                      class="icon fa-fw icon-eye" aria-hidden="true"></i> <span
+                      [ngClass]="{'d-inline': isRevenueSummarySwitch, 'd-none': !isRevenueSummarySwitch}">
+                      GRAPH</span>
+                  <span
+                      [ngClass]="{'d-none': isRevenueSummarySwitch, 'd-inline': !isRevenueSummarySwitch}">
+                      TABLE</span>
+              </button>
+          </div>
+      </div>
+      <p class="mb-0 text-muted small pl-2 hidden">Data reflected from 01/04/2021 to 08/04/2021</p>
+  </div>
+  <div class="card-body p-2">
+      <div class="table-scroll postion-relative w-100 m-auto overflow-auto"
+          [ngClass]="{'d-block': isRevenueSummarySwitch, 'd-none': !isRevenueSummarySwitch}">
+          <table class="table custom-table mb-0 font-size-dot-8">
+              <thead>
+                  <tr>
+                      <th colspan="3" class="text-right">Total</th>
+                  </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let item of revDataArray.data">
+                  <tr class="header pointer" (click)="item.isExpanded = !item.isExpanded" [ngClass]="{'active': item.isExpanded}">
+                    <td>{{item.itemName}}</td>
+                    <td class="text-right" colspan="2"><span class="small-rupee">{{item.totalVal | number:'1.2-2'}}</span>
+                    </td>
+                </tr>
+                <tr class="more" [ngClass]="{'active': item.isExpanded, ' ': !item.isExpanded}">
+                  <td>
+                      <p class="mb-0 small-rupee">{{item.opVal | number:'1.2-2'}}</p>
+                      <p class="mb-0 text-muted">OP</p>
+                  </td>
+                  <td class="text-center">
+                      <p class="mb-0 small-rupee">{{item.ipVal | number:'1.2-2'}}</p>
+                      <p class="mb-0 text-muted">IP</p>
+                  </td>
+                  <td class="text-right">
+                      <p class="mb-0 small-rupee">{{item.otherVal | number:'1.2-2'}}</p>
+                      <p class="mb-0 text-muted">Other</p>
+                  </td>
+              </tr>
+                </ng-container>
+              </tbody>
+              <tfoot>
+                  <tr>
+                      <td>Total</td>
+                      <td colspan="2" class="text-right"><span class="small-rupee">{{revDataArray.total | number:'1.2-2'}}</span>
+                      </td>
+                  </tr>
+              </tfoot>
+          </table>
+      </div>
+      <div class="" [ngStyle]="{'width': getWidth()}">
+        <ng-container *ngIf="!isRevenueSummarySwitch && loadChart">
+          <dx-chart
+            id="chart"
+            title=""
+            [dataSource]="graphData">
+            <dxi-series valueField="opVal" name="OP" color="#7d8bd8"></dxi-series>
+            <dxi-series valueField="ipVal" name="IP" color="#97da97"></dxi-series>
+            <dxi-series valueField="otherVal" name="Other" color="#facb86"></dxi-series>
+            <dxi-value-axis position="right">
+                <!-- <dxo-title text="millions"></dxo-title> -->
+            </dxi-value-axis>
+            <dxo-common-series-settings
+                argumentField="name"
+                type="bar"
+                hoverMode="allArgumentPoints"
+                selectionMode="allArgumentPoints">
+                <!-- <dxo-label [visible]="true" backgroundColor="transparent"></dxo-label> -->
+            </dxo-common-series-settings>
+            <dxo-legend
+                verticalAlignment="bottom"
+                horizontalAlignment="center"
+                itemTextPosition="top">
+            </dxo-legend>
+            <dxo-export [enabled]="false"></dxo-export>
+            <!-- <dxo-tooltip
+                [enabled]="true"
+                location="edge"
+                [customizeTooltip]="customizeTooltip">
+            </dxo-tooltip> -->
+        </dx-chart>
+        </ng-container>
+      </div>
+
+
+      <!-- <img class="img-fluid" src="./assets/img/admin-dashboard/revenue-summary-division-graph.png"
+          [ngClass]="{'d-none': isRevenueSummarySwitch, 'd-block': !isRevenueSummarySwitch}" /> -->
+  </div>
+</div>

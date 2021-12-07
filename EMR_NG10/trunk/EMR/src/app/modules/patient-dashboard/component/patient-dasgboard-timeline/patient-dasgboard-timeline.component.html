@@ -1,0 +1,709 @@
+<div class="card top-card">
+    <div class="card-header cus-head border-dash-bottom px-2 py-1">
+        <div class="form-row align-items-center mx-0">
+            <div class="col-8">
+                <h6 class="m-0">Charts</h6>
+            </div>
+            <div class="col-4 text-right px-0">
+                <button class="btn btn-white btn-xs" type="button" (click)="openFIlter()">
+                    <i class="icon fa-fw icon-extend" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body overflow-auto p-0">
+        <ng-container *ngFor="let item of dashboardDataList">
+            <ng-container *ngIf="item.sectionType === 'allergyDetail'">
+                <ng-container *ngFor="let data of item.data">
+                    <div class="bg-light py-1 border-dash-bottom">
+                        <p class="mb-0 font-size-dot-8 pl-1 font-weight-500">{{data.sectionName}}</p>
+                    </div>
+                    <ng-container *ngFor="let sectionData of data.sectionData">
+                        <div class="form-row mx-0 align-items-center border-bottom">
+                            <div class="col-2">
+                                <p class="mb-0 font-size-dot-8 pr-1">{{sectionData.date | date: "dd-MM-yyyy"}}</p>
+                            </div>
+                            <div class="col-10 border-left">
+                                <ul class="list-unstyled mb-0">
+                                    <li *ngFor="let ad of sectionData.data">
+                                        <span class="tag-list">
+                                            {{ ad.allergy_type}}
+                                            <span *ngIf="ad.medicine_name">{{ad.medicine_name}}</span>
+                                        <span *ngIf="ad.remarks">({{ad.remarks}})</span>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="item.sectionType === 'complaintDetail'">
+                <ng-container *ngFor="let data of item.data">
+                    <div class="bg-light py-1 border-dash-bottom">
+                        <p class="mb-0 font-size-dot-8 pl-1 font-weight-500">{{data.sectionName}}</p>
+                    </div>
+                    <ng-container *ngFor="let sectionData of data.sectionData">
+                        <div class="form-row mx-0 align-items-center border-bottom">
+                            <div class="col-2">
+                                <p class="mb-0 font-size-dot-8 pr-1">{{sectionData.date | date: "dd-MM-yyyy"}}</p>
+                            </div>
+                            <div class="col-10 border-left">
+                                <ul class="list-unstyled mb-0">
+                                    <li *ngFor="let com of sectionData.data">
+                                        <span class="tag-list">
+                                            {{com.complaint_name}}
+                                            <span *ngIf="com.year">{{com.year}} Year</span>
+                                        <span *ngIf="com.month">{{com.month}} Month</span>
+                                        <span *ngIf="com.year">{{com.day}} Day</span>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="item.sectionType === 'examinationDetail'">
+                <ng-container *ngFor="let data of item.data">
+                    <div class="bg-light py-1 border-dash-bottom">
+                        <p class="mb-0 font-size-dot-8 pl-1 font-weight-500">{{data.sectionName}}</p>
+                    </div>
+                    <ng-container *ngFor="let sectionData of data.sectionData">
+                        <div class="form-row mx-0 align-items-center border-bottom">
+                            <div class="col-2">
+                                <p class="mb-0 font-size-dot-8 pr-1">{{sectionData.date | date: "dd-MM-yyyy"}}</p>
+                            </div>
+                            <div class="col-10 border-left">
+                                <ul class="list-unstyled mb-0">
+                                    <li *ngFor="let exm of sectionData.data">
+                                        <span class="tag-list" [innerHTML]="exm.examination_text"></span>
+                                        <span *ngIf="exm.severity"> ({{exm.severity}})</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="item.sectionType === 'customTemplateDetail_template_summary'">
+                <ng-container *ngFor="let data of item.data">
+                    <div class="bg-light py-1 border-dash-bottom">
+                        <p class="mb-0 font-size-dot-8 pl-1 font-weight-500">{{data.sectionName}}</p>
+                    </div>
+                    <ng-container *ngFor="let sectionData of data.sectionData">
+                        <div class="form-row mx-0 align-items-center border-bottom">
+                            <div class="col-2">
+                                <p class="mb-0 font-size-dot-8 pr-1">{{sectionData.date | date: "dd-MM-yyyy"}}</p>
+                            </div>
+                            <div class="col-10 border-left">
+                                <p class="mb-0 font-size-dot-8" *ngFor="let t of sectionData.data | generateCustomTemplateSummery: patientObj?.patientData?.name">
+                                    <span [innerHTML]="t.value"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="item.sectionType === 'customTemplateDetail_tabular_summary'">
+                <ng-container *ngFor="let data of item.data">
+                    <div class="bg-light py-1 border-dash-bottom">
+                        <p class="mb-0 font-size-dot-8 pl-1 font-weight-500">{{data.sectionName}}</p>
+                    </div>
+                    <ng-container *ngFor="let sectionData of data.sectionData">
+                        <div class="form-row mx-0 align-items-center border-bottom">
+                            <div class="col-2">
+                                <p class="mb-0 font-size-dot-8 pr-1">{{sectionData.date | date: "dd-MM-yyyy"}}</p>
+                            </div>
+                            <div class="col-10 border-left font-size-dot-8">
+                                <div *ngFor="let tabularSumm of sectionData.data">
+                                    <h6 class="m-2">{{tabularSumm.form_summary_heading}}</h6>
+                                    <ng-container *ngFor="let tab of tabularSumm.table_data">
+                                        <table class="table custom-table">
+                                            <thead class="w-100">
+                                                <tr>
+                                                    <th *ngIf="tab.question_heading!='hide'" [ngStyle]="{'width.%': (100 / (tab.table_head.length+1)) }">
+                                                        {{tab.question_heading}}
+                                                    </th>
+                                                    <th [ngStyle]="{'width.%': (100 / (tab.table_head.length+1)) }" *ngFor="let answerHeading of tab.table_head">
+                                                        <span [innerHTML]="answerHeading.ans_group_heading"></span>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let question of tab.que_list; let questionIndex = index;">
+                                                    <td class="first-td" *ngIf="tab.question_heading!='hide'">
+                                                        {{question.question_text}}
+                                                    </td>
+                                                    <td [ngStyle]="{'width.%': (100 / (tab.table_head.length+1)) }" *ngFor="let answerHeading of tab.table_head | orderBy : 'id':false">
+                                                        <div *ngFor="let answer of question.answer_list | filterArray:'ans_group_key':answerHeading.ans_group_key; let answerIndex = index;" class="col-xs-12 p-0">
+                                                            {{answer.answer_text}}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="item.sectionType === 'adviceDetail'">
+                <ng-container *ngFor="let data of item.data">
+                    <div class="bg-light py-1 border-dash-bottom">
+                        <p class="mb-0 font-size-dot-8 pl-1 font-weight-500">{{data.sectionName}}</p>
+                    </div>
+                    <ng-container *ngFor="let sectionData of data.sectionData">
+                        <div class="form-row mx-0 align-items-center border-bottom">
+                            <div class="col-2">
+                                <p class="mb-0 font-size-dot-8 pr-1">{{sectionData.date | date: "dd-MM-yyyy"}}</p>
+                            </div>
+                            <div class="col-10 border-left">
+                                <ul class="list-unstyled mb-0">
+                                    <li *ngFor="let adv of sectionData.data">
+                                        <span class="tag-list">{{adv.advice}} </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="item.sectionType === 'prescriptionDetail'">
+                <ng-container *ngFor="let data of item.data">
+                    <div class="bg-light py-1 border-dash-bottom">
+                        <p class="mb-0 font-size-dot-8 pl-1 font-weight-500">{{data.sectionName}}</p>
+                    </div>
+                    <ng-container *ngFor="let sectionData of data.sectionData">
+                        <div class="form-row mx-0 align-items-center border-bottom">
+                            <div class="col-2">
+                                <p class="mb-0 font-size-dot-8 pr-1">{{sectionData.date | date: "dd-MM-yyyy"}}</p>
+                            </div>
+                            <div class="col-9 border-left border-right">
+                                <ul class="list-unstyled mb-0">
+                                    <li *ngFor="let med of sectionData.data">
+                                        <span class="tag-list">
+                                            {{med.type.name+' '+med.medicine.medicine_name}}
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-1">
+                               <button type="button" title="Copy Prescription" class="btn btn-outline-info btn-sm" (click)="copyPrescription(sectionData.data)"><i class="fa fa-copy"></i></button>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="item.sectionType === 'vitalsDetail'">
+                <ng-container *ngFor="let data of item.data">
+                    <div class="bg-light py-1 border-dash-bottom">
+                        <p class="mb-0 font-size-dot-8 pl-1 font-weight-500">{{data.sectionName}}</p>
+                    </div>
+                    <ng-container *ngFor="let sectionData of data.sectionData">
+                        <div class="form-row mx-0 align-items-center border-bottom">
+                            <div class="col-2">
+                                <p class="mb-0 font-size-dot-8 pr-1">{{sectionData.date | date: "dd-MM-yyyy"}}</p>
+                            </div>
+                            <div class="col-10 border-left">
+                                <table class="table custom-table mb-0 vital-table">
+                                    <tbody>
+                                        <tr>
+                                            <td class="border-top-0" align="center" *ngFor="let vtl of sectionData.data">
+                                                <p class="mb-1 font-size-dot-8 font-weight-500">{{vtl.vital_text}} <span *ngIf="vtl.clubbedVital">/{{vtl.clubbedVital.vital_text}}</span>
+                                                </p>
+                                                <p class="m-0 font-size-dot-8 line-height-1">{{vtl.vital_name}} <span *ngIf="vtl.clubbedVital">/{{vtl.clubbedVital.vital_name}}</span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="item.sectionType === 'investigationDetail'">
+                <ng-container *ngFor="let data of item.data">
+                    <div class="bg-light py-1 border-dash-bottom">
+                        <p class="mb-0 font-size-dot-8 pl-1 font-weight-500">{{data.sectionName}}</p>
+                    </div>
+                    <ng-container *ngFor="let sectionData of data.sectionData">
+                        <div class="form-row mx-0 align-items-center border-bottom">
+                            <div class="col-2">
+                                <p class="mb-0 font-size-dot-8 pr-1">{{sectionData.date | date: "dd-MM-yyyy"}}</p>
+                            </div>
+                            <div class="col-10 border-left">
+                                <ul class="list-unstyled mb-0">
+                                    <li *ngFor="let inv of sectionData.data">
+                                        <span class="tag-list"> {{inv.investigation}}
+                                            <span *ngIf="inv.comment">{{inv.comment}}</span>
+                                        <span *ngIf="inv.date">/Advised Date:{{inv.date}}</span>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="item.sectionType === 'diagnosisDetail'">
+                <ng-container *ngFor="let data of item.data">
+                    <div class="bg-light py-1 border-dash-bottom">
+                        <p class="mb-0 font-size-dot-8 pl-1 font-weight-500">{{data.sectionName}}</p>
+                    </div>
+                    <ng-container *ngFor="let sectionData of data.sectionData">
+                        <div class="form-row mx-0 align-items-center border-bottom">
+                            <div class="col-2">
+                                <p class="mb-0 font-size-dot-8 pr-1">{{sectionData.date | date: "dd-MM-yyyy"}}</p>
+                            </div>
+                            <div class="col-10 border-left">
+                                <ul class="list-unstyled mb-0">
+                                    <li *ngFor="let dig of sectionData.data">
+                                        <b *ngIf="dig.isPrimary" class="tag-list" [innerHtml]="dig.diagnosis || dig">
+                                            <span [innerHtml]="'(' + dig.remark + ')'"></span>
+                                        </b>
+                                        <span *ngIf="!dig.isPrimary" class="tag-list" [innerHtml]="dig.diagnosis || dig">
+                                          <span *ngIf="dig.remark" [innerHtml]="'(' + dig.remark + ')'"></span>
+                                      </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="item.sectionType === 'painScale'">
+                <ng-container *ngFor="let data of item.data">
+                    <div class="bg-light py-1 border-dash-bottom">
+                        <p class="mb-0 font-size-dot-8 pl-1 font-weight-500">{{data.sectionName}}</p>
+                    </div>
+                    <ng-container *ngFor="let sectionData of data.sectionData">
+                        <div class="form-row mx-0 align-items-center border-bottom">
+                            <div class="col-2">
+                                <p class="mb-0 font-size-dot-8 pr-1">{{sectionData.date | date: "dd-MM-yyyy"}}</p>
+                            </div>
+                            <div class="col-10 border-left">
+                                <ul class="list-unstyled mb-0">
+                                    <li *ngFor="let pain of sectionData.data">
+                                        <span class="tag-list"> {{pain.patient_pain_scale}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="item.sectionType === 'reliefScale'">
+                <ng-container *ngFor="let data of item.data">
+                    <div class="bg-light py-1 border-dash-bottom">
+                        <p class="mb-0 font-size-dot-8 pl-1 font-weight-500">{{data.sectionName}}</p>
+                    </div>
+                    <ng-container *ngFor="let sectionData of data.sectionData">
+                        <div class="form-row mx-0 align-items-center border-bottom">
+                            <div class="col-2">
+                                <p class="mb-0 font-size-dot-8 pr-1">{{sectionData.date | date: "dd-MM-yyyy"}}</p>
+                            </div>
+                            <div class="col-10 border-left">
+                                <ul class="list-unstyled mb-0">
+                                    <li *ngFor="let rlf of sectionData.data">
+                                        <span class="tag-list"> {{rlf.patient_relief_scale}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="item.sectionType === 'painFootDetails'">
+                <ng-container *ngFor="let data of item.data">
+                    <div class="bg-light py-1 border-dash-bottom">
+                        <p class="mb-0 font-size-dot-8 pl-1 font-weight-500">{{data.sectionName}}</p>
+                    </div>
+                    <ng-container *ngFor="let sectionData of data.sectionData">
+                        <div class="form-row mx-0 align-items-center border-bottom">
+                            <div class="col-2">
+                                <p class="mb-0 font-size-dot-8 pr-1">{{sectionData.date | date: "dd-MM-yyyy"}}</p>
+                            </div>
+                            <div class="col-10 border-left">
+                                <table class="table custom-table font-size-dot-875 mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="w-10 p-0">
+                                                <div class="form-row all-human-body-svg">
+                                                    <div class="col-12">
+                                                        <app-foot-examination [footExaminationDataInputs]="sectionData.data" [componentInfo]="{activeIdsOfPanels: ['foot_examination']}" [source]="'history'">
+                                                        </app-foot-examination>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="left w-50 text-left">
+                                                <span *ngFor="let dt of sectionData.data;let last = last">
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li
+                                                            *ngIf="dt.pain_score == 'Absent' || dt.pain_score == 'Normal' || dt.pain_score == 'Reduced'">
+                                                            <span class="tag-list"><strong>Score
+                                                                    {{dt.pain_score}} - </strong>
+                                                                <span
+                                                                    *ngIf="dt.pain_score == 'Absent' || dt.pain_score == 'Normal' || dt.pain_score == 'Reduced'">{{dt.body_part.split('_').join('
+                                                                    ')}}<span *ngIf="!last">,</span></span>
+                                                </span>
+                                                </li>
+                                                </ul>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="item.sectionType === 'painBodyDetails'">
+                <ng-container *ngFor="let data of item.data">
+                    <div class="bg-light py-1 border-dash-bottom">
+                        <p class="mb-0 font-size-dot-8 pl-1 font-weight-500">{{data.sectionName}}</p>
+                    </div>
+                    <ng-container *ngFor="let sectionData of data.sectionData">
+                        <div class="form-row mx-0 align-items-center border-bottom">
+                            <div class="col-2">
+                                <p class="mb-0 font-size-dot-8 pr-1">{{sectionData.date | date: "dd-MM-yyyy"}}</p>
+                            </div>
+                            <div class="col-10 border-left">
+                                <table class="table custom-table font-size-dot-875 mb-0" *ngIf="isSvgExist(sectionData.data, 'headFlag','humanBody')">
+                                    <tbody>
+                                        <tr>
+                                            <td class="w-10 p-0">
+                                                <div class="form-row all-human-body-svg">
+                                                    <div class="col-12">
+                                                        <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                                            <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'13'" [svg_name]="'headFlag'" [dummyData]='sectionData.data'>
+                                                            </app-svg-map-print>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="left w-50 text-left">
+                                                <span *ngFor="let dt of sectionData.data;let last = last">
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li
+                                                            *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                                            <span class="tag-list"><strong>Score {{dt.pain_score}} - </strong> {{ dt.body_part | bodyPainScorePipe }}<span *ngIf="!last">,</span>
+                                                </span>
+                                                </li>
+                                                </ul>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table custom-table font-size-dot-875 mb-0" *ngIf="isSvgExist(sectionData.data,'headzoomFlag','humanBody')">
+                                    <tbody>
+                                        <tr>
+                                            <td class="w-10 p-0">
+                                                <div class="form-row all-human-body-svg">
+                                                    <div class="col-12">
+                                                        <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                                            <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'13_x'" [svg_name]="'headzoomFlag'" [dummyData]='sectionData.data'>
+                                                            </app-svg-map-print>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="left w-50 text-left">
+                                                <span *ngFor="let dt of sectionData.data;let last = last">
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li
+                                                            *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                                            <span class="tag-list"><strong>Score
+                                                                    {{dt.pain_score}} - </strong>
+                                                                {{ dt.body_part | bodyPainScorePipe }}<span
+                                                                    *ngIf="!last">,</span>
+                                                </span>
+                                                </li>
+                                                </ul>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table custom-table font-size-dot-875 mb-0" *ngIf="isSvgExist(sectionData.data,'svgFrontFlag','humanBody')">
+                                    <tbody>
+                                        <tr>
+                                            <td class="w-10 p-0">
+                                                <div class="form-row all-human-body-svg">
+                                                    <div class="col-12">
+                                                        <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                                            <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'11'" [svg_name]="'svgFrontFlag'" [dummyData]='sectionData.data'>
+                                                            </app-svg-map-print>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="left w-50 text-left">
+                                                <span *ngFor="let dt of sectionData.data;let last = last">
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li
+                                                            *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                                            <span class="tag-list"><strong>Score
+                                                                    {{dt.pain_score}} - </strong>
+                                                                {{ dt.body_part | bodyPainScorePipe }}<span
+                                                                    *ngIf="!last">,</span>
+                                                </span>
+                                                </li>
+                                                </ul>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table custom-table font-size-dot-875 mb-0" *ngIf="isSvgExist(sectionData.data,'FrontzoomFlag','humanBody')">
+                                    <tbody>
+                                        <tr>
+                                            <td class="w-10 p-0">
+                                                <div class="form-row all-human-body-svg">
+                                                    <div class="col-12">
+                                                        <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                                            <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'11_x'" [svg_name]="'FrontzoomFlag'" [dummyData]='sectionData.data'>
+                                                            </app-svg-map-print>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="left w-50 text-left">
+                                                <span *ngFor="let dt of sectionData.data;let last = last">
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li
+                                                            *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                                            <span class="tag-list"><strong>Score
+                                                                    {{dt.pain_score}} - </strong>
+                                                                {{ dt.body_part | bodyPainScorePipe }}<span
+                                                                    *ngIf="!last">,</span>
+                                                </span>
+                                                </li>
+                                                </ul>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table custom-table font-size-dot-875 mb-0" *ngIf="isSvgExist(sectionData.data,'svgBackFlag','humanBody')">
+                                    <tbody>
+                                        <tr>
+                                            <td class="w-10 p-0">
+                                                <div class="form-row all-human-body-svg">
+                                                    <div class="col-12">
+                                                        <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                                            <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'12'" [svg_name]="'svgBackFlag'" [dummyData]='sectionData.data'>
+                                                            </app-svg-map-print>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="left w-50 text-left">
+                                                <span *ngFor="let dt of sectionData.data;let last = last">
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li
+                                                            *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                                            <span class="tag-list"><strong>Score
+                                                                    {{dt.pain_score}} - </strong>
+                                                                {{ dt.body_part | bodyPainScorePipe }}<span
+                                                                    *ngIf="!last">,</span>
+                                                </span>
+                                                </li>
+                                                </ul>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table custom-table font-size-dot-875 mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="w-10 p-0" *ngIf="isSvgExist(sectionData.data,'BackzoomFlag','humanBody')">
+                                                <div class="form-row all-human-body-svg">
+                                                    <div class="col-12">
+                                                        <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                                            <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'12_x'" [svg_name]="'BackzoomFlag'" [dummyData]='sectionData.data'>
+                                                            </app-svg-map-print>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="left w-50 text-left">
+                                                <span *ngFor="let dt of sectionData.data;let last = last">
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li
+                                                            *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                                            <span class="tag-list"><strong>Score
+                                                                    {{dt.pain_score}} - </strong>
+                                                                {{ dt.body_part | bodyPainScorePipe }}<span
+                                                                    *ngIf="!last">,</span>
+                                                </span>
+                                                </li>
+                                                </ul>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table custom-table font-size-dot-875 mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="w-10 p-0" *ngIf="isSvgExist(sectionData.data,'rightFlag','humanBody')">
+                                                <div class="form-row all-human-body-svg">
+                                                    <div class="col-12">
+                                                        <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                                            <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'15'" [svg_name]="'rightFlag'" [dummyData]='sectionData.data'>
+                                                            </app-svg-map-print>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="left w-50 text-left">
+                                                <span *ngFor="let dt of sectionData.data;let last = last">
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li
+                                                            *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                                            <span class="tag-list"><strong>Score
+                                                                    {{dt.pain_score}} - </strong>
+                                                                {{ dt.body_part | bodyPainScorePipe }}<span
+                                                                    *ngIf="!last">,</span>
+                                                </span>
+                                                </li>
+                                                </ul>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table custom-table font-size-dot-875 mb-0" *ngIf="isSvgExist(sectionData.data,'rightzoomFlag','humanBody')">
+                                    <tbody>
+                                        <tr>
+                                            <td class="w-10 p-0">
+                                                <div class="form-row all-human-body-svg">
+                                                    <div class="col-12">
+                                                        <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                                            <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'15_x'" [svg_name]="'rightzoomFlag'" [dummyData]='sectionData.data'>
+                                                            </app-svg-map-print>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="left w-50 text-left">
+                                                <span *ngFor="let dt of sectionData.data;let last = last">
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li
+                                                            *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                                            <span class="tag-list"><strong>Score
+                                                                    {{dt.pain_score}} - </strong>
+                                                                {{ dt.body_part | bodyPainScorePipe }}<span
+                                                                    *ngIf="!last">,</span>
+                                                </span>
+                                                </li>
+                                                </ul>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table custom-table font-size-dot-875 mb-0" *ngIf="isSvgExist(sectionData.data,'leftFlag','humanBody')">
+                                    <tbody>
+                                        <tr>
+                                            <td class="w-10 p-0">
+                                                <div class="form-row all-human-body-svg">
+                                                    <div class="col-12">
+                                                        <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                                            <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'14'" [svg_name]="'leftFlag'" [dummyData]='sectionData.data'>
+                                                            </app-svg-map-print>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="left w-50 text-left">
+                                                <span *ngFor="let dt of sectionData.data;let last = last">
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li
+                                                            *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                                            <span class="tag-list"><strong>Score
+                                                                    {{dt.pain_score}} - </strong>
+                                                                {{ dt.body_part | bodyPainScorePipe }}<span
+                                                                    *ngIf="!last">,</span>
+                                                </span>
+                                                </li>
+                                                </ul>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="table custom-table font-size-dot-875 mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td class="w-10 p-0" *ngIf="isSvgExist(sectionData.data,'leftzoomFlag','humanBody')">
+                                                <div class="form-row all-human-body-svg">
+                                                    <div class="col-12">
+                                                        <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                                            <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'14_x'" [svg_name]="'leftzoomFlag'" [dummyData]='sectionData.data'>
+                                                            </app-svg-map-print>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="left w-50 text-left">
+                                                <span *ngFor="let dt of sectionData.data;let last = last">
+                                                    <ul class="list-unstyled mb-0">
+                                                        <li
+                                                            *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                                            <span class="tag-list"><strong>Score
+                                                                    {{dt.pain_score}} - </strong>
+                                                                {{ dt.body_part | bodyPainScorePipe }}<span
+                                                                    *ngIf="!last">,</span>
+                                                </span>
+                                                </li>
+                                                </ul>
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+            <ng-container *ngIf="item.sectionType === 'attachmentDetail' || item.sectionType === 'annotationDetail'">
+                <ng-container *ngFor="let data of item.data">
+                    <div class="bg-light py-1 border-dash-bottom">
+                        <p class="mb-0 font-size-dot-8 pl-1 font-weight-500">{{data.sectionName}}</p>
+                    </div>
+                    <ng-container *ngFor="let sectionData of data.sectionData">
+                        <div class="form-row mx-0 align-items-center border-bottom">
+                            <div class="col-2">
+                                <p class="mb-0 font-size-dot-8 pr-1">{{sectionData.date | date: "dd-MM-yyyy"}}</p>
+                            </div>
+                            <div class="col-10 border-left">
+                                <ul class="list-unstyled mb-0">
+                                    <li *ngFor="let atch of sectionData.data">
+                                        <ng-container *ngIf="getExtension(atch.file_name) === 'pdf' && item.sectionType === 'attachmentDetail' else otherAttachment">
+                                            <i class="fa fa-file-pdf"></i>
+                                            <p (click)="openFile(atch, 'pdf')">{{atch.file_name}}</p>
+                                        </ng-container>
+                                        <ng-template #otherAttachment>
+                                            <img src="{{fileServePath + atch.thumbnail_path}}">
+                                            <p (click)="openFile(atch, 'img')">{{atch.file_name}}</p>
+                                        </ng-template>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

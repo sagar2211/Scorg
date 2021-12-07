@@ -1,0 +1,26 @@
+@import "../../../../../scss/custom_bootstrap_theme.scss";
+
+:host ::ng-deep {
+  .ngx-datatable.fixed-row {
+    .datatable-body {
+      overflow-x: hidden !important;
+      .datatable-body-row {
+        .datatable-body-cell {
+          &:last-child {
+            padding: 2px;
+          }
+        }
+      }
+    }
+  }
+
+  .sec-master {
+    .custom-switch {
+      .custom-control-label {
+        &:after {
+          top: calc(0.1rem + 0px);
+        }
+      }
+    }
+  }
+}

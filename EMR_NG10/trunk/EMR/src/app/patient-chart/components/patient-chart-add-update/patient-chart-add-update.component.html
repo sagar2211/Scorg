@@ -1,0 +1,124 @@
+<div class="emr-container-fluid container-fluid px-0">
+    <div class="card-header py-1">
+        <form [formGroup]="patientChartForm" novalidate>
+            <div class="form-row form-group align-items-center">
+                <div class="col-2">
+                    <label for="">Chart Name <sup>*</sup></label>
+                    <input class="form-control form-control-sm" type="text" formControlName="chartName" [ngbTypeahead]="search" />
+                    <span class="error" *ngIf="submitted && patientChartForm.get('chartName').invalid">Required..</span>
+                </div>
+                <div class="col-2">
+                    <label>Chart Type: <sup>*</sup></label>
+                    <ng-select [items]="chartTypeList" bindLabel="label" autofocus bindValue="key" formControlName="chartType" placeholder="Chart Type">
+                    </ng-select>
+                    <span class="error" *ngIf="submitted && patientChartForm.get('chartType').invalid">Required..</span>
+                </div>
+                <div class="col-2">
+                    <label>Service Type: <sup>*</sup></label>
+                    <ng-select [items]="serviceType$ | async" bindLabel="name" autofocus bindValue="id" formControlName="serviceType" placeholder="Service Type" (change)="onServiceTypeChange($event)">
+                    </ng-select>
+                    <span class="error" *ngIf="submitted && patientChartForm.get('serviceType').invalid">Required..</span>
+                </div>
+                <div class="col-2">
+                    <label>Speciality:</label>
+                    <ng-select [items]="speciality$ | async" bindLabel="name" autofocus bindValue="id" formControlName="speciality" placeholder="Speciality" (change)="onSpecialityChange($event)">
+                    </ng-select>
+                </div>
+                <div class="col-2">
+                    <label>Role:</label>
+                    <ng-select [items]="roleList$ | async" bindLabel="roleType" autofocus bindValue="roleTypeId" formControlName="role" placeholder="Role" (change)="onRoleChange($event)">
+                    </ng-select>
+                </div>
+                <div class="col-2">
+                    <label>User: </label>
+                    <ng-select [items]="doctorList$ | async" bindLabel="user_name" [loading]="doctorLoading" autofocus bindValue="user_id" formControlName="doctor" placeholder="User" [typeahead]="docListInput$">
+                    </ng-select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-body patient-chart-body p-2">
+        <div class="form-row">
+            <div [formGroup]="patientChartForm" class="col-6">
+                <p class="mb-0 font-size-dot-875 font-weight-500">Component List</p>
+                <select name="selectedSectionTyped" class="form-control form-control-sm pointer" formControlName="selectedSectionType">
+          <option value="">All Components</option>
+          <option value="CONSULTATION_SECTION">Fixed Component</option>
+          <option value="EXAMINATION_HEADS">Examination Heads</option>
+          <option value="CUSTOM_TEMPLATES">Custom Templates</option>
+          <option value="SCORE_TEMPLATES">Score Templates</option>
+        </select>
+            </div>
+            <div class="col-6">
+                <p class="mb-0 font-size-dot-875 font-weight-500">Selected Components</p>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-6">
+                <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="sourceComponentList" [cdkDropListConnectedTo]="[doneList]" class="example-list border first" (cdkDropListDropped)="drop($event)">
+                    <div class="example-box" *ngFor="let item of sourceComponentList" cdkDrag>
+                        <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                        <span placement="right" [ngbTooltip]="popSourceContent" tooltipClass="custom-class">{{item.section_name}}</span>
+                        <ng-template #popSourceContent>
+                            <div class="text-left custom-tooltip">
+                                <p class="mb-0 font-size-dot-8"><span class="small">Section Type : </span>
+                                    <span *ngIf="item.section_type === 'CONSULTATION_SECTION'">Fixed Component</span>
+                                    <span *ngIf="item.section_type === 'EXAMINATION_HEADS'">Examination Heads</span>
+                                    <span *ngIf="item.section_type === 'CUSTOM_TEMPLATES'">Custom Templates</span>
+                                    <span *ngIf="item.section_type === 'SCORE_TEMPLATES'">Score Templates</span>
+                                </p>
+                                <p class="mb-0 font-size-dot-8" *ngIf="item.section_type === 'CONSULTATION_SECTION'">
+                                    <span class="small">Component Type : </span>{{getComponentName(item.component)}}
+                                </p>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="destinationComponentList" [cdkDropListConnectedTo]="[todoList]" class="example-list border" (cdkDropListDropped)="drop($event)">
+                    <div class="form-row mx-0 example-box" contenteditable="true" *ngFor="let item of destinationComponentList" cdkDrag>
+                        <div class="col-9">
+                            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                            <span *ngIf="!item.isShowInput">{{item.section_name}} </span>
+                            <div class="input-group" *ngIf="item.isShowInput">
+                                <input type="text" class="form-control form-control-sm" type="text" name="{{item.section_name}}" [(ngModel)]="item.section_name">
+                                <div class="input-group-append">
+                                    <button class="btn btn-sm btn-outline-primary" type="button" (click)="updateSectionName(item)"><i
+                      class="icon fa-fw icon-check" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3 text-right">
+                            <button type="button" class="btn btn-sm btn-outline-secondary mr-1" placement="left" [ngbTooltip]="popDestinationContent" tooltipClass="custom-class">
+                <i class="icon fa-fw icon-info" aria-hidden="true"></i>
+              </button>
+                            <ng-template #popDestinationContent>
+                                <div class="text-left custom-tooltip">
+                                    <p class="mb-0 font-size-dot-8"><span class="small">Section Type : </span>
+                                        <span *ngIf="item.section_type === 'CONSULTATION_SECTION'">Fixed Component</span>
+                                        <span *ngIf="item.section_type === 'EXAMINATION_HEADS'">Examination Heads</span>
+                                        <span *ngIf="item.section_type === 'CUSTOM_TEMPLATES'">Custom Templates</span>
+                                        <span *ngIf="item.section_type === 'SCORE_TEMPLATES'">Score Templates</span>
+                                    </p>
+                                    <p class="mb-0 font-size-dot-8" *ngIf="item.section_type === 'CONSULTATION_SECTION'">
+                                        <span class="small">Component Type : </span> {{getComponentName(item.component)}}
+                                    </p>
+                                </div>
+                            </ng-template>
+                            <button type="button" class="btn btn-sm btn-outline-info mr-1" *ngIf="!item.isShowInput" (click)="updateSectionName(item)"><i class="icon fa-fw icon-edit" aria-hidden="true"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-primary-light mr-1" *ngIf="item.is_allow_copy" (click)="copyComponent(item)"><i class="icon fa-fw icon-copy" aria-hidden="true"></i></button>
+                            <button type="button" class="btn btn-sm btn-outline-danger" (click)="deleteComponent(item)"><i
+                  class="icon fa-fw icon-trash" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer py-1 text-right">
+        <button (click)="saveForm()" class="btn btn-primary btn-sm" type="submit" [disabled]="isSaveDisabled"><i
+        class="icon fa-fw icon-save" aria-hidden="true"></i> SAVE CHART</button>
+    </div>
+    <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</div>

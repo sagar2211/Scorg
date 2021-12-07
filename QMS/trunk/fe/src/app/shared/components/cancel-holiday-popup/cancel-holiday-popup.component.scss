@@ -1,0 +1,17 @@
+.modal-body {
+  height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.line-height-2 {
+  line-height: 2;
+}
+
+:host ::ng-deep {
+  .ngx-datatable.fixed-row {
+    .datatable-body {
+      height: calc(100vh - 289px) !important;
+      overflow-x: hidden !important;
+    }
+  }
+}

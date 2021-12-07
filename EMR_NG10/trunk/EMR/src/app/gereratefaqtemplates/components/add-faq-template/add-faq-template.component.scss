@@ -1,0 +1,112 @@
+@import "./../../../../scss/main";
+
+.custom-switch {
+  padding-left: 0 !important;
+
+  &.yes-no-btn {
+
+    .custom-control-input {
+      &:checked {
+        .custom-control-label {
+          &::after {
+            -webkit-transform: translateX(2.56rem) !important;
+            -moz-transform: translateX(2.56rem) !important;
+            -ms-transform: translateX(2.56rem) !important;
+            transform: translateX(2.56rem) !important;
+          }
+        }
+      }
+    }
+
+    .custom-control-label {
+      &:before {
+        width: 65px;
+        @include border-radius(50px);
+      }
+
+      &.active {
+        &::after {
+          -webkit-transform: translateX(2.56rem) !important;
+          -moz-transform: translateX(2.56rem) !important;
+          -ms-transform: translateX(2.56rem) !important;
+          transform: translateX(2.56rem) !important;
+        }
+      }
+    }
+
+    span {
+      left: 40px;
+    }
+  }
+
+  .custom-control-input {
+    &:checked {
+      .custom-control-label {
+        &:before {
+          background-color: $green-100 !important;
+          border-color: $green-100 !important;
+        }
+
+        &::after {
+          -webkit-transform: translateX(3.8rem) !important;
+          -moz-transform: translateX(3.8rem) !important;
+          -ms-transform: translateX(3.8rem) !important;
+          transform: translateX(3.8rem) !important;
+        }
+      }
+    }
+  }
+
+  .custom-control-label {
+    &:before {
+      width: 85px;
+      height: 24px !important;
+      top: 0;
+      left: 0;
+      @include border-radius(20px);
+      background-color: $gray-500 !important;
+      border-color: $gray-500 !important;
+    }
+
+    &::after {
+      background-color: $white !important;
+      top: calc(0.14rem + 0px);
+      // left: calc(-1.95rem + 2px);
+      left: 2px;
+      width: calc(1.5rem - 4px);
+      height: calc(1.5rem - 4px);
+      @include border-radius(50%);
+      z-index: 0;
+    }
+
+    &.active {
+      &:before {
+        background-color: $green-100 !important;
+        border-color: $green-100 !important;
+      }
+
+      &::after {
+        -webkit-transform: translateX(3.8rem) !important;
+        -moz-transform: translateX(3.8rem) !important;
+        -ms-transform: translateX(3.8rem) !important;
+        transform: translateX(3.8rem) !important;
+      }
+    }
+  }
+
+  span {
+    position: absolute !important;
+    top: 4px;
+    left: 29px;
+    font-size: 0.7rem !important;
+    font-weight: 500 !important;
+    color: $gray-750 !important;
+    pointer-events: none !important;
+    @include no-select;
+
+    &.active {
+      left: 10px;
+      color: $white !important;
+    }
+  }
+}

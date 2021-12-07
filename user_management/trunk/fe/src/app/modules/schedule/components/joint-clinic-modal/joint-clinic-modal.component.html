@@ -1,0 +1,29 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase" id="modal-basic-title">{{mode === 'NEW' ? 'Add' : 'Update'}} Joint Clinic</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="jointClinicForm">
+  <div class="modal-body">
+    <div class=container-fluid>
+      <div class=row>
+        <div class="col-12 form-group">
+          <label>Joint Clinic Name <sup>*</sup></label>
+          <input type="text" class="form-control form-control-sm" formControlName="jointClinicName" (blur)="checkJointClinicNameExist(jointClinicForm.value.jointClinicName)">
+        </div>
+        <div class="col-12 form-group">
+          <label>Doctors List<sup>*</sup></label>
+          <ng-select [items]="doctorList" [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="name" placeholder="Select Doctor" formControlName="selectedDoctors">
+          </ng-select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer py-1">
+    <button [disabled]="!jointClinicForm.valid" type="button" class="btn btn-sm btn-outline-primary" (click)="modal.close({data: jointClinicForm.value, mode: mode})"><i class="icon fa-fw icon-save" aria-hidden="true"></i>
+      Save</button>
+    <!-- <button type="button" class="btn btn-outline-dark" (click)="modal.close('close')">Close</button> -->
+  </div>
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</form>

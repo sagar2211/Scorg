@@ -1,0 +1,64 @@
+<div *ngFor="let sTemlate of templateList;">
+  <div *ngIf="sTemlate.templatecalcvalue">
+    <h6 *ngIf="!source"> Summary of {{sTemlate.template_name}}</h6>
+    <div class="summary-table">
+      <table class="table border-bottom custom-table font-size-dot-8 mb-0">
+        <tbody>
+          <tr *ngFor="let questionObject of sTemlate.question_list;let $index = index;">
+            <td width="10%" align="center" class="border-left">
+              <p class="mb-0">{{$index + 1}}.</p>
+            </td>
+            <td width="70%">
+              <p class="text-darken mb-1">
+                {{questionObject.question_name}}</p>
+              <div *ngFor="let ansObject of questionObject.answer_option_list;">
+                <div *ngIf="questionObject.selected_optionValue == ansObject.options_value">
+                  <p class="mb-0 font-weight-500">{{ansObject.option_label}}</p>
+                </div>
+              </div>
+            </td>
+            <td width="20%" align="center" class="border-right">
+              <p class="mb-0">{{questionObject.selected_optionValue}}</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- <div class="note-table">
+      <table class="table font-size-dot-8 mb-0">
+        <tbody>
+          <tr *ngIf="sTemlate.summary_options.length">
+            <td colspan="3" width="100%">
+              <h6>Note:</h6>
+              <p class="mb-0" *ngFor="let summaryObj of sTemlate.summary_options;let ansOptionsIndex = index;">
+                {{ansOptionsIndex+1}}. If Your Score is
+                <span *ngIf="summaryObj.summary_operator !== 'In Between'">
+                  <span>{{summaryObj.summary_value}}</span>
+                  <span *ngIf="summaryObj.summary_operator == '>'"> greater than </span>
+                  <span *ngIf="summaryObj.summary_operator == '<'"> less than </span>
+                  <span *ngIf="summaryObj.summary_operator == '>='"> or greater </span>
+                  <span *ngIf="summaryObj.summary_operator == '<='"> or les </span>
+                  <span *ngIf="summaryObj.summary_operator == '='"> equal </span>
+                </span>
+                <span *ngIf="summaryObj.summary_operator == 'In Between'">
+                  <span>{{summaryObj.summary_max_value}}</span> between
+                  <span>{{summaryObj.summary_min_value}}</span>
+                </span>
+                <span>{{summaryObj.summary_text}}</span>
+              </p>
+            </td>
+          </tr>
+          <tr class="border-bottom">
+            <td colspan="2" align="right" width="80%" class="border-right">
+              <p class="mb-0" *ngIf="sTemlate.template_calc_Type === 'sum'">Total :</p>
+              <p class="mb-0" *ngIf="sTemlate.template_calc_Type === 'average'">Average :</p>
+            </td>
+            <td align="center" width="20%">
+              <p class="mb-0">{{sTemlate.templatecalcvalue}}</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div> -->
+  </div>
+</div>

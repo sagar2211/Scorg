@@ -1,0 +1,38 @@
+.global-setting {
+  height: calc(100vh - 50px);
+  overflow-y: auto;
+  .card-body {
+    height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+  .heading{
+    display: flex;
+    .refresh-btn{
+      border: none;
+      background: transparent;
+      span{
+        color: #3f51b5;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.partial-view {
+  border: 0px solid transparent;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+.partial-view.global-setting {
+  height: calc(100vh - 0px);
+  overflow-y: auto;
+  .card-body {
+    height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+}
+
+.partial-view.custom-container-fluid {
+  width: calc(100vw - 0px);
+}

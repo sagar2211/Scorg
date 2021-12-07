@@ -1,0 +1,230 @@
+<div class="form-row mx-0">
+  <div class="col-6 border-dash-right pr-0">
+    <div class="card-section">
+      <ngb-tabset (tabChange)="configureAction($event)" [activeId]="activedisplayTab" [destroyOnHide]="false">
+        <ngb-tab id="DoctorInstruction" title="Doctor Instruction">
+          <ng-template ngbTabContent>
+            <div *ngIf="!(doctorInstructionOrderList | orderListFilter : false : false : 'unSaved').length"
+              class="bg-img mt-2 text-center"><img src="./assets/img/no-orders.png" class="img-fluid"
+                alt="no orders" />
+            </div>
+            <div class="card mb-1 mr-1 mt-1 pointer order-card"
+              *ngFor="let doctorInstru of doctorInstructionOrderList | orderListFilter : false : false : 'unSaved'; let i = index"
+              id="doctorInstOrder{{i}}" [ngClass]="{'active': (activeIndex == i)}">
+              <ng-container *ngIf="activeIndex === i && !isTabModeOn">
+                <form [formGroup]="doctorInstrucFrm">
+                  <div class="card-heading border-bottom" *ngIf="!isFromFavSuggestionTemplate">
+                    <div class="form-row mx-0 align-items-center">
+                        <div class="col-12 py-1">
+                            <h6 class="mb-0 font-weight-500 ">
+                                {{doctorInstru.name}}
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-1">
+                  <div class="row m-0">
+                    <div class="col-4 px-0">
+                      <label class="text-muted m-0">Order Date</label>
+                  <app-date-picker [inputDate]="doctorInstrucFrm.value.startDateTime" placeholder="dd-mm-yyyy"
+                    (dateChange)="doctorInstrucFrm.patchValue({ startDateTime : $event });">
+                  </app-date-picker>
+                    </div>
+                    <div class="col-8 px-0 pl-1">
+                      <label class="text-muted m-0">Comments: </label>
+                    <app-instruction-suggestion [suggestionList]="DInstructionList" [placeholdertext]="'Enter Comments'" [rows]="2" [showFrequency]="false"
+                      [instructions]="doctorInstrucFrm.value?.specInstruction"
+                      (changedValue)="doctorInstrucFrm.patchValue({specInstruction: $event})">
+                    </app-instruction-suggestion>
+                    </div>
+                    <div class="col-12 px-0">
+                      <button (click)="updateDataToArray()" type="button" class="btn float-right btn-outline-primary-light m-1 p-1" >UPDATE</button>
+                    </div>
+                  </div>
+                </div>
+                </form>
+              </ng-container>
+              <ng-container *ngIf="activeIndex !== i">
+                <app-orders-display (checkAllPendingValue)="findPendingObject('Doctor Instruction')"
+                (editData)="activeIndex = i; onEditInfo($event, i,'Doctor Instruction')"
+                (deleteData)="removeDoctorInfo($event,'Doctor Instruction')"
+                (approveOrder)="approveOrders($event,i,'Doctor Instruction')" [isShowActions]="true"
+                [item]="doctorInstru" [source]="'Doctor Instruction'" [isEdit]="true" [isDelete]="true">
+              </app-orders-display>
+              </ng-container>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="serviceswithnotes" title="Services with Notes">
+          <ng-template ngbTabContent>
+            <div *ngIf="!(otherServiceandNotesOrderList | orderListFilter : false : false : 'unSaved').length"
+              class="bg-img mt-2 text-center"><img src="./assets/img/no-orders.png" class="img-fluid"
+                alt="no orders" />
+            </div>
+            <div class="card mb-1 mr-1 mt-1 pointer order-card"
+              *ngFor="let otherService of otherServiceandNotesOrderList | orderListFilter : false : false : 'unSaved'; let i = index"
+              id="serviceOrder{{i}}" [ngClass]="{'active': (activeIndex == i)}">
+              <ng-container *ngIf="activeIndex === i && !isTabModeOn">
+                <form [formGroup]="otherServiceFrm">
+                  <div class="card-heading border-bottom" *ngIf="!isFromFavSuggestionTemplate">
+                    <div class="form-row mx-0 align-items-center">
+                        <div class="col-12 py-1">
+                            <h6 class="mb-0 font-weight-500 ">
+                                {{otherService.name}}
+                            </h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-1">
+                  <div class="row m-0">
+                    <div class="col-4 px-0">
+                      <label class="text-muted m-0">Order Date</label>
+                      <app-date-picker [inputDate]="otherServiceFrm.value.startDateTime" placeholder="dd-mm-yyyy"
+                      (dateChange)="otherServiceFrm.patchValue({ startDateTime : $event });">
+                    </app-date-picker>
+                    </div>
+                    <div class="col-8 px-0 pl-1">
+                      <label class="text-muted m-0">Comments: </label>
+                      <app-instruction-suggestion [suggestionList]="[]" [placeholdertext]="'Enter Comments'" [rows]="2" [showFrequency]="false"
+                      [instructions]="otherServiceFrm.value?.specInstruction"
+                      (changedValue)="otherServiceFrm.patchValue({specInstruction: $event})">
+                    </app-instruction-suggestion>
+                    </div>
+                    <div class="col-12 px-0">
+                      <button (click)="updateDataToArrayOther()" type="button" class="btn float-right btn-outline-primary-light m-1 p-1" >UPDATE</button>
+                    </div>
+                  </div>
+                </div>
+                </form>
+              </ng-container>
+              <ng-container *ngIf="activeIndex !== i">
+                <app-orders-display (checkAllPendingValue)="findPendingObject('Services with Notes')"
+                (editData)="activeIndex = i; onEditInfo($event, i,'Services with Notes')"
+                (deleteData)="removeDoctorInfo($event)" (approveOrder)="approveOrders($event,i)" [isShowActions]="true"
+                [item]="otherService" [source]="'Services with Notes'" [isEdit]="true" [isDelete]="true">
+              </app-orders-display>
+              </ng-container>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
+  <!--SUGGESTION CODE-->
+  <div class="col-6 pl-0 pr-0 col-suggesstion" *ngIf="loadSuggestion">
+    <div *ngIf="this.isFrom.subSectionKeyName === 'Doctor Instruction'">
+      <div class="input-group">
+        <input (ngModelChange)="onSearch($event);" class="form-control form-control-sm pl-2rem" type="text"
+          [(ngModel)]="searchKeyword" (focus)="hideHistory()" placeholder="Search By Name">
+        <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+        <div class="input-group-append">
+          <button class="btn btn-sm btn-outline-primary-light" type="button" title="Add"
+            (click)="addMasterDoctorInstruction()"><i class="fa fa-fw fa-plus" aria-hidden="true"></i> ADD</button>
+        </div>
+      </div>
+      <app-suggestion-panel #suggestionPanel [showHeading]="false" [showInputSearchBox]="true"
+        [suggestionPanelSettings]="suggestionPanelSettings" [isOnload]="isOnload" [showCombinedList]=true
+        [isFrom]="isFrom">
+      </app-suggestion-panel>
+    </div>
+    <div *ngIf="this.isFrom.subSectionKeyName === 'Services with Notes'">
+      <div class="mt-1">
+        <div class="input-group">
+          <input (ngModelChange)="onSearch($event);" class="form-control form-control-sm pl-2rem" type="text"
+            [(ngModel)]="searchKeyword" (focus)="hideHistory()" placeholder="Search By Name">
+          <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+        </div>
+      </div>
+      <app-suggestion-panel #suggestionPanel [showHeading]="false" [showInputSearchBox]="true"
+        [suggestionPanelSettings]="suggestionPanelSettings" [isOnload]="isOnload" [showCombinedList]=true
+        [isFrom]="isFrom">
+      </app-suggestion-panel>
+    </div>
+    <!--SUGGESTION CODE END-->
+  </div>
+  <div class="col-6 pl-0 pr-0 col-suggesstion" *ngIf="showdoctorInstructionAddSection">
+    <form [formGroup]="doctorInstrucFrm">
+      <ngb-tabset (tabChange)="configureAction($event)" [activeId]="activeTab" [destroyOnHide]="false">
+        <ngb-tab id="Templates" title="Templates">
+          <ng-template ngbTabContent>
+            <div class="all-suggestion my-1">
+              <p class="mb-1 text-center label-suggestion">
+                Favorite Template Suggestion</p>
+              <div class="btn btn-outline-primary-light d-block p-0 text-left m-1 pointer order-card favorite-btn"
+                *ngFor="let dInst of docInstructOrderFavSuggTemplateList; let i = index;" id="diSugestionTemplate{{i}}"
+                [ngClass]="{'active': (activeIndex == i)}">
+                <app-orders-display (checkAllPendingValue)="findPendingObject('Doctor Instruction')"
+                  [isFromFavSuggestionTemplate]="true" [inputIndex]="selectedItemIndx" [isShowActions]="true"
+                  (deleteData)="removeDoctorInfo($event)"
+                  (editData)="activeIndex = i;onEditInfo($event, i,'Doctor Instruction')" [isEdit]="true" [item]="dInst"
+                  [source]="'Doctor Instruction'" [isDelete]="true">
+                </app-orders-display>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="Instruction" title="Instruction">
+          <ng-template ngbTabContent>
+            <div class="all-suggestion px-2">
+              <ng-container>
+                <div class="col-4 px-1 form-group">
+                  <label class="text-muted">Order Date</label>
+                  <app-date-picker [inputDate]="doctorInstrucFrm.value.startDateTime" placeholder="dd-mm-yyyy"
+                    (dateChange)="doctorInstrucFrm.patchValue({ startDateTime : $event });">
+                  </app-date-picker>
+                </div>
+                <div class="my-1 px-1">
+                  <div class="form-group mb-2">
+                    <label class="text-muted">Comments: </label>
+                    <!-- <input (click)="click$.next($event.target.value)" id="transTextRemarks1" type="text"
+                      class="form-control" formControlName="specInstruction"
+                      [ngbTypeahead]="searchInstructionList" placeholder="Enter Instruction .."
+                      #instance="ngbTypeahead"> -->
+                    <app-instruction-suggestion [suggestionList]="DInstructionList" [placeholdertext]="'Enter Comments'"
+                      [instructions]="doctorInstrucFrm.value?.specInstruction"
+                      (changedValue)="doctorInstrucFrm.patchValue({specInstruction: $event})">
+                    </app-instruction-suggestion>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </form>
+  </div>
+  <div class="col-6 pl-0 pr-0 col-suggesstion" *ngIf="otherServicesAddSection">
+    <form [formGroup]="otherServiceFrm">
+      <ngb-tabset [destroyOnHide]="false">
+        <ngb-tab id="Instruction" title="Instruction">
+          <ng-template ngbTabContent>
+            <div class="all-suggestion px-2">
+              <ng-container>
+                <div class="col-4 form-group">
+                  <label class="text-muted">Order Date</label>
+                  <app-date-picker [inputDate]="otherServiceFrm.value.startDateTime" placeholder="dd-mm-yyyy"
+                    (dateChange)="otherServiceFrm.patchValue({ startDateTime : $event });">
+                  </app-date-picker>
+                </div>
+                <div class="my-1 px-1">
+                  <div class="form-group mb-2">
+                    <label class="text-muted">Comments: </label>
+                    <!-- <input (click)="click$.next($event.target.value)" id="transTextRemarks1" type="text"
+                      class="form-control" formControlName="specInstruction"
+                      [ngbTypeahead]="searchInstructionList" placeholder="Enter Instruction .."
+                      #instance="ngbTypeahead"> -->
+                    <app-instruction-suggestion [suggestionList]="[]" [placeholdertext]="'Enter Comments'"
+                      [instructions]="otherServiceFrm.value?.specInstruction"
+                      (changedValue)="otherServiceFrm.patchValue({specInstruction: $event})">
+                    </app-instruction-suggestion>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </form>
+  </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

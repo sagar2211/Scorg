@@ -1,0 +1,359 @@
+<div *ngIf="faqSection.helpFlag">
+    <app-faq-section-info [helpFlag]="faqSection.helpFlag"></app-faq-section-info>
+</div>
+<div class="px-2 custom-small-font" [ngClass]="{'category' : source != 'openForm'}" id="category_id_{{faqSection.categoryId}}" (click)="faqSection.menuClicked($event);">
+    <h6 class="mb-0 font-size-dot-875" *ngIf="source != 'faqPopup'">{{faqSection.categoryName}}</h6>
+    <div class="sub-section" id="questionGroup_{{secGroup.sectionGroupId}}" *ngFor="let secGroup of faqSection.faqCurrentSectionQueGroup; trackBy: trackByFunction; let secGroupIndex = index;" (click)="faqSection.popupSetting.activeSecGroup = secGroup.sectionGroupId;">
+        <div class="content-body pt-2">
+            <div class="form-row align-items-center justify-content-between border-dash-bottom pb-1 mb-1" *ngIf="secGroup.sectionGroupName!='-'">
+                <div class="col-10">
+                    <h6 class="text-uppercase mb-0 font-size-dot-8"><i class="icon fa-fw icon-info-circle mr-1 text-info"></i><span [innerHTML]="secGroup.sectionGroupName"></span></h6>
+                </div>
+                <div class="col-2 text-right">
+                    <button class="btn btn-xs btn-outline-warning" type="button" (click)="faqSection.clearAllAnswer(secGroup.sectionGroupId)"><i class="fas fa-fw fa-eraser"
+                            aria-hidden="true"></i>
+                        CLEAR</button>
+                </div>
+            </div>
+            <div class="form-row mx-0" *ngIf="secGroup.sectionGroupFormat != 'tabular'">
+                <div class="col-{{question.questionControlSize}} que-bg px-0" *ngFor="let question of faqSection.faqCurrentSection | filterArray:'visible':true | filterArray:'sectionGroupId':secGroup.sectionGroupId; let i = index;">
+                    <div class="form-group m-0" *ngIf="question.visible">
+                        <div class="col-md-12">
+                            <label class="form-label" for="field-1">
+                                <!--Commenting story setting code-->
+                                <!--<a class="px-2 text-primary"-->
+                                <!--(click)="faqSection.toggleStorySetting(question);"> <i class="fa fa-gear"></i>-->
+                                <!--</a>-->
+                                <span *ngIf="source != 'openForm'" (click)="faqSection.toggleStorySetting(question);"><i
+                                        class="fa fa-fw fa-cog mr-1 text-info font-12 align-middle"
+                                        aria-hidden="true"></i><span class="text-uppercase font-weight-500"
+                                        [innerHTML]="question.questionText"> </span></span>
+                            </label>
+                        </div>
+                        <div *ngFor="let answerRowData of question.answerModelArray | keyvalue; let answerRowDataIndex = index;trackBy: trackByFunction; let last = last">
+                            <div *ngIf="secGroup.repeatAnsGroupExists && answerRowData.key != 0 && question.questionControlSize < 12" class="col-md-{{question.questionControlSize}}"></div>
+                            <div *ngFor="let answer of answerRowData.value; let answerIndex = index;trackBy: trackByFunction;">
+                                <div *ngIf="answer.visible">
+                                    <!--For Radio Buttton-->
+                                    <div *ngIf="answer.ansControlKey=='radio'">
+                                        <div *ngFor="let option of answer.optionsData; let optionIndex = index; let first = first;trackBy: trackByFunction;">
+                                            <div class="controls m-0">
+                                                <div *ngIf="first && answer.ansGroupLabel" class="col-md-{{option.answer_control_size}}">
+                                                    <label data-name="label" *ngIf="first"><span
+                                                            [innerHTML]="answer.ansGroupLabel"></span></label>
+                                                </div>
+                                                <div class="checkbox col-md-{{option.answer_control_size}}">
+                                                    <!-- <label class="icheck icheck-sm">
+                            <input type="radio"
+                              name="radio{{question.questionId}}_{{answerRowData.key}}_{{answer.ansGroup}}"
+                              [checked]="answer.selectedAns" [value]="option.ans_id" [(ngModel)]="answer.selectedAns"
+                              title="{{answer.ansGroupPlaceholder}}"
+                              (change)="faqSection.faqAnswerOnChange(question,answer)">
+                            <span class="icheck icheck-sm" [innerHTML]="option.answer_text"></span>
+                          </label> -->
+                                                    <div class="custom-control custom-radio custom-control-inline">
+                                                        <input type="radio" class="custom-control-input" id="radio_{{option.ans_id}}" name="radio{{question.questionId}}_{{answerRowData.key}}_{{answer.ansGroup}}" [checked]="answer.selectedAns" [value]="option.ans_id" [(ngModel)]="answer.selectedAns" title="{{answer.ansGroupPlaceholder}}"
+                                                            (change)="faqSection.faqAnswerOnChange(question,answer)">
+                                                        <label for="radio_{{option.ans_id}}" class="custom-control-label pointer"><span
+                                                                [innerHTML]="option.answer_text"></span></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--For CheckBox-->
+                                    <div *ngIf="answer.ansControlKey=='check_box'">
+                                        <div *ngFor="let option of answer.optionsData; let ansFirstRecord = first; let optionIndex = index;trackBy: trackByFunction;" class="m-0">
+                                            <div class="controls m-0">
+                                                <div *ngIf="ansFirstRecord && answer.ansGroupLabel" class="col-md-{{option.answer_control_size}} m-0">
+                                                    <label class="p-0 pull-left m-0" *ngIf="ansFirstRecord"><b><span
+                                                                [innerHTML]="answer.ansGroupLabel"></span></b></label>
+                                                </div>
+                                                <!--<div class="checkbox col-md-{{option.answer_control_size}} m-0">-->
+                                                <!--<label class="icheck icheck-sm">-->
+                                                <!--<input type="checkbox"-->
+                                                <!--class="icheck icheck-sm"-->
+                                                <!--[checked]="(option.selectedAns)!=''"-->
+                                                <!--[(ngModel)]="option.selectedAns"-->
+                                                <!--title="{{answer.ansGroupPlaceholder}}"-->
+                                                <!--(change)="option.selectedAns = (option.selectedAns) ? option.ans_id : '';  faqSection.faqAnswerOnChange(question,answer)">-->
+                                                <!--<i></i>-->
+                                                <!--<span class="icheck icheck-sm" [innerHTML]="option.answer_text"></span>-->
+                                                <!--</label>-->
+                                                <!--</div>-->
+                                                <div class="checkbox col-md-{{option.answer_control_size}} m-0">
+                                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                                        <input type="checkbox" id="chek_{{option.ans_id}}" [checked]="(option.selectedAns)!=''" [(ngModel)]="option.selectedAns" class="custom-control-input" title="{{answer.ansGroupPlaceholder}}" (change)="option.selectedAns = (option.selectedAns) ? option.ans_id : '';  faqSection.faqAnswerOnChange(question,answer)">
+                                                        <label class="custom-control-label pointer" for="chek_{{option.ans_id}}">
+                                                            <span class="icheck icheck-sm"
+                                                                [innerHTML]="option.answer_text"></span></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--For DropDownList-->
+                                    <div *ngIf="answer.ansControlKey=='dropdown_list'" class="col-md-{{answer.ansGroupControlSize}}">
+                                        <div class="controls m-0">
+                                            <p class="mb-0 text-capitalize-imp" *ngIf="question.ansGroupLabelShow">
+                                                <span><label><span [innerHTML]="answer.ansGroupLabel"></span></label>
+                                                </span>
+                                                <span class="text-white">.</span>
+                                            </p>
+                                            <select *ngIf="!answer.answerIsDynamic" class="form-control form-control-sm pointer" [(ngModel)]="answer.selectedAns" (change)="faqSection.faqAnswerOnChange(question,answer)">
+                                                <option [value]="">{{answer.ansGroupPlaceholder}}</option>
+                                                <option *ngFor="let option of answer.optionsData;"
+                                                    [value]="option.ans_id">
+                                                    {{option.answer_text}}</option>
+                                            </select>
+                                            <!-- For Dynamic true typeahead -->
+                                            <ng-select *ngIf="answer.answerIsDynamic" [items]="answer.optionsData" bindLabel="answer_text" bindValue="ans_id" (change)="faqSection.faqAnswerOnChange(question,answer)" [(ngModel)]="answer.selectedAns" placeholder="{{answer.ansGroupPlaceholder}}">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div *ngIf="answer.ansControlKey=='dropdown_list' && answer.answerIsDynamic" class="col-md-{{answer.ansGroupControlSize}}">
+                    <div class="controls m-0">
+                      <p class="mb-0 text-capitalize-imp" *ngIf="question.ansGroupLabelShow">
+                        <span><label><span [innerHTML]="answer.ansGroupLabel"></span></label></span>
+                        <span class="text-white">.</span>
+                      </p>
+                      <ng-select [items]="answer.optionsData" bindLabel="answer_text"  bindValue="ans_id" (change)="faqSection.faqAnswerOnChange(question,answer)"  [(ngModel)]="answer.selectedAns" placeholder="{{answer.ansGroupPlaceholder}}">
+                      </ng-select>
+                    </div>
+                  </div> -->
+                                    <!--For TextBox-->
+                                    <div *ngIf="answer.ansControlKey=='input_box'" class="col-md-{{answer.ansGroupControlSize}}">
+                                        <div class="controls m-0">
+                                            <p class="mb-0 text-capitalize-imp" *ngIf="question.ansGroupLabelShow">
+                                                <span><label><span [innerHTML]="answer.ansGroupLabel"></span></label>
+                                                </span>
+                                                <span class="text-white">.</span>
+                                            </p>
+                                            <input type="text" [(ngModel)]="answer.selectedAns" [ngModelOptions]="{ debounce: 1000 }" class="form-control form-control-sm" placeholder="{{answer.ansGroupPlaceholder}}" (change)="faqSection.faqAnswerOnChange(question,answer)">
+                                        </div>
+                                    </div>
+                                    <!--For TextArea-->
+                                    <div *ngIf="answer.ansControlKey=='text_area'" class="col-md-{{answer.ansGroupControlSize}}">
+                                        <div class="controls m-0">
+                                            <p class="mb-0 text-capitalize-imp" *ngIf="question.ansGroupLabelShow">
+                                                <span><label><span [innerHTML]="answer.ansGroupLabel"></span></label>
+                                                </span>
+                                                <span class="text-white">.</span>
+                                            </p>
+                                            <textarea type="input" [(ngModel)]="answer.selectedAns" [ngModelOptions]="{ debounce: 1000 }" class="form-control h-auto" rows="4" placeholder="{{answer.ansGroupPlaceholder}}" (change)="faqSection.faqAnswerOnChange(question,answer)"></textarea>
+                                        </div>
+                                    </div>
+                                    <!--For Datepicker-->
+                                    <div *ngIf="answer.ansControlKey=='datepicker'" class="col-md-{{answer.ansGroupControlSize}}">
+                                        <div class="controls m-0">
+                                            <p class="mb-0 text-capitalize-imp" *ngIf="question.ansGroupLabelShow">
+                                                <span><label><span [innerHTML]="answer.ansGroupLabel"></span></label>
+                                                </span>
+                                                <span class="text-white">.</span>
+                                            </p>
+                                            <div>
+                                                <app-date-picker [inputDate]="answer.selectedAns" (dateChange)="answer.selectedAns = $event; faqSection.faqAnswerOnChange(question,answer)">
+                                                </app-date-picker>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1 text-center" *ngIf="secGroup.repeatAnsGroupExists">
+                                <button *ngIf="question.repeatAnsGroup && last" class="btn btn-sm btn-outline-primary-light" (click)="faqSection.faqAddAnswerRow(question,answerRowData)">
+                                    <i title="Add More" class="fa fa-fw fa-plus"></i>
+                                </button>
+                                <button *ngIf="question.repeatAnsGroup && question.answerModelArray.length>1" class="btn btn-sm btn-outline-danger" (click)="faqSection.faqRemoveAnswerRow(question,answerRowDataIndex)">
+                                    <i class="fa fa-fw fa-trash"></i>
+                                </button>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="col-12 py-2" *ngIf="question.showStorySetting && isPreview">
+                            <input placeholder="Customize story setting" type="text" class="form-control form-control-sm" [(ngModel)]="question.dirtyStorySetting">
+                            <div class="mt-1">
+                                <button type="button" class="btn btn-xs btn-outline-primary-light text-uppercase mr-1" (dblclick)="faqSection.addTagToStory(question, '#Title#')">#Title#</button>
+                                <!--<span class="label label-info mr-1 px-2" style=" color: #fff; font-size: 0.8rem;"-->
+                                <!--(dblclick)="faqSection.addTagToStory(question, '#Title#')"> #Title# </span>-->
+                                <button type="button" class="btn btn-xs btn-outline-primary-light text-uppercase mr-1" (dblclick)="faqSection.addTagToStory(question, '#PatientName#')">#PatientName#</button>
+                                <span *ngFor="let ansGroup of question.answerModelArray[0]; let ansGrpIndex = index;">
+                                    <button type="button"
+                                        class="btn btn-xs btn-outline-primary-light text-uppercase mr-1"
+                                        (dblclick)="faqSection.addAnswerTagToStory(question, ansGrpIndex)">#Answer{{ansGrpIndex
+                                        + 1}}#
+                                    </button>
+                                </span>
+                                <button type="button" class="btn btn-xs btn-outline-success text-uppercase mr-1" (click)="faqSection.saveStorySetting()"><i class="icon fa-fw icon-save"
+                                        aria-hidden="true"></i>Save</button>
+                                <button type="button" class="btn btn-xs btn-outline-warning text-uppercase mr-1" (click)="faqSection.clearStorySetting(question)"><i class="fas fa-fw fa-eraser"
+                                        aria-hidden="true"></i>Clear</button>
+                                <button type="button" class="btn btn-xs btn-outline-secondary text-uppercase" (click)="faqSection.cancelStorySetting(question)">Cancel</button>
+                            </div>
+                        </div>
+                        <!--End-->
+                        <div class="clearfix mb-2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row mx-0 tabular-format" *ngIf="secGroup.sectionGroupFormat=='tabular'">
+                <table class="table border custom-table font-size-dot-875 mb-0 first-table">
+                    <thead class="w-100">
+                        <tr>
+                            <th [ngStyle]="{'width.%': 1 }" *ngIf="source != 'openForm'">
+                              <span ><i class="icon fa-fw icon-info-circle mr-1" title="configure story setting"></i></span>
+                            </th>
+                            <th [ngStyle]="{'width.%': (100 / (secGroup.sectionTabularHeadingData.length+1)) }" *ngIf="secGroup.sectionQuestionHeading != 'hide'">
+                              <span *ngIf="secGroup.sectionQuestionHeading != '-'" [innerHTML]="secGroup.sectionQuestionHeading"></span>
+                            </th>
+                            <th [ngStyle]="{'width.%': (100 / (secGroup.sectionTabularHeadingData.length+1)) }" *ngFor="let answerHeading of secGroup.sectionTabularHeadingData | orderBy : 'id':false">
+                                <span [innerHTML]="answerHeading.answer_group_heading"></span></th>
+                            <th style="width:5%" *ngIf="secGroup.repeatAnsGroupExists"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="first-td" [attr.colspan]="secGroup.sectionTabularHeadingData.length + 1 + (secGroup.repeatAnsGroupExists?1:0)">
+                                <div *ngFor="let question of faqSection.faqCurrentSection | filterArray:'visible':true | filterArray:'sectionGroupId':secGroup.sectionGroupId; let questionIndex = index;trackBy: trackByFunction;">
+                                    <table class="table custom-table mb-0">
+                                        <tbody>
+                                            <tr *ngFor="let answerRowData of question.answerModelArray | keyvalue; let i = index; trackBy: trackByFunction;let first = first; let last = last;">
+                                                <td [ngStyle]="{'width.%': 1 }" [attr.rowspan]="question.answerModelArray.length" *ngIf="first && source!='openForm'">
+                                                    <span>
+                                                      <i (click)="faqSection.toggleStorySetting(question);" class="fa fa-fw fa-cog mr-1 text-info" aria-hidden="true"></i>
+                                                    </span>
+                                                </td>
+                                                <td [ngStyle]="{'width.%': (100 / (secGroup.sectionTabularHeadingData.length+1)) }" [attr.rowspan]="question.answerModelArray.length" *ngIf="first && secGroup.sectionQuestionHeading != 'hide'">
+                                                  <span>
+                                                    <span [innerHTML]="question.questionText"></span>
+                                                  </span>
+                                                </td>
+                                                <td [ngStyle]="{'width.%': (100 / (secGroup.sectionTabularHeadingData.length+1)) }" *ngFor="let answerHeading of secGroup.sectionTabularHeadingData | orderBy : 'id':false">
+                                                    <div *ngFor="let answer of answerRowData.value | filterArray:'ansGroup':answerHeading.answer_group_key; let answerIndex = index;trackBy: trackByFunction;" class="col-xs-12 p-0">
+                                                        <div *ngIf="answer.visible">
+                                                            <!--For Radio Buttton-->
+                                                            <div *ngIf="answer.ansControlKey == 'radio'">
+                                                                <div *ngFor="let option of answer.optionsData; let optionIndex = index;trackBy: trackByFunction;" class="col-md-{{option.answer_control_size}} m-0 pr-0">
+                                                                    <div class="radio">
+                                                                        <!--<label class="icheck icheck-sm">-->
+                                                                        <!--<input type="radio"-->
+                                                                        <!--name="radio{{question.questionId}}_{{answerRowData.key}}_{{answer.ansGroup}}"-->
+                                                                        <!--[checked]="answer.selectedAns" [value]="option.ans_id"-->
+                                                                        <!--[(ngModel)]="answer.selectedAns" title="{{answer.ansGroupPlaceholder}}"-->
+                                                                        <!--(change)="faqSection.faqAnswerOnChange(question,answer)">-->
+                                                                        <!--<i></i><span class="icheck icheck-sm"-->
+                                                                        <!--[innerHTML]="answer.answerTextShow?option.answer_text:''"></span>-->
+                                                                        <!--</label>-->
+                                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                                            <input type="radio" class="custom-control-input" id="radio_{{option.ans_id}}" name="radio{{question.questionId}}_{{answerRowData.key}}_{{answer.ansGroup}}" [checked]="answer.selectedAns" [value]="option.ans_id" [(ngModel)]="answer.selectedAns" title="{{answer.ansGroupPlaceholder}}"
+                                                                                (change)="faqSection.faqAnswerOnChange(question,answer)">
+                                                                            <label for="radio_{{option.ans_id}}" class="custom-control-label pointer"><span
+                                                                                    [innerHTML]="answer.answerTextShow?option.answer_text:''"></span></label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--For CheckBox-->
+                                                            <div *ngIf="answer.ansControlKey=='check_box'">
+                                                                <!-- <div
+                                                                  *ngFor="let option of answer.optionsData; let optionIndex = index;trackBy: trackByFunction;"
+                                                                  class="checkbox col-md-{{option.answer_control_size}} m-0 pr-0">
+                                                                  <label class="icheck icheck-sm">
+                                                                    <input type="checkbox" class="icheck icheck-sm" [checked]="(option.ans_id)!=''"
+                                                                      [(ngModel)]="option.selectedAns" title="{{answer.ansGroupPlaceholder}}"
+                                                                      (change)="option.selectedAns = (option.selectedAns) ? option.ans_id : ''; faqSection.faqAnswerOnChange(question,answer)">
+                                                                    <i></i><span class="icheck icheck-sm"
+                                                                      [innerHTML]="answer.answerTextShow?option.answer_text:''"></span>
+                                                                  </label>
+                                                                </div> -->
+                                                                <div *ngFor="let option of answer.optionsData; let optionIndex = index;trackBy: trackByFunction;" class="checkbox col-md-{{option.answer_control_size}} pr-0">
+                                                                    <div class="custom-control custom-checkbox custom-control-inline">
+                                                                        <input type="checkbox" [checked]="(option.ans_id)!=''" class="custom-control-input" [(ngModel)]="option.selectedAns" (change)="option.selectedAns = (option.selectedAns) ? option.ans_id : ''; faqSection.faqAnswerOnChange(question,answer)" title="{{answer.ansGroupPlaceholder}}"
+                                                                            id="check_{{option.ans_id}}">
+                                                                        <label class="custom-control-label pointer" for="check_{{option.ans_id}}"><span
+                                                                                class="icheck icheck-sm"
+                                                                                [innerHTML]="answer.answerTextShow?option.answer_text:''"></span></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <!--For DropDownList-->
+                                                            <div *ngIf="answer.ansControlKey=='dropdown_list'" class="col-md-12">
+                                                                <select *ngIf="!answer.answerIsDynamic" class="form-control form-control-sm pointer" [(ngModel)]="answer.selectedAns" (change)="faqSection.faqAnswerOnChange(question,answer)">
+                                                                    <option [value]="">{{answer.ansGroupPlaceholder}}
+                                                                    </option>
+                                                                    <option *ngFor="let option of answer.optionsData;"
+                                                                        [value]="option.ans_id">
+                                                                        {{option.answer_text}}</option>
+                                                                </select>
+                                                                <!-- For Dynamic true typeahead -->
+                                                                <ng-select *ngIf="answer.answerIsDynamic" [items]="answer.optionsData" bindLabel="answer_text" bindValue="ans_id" (change)="faqSection.faqAnswerOnChange(question,answer)" [(ngModel)]="answer.selectedAns" placeholder="{{answer.ansGroupPlaceholder}}">
+                                                                </ng-select>
+                                                            </div>
+                                                            <!--For TextBox-->
+                                                            <div *ngIf="answer.ansControlKey=='input_box'" class="col-md-12 p-0">
+                                                                <input type="text" [(ngModel)]="answer.selectedAns" [ngModelOptions]="{ debounce: 1000 }" class="form-control form-control-sm" placeholder="{{answer.ansGroupPlaceholder}}" (change)="faqSection.faqAnswerOnChange(question,answer)">
+                                                            </div>
+                                                            <!--For TextArea-->
+                                                            <div *ngIf="answer.ansControlKey=='text_area'" class="col-md-12">
+                                                                <textarea type="input" [(ngModel)]="answer.selectedAns" [ngModelOptions]="{ debounce: 1000 }" class="form-control h-auto" rows="4" placeholder="{{answer.ansGroupPlaceholder}}" (change)="faqSection.faqAnswerOnChange(question,answer)"></textarea>
+                                                            </div>
+                                                            <!--For Datepicker-->
+                                                            <div *ngIf="answer.ansControlKey=='datepicker'" class="col-md-12">
+                                                                <div class="input-group mb-2">
+                                                                    <app-date-picker [inputDate]="answer.selectedAns" (dateChange)="answer.selectedAns = $event; faqSection.faqAnswerOnChange(question,answer)">
+                                                                    </app-date-picker>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td style="width:5%;" class="text-center" *ngIf="secGroup.repeatAnsGroupExists">
+                                                    <button *ngIf="question.repeatAnsGroup && last"
+                                                        class="btn btn-sm btn-outline-primary-light" style="height: 26px; line-height: 13px;"
+                                                        (click)="faqSection.faqAddAnswerRow(question,answerRowData)">
+                                                        <i title="Add More" class="fa fa-plus"></i>
+                                                    </button>
+                                                    <button
+                                                        *ngIf="question.repeatAnsGroup && question.answerModelArray.length>1"
+                                                        class="btn btn-sm btn-outline-danger ml-1" style="height: 26px; line-height: 13px;"
+                                                        (click)="faqSection.faqRemoveAnswerRow(question,i)">
+                                                        <i title="Delete" class="fa fa-trash text-danger"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr *ngIf="question.showStorySetting && isPreview">
+                                                <td [attr.colspan]="secGroup.sectionTabularHeadingData.length + 1 + (secGroup.repeatAnsGroupExists?1:0)">
+                                                    <div>
+                                                        <input placeholder="Customize story setting" type="text" class="form-control form-control-sm" [(ngModel)]="question.dirtyStorySetting">
+                                                        <button type="button" class="btn btn-sm" (dblclick)="faqSection.addTagToStory(question, '#Title#')">
+                                                            #Title# </button>
+                                                        <button type="button" class="btn btn-sm" (dblclick)="faqSection.addTagToStory(question, '#PatientName#')">
+                                                            #PatientName#
+                                                        </button>
+                                                        <span *ngFor="let ansGroup of question.answerModelArray[0]; let ansGroupIndex = index;">
+                                                            <button type="button" class="btn btn-sm"
+                                                                (dblclick)="faqSection.addAnswerTagToStory(question, ansGroupIndex)">
+                                                                #Answer{{ ansGroupIndex +
+                                                                1}}# </button>
+                                                        </span>
+                                                        <button type="button" class="btn btn-sm" (click)="faqSection.saveStorySetting()"> Save
+                                                            setting </button>
+                                                        <button type="button" class="btn btn-sm" (click)="faqSection.clearStorySetting(question)">
+                                                            Clear setting </button>
+                                                        <button type="button" class="btn btn-sm" (click)="faqSection.cancelStorySetting(question)">
+                                                            Cancel setting </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

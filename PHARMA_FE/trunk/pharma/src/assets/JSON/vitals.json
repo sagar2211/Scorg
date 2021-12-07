@@ -1,0 +1,618 @@
+{
+  "defaultObj": {
+    "id": "vital.id",
+    "doctor_id": "vital.doctor_id",
+    "col_name": "vital.col_name",
+    "display_name": "vital.display_name",
+    "sequence_number": "vital.sequence_number",
+    "prefix": "vital.prefix",
+    "suffix": "vital.suffix",
+    "col_type": "vital.col_type",
+    "enabled": "vital.enabled",
+    "print_on_prescription": "vital.print_on_prescription",
+    "display_on_dashboard": "vital.display_on_dashboard",
+    "is_decimal": "vital.col_name",
+    "clubbed_with": "vital.clubbed_with",
+    "patValue": "value"
+  },
+  "getOpdConfigurationList": [
+    {
+    "id": "3256",
+    "doctor_id": "2902",
+    "col_name": "BpMin",
+    "display_name": "Diastolic",
+    "sequence_number": "3",
+    "prefix": null,
+    "suffix": null,
+    "col_type": "text",
+    "enabled": "1",
+    "print_on_prescription": "0",
+    "display_on_dashboard": "1",
+    "is_decimal": "0",
+    "clubbed_with": null,
+    "created_by": "2700",
+    "modified_by": "2700",
+    "modified_date": "2018-08-03 10:48:44",
+    "created_date": "2018-08-03 10:48:44",
+    "vitalRangeData": [{
+      "category": "Normal",
+      "categoryId": "2509",
+      "color": "blue",
+      "firstRange": {
+        "operator": "equal",
+        "value": "60"
+      },
+      "secondRange": {
+        "operator": "equal",
+        "value": "80"
+      }
+    }, {
+      "category": "Severe",
+      "categoryId": "2511",
+      "color": "Red",
+      "firstRange": {
+        "operator": "greater",
+        "value": "90"
+      },
+      "secondRange": {
+        "operator": "0",
+        "value": "0"
+      }
+    }, {
+      "category": "Moderate",
+      "categoryId": "2512",
+      "color": "Yellow",
+      "firstRange": {
+        "operator": "equal",
+        "value": "80"
+      },
+      "secondRange": {
+        "operator": "equal",
+        "value": "89"
+      }
+    }],
+    "vitalRangeMaster": [{
+      "id": "2509",
+      "category": "Normal"
+    }, {
+      "id": "2510",
+      "category": "Moderate"
+    }, {
+      "id": "2511",
+      "category": "Severe"
+    }, {
+      "id": "2512",
+      "category": "Moderate"
+    }],
+    "formula_detail": "Weight+height",
+    "formula_display": "Weight+Height"
+  },
+    {
+    "id": "3257",
+    "doctor_id": "2902",
+    "col_name": "Weight",
+    "display_name": "Weight",
+    "sequence_number": "4",
+    "prefix": null,
+    "suffix": null,
+    "col_type": "text",
+    "enabled": "1",
+    "print_on_prescription": "0",
+    "display_on_dashboard": "1",
+    "is_decimal": "0",
+    "clubbed_with": "3268",
+    "created_by": "2700",
+    "modified_by": "2902",
+    "modified_date": "2018-08-16 16:42:09",
+    "created_date": "2018-08-03 10:48:44",
+    "vitalRangeData": [{
+      "category": "Severe",
+      "categoryId": "2513",
+      "color": "#673AB7",
+      "firstRange": {
+        "operator": "0",
+        "value": "0"
+      },
+      "secondRange": {
+        "operator": "less",
+        "value": "500"
+      }
+    }],
+    "vitalRangeMaster": [{
+      "id": "2513",
+      "category": "Severe"
+    }],
+    "formula_detail": "",
+    "formula_display": ""
+  },
+    {
+    "id": "3268",
+    "doctor_id": "2902",
+    "col_name": "height",
+    "display_name": "Height",
+    "sequence_number": "5",
+    "prefix": null,
+    "suffix": null,
+    "col_type": "text",
+    "enabled": "1",
+    "print_on_prescription": "1",
+    "display_on_dashboard": "1",
+    "is_decimal": "0",
+    "clubbed_with": 0,
+    "created_by": "2700",
+    "modified_by": "2902",
+    "modified_date": "2018-08-16 16:43:17",
+    "created_date": "2018-08-03 10:48:44",
+    "vitalRangeData": [{
+      "category": "Severe",
+      "categoryId": "2520",
+      "color": "#673AB7",
+      "firstRange": {
+        "operator": "0",
+        "value": "0"
+      },
+      "secondRange": {
+        "operator": "less",
+        "value": "500"
+      }
+    }],
+    "vitalRangeMaster": [{
+      "id": "2520",
+      "category": "Severe"
+    }],
+    "formula_detail": "",
+    "formula_display": ""
+  },
+    {
+    "id": "3272",
+    "doctor_id": "2902",
+    "col_name": "Opd2",
+    "display_name": "Cholesterol",
+    "sequence_number": "6",
+    "prefix": null,
+    "suffix": null,
+    "col_type": "text",
+    "enabled": "1",
+    "print_on_prescription": "1",
+    "display_on_dashboard": "1",
+    "is_decimal": "0",
+    "clubbed_with": null,
+    "created_by": "2700",
+    "modified_by": "2902",
+    "modified_date": "2018-08-08 19:54:10",
+    "created_date": "2018-08-03 10:48:44",
+    "vitalRangeData": [{
+      "category": "Normal",
+      "categoryId": "2527",
+      "color": "#673AB7",
+      "firstRange": {
+        "operator": "0",
+        "value": "0"
+      },
+      "secondRange": {
+        "operator": "less",
+        "value": "200"
+      }
+    }, {
+      "category": "Severe",
+      "categoryId": "2529",
+      "color": "Red",
+      "firstRange": {
+        "operator": "greater",
+        "value": "250"
+      },
+      "secondRange": {
+        "operator": "0",
+        "value": "0"
+      }
+    }, {
+      "category": "Moderate",
+      "categoryId": "2530",
+      "color": "yellow",
+      "firstRange": {
+        "operator": "equal",
+        "value": "200"
+      },
+      "secondRange": {
+        "operator": "equal",
+        "value": "250"
+      }
+    }],
+    "vitalRangeMaster": [{
+      "id": "2527",
+      "category": "Normal"
+    }, {
+      "id": "2528",
+      "category": "Moderate"
+    }, {
+      "id": "2529",
+      "category": "Severe"
+    }, {
+      "id": "2530",
+      "category": "Moderate"
+    }],
+    "formula_detail": "",
+    "formula_display": ""
+  },
+    {
+    "id": "3270",
+    "doctor_id": "2902",
+    "col_name": "Opd4",
+    "display_name": "LDL\/ HDL",
+    "sequence_number": "7",
+    "prefix": null,
+    "suffix": null,
+    "col_type": "text",
+    "enabled": "1",
+    "print_on_prescription": "1",
+    "display_on_dashboard": "1",
+    "is_decimal": "0",
+    "clubbed_with": null,
+    "created_by": "2700",
+    "modified_by": "2700",
+    "modified_date": "2018-08-03 10:48:44",
+    "created_date": "2018-08-03 10:48:44",
+    "vitalRangeData": [{
+      "category": "Normal",
+      "categoryId": "2522",
+      "color": "#673AB7",
+      "firstRange": {
+        "operator": "0",
+        "value": "0"
+      },
+      "secondRange": {
+        "operator": "less",
+        "value": "3.2"
+      }
+    }, {
+      "category": "Severe",
+      "categoryId": "2524",
+      "color": "Red",
+      "firstRange": {
+        "operator": "greater",
+        "value": "6.3"
+      },
+      "secondRange": {
+        "operator": "0",
+        "value": "0"
+      }
+    }, {
+      "category": "Moderate",
+      "categoryId": "2525",
+      "color": "Yellow",
+      "firstRange": {
+        "operator": "equal",
+        "value": "3.2"
+      },
+      "secondRange": {
+        "operator": "equal",
+        "value": "6.3"
+      }
+    }],
+    "vitalRangeMaster": [{
+      "id": "2522",
+      "category": "Normal"
+    }, {
+      "id": "2523",
+      "category": "Moderate"
+    }, {
+      "id": "2524",
+      "category": "Severe"
+    }, {
+      "id": "2525",
+      "category": "Moderate"
+    }],
+    "formula_detail": "",
+    "formula_display": ""
+  }, {
+    "id": "3267",
+    "doctor_id": "2902",
+    "col_name": "BMI",
+    "display_name": "BMI",
+    "sequence_number": "8",
+    "prefix": null,
+    "suffix": null,
+    "col_type": "text",
+    "enabled": "1",
+    "print_on_prescription": "0",
+    "display_on_dashboard": "1",
+    "is_decimal": "0",
+    "clubbed_with": null,
+    "created_by": "2700",
+    "modified_by": "2902",
+    "modified_date": "2018-08-16 16:56:27",
+    "created_date": "2018-08-03 10:48:44",
+    "vitalRangeData": [{
+      "category": "Normal",
+      "categoryId": "2516",
+      "color": "#673AB7",
+      "firstRange": {
+        "operator": "equal",
+        "value": "18"
+      },
+      "secondRange": {
+        "operator": "equal",
+        "value": "24"
+      }
+    }, {
+      "category": "severe",
+      "categoryId": "2518",
+      "color": "Red",
+      "firstRange": {
+        "operator": "greater",
+        "value": "30"
+      },
+      "secondRange": {
+        "operator": "0",
+        "value": "0"
+      }
+    }, {
+      "category": "Moderate",
+      "categoryId": "2519",
+      "color": "Yellow",
+      "firstRange": {
+        "operator": "equal",
+        "value": "25"
+      },
+      "secondRange": {
+        "operator": "equal",
+        "value": "29"
+      }
+    }],
+    "vitalRangeMaster": [{
+      "id": "2516",
+      "category": "Normal"
+    }, {
+      "id": "2517",
+      "category": "Moderate"
+    }, {
+      "id": "2518",
+      "category": "severe"
+    }, {
+      "id": "2519",
+      "category": "Moderate"
+    }],
+    "formula_detail": "[Weight\/(height*height)]*100",
+    "formula_display": "[Weight\/(Height*Height)]*100"
+  }, {
+    "id": "3261",
+    "doctor_id": "2902",
+    "col_name": "POSTBUN",
+    "display_name": "POSTBUN",
+    "sequence_number": "13",
+    "prefix": null,
+    "suffix": null,
+    "col_type": "text",
+    "enabled": "1",
+    "print_on_prescription": "1",
+    "display_on_dashboard": "1",
+    "is_decimal": "0",
+    "clubbed_with": null,
+    "created_by": "2700",
+    "modified_by": "2902",
+    "modified_date": "2018-08-16 17:33:12",
+    "created_date": "2018-08-03 10:48:44",
+    "vitalRangeData": null,
+    "vitalRangeMaster": null,
+    "formula_detail": "[Weight\/(height*height)]*100",
+    "formula_display": "[Weight\/(height*height)]*100"
+  }, {
+    "id": "3259",
+    "doctor_id": "2902",
+    "col_name": "GFR",
+    "display_name": "GFR",
+    "sequence_number": "17",
+    "prefix": null,
+    "suffix": null,
+    "col_type": "text",
+    "enabled": "1",
+    "print_on_prescription": "1",
+    "display_on_dashboard": "1",
+    "is_decimal": "0",
+    "clubbed_with": null,
+    "created_by": "2700",
+    "modified_by": "2902",
+    "modified_date": "2018-09-07 19:55:20",
+    "created_date": "2018-08-03 10:48:44",
+    "vitalRangeData": null,
+    "vitalRangeMaster": null,
+    "formula_detail": "",
+    "formula_display": ""
+  }, {
+    "id": "3265",
+    "doctor_id": "2902",
+    "col_name": "RBPMax",
+    "display_name": "RBPMax",
+    "sequence_number": "18",
+    "prefix": null,
+    "suffix": null,
+    "col_type": "text",
+    "enabled": "1",
+    "print_on_prescription": "1",
+    "display_on_dashboard": "1",
+    "is_decimal": "0",
+    "clubbed_with": null,
+    "created_by": "2700",
+    "modified_by": "2902",
+    "modified_date": "2018-09-07 19:54:46",
+    "created_date": "2018-08-03 10:48:44",
+    "vitalRangeData": null,
+    "vitalRangeMaster": [{
+      "id": "2514",
+      "category": "Normal"
+    }, {
+      "id": "2960",
+      "category": "Normal"
+    }, {
+      "id": "2961",
+      "category": "Normal"
+    }, {
+      "id": "2962",
+      "category": "Moderate"
+    }, {
+      "id": "2963",
+      "category": "Normal"
+    }, {
+      "id": "2964",
+      "category": "Normal"
+    }, {
+      "id": "2965",
+      "category": "Moderate"
+    }, {
+      "id": "2966",
+      "category": "Moderate"
+    }],
+    "formula_detail": "BpMin+Weight",
+    "formula_display": "Diastolic+Weight"
+  }, {
+    "id": "3264",
+    "doctor_id": "2902",
+    "col_name": "RBPMin",
+    "display_name": "RBPMin",
+    "sequence_number": "19",
+    "prefix": null,
+    "suffix": null,
+    "col_type": "text",
+    "enabled": "1",
+    "print_on_prescription": "1",
+    "display_on_dashboard": "1",
+    "is_decimal": "0",
+    "clubbed_with": null,
+    "created_by": "2700",
+    "modified_by": "2902",
+    "modified_date": "2018-09-03 12:07:25",
+    "created_date": "2018-08-03 10:48:44",
+    "vitalRangeData": [{
+      "category": "Normal",
+      "categoryId": "2959",
+      "color": "#673AB7",
+      "firstRange": {
+        "operator": "greater_and_equal",
+        "value": "50"
+      },
+      "secondRange": {
+        "operator": "0",
+        "value": "0"
+      }
+    }],
+    "vitalRangeMaster": [{
+      "id": "2847",
+      "category": "Normal"
+    }, {
+      "id": "2848",
+      "category": "Moderate"
+    }, {
+      "id": "2849",
+      "category": ""
+    }, {
+      "id": "2850",
+      "category": "Moderate"
+    }, {
+      "id": "2851",
+      "category": "Moderate"
+    }, {
+      "id": "2955",
+      "category": ""
+    }, {
+      "id": "2959",
+      "category": "Normal"
+    }],
+    "formula_detail": "BpMin+POSTBUN",
+    "formula_display": "Diastolic+POSTBUN"
+  }, {
+    "id": "3266",
+    "doctor_id": "2902",
+    "col_name": "PDWeight",
+    "display_name": "PDWeightReea",
+    "sequence_number": "22",
+    "prefix": null,
+    "suffix": null,
+    "col_type": "text",
+    "enabled": "1",
+    "print_on_prescription": "1",
+    "display_on_dashboard": "1",
+    "is_decimal": "0",
+    "clubbed_with": null,
+    "created_by": "2700",
+    "modified_by": "2700",
+    "modified_date": "2018-08-03 10:48:44",
+    "created_date": "2018-08-03 10:48:44",
+    "vitalRangeData": [{
+      "category": "Normal",
+      "categoryId": "2515",
+      "color": "#673AB7",
+      "firstRange": {
+        "operator": "equal",
+        "value": "0"
+      },
+      "secondRange": {
+        "operator": "equal",
+        "value": "10"
+      }
+    }],
+    "vitalRangeMaster": [{
+      "id": "2515",
+      "category": "Normal"
+    }],
+    "formula_detail": "",
+    "formula_display": ""
+  }, {
+    "id": "3263",
+    "doctor_id": "2902",
+    "col_name": "KTV",
+    "display_name": "KTV",
+    "sequence_number": "23",
+    "prefix": null,
+    "suffix": null,
+    "col_type": "text",
+    "enabled": "1",
+    "print_on_prescription": "1",
+    "display_on_dashboard": "1",
+    "is_decimal": "0",
+    "clubbed_with": null,
+    "created_by": "2700",
+    "modified_by": "2902",
+    "modified_date": "2018-08-31 10:56:41",
+    "created_date": "2018-08-03 10:48:44",
+    "vitalRangeData": [{
+      "category": "Normal",
+      "categoryId": "2843",
+      "color": "#673AB7",
+      "firstRange": {
+        "operator": "equal",
+        "value": "10"
+      },
+      "secondRange": {
+        "operator": "equal",
+        "value": "20"
+      }
+    }, {
+      "category": "Normal",
+      "categoryId": "2843",
+      "color": "#673AB7",
+      "firstRange": {
+        "operator": "equal",
+        "value": "10"
+      },
+      "secondRange": {
+        "operator": "equal",
+        "value": "20"
+      }
+    }],
+    "vitalRangeMaster": [{
+      "id": "2843",
+      "category": "Normal"
+    }, {
+      "id": "2844",
+      "category": "Moderate"
+    }, {
+      "id": "2845",
+      "category": "Moderate"
+    }, {
+      "id": "2846",
+      "category": "Moderate"
+    }],
+    "formula_detail": "",
+    "formula_display": ""
+  }]
+}

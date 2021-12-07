@@ -1,0 +1,64 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+:host::ng-deep {
+  .dropdown-menu {
+    top: 30px !important;
+    left: 8% !important;
+  }
+}
+
+.date-col {
+  flex: 0 0 230px;
+  max-width: 230px;
+
+  .date.btn:disabled {
+    border-color: $gray-400;
+    opacity: 1;
+
+    &:hover {
+      background-color: inherit;
+    }
+  }
+}
+
+.col-today {
+  flex: 0 0 62px;
+  max-width: 62px;
+}
+
+.parent-view-fav-tab {
+
+  .btn-group {
+    .favorite-month-tab {
+      top: 5px;
+      right: 132px;
+      z-index: 1;
+    }
+
+    .favorite-week-tab {
+      top: 5px;
+      right: 63px;
+      z-index: 1;
+    }
+
+    .favorite-day-tab {
+      top: 5px;
+      right: 5px;
+      z-index: 1;
+    }
+
+    .fa.fa-star {
+      color: var(--bgColor);
+    }
+
+    &:hover {
+      .icon.icon-star {
+        color: var(--bgColor);
+      }
+    }
+  }
+}
+
+.btn-group>.btn:not(:last-child) {
+  @include border-right-radius(3px);
+}

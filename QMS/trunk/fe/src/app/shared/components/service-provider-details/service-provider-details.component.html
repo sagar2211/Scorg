@@ -1,0 +1,211 @@
+<div appOutSideClickEvent (clickOutside)="appOutSideClickEvent($event)" [clickInputValue]="false">
+  <div class="card border-0 overflow-hidden card-provider">
+    <div class="card-header p-1 border-dash-bottom cus-head">
+      <h6 class="mb-0 pl-2">Provider info <a class="icon fa-fw icon-times pointer float-right" title="Close"
+          (click)="onClose()"></a></h6>
+    </div>
+    <div class="card border-0 list-tabs">
+      <div class="card-body p-0 nav-content">
+        <div class="card-body p-0 pt-1 bg-light">
+          <!-- <div class="no-data w-50 text-center m-auto"
+            *ngIf="!(serviceProviderDetailsData && serviceProviderDetailsData.ScheduleTimes?.Weekly_Off.length > 0 && isServiceProviderSelected)">
+            <span aria-hidden="true" class="fa-stack fa-2x"><i class="fa fa-clipboard" aria-hidden="true"></i>
+              <i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse" aria-hidden="true"></i></span>
+            <p
+              *ngIf="isServiceProviderSelected && (!serviceProviderDetailsData || (serviceProviderDetailsData && (this.serviceProviderDetailsData.ScheduleTimes == null || serviceProviderDetailsData.ScheduleTimes?.Weekly_Off.length == 0)))">
+              No Data Found!</p>
+            <p *ngIf="!isServiceProviderSelected">Please Select Provider!</p>
+          </div> -->
+          <div class="container-fluid px-0">
+            <div class="form-row mx-0 entity-details sm-line-height">
+              <div class="col-4">
+                <p class="mb-1 font-size-sm"><span class="text-muted mr-1">Provider Type : </span>
+                  {{serviceProviderDetailsData?.Schedule?.Name}}
+                </p>
+                <h6 class="mb-2">
+                  {{serviceProviderName}}
+                </h6>
+                <!-- <p *ngIf="weeklyOffDays?.length" class="mb-1 font-size-sm"><span class="text-muted mr-1">Week Off : </span>
+                  <span *ngFor="let offDay of weeklyOffDays; let idx = index; let lastIndex = last;">
+                      {{offDay.Day}}<span *ngIf="!lastIndex">,</span>
+                  </span>
+                </p> -->
+                <div>
+                  <p class="font-size-sm text-muted mb-0">Parallel booking</p>
+                  <p class="font-weight-500 mb-1">
+                    {{serviceProviderDetailsData?.Schedule_IsAllowBooking ? 'Allowed': 'Not Allowed'}} <small
+                      *ngIf="serviceProviderDetailsData?.Schedule_IsAllowBooking"> (Max Patient :
+                      {{serviceProviderDetailsData?.Schedule_Maxallowed_Booking}}) </small></p>
+                  <!-- <div *ngIf="serviceProviderDetailsData?.Schedule_IsAllowBooking">
+                    <p class="font-size-sm mb-0">Max parallel allowed booking is :</p>
+                    <p class="font-weight-500 mb-1"> {{serviceProviderDetailsData?.Schedule_Maxallowed_Booking}} </p>
+                  </div> -->
+                </div>
+              </div>
+              <div class="col-3">
+                <p class="mb-1 text-muted font-size-sm">Appointment Types</p>
+                <div class="type-height">
+                  <p class="mb-0 font-weight-500"
+                    *ngFor="let aType of serviceProviderDetailsData?.ScheduleAppointmentTypeDetails">
+                    {{aType.AppointmentType}}</p>
+                </div>
+              </div>
+              <div class="col-2">
+                <p class="mb-0 text-muted font-size-sm">Schedule Type</p>
+                <p class="mb-2 font-weight-500">{{serviceProviderDetailsData?.TokenType?.Name}}</p>
+                <p class="mb-0 text-muted font-size-sm">Service Time</p>
+                <p class="mb-2 font-weight-500">{{communicationTime}}
+                  <small *ngIf="communicationTime!=''">mins</small></p>
+              </div>
+              <div class="col-3">
+                <p class="mb-0 text-muted font-size-sm">Patient Communication Time</p>
+                <p class="mb-2 font-weight-500">{{serviceTime}}
+                  <small *ngIf="serviceTime!=''">mins</small>
+                </p>
+                <p class="mb-0 text-muted font-size-sm">Advance Booking Days</p>
+                <p class="mb-0 font-weight-500">{{serviceProviderDetailsData?.Schedule_AdvanceBookingDays}}
+                  <small *ngIf="serviceProviderDetailsData?.Schedule_AdvanceBookingDays">days</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ngb-tabset activeId="'tab-instruction'" #t="ngbTabset" (tabChange)="beforeChange($event)">
+          <ngb-tab id="tab-instruction" title="Instruction">
+            <ng-template ngbTabContent>
+              <div class="card border-0 overflow-hidden card-instructions">
+                <!-- <div class="card-header p-1 mt-1 border-dash-bottom cus-head">
+                  <h6 class="mb-0 pl-2">Instructions</h6>
+                </div> -->
+                <div class="card-body">
+                  <div class="line-height-1" *ngIf="serviceProviderDetailsData && isServiceProviderSelected">
+                    <div class="mb-2" *ngIf="serviceProviderDetailsData.ScheduleInstructions != ''">
+                      <p class="text-muted mb-0 mt-1 font-size-sm">General Instructions</p>
+                      <div class="table-responsive instructions-table">
+                        <table class="table table-bordered mb-0">
+                          <thead>
+                            <tr>
+                              <th
+                                *ngIf="serviceProviderDetailsData.ScheduleInstructions.GeneralInstrucion_Patient != null">
+                                For Patient</th>
+                              <th
+                                *ngIf="serviceProviderDetailsData.ScheduleInstructions.GeneralInstruction_Operator != null">
+                                For Operator</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td
+                                *ngIf="serviceProviderDetailsData.ScheduleInstructions.GeneralInstrucion_Patient != null">
+                                {{serviceProviderDetailsData.ScheduleInstructions.GeneralInstrucion_Patient}}</td>
+                              <td
+                                *ngIf="serviceProviderDetailsData.ScheduleInstructions.GeneralInstruction_Operator != null">
+                                {{serviceProviderDetailsData.ScheduleInstructions.GeneralInstruction_Operator}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <p class="text-muted mb-0 mt-1 font-size-sm"
+                        *ngIf="serviceProviderDetailsData.ScheduleInstructions.ScheduleInstructionsDetails.length">
+                        Instructions
+                        Specific Service</p>
+                      <div class="table-responsive instructions-table">
+                        <table class="table table-bordered mb-0">
+                          <thead>
+                            <tr>
+                              <th>Service Name</th>
+                              <th>For Patient</th>
+                              <th>For Operator</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr
+                              *ngFor="let serviceInstruction of serviceProviderDetailsData.ScheduleInstructions.ScheduleInstructionsDetails">
+                              <th class="font-weight-500">{{serviceInstruction.Instructions_ServiceName}}</th>
+                              <td>{{serviceInstruction.InstructionTo_Patient}}</td>
+                              <td>{{serviceInstruction.InstructionTo_Operator}}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="no-data w-50 text-center m-auto"
+                  *ngIf="serviceProviderDetailsData?.ScheduleInstructions == '' || serviceProviderDetailsData?.ScheduleInstructions == null">
+                  <span aria-hidden="true" class="fa-stack fa-2x"><i class="fa fa-clipboard" aria-hidden="true"></i>
+                    <i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse" aria-hidden="true"></i></span>
+                  <p> No Data Found!</p>
+                </div>
+                  <!-- <div class="no-data w-50 text-center m-auto"
+                    *ngIf="!(serviceProviderDetailsData && serviceProviderDetailsData.ScheduleTimes?.Weekly_Off.length > 0 && isServiceProviderSelected)">
+                    <span aria-hidden="true" class="fa-stack fa-2x"><i class="fa fa-clipboard" aria-hidden="true"></i>
+                      <i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse" aria-hidden="true"></i></span>
+                    <p
+                      *ngIf="isServiceProviderSelected && (!serviceProviderDetailsData || (serviceProviderDetailsData && (this.serviceProviderDetailsData.ScheduleTimes == null || serviceProviderDetailsData.ScheduleTimes?.Weekly_Off.length == 0)))">
+                      No Schedule Found!</p>
+                    <p *ngIf="!isServiceProviderSelected">Please Select Provider!</p>
+                  </div> -->
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab id="tab-schedule" title="Schedule List">
+            <ng-template ngbTabContent>
+              <div class="schedule_list px-2" [ngClass]="entityHolidayList?.length ? 'pt-3' : 'pt-4'">
+                <ng-container *ngIf="scheduleData?.scheduleData?.length > 0">
+                  <div *ngIf="entityHolidayList?.length" class="card holiday-card"
+                    [ngClass]="blockListDetails?.length ? 'mb-3' : 'mb-4'">
+                    <div class="card-header pointer shadow-sm border-0 py-2" (click)="toggelHolidayDetailSection()">
+                      <h6 class="text-warning mb-0">Holidays <i class="fas fa-fw fa-chevron-down float-right"></i></h6>
+                    </div>
+                    <div class="card-body pb-1" [ngClass]="{'d-none': hideHolidaySection}">
+                      <p class="holidays-date font-size-dot-875 pb-2" *ngFor="let holiday of entityHolidayList">
+                        <i class="icon icon-calendar-day fa-fw text-muted mr-1"></i> {{holiday.date_from}} -
+                        {{holiday.date_to}}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div *ngIf="blockListDetails?.length" class="card block-card mb-4">
+                    <div class="card-header pointer shadow-sm border-0 py-2" (click)="toggelBlockDetailSection()">
+                      <h6 class="mb-0">Block Timing <i class="fas fa-fw fa-chevron-down float-right"></i></h6>
+                    </div>
+                    <div class="card-body pb-1" [ngClass]="{'d-none': hideBlockSection}">
+                      <div class="form-row block-time pb-2 mb-2" *ngFor="let block of blockListDetails;">
+                        <div class="col-3">
+                          <p class="font-weight-500 mb-0"><i class="icon icon-calendar-day fa-fw"></i> {{block.key}} :
+                          </p>
+                        </div>
+                        <div class="col-9">
+                          <div class="form-row">
+                            <div class="col-4" *ngFor="let bl of block.value;let lastIdx = last;">
+                              <span class="font-size-dot-9vw">
+                                {{bl.time_from}} - {{bl.time_to}} <span *ngIf="!lastIdx">,</span>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <ng-container *ngFor="let item of scheduleData?.scheduleData; let i = index;">
+                    <app-summery-time-schedule [scheduleTimeData]="item" [showEditButton]="false" [index]="i"
+                      [entityId]="scheduleData.basicInfo.selectedEntity.id"
+                      [providerId]="scheduleData.basicInfo.selectedProvider.id">
+                    </app-summery-time-schedule>
+                  </ng-container>
+                </ng-container>
+                <div class="no-data w-50 text-center m-auto" *ngIf="scheduleData?.scheduleData?.length == 0 || this.scheduleData?.scheduleData == undefined">
+                  <span aria-hidden="true" class="fa-stack fa-2x"><i class="fa fa-clipboard" aria-hidden="true"></i>
+                    <i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse" aria-hidden="true"></i></span>
+                  <p> No Schedule Found!</p>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+.audit-logs-modal-body {
+  height: calc(100vh - 230px);
+  overflow-y: auto;
+}
+
+:host ::ng-deep {
+  .ngx-datatable.fixed-row {
+    .datatable-body {
+      height: calc(100vh - 335px) !important;
+      overflow-x: hidden !important;
+    }
+  }
+}

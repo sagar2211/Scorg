@@ -1,0 +1,27 @@
+.suggestion-settings-card-body {
+  height: calc(100vh - 195px);
+  overflow-y: auto;
+
+  .table {
+    tbody {
+      tr {
+        td {
+          .form-group {
+            margin-bottom: 0 !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+.custom-switch .custom-control-label::after {
+  top: calc(0.25rem + 0px);
+  left: calc(-1.95rem + 5px);
+  width: 1rem;
+  height: 1rem;
+}
+
+.custom-switch .custom-control-label::before {
+  left: -1.9rem;
+}

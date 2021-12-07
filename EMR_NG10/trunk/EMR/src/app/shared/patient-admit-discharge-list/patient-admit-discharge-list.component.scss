@@ -1,0 +1,123 @@
+:host ::ng-deep {
+  .datatable-body {
+    min-height: calc(100vh - 205px) !important;
+    span {
+      display: flex;
+    }
+  }
+}
+.discharge-patient-dashboard-container {
+  height: calc(100vh - 110px);
+}
+/*legend section*/
+.dashboard-section {
+  background: white;
+  border-radius: 5px;
+}
+.dashboard-section .date-section {
+  display: flex;
+  justify-content: flex-end;
+}
+.dashboard-section .date-section .pull-right {
+  display: flex;
+  font-weight: 400;
+  font-size: 13px;
+}
+.dashboard-section .date-section .pull-right:last-child {
+  padding-left: 119px;
+}
+.dashboard-section .date-section .pull-right .label i {
+  padding-left: 10px;
+}
+.dashboard-section .date-section .pull-right .label {
+  display: inline-block;
+  font-weight: 500;
+  padding: 2px 5px 1px 5px;
+  line-height: 1.5384616;
+  border: 1px solid transparent;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.1px;
+  border-radius: 2px;
+}
+
+.dashboard-section .date-section span {
+  padding: 0;
+}
+.dashboard-section .date-section .date-details {
+  width: 44%;
+  display: flex;
+}
+.dashboard-section .date-section span:after {
+  display: none;
+}
+.header-Style {
+  display: flex;
+  justify-content: space-between;
+}
+.header-Style .icon-Text {
+  display: flex;
+}
+.blue-link {
+  color: #039be5 !important;
+  letter-spacing: 1px;
+}
+.header-Style .icon-Text a.btn {
+  border: 2px solid #039be5;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+}
+.header-Style .icon-Text a i {
+  color: #039be5;
+  font-size: 18px;
+  padding-top: 3px;
+}
+.header-Style .icon-Text a.orange {
+  border: 2px solid #ff7043 !important;
+}
+
+.header-Style .icon-Text a.orange i {
+  color: #ff7043 !important;
+}
+.header-Style .icon-Text a.red {
+  border: 2px solid #e91e63 !important;
+}
+
+.header-Style .icon-Text a.red i {
+  color: #e91e63 !important;
+}
+.header-Style .icon-Text a.green {
+  border: 2px solid #43a047 !important;
+}
+
+.header-Style .icon-Text a.green i {
+  color: #43a047 !important;
+}
+.header-Style .text {
+  flex-direction: column;
+  padding-left: 20px;
+}
+.header-Style .text h5 {
+  margin: 0;
+  font-size: 17px;
+}
+.text-semibold {
+  font-weight: 500;
+  color: #333333;
+}
+.small {
+  padding-top: 2px;
+  font-size: 13px !important;
+  color: #999999;
+  font-weight: normal;
+  word-spacing: 4px;
+}
+
+.icon-file {
+  font-weight: 600;
+}
+.icon-file-done {
+  font-size: 20px;
+}
+/*legend section*/

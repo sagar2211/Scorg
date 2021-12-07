@@ -1,0 +1,24 @@
+@import "../../../../../scss/main";
+
+.custom-container-fluid {
+  height: calc(100vh - 50px);
+
+}
+:host ::ng-deep {
+    .ngx-datatable.fixed-row {
+      .datatable-header-inner {
+        .datatable-row-center {
+          .datatable-header-cell {
+  
+            &[title="Indent No."] {
+              text-align: right;
+            }
+          }
+        }
+      }
+  
+      .datatable-body {
+        height: calc(100vh - 186px) !important
+      }
+    }
+  }

@@ -1,0 +1,56 @@
+@import "../../../../scss/main";
+.encounter-custom-scroll {
+    height: calc(100vh - 102px);
+    overflow-y: auto;
+    .encounter-nav {
+        // height: calc(100vh - 161px);
+        // overflow-y: auto;
+    }
+    .date {
+        background-color: #7d8bd8;
+        @include border-radius(2px);
+    }
+    .nav-item {
+        border-bottom: 1px dashed #ccc;
+        @include border-radius(1px);
+    }
+    .tag-list {
+        .small {
+            font-size: 90%;
+        }
+    }
+    .nav.custom-nav .nav-item .nav-link {
+        padding: 0.25rem 0.5rem;
+    }
+    @media screen and (max-width: 1280px) {
+        .date,
+        .nav.custom-nav .nav-item .nav-link {
+            padding: 0.8rem 0.5rem !important;
+        }
+    }
+    .history-tab {
+        & {
+            border-top: 4px solid $primary-light;
+        }
+    }
+}
+
+:host ::ng-deep {
+    .encounter-custom-scroll {
+        .cus-head {
+            >p {
+                font-size: 0.8rem;
+                color: $gray-700;
+            }
+        }
+        table {
+            th,
+            td {
+                padding: 2px !important;
+            }
+        }
+        .label {
+            padding-left: 0.2rem;
+        }
+    }
+}

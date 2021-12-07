@@ -1,0 +1,598 @@
+{
+  "medicineTypes":[
+    {"id":"1","MedicineTypeID":"1","ShortName":"SYP","name":"SYRUP","dose_unit":"ml","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"2","MedicineTypeID":"2","ShortName":"TAB","name":"TABLET","dose_unit":"tablets","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"3","MedicineTypeID":"3","ShortName":"CAP","name":"CAPSULE","dose_unit":"capsules","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"4","MedicineTypeID":"4","ShortName":"INJ","name":"INJECTION","dose_unit":"IU","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"5","MedicineTypeID":"5","ShortName":"INS","name":"INSULIN","dose_unit":"units\/ml","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"6","MedicineTypeID":"6","ShortName":"INH","name":"INHALER","dose_unit":"puffs","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"7","MedicineTypeID":"7","ShortName":"LIQ","name":"LIQUID","dose_unit":"ml","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"8","MedicineTypeID":"8","ShortName":"TA","name":"TAN","dose_unit":"","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"9","MedicineTypeID":"9","ShortName":"CRE","name":"CREAM","dose_unit":"gms","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"10","MedicineTypeID":"10","ShortName":"JLY","name":"JELLY","dose_unit":"gms","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"11","MedicineTypeID":"11","ShortName":"LOCAP","name":"LOCAL APPLICATION","dose_unit":"gms","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"12","MedicineTypeID":"12","ShortName":"OI","name":"OINTMENT","dose_unit":"gms","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"13","MedicineTypeID":"13","ShortName":"LOT","name":"LOTION","dose_unit":"ml","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"14","MedicineTypeID":"14","ShortName":"DRP","name":"DROPS","dose_unit":"drops","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"15","MedicineTypeID":"15","ShortName":"EDRP","name":"EYE DROPS","dose_unit":"drops","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"16","MedicineTypeID":"16","ShortName":"NDRP","name":"NASAL DROPS","dose_unit":"drops","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"17","MedicineTypeID":"17","ShortName":"NSPR","name":"NASAL SPRAY","dose_unit":"puffs","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"18","MedicineTypeID":"18","ShortName":"OINPW","name":"OINTMENT\/POWDER","dose_unit":"","creation_date":null,"last_updation_date":null,"is_deleted":"0"},
+    {"id":"19","MedicineTypeID":"19","ShortName":"RES","name":"RESPULES","dose_unit":"mg","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"20","MedicineTypeID":"20","ShortName":"ROT","name":"ROTACAPS","dose_unit":"capsules","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"21","MedicineTypeID":"21","ShortName":"SAC","name":"SACHET","dose_unit":"gms","creation_date":null,"last_updation_date":null,"is_deleted":null},
+    {"id":"22","MedicineTypeID":"22","ShortName":"POW","name":"POWDER","dose_unit":"gms","creation_date":"2017-03-03 00:00:00","last_updation_date":"2017-03-03 00:00:00","is_deleted":null},
+    {"id":"23","MedicineTypeID":"23","ShortName":"GEL","name":"GEL","dose_unit":"gm","creation_date":"2017-03-03 00:00:00","last_updation_date":"2017-03-03 00:00:00","is_deleted":"0"},
+    {"id":"24","MedicineTypeID":"24","ShortName":"SPR","name":"SPRAY","dose_unit":"dautch ","creation_date":"2017-03-03 00:00:00","last_updation_date":"2017-03-03 00:00:00","is_deleted":"0"},{"id":"25","MedicineTypeID":"25","ShortName":"OTAB","name":"ORAL TABLET","dose_unit":"take","creation_date":"2017-03-03 00:00:00","last_updation_date":"2017-03-03 00:00:00","is_deleted":"0"},{"id":"26","MedicineTypeID":"26","ShortName":"CART","name":"CARTRIDGE","dose_unit":"tablet","creation_date":"2017-03-03 00:00:00","last_updation_date":"2017-03-03 00:00:00","is_deleted":"0"},{"id":"27","MedicineTypeID":"26","ShortName":"SUSP","name":"Suspensions","dose_unit":"tablet","creation_date":"2017-03-03 00:00:00","last_updation_date":"2017-03-03 00:00:00","is_deleted":"0"},{"id":"28","MedicineTypeID":"28","ShortName":"PATCH","name":"PATCH","dose_unit":"tablet","creation_date":"2017-03-03 00:00:00","last_updation_date":"2017-03-03 00:00:00","is_deleted":null},{"id":"29","MedicineTypeID":"29","ShortName":"pack","name":"Pack","dose_unit":"tablet","creation_date":"2018-07-04 00:00:00","last_updation_date":"2018-07-05 00:00:00","is_deleted":null}],
+  "getAllMedicineRelatedMastersData":{
+      "sig":[
+        {"id":"1","sig":"Take"},{"id":"2","sig":"Apply"},{"id":"3","sig":"Put"}
+      ],
+      "doseUnit":[
+        {"id":"1","dose_unit":"tablet"},{"id":"2","dose_unit":"0.25"},{"id":"3","dose_unit":"0.4"},{"id":"4","dose_unit":"0.5"},{"id":"5","dose_unit":"0.75"},{"id":"6","dose_unit":"1"},{"id":"7","dose_unit":"1.25"},{"id":"8","dose_unit":"1.5"},{"id":"9","dose_unit":"2.5"},{"id":"10","dose_unit":"6.25"},{"id":"11","dose_unit":"7.5"},
+        {"id":"12","dose_unit":"11"},{"id":"13","dose_unit":"14"},{"id":"14","dose_unit":"20"},{"id":"15","dose_unit":"25"},{"id":"16","dose_unit":"30"},{"id":"17","dose_unit":"40"},{"id":"18","dose_unit":"125"},{"id":"19","dose_unit":"200"},{"id":"20","dose_unit":"250"},{"id":"21","dose_unit":"300"},{"id":"22","dose_unit":"360"},{"id":"23","dose_unit":"375"},{"id":"24","dose_unit":"400"},{"id":"25","dose_unit":"550"},{"id":"26","dose_unit":"625"},{"id":"27","dose_unit":"800"},{"id":"28","dose_unit":"1000"},{"id":"29","dose_unit":"10000"},{"id":"30","dose_unit":"60000"},{"id":"31","dose_unit":"--"},{"id":"32","dose_unit":"`TAB"},{"id":"33","dose_unit":"0--0--1"},{"id":"34","dose_unit":"0--1--0"},{"id":"35","dose_unit":"0-0-1"},{"id":"36","dose_unit":"0-0-1\/2"},{"id":"37","dose_unit":"0-1-0"},{"id":"38","dose_unit":"0.05 mg"},{"id":"39","dose_unit":"0.25mg"},{"id":"40","dose_unit":"0.4mg"},{"id":"41","dose_unit":"0.5 gm"},{"id":"42","dose_unit":"0.5 mg"},{"id":"43","dose_unit":"0.5 MG"},{"id":"44","dose_unit":"0.5 ml"},{"id":"45","dose_unit":"0.5MG"},{"id":"46","dose_unit":"0.5ML"},{"id":"47","dose_unit":"1 1\/2"},{"id":"48","dose_unit":"1 ampule"},{"id":"49","dose_unit":"1 applicap"},{"id":"50","dose_unit":"1 cap"},{"id":"51","dose_unit":"1 capsule"},{"id":"52","dose_unit":"1 CC"},{"id":"53","dose_unit":"1 drop"},{"id":"54","dose_unit":"1 drops"},{"id":"55","dose_unit":"1 gm"},{"id":"56","dose_unit":"1 kit"},{"id":"57","dose_unit":"1 LIT A DAY"},{"id":"58","dose_unit":"1 lozenge"},{"id":"59","dose_unit":"1 mg"},{"id":"60","dose_unit":"1 MG"},{"id":"61","dose_unit":"1 MIU"},{"id":"62","dose_unit":"1 ml"},{"id":"63","dose_unit":"1 ML"},{"id":"64","dose_unit":"1 night"},{"id":"65","dose_unit":"1 packet"},{"id":"66","dose_unit":"1 PATCH"},{"id":"67","dose_unit":"1 pint"},{"id":"68","dose_unit":"1 PINT"},{"id":"69","dose_unit":"1 point"},{"id":"70","dose_unit":"1 puff"},{"id":"71","dose_unit":"1 puff in each nostril"},{"id":"72","dose_unit":"1 PUFF TWICE A DAY"},{"id":"73","dose_unit":"1 PUFF\/ DAY"},{"id":"74","dose_unit":"1 RESPULE"},{"id":"75","dose_unit":"1 sachet"},{"id":"76","dose_unit":"1 sos"},{"id":"77","dose_unit":"1 SPATULA"},{"id":"78","dose_unit":"1 SPOON"},{"id":"79","dose_unit":"1 spray"},{"id":"80","dose_unit":"1 tab"},{"id":"81","dose_unit":"1 TABLESPOON"},
+        {"id":"121","dose_unit":"10 MIN"},{"id":"122","dose_unit":"10 ML"},{"id":"123","dose_unit":"10 ml"},{"id":"124","dose_unit":"10 unit"},{"id":"125","dose_unit":"10-0-10"},{"id":"126","dose_unit":"100 mcg"},{"id":"127","dose_unit":"100 mg"},{"id":"128","dose_unit":"1000 mg"},{"id":"129","dose_unit":"100mg"},{"id":"130","dose_unit":"100MG"}
+      ],
+      "remark_hindi":[],
+      "remark_marathi":[],
+      "frequency": [
+        {"id": "1", "frequency": "four times a day " },
+        {"id": "2", "frequency": "40" } ,
+        {"id": "3", "frequency": "500" } ,
+        {"frequency": "1400"},
+        {"id": "5","frequency": "-" } ,
+        {"id": "6","frequency": "0---0--1"} ,
+        {"id": "7","frequency": "0--1--0" } ,
+        {"id": "8","frequency": "0-0-1" },
+        {"id": "9", "frequency": "0-0-1/2" } ,
+        {"id": "10", "frequency": "0-0-11/2"} ,
+        {"id": "11","frequency": "0-0-2"} ,
+        {"id": "12","frequency": "0-0-21/2"} ,
+        {"id": "13","frequency": "0-1-0"} ,
+        {"id": "14","frequency": "0.5-0-1"} ,
+        {"id": "15","frequency": "1 B D"} ,
+        {"id": "16","frequency": "1 drop"},
+        {"id": "17","frequency": "1 Hour before breakfast"} ,
+        {"id": "18","frequency": "1 HOUR BEFORE--MAXIMUM 3 TIMES A WEEK"} ,
+        {"id": "19","frequency": "1 hourly"} ,
+        {"id": "20","frequency": "1 POINT"},
+        {"id": "21","frequency": "1 tablet"}
+      ],
+      "duration": [
+        {"id": "1", "duration": "1 day"},
+        {"id": "2", "duration": "0"},
+        {"id": "3", "duration": "15"},
+        {"id": "4", "duration": "22"},
+        {"id": "5", "duration": "25"},
+        {"id": "6", "duration": "50"},
+        {"id": "7", "duration": "150"},
+        {"id": "8", "duration": "--"},
+        {"id": "9", "duration": "`10"},
+        {"id": "10", "duration": "1 days"},
+        {"id": "11", "duration": "1 dose"},
+        {"id": "12", "duration": "1 hour"}
+      ],
+      "dose": [
+        {"dose": "10MG", "id": ""},
+        {"dose": "16MG", "id": ""},
+        {"dose": "25MG", "id": ""},
+        {"dose": "500MG", "id": ""},
+        {"dose": "100MG", "id": ""},
+        {"dose": "90MG", "id": ""},
+        {"dose": "10ML", "id": ""},
+        {"dose": "400/10", "id": ""},
+        {"dose": "2 TABLETS", "id": ""},
+        {"dose": "2 TAB", "id": ""},
+        {"dose": "20MG", "id": ""},
+        {"dose": "4MG", "id": ""}
+      ],
+      "route": [
+        {"id": "1", "route": "by mouth"},
+        {"id": "2", "route": ", 150mg arund wound."},
+        {"id": "3", "route": "1 hour before breakfast"},
+        {"id": "4", "route": "1 hr Before Breakfast"},
+        {"id": "5", "route": "1---0---1"},
+        {"id": "6", "route": "1v"},
+        {"id": "7", "route": "150 MG im"},
+        {"id": "8", "route": "aff"},
+        {"id": "9", "route": "AFTER MEAL"},
+        {"id": "10", "route": "ANAL"},
+        {"id": "11", "route": "as shampoo"},
+        {"id": "12", "route": "BEFORE BED"},
+        {"id": "13", "route": "BEFORE FOOD"},
+        {"id": "14", "route": "BEFORE MEAL"},
+        {"id": "15", "route": "before meals"},
+        {"id": "16", "route": "both eyes"}
+      ],
+      "remark_english" : [
+        {"remark": "ONCE A WEEK", "id": ""},
+        {"remark": "1 SOS", "id": ""},
+        {"remark": "1-0-1", "id": ""},
+        {"remark": "0-0-1", "id": ""},
+        {"remark": "May Cause sedation", "id": ""},
+        {"remark": "1 TAB SOS IF LOOSE MOTIONS", "id": ""},
+        {"remark": "30 minutes Before Food ", "id": ""},
+        {"remark": "EVERY 3 WEEKLY", "id": ""},
+        {"remark": "ONCE A MONTH", "id": ""},
+        {"remark": "Once in 3 days", "id": ""},
+        {"remark": "CHANGE EVERY 3 DAYS", "id": ""},
+        {"remark": "OVER LOCAL APPLICATION", "id": ""},
+        {"remark": "Half tablet in the morning", "id": ""},
+        {"id": "1", "remark": "As needed"},
+        {"id": "2", "remark": "-2"}
+      ]
+    },
+   "medicineDosages": [
+      {"Dosage": "weeky 3 times"},
+      {"Dosage": "w"},
+      {"Dosage": "TWO TIMES A DAY"},
+      {"Dosage": "TWO A WEEK"},
+      {"Dosage": "twice in a wk"},
+      {"Dosage": "twice in a week"},
+      {"Dosage": "twice a week"},
+      {"Dosage": "twice A DAY"},
+      {"Dosage": "thrice a day"},
+      {"Dosage": "three times5 a day"},
+      {"Dosage": "three times a day"},
+      {"Dosage": "three a day"},
+      {"Dosage": "TAB"},
+      {"Dosage": "ssdfs"},
+      {"Dosage": "SINGLE DOSE"},
+      {"Dosage": "s/c"}
+    ],
+    "medicineList": [{
+      "id": "894976",
+      "Name": "TAB TEGRETOL 100",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "4",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "894977",
+      "Name": "CAP BECOSULE",
+      "MedicineTypeID": "3",
+      "is_favourite": "0",
+      "use_count": "4",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "894954",
+      "Name": "KALNASE NASAL SPRAY",
+      "MedicineTypeID": "17",
+      "is_favourite": "0",
+      "use_count": "1",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "895233",
+      "Name": "DUPHALAC",
+      "MedicineTypeID": "7",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "894978",
+      "Name": "TAB ZEN RETARD 200",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "895234",
+      "Name": "INDOCAP DROPS",
+      "MedicineTypeID": "4",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "894979",
+      "Name": "TAB ZEN RETARD 400",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "895235",
+      "Name": "INDOMETHACIN",
+      "MedicineTypeID": "3",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "894980",
+      "Name": "TAB TRYPTOMER 25",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "894981",
+      "Name": "CAP KARVAL PLUS",
+      "MedicineTypeID": "3",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "894982",
+      "Name": "TAB MYOSPAS TH",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "894983",
+      "Name": "TAB LYRICA 150",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "894984",
+      "Name": "CAP EVION",
+      "MedicineTypeID": "3",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "894985",
+      "Name": "TAB GABAPIN NT",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "895241",
+      "Name": "TRABEST",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "894986",
+      "Name": "TAB TEGRETOL 200",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "895242",
+      "Name": "CHYMORAL FORTE",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "894987",
+      "Name": "TAB VERTIN 24",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "895243",
+      "Name": "SUPRADYN",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "894988",
+      "Name": "TAB NEPROXYN 500",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "895244",
+      "Name": "DUZELA",
+      "MedicineTypeID": "3",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "894989",
+      "Name": "TAB BACLOFEN 10",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "894990",
+      "Name": "TAB MORCONTINE 60MG",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "894991",
+      "Name": "TAB MORPHINE SULPHATE SUSTAINED RELEASE TABLET 30MG",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "894992",
+      "Name": "TAB OMNICORTIL",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "895248",
+      "Name": "MACROZIDE",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "894993",
+      "Name": "TAB OMNICORTIL 5MG",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "895249",
+      "Name": "SALBAIR - I",
+      "MedicineTypeID": "6",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "894994",
+      "Name": "TAB ULTRACET",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "895250",
+      "Name": "FRUSELAC",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "894995",
+      "Name": "TAB LYRICA 75",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "894996",
+      "Name": "TAB DOLONAT",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "895252",
+      "Name": "AZORAN",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "894997",
+      "Name": "TAB GABAPENTINE100MG",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "894998",
+      "Name": "CAP PAN D",
+      "MedicineTypeID": "3",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "895254",
+      "Name": "PANTOKIND",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "894999",
+      "Name": "TAB TRAMAZAC TC 100",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "895000",
+      "Name": "PRILOX CREAM",
+      "MedicineTypeID": "9",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "895001",
+      "Name": "TAB RABONI 20",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "895002",
+      "Name": "TAB GABANTIN AT",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "895258",
+      "Name": "PHLOGAM",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "895003",
+      "Name": "TAB PREGABIN M",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "895259",
+      "Name": "PLAVIX",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "895004",
+      "Name": "TAB MAZITOL 200MG",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "895260",
+      "Name": "TRIKA",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "895005",
+      "Name": "TAB VERMOR 10",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "895261",
+      "Name": "GLIMESTAR",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "895006",
+      "Name": "INJ PERFALGAN",
+      "MedicineTypeID": "4",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    },
+    {
+      "id": "895262",
+      "Name": "STAMLO M",
+      "MedicineTypeID": "2",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }, {
+      "id": "895007",
+      "Name": "INJ PAN 40",
+      "MedicineTypeID": "4",
+      "is_favourite": "0",
+      "use_count": "0",
+      "genric_name": null,
+      "Price": "0.00"
+    }],
+    "medicine_instruction_suggestions": {
+      "english":[
+        {"instructions_en":"AFTER FOOD"},
+        {"instructions_en":"ONCE A WEEK"},
+        {"instructions_en":"30 minutes Before Food "},
+        {"instructions_en":"apply at night"},
+        {"instructions_en":"after BF"},
+        {"instructions_en":"1 SOS night time"},
+        {"instructions_en":"MAY FEELS SLEEPY"},
+        {"instructions_en":"take in the morning 30 minutes before with lime juice for best effect "},
+        {"instructions_en":"Take 2 tablets in the morning on empty stomach with lime juice"},{"instructions_en":"Once every week"},{"instructions_en":"IFT\/EXERCISES\/TAPING"},{"instructions_en":"Once a week for 6 weeks "},{"instructions_en":"at night"},{"instructions_en":"with food"},{"instructions_en":"after Breakfast"},{"instructions_en":"1 SOS"},{"instructions_en":"Change The Injection Side Daily (Contact - 9320444393 Mr. Akhilesh)"},{"instructions_en":"ON PAINFUL AREA"},{"instructions_en":"1-0-1"},{"instructions_en":"1 SOS, IF DOLO NOT WORKING, REPEAT ONE MORE IF NO RELIEF IN 45 MINUTES OF FIRST DOSE OF SUMINAT"},{"instructions_en":"May Cause sedation"},{"instructions_en":"1 TAB SOS IF LOOSE MOTIONS"},{"instructions_en":"EVERY 3 WEEKLY"},{"instructions_en":"ONCE A MONTH"},{"instructions_en":"Once in 3 days"},{"instructions_en":"CHANGE EVERY 3 DAYS"},{"instructions_en":"OVER LOCAL APPLICATION"},{"instructions_en":"Half tablet in the morning"}],
+      "hindi":[{"instructions_hindi":"\u0939\u093f\u0902\u0926\u0940 "}],
+      "marathi":[{"instructions_marathi":"\u092e\u0930\u093e\u0920\u0940 "}]},
+      "prescriptionData": [],
+      "medicineSuggestionLoadData": {
+        "frequently_used":[{"id":"894977","Name":"CAP BECOSULE","MedicineTypeID":"3","is_favourite":"0","use_count":"6","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894976","Name":"TAB TEGRETOL 100","MedicineTypeID":"2","is_favourite":"0","use_count":"5","genric_name":null,"Price":"0.00","instructions":"","instructions_hindi":"","instructions_marathi":""},{"id":"895255","Name":"NOSCOTUSS","MedicineTypeID":"1","is_favourite":"0","use_count":"3","genric_name":null,"Price":"0.00","instructions":"","instructions_hindi":"","instructions_marathi":""},{"id":"894952","Name":"VV","MedicineTypeID":"1","is_favourite":"0","use_count":"2","genric_name":null,"Price":null,"instructions":"","instructions_hindi":"","instructions_marathi":""}],
+        "others":[{"id":"894953","Name":"VOLITRA GEL","MedicineTypeID":"23","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894955","Name":"TAB MYORIL 4MG","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":"","instructions_hindi":"","instructions_marathi":""},{"id":"894956","Name":"CAP ROCK BONE","MedicineTypeID":"3","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894957","Name":"TAB GUDRIL","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":"AFTER FOOD","instructions_hindi":"","instructions_marathi":""},{"id":"894958","Name":"VOLINI SPRAY","MedicineTypeID":"24","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894959","Name":"TAB MORPHINE SULPHATE 10MG","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":"AFTER FOOD","instructions_hindi":"","instructions_marathi":""},{"id":"894960","Name":"TAB KETADOL 100","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894961","Name":"TAB MORPHINE SULPHATE 20","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894962","Name":"TAB MEDROL","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894963","Name":"TAB MEDROL 10","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894964","Name":"TAB MEDROL 5MG","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894965","Name":"CALCITROL SACHETS","MedicineTypeID":"21","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":"ONCE A WEEK","instructions_hindi":"","instructions_marathi":""},{"id":"894966","Name":"CAP PAN","MedicineTypeID":"3","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894967","Name":"CAP BECOSULE ZINC","MedicineTypeID":"3","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894968","Name":"TAB VERTIN 16","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":"","instructions_hindi":"","instructions_marathi":""},{"id":"894969","Name":"INJ STREPTOMYCINE 1GM","MedicineTypeID":"4","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894970","Name":"TAB RCINEX 600","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894971","Name":"ROCKBONE SACHETS","MedicineTypeID":"21","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894972","Name":"TAB MORCONTIN 30MG","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894973","Name":"TAB EMESET 4G","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894974","Name":"TAB ZOLFRESH 0.5MG","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894975","Name":"TAB TRYPTOMER 5MG","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894978","Name":"TAB ZEN RETARD 200","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894979","Name":"TAB ZEN RETARD 400","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894980","Name":"TAB TRYPTOMER 25","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":"","instructions_hindi":"","instructions_marathi":""},{"id":"894981","Name":"CAP KARVAL PLUS","MedicineTypeID":"3","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894982","Name":"TAB MYOSPAS TH","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":"After food","instructions_hindi":"","instructions_marathi":""},{"id":"894983","Name":"TAB LYRICA 150","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894984","Name":"CAP EVION","MedicineTypeID":"3","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894985","Name":"TAB GABAPIN NT","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894986","Name":"TAB TEGRETOL 200","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894987","Name":"TAB VERTIN 24","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894988","Name":"TAB NEPROXYN 500","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":"AFTER FOOD","instructions_hindi":"","instructions_marathi":""},{"id":"894989","Name":"TAB BACLOFEN 10","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894990","Name":"TAB MORCONTINE 60MG","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894991","Name":"TAB MORPHINE SULPHATE SUSTAINED RELEASE TABLET 30MG","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894992","Name":"TAB OMNICORTIL","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894993","Name":"TAB OMNICORTIL 5MG","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894994","Name":"TAB ULTRACET","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":"AFTER FOOD","instructions_hindi":"","instructions_marathi":""},{"id":"894995","Name":"TAB LYRICA 75","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894996","Name":"TAB DOLONAT","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894997","Name":"TAB GABAPENTINE100MG","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"894998","Name":"CAP PAN D","MedicineTypeID":"3","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":"30 minutes Before Food ","instructions_hindi":"","instructions_marathi":""},{"id":"894999","Name":"TAB TRAMAZAC TC 100","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":"AFTER FOOD","instructions_hindi":"","instructions_marathi":""},{"id":"895000","Name":"PRILOX CREAM","MedicineTypeID":"9","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"895001","Name":"TAB RABONI 20","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"895002","Name":"TAB GABANTIN AT","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"895003","Name":"TAB PREGABIN M","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"895004","Name":"TAB MAZITOL 200MG",
+          "MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"895005","Name":"TAB VERMOR 10","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null}],
+        "favourites":[]
+      },
+      "mediceneSearchedData": [{"id":"895255","Name":"NOSCOTUSS","MedicineTypeID":"1","is_favourite":"0","use_count":"3","genric_name":null,"Price":"0.00","instructions":"","instructions_hindi":"","instructions_marathi":""},{"id":"946317","Name":"SSDF","MedicineTypeID":"8","is_favourite":"0","use_count":"1","genric_name":null,"Price":null,"instructions":"1 SOS night time","instructions_hindi":"","instructions_marathi":""},{"id":"895268","Name":"STARPRESS","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"895112","Name":"REMIPRESS 5","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null},{"id":"895127","Name":"PRAZOPRESSXL 5","MedicineTypeID":"2","is_favourite":"0","use_count":"0","genric_name":null,"Price":"0.00","instructions":null,"instructions_hindi":null,"instructions_marathi":null}],
+      "medicineDetailsbyId": [{"id":"895255","Name":"NOSCOTUSS","genric_name":null,"Days":null,"Dinner_A":"","Dinner_B":"","Dosage":"","Lunch_A":"","Lunch_B":"","prescription_view_type":"0","genericRemarksEnglish":null,"genericRemarksHindi":null,"genericRemarksMarathi":null,"dose_unit":null,"sig":"","route":"","genericFreq":null,"genericDose":null,"generic_duration":null,"Freq":"","FreqSchedule":"","is_favourite":"0","use_count":"3","MedicineTypeID":"1","Morning_A":"","Morning_B":"","instructions_en":"","instructions_hindi":"","instructions_marathi":"","dosageUnit":"","genericDuration":""},
+        {"id":"894952","Name":"VV","genric_name":null,"Days":"","Dinner_A":"","Dinner_B":"","Dosage":"","Lunch_A":"","Lunch_B":"","prescription_view_type":"0","genericRemarksEnglish":null,"genericRemarksHindi":null,"genericRemarksMarathi":null,"dose_unit":null,"sig":"","route":"","genericFreq":null,"genericDose":null,"generic_duration":null,"Freq":"","FreqSchedule":"","is_favourite":"0","use_count":"2","MedicineTypeID":"1","Morning_A":"","Morning_B":"","instructions_en":"","instructions_hindi":"","instructions_marathi":"","dosageUnit":"","genericDuration":""},
+        {"id":"894977","Name":"CAP BECOSULE","genric_name":null,"Days":null,"Dinner_A":null,"Dinner_B":null,"Dosage":"","Lunch_A":null,"Lunch_B":null,"prescription_view_type":"0","genericRemarksEnglish":null,"genericRemarksHindi":null,"genericRemarksMarathi":null,"dose_unit":null,"sig":"","route":"","genericFreq":null,"genericDose":null,"generic_duration":null,"Freq":"","FreqSchedule":"","is_favourite":"0","use_count":"6","MedicineTypeID":"3","Morning_A":null,"Morning_B":null,"instructions_en":"","instructions_hindi":"","instructions_marathi":"","dosageUnit":"","genericDuration":""},
+        {"id":"894976","Name":"TAB TEGRETOL 100","genric_name":null,"Days":"5","Dinner_A":"","Dinner_B":"","Dosage":"","Lunch_A":"","Lunch_B":"","prescription_view_type":"1","genericRemarksEnglish":null,"genericRemarksHindi":null,"genericRemarksMarathi":null,"dose_unit":null,"sig":"","route":"","genericFreq":null,"genericDose":null,"generic_duration":null,"Freq":"2","FreqSchedule":"1-0-1","is_favourite":"0","use_count":"5","MedicineTypeID":"2","Morning_A":"","Morning_B":"","instructions_en":"","instructions_hindi":"","instructions_marathi":"","dosageUnit":"","genericDuration":""}
+      ],
+      "pain_score": {
+        "pain_body_part":[{"body_part":"Epigastric","pain_score":"1","svg_type":"humanBody","svg_name":"svgFrontFlag","copied_class_from":null,"comment":""}],
+        "pain_associated_data":{"comment":"","vacResult":false,"dapResult":false }
+      }
+    }

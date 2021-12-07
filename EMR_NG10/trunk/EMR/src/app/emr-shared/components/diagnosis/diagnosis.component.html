@@ -1,0 +1,80 @@
+<div class="examination-label">
+    <ngb-accordion [ngClass]="{'diagnosis-height': isHeightClass}" (panelChange)="menuClicked($event)" [closeOthers]="false" [activeIds]="componentInfo?.activeIdsOfPanels">
+        <ngb-panel id="diagnosis">
+            <ng-template ngbPanelTitle>
+                <div class="form-row align-items-center mx-0">
+                    <div class="col-9">
+                        <p class="mb-0 font-size-dot-875">{{componentInfo?.section_name}}</p>
+                    </div>
+                    <div class="col-3">
+                        <button class="btn btn-sm btn-link text-white text-right" type="button">
+                            <i [ngClass]="isPanelOpen ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+                <form [formGroup]="diagnosisFrm" [ngClass]="{'disableForm':isDisable}" (click)="menuClicked($event)">
+                    <div formArrayName="diagnosisListArray">
+                        <div class="form-row form-group" *ngFor="let dList of diagnosisListArray.controls; let i = index;let last = last;first as first" [formGroupName]="i">
+                            <div class="col-10">
+                                <div class="form-row align-content-center align-items-center">
+                                    <div class="col-2">
+                                        <div class="emr-switch-w">
+                                            <label [ngClass]="{'mb-0': first, 'd-none': !first}">&nbsp;</label>
+                                            <div class="custom-control custom-switch">
+                                                <input class="custom-control-input" type="checkbox" id="customSwitch{{i}}" (change)="onClickSetPrimaryDiagnosis(dList, i)" formControlName="isPrimary">
+                                                <label class="custom-control-label pointer" [class.active]="dList.value.isPrimary == 1" for="customSwitch{{i}}"></label>
+                                                <span class="text-uppercase" [class.active]="dList.value.isPrimary == 1">{{dList.value.isPrimary == 1 ? 'Primary' : 'Secondary'}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-5" [ngClass]="{'no-selection': dList.get('diagnosisObj').value}" (keyup)="openSuggestionPanelForSearch(dList.get('diagnosis').value)">
+                                        <!-- <ng-template #rt let-r="result" let-s="term">
+                    <ngb-highlight [result]="r.Name" [term]="s"></ngb-highlight>
+                  </ng-template>
+                  <label class="mb-0" for="Diagnosis" *ngIf="i == 0">Diagnosis<sup>*</sup></label>
+                  <app-ng-select-typeahead [inputValue]="dList.value?.id" [selectedValue]="dList.value?.diagnosispObj?.name" [thDisplayLabel]="'name'" [thDisplayKey]="'id'"
+                    (recievedVal)="selectItem($event, dList)" [source]="'Diagnosis'" [returnDataType]="'obj'" [searchFun]="getAllDiagnosisListBySearch" [compInstance]="compInstance">
+                  </app-ng-select-typeahead> -->
+                                        <label [ngClass]="{'mb-0': first, 'd-none': !first}">&nbsp;</label>
+                                        <!-- <ng-select [items]="diagnosisMasterList$ | async" formControlName="diagnosisObj" autofocus
+                    placeholder="Diagnosis" [typeahead]="diagnosisMasterInput$" (change)="selectItem($event, dList)">
+                  </ng-select> -->
+                                        <div *ngIf="!strictKeywordEnabled; else input_content">
+                                            <app-snomedct [textAreaSize]="'small'" [placeHolderName]="'Add Diagnosis'" [inputModelContent]="dList.get('diagnosis').value" [idName]="'diagnosisSnomed_' + i" [snowMedUsedKeyWordsArray]="dList.get('conceptData').value" (receivedAction)="processAction($event, dList)"></app-snomedct>
+                                        </div>
+                                        <ng-template #input_content>
+                                            <input type="text" class="form-control" formControlName="diagnosis">
+                                        </ng-template>
+                                        <!-- <ng-select [items]="diagnosisMasterList$ | async" formControlName="diagnosis_id" bindLabel="name" autofocus bindValue="id" placeholder="Diagnosis"
+                    [typeahead]="diagnosisMasterInput$" (change)="selectItem($event, dList)">
+                  </ng-select> -->
+                                        <span class="text-danger small" *ngIf="isAdd && dList.get('diagnosis_id').invalid">Select
+                                            Diagnosis</span>
+                                    </div>
+                                    <div class="col-5">
+                                        <label class="mb-0" for="remark" *ngIf="i == 0">Remark</label>
+                                        <input type="text" class="form-control form-control-sm" formControlName="remark" placeholder="Enter Remark">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <label [ngClass]="{'mb-0': first, 'd-none': !first}">&nbsp;</label>
+                                <div>
+                                    <button type="button" [ngStyle]="{'visibility': last ? 'visible' : 'hidden'}" (click)="addDiagnosis(dList);" class="btn btn-sm btn-outline-primary-light">
+                                        <i class="fa fa-fw fa-plus"></i>
+                                    </button>&nbsp;
+                                    <button type="button" (click)="deleteDiagnosis(i, dList)" class="btn btn-sm btn-outline-danger">
+                                        <i class="fa fa-fw fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+</div>
+<!-- <app-alert-message [alertMessage]="setAlertMessage"></app-alert-message> -->

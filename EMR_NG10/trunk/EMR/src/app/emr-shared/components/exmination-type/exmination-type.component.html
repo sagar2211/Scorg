@@ -1,0 +1,5 @@
+<form [formGroup]="examinationTypeForm" *ngIf="loadForm">
+    <app-ng-select-typeahead [inputValue]="examinationTypeForm.value.examinationTypeVal?.id" [selectedValue]="examinationTypeForm.value.examinationTypeVal?.name" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" (recievedVal)="selectValue($event)" [source]="'Select Type'"
+        [returnDataType]="'obj'" [isDisabled]="isNgSelectTypeHeadDisabled" [compInstance]="compInstance" [searchFun]="getAllExaminationTypeList" [isSearchDataFromApi]="true">
+    </app-ng-select-typeahead>
+</form>

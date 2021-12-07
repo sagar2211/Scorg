@@ -1,0 +1,293 @@
+@import "../../../scss/main.scss";
+.discharge-patient-dashboard-container .discharge {
+    height: calc(100vh - 49px) !important;
+    overflow-y: auto;
+}
+
+.widget-block-a {
+    background-color: #ffd9d9;
+    padding: 6px 5px 6px 0px;
+    margin-right: 10px;
+    border-radius: 25px;
+    .cl-1 {
+        font-size: 18px;
+        .cl-2 {
+            font-size: 30px;
+            padding: 10px 20px;
+            background: #ff3232;
+            border-radius: 30px;
+        }
+    }
+    .cl-3 {
+        font-size: 30px;
+        padding: 10px 10px;
+        color: #ff3232;
+        font-weight: 600;
+    }
+}
+
+.widget-block-b {
+    background-color: #fdc10038;
+    padding: 6px 5px 6px 0px;
+    margin-right: 10px;
+    border-radius: 25px;
+    .cl-1 {
+        font-size: 18px;
+        .cl-2 {
+            font-size: 30px;
+            padding: 10px 20px;
+            background: #fdc100;
+            border-radius: 30px;
+        }
+    }
+    .cl-3 {
+        font-size: 30px;
+        padding: 10px 10px;
+        color: #fdc100;
+        font-weight: 600;
+    }
+}
+
+.widget-block-c {
+    background-color: #ffff0254;
+    padding: 6px 5px 6px 0px;
+    margin-right: 10px;
+    border-radius: 25px;
+    .cl-1 {
+        font-size: 18px;
+        .cl-2 {
+            font-size: 30px;
+            padding: 10px 20px;
+            background: #ffff02;
+            border-radius: 30px;
+        }
+    }
+    .cl-3 {
+        font-size: 30px;
+        padding: 10px 10px;
+        color: #000;
+        font-weight: 600;
+    }
+}
+
+.widget-block-d {
+    background-color: #00af502e;
+    padding: 6px 5px 6px 0px;
+    margin-right: 10px;
+    border-radius: 25px;
+    .cl-1 {
+        font-size: 18px;
+        .cl-2 {
+            font-size: 30px;
+            padding: 10px 20px;
+            background: #00af50;
+            border-radius: 30px;
+        }
+    }
+    .cl-3 {
+        font-size: 30px;
+        padding: 10px 10px;
+        color: #00af50;
+        font-weight: 600;
+    }
+}
+
+.widget-block-e {
+    background-color: #02b0f133;
+    padding: 6px 5px 6px 0px;
+    margin-right: 10px;
+    border-radius: 25px;
+    .cl-1 {
+        font-size: 18px;
+        .cl-2 {
+            font-size: 30px;
+            padding: 10px 20px;
+            background: #02b0f1;
+            border-radius: 30px;
+        }
+    }
+    .cl-3 {
+        font-size: 30px;
+        padding: 10px 10px;
+        color: #02b0f1;
+        font-weight: 600;
+    }
+}
+
+.bg-1 {
+    background-color: #fe000026 !important;
+    border-left: 5px solid !important;
+    border-left-color: lighten(#fe0000, 10%) !important;
+}
+
+.bg-2 {
+    border-left: 5px solid !important;
+    border-left-color: #fdc100 !important;
+    background-color: #fdc10038 !important;
+}
+
+.bg-3 {
+    border-left: 5px solid !important;
+    border-left-color: #ffff02 !important;
+    background-color: #ffff0254 !important;
+}
+
+.bg-4 {
+    border-left: 5px solid !important;
+    border-left-color: #00af50 !important;
+    background-color: #00af502e !important;
+}
+
+.bg-5 {
+    border-left: 5px solid !important;
+    background-color: #02b0f133 !important;
+    border-left-color: #02b0f1 !important;
+}
+
+.bg-1,
+.bg-2,
+.bg-3,
+.bg-4,
+.bg-5 {
+    border-radius: 20px;
+    font-size: 15px;
+}
+
+.widget-block-1 {
+    background-color: #fe0000;
+}
+
+.widget-block.bl-1 {
+    border: 1px solid #fe0000;
+    img {
+        border-right: 1px solid #fe0000;
+    }
+    span {
+        color: #fe0000;
+    }
+}
+
+.widget-block.bl-2 {
+    border: 1px solid #fdc100;
+    img {
+        border-right: 1px solid #fdc100;
+    }
+    span {
+        color: #fdc100;
+    }
+}
+
+.widget-block.bl-3 {
+    border: 1px solid #ffff02;
+    img {
+        border-right: 1px solid #ffff02;
+    }
+    span {
+        color: #ffff02;
+    }
+}
+
+.widget-block.bl-4 {
+    border: 1px solid #00af50;
+    img {
+        border-right: 1px solid #00af50;
+    }
+    span {
+        color: #00af50;
+    }
+}
+
+.widget-block.bl-5 {
+    border: 1px solid #02b0f1;
+    img {
+        border-right: 1px solid #02b0f1;
+    }
+    span {
+        color: #02b0f1;
+    }
+}
+
+.widget-block {
+    padding: 0px;
+    img {
+        width: 65px;
+        height: 50px;
+        margin: 5px;
+        padding-right: 15px;
+    }
+    span {
+        float: right;
+        font-size: 25px;
+        padding: 10px 5px 5px 5px;
+        margin-right: 20px;
+    }
+}
+
+.discharge-patient-dashboard-container {
+    // height: calc(100vh - 48px) !important;
+    padding-top: 0.5rem;
+    // padding-bottom: 0.5rem;
+    padding-bottom: 0;
+    .admitted-list {
+        .card {
+            @include border-radius(5px);
+            @include custom-box-shadow(0, 0, 5px, rgba(28, 25, 83, 0.12));
+            @include transition(box-shadow 0.5s);
+            &:hover {
+                @include custom-box-shadow(0, 4px, 9px, rgba(165, 165, 165, 0.5));
+            }
+            tbody {
+                tr {
+                    td {
+                        position: relative;
+                        padding: 0.4rem;
+                        border: none;
+                        border-top: 1px solid #dee2e6;
+                        border-bottom: 1px solid #dee2e6;
+                        &:nth-child(1) {
+                            width: 10%;
+                        }
+                        &:nth-child(2) {
+                            width: 28%;
+                        }
+                        &:nth-child(3) {
+                            width: 10%;
+                        }
+                        &:nth-child(4) {
+                            width: 10%;
+                            &:after {
+                                width: 0px !important;
+                            }
+                        }
+                        &:nth-child(5) {
+                            width: 15%;
+                        }
+                        &:nth-child(6) {
+                            width: 14%;
+                        }
+                        &:nth-child(7) {
+                            width: 5%;
+                        }
+                        &:not(:last-child):after {
+                            background: #adb5bd;
+                            width: 1px;
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            top: 10%;
+                            bottom: 0;
+                            right: 0;
+                            max-height: 80%;
+                        }
+                        .top {
+                            font-size: 85%;
+                        }
+                        .bottom {
+                            font-size: 95%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

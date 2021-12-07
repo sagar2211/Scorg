@@ -1,0 +1,79 @@
+<div class="custom-container-fluid container-material-indent-add-apdate">
+  <div class="card-body p-1 custom-card-body">
+    <div class="form-row form-group mx-0">
+      <div class="col" *ngIf="issueDetails?.issueType === 'DC'">
+        <label>Department</label>
+        <input [disabled]="true" class="form-control form-control-sm" [value]="issueDetails?.departmentName" type="text"
+          placeholder="Department">
+      </div>
+      <div class="col" *ngIf="issueDetails?.issueType === 'ST'">
+        <label>Store</label>
+        <input [disabled]="true" class="form-control form-control-sm" [value]="issueDetails?.issueStoreName" type="text"
+          placeholder="Store">
+      </div>
+      <div class="col">
+        <label>Issue No.</label>
+        <input [disabled]="true" class="form-control form-control-sm" [value]="issueDetails?.issueNo" type="text"
+          placeholder="Issue No.">
+      </div>
+      <div class="col">
+        <label>Indent By</label>
+        <input [disabled]="true" class="form-control form-control-sm" [value]="issueDetails?.indentBy" type="text"
+          placeholder="Indent By">
+      </div>
+      <div class="col">
+        <label>Authorized By</label>
+        <input [disabled]="true" class="form-control form-control-sm" [value]="issueDetails?.authorizedBy" type="text"
+          placeholder="Authorized By">
+      </div>
+    </div>
+    <div class="form-row mx-0">
+      <div class="col">
+        <table class="table custom-table font-size-dot-875 mb-0 border">
+          <thead>
+            <tr>
+              <th width="60">SR. No.</th>
+              <th width="90">Item Code</th>
+              <th>Item Description</th>
+              <th width="130">Batch No.</th>
+              <th width="100">Expiry Date</th>
+              <th width="90" class="text-right">Issue Qty.</th>
+              <th width="120" class="text-right">Accept Qty.</th>
+              <th width="120" class="text-right">Reject Qty.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of issueDetails?.issueDetailList; let i = index;">
+              <td>{{i + 1}}</td>
+              <td>{{item.itemCode}}</td>
+              <td>{{item.itemDescription}}</td>
+              <td>{{item.batchNo}}</td>
+              <td>{{item.expiryDate | customDate: '' : 'DD-MM-YYYY'}}</td>
+              <td class="text-right">{{item.issueQty}}</td>
+              <td>
+                <input class="form-control form-control-sm" [(ngModel)]="item.acceptedQty"
+                  (change)="manageAcceptRejectQty(item, 'accept_changed')" type="number" [min]="0" [max]="item.issueQty"
+                  placeholder="Accept Qty" [disabled]="issueDetails?.issueStatus !== 'Open'">
+              </td>
+              <td>
+                <input [disabled]="true" class="form-control form-control-sm" [(ngModel)]="item.rejectedQty"
+                  (change)="manageAcceptRejectQty(item, 'reject_changed')" type="number" [min]="0" [max]="item.issueQty"
+                  placeholder="Reject Qty">
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer py-1 border-top">
+    <div class="text-right" *ngIf="issueDetails?.issueStatus === 'Open'">
+      <button *ngxPermissionsOnly="constpermissionList.ADD_ISSUE_ACCEPTANCE" (click)="acceptIssue()" type="button"
+        class="btn btn-sm btn-success"><i class="icon fa-fw icon-check" aria-hidden="true"></i> ACCEPT</button>
+      <button (click)="cancel()" type="submit" class="btn btn-sm btn-outline-secondary ml-1">
+        CANCEL
+      </button>
+    </div>
+  </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

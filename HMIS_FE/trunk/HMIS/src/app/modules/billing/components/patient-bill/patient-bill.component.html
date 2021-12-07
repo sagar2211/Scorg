@@ -1,0 +1,685 @@
+<div class="custom-container-fluid container-patient-bill" [ngClass]="{'partial-view': isPartialLoad, 'patient-class': isPatientClassChangePage}">
+  <form [formGroup]="billingForm" (ngSubmit)="savePatientBillConfirmation()">
+    <div class="card-body py-1 px-0">
+      <app-patient-info-common [showPatientSearchBox]="showPatientSearchBox" [billingForm]="billingForm.value"
+        [patientList$]="patientList$" [patientListInput$]="patientListInput$" [voucherList]="voucherList"
+        (patientSelectEvent)="onPatientChange($event)" (enablePatientSearchEvent)="enablePatientSearch($event)"
+        (getSelectedVoucherEvent)="getSelectedVoucher($event)" (redirectToBillPaymentEvent)="redirectToBillPayment()"
+        (redirectToBillRefundEvent)="redirectToBillRefund()" [isPatientClassChangePage]="isPatientClassChangePage"
+        [isViewOnlyBillMode]="isViewOnlyBillMode" (enableViewOnlyBillModeEvent)="enableViewOnlyBillMode($event)">
+      </app-patient-info-common>
+      <div class="mb-1" *ngIf="isPatientClassChangePage">
+        <div class="form-row mx-0 alignC">
+          <div class="col-2">
+            <span class="text-muted font-size-dot-75"> Patient Class </span>
+            <ng-select [items]="chargingTypeList" bindValue="chargingId" bindLabel="chargingType"
+              (change)="getSelectedChargingType($event)" placeholder="Select Patient Class">
+            </ng-select>
+          </div>
+          <div class="col-2">
+            <span class="text-muted font-size-dot-75"> Category</span>
+            <ng-select [items]="categoryTypeList" bindValue="id" bindLabel="name"
+              (change)="getSelectedCategoryType($event)" placeholder="Select Patient Category">
+            </ng-select>
+          </div>
+          <div class="col-2 float-right pt-3 clearfix">
+            <button type="button" class="btn btn-success btn-sm ml-2" [disabled]="!isPatientClassChange"
+              (click)="applyPatientClass()">
+              <i class="icon fa-fw icon-save" aria-hidden="true"></i> Apply Patient Class
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body pb-0 card-body-patient-bill" [ngClass]="{'px-1 pt-1': !isPartialLoad,'p-0 pt-0': isPartialLoad}">
+        <div class="form-row mx-0 mb-0">
+          <div class="col-12 px-0" *ngIf="!isViewOnlyBillMode">
+            <dx-data-grid id="gridContainer" [dataSource]="billServiceArray" keyExpr="tempId" [showBorders]="true"
+              (onEditorPrepared)="onEditorPrepared($event)" (onEditorPreparing)="onEditorPreparing($event)"
+              [showRowLines]="true" [focusedRowEnabled]="true" (onFocusedRowChanged)="onFocusedRowChanged($event)"
+              [allowColumnResizing]="true" [columnResizingMode]="'widget'" [columnAutoWidth]="true" (onEditingStart)="onEditingStart($event)"
+              (onRowPrepared)="onRowPrepared($event)" (onRowRemoving)="onRowRemoving($event)"
+              [repaintChangesOnly]="true" (onCellPrepared)="onCellPrepared($event)"
+              (onContentReady)="onContentReady($event)">
+              <dxo-header-filter [visible]="true"></dxo-header-filter>
+              <dxo-load-panel [enabled]="true"></dxo-load-panel>
+              <dxo-scrolling mode="virtual"></dxo-scrolling>
+              <dxo-sorting mode="none"></dxo-sorting>
+              <dxo-paging [enabled]="false"></dxo-paging>
+              <dxo-keyboard-navigation [editOnKeyPress]="true"></dxo-keyboard-navigation>
+              <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="true" [allowDeleting]="allowDeleting"
+                [useIcons]="true">
+              </dxo-editing>
+              <dxi-column dataField="isVerify" caption="Verify" dataType="boolean" [allowHeaderFiltering]="false"
+                [fixed]="true" [visible]="billingForm.value.status == 'PENDING VERIFICATION'"></dxi-column>
+              <dxi-column caption="Sr No" cellTemplate="SerialNoTemplate" [fixed]="true" alignment="center">
+                <div *dxTemplate="let data of 'SerialNoTemplate'">
+                  <!-- {{data.row.rowIndex + 1}} -->
+                  {{getRowNumber(dataGrid, data)}}
+                </div>
+              </dxi-column>
+              <dxi-column dataField="serviceName" calculateDisplayValue="service.serviceName" caption="Service Name"
+                [width]="300" [fixed]="true" [editorOptions]="editorOptions">
+                <dxo-lookup [dataSource]="serviceMasterDataSource" displayExpr="serviceName" valueExpr="serviceId">
+                </dxo-lookup>
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+                <dxo-header-filter [dataSource]="headerFilterServiceData"></dxo-header-filter>
+              </dxi-column>
+              <dxi-column dataField="serviceType" caption="" [calculateCellValue]="getServiceTypeShortName"
+                [fixed]="true">
+              </dxi-column>
+              <dxi-column dataField="status" caption="Status" [allowEditing]="false"
+                [(filterValues)]="statusFilterValues" [(filterType)]="statusfilterType">
+                <dxo-header-filter [dataSource]="statusArray"></dxo-header-filter>
+              </dxi-column>
+              <dxi-column dataField="doctorId" calculateDisplayValue="doctorName" caption="Attach Doctor">
+                <dxo-lookup [dataSource]="doctorDataSource" displayExpr="doctorName" valueExpr="doctorId">
+                </dxo-lookup>
+                <dxo-header-filter [allowSearch]="true"></dxo-header-filter>
+              </dxi-column>
+              <!-- <dxi-column [allowHeaderFiltering]="false" dataField="multiplier" caption="Multiplier">
+                  </dxi-column> -->
+              <dxi-column dataField="orderDate" caption="Order Date" [width]="150" dataType="datetime">
+              </dxi-column>
+              <dxi-column dataField="serviceCenterId" calculateDisplayValue="serviceCenterName"
+                caption="Service Center">
+                <dxo-lookup [dataSource]="serviceCenterDataSource" displayExpr="serviceCenterName"
+                  valueExpr="serviceCenterId">
+                </dxo-lookup>
+                <dxo-header-filter [allowSearch]="true"></dxo-header-filter>
+              </dxi-column>
+              <dxi-column dataField="surchargeTypeId" calculateDisplayValue="surchargeType" caption="Surcharge Type"
+                [allowEditing]="false">
+                <dxo-lookup [dataSource]="surchargeArray" displayExpr="surchargeType" valueExpr="surchargeTypeId">
+                </dxo-lookup>
+              </dxi-column>
+              <dxi-column dataField="isSpotBill" caption="Spot?" [showEditorAlways]="false" trueText="Yes"
+                falseText="No" [allowHeaderFiltering]="false" dataType="boolean"
+                [visible]="allowSpotBill && !isPatientClassChangePage"></dxi-column>
+              <dxi-column dataField="orderQty" caption="Order Qty" [allowHeaderFiltering]="false"></dxi-column>
+              <dxi-column dataField="oldRate" caption="Rate" [allowHeaderFiltering]="false"
+                *ngIf="isPatientClassChangePage">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="rate" caption="{{isPatientClassChangePage ? 'New Rate' : 'Rate'}}"
+                [allowHeaderFiltering]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="amount" caption="Amount" [allowHeaderFiltering]="false" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="pkgDiscAmt" caption="PCK Disc" [allowHeaderFiltering]="false"
+                [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="adminChargePercent" caption="Adm.Charge%" [allowHeaderFiltering]="false"
+                *ngIf="serviceAdminChargeBeforeCons" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="adminChargeAmount" caption="Adm.Charge" [allowHeaderFiltering]="false"
+                *ngIf="serviceAdminChargeBeforeCons" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="discountPercent" caption="Con.%" [allowHeaderFiltering]="false" title="Doctor Concession">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                <dxi-validation-rule type="range" min="0" max="100" message="Percent must be between 0 and 100"></dxi-validation-rule>
+              </dxi-column>
+              <dxi-column dataField="discountAmount" caption="Con.Amt" [allowHeaderFiltering]="false" title="Doctor Concession">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="adminChargePercent" caption="Adm.Charge%" [allowHeaderFiltering]="false"
+                *ngIf="!serviceAdminChargeBeforeCons" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="adminChargeAmount" caption="Adm.Charge" [allowHeaderFiltering]="false"
+                *ngIf="!serviceAdminChargeBeforeCons" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="gstPercent" caption="GST%" [allowHeaderFiltering]="false" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="gstAmount" caption="GST Amt" [allowHeaderFiltering]="false" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="refundedAmount" caption="Refunded Amt" [allowHeaderFiltering]="false" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="totNetAmt" caption="Net Amt" [allowHeaderFiltering]="false" [allowEditing]="true"
+                [fixed]="true" fixedPosition="right">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <!-- <dxi-column dataField="remark" caption="Remark" [visible]="false" [width]="150">
+                    <dxo-header-filter [allowSearch]="true"></dxo-header-filter>
+                  </dxi-column> -->
+              <dxi-column type="buttons" caption="Action" [fixed]="true" [visible]="!isPatientClassChangePage">
+                <dxi-button name="add" cssClass="my-class" text="Add" icon="add" [visible]="isAddIconVisible"
+                  hint="Add Service" [onClick]="onAddButtonClick"></dxi-button>
+                <dxi-button name="delete" hint="Delete Service" [visible]="isDeleteIconVisible"></dxi-button>
+              </dxi-column>
+              <dxo-summary [recalculateWhileEditing]="true">
+                <dxi-total-item summaryType="count" displayFormat="Count: {0}" showInColumn="serviceName">
+                </dxi-total-item>
+                <dxi-total-item column="rate" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                <dxi-total-item column="orderQty" summaryType="sum" [customizeText]="decimalWithPrecision">
+                </dxi-total-item>
+                <dxi-total-item column="amount" summaryType="sum" [customizeText]="decimalWithPrecision">
+                </dxi-total-item>
+                <dxi-total-item column="pkgDiscAmt" summaryType="sum" [customizeText]="decimalWithPrecision">
+                </dxi-total-item>
+                <dxi-total-item column="discountAmount" summaryType="sum" [customizeText]="decimalWithPrecision">
+                </dxi-total-item>
+                <dxi-total-item column="adminChargeAmount" summaryType="sum" [customizeText]="decimalWithPrecision">
+                </dxi-total-item>
+                <dxi-total-item column="gstAmount" summaryType="sum" [customizeText]="decimalWithPrecision">
+                </dxi-total-item>
+                <dxi-total-item column="totNetAmt" summaryType="sum" [customizeText]="decimalWithPrecision">
+                </dxi-total-item>
+              </dxo-summary>
+              <div *dxTemplate="let service of 'serviceTemplate'">
+                <div *ngIf="service === null" ; else elseBlock>
+                </div>
+                <div dx-template #elseBlock>
+                  <span class="middle">{{service.serviceName}}</span>
+                  <span class="middle"> ({{service.serviceType}})</span>
+                </div>
+              </div>
+            </dx-data-grid>
+          </div>
+          <div class="col-12 px-0" *ngIf="isViewOnlyBillMode">
+            <dx-data-grid id="gridContainer" [dataSource]="billServiceArray" keyExpr="tempId" [showBorders]="true"
+              [showRowLines]="true" [focusedRowEnabled]="true" [allowColumnResizing]="true"
+              [columnResizingMode]="'widget'" [columnAutoWidth]="true" [allowColumnReordering]="true">
+              <!-- <dxo-column-chooser [enabled]="true"></dxo-column-chooser> -->
+              <dxo-column-chooser [enabled]="true" mode="select"></dxo-column-chooser>
+              <dxo-header-filter [visible]="true"></dxo-header-filter>
+              <dxo-filter-row [visible]="true" [applyFilter]="'auto'"></dxo-filter-row>
+              <dxo-load-panel [enabled]="true"></dxo-load-panel>
+              <dxo-scrolling mode="virtual"></dxo-scrolling>
+              <dxo-sorting mode="multiple"></dxo-sorting>
+              <dxo-paging [enabled]="false"></dxo-paging>
+              <dxo-keyboard-navigation [editOnKeyPress]="true"></dxo-keyboard-navigation>
+              <dxo-editing mode="cell" [allowUpdating]="false" [allowAdding]="false" [allowDeleting]="false"
+                [useIcons]="true">
+              </dxo-editing>
+              <dxi-column dataField="isVerify" caption="Verify" dataType="boolean" [allowHeaderFiltering]="false"
+                [fixed]="true" [visible]="billingForm.value.status == 'PENDING VERIFICATION'"></dxi-column>
+              <!-- <dxi-column caption="Sr No" cellTemplate="SerialNoTemplate" [fixed]="true" alignment="center">
+                <div *dxTemplate="let data of 'SerialNoTemplate'">
+                  {{getRowNumber(dataGrid, data)}}
+                </div>
+              </dxi-column> -->
+              <dxi-column dataField="billDetailId" calculateDisplayValue="service.serviceHeadName" caption="Service Head"
+                [width]="300" [fixed]="true" [groupIndex]="0" *ngIf="grouping.visible">
+                <dxo-header-filter [allowSearch]="true"></dxo-header-filter>
+              </dxi-column>
+              <dxi-column dataField="orderDetailId" calculateDisplayValue="service.serviceCategoryName" caption="Category"
+                [width]="300" [fixed]="true" [groupIndex]="1" *ngIf="grouping.visible">
+                <dxo-header-filter [allowSearch]="true"></dxo-header-filter>
+              </dxi-column>
+              <dxi-column dataField="serviceName" calculateDisplayValue="service.serviceName" caption="Service Name"
+                [width]="300" [fixed]="true" headerCellTemplate="titleHeaderTemplate">
+                <div *dxTemplate="let info of 'titleHeaderTemplate'">
+                  <span class="mr-5">{{info.column.caption}}</span>
+                  <i class="ml-5 fa {{grouping.visible ? 'fa-object-ungroup' : 'fa-object-group'}}"
+                    title="{{grouping.visible ? 'UnGroup' : 'Group'}}"
+                    (click)="grouping.visible=!grouping.visible"></i>
+                  <i [hidden]="!grouping.visible" class="ml-5 fa {{expand.autoExpandAll ? 'fa-minus-square' : 'fa-plus'}}"
+                    title="{{expand.autoExpandAll ? 'Collapse' : 'Expand'}}"
+                    (click)="expand.autoExpandAll=!expand.autoExpandAll"></i>
+                </div>
+                <dxo-header-filter [allowSearch]="true"></dxo-header-filter>
+              </dxi-column>
+              <dxi-column dataField="serviceType" caption="" [calculateCellValue]="serviceType"
+                [fixed]="true">
+                <dxo-header-filter [allowSearch]="true"></dxo-header-filter>
+              </dxi-column>
+              <dxi-column dataField="status" caption="Status" [allowEditing]="false">
+                <dxo-header-filter [dataSource]="statusArray"></dxo-header-filter>
+              </dxi-column>
+              <dxi-column dataField="doctorId" calculateDisplayValue="doctorName" caption="Attach Doctor">
+                <dxo-header-filter [allowSearch]="true"></dxo-header-filter>
+              </dxi-column>
+              <dxi-column dataField="orderDate" caption="Order Date" [width]="150" dataType="datetime">
+                <dxo-header-filter [allowSearch]="true"></dxo-header-filter>
+              </dxi-column>
+              <dxi-column dataField="serviceCenterId" calculateDisplayValue="serviceCenterName"
+                caption="Service Center">
+                <dxo-header-filter [allowSearch]="true"></dxo-header-filter>
+              </dxi-column>
+              <dxi-column dataField="surchargeTypeId" calculateDisplayValue="surchargeType" caption="Surcharge Type"
+                [allowEditing]="false">
+                <dxo-header-filter [allowSearch]="true"></dxo-header-filter>
+              </dxi-column>
+              <dxi-column dataField="orderQty" caption="Order Qty" [allowHeaderFiltering]="false">
+              </dxi-column>
+              <dxi-column dataField="oldRate" caption="Rate" [allowHeaderFiltering]="false"
+                *ngIf="isPatientClassChangePage">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="rate" caption="{{isPatientClassChangePage ? 'New Rate' : 'Rate'}}"
+                [allowHeaderFiltering]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="amount" caption="Amount" [allowHeaderFiltering]="false" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="pkgDiscAmt" caption="PCK Disc" [allowHeaderFiltering]="false"
+                [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="adminChargePercent" caption="Adm.Charge%" [allowHeaderFiltering]="false"
+                *ngIf="serviceAdminChargeBeforeCons" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="adminChargeAmount" caption="Adm.Charge" [allowHeaderFiltering]="false"
+                *ngIf="serviceAdminChargeBeforeCons" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="discountPercent" caption="Con.%" [allowHeaderFiltering]="false" title="Doctor Concession">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                <dxi-validation-rule type="range" min="0" max="100" message="Percent must be between 0 and 100"></dxi-validation-rule>
+              </dxi-column>
+              <dxi-column dataField="discountAmount" caption="Con.Amt" [allowHeaderFiltering]="false" title="Doctor Concession">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="adminChargePercent" caption="Adm.Charge%" [allowHeaderFiltering]="false"
+                *ngIf="!serviceAdminChargeBeforeCons" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="adminChargeAmount" caption="Adm.Charge" [allowHeaderFiltering]="false"
+                *ngIf="!serviceAdminChargeBeforeCons" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="gstPercent" caption="GST%" [allowHeaderFiltering]="false" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="gstAmount" caption="GST Amt" [allowHeaderFiltering]="false" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="refundedAmount" caption="Refunded Amt" [allowHeaderFiltering]="false" [allowEditing]="false">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxi-column dataField="totNetAmt" caption="Net Amt" [allowHeaderFiltering]="false" [allowEditing]="true"
+                [fixed]="true" fixedPosition="right">
+                <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+              </dxi-column>
+              <dxo-summary [recalculateWhileEditing]="true">
+                <dxi-group-item column="orderDetailId" summaryType="count" displayFormat="{0} services">
+                </dxi-group-item>
+                <dxi-group-item column="totNetAmt" summaryType="sum" [customizeText]="decimalWithPrecision"
+                  [showInGroupFooter]="true"></dxi-group-item>
+                <dxi-total-item summaryType="count" displayFormat="Count: {0}" showInColumn="serviceName">
+                </dxi-total-item>
+                <dxi-total-item column="rate" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                <dxi-total-item column="orderQty" summaryType="sum" [customizeText]="decimalWithPrecision">
+                </dxi-total-item>
+                <dxi-total-item column="amount" summaryType="sum" [customizeText]="decimalWithPrecision">
+                </dxi-total-item>
+                <dxi-total-item column="pkgDiscAmt" summaryType="sum" [customizeText]="decimalWithPrecision">
+                </dxi-total-item>
+                <dxi-total-item column="discountAmount" summaryType="sum" [customizeText]="decimalWithPrecision">
+                </dxi-total-item>
+                <dxi-total-item column="adminChargeAmount" summaryType="sum" [customizeText]="decimalWithPrecision">
+                </dxi-total-item>
+                <dxi-total-item column="gstAmount" summaryType="sum" [customizeText]="decimalWithPrecision">
+                </dxi-total-item>
+                <dxi-total-item column="totNetAmt" summaryType="sum" [customizeText]="decimalWithPrecision">
+                </dxi-total-item>
+              </dxo-summary>
+              <dxo-group-panel #grouping [visible]="true"></dxo-group-panel>
+              <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+            </dx-data-grid>
+          </div>
+        </div>
+        <!-- /* outside click hide pay details */ appOutSideClickEvent (clickOutside)="showHidePayDetail($event)" -->
+        <div class="position-fixed bg-white p-2 total-content" *ngIf="billingForm.value.showPayDetail">
+          <div class="form-row form-group mx-0 custom-mb-0">
+            <div class="col-4">
+              <div class="col-12 p-1">
+                <div class="form-group custom-mb-0">
+                  <label>Remarks</label>
+                  <textarea type="text" formControlName="remark" placeholder="Remarks" rows="7"
+                    class="form-control vresize"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="col-4">
+              <table class="table custom-table font-size-dot-875 mb-0 border-top-0 table-footer mt-1">
+                <tbody *ngIf="billServiceArray.length">
+                  <tr class="text-right">
+                    <td class="text-right" style="width: 50%;">
+                      <h6 class="mb-0">Bill Amount: </h6>
+                    </td>
+                    <td colspan="2" class="text-right">
+                      <h6 class="mb-0 mr-3">{{billingForm.value.billAmount | number:'1.2-2'}}</h6>
+                    </td>
+                    <td></td>
+                  </tr>
+                  <tr class="text-right" *ngIf="billAdminChargeBeforeCons">
+                    <td class="text-right">Bill Admin Charge: <span class="text-danger">(+)</span></td>
+                    <td class="text-right">
+                      <span class="mr-3">{{billingForm.value.adminChargesPer | number:'1.2-2'}}</span> /
+                    </td>
+                    <td class="text-right">
+                      <span class="mr-3">{{billingForm.value.adminChargesAmt | number:'1.2-2'}}</span>
+                    </td>
+                    <td style="width: 20px;">
+                      <button type="button" *ngIf="billingForm.value?.adminChargeAppBillAmount" class="btn btn-sm p-0"
+                        ngbTooltip="Applicable Bill Amount: {{billingForm.value.adminChargeAppBillAmount}}">
+                        <i class="text-danger font-20 icon-info-circle"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="text-right">
+                    <td class="text-right">Category Concession: (-)</td>
+                    <td class="text-right">
+                      <span class="mr-3">{{billingForm.value.categoryConcPer | number:'1.2-2'}}</span> /
+                    </td>
+                    <td class="text-right">
+                      <span class="mr-3">{{billingForm.value.categoryConcAmt | number:'1.2-2'}}</span>
+                    </td>
+                    <td></td>
+                  </tr>
+                  <tr class="text-right">
+                    <td class="text-right">Bill Concession: (-)</td>
+                    <td class="text-right">
+                      <span *ngIf="billingForm.value.selectedPatient.penFixBillTotalAmt || billingForm.value.billConcessionArray.length || isPatientClassChangePage || isBillViewOnly" class="mr-3">{{billingForm.value.discountPercent
+                        | number:'1.2-2'}}</span>
+                      <input *ngIf="!billingForm.value.selectedPatient.penFixBillTotalAmt && !billingForm.value.billConcessionArray.length && !isPatientClassChangePage && !isBillViewOnly" type="number" formControlName="discountPercent"
+                        min="0" style="min-width: 30%;" (blur)="updateBillCalType('discountPercent')"
+                        class="form-control form-control-sm"> /
+                    </td>
+                    <td class="text-right0">
+                      <span *ngIf="billingForm.value.selectedPatient.penFixBillTotalAmt || billingForm.value.billConcessionArray.length || isPatientClassChangePage || isBillViewOnly" class="mr-3">{{billingForm.value.discountAmount |
+                        number:'1.2-2'}}</span>
+                      <input *ngIf="!billingForm.value.selectedPatient.penFixBillTotalAmt && !billingForm.value.billConcessionArray.length && !isPatientClassChangePage && !isBillViewOnly" type="number" formControlName="discountAmount"
+                        min="0" style="min-width: 100%;" (blur)="updateBillCalType('discountAmount')"
+                        class="form-control form-control-sm">
+                    </td>
+                    <td>
+                      <button type="button" (click)="patientBillConcession();"
+                        class="btn btn-sm p-0" ngbTooltip="Click here to apply additional concession">
+                        <i class="text-primary font-20 icon-info-circle"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="text-right" *ngIf="!billAdminChargeBeforeCons">
+                    <td class="text-right">Bill Admin Charge: <span class="text-danger">(+)</span></td>
+                    <td class="text-right">
+                      <span class="mr-3">{{billingForm.value.adminChargesPer | number:'1.2-2'}}</span> /
+                    </td>
+                    <td class="text-right">
+                      <span class="mr-3">{{billingForm.value.adminChargesAmt | number:'1.2-2'}}</span>
+                    </td>
+                    <td style="width: 20px;">
+                      <button type="button" *ngIf="billingForm.value?.adminChargeAppBillAmount" class="btn btn-sm p-0"
+                        ngbTooltip="Applicable Bill Amount: {{billingForm.value.adminChargeAppBillAmount}}">
+                        <i class="text-danger font-20 icon-info-circle"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="text-right">
+                    <td class="text-right">
+                      <h6 class="mb-0">Net Amount: </h6>
+                    </td>
+                    <td colspan="2" class="text-right">
+                      <h6 class="mb-0 mr-3">{{billingForm.value.netAmount | number:'1.2-2'}}</h6>
+                    </td>
+                    <td></td>
+                  </tr>
+                  <tr class="text-right">
+                    <td class="text-right">GST: <span class="text-danger">(+)</span></td>
+                    <td class="text-right">
+                      <span *ngIf="billingForm.value.isSavedBillFinal || !billingForm.value.isGstApplicable || isPatientClassChangePage || isBillViewOnly"
+                        class="mr-3">{{billingForm.value.gstPercent | number:'1.2-2'}}</span>
+                      <input *ngIf="!billingForm.value.isSavedBillFinal && billingForm.value.isGstApplicable && !isPatientClassChangePage && !isBillViewOnly"
+                        type="number" formControlName="gstPercent" min="0" style="min-width: 30%;"
+                        (blur)="updateBillCalType('gstPercent')" class="form-control form-control-sm"> /
+                    </td>
+                    <td class="text-right">
+                      <span *ngIf="billingForm.value.isSavedBillFinal || !billingForm.value.isGstApplicable || isPatientClassChangePage || isBillViewOnly"
+                        class="mr-3">{{billingForm.value.gstAmount | number:'1.2-2'}}</span>
+                      <input *ngIf="!billingForm.value.isSavedBillFinal && billingForm.value.isGstApplicable && !isPatientClassChangePage && !isBillViewOnly"
+                        type="number" formControlName="gstAmount" min="0" style="min-width: 100%;"
+                        (blur)="updateBillCalType('gstAmount')" class="form-control form-control-sm">
+                    </td>
+                    <td></td>
+                  </tr>
+                  <tr class="text-right">
+                    <td class="text-right">
+                      <h6 class="mb-0">Final Bill Amount: </h6>
+                    </td>
+                    <td colspan="2" class="text-right">
+                      <h6 class="mb-0 mr-3">{{billingForm.value.finalNetAmount | number:'1.2-2'}}</h6>
+                    </td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-4">
+              <table class="table custom-table font-size-dot-875 mb-0 border-top-0 table-footer mt-1">
+                <tbody *ngIf="billServiceArray.length">
+                  <tr class="text-right">
+                    <td class="text-right" style="width: 55%;">
+                      <h6 class="mb-0">Final Bill Amount: </h6>
+                    </td>
+                    <td class="text-right">
+                      <h6 class="mb-0 mr-3">{{billingForm.value.finalNetAmount | number:'1.2-2'}}</h6>
+                    </td>
+                    <td></td>
+                  </tr>
+                  <tr class="text-right">
+                    <td class="text-right">Insurance Req. Amount:</td>
+                    <td class="text-right border-left-0 border-top-0">
+                      <p class="mb-0 mr-3">{{billingForm.value.creditApprovedAmount | number:'1.2-2'}}</p>
+                    </td>
+                    <td>
+                      <button type="button" (click)="checkForUnsavedPatientBill('insuranceDetail');"
+                        class="btn btn-sm p-0" ngbTooltip="Click here to see Insurance detail">
+                        <i class="text-primary font-20 icon-info-circle"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="text-right">
+                    <td class="text-right">Insurance Amount:(-)</td>
+                    <td class="text-right border-left-0 border-top-0">
+                      <p class="mb-0 mr-3">{{billingForm.value.insuranceAmount | number:'1.2-2'}}</p>
+                    </td>
+                    <td>
+                      <button type="button" (click)="checkForUnsavedPatientBill('patientInsurance');"
+                        class="btn btn-sm p-0" [hidden]="true" ngbTooltip="Click here to see Insurance Payments">
+                        <i class="text-primary font-20 icon-info-circle"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="text-right">
+                    <td class="text-right">Advance Adjusted:(-)</td>
+                    <td class="text-right">
+                      <p class="mb-0 mr-3">{{billingForm.value.advanceAdjustmentAmt | number:'1.2-2'}}</p>
+                    </td>
+                    <td style="width: 20px;">
+                      <button type="button" (click)="checkForUnsavedPatientBill('patientAdvancePayment');"
+                        class="btn btn-sm p-0" ngbTooltip="Click here to see Advance Payments">
+                        <i class="text-danger font-20 icon-info-circle"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="text-right">
+                    <td class="text-right">
+                      <h6 class="mb-0">Net Payable:</h6>
+                    </td>
+                    <td class="text-right">
+                      <h6 class="mb-0 mr-3">{{ (billingForm.value.finalNetAmount - billingForm.value.insuranceAmount -
+                        billingForm.value.advanceAdjustmentAmt) | number:'1.2-2'}}</h6>
+                    </td>
+                    <td></td>
+                  </tr>
+                  <tr class="text-right">
+                    <td class="text-right">Settled Amount :(-)</td>
+                    <td class="text-right">
+                      <p class="mb-0 mr-3">{{billingForm.value.settledAmount | number:'1.2-2'}}</p>
+                    </td>
+                    <td>
+                      <button type="button" (click)="checkForUnsavedPatientBill('billPayment');" class="btn btn-sm p-0"
+                        ngbTooltip="Click here to see Bill Payments">
+                        <i class="text-primary font-20 icon-info-circle"></i>
+                      </button>
+                    </td>
+                  </tr>
+                  <tr class="text-right">
+                    <td class="text-right">Refunded / UnAccounted :(+)</td>
+                    <td class="text-right">
+                      <p class="mb-0 mr-3">{{billingForm.value.refundedAmount | number:'1.2-2'}}</p>
+                    </td>
+                    <td>
+                    </td>
+                  </tr>
+                  <tr class="text-right">
+                    <td class="text-right">Write Off: (-)</td>
+                    <td class="text-right">
+                      <div *ngIf="billingForm.value.isFinal && !isPatientClassChangePage && !isBillViewOnly"
+                        class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                        <input type="checkbox" formControlName="isWriteOff" class="custom-control-input"
+                          id="isWriteOff">
+                        <label class="custom-control-label pointer" [class.active]="billingForm.value.isWriteOff"
+                          for="isWriteOff"></label>
+                        <span class="text-uppercase"
+                          [class.active]="billingForm.value.isWriteOff">{{billingForm.value.isWriteOff ? 'Yes' :
+                          'No'}}</span>
+                      </div>
+                      <ng-template #WriteoffViewOnly><span class="mr-3"
+                          style="min-width: 50%;">{{billingForm.value.writeOffAmount | number:'1.2-2'}}</span>
+                      </ng-template>
+                      <input *ngIf="billingForm.value.isFinal && billingForm.value.isWriteOff && !isPatientClassChangePage && !isBillViewOnly; else WriteoffViewOnly"
+                        type="number" formControlName="writeOffAmount" [disabled]="!billingForm.value.isWriteOff"
+                        style="min-width: 50%;" (blur)="calculateBillData()" class="form-control form-control-sm">
+                    </td>
+                    <td></td>
+                  </tr>
+                  <tr class="text-right">
+                    <td class="text-right">
+                      <h6 class="mb-0">Net Balance Amount :</h6>
+                    </td>
+                    <td class="text-right">
+                      <h6 class="mb-0 mr-3">{{billingForm.value.netPayableAmount | number:'1.2-2'}}</h6>
+                    </td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer py-0 border-top">
+      <div class="float-right pt-1 clearfix" *ngIf="!isPatientClassChangePage">
+        <div class="is-approved form-group">
+          <label class="font-size-dot-875 d-inline-block mr-2">Final</label>
+          <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+            <input type="checkbox" formControlName="isFinal" class="custom-control-input" id="isFinal"
+              (click)="onIsFinalChange()">
+            <label class="custom-control-label pointer" [class.active]="billingForm.value.isFinal"
+              for="isFinal"></label>
+            <span class="text-uppercase" [class.active]="billingForm.value.isFinal">
+              {{billingForm.value.isFinal ? 'Yes' : 'No'}}</span>
+          </div>
+        </div>
+        <button type="button" class="btn btn-outline-success btn-sm mr-2" (click)="redirectToAdvancePayment()">
+          Deposit Amount
+        </button>
+        <ng-container *ngxPermissionsOnly="constpermissionList.Verify_PatientBill">
+          <button *ngIf="billingForm.value.status == 'PENDING VERIFICATION'" type="button"
+            class="btn btn-outline-success btn-sm mr-2" (click)="verifyPatientBill()">
+            Verify Bill
+          </button>
+        </ng-container>
+        <ng-container *ngxPermissionsOnly="constpermissionList.Cancel_PatientBill">
+          <button *ngIf="billingForm.value.billId && billingForm.value.billTypeStatus != 'FINAL BILL' && billingForm.value.status != 'CANCELLED'"
+            type="button" class="btn btn-outline-success btn-sm mr-2" (click)="cancelBill()">
+            Cancel Bill
+          </button>
+        </ng-container>
+        <button type="submit" *ngIf="billingForm.value.status != 'CANCELLED'" class="btn btn-primary btn-sm">
+          <!-- [disabled]="billingForm.value.isSavedBillFinal" -->
+          <i class="icon fa-fw icon-save" aria-hidden="true"></i> SAVE
+        </button>
+      </div>
+      <div class="float-right pt-1 clearfix" *ngIf="isPatientClassChangePage">
+        <button type="button" class="btn btn-outline-success btn-sm mr-2" (click)="cancelSelectedChargingType()">
+          Cancel
+        </button>
+        <button type="submit" [disabled]="!isPatientClassChangeFinal" class="btn btn-primary btn-sm">
+          <i class="icon fa-fw icon-save" aria-hidden="true"></i> SAVE
+        </button>
+      </div>
+      <div class="form-group m-2 pr-3 float-right clearfix">
+        <h5 class="mb-0">Net Balance: ₹ {{billingForm.value.netPayableAmount | number:'1.2-2'}}</h5>
+      </div>
+      <div class="is-approved is-show-detail form-group pt-1 ml-2 float-right clearfix">
+        <label class="font-size-dot-875 d-inline-block mr-2">Payment Detail</label>
+        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+          <input type="checkbox" formControlName="showPayDetail" class="custom-control-input" id="showPayDetail">
+          <label class="custom-control-label pointer" [class.active]="billingForm.value.showPayDetail"
+            for="showPayDetail"></label>
+          <span class="text-uppercase"
+            [class.active]="billingForm.value.showPayDetail">{{billingForm.value.showPayDetail ? 'Yes' :
+            'No'}}</span>
+        </div>
+      </div>
+      <ng-container *ngxPermissionsOnly="constpermissionList.DischargeApprove_PatientBill">
+        <div class="is-approved is-discharge form-group ml-2 pt-1 float-right"
+        *ngIf="billingForm.value.status == 'CONFIRMED' && billingForm.value.selectedPatient?.patEncounterStatus == 'SEND FOR BILLING' && (!isPatientClassChangePage)">
+          <label class="font-size-dot-875 d-inline-block mr-2">Discharge Approve</label>
+          <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+            <input type="checkbox" formControlName="isDischargeApprove" class="custom-control-input" id="isDischargeApprove">
+            <label class="custom-control-label pointer" [class.active]="billingForm.value.isDischargeApprove"
+              for="isDischargeApprove"></label>
+            <span class="text-uppercase" [class.active]="billingForm.value.isDischargeApprove">
+              {{billingForm.value.isDischargeApprove ? 'Yes' : 'No'}}</span>
+          </div>
+        </div>
+      </ng-container>
+      <div class="float-left py-1" *ngIf="!isPatientClassChangePage">
+        <ng-container>
+          <div class="btn-group" #addSectionPopover="ngbPopover" triggers="manual" [autoClose]="'true'"
+            placement="top-right" [ngbPopover]="addSectionPopoverContent">
+            <button (click)="checkForUnsavedPatientBill('printBill');" [disabled]="false" type="button"
+              class="btn btn-outline-primary btn-sm border-right"><i class="icon fa-fw icon-print"
+                aria-hidden="true"></i>PRINT</button>
+            <button (click)="showHideAddSectionPopOver();" type="button"
+              class="btn btn-outline-primary btn-sm dropdown-toggle dropdown-toggle-split px-2 border-left"
+              data-toggle="dropdown">
+            </button>
+          </div>
+          <ng-template #addSectionPopoverContent>
+            <ul class="list-unstyled popover-content mb-0">
+              <li><button type="button" class="btn btn-sm btn-block text-left reset"
+                  (click)="checkForUnsavedPatientBill('printBill');"><i class="icon fa-fw icon-print"
+                    aria-hidden="true"></i> PRINT</button></li>
+              <li><button type="button" class="btn btn-sm btn-block text-left active"
+                  (click)="checkForUnsavedPatientBill('detailedPrintBill')"><i class="icon fa-fw icon-print"
+                    aria-hidden="true"></i> Detailed PRINT</button></li>
+            </ul>
+          </ng-template>
+        </ng-container>
+        <div *ngIf="billingForm.value.status == 'PENDING VERIFICATION'" class="float-right form-group pt-1 mb-0 ml-2 clearfix">
+          <label class="font-size-dot-875 d-inline-block">Verified Services: {{verifiedServices}} of {{this.billServiceArray.length}}</label>
+        </div>
+        <div *ngIf="isDiscountApproval" class="float-right form-group mb-0 ml-2 clearfix">
+          <label class="font-size-dot-875 d-inline-block">Concession Approval</label>
+          <button type="button" class="btn btn-outline-primary btn-sm ml-2"
+            (click)="showDiscountConfirmation('ACCEPT')">
+            <i class="icon fa-fw icon-save" aria-hidden="true"></i> Approve
+          </button>
+          <button type="button" class="btn btn-outline-warning btn-sm ml-2"
+            (click)="showDiscountConfirmation('REJECT')">
+            <i class="fa fa-times" aria-hidden="true"></i> Reject
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<app-print-data [printData]="printData" (printDiaglogClose)="true"></app-print-data>

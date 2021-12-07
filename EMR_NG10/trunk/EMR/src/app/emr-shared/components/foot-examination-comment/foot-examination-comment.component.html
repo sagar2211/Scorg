@@ -1,0 +1,18 @@
+<div class="modal-header bg-primary text-white py-1">
+    <p class="modal-title text-uppercase">Add Comment</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+        (click)="onCancelButtonClick()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="form-group">
+        <label for="first_name">Foot Examination: <span class="font-weight-600">{{partData.body_part}}</span></label>
+        <input class="form-control w-50" [(ngModel)]="comment">
+    </div>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase" (click)="onCancelButtonClick()">Cancel</button>
+    <button type="button" class="btn btn-sm btn-outline-primary-light text-uppercase" (click)="onAddButtonClick()"><i
+            class="fa fa-fw fa-plus" aria-hidden="true"></i>Add</button>
+</div>

@@ -1,0 +1,26 @@
+<div ngbDropdown class="d-inline-block bread-crumb">
+  <button class="btn btn-sm bg-white btn-w d-flex justify-content-between" id="breadCrumbDropdown" ngbDropdownToggle>
+    <p class="mb-0">{{selectedRoute}}</p>
+    <i class="fa fa-fw fa-caret-down pt-1" aria-hidden="true"></i>
+  </button>
+  <div ngbDropdownMenu class="shadow w-100 py-0" aria-labelledby="breadCrumbDropdown">
+    <ul class="list-unstyled mb-0 list-item">
+      <li class="border-dash-bottom font-size-dot-875 p-2" [ngClass]="{ 'active': index == 0, 'pointer': index !== 0 }"
+        *ngFor="let breadCrum of showBreadCrum let index = index" (click)="routeTo(breadCrum)" ngbDropdownItem>
+        <a class="text-decoration-none d-block">{{breadCrum.displayName}}</a>
+      </li>
+    </ul>
+    <ng-container *ngIf="relatedBreadcrumb.length > 0">
+      <div class="text-right my-1">
+        <span class="text-uppercase text-muted border-bottom mr-2 font-size-dot-7">Related</span>
+      </div>
+      <ul class="list-unstyled list-item">
+        <ng-container *ngFor="let breadCrum of relatedBreadcrumb let index = index">
+          <li class="border-dash-bottom font-size-dot-875 p-2" (click)="routeToRelatedBreadCrumb(breadCrum)">
+            <a class="text-decoration-none d-block">{{breadCrum.displayName}}</a>
+          </li>
+        </ng-container>
+      </ul>
+    </ng-container>
+  </div>
+</div>

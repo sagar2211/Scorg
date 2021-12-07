@@ -1,0 +1,255 @@
+@import "../../../../../../src/scss/main";
+
+:host ::ng-deep {
+  .container-bed-display {
+    height: calc(100vh - 49px);
+    margin-top: 0.25rem !important;
+
+    .top-alert {
+      .alert-secondary {
+        background-color: #f7f7f7;
+        border-color: #ececec;
+      }
+    }
+
+    .card-body-filter {
+      .custom-mb {
+        margin-bottom: 9px !important;
+      }
+    }
+
+    .top-5 {
+      top: 5px;
+    }
+
+    .text-orange {
+      color: #fba965;
+    }
+
+    .bed-accordion {
+      height: calc(100vh - 116px) !important;
+      overflow-y: auto;
+
+      .bed-show {
+        &:nth-of-type(odd) {
+          .ward-card {
+            border-color: #dedede;
+            background-color: #fbfbfb;
+            box-shadow: 1px 2px 2px rgb(226 226 226 / 50%);
+          }
+        }
+
+        &:nth-of-type(even) {
+          .ward-card {
+            border-color: #c7cef1;
+            background-color: #f2f4fd;
+            @include custom-box-shadow(0, 0, 2px, rgba(217, 221, 236, 0.5));
+          }
+        }
+      }
+
+      .custom-col-bed-name {
+        flex: 0 0 270px;
+        max-width: 270px;
+
+        .btn-xs {
+          width: 22px;
+          height: 22px;
+        }
+
+
+
+        .bed-name {
+          width: 222px;
+        }
+
+        p {
+          span.d-inline-block {
+            width: 20px;
+          }
+        }
+      }
+
+      .beds {
+        .bed-form-row {
+          .custom-col {
+            flex: 0 0 25%;
+            max-width: 25%;
+            min-height: 157px;
+
+            .card {
+              height: 137px;
+              min-height: 137px;
+              @include border-radius(6px);
+
+              .popover {
+                width: 296px;
+                max-width: 296px;
+              }
+
+              .custom-badge .popover,
+              .card-footer .popover {
+                width: 200px;
+                max-width: 200px;
+              }
+
+              &.card-occupied,
+              &.card-occupied .card-header,
+              &.card-occupied .card-footer {
+                color: #051149;
+                border-color: #c3c8de;
+                background-color: #edf0ff !important;
+
+                .popover .popover-body {
+                  color: #051149;
+                }
+
+                &.blinked-border {
+                  @include transition(border-color 0.4s);
+                  -webkit-animation: blink-border 1s;
+                  animation: blink-border 1s;
+                  animation-iteration-count: infinite;
+                }
+              }
+
+              &.card-vacant,
+              &.card-vacant .card-header {
+                color: #03441e;
+                border-color: #bfead1;
+                background-color: #ddf5e7 !important;
+                @include transition(box-shadow 0.2s ease-out);
+                @include custom-box-shadow(0, 1px, 5px, rgba(203, 239, 218, 0));
+
+                &:hover {
+                  @include transition(box-shadow 0.2s ease-in);
+                  @include custom-box-shadow(0, 1px, 5px, rgba(203, 239, 218, 1));
+                }
+
+                .popover .popover-body {
+                  color: #03441e;
+                }
+              }
+
+              &.card-under-maintenance,
+              &.card-under-maintenance .card-header {
+                color: #3f3f3f;
+                cursor: not-allowed;
+                background-color: #eeefee !important;
+
+                .popover .popover-body {
+                  color: #3f3f3f;
+                }
+              }
+
+              &.card-booked,
+              &.card-booked .card-header {
+                color: #442204;
+                cursor: not-allowed;
+                border-color: #efdecf;
+                background-color: #fbefe5 !important;
+
+                .popover .popover-body {
+                  color: #3f3f3f;
+                }
+              }
+
+              &.card-reserved,
+              &.card-reserved .card-header {
+                color: #06394e;
+                cursor: not-allowed;
+                border-color: #bdd5df;
+                background-color: #bdd5df !important;
+
+                .popover .popover-body {
+                  color: #06394e;
+                }
+              }
+
+              .custom-badge {
+                padding: 2px;
+                margin-top: 2px;
+                margin-bottom: 2px;
+                background: #2d2d2d2b;
+                @include border-radius(6px);
+
+                p {
+                  max-width: 240px;
+                }
+              }
+
+              .card-header {
+                @include border-top-left-radius(6px);
+                @include border-top-right-radius(6px);
+
+                .form-row {
+                  min-height: 19px;
+                }
+              }
+
+              .card-body {
+                .bed-empty {
+                  .icon {
+                    font-size: 2rem;
+
+                    &.icon-cogs {
+                      font-size: 0.7rem;
+                    }
+                  }
+                }
+
+                .dr-name {
+                  max-width: 240px;
+                }
+              }
+
+              .card-footer {
+                @include border-bottom-left-radius(6px);
+                @include border-bottom-right-radius(6px);
+
+                .custom-btn {
+                  line-height: 1;
+                  width: 40px;
+                  height: 27px;
+                  @include border-radius(6px);
+                }
+              }
+            }
+
+            .blink-text {
+              -webkit-animation: blink-text 1s;
+              animation: blink-text 1s;
+              animation-iteration-count: infinite;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .custom-tooltip {
+    .small {
+      font-size: 95%;
+      opacity: 0.75;
+    }
+  }
+
+  @keyframes blink-border {
+    50% {
+      border-color: #3F51B5;
+    }
+
+    100% {
+      border-color: #c3c8de;
+    }
+  }
+
+  @keyframes blink-text {
+    50% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+}

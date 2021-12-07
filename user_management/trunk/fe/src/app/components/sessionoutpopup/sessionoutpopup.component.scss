@@ -1,0 +1,17 @@
+@import "../../../scss/custom_bootstrap_theme";
+
+.session-out {
+  padding: 30px 20px 20px;
+
+  i.fa-exclamation-triangle {
+    font-size: 4rem;
+  }
+  p {
+    color: $gray-700;
+  }
+  .goback-btn {
+    color: $white;
+    background-color: $cyan-100;
+    border-color: $cyan-100;
+  }
+}

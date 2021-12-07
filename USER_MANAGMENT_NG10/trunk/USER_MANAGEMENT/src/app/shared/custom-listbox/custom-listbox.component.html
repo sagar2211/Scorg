@@ -1,0 +1,63 @@
+<div class="dual-list" [ngClass]="{'disable-whole-div':disabled}">
+  <div class="listbox">
+    <form *ngIf="filter" class="filter position-relative">
+      <input type="text" class="form-control form-control-sm pl-2rem" name="filterSource" [(ngModel)]="available.picker"
+        (ngModelChange)="onFilter(available)" placeholder="Search">
+      <div class="placeholder-icon">
+        <i class="icon fa-fw icon-search text-muted" aria-hidden="true"></i>
+      </div>
+    </form>
+    <!-- <p>{{sourceName}}</p> -->
+    <div class="record-picker">
+      <ul [ngClass]="{over:available.dragOver}" (drop)="drop($event, confirmed)"
+        (dragover)="allowDrop($event, available)" (dragleave)="dragLeave()">
+        <!-- [ngStyle]="{'max-height': height, 'min-height': height}" -->
+        <li *ngFor="let item of available.sift; let idx=index;"
+          (click)="selectItem(available.pick, item); shiftClick($event, idx, available, item)"
+          [ngClass]="{selected: isItemSelected(available.pick, item)}" draggable="true"
+          (dragstart)="drag($event, item, available)" (dragend)="dragEnd(available)"><label>{{item._name}}</label></li>
+      </ul>
+    </div>
+  </div>
+  <ul class="buttonbox list-unstyled">
+    <li placement="top" ngbTooltip="Add Item to Right">
+      <button type="button" class="btn btn-secondary btn-block" (click)="moveItem(available, confirmed)"
+        [disabled]="available.pick.length === 0"><i class="fa fa-fw fa-chevron-right" aria-hidden="true"></i></button>
+    </li>
+    <li placement="top" ngbTooltip="Add Items to Right">
+      <button type="button" class="btn btn-secondary btn-block" (click)="moveAll()"
+        [disabled]="isAllSelected(available)"><i class="fa fa-chevron-right"></i><i class="fa fa-chevron-right"
+          aria-hidden="true"></i></button>
+    </li>
+    <li placement="top" ngbTooltip="Remove Item">
+      <button type="button" class="btn btn-secondary btn-block" (click)="moveItem(confirmed, available)"
+        [disabled]="confirmed.pick.length === 0"><i class="fa fa-fw fa-chevron-left" aria-hidden="true"></i></button>
+    </li>
+    <li placement="top" ngbTooltip="Remove Items">
+      <button type="button" class="btn btn-secondary btn-block" (click)="removeAll()"
+        [disabled]="isAllSelected(confirmed)"><i class="fa fa-chevron-left"></i><i class="fa fa-chevron-left"
+          aria-hidden="true"></i></button>
+
+    </li>
+  </ul>
+  <div class="listbox">
+    <form *ngIf="filter" class="filter position-relative">
+      <input type="text" class="form-control form-control-sm pl-2rem" name="filterDestination"
+        [(ngModel)]="confirmed.picker" (ngModelChange)="onFilter(confirmed)" placeholder="Search">
+      <div class="placeholder-icon">
+        <i class="icon fa-fw icon-search text-muted" aria-hidden="true"></i>
+      </div>
+    </form>
+    <!-- <p>{{targetName}}</p> -->
+    <div class="record-picker">
+      <ul [ngClass]="{over:confirmed.dragOver}" (drop)="drop($event, available)"
+        (dragover)="allowDrop($event, confirmed)" (dragleave)="dragLeave()">
+        <!-- [ngStyle]="{'max-height': height, 'min-height': height}" -->
+        <li *ngFor="let item of confirmed.sift; let idx=index;"
+          (click)="selectItem(confirmed.pick, item); shiftClick($event, idx, confirmed, item)"
+          [ngClass]="{selected: isItemSelected(confirmed.pick, item)}" draggable="true"
+          (dragstart)="drag($event, item, confirmed)" (dragend)="dragEnd(confirmed)"><label>{{item._name}}</label></li>
+      </ul>
+    </div>
+  </div>
+</div>

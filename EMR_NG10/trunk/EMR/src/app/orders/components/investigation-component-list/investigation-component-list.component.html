@@ -1,0 +1,37 @@
+<div class="investigation-list">
+  <div class="modal-header">
+    <h5 class="modal-title">{{selectedInvestigationComponentList.name}}</h5>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+      (click)="activeModal.close('close');">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-2">
+    <p class="text-center text-danger mb-1">
+      {{message}}
+    </p>
+    <ul class="list-unstyled ml-2 componenet-list"
+      [ngClass]="{'disabled-div': !selectedInvestigationComponentList.isDirty || selectedInvestigationComponentList.componentList.length == 1}">
+      <li class="pb-1 pull-left" *ngFor="let item of selectedInvestigationComponentList.componentList">
+        <label class="lab-size icheck icheck-primary custom-checkbox mb-0">
+          <input type="checkbox" id="{{item.id}}" class="custom-control-input" (change)="updateCheckBoxValue(item)"
+            [checked]="item.isSelected" name="{{item.parameterName}}">
+          <i></i>
+        </label>
+        <span class="cursor-pointer pl-1" (click)="updateCheckBoxValue(item)">{{item.parameterName}}</span>
+      </li>
+    </ul>
+    <div class="clearfix"> </div>
+  </div>
+  <div class="modal-footer p-1">
+    <div><small>*Select/Deselect to prescribe required investigation component(s)</small></div>
+    <div>
+      <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
+        (click)="activeModal.close('close');">Cancel</button>
+      <button type="submit"
+        *ngIf="selectedInvestigationComponentList.isDirty && selectedInvestigationComponentList.componentList.length > 1"
+        class="btn btn-sm btn-outline-primary text-uppercase"
+        (click)="activeModal.close(selectedInvestigationComponentList);">Update</button>
+    </div>
+  </div>
+</div>

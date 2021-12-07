@@ -1,0 +1,109 @@
+<form [formGroup]="queueSettingForm" (ngSubmit)="UpdateQueueSettings()" *ngIf="formLoad">
+  <div class="card border-top-0 border-bottom-0 border-right-0">
+    <div class="card-header border-dash-bottom py-2">
+      <h6 class="mb-0">Queue</h6>
+    </div>
+    <div class="card-body qms-queue-card-body">
+      <div class="card shadow-xs border-0">
+        <div class="card-body">
+          <div class="form-row form-group">
+            <div class="col-4 align-self-center">
+              <p class="mb-0 font-weight-500"> Available slot for walk-in patient</p>
+            </div>
+            <div class="col-8">
+              <div class="form-group form-gender">
+                <label class="d-block" for="slot">Select Available Slot</label>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="customRadio" formControlName="available_slot"
+                    value="first">
+                  <label class="custom-control-label pointer"
+                    [class.error]="queueSettingFormControls['available_slot'].errors && submitted"
+                    for="customRadio">First Available Slot</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" class="custom-control-input" id="customRadio1" formControlName="available_slot"
+                    value="last">
+                  <label class="custom-control-label pointer"
+                    [class.error]="queueSettingFormControls['available_slot'].errors && submitted"
+                    for="customRadio1">Last Available Slot</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="my-4">
+          <div class="form-row form-group">
+            <div class="col-4 align-self-center">
+              <p class="mb-0 font-weight-500"> Skip Settings</p>
+            </div>
+            <div class="col-8">
+              <div class="form-row form-group">
+                <div class="col-4">
+                  <label for="queueSetting">Skip Setting</label>
+                  <input class="form-control form-control-sm" formControlName="skip_setting_minute" type="text"
+                    placeholder="Skip setting in minute"
+                    [class.error]="queueSettingFormControls['skip_setting_minute'].errors?.required && submitted" trim>
+                  <small class="text-danger"
+                    *ngIf="queueSettingFormControls['skip_setting_minute'].errors?.required && submitted">
+                    Please enter skip setting!</small>
+                </div>
+                <div class="col-4">
+                  <label for="queueSetting">Number of repeat calling</label>
+                  <input class="form-control form-control-sm" formControlName="no_of_repeat_calling" type="text"
+                    placeholder="No of repeat calling"
+                    [class.error]="queueSettingFormControls['no_of_repeat_calling'].errors?.required && submitted" trim>
+                  <small class="text-danger"
+                    *ngIf="queueSettingFormControls['no_of_repeat_calling'].errors?.required && submitted">
+                    Please enter no. of repeat calling!</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="my-4">
+          <div class="form-row form-group">
+            <div class="col-4 align-self-center">
+              <p class="mb-0 font-weight-500"> Queue List Patient Setting</p>
+            </div>
+            <div class="col-8">
+              <div class="form-group">
+                <div class="custom-control custom-checkbox custom-control-inline font-weight-500 font-size-dot-8">
+                  <input type="checkbox" formControlName="is_booking_confirmed" class="custom-control-input"
+                    id="show_confirm_patient">
+                  <label class="custom-control-label pointer line-height-2" for="show_confirm_patient">Show confirmed
+                    patients
+                    on Queue List</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr class="my-4">
+          <div class="form-row form-group">
+            <div class="col-4 align-self-center">
+              <p class="mb-0 font-weight-500"> Pending Action Limit</p>
+            </div>
+            <div class="col-8">
+              <div class="form-row form-group">
+                <div class="col-4">
+                  <label for="queueSetting">Number of pending action limit</label>
+                  <input class="form-control form-control-sm" formControlName="no_of_pending_action" type="text"
+                    placeholder="Number of pending action limit"
+                    [class.error]="queueSettingFormControls['no_of_pending_action'].errors?.required && submitted" trim>
+                  <small class="text-danger"
+                    *ngIf="queueSettingFormControls['no_of_pending_action'].errors?.required && submitted">
+                    Please enter no. of queue calling limit!</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-right py-1">
+      <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase mr-2">
+        Cancel</button>
+      <button type="submit" [disabled]="editPermission" class="btn btn-sm btn-success text-uppercase"><i
+          class="icon fa-fw icon-save"></i> SAVE
+      </button>
+    </div>
+    <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+  </div>
+</form>

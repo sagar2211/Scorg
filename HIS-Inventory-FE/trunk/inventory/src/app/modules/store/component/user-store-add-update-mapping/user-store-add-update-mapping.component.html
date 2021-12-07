@@ -1,0 +1,32 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">{{popupDetails.type === 'edit' ? 'Edit' : 'Add'}} Mapping</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="mappingForm" (ngSubmit)="addUpdateMaping()" *ngIf="loadForm">
+    <div class="modal-body">
+        <div class="form-row form-group align-items-center">
+            <div class="col-4">
+                <label>User</label>
+                <ng-select [items]="toUserList$ | async" bindLabel="user_name" (change)="onUserChange($event)" bindValue="user_id" [loading]="formLoading" formControlName="userId" placeholder="Select User" [typeahead]="toUserListInput$"></ng-select>
+                <small class="text-danger" *ngIf="mapFormControl['userId'].errors?.required && submitted">
+                  Please Select Value!</small>
+            </div>
+            <div class="col-8">
+                <label>Store</label>
+                <ng-select [items]="toStoreList$ | async" [hideSelected]="true" bindLabel="name" [multiple]="true" (change)="onStoreChange($event)" [loading]="formLoading" formControlName="stores" placeholder="Select Store" [typeahead]="toStoreListInput$"></ng-select>
+                <small class="text-danger" *ngIf="mapFormControl['stores'].errors?.required && submitted">
+                  Please Select Value!</small>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer py-1">
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closePopup()">CANCEL</button>
+        <button type="button" class="btn btn-sm btn-outline-primary" (click)="addUpdateMaping();">
+          <i class="fa fa-fw" [ngClass]="popupDetails.type === 'edit' ? 'fa-sync-alt':'fa-plus'" aria-hidden="true"></i>
+          {{popupDetails.type === 'edit' ? 'UPDATE' : 'ADD'}}
+        </button>
+    </div>
+</form>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

@@ -1,0 +1,186 @@
+<!--Advance Search-->
+<div class="container-fluid pt-2 custom-container-fluid">
+  <div class="row form-group">
+    <div class="col-4">
+      <div class="input-group">
+        <input type="text" class="form-control form-control-sm pl-2rem" placeholder="Search By Login Id"
+          [(ngModel)]="globalSearchBY" (ngModelChange)="this.subject.next();">
+        <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+        <div class="input-group-append">
+          <button class="btn btn-sm btn-outline-secondary border" type="button" title="Filter"
+            (click)="showSearchFilter()"><i class="fa fa-fw fa-caret-down" aria-hidden="true"></i></button>
+          <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear" (click)="clearForm();">
+            <i class="fa fa-fw fa-eraser" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="dropdown custom-dropdown" *ngIf="showUserListFilter">
+        <form [formGroup]="userListFilterForm" novalidate (ngSubmit)="searchByFilter()">
+          <div id="SearchPopup" class="dropdown-menu pb-0 w-100 d-block shadow" role="menu">
+            <h6 for="filter" class="border-bottom pl-2 pb-2"><i class="fa fa-filter" aria-hidden="true"></i> Filter by
+            </h6>
+            <div class="container-fluid">
+              <div class="card-body p-0">
+                <div class="form-row form-group">
+                  <div class="col-6">
+                    <label for="login_id">Select application</label>
+                    <ng-select (change)="selectApplication($event)" [items]="applications" formControlName="application" bindLabel="name" placeholder="Application">          </ng-select>
+                  </div>
+
+                  <div class="col-6">
+                    <label for="login_id">Role Type</label>
+                    <!-- <app-ng-select-typeahead [inputValue]="userListFilterForm.value.role_type?.id"
+                      [displayList]="rolesTypeList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'"
+                      (recievedVal)="selectRoleType($event)" [source]="'Role Types'" [returnDataType]="'obj'"
+                      [compInstance]="compInstance">
+                    </app-ng-select-typeahead> -->
+                    <ng-select (change)="selectRoleType($event)" [items]="rolesTypeList" formControlName="role_type" bindLabel="name" placeholder="Role Types">          </ng-select>
+                  </div>
+                  <div class="col-6">
+                    <label for="login_id">Primary Role</label>
+                    <!-- <app-ng-select-typeahead [inputValue]="userListFilterForm.value.primary_role?.id"
+                      [displayList]=primaryRolesList [thDisplayLabel]="'name'" [thDisplayKey]="'id'"
+                      (recievedVal)="selectPrimaryRole($event)" [source]="'Primary Roles'" [returnDataType]="'obj'"
+                      [isDisabled]="!!!(userListFilterForm.value.role_type?.id)">
+                    </app-ng-select-typeahead> -->
+                    <ng-select [disabled]="!!!(userListFilterForm.value.role_type?.id)" (change)="selectPrimaryRole($event)" [items]="primaryRolesList" formControlName="primary_role" bindLabel="name" placeholder="Primary Roles">          </ng-select>
+
+                  </div>
+                </div>
+                <div class="form-row form-group">
+                  <div class="col-6">
+                    <label for="login_id">Department</label>
+                    <!-- <app-ng-select-typeahead [inputValue]="userListFilterForm.value.department?.id"
+                      [displayList]="departmentmasteList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'"
+                      (recievedVal)="selectDepartment($event)" [source]="'Department'" [returnDataType]="'obj'"
+                      [compInstance]="compInstance">
+                    </app-ng-select-typeahead> -->
+                    <ng-select (change)="selectDepartment($event)"
+                    [items]="departmentmasteList" formControlName="department" bindLabel="name" placeholder="Department"></ng-select>
+                  </div>
+                  <div class="col-6">
+                    <label for="contain">Status</label>
+                    <select class="form-control form-control-sm" formControlName="status">
+                      <option value="">Select Status</option>
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                      <option value="deleted">Deleted</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-row form-group">
+                  <div class="col-6">
+                    <label for="contain">From Date</label>
+                    <app-date-picker [inputDate]="userListFilterForm.value.from_date" placeholder="yyyy-mm-dd"
+                      [max]="userListFilterForm.value.to_date"
+                      (dateChange)="userListFilterForm.patchValue({from_date : $event});">
+                    </app-date-picker>
+                  </div>
+                  <div class="col-6">
+                    <label for="contain">To Date</label>
+                    <app-date-picker [inputDate]="userListFilterForm.value.to_date" placeholder="dd-mm-yyyy"
+                      [min]="userListFilterForm.value.from_date"
+                      (dateChange)="userListFilterForm.patchValue({to_date : $event});">
+                    </app-date-picker>
+                  </div>
+                </div>
+              </div>
+              <div class="row card-footer px-0 pt-1 pb-1">
+                <div class="col-12 text-right">
+                  <button class="btn float-left btn-sm btn-outline-secondary" (click)="showSearchFilter()"
+                    type="button">CLOSE</button>
+                  <button class="btn btn-sm btn-outline-warning mr-1" (click)="clearForm()" type="button"><i
+                      class="fas fa-fw fa-eraser" aria-hidden="true"></i> CLEAR</button>
+                  <button class="btn btn-sm btn-outline-info" type="submit"> <i class="icon fa-fw icon-search"></i>
+                    SEARCH</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-8">
+      <select class="form-control form-control-sm float-right select-w"
+        (change)="onPageSizeChanged($event.currentTarget.value)" id="page-size" [(ngModel)]="pageSize">
+        <option value="15" selected="">15</option>
+        <option value="30">30</option>
+        <option value="45">45</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+  </div>
+  <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25" [footerHeight]="70"
+    [rowHeight]="30" [reorderable]="reorderable" [swapColumns]="swapColumns" [rows]="usersList" [externalSorting]="true"
+    (sort)="onSortChanged($event)" [externalPaging]="externalPaging" [count]="page.totalElements" [scrollbarH]="true"
+    (page)='onSetPage($event)' [scrollbarH]="true" (scroll)="onScrollForPopOver()">
+    <ngx-datatable-column name="Name" [frozenLeft]="true" prop="name" [width]="200"></ngx-datatable-column>
+    <ngx-datatable-column name="Login Id" prop="login_id" [width]="130"></ngx-datatable-column>
+    <ngx-datatable-column name="Default Application" prop="default_application_name" [width]="160"></ngx-datatable-column>
+    <!-- <ngx-datatable-column name="Role Name" prop="role_name" [width]="120"></ngx-datatable-column> -->
+    <ngx-datatable-column name="Department" prop="user_department" [width]="200"></ngx-datatable-column>
+    <ngx-datatable-column name="Designation" prop="user_designation" [width]="120"></ngx-datatable-column>
+    <ngx-datatable-column name="Mobile No" prop="mobile_number" [width]="100"></ngx-datatable-column>
+    <ngx-datatable-column name="Email" prop="email" [width]="200"></ngx-datatable-column>
+    <ngx-datatable-column name="Status" [width]="100" cellClass="text-center">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <span
+          [ngClass]="{'active': row.status == 'Active', 'inactive': row.status == 'Inactive', 'deleted': row.status == 'Deleted'}">
+          {{row.status}}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Created By" prop="created_by" [width]="150"></ngx-datatable-column>
+    <ngx-datatable-column name="Created On" prop="created_on" [width]="150"></ngx-datatable-column>
+    <ngx-datatable-column name="Action" [frozenRight]="true" cellClass="text-center" [width]="75" [sortable]="false">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value"
+        let-isSelected="isSelected">
+        <button class="bg-transparent border-0" [disabled]="row.is_deleted" placement="left-bottom" [ngbPopover]="popContent"
+          container="body" #p="ngbPopover" (click)="getIsUserLogged(row,p)">
+          <i class="fa fa-fw fa-bars" aria-hidden="true"></i> <i class="fa fa-xs fa-caret-down" aria-hidden="true"></i>
+        </button>
+        <ng-template #popContent>
+          <ul class="list-unstyled popover-content mb-0">
+            <li *ngxPermissionsOnly="PermissionsConstantsList.Update_UserMaster"><button
+                class="btn btn-sm btn-block text-left edit" [routerLink]="['./../userRegistration',row.user_id]"
+                (click)="editUserBYID(row)"><i class="icon fa-fw icon-edit mr-1" aria-hidden="true"></i> Edit</button>
+            </li>
+            <li><button class="btn btn-sm btn-block text-left del"
+                *ngxPermissionsOnly="PermissionsConstantsList.Delete_UserMaster"
+                (click)="loadConfirmationPopup(row,'delete')"><i class="icon fa-fw icon-trash mr-1"
+                  aria-hidden="true"></i> Delete</button></li>
+            <li *ngxPermissionsOnly="PermissionsConstantsList.Active_Inactive_User_Master"><button
+                class="btn btn-sm btn-block text-left active" *ngIf="row.status =='Inactive'"
+                (click)="loadConfirmationPopup(row,'active')"><i class="fa fa-fw fa-check-circle mr-1"
+                  aria-hidden="true"></i> Active</button></li>
+            <li *ngxPermissionsOnly="PermissionsConstantsList.Active_Inactive_User_Master"><button
+                class="btn btn-sm btn-block text-left inactive" *ngIf="row.status =='Active'"
+                (click)="loadConfirmationPopup(row,'active')"><i class="icon fa-fw icon-times-circle mr-1"
+                  aria-hidden="true"></i> Inactive</button></li>
+            <ng-container *ngxPermissionsOnly="PermissionsConstantsList.UserMaster_Force_Logout">
+              <li *ngIf="isUserLoggedIn"><button class="btn btn-sm btn-block text-left logout"
+                  (click)="loadConfirmationPopup(row,'fLogout')"><i class="icon fa-fw icon-sign-out-alt mr-1"
+                    aria-hidden="true"></i> Force Logout</button></li>
+            </ng-container>
+            <li *ngxPermissionsOnly="PermissionsConstantsList.Reset_Password_User_Master"><button
+                class="btn btn-sm btn-block text-left reset" (click)="resetPassword(row)"><i
+                  class="icon fa-fw icon-reset-password mr-1" aria-hidden="true"></i> Reset Password</button></li>
+          </ul>
+        </ng-template>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-footer *ngIf="usersList.length > 0">
+      <ng-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
+        let-curPage="curPage" let-offset="offset" ngx-datatable-footer-template>
+        <div class="mx-3">
+          Showing {{ ((page.pageNumber - 1) *  page.size) + 1}} to
+          {{ ((page.pageNumber - 1) *  page.size) + usersList.length}} of {{rowCount}} entries
+        </div>
+        <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'"
+          [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="page.pageNumber"
+          [size]="page.size" [count]="page.totalElements" [hidden]="!((page.totalElements / page.size) > 1)"
+          (change)="onFooterPage($event)">
+        </datatable-pager>
+      </ng-template>
+    </ngx-datatable-footer>
+  </ngx-datatable>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

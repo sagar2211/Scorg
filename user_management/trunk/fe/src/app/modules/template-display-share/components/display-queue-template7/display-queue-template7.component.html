@@ -1,0 +1,40 @@
+<div class="queue template7" [ngStyle]="{'height.%' : braningSectionVisble ? '92' : ''}" *ngIf="displayData.calling_queue_patient">
+  <div class="container-fluid px-0 h-100 queue-container">
+    <div class="row mx-0 h-100">
+      <div class="col-12 px-0 h-100">
+        <div class="calling-info blink">
+          <div class="row mx-0 align-items-center calling" [ngClass]="[activeColor, getHeight('token', 'calling')]"
+            *ngIf="checkUserKeyExist('calling','token')">
+            <p class="calling-txt mb-0 blink-infinite">CALLING</p>
+            <div class="col-12 px-0">
+              <h2 class="token-no mb-0">{{displayData.calling_queue_patient.token_no}}</h2>
+            </div>
+          </div>
+          <div *ngIf="checkUserKeyExist('calling','name')" [ngClass]="[getHeight('name', 'calling')]"
+            class="row mx-0 align-items-end pt-name-row">
+            <div class="col-12 px-0">
+              <h2 class="pt-name mb-0">{{displayData.calling_queue_patient.full_name}}</h2>
+            </div>
+          </div>
+          <div *ngIf="checkUserKeyExist('calling','contact')" [ngClass]="[getHeight('contact', 'calling')]"
+            class="row mx-0 align-items-start mobile-no-row">
+            <div class="col-12 px-0">
+              <p class="mobile-no mb-0 font-weight-500">
+                {{displayData.calling_queue_patient.mobile_no}}</p>
+            </div>
+          </div>
+          <div class="row align-content-center mx-0 room-number" [ngClass]="[getHeight('room_name', 'calling')]"
+            *ngIf="checkUserKeyExist('calling','room_name')">
+            <div class="col-6 px-0">
+              <p class="room mb-0 font-wight-500">Proceed to Room</p>
+            </div>
+            <div class="col-6 px-0 text-right">
+              <p class="section mb-0 font-weight-500" [ngClass]="activeColor">
+                {{displayData.calling_queue_patient.room_name}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

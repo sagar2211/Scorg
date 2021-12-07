@@ -1,0 +1,29 @@
+<ng-container *ngIf="loadTree">
+    <div class="col-12 px-0">
+        <div class="input-group">
+            <input type="text" class="form-control form-control-sm pl-2rem" [(ngModel)]="filterText" (ngModelChange)="onSearchTree();">
+            <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+            <div class="input-group-append">
+                <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear" (click)="openFilterPopup()">
+                    <i class="icon fa-fw icon-filter" aria-hidden="true"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 tree-height px-0">
+        <tree-root #tree [nodes]="nodes" [focused]="true" [options]="options" (activate)="onEvent($event, 'activate')" (toggleExpanded)="onEvent($event, 'toggleExpanded')">
+            <ng-template #treeNodeTemplate let-node let-index="index">
+                <span [ngClass]="node.data.value.hashId === selectedHashId ? 'active':'inactive'">{{ node.data.name }}</span>
+            </ng-template>
+        </tree-root>
+    </div>
+    <div class="form-row">
+        <div class="col-6">
+            <button type="button" class="btn btn-sm btn-outline-mbd" title="Previous" (click)="getNextPrevTreeData('prev')" *ngIf="isPrevEnable"><i class="fa fa-fw fa-angle-right"
+                    aria-hidden="true"></i></button>
+        </div>
+        <div class="col-6 text-right">
+            <button type="button" class="btn btn-sm btn-outline-mbd" title="Next" (click)="getNextPrevTreeData('next')" *ngIf="isNextEnable">
+                <i class="fa fa-fw fa-angle-left" aria-hidden="true"></i></button>
+        </div>
+    </div>
+</ng-container>

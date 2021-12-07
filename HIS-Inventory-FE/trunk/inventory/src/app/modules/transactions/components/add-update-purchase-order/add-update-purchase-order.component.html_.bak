@@ -1,0 +1,337 @@
+<div class="custom-container-fluid container-purchase-order-add-apdate">
+    <form [formGroup]="purchaseForm" (ngSubmit)="saveValue()" *ngIf="loadForm">
+        <div class="card-body p-1" [ngClass]="{'pointereventnone': isEditModeEnable && constants.purchaseOrderStatusCreated !== editSupplierData.status}">
+            <div class="form-row form-group mx-0">
+                <div class="col-2">
+                    <label>PO Number</label>
+                    <p class="mb-0 height-with-line-height">{{purchaseForm.value.poNo}}</p>
+                </div>
+                <div class="col-2">
+                    <label>PO Date</label>
+                    <p class="mb-0 height-with-line-height">{{purchaseForm.value.poDate | date:'dd-MM-yyyy' }}</p>
+                </div>
+                <div class="col-2">
+                    <label>Supplier<sup>*</sup></label>
+                    <ng-container *ngIf="isEditModeEnable">
+                        <p class="mb-0 height-with-line-height">{{purchaseForm.value.supplier?.name}}</p>
+                    </ng-container>
+                    <ng-container *ngIf="!isEditModeEnable">
+                        <ng-select [items]="suppListAll$ | async" bindLabel="name" (change)="onsupplierChange($event)" formControlName="supplier" placeholder="Select Supplier" [typeahead]="suppListAllInput$">
+                        </ng-select>
+                        <small class="text-danger" *ngIf="purchaseFormControl['supplier'].errors?.required && submitted">
+                            Please Select Value!</small>
+                    </ng-container>
+                </div>
+                <div class="col-3">
+                    <label>Reference</label>
+                    <input type="text" formControlName="reference" placeholder="Type Reference" class="form-control form-control-sm">
+                </div>
+                <div class="col-3" *ngIf="purchaseForm.value.supplier">
+                    <div class="form-row mx-0">
+                        <div class="col-6">
+                            <label>State</label>
+                            <p class="mb-0 height-with-line-height">{{purchaseForm.value.supplier?.state?.name}}</p>
+                        </div>
+                        <div class="col-6">
+                            <label>GST No.</label>
+                            <p class="mb-0 height-with-line-height">{{purchaseForm.value.supplier?.gstRegNo}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row form-group mx-0">
+                <div class="col-2" *ngIf="purchaseForm.value.supplier?.id">
+                    <label>Item</label>
+                    <ng-select [items]="suppListItemAll$ | async" bindLabel="itemName" (change)="onitemChange($event)" formControlName="item" placeholder="Select Item" [typeahead]="suppListItemAllInput$">
+                        <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                            {{item.itemName}} ({{item.itemCode}})
+                        </ng-template>
+                    </ng-select>
+                </div>
+                <div class="col-2 min-height-52">
+                    <label>Rate Contract</label>
+                    <div class="custom-control custom-switch yes-no mt-1">
+                        <input type="checkbox" formControlName="rateContract" class="custom-control-input" id="rateContract">
+                        <label class="custom-control-label pointer" [class.active]="purchaseForm.value.rateContract" for="rateContract"></label>
+                        <span class="text-uppercase" [class.active]="purchaseForm.value.rateContract">{{purchaseForm.value.rateContract ? 'Yes' : 'No'}}</span>
+                    </div>
+                </div>
+                <div class="col-2" *ngIf="purchaseForm.value.rateContract">
+                    <label for="entity_type">Start Date</label>
+                    <app-date-picker [min]="todayDate" [inputDate]="purchaseForm.value.fromDate" (dateChange)="purchaseForm.patchValue({fromDate: $event});">
+                    </app-date-picker>
+                </div>
+                <div class="col-2" *ngIf="purchaseForm.value.rateContract">
+                    <label>End Date</label>
+                    <app-date-picker [min]="todayDate" [inputDate]="purchaseForm.value.toDate" (dateChange)="purchaseForm.patchValue({toDate: $event});">
+                    </app-date-picker>
+                </div>
+            </div>
+            <div class="form-row mx-0 table-height">
+                <div class="col-12">
+                    <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25" [footerHeight]="0" [rowHeight]="30" [rows]="supplierItemsArray" [externalSorting]="true" [externalPaging]="true" [count]="supplierItemsArray.length" [scrollbarH]="true">
+                        <ngx-datatable-column name="Item" [frozenLeft]="true" [sortable]="false" [width]="150">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                {{row.item?.itemName}} ({{row.item?.itemCode}})
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Quantity" cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.qty}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Free Quantity" cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.freeQty}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Total Quantity" cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.totalQty }} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Rate" cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>
+                                    {{row.rate | number:'1.2-2'}}
+                                </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Discount" cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.discountPercent | number:'1.2-2'}}% / {{row.discountAmount | number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Amount" cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.amount | number:'1.2-2'}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="GST" cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.gstAmount | number:'1.2-2'}}/{{row.gstPercent | number:'1.2-2'}}%</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ng-container *ngIf="purchaseForm.value.supplier?.gstCode === 'GST'">
+                            <ngx-datatable-column name="CGST" cellClass="text-right" [sortable]="false" [width]="100">
+                                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                    <span *ngIf="row.gstPercent">
+                                        {{calculateGstValue(purchaseForm.value.supplier?.gstCode, row.gstPercent, row.amount, 'cgst').val | number:'1.2-2'}}
+                                        <span>/</span> {{calculateGstValue(purchaseForm.value.supplier?.gstCode, row.gstPercent, row.amount, 'cgst').percent | number:'1.2-2'}}%
+                                    </span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="SGST" cellClass="text-right" [sortable]="false" [width]="100">
+                                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                    <span *ngIf="row.gstPercent">
+                                        {{calculateGstValue(purchaseForm.value.supplier?.gstCode, row.gstPercent, row.amount, 'sgst').val | number:'1.2-2'}}
+                                        <span>/</span> {{calculateGstValue(purchaseForm.value.supplier?.gstCode, row.gstPercent, row.amount, 'sgst').percent | number:'1.2-2'}}%
+                                    </span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ng-container>
+                        <ng-container *ngIf="purchaseForm.value.supplier?.gstCode !== 'GST'">
+                            <ngx-datatable-column [name]="purchaseForm.value.supplier?.gstCode" [sortable]="false" [width]="100">
+                                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                    <span *ngIf="row.gstPercent">
+                                        {{calculateGstValue(purchaseForm.value.supplier?.gstCode, row.gstPercent, row.amount, 'igst').val | number:'1.2-2'}}
+                                        <span>/</span> {{calculateGstValue(purchaseForm.value.supplier?.gstCode, row.gstPercent, row.amount, 'igst').percent | number:'1.2-2'}}%
+                                    </span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ng-container>
+                        <ngx-datatable-column name="Net Amount" cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.netAmount | number:'1.2-2'}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Unit Price" cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.unitRate | number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="MRP" cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.mrp | number:'1.2-2'}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Remark" [sortable]="false" [width]="150">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.remark}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Action" [frozenRight]="true" cellClass="text-center" [sortable]="false" [width]="75">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value" let-isSelected="isSelected">
+                                <button type="button" class="bg-transparent border-0" placement="left-bottom" [autoClose]="true" [ngbPopover]="popContent" container="body" #p="ngbPopover">
+                                    <i class="fa fa-fw fa-bars" aria-hidden="true"></i> <i
+                                        class="fa fa-xs fa-caret-down" aria-hidden="true"></i>
+                                </button>
+                                <ng-template #popContent>
+                                    <ul class="list-unstyled popover-content mb-0">
+                                        <li>
+                                            <button class="btn btn-sm btn-block text-left del" (click)="deleteItemFromArray(row, rowIndex)">
+                                                <i class="icon fa-fw icon-trash" aria-hidden="true"></i> Delete
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-sm btn-block text-left edit" (click)="updateItemFromArray(row, rowIndex)">
+                                                <i class="icon fa-fw icon-edit" aria-hidden="true"></i>
+                                                Edit
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </ng-template>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                    <div class="form-row form-group mx-0 custom-mb-0">
+                        <div class="col-4">
+                            <div class="form-group custom-mb-0">
+                                <label>Remarks</label>
+                                <textarea type="text" formControlName="remarks" placeholder="Remarks" rows="5" class="form-control vresize"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group custom-mb-0">
+                                <label>Delivery<sup>*</sup></label>
+                                <ng-select [items]="deliverylist" bindLabel="description" formControlName="delivery" placeholder="Delivery" (change)="onDeliveryChange($event)">
+                                </ng-select>
+                                <small class="text-danger" *ngIf="purchaseFormControl['delivery'].errors?.required && submitted">
+                                    Please Select Value!</small>
+                            </div>
+                            <div class="form-group custom-mb-0">
+                                <label>Payment Term<sup>*</sup></label>
+                                <ng-select [items]="payTermlist" bindLabel="description" formControlName="payTerms" placeholder="Payment Term" (change)="onPaymentTermChange($event)">
+                                </ng-select>
+                                <small class="text-danger" *ngIf="purchaseFormControl['payTerms'].errors?.required && submitted">
+                                    Please Select Value!</small>
+                            </div>
+                            <div class="form-group custom-mb-0">
+                                <label>Warranty</label>
+                                <input type="text" formControlName="warranty" placeholder="Warranty" class="form-control form-control-sm">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <table class="table custom-table font-size-dot-875 mb-0 border-top-0 table-footer">
+                                <tbody *ngIf="supplierItemsArray.length">
+                                    <tr class="text-right">
+                                        <td class="text-right border-right-0 border-top-0">Total Amount:</td>
+                                        <td class="text-right border-left-0 border-top-0">
+                                            {{purchaseForm.value.totalAmount | number:'1.2-2'}}</td>
+                                    </tr>
+                                    <tr class="text-right">
+                                        <ng-container *ngIf="purchaseForm.value.supplier?.gstCode === 'GST'">
+                                            <td class="text-right border-right-0 border-top-0">CGST/SGST:</td>
+                                            <td class="text-right border-left-0 border-top-0">
+                                                <p class="mb-0">
+                                                    {{purchaseForm.value.totalGstAmount / 2 | number:'1.2-2'}} / {{purchaseForm.value.totalGstAmount / 2 | number:'1.2-2'}}</p>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container *ngIf="purchaseForm.value.supplier?.gstCode !== 'GST'">
+                                            <td class="text-right border-right-0 border-top-0">
+                                                {{purchaseForm.value.supplier?.gstCode}}:</td>
+                                            <td class="text-right border-left-0 border-top-0">
+                                                <p class="mb-0">{{purchaseForm.value.totalGstAmount | number:'1.2-2'}}
+                                                </p>
+                                            </td>
+                                        </ng-container>
+                                    </tr>
+                                    <tr class="text-right">
+                                        <td class="text-right border-right-0 border-top-0">GST:</td>
+                                        <td class="text-right border-left-0 border-top-0">
+                                            {{purchaseForm.value.totalGstAmount | number:'1.2-2'}}</td>
+                                    </tr>
+                                    <tr class="text-right">
+                                        <td class="text-right border-right-0 border-top-0">
+                                            <h6 class="mb-0">Total Net Amount:</h6>
+                                        </td>
+                                        <td class="text-right border-left-0 border-top-0">
+                                            <h6 class="mb-0">{{purchaseForm.value.totalNetAmount | number:'1.2-2'}}</h6>
+                                        </td>
+                                    </tr>
+                                    <tr class="text-right">
+                                        <td class="text-right border-right-0 border-top-0">Discount Amount / Percent %:
+                                        </td>
+                                        <td class="text-right border-left-0 border-top-0">
+                                            <input type="number" formControlName="discountAmount" (blur)="updateItemCaluLation('discountAmount')" class="form-control form-control-sm"> /
+                                            <input type="number" formControlName="discountPercent" (blur)="updateItemCaluLation('discountPercent')" class="form-control form-control-sm">
+                                        </td>
+                                    </tr>
+                                    <tr class="text-right">
+                                        <td class="text-right border-right-0 border-top-0">
+                                            <h5 class="mb-0">Grand Amount:</h5>
+                                        </td>
+                                        <td class="text-right border-left-0 border-top-0">
+                                            <h5 class="mb-0">{{purchaseForm.value.grandTotal | number:'1.2-2'}}</h5>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer py-1 border-top">
+            <div class="float-right">
+                <ng-container *ngIf="!isEditModeEnable">
+                    <div *ngxPermissionsOnly="constpermissionList.APPROVE_PURCHASE_ORDER" class="is-approved form-group">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Print</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isTakePrint" class="custom-control-input" id="isTakePrint">
+                            <label class="custom-control-label pointer" [class.active]="purchaseForm.value.isTakePrint" for="isTakePrint"></label>
+                            <span class="text-uppercase" [class.active]="purchaseForm.value.isTakePrint">{{purchaseForm.value.isTakePrint ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <div *ngxPermissionsOnly="constpermissionList.APPROVE_PURCHASE_ORDER" class="is-approved form-group">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Is Approved</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isApproved" class="custom-control-input" id="isApproved1">
+                            <label class="custom-control-label pointer" [class.active]="purchaseForm.value.isApproved" for="isApproved1"></label>
+                            <span class="text-uppercase" [class.active]="purchaseForm.value.isApproved">{{purchaseForm.value.isApproved ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-success ml-1" (click)="saveValue()"><i
+                            class="icon fa-fw icon-save" aria-hidden="true"></i> SAVE</button>
+                </ng-container>
+                <ng-container *ngIf="isEditModeEnable && constants.purchaseOrderStatusCreated !== editSupplierData.status">
+                    <button type="button" class="btn btn-sm btn-outline-mbd" (click)="getPrintData()">
+                        <i class="icon fa-fw icon-print" aria-hidden="true"></i> PRINT
+                    </button>
+                </ng-container>
+                <ng-container *ngIf="isEditModeEnable && constants.purchaseOrderStatusCreated === editSupplierData.status">
+                    <div class="is-approved form-group">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Print</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isTakePrint" class="custom-control-input" id="isTakePrint">
+                            <label class="custom-control-label pointer" [class.active]="purchaseForm.value.isTakePrint" for="isTakePrint"></label>
+                            <span class="text-uppercase" [class.active]="purchaseForm.value.isTakePrint">{{purchaseForm.value.isTakePrint ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <div class="is-approved form-group">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Is Approved</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isApproved" class="custom-control-input" id="isApproved2">
+                            <label class="custom-control-label pointer" [class.active]="purchaseForm.value.isApproved" for="isApproved2"></label>
+                            <span class="text-uppercase" [class.active]="purchaseForm.value.isApproved">{{purchaseForm.value.isApproved ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <span *ngIf="purchaseForm.value.createdBy === userId">
+                        <button *ngxPermissionsOnly="constpermissionList.CANCEL_PURCHASE_ORDER" type="button"
+                            class="btn btn-sm btn-outline-secondary" (click)="updateStatus('Cancel')">CANCEL</button>
+                    </span>
+                    <button *ngxPermissionsOnly="constpermissionList.UPDATE_PURCHASE_ORDER" type="submit" class="btn btn-sm btn-primary-light ml-1"><i class="fas fa-fw fa-sync-alt"></i>
+                        UPDATE</button>
+                    <button *ngxPermissionsOnly="constpermissionList.REJECT_PURCHASE_ORDER" type="button" class="btn btn-sm btn-danger ml-1" (click)="updateStatus('Rejected')"><i
+                            class="icon fa-fw icon-times" aria-hidden="true"></i> REJECT</button>
+                    <ng-container *ngIf="editSupplierData.createdBy === userId">
+                        <button *ngxPermissionsOnly="constpermissionList.DELETE_PURCHASE_ORDER" type="button" class="btn btn-sm btn-outline-danger btn-info" (click)="updateStatus('Delete')"><i
+                                class="icon fa-fw icon-trash" aria-hidden="true"></i> DELETE</button>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </form>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<app-print-data [printData]="printData" (printDiaglogClose)="navigateToListPage()"></app-print-data>

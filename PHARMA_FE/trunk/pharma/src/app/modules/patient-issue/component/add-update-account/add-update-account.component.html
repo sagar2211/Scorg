@@ -1,0 +1,89 @@
+<form [formGroup]="addAccountForm" (ngSubmit)="saveData()" *ngIf="loadForm">
+<div class="modal-header">
+  <p class="modal-title text-uppercase">Add Account</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup()">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body p-1">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-4">
+        <label>Name</label>
+        <input type="text" class="form-control form-control-sm width-140" appUpperCase placeholder="Name" formControlName="accountName">
+        <small class="text-danger" *ngIf="getFrmCntrols['accountName'].errors?.required && submitted">
+          Please Add Name!</small>
+    </div>
+        <div class="col-4">
+            <label>Type</label>
+            <ng-select [items]="mastersService.accountTypeList" bindLabel="name" (change)="onAccountTypeChange($event)" formControlName="accountType" placeholder="Account Type">
+            </ng-select>
+            <small class="text-danger" *ngIf="getFrmCntrols['accountType'].errors?.required && submitted">
+              Please Select!</small>
+        </div>
+        <div class="col-4">
+            <label>Contact Person</label>
+            <input type="text" class="form-control form-control-sm width-140" appUpperCase placeholder="Name" formControlName="contactPerson">
+        </div>
+        <div class="col-4">
+          <label>Number</label>
+          <input type="text" class="form-control form-control-sm width-140" appUpperCase appOnlyNumbers placeholder="Number" formControlName="contactNo">
+      </div>
+        <div class="col-8">
+            <label>Address</label>
+            <input type="text" class="form-control form-control-sm width-140" appUpperCase placeholder="Address" formControlName="debtorAddress1">
+          </div>
+        <div class="col-4">
+          <label>Opening Debit Amt</label>
+          <input type="text" class="form-control form-control-sm width-140" appUpperCase appOnlyNumbers placeholder="" formControlName="openingDebitAmt">
+      </div>
+      <div class="col-4">
+          <label>Opening Credit Amt</label>
+          <input type="text" class="form-control form-control-sm width-140" appUpperCase appOnlyNumbers placeholder="" formControlName="openingCreditAmt">
+      </div>
+      <div class="col-4">
+          <label>GST No</label>
+          <input type="text" class="form-control form-control-sm width-140" appUpperCase placeholder="" formControlName="gstNo">
+      </div>
+      <div class="col-6">
+          <label>Sale Unit Rate</label>
+          <ng-select [items]="saleOnList" formControlName="rateOn" placeholder="Sale Unit Rate">
+          </ng-select>
+      </div>
+      <div class="col-6">
+          <label>% Margin On Sale Rate</label>
+          <input type="text" class="form-control form-control-sm width-140" appUpperCase appOnlyNumbers placeholder="" formControlName="perOnPurRate">
+      </div>
+      <ng-container *ngIf="!addAccountForm.value.accountId">
+        <div class="col-2">
+          <label>Is Patient</label>
+          <div class="custom-control custom-switch pb-1 mt-1 yes-no">
+            <input type="checkbox" formControlName="isPatient" class="custom-control-input" id="isPatient">
+            <label class="custom-control-label pointer" [class.active]="addAccountForm.value.isPatient" for="isPatient"></label>
+            <span class="text-uppercase" [class.active]="addAccountForm.value.isPatient">{{addAccountForm.value.isPatient ? 'Yes' : 'No'}}</span>
+        </div>
+      </div>
+      <div class="col-3" *ngIf="!addAccountForm.value.isPatient">
+          <label>Patient Name</label>
+          <input type="text" class="form-control form-control-sm width-140" appUpperCase placeholder="" formControlName="patientName">
+          <small class="text-danger" *ngIf="(addAccountForm.value.accountType?.id === 2 && !addAccountForm.value.patientName && submitted) || (addAccountForm.value.accountType && addAccountForm.value.accountType.id === 1 && !addAccountForm.value.isPatient && !addAccountForm.value.patientName && submitted)">
+            Please Add Name!</small>
+        </div>
+      <div class="col-3" *ngIf="!addAccountForm.value.isPatient">
+        <label>Patient Contact</label>
+        <input type="text" class="form-control form-control-sm width-140" appUpperCase appOnlyNumbers placeholder="" formControlName="patientContact">
+    </div>
+    <div class="col-3" *ngIf="!addAccountForm.value.isPatient">
+        <label>Patient Address</label>
+        <input type="text" class="form-control form-control-sm width-140" appUpperCase placeholder="" formControlName="patientAddress">
+    </div>
+      </ng-container>
+    </div>
+</div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-primary" (click)="saveData()">Save</button>
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closePopup()">CLOSE</button>
+</div>
+</form>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

@@ -1,0 +1,169 @@
+<div class="modal-header">
+  <h6 class="mb-0 pt-1 text-uppercase">Patient Insurance Detail</h6>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-0 bg-light">
+  <div class="panel-body p-2 panel-panel-body">
+    <div class="form-row mx-0">
+      <div class="col-3 px-1 border bg-white">
+          <div class="card patient-info">
+              <div class="card-body p-1">
+                <div class="form-row mx-0">
+                  <div class="col-9 pl-0">
+                    <ng-container>
+                      {{billingForm.value?.billNo ? billingForm.value?.billNo : 'New Bill'}}
+                    </ng-container>
+                  </div>
+                </div>
+                <div class="form-row mx-0">
+                  <div class="col-6 px-0">
+                      <p class="mb-0 text-muted font-size-dot-75">Bill Date - {{billingForm.value.billDatetime}}
+                      </p>
+                  </div>
+                  <div class="col mt-1 mr-5 px-0 text-left">
+                      <p class="mb-0 text-muted font-size-dot-75">
+                        {{billingForm.value.status}}
+                      </p>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-3 px-1 border bg-white">
+          <div class="card patient-info">
+              <div class="card-body p-1">
+                  <div class="form-row mx-0">
+                      <div class="col px-0">
+                          <p class="mb-0">
+                              <span class="text-muted font-size-dot-75"> Patient Info -
+                              </span>
+                              <span class="font-weight-500">{{billingForm.value.selectedPatient?.uhid}}</span>
+                          </p>
+                          <div class="patient-name">
+                              <p class="mb-0 font-size-dot-875 font-weight-500">
+                                  {{billingForm.value.selectedPatient?.fullName}}</p>
+                              <p class="mb-0 text-muted font-size-dot-75">
+                                  {{billingForm.value.selectedPatient?.patGenderAge}}</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-3 px-1 border bg-white">
+          <div class="card patient-info">
+              <div class="card-body p-1">
+                  <div class="form-row mx-0">
+                      <div class="col px-0">
+                          <p class="mb-0">
+                              <span class="text-muted font-size-dot-75"> Encounter -
+                              </span>
+                              <span class="font-size-dot-875 font-weight-500">{{billingForm.value.selectedPatient?.penType}}/{{billingForm.value.selectedPatient?.penVisitNo}}</span>
+                          </p>
+                          <div class="patient-name">
+                              <p class="mb-0 text-muted font-size-dot-75">
+                                  <span class="text-muted font-size-dot-75"> DOA -
+                                  </span>{{billingForm.value.selectedPatient?.patEncDate12}}
+                              </p>
+                              <p class="mb-0 text-muted font-size-dot-75">
+                                  <span class="text-muted font-size-dot-75"> Bed No. -
+                                  </span>{{billingForm.value.selectedPatient?.BedInfo?.LvdmName}}
+                              </p>
+                          </div>
+                      </div>
+                      <!-- <div class="col px-0 text-right col-vouchers-btn">
+                          <button class="btn btn-sm btn-outline-info" type="button" (click)="getAllVauchers()" title="Vouchers">
+                              <i class="fa fa-fw fa-tag"></i>VOUCHERS
+                          </button>
+                      </div> -->
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-3 px-1 border bg-white">
+          <div class="card patient-info">
+              <div class="card-body p-1">
+                  <div class="form-row mx-0">
+                      <div class="col px-0">
+                          <p class="mb-0">
+                              <span class="text-muted font-size-dot-75"> Doctor Info -
+                              </span>
+                              <span class="font-size-dot-875 font-weight-500">Dr.
+                                  {{billingForm.value.selectedPatient?.doctorName}}</span>
+                          </p>
+                          <div class="patient-name">
+                              <p class="mb-0 text-muted font-size-dot-75">
+                                  {{billingForm.value.selectedPatient?.docSpecialityName}}
+                              </p>
+                              <p class="mb-0">
+                                <span class="text-muted font-size-dot-75"> Patient Class -
+                                </span><span class="font-size-dot-875 font-weight-500">
+                                  {{billingForm.value.selectedPatient?.activeChargingType}}
+                                </span>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 px-1">
+    <dx-data-grid id="insuranceDetailGridContainer" #insuranceDetailGridContainer
+      [dataSource]="insuranceDetailArray"
+      keyExpr="insuranceId"
+      [showBorders]="true"
+      (onEditorPreparing)="onEditorPreparing($event)"
+      [showRowLines]="true"
+      [focusedRowEnabled]="true"
+      (onFocusedRowChanged)="onFocusedRowChanged($event)"
+      [allowColumnResizing]="true"
+      [columnAutoWidth]="true"
+      (onContentReady)="onContentReady($event)"
+      (onEditingStart)="onEditingStart($event)">
+      <dxo-load-panel [enabled]="true"></dxo-load-panel>
+      <dxo-scrolling mode="virtual"></dxo-scrolling>
+      <dxo-sorting mode="none"></dxo-sorting>
+      <dxo-paging [enabled]="false"></dxo-paging>
+      <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="false" [allowDeleting]="false"
+        [useIcons]="true">
+      </dxo-editing>
+      <dxi-column dataField="clientName" caption="Client" [allowEditing]="false" [fixed]="true"></dxi-column>
+      <dxi-column dataField="company" caption="Company" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="priority" caption="Priority" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="policyDate" caption="Policy Date" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="policyOwner" caption="Policy Owner" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="policyAmount" caption="Policy Amount" [allowEditing]="false" [fixed]="true" fixedPosition="right">
+        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+      </dxi-column>
+      <dxi-column dataField="policyRequestAmount" caption="Tentative Amount" [setCellValue]="setPolicyRequestAmount"  [allowEditing]="true" [fixed]="true" fixedPosition="right">
+        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+      </dxi-column>
+      <dxi-column dataField="policyApprovedAmount" caption="Approved Amount" [allowEditing]="false" [fixed]="true" fixedPosition="right">
+        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+      </dxi-column>
+      <dxo-summary [recalculateWhileEditing]="true" >
+        <dxi-total-item summaryType="count" displayFormat="Count: " showInColumn="clientName"></dxi-total-item>
+        <dxi-total-item summaryType="sum" column="policyAmount" [customizeText]="decimalWithPrecision"></dxi-total-item>
+        <dxi-total-item summaryType="sum" column="policyRequestAmount" [customizeText]="decimalWithPrecision"></dxi-total-item>
+        <dxi-total-item summaryType="sum" column="policyApprovedAmount" [customizeText]="decimalWithPrecision"></dxi-total-item>
+      </dxo-summary>
+    </dx-data-grid>
+  </div>
+</div>
+<div class="modal-footer mt-1 p-1 ">
+  <div class="form-inline">
+    <div class="form-group ml-2">
+      <button type="button" class="btn btn-sm btn-outline-secondary ml-2 text-uppercase"
+        (click)="modal.dismiss();">Cancel</button>
+      <button type="button" class="btn btn-sm btn-outline-success text-uppercase ml-2 " (click)="saveInsuranceDetail()">
+        <i aria-hidden="true" class="icon fa-fw icon-save"></i> Save</button>
+    </div>
+  </div>
+
+
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

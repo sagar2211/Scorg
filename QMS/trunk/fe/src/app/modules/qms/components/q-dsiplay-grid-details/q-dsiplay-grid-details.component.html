@@ -1,0 +1,133 @@
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<table (mouseover)="isMouseHover = true" (mouseout)="onMouseOut()" class="w-100">
+  <tbody>
+    <tr class="form-row border mx-0 align-items-center main-div"
+      [ngStyle]="{'background-color': slot.queueStatus === 'CALLING' ? 'rgba(45, 206, 137, 0.1)' : '' }">
+      <!-- [ngClass]="{'hover' : ( isMouseHover || (inConsultationRef?.isOpen() || ngbPopover?.isOpen()) ) }" -->
+      <td class="time px-1"
+        [ngClass]="((slot.patType == 'NORMAL') || (slot.patType == 'PRIORITY') || (slot.patType == 'WALKIN') ) ? '' : 'ml-custom-1-1'">
+        <span class="font-size-dot-875">
+          <i placement="right" ngbTooltip="Appointment" *ngIf="slot.patType == 'NORMAL'"
+            class="icon fa-fw icon-calendar-alt text-info" aria-hidden="true"></i>
+          <i placement="right" ngbTooltip="Priority" *ngIf="slot.patType == 'PRIORITY'"
+            class="icon fa-fw icon-usd text-warning" aria-hidden="true"></i>
+          <i placement="right" ngbTooltip="Walkin" *ngIf="slot.patType == 'WALKIN'"
+            class="icon fa-fw icon-walking text-success" aria-hidden="true"></i>
+          <span class="font-size-dot-8">{{slot.slotTime}}</span></span>
+      </td>
+      <ng-container *ngIf="slot.isBooked;else elsePart">
+        <td class="pat-type px-1">
+          <p class="mb-0 font-size-dot-8" *ngIf="slot.isBooked">{{slot.tokenNo}} ({{slot.appointmentType}})</p>
+        </td>
+        <td class="pat-name pl-1">
+          <div class="d-flex">
+            <div class="col-status text-right mr-2">
+              <span class="font-size-dot-8 font-weight-500 text-right text-pink" *ngIf="slot.isFollowUp"
+                placement="right" ngbTooltip="Follow Up Patient"> Follow Up </span>
+              <span class="font-size-dot-8 font-weight-500 text-right text-primary" *ngIf="!slot.isFollowUp"
+                placement="right" ngbTooltip="New Patient"> New </span>
+            </div>
+            <div class="col-pat-name">
+              <p class="mb-0">
+                <span class="font-size-dot-8 mr-2"> {{slot.patUhid}}</span>
+                <span class="font-weight-500 font-size-dot-875">{{slot.patTitle}}. {{slot.patName}} </span>
+                <small class="mb-0 ml-1" *ngIf="slot.isBooked">
+                  <span *ngIf="slot.patGender" title="{{slot.patGender}}">({{slot.patGender.charAt(0)}}</span>,
+                  <span title="{{slot.patAge}}">{{ modifyAge(slot.patAge) }})</span>
+                </small>
+              </p>
+            </div>
+          </div>
+        </td>
+        <td class="buttons-all pointer d-inline-flex align-items-center">
+          <ng-container *ngIf="!hideActions">
+            <div class="status-icon text-right">
+              <ng-container *ngxPermissionsOnly="PermissionsConstantsList.Queue_call">
+                <span class="bg-col-btns mr-1 text-info" *ngIf="queueStatusCheck(2, slot)" (click)="onPopover(2, p)"
+                  #p="ngbPopover" placement="left" container="body" [autoClose]="true" triggers="manual"
+                  [ngbPopover]="roomContent" title="Calling"><i class="icon fa-fw icon-calling"
+                    aria-hidden="true"></i></span>
+              </ng-container>
+              <ng-container *ngxPermissionsOnly="PermissionsConstantsList.Queue_In_Consultation">
+                <span class="bg-col-btns text-warning mr-1" *ngIf="queueStatusCheck(4, slot)"
+                  (click)="onPopover(4, inConsultantBtnRef)" #inConsultantBtnRef="ngbPopover" placement="left"
+                  container="body" [autoClose]="true" triggers="manual" [ngbPopover]="roomContent"
+                  title="In Consultation"><i class="icon fa-fw icon-stethoscope" aria-hidden="true"></i></span>
+              </ng-container>
+              <span class="bg-col-btns mr-1 text-success" *ngIf="queueStatusCheck(5, slot)"
+                (click)="updateAppointentStatus(slot,5)" placement="right" ngbTooltip="Complete"><i
+                  class="far fa-check-circle" aria-hidden="true"></i></span>
+            </div>
+            <div class="popover-icon">
+              <button class="bg-transparent px-1 border-0" #actionPop="ngbPopover" container="body" triggers="manual"
+                [autoClose]="true" placement="left" [ngbPopover]="popContentQueueStatus"
+                (click)="onActionPop(actionPop)">
+                <i class="fa fa-fw fa-bars" aria-hidden="true"></i>
+                <i class="fa fa-xs fa-caret-down" aria-hidden="true"></i>
+              </button>
+            </div>
+          </ng-container>
+        </td>
+        <td class="apt-status text-center">
+          <span class="text-uppercase blink status_calling" *ngIf="slot.queueStatus === 'CALLING'">Calling</span>
+          <ng-container *ngIf="slot.queueStatus !== 'CALLING'">
+            <ng-container [ngSwitch]="slot.queueStatus">
+              <span *ngSwitchCase="'NEXT'" class="status_queue font-size-dot-875">In Queue</span>
+              <span *ngSwitchCase="'INCONSULTATION'" class="status_inconsultation font-size-dot-875">In
+                Consultation</span>
+              <span *ngSwitchCase="'COMPLETE'" class="status_complete font-size-dot-875">Complete</span>
+              <span *ngSwitchCase="'SKIP'" class="status_skip font-size-dot-875">Skip</span>
+              <span *ngSwitchCase="'ABSENT'" class="status_absent font-size-dot-875">Absent</span>
+              <span *ngSwitchCase="'ONHOLD'" class="status_onhold font-size-dot-875">On Hold</span>
+            </ng-container>
+          </ng-container>
+        </td>
+      </ng-container>
+      <ng-template #elsePart>
+        <span class="text-center"></span>
+      </ng-template>
+    </tr>
+  </tbody>
+</table>
+<ng-template #roomContent>
+  <ul class="list-unstyled popover-content mb-0">
+    <li *ngFor="let room of slot.roomDetails">
+      <button class="btn btn-sm btn-block text-left edit" (click)="onRoomSelect(room.roomId)">
+        {{room.roomName}}</button>
+    </li>
+  </ul>
+</ng-template>
+<ng-template #popContentQueueStatus>
+  <ul class="list-unstyled popover-content mb-0">
+    <li *ngxPermissionsOnly="PermissionsConstantsList.Queue_skip">
+      <button class="btn btn-sm btn-block text-left skip" *ngIf="queueStatusCheck(7, slot)" (click)="onSkip(slot)"><i
+          class="icon fa-fw icon-level-down mr-1" aria-hidden="true"></i>
+        Skip</button>
+    </li>
+    <li>
+      <button class="btn btn-sm btn-block text-left queue" *ngIf="queueStatusCheck(1, slot)"
+        (click)="updateAppointentStatus(slot, 1)"><i class="far fa-fw fa-arrow-alt-circle-left mr-1"
+          aria-hidden="true"></i> Move To Queue</button>
+    </li>
+    <li *ngxPermissionsOnly="PermissionsConstantsList.Queue_Edit_Appointment">
+      <button class="btn btn-sm btn-block text-left edit" *ngIf="slot.queueStatus !== 'COMPLETE'"
+        (click)="onNotesRemarksClick()"><i class="icon fa-fw icon-edit mr-1" aria-hidden="true"></i> Edit
+        Appointment</button>
+    </li>
+    <li *ngxPermissionsOnly="PermissionsConstantsList.Queue_Appointment_History">
+      <button class="btn btn-sm btn-block text-left apt-history"
+        (click)="showAppointmentHistory(slot,'appointmenthistory')"><i class="icon fa-fw icon-history mr-1"
+          aria-hidden="true"></i> Appointment History</button>
+    </li>
+    <li *ngxPermissionsOnly="PermissionsConstantsList.Queue_Appointment_History">
+      <button class="btn btn-sm btn-block text-left apt-history"
+        (click)="showAppointmentHistory(slot,'patietnHistory')"><i class="icon fa-fw icon-history mr-1"
+          aria-hidden="true"></i> Patient History</button>
+    </li>
+    <li *ngxPermissionsOnly="PermissionsConstantsList.Queue_Not_Present">
+      <button class="btn btn-sm btn-block text-left del" *ngIf="queueStatusCheck(3, slot)"
+        (click)="updateAppointentStatus(slot, 3)"><i class="icon fa-fw icon-times mr-1" aria-hidden="true"></i> Not
+        Present</button>
+    </li>
+  </ul>
+</ng-template>

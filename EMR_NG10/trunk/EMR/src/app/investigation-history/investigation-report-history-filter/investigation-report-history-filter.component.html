@@ -1,0 +1,79 @@
+<div class="modal-header">
+    <h6 class="mb-0 pt-1 text-uppercase">{{messageDetails.modalTitle}}</h6>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+        (click)="selectValueConfirm('cancel')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body p-2 filter" *ngIf="loadPoup">
+    <div class="form-row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-row">
+                        <div class="col">
+                            <p class="font-weight-500 mb-0 pl-1">Service Type</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group px-2 pt-1" *ngIf="servicesTypeList.length > 0">
+                        <ng-container *ngFor="let item of servicesTypeList; let i = index">
+                            <div
+                                class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                                <input type="checkbox" class="custom-control-input" id="serviceType{{i}}"
+                                    name="serviceType{{i}}" [(ngModel)]="item.isChecked">
+                                <label class="custom-control-label"
+                                    for="serviceType{{i}}"><span>{{item.name}}</span></label>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div *ngIf="servicesTypeList.length === 0">
+                        No Data
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-row mx-0">
+                        <div class="col">
+                            <p class="font-weight-500 mb-0 pl-1">Date Range</p>
+                        </div>
+                        <div class="col position-relative d-none">
+                            <input class="form-control form-control-sm pr-4" type="text"
+                                placeholder="Search By Section">
+                            <div class="placeholder-icon right-icon">
+                                <a class="text-danger text-decoration-none"><span aria-hidden="true">&times;</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="form-row mx-0">
+                        <div class="col">
+                            <b>Start Date</b>
+                            <app-date-picker [readOnly]="true" [max]="todayDate" [inputDate]="startDate"
+                                placeholder="yyyy-mm-dd" (dateChange)="getDateValue($event, 'startDate')">
+                            </app-date-picker>
+                            <b>End Date</b>
+                            <app-date-picker [readOnly]="true" [max]="todayDate" [inputDate]="endDate"
+                                placeholder="yyyy-mm-dd" (dateChange)="getDateValue($event, 'endDate')">
+                            </app-date-picker>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
+        (click)="selectValueConfirm('cancel');">Cancel</button>
+    <button type="button" class="btn btn-sm btn-outline-warning text-uppercase" (click)="clearAllSelection();"><i
+            class="fa fa-fw fa-eraser" aria-hidden="true"></i> Clear</button>
+    <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" (click)="applyFilterValue();"><i
+            class="fa fa-fw fa-check-circle mr-1" aria-hidden="true"></i>Apply</button>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

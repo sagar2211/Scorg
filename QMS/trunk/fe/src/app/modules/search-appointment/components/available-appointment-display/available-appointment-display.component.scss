@@ -1,0 +1,75 @@
+@import "../../../../../scss/main";
+
+.appointment-list {
+  &:not(:first-child) {
+    @extend .pt-2;
+  }
+
+  .card {
+    @include border-radius(5px);
+    @include custom-box-shadow(0, 0, 5px, rgba(28, 25, 83, 0.12));
+    @include transition(box-shadow 0.5s);
+
+    &:hover {
+      @include custom-box-shadow(0, 4px, 9px, rgba(165, 165, 165, 0.5));
+      @include transition(box-shadow 0.6s, border 0.6s);
+    }
+
+    .card-header {
+      @include border-top-left-radius(5px);
+      @include border-top-right-radius(5px);
+      background-color: rgba($primary, 0.05) !important;
+
+      button.btn {
+        opacity: 0.8;
+        @include transition(opacity 0.5s);
+
+        &:hover {
+          text-decoration: unset;
+        }
+
+        &:hover[data-schedule="Info"] {
+          @extend .text-info;
+        }
+      }
+    }
+
+    .appointment-body {
+      .appointment-table {
+        table-layout: fixed;
+        @extend .border-top-0;
+
+        tbody {
+          tr {
+            @extend .border-top;
+            td {
+              @extend .p-1;
+              @extend .border-top-0;
+              @extend .align-middle;
+
+              .custom-progress {
+                height: 0.5rem;
+                opacity: 0.5;
+              }
+              &.date-bg {
+                background-color: $gray-200;               
+              }
+              &:nth-child(even) {
+                @extend .border-left;
+                @extend .border-right;
+              }
+
+              &:nth-child(4) {
+                width: 100px;
+              }
+
+              &:last-child {
+                width: 260px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

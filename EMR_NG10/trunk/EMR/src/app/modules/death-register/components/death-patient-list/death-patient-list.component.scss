@@ -1,0 +1,6 @@
+.partial-view{
+  height: calc(100vh - 7px);
+  .datatable-body{
+    min-height: calc(100vh - 148px);
+  }
+}

@@ -1,0 +1,13 @@
+<div class="emr-custom-container-fluid">
+    <div class="form-row m-0" *ngIf="showTab">
+        <ul class="nav nav-tabs custom-nav-tabs m-0 w-100 divide-width text-center">
+            <li class="nav-item" *ngIf="patientObj.type === 'ipd'">
+                <a class="nav-link" [ngClass]="{'active': selectedSectionMain === 'visit', 'pointer': true}" (click)="updateSectionMain('visit')">Current Visit</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link pointer" [ngClass]="{'active': selectedSectionMain == 'patient', 'pointer': true}" (click)="updateSectionMain('patient')">History</a>
+            </li>
+        </ul>
+    </div>
+    <router-outlet></router-outlet>
+</div>

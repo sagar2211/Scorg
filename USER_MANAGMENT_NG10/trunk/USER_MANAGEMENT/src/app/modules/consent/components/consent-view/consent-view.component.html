@@ -1,0 +1,143 @@
+<ng-container *ngIf="loadPage">
+    <div class="card consent-card" [ngClass]="{'partial-view': showPatientSearch}">
+        <div class="card-header p-1 position-relative pt-1 px-0 pb-0 border-bottom-0">
+            <div class="position-absolute patient-search-top" *ngIf="showPatientSearch">
+                <div class="input-group">
+                    <ng-select class="patient-search" [items]="patientList$ | async" bindLabel="patientName" (change)="onPatientChange($event)" bindValue="patientId" [(ngModel)]="patientId" placeholder="Select Patient" [typeahead]="patientInput$">
+                    </ng-select>
+                    <div class="input-group-append">
+                        <button class="btn btn-white border text-muted" type="button" title="Close">
+                        &times;</button>
+                    </div>
+                </div>
+            </div>
+            <div class="custom-backdrop" [ngClass]="{'added': showPatientSearch}"></div>
+            <div class="form-row mx-0" *ngIf="patientData">
+                <div class="col">
+                    <div class="card patient-info">
+                        <div class="card-body p-1">
+                            <div class="form-row mx-0">
+                                <div class="col px-0">
+                                    <p class="mb-0">
+                                        <span class="text-muted font-size-dot-75"> Patient Info -  </span>
+                                        <span class="font-weight-500">{{patientData.patientId}}</span>
+                                    </p>
+                                    <div class="patient-name">
+                                        <p class="mb-0 font-size-dot-875 font-weight-500">
+                                            {{patientData.patientName}}
+                                        </p>
+                                        <p class="mb-0 text-muted font-size-dot-75">
+                                            {{patientData.gender}} / {{patientData.age}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col px-0 text-right col-search-btn" *ngIf="!isPartialLink">
+                                    <button (click)="searchPatientDropdown()" class="btn btn-sm btn-outline-info" type="button" title="Search New Patient">
+                                    <i class="icon fa-fw icon-search"></i>SEARCH
+                                </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card patient-info">
+                        <div class="card-body p-1">
+                            <div class="form-row mx-0">
+                                <div class="col px-0">
+                                    <p class="mb-0">
+                                        <span class="text-muted font-size-dot-75"> </span>
+                                        <span class="font-size-dot-875 font-weight-500 text-uppercase">{{patientData.visitType}}/{{patientData.visitNo}}</span>
+                                    </p>
+                                    <div class="patient-name">
+                                        <p class="mb-0 text-muted font-size-dot-75">
+                                            <span class="text-muted font-size-dot-75"> DOA
+                                        </span> {{patientData.admissionDate| date: 'dd-MM-yyyy'}}
+                                        </p>
+                                        <p class="mb-0 text-muted font-size-dot-75">
+                                            <span class="text-muted font-size-dot-75"> Bed No. -
+                                        </span> {{patientData.bedNo}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-1 card-body-patient-issue">
+            <ng-container *ngIf="patientData">
+                <div class="form-row form-group mx-0">
+                    <div class="col-4">
+                        <label>Language</label>
+                        <ng-select [items]="languageListArray" bindLabel="name" (change)="onLanguageChange($event, 'main')" bindValue="id" [(ngModel)]="languageId" placeholder="Select Language">
+                        </ng-select>
+                    </div>
+                    <div class="col-4">
+                        <label>Type</label>
+                        <ng-select [items]="typeListArray" bindLabel="name" bindValue="id" [multiple]="true" (change)="onTypeChange($event)" placeholder="Select Type" [(ngModel)]="formType">
+                        </ng-select>    
+                    </div>
+                    <div class="col-4" *ngIf="formType?.length > 0">
+                        <label>Favourite</label>
+                        <ng-select [items]="favouriteListArray" bindLabel="fav_name" (change)="onFavouriteChange($event)" bindValue="fav_id" [(ngModel)]="favouriteIds" placeholder="Select Favourite">
+                        </ng-select>        
+                    </div>
+                    
+                </div>
+                <div class="form-row mx-0">
+                    <div class="col-12">
+                        <label class="mb-0 d-block font-size-dot-8 font-weight-500">{{formType?.name}}</label>
+                        <table class="table custom-table mb-0 font-size-dot-8 border">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Name</th>
+                                    <th>Language</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of formListAllType;let rowIndx = index;">
+                                    <td>
+                                        <div class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                                            <input type="checkbox" class="custom-control-input" id="consentForm{{rowIndx}}" name="consentForm{{rowIndx}}" [(ngModel)]="item.isSelected">
+                                            <label class="custom-control-label pointer" for="consentForm{{rowIndx}}"><span></span></label>
+                                        </div>
+                                    </td>
+                                    <td>{{item.formName}}</td>
+                                    <td>
+                                        <ng-select [items]="item.reportLanguage" bindLabel="languageName" (change)="onLanguageChange($event, 'consent', rowIndx)" bindValue="languageId" [(ngModel)]="item.languageId" placeholder="Select Language">
+                                        </ng-select>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-info" type="button" (click)="printSelectedForms(item, 'consent');"><i class="icon fa-fw icon-print"
+                                            aria-hidden="true"></i>
+                                        {{item.printCount === 0 ? 'Print' : 'Re-Print'}}
+                                    </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="card-footer text-right py-1 px-2 border-top">
+            <div class="col-2" *ngIf="isFav">
+                <input type="text" [(ngModel)]="favName" placeholder="Favourite Name" class="form-control-sm form-control">
+            </div>
+            <div class="col-1 p-0 alignCenter">
+            <input type="checkbox" [(ngModel)]="isFav" (change)="onFavouriteCheckChange()"> Is Favourite
+          </div>
+           
+          <div class="col-1 p-0 ">
+            <button class="btn btn-sm btn-info" (click)="printSelectedForms();"><i class="icon fa-fw icon-print"
+              aria-hidden="true"></i> PRINT</button>
+          </div>
+        </div>
+    </div>
+    <app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>
+    <app-print-data [printData]="printData" (printDiaglogClose)="$event"></app-print-data>
+</ng-container>

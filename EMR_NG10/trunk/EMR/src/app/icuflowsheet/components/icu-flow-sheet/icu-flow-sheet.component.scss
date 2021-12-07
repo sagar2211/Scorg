@@ -1,0 +1,173 @@
+@import "../../../../scss/main";
+
+.header-date {
+  padding: 2px 8px;
+  box-shadow: 0px 0px 5px 0px rgba(28, 25, 83, 0.12);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: #f3f3f3;
+
+  .input-group {
+    .input-group-append,
+    .input-group-prepend {
+      .btn {
+        height: 31px;
+      }
+    }
+
+    span {
+      height: 31px;
+      vertical-align: middle;
+      padding: 4px 10px;
+    }
+  }
+}
+
+.icu-flow-sheet-scroll {
+  height: calc(100vh - 105px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.patient-flowsheet-Table {
+  height: 699px;
+  overflow-y: auto;
+  overflow-x: auto;
+  &::-webkit-scrollbar {
+    height: 12px !important;
+  }
+
+  &::-moz-scrollbar {
+    height: 12px !important;
+  }
+}
+
+.body-Height {
+  height: 365px;
+  overflow-y: hidden;
+}
+
+.image-anotation {
+  display: block;
+  padding: 9px;
+  text-align: center;
+  margin: 0 auto;
+  position: relative;
+  // left: -50px;
+  max-width: 100%;
+}
+
+@media screen and (max-width: 1300px) {
+  .patient-flowsheet-Table {
+    height: 620px;
+    overflow-y: auto;
+  }
+
+  .body-Height {
+    height: 295px;
+    overflow-y: auto;
+  }
+}
+
+:host::ng-deep {
+  .care-plan .card .card-body {
+    height: 127px !important;
+    overflow-y: auto;
+  }
+
+  .references .card .card-body {
+    height: 118px;
+    overflow-y: auto;
+  }
+
+  .onetime-medication .card .card-body {
+    height: 90px !important;
+    overflow-y: auto;
+  }
+
+  .current-medication .card .card-body {
+    height: 225px !important;
+    overflow-y: auto;
+  }
+
+  .special-instruction .card .card-body {
+    height: 111px;
+    overflow-y: auto;
+  }
+
+  .dialysis-order .card .card-body {
+    height: 127px;
+    overflow-y: auto;
+  }
+
+  .main-events .card .card-body {
+    height: 134px;
+    overflow-y: auto;
+  }
+
+  .intake .card .card-body {
+    height: 200px !important;
+    overflow-y: auto;
+  }
+
+  .cultures .card .card-body {
+    height: 104px;
+    overflow-y: auto;
+  }
+
+  .events .card .card-body {
+    height: 123px;
+    overflow-y: auto;
+  }
+
+  .diagnosis .card .card-body {
+    height: 195px;
+    overflow-y: auto;
+  }
+
+  @media screen and (max-width: 1300px) {
+    .diagnosis .card .card-body {
+      height: 242px;
+      overflow-y: auto;
+    }
+
+    .current-medication .card .card-body {
+      height: 168px !important;
+      overflow-y: auto;
+    }
+
+    .references .card .card-body {
+      height: 80px;
+      overflow-y: auto;
+    }
+
+    .dialysis-order .card .card-body {
+      height: 177px;
+      overflow-y: auto;
+    }
+
+    .care-plan .card .card-body {
+      height: 188px !important;
+      overflow-y: auto;
+    }
+
+    .events .card .card-body {
+      height: 80px;
+      overflow-y: auto;
+    }
+
+    .cultures .card .card-body {
+      height: 80px;
+      overflow-y: auto;
+    }
+
+    .intake .card .card-body {
+      height: 142px !important;
+      overflow-y: auto;
+    }
+
+    .main-events .card .card-body {
+      height: 180px;
+      overflow-y: auto;
+    }
+  }
+}

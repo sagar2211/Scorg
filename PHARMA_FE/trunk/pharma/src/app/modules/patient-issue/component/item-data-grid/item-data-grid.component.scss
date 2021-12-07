@@ -1,0 +1,68 @@
+:host ::ng-deep {
+  .dx-datagrid-header-panel {
+    display: none;
+  }
+  .dx-list .dx-empty-message,
+  .dx-list-item-content {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+.dx-template-wrapper {
+  padding: 0 !important;
+  height: auto !important;
+  .headerTab {
+    width: 100%;
+    position: fixed;
+    height: 35px;
+    top: 0;
+    z-index: 99;
+    background: white;
+
+    .align-center {
+      text-align: center;
+      padding: 5px 0px;
+    }
+  }
+
+  .table-item {
+    &.item-first {
+      margin-top: 35px !important;
+      background: #fff;
+      color: #000;
+    }
+    .border-bottom {
+      padding-top: 5px;
+      padding-bottom: 5px;
+      padding-left: 5px;
+      font-size: 12px;
+      font-weight: 500;
+      &:nth-child(1) {
+        text-align: left;
+      }
+      &:nth-child(3) {
+        text-align: left;
+      }
+      &:nth-child(4) {
+        text-align: left;
+      }
+      &:nth-child(2) {
+        text-align: right;
+      }
+      &:nth-child(6) {
+        text-align: right;
+      }
+      &:nth-child(7) {
+        text-align: right;
+      }
+      &:nth-child(8) {
+        text-align: right;
+      }
+    }
+    &.no-stock {
+      background: #ffebeb;
+      color: #000 !important;
+    }
+  }
+}

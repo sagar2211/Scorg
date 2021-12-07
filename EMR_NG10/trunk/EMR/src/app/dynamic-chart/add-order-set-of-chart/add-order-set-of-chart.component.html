@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <h6 class="mb-0 pt-1 text-uppercase">Add/Edit Order Set</h6>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-0">
+  <form [formGroup]="orderSetFrm" novalidate>
+    <div class="form-row form-group mx-0">
+      <div class="col-6 mb-2">
+        <label>Order Set Name<sup>*</sup></label>
+        <input formControlName="ordersetName" class="form-control form-control-sm" type="text" placeholder="Enter Order Set Name">
+        <span class="error" *ngIf="submitted && orderSetFrm.get('ordersetName').invalid">This field is required</span>
+      </div>
+      <div class="col-6">
+        <label>Type:</label>
+        <select name="selectedType" class="form-control form-control-sm pointer" formControlName="selectedType">
+          <option value="user">User</option>
+          <option value="speciality">Speciality</option>
+        </select>
+      </div>
+      <div class="col-12">
+        <label>Order Set Description<sup>*</sup></label>
+        <textarea class="form-control" rows="3" formControlName="ordersetDesc" placeholder="Enter Order Set Description">
+        </textarea>
+        <span class="error" *ngIf="submitted && orderSetFrm.get('ordersetDesc').invalid">This field is required</span>
+      </div>
+    </div>
+  </form>
+  <div class="p-2 master-height">
+    <div class="pb-4">
+      <app-all-components-data-display [chartData]="chartInfo" [chartComponentList]="componentList"></app-all-components-data-display>
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase" (click)="modal.dismiss();">Cancel</button>
+  <button type="button" class="btn btn-sm btn-outline-success text-uppercase" (click)="saveOrderSet();">
+    <i aria-hidden="true" class="icon fa-fw icon-save"></i> {{ selectedOrderSet ? 'Update' : 'Save' }}</button>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

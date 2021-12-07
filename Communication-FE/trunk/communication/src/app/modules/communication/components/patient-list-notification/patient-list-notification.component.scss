@@ -1,0 +1,37 @@
+@import "../../../../../scss/custom_bootstrap_theme.scss";
+.patient-list-modal-body {
+    height: calc(100vh - 180px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+:host ::ng-deep {
+    .ngx-datatable.fixed-row {
+        .datatable-body {
+            height: calc(100vh - 286px) !important;
+            overflow-x: hidden;
+        }
+        .datatable-body-cell {
+            .custom-switch {
+                .custom-control-label {
+                    padding: 0 !important;
+                }
+                span {
+                    &.active {
+                        left: 10px;
+                        color: $white !important;
+                        padding: 0 !important;
+                    }
+                }
+            }
+        }
+        .datatable-footer,
+        .datatable-footer-inner {
+            height: 36px !important;
+            overflow: hidden;
+            .datatable-pager ul li {
+                margin: 0px 0px !important;
+            }
+        }
+    }
+}

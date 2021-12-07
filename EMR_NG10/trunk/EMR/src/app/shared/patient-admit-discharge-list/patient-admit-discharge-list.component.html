@@ -1,0 +1,156 @@
+<!-- legend starts  -->
+
+<div class="container-fluid my-1 px-1">
+  <input type="hidden" id="pagetitle">
+  <div class="row m-0">
+      <div class="col-lg-12 px-1">
+          <div class="panel panel-flat p-2 m-0 bg-white">
+              <div class="container-fluid">
+                  <div class="header-Style">
+                      <div class="icon-Text">
+                          <a href="javascript:void(0)" class="btn border-success text-success-600 btn-flat btn-rounded btn-xs btn-icon orange"><i class="icon-file"></i></a>
+                          <div class="text">
+                              <h5 class="text-semibold">42/ 1617</h5>
+                              <h5 class="small">Actual Discharge</h5>
+                          </div>
+                      </div>
+                      <div class="icon-Text">
+                          <a href="javascript:void(0)" class="btn border-success text-success-600 btn-flat btn-rounded btn-xs btn-icon green"><i class="icon-calendar-alt"></i></a>
+                          <div class="text">
+                              <h5 class="text-semibold no-margin" id="IpdOpdCnt">19/7</h5>
+                              <h5 class="small">Mark As Discharge</h5>
+                          </div>
+                      </div>
+                      <div class="icon-Text">
+                          <a href="javascript:void(0)" class="btn border-success text-success-600 btn-flat btn-rounded btn-xs btn-icon red"><i class="icon-file-done"></i></a>
+                          <div class="text">
+                              <h5 class="text-semibold no-margin" id="IpdOpdCnt">16/0</h5>
+                              <h5 class="small"> Send For Billing</h5>
+
+                          </div>
+                      </div>
+                      <div class="icon-Text">
+                          <a href="javascript:void(0)" class="btn border-success text-success-600 btn-flat btn-rounded btn-xs btn-icon "><i class="icon-file-done"></i></a>
+                          <div class="text">
+                              <h5 class="text-semibold no-margin" id="IpdOpdCnt">13/0</h5>
+                              <h5 class="small">Discharge Approved</h5>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+  <!-- legend End  -->
+<div class="emr-container-fluid container-fluid discharge-patient-dashboard-container px-1" [ngClass]="{'discharge': loadType !== 'admit'}">
+  <div class="form-row form-group m-0 mb-1">
+      <div class="col-2">
+          <label>Select Ward</label>
+          <ng-select [items]="wardList$ | async" bindLabel="name" (change)="getAdmittedPatients()" bindValue="id" [(ngModel)]="patWardNo" placeholder="Select Ward" [typeahead]="wardListInput$">
+          </ng-select>
+      </div>
+      <div class="col-2">
+          <label>Discharge Date</label>
+          <app-date-picker [inputDate]="dischargeDate" placeholder="yyyy-mm-dd" (dateChange)="updateDischargeDate($event)"></app-date-picker>
+      </div>
+      <div class="col-4 text-right">
+          <label>&nbsp;</label>
+          <div class="input-group">
+              <input type="text" class="form-control form-control-sm pl-2rem" [(ngModel)]="searchString" (keyup)="this.getAdmittedPatients();" placeholder="Patient Name Search">
+              <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+              <div class="input-group-append">
+                  <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear" (click)="clearSearch()">
+                      <i class="fa fa-fw fa-eraser" aria-hidden="true"></i></button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="form-row m-0">
+      <div class="col-12 admitted-list" *ngIf="admittedPatients">
+        <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25"
+        [footerHeight]="0" [rowHeight]="30" [rows]="admittedPatients" [externalSorting]="true" (sort)="onSortChanged($event)"
+        [scrollbarH]="true" (page)='onSetPage($event)'>
+        <ngx-datatable-column name="UHID" prop="row.patientData.id" [width]="100" [frozenLeft]="true">
+          <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+            <span class="text-primary" style="cursor: pointer;" (click)="navigateToPatient(row)">{{row.patientData.id}} </span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Patient Name" prop="row.patientData.name" [width]="300" [frozenLeft]="true">
+          <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+            <span class="text-primary" style="cursor: pointer;" (click)="navigateToPatient(row)">{{row.patientData.name}} </span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Gender" prop="row.patientData.gender" [width]="100">
+          <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+            <span>{{row.patientData.gender}} </span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Age" prop="row.patientData.age" [width]="100">
+          <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+            <span>{{row.patientData.age}} </span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Doctor Name" prop="row.patientData.doctorName" [width]="250">
+          <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+            <span>{{row.doctorName}} </span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Admitted Date" prop="admissionDate | date : short" [width]="150">
+          <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+            <span>{{row.admissionDate | date: 'yyyy-MM-dd'}} </span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Bed No." prop="bed" [width]="150">
+          <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+            <span>{{row.bed}} </span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Floor No." prop="floor" [width]="100">
+          <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+            <span>{{row.floor}} </span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Status" prop="status" [width]="200">
+          <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+            <span>{{row.status}} </span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Action" [frozenRight]="true" cellClass="text-center" [sortable]="false"  [width]="100">
+          <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value"
+            let-isSelected="isSelected">
+            <button class="bg-transparent border-0" placement="left-bottom" [autoClose]="true" [ngbPopover]="popContent"
+              container="body" #p="ngbPopover">
+              <i class="fa fa-fw fa-bars" aria-hidden="true"></i> <i class="fa fa-xs fa-caret-down"
+                aria-hidden="true"></i>
+            </button>
+            <ng-template #popContent>
+              <ul class="list-unstyled popover-content mb-0">
+                <li><button class="btn btn-sm btn-block text-left info" (click)="onconsentForm(row)"><i
+                  class="icon fa-fw icon-info mr-1" aria-hidden="true"></i> Consent Forms
+              </button></li>
+              </ul>
+            </ng-template>
+
+          </ng-template>
+        </ngx-datatable-column>
+        <span *ngIf="admittedPatients">Total {{admittedPatients.length}}</span>
+        <ngx-datatable-footer></ngx-datatable-footer>
+        <!-- <ngx-datatable-footer *ngIf="admittedPatients.length > 0">
+          <ng-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
+            let-curPage="curPage" let-offset="offset" ngx-datatable-footer-template>
+            <div class="mx-3">
+              Showing {{ ((page.pageNumber - 1) * page.size) + 1}} to
+              {{ ((page.pageNumber - 1) * page.size) + admittedPatients.length}} of 15 entries
+            </div>
+            <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'"
+              [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="page.pageNumber"
+              [size]="page.size" [count]="page.totalElements" [hidden]="!((page.totalElements / page.size) > 1)"
+              (change)="onFooterPage($event)">
+            </datatable-pager>
+          </ng-template>
+        </ngx-datatable-footer> -->
+      </ngx-datatable>
+      </div>
+  </div>
+</div>

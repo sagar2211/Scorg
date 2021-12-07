@@ -1,0 +1,172 @@
+@import "../../../scss/main";
+
+ul {
+  line-height: 1.2;
+}
+
+.template-heading td p {
+  margin-bottom: 0px;
+  background: #ccc;
+  font-weight: 500;
+  color: #000;
+  padding: 2px 0px;
+}
+
+table {
+  width: 100%;
+  border-spacing: 0;
+  margin-bottom: -1px;
+  border-collapse: collapse;
+  border: 1px solid transparent;
+}
+
+table td.left {
+  text-align: left !important;
+}
+
+table td.right {
+  text-align: right !important;
+}
+
+table.table-bordered th {
+  padding: 5px 10px;
+  color: #5d6975;
+  white-space: nowrap;
+  font-weight: 400;
+}
+
+table.table-bordered th .heading {
+  color: #001028;
+}
+
+table.table-bordered td {
+  padding: 10px;
+  text-align: right;
+}
+
+table.table-bordered {
+  border: 1px solid #ddd;
+}
+
+table.table-bordered tr:nth-child(2n-2) td {
+  background: #f5f5f5;
+}
+
+table.table-bordered td,
+table.table-bordered th {
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.header,
+.score-templates .header {
+  width: 85px;
+  vertical-align: middle;
+  background-color: #f5f5f5;
+}
+
+.label {
+  color: #5d6975;
+  font-size: 1.4em;
+  margin: 10px 0 2px;
+}
+
+.label small {
+  font-size: 0.7em;
+}
+
+#name {
+  height: 70px;
+}
+
+#name .left-side {
+  float: left;
+}
+
+#name .left-side .name,
+#name .right-side .date {
+  font-size: 2em;
+}
+
+#name .left-side .id,
+#name .right-side .id {
+  font-size: 1.2em;
+}
+
+#name .left-side span,
+#name .right-side span {
+  color: #5d6975;
+  font-size: 0.9em;
+}
+
+.left-side span.red,
+.right-side span.red {
+  color: #d8506b;
+}
+
+#name .right-side {
+  float: right;
+  text-align: right;
+}
+
+#name .left-side p,
+#name .right-side p {
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+#prescription table .desc,
+#prescription table .service {
+  vertical-align: top;
+  text-align: left !important;
+}
+
+#prescription table .desc {
+  width: 400px;
+}
+
+#prescription table .unit {
+  text-align: center;
+  font-size: 1.2em;
+}
+
+#prescription table .unit h5 {
+  border-bottom: 1px solid #d4d4d4;
+}
+
+#face .table-bordered tbody tr td,
+#foot .table-bordered tbody tr td,
+#human-body .table-bordered tbody tr td,
+#image-annotation .table-bordered tbody tr td {
+  width: 50%;
+}
+
+#footer {
+  margin: 20px 0 0;
+}
+
+#footer .dr-sign {
+  height: 50px;
+  font-size: 1.4em;
+  text-align: right;
+}
+
+#footer p {
+  color: #5d6975;
+  width: 100%;
+  height: 10px;
+  border-top: 1px solid #d4d4d4;
+  padding: 8px 0;
+  text-align: center;
+}
+
+@media print {
+  @page {
+    size: 21cm 29.7cm;
+    margin: 0.5cm;
+
+    body {
+      height: 99%;
+    }
+  }
+}

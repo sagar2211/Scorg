@@ -1,0 +1,102 @@
+:host ::ng-deep {
+  .otsection {
+    .ng-dropdown-panel {
+      width: 550px !important;
+      .ng-dropdown-panel-items {
+        min-height: 100px;
+        overflow: auto;
+        .ng-option {
+          padding: 0px !important;
+          border-radius: 0px;
+          .detail-row {
+            background-color: #fff !important;
+            &:hover {
+              background-color: #3f51b5 !important;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.card-resister-patinet {
+  >.card-header {
+    .form-inline {
+      .form-group {
+        margin-bottom: 0 !important;
+
+        .min-width-200 {
+          min-width: 200px;
+        }
+      }
+    }
+  }
+
+  >.card-body {
+    height: calc(100vh - 130px) !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+    .custom-bg {
+      background-color: #ced2ea !important;
+      .width-26vw {
+        width: 26vw;
+      }
+      .custom-margin-left {
+        margin-left: 12px;
+      }
+    }
+
+  }
+
+  p.form-control[readonly] {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .card-body-custom-height {
+    height: calc(100vh - 340px) !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .custom-bg-light-1 {
+      background-color: #f3f3f3;
+      margin-bottom: 0 !important;
+    }
+
+    .custom-bg-light-2 {
+      background-color: #f9f9f9;
+      margin-bottom: 0 !important;
+    }
+  }
+
+  .profile-img {
+    img {
+      height: 80px;
+      width: 80px;
+      max-width: 80px;
+      border-radius: 50%;
+      background-color: #fff;
+      border: 1px solid #e6e6e6;
+    }
+  }
+
+  .gender-blood {
+    background-color: #ebeff3 !important;
+  }
+
+  .custom-col-size {
+    flex: 0 0 94px;
+    max-width: 94px;
+
+    label {
+      font-size: 0.92rem !important;
+    }
+  }
+
+  .custom-mb-dot-2 {
+    margin-bottom: 0.2rem;
+  }
+}

@@ -1,0 +1,10 @@
+// .section-data{
+//   height: calc(100vh - 140px);
+//   overflow: hidden;
+//   overflow-y: auto;
+// }
+:host ::ng-deep {
+  #gridContainerIndent {
+      height: calc(100vh - 140px);
+  }
+}

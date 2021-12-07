@@ -1,0 +1,271 @@
+<div [ngClass]="{'order-set-container' : displayType == 'preview'}" id="order-set-container" class="col px-0">
+  <div class="added-order-section">
+    <div>
+      <p class="mb-1 section-name">
+        <i (click)="openOrderSetDetails(itemOrder)" class="fa  text-info" [ngClass]="{
+                                   'fa-plus-square-o' : !itemOrder.isExpanded,
+                                   'fa-minus-square-o' : itemOrder.isExpanded
+                                   }"></i>
+        <span class="mx-2">{{itemOrder.ordersetName | uppercase}}</span>
+        <span *ngIf="displayType == 'list'">
+          <button class="btn btn-primary btn-sm border-radius font-12 py-0 mr-1" type="button"
+            (click)="openEditOrderSetPreview(itemOrder, true)">
+            Select</button>
+          <button (click)="loadConfirmationPopup('edit')"
+            class="btn btn-primary btn-sm border-radius font-12 py-0 mr-1">Edit</button>
+          <!--<button (click)=" loadDeleteConfirmationPopup(modalDeleteConfirmation); deleteOrderSetById(itemOrder)" class="btn-sm btn-danger btn  btn-sm border-radius font-12 py-0 mr-1">Delete</button>-->
+          <button (click)=" loadConfirmationPopup('delete');"
+            class="btn-sm btn-danger btn  btn-sm border-radius font-12 py-0 mr-1">Delete</button>
+        </span>
+      </p>
+      <div *ngIf="itemOrder.isExpanded" class="container-fluid">
+        <div class="order-list height-auto">
+          <div *ngFor="let item of itemOrder|keyvalue; let i= index;">
+            <div class="mb-2" *ngIf="item.key ==='medicineOrders'">
+              <h6 class="order-name-heading mb-0">
+                {{item.key}} :
+                <span *ngIf="(displayType == 'preview')">
+                  <button *ngIf="(item.value.length || itemOrder.orderSetId != '' || displayType == 'preview')"
+                    (click)="openEditOrderSetSection(item.key)"
+                    class="btn-sm btn btn-primary font-10 py-0 mr-1">Edit</button>
+                  <button *ngIf="item.value.length" (click)="deleteOrder(item.key, '', 'clearAllOrders')"
+                    class="btn-sm btn btn-danger font-10 py-0 mr-1">Clear All</button>
+                  <!--<button (click)="deleteOrderSet(itemOrder)" class="btn-sm btn btn-primary font-10 py-0">Delete</button>-->
+                </span>
+              </h6>
+              <div *ngIf="!item.value.length">
+                <span>No Medicine Order Added.</span>
+              </div>
+              <ul class="pl-3 mb-1" *ngFor="let cat of itemOrder[item.key]; let orderIndex = index;">
+                <li class="orders-name"><i class="fa fa-angle-right pr-1"></i>
+                  {{cat.medicineObj.name}}
+                  <span *ngIf="displayType == 'preview'">
+                    <button (click)="openEditOrderPopup(item.key, cat)" class="btn-sm btn btn-primary font-10 py-0 mr-1"
+                      type="button">Edit</button>
+                    <button (click)="deleteOrder(item.key, orderIndex, 'order')"
+                      class="btn-sm btn btn-danger btn font-10 py-0 mr-1" type="button">Delete</button>
+                  </span>
+                  <div class="section-detail pl-3">
+                    <p class="mb-0">
+                      <span *ngIf="cat.medicineObj?.type?.name" class="pl-2"><strong> Medicine Type: </strong>
+                        {{cat.medicineObj?.type?.name}} </span>
+                      <span *ngIf="cat.medicineObj?.genricName" class="pl-2"><strong> Generic Name: </strong>
+                        {{cat.medicineObj?.genricName}} </span>
+                    </p>
+                    <p class="mb-0">
+                      <span *ngIf="cat.medicineObj?.frequency" class="pl-2"><strong> Freq: </strong>
+                        {{cat.medicineObj?.frequency}} ({{cat.medicineObj?.frequencySchedule}}) </span>
+                      <span *ngIf="cat.medicineObj?.duration" class="pl-2"><strong> Duration: </strong>
+                        {{cat.medicineObj?.duration}} </span>
+                    </p>
+                    <p class="mb-0">
+                      <span *ngIf="cat.medicineObj?.sig?.name" class="pl-2"><strong> Sig: </strong>
+                        {{cat.medicineObj?.sig?.name}} </span>
+                      <span *ngIf="cat.medicineObj?.dose" class="pl-2"><strong> Dose: </strong>
+                        {{cat.medicineObj?.dose}} </span>
+                      <span *ngIf="cat.medicineObj?.type?.doseUnit" class="pl-2"><strong> Dose Unit: </strong>
+                        {{cat.medicineObj?.type?.doseUnit}} </span>
+                    </p>
+                    <p class="mb-0">
+                      <span *ngIf="cat.medicineObj?.route?.name" class="pl-2"><strong> Route: </strong>
+                        {{cat.medicineObj?.route?.name}} </span>
+                      <span *ngIf="cat.medicineObj?.instruction" class="pl-2"><strong> Instruction: </strong>
+                        {{cat.medicineObj.instruction}} </span>
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="mb-2" *ngIf="item.key ==='labOrders'">
+              <h6 class="order-name-heading mb-0">
+                {{item.key}} :
+                <span *ngIf="(displayType == 'preview')">
+                  <button *ngIf="(item.value.length || itemOrder.orderSetId != '' || displayType == 'preview')"
+                    (click)="openEditOrderSetSection(item.key)"
+                    class="btn-sm btn btn-primary font-10 py-0 mr-1">Edit</button>
+                  <button *ngIf="item.value.length" (click)="deleteOrder(item.key, '', 'clearAllOrders')"
+                    class="btn-sm btn btn-danger font-10 py-0 mr-1">Clear All</button>
+                </span>
+              </h6>
+              <div *ngIf="!item.value.length">
+                <span>No Lab Order Added.</span>
+              </div>
+
+              <ul class="pl-3 mb-1" *ngFor="let cat of itemOrder[item.key]; let orderIndex = index;">
+                <li class="orders-name"><i class="fa fa-angle-right pr-1"></i>
+                  {{cat.name}}
+                  <span *ngIf="displayType == 'preview'">
+                    <button (click)="openEditOrderPopup(item.key, cat)" type="button"
+                      class="btn-sm btn btn-primary font-10 py-0 mr-1">Edit</button>
+                    <button (click)="deleteOrder(item.key, orderIndex, 'order')" type="button"
+                      class="btn-sm btn btn-danger font-10 py-0 mr-1">Delete</button>
+                  </span>
+                  <div class="section-detail pl-3">
+                    <!--<p class="mb-0">-->
+                    <!--<span *ngIf="cat.specimen" class="pl-2"><strong> Specimen: </strong> {{cat.specimen}} </span>-->
+                    <!--<span *ngIf="cat.recurring" class="pl-2"><strong> Recurring: </strong> {{cat.recurring}} </span>-->
+                    <!--<span *ngIf="cat.patientConsentNeeded" class="pl-2"><strong> Consent Needed: </strong> {{cat.patientConsentNeeded}} </span>-->
+                    <!--</p>-->
+                    <p class="mb-0">
+                      <span *ngIf="cat.freqStartTime" class="pl-1">Frequency Start Time: <strong> {{cat.freqStartTime}}
+                        </strong></span>
+                      <span *ngIf="cat.frequency" class="pl-1">Frequency: <strong>
+                          {{(cat.frequency <= 4)? cat.frequencySchedule: (cat.frequency + ' times a day')}} </strong>
+                      </span>
+                    </p>
+                    <p class="mb-0">
+                      <span *ngIf="cat.specimen"> Specimen: <strong> {{cat.specimen}} </strong></span>
+                      <span *ngIf="cat.recurring?.statement" class="pl-1"> Recurring: <strong>
+                          {{cat.recurring?.statement}}
+                        </strong></span>
+                      <span *ngIf="cat.reason" class="pl-1"> Reason: <strong> {{cat.reason}} </strong></span>
+                      <span *ngIf="cat.patientConsentNeeded" class="pl-1"> Consent Needed: <strong>
+                          {{cat.patientConsentNeeded}} </strong></span>
+                    </p>
+                    <p class="mb-0" *ngIf="cat.labInstruction">
+                      <span> Lab Instruction: <strong> {{ cat.labInstruction }} </strong></span>
+                    </p>
+                    <p class="mb-0" *ngIf="cat.patientInstruction">
+                      <span> Patient Instruction: <strong> {{ cat.patientInstruction }} </strong></span>
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="mb-2" *ngIf="item.key ==='radiologyOrders'">
+              <h6 class="order-name-heading mb-0">
+                {{item.key}} :
+                <span *ngIf="(displayType == 'preview')">
+                  <button *ngIf="(item.value.length || itemOrder.orderSetId != '' || displayType == 'preview')"
+                    (click)="openEditOrderSetSection(item.key)"
+                    class="btn-sm btn btn-primary font-10 py-0 medicineDel mr-1">Edit</button>
+                  <button *ngIf="item.value.length" (click)="deleteOrder(item.key, '', 'clearAllOrders')"
+                    class="btn-sm btn btn-danger font-10 py-0 medicineDel mr-1">Clear All</button>
+                </span>
+              </h6>
+              <div *ngIf="!item.value.length">
+                <span>No Radiology Order Added.</span>
+              </div>
+
+              <ul class="pl-3 mb-1" *ngFor="let cat of itemOrder[item.key]; let orderIndex = index;">
+                <li class="orders-name"><i class="fa fa-angle-right pr-1"></i>
+                  {{cat.name}}
+                  <span *ngIf="displayType == 'preview'">
+                    <button (click)="openEditOrderPopup(item.key, cat)"
+                      class="btn-sm btn btn-primary font-10 py-0 medicineDel mr-1" type="button">Edit</button>
+                    <button (click)="deleteOrder(item.key, orderIndex, 'order')"
+                      class="btn-sm btn btn-danger font-10 py-0 mr-1" type="button">Delete</button>
+                  </span>
+                  <div class="section-detail pl-3">
+                    <p class="start-date mb-0"> Start Date:
+                      <strong>{{cat.startDateTime | customDate : '' : 'DD-MM-YYYY hh:mm A'}}</strong></p>
+                    <p class="mb-0">
+                      <span *ngIf="cat.recurring?.statement"> Recurring: <strong> {{cat.recurring?.statement}}
+                        </strong></span>
+                      <span *ngIf="cat.patientConsentNeeded" class="pl-1"> Consent Needed: <strong>
+                          {{cat.patientConsentNeeded}} </strong></span>
+                      <span *ngIf="cat.signSymptoms" class="pl-1"> Signs and Symptoms: <strong>
+                          {{cat.signSymptoms}} </strong></span>
+                      <span *ngIf="cat.reason && cat.priority == 'STAT'" class="pl-1"> Reason: <strong>
+                          {{cat.reason}} </strong></span>
+                      <span *ngIf="cat.clinicalInfo" class="pl-1"> Clinical Information: <strong>
+                          {{cat.clinicalInfo}}
+                        </strong></span>
+                    </p>
+                    <p class="mb-0">
+                      <span *ngIf="cat.freqStartTime" class="pl-1">Frequency Start Time: <strong> {{cat.freqStartTime}}
+                        </strong></span>
+                      <span *ngIf="cat.frequency" class="pl-1">Frequency: <strong>
+                          {{(cat.frequency <= 4)? cat.frequencySchedule: (cat.frequency + ' times a day')}} </strong>
+                      </span>
+                    </p>
+                    <p class="mb-0" *ngIf="cat.radiologyInstruction">
+                      <span> Radiology Instructions: <strong> {{ cat.radiologyInstruction }} </strong></span>
+                    </p>
+                    <p class="mb-0" *ngIf="cat.patientInstruction">
+                      <span> Patient Instructions: <strong> {{ cat.patientInstruction }} </strong></span>
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="mb-2" *ngIf="item.key ==='dietOrders'">
+              <h6 class="order-name-heading mb-0">
+                {{item.key}} :
+                <span *ngIf="(displayType == 'preview')">
+                  <button *ngIf="(item.value.length || itemOrder.orderSetId != '' || displayType == 'preview')"
+                    (click)="openEditOrderSetSection(item.key)"
+                    class="btn-sm btn btn-primary font-10 py-0 mr-1">Edit</button>
+                  <button *ngIf="item.value.length" (click)="deleteOrder(item.key, '', 'clearAllOrders')"
+                    class="btn-sm btn btn-danger font-10 py-0 mr-1">Clear All</button>
+                </span>
+              </h6>
+              <div *ngIf="!item.value.length">
+                <span>No Diet Order Added.</span>
+              </div>
+
+              <ul class="pl-3 mb-1" *ngFor="let cat of itemOrder[item.key]; let orderIndex = index;">
+                <li class="orders-name"><i class="fa fa-angle-right pr-1"></i>
+                  {{cat.name}}
+                  <span *ngIf="displayType == 'preview'">
+                    <button (click)="openEditOrderPopup(item.key, cat)" type="button"
+                      class="btn-sm btn btn-primary font-10 py-0 mr-1">Edit</button>
+                    <button (click)="deleteOrder(item.key, orderIndex, 'order')" type="button"
+                      class="btn-sm btn btn-danger font-10 py-0 mr-1">Delete</button>
+                  </span>
+                  <div class="section-detail  pl-3">
+                    <p class="mb-0">
+                      <span *ngIf="cat.specInstruction"><strong> Instruction: </strong> {{cat.specInstruction}} </span>
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="mb-2" *ngIf="item.key ==='nursingOrders'">
+              <h6 class="order-name-heading mb-0">
+                {{item.key}} :
+                <span *ngIf="(displayType == 'preview')">
+                  <button *ngIf="(item.value.length || itemOrder.orderSetId != '' || displayType == 'preview')"
+                    (click)="openEditOrderSetSection(item.key)"
+                    class="btn-sm btn btn-primary font-10 py-0">Edit</button>
+                  <button *ngIf="item.value.length" (click)="deleteOrder(item.key, '', 'clearAllOrders')"
+                    class="btn-sm btn btn-danger font-10 py-0 mr-1">Clear All</button>
+                </span>
+              </h6>
+              <div *ngIf="!item.value.length">
+                <span>No Nursing Order Added.</span>
+              </div>
+
+              <ul class="pl-3 mb-1" *ngFor="let cat of itemOrder[item.key]; let orderIndex = index;">
+                <li class="orders-name"><i class="fa fa-angle-right pr-1"></i>
+                  {{cat.name}}
+                  <span *ngIf="displayType == 'preview'">
+                    <button (click)="openEditOrderPopup(item.key, cat)" type="button"
+                      class="btn-sm btn btn-primary font-10 py-0 mr-1">Edit</button>
+                    <button (click)="deleteOrder(item.key, orderIndex, 'order')" type="button"
+                      class="btn-sm btn btn-danger font-10 py-0 mr-1">Delete</button>
+                  </span>
+                  <div class="section-detail  pl-3">
+                    <p class="start-date mb-0" *ngIf="cat.startDateTime">
+                      Start Date:
+                      <strong>{{cat.startDateTime | customDate : '' : 'DD-MM-YYYY hh:mm A'}}</strong>
+                    </p>
+                    <p *ngIf="cat.genericFreq && cat.genericFreq != ''" class="mb-0">
+                      <span class="pl-1">Frequency: <strong>
+                          {{(cat.genericFreq <= 4)? cat.FreqSchedule : (cat.genericFreq + ' times a day')}} </strong>
+                        <span *ngIf="cat.freqStartTime" class="pl-1">Frequency Start Time: <strong>
+                            {{cat.freqStartTime}} </strong></span>
+                        <span *ngIf="cat.genericDuration" class="pl-1"> Duration(Days): <strong> {{cat.genericDuration}}
+                          </strong></span>
+                      </span>
+                    </p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

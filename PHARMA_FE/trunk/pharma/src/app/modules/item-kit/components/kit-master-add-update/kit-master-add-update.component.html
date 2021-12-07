@@ -1,0 +1,56 @@
+<form [formGroup]="itemMasterForm" (ngSubmit)="saveValue()" *ngIf="loadForm">
+    <div class="modal-header">
+        <p class="modal-title text-uppercase">{{kitData && kitData.kitData ? 'Update' : 'Add'}} Kit Master
+        </p>
+        <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+  </button>
+    </div>
+    <div class="modal-body custom-modal-body p-2">
+        <div class="form-row form-group">
+            <div class="col">
+                <label>Kit Name</label>
+                <input #kitName type="text" formControlName="name" placeholder="Name" class="form-control form-control-sm" autofocus>
+                <small class="text-danger" *ngIf="getFrmCntrols['name'].errors?.required && submitted">
+                  Please Add Name!</small>
+            </div>
+        </div>
+        <ng-container formArrayName="itemKitList">
+            <div class="form-row form-group" [ngClass]="{'d-none': !itemMasterForm.value.name}">
+                <div class="col">
+                    <label>Item</label>
+                </div>
+                <div class="col">
+                    <label>Qty</label>
+                </div>
+                <div class="col"> </div>
+            </div>
+            <div *ngFor="let item of itemKitList.controls; first as first; last as last; let i = index" [formGroupName]="i">
+                <div class="form-row form-group" [ngClass]="{'d-none': !itemMasterForm.value.name}">
+                    <div class="col">
+                        <ng-select #itemNameSel [items]="itemList$ | async" bindLabel="customName" (change)="selectItem($event, i)" formControlName="item" placeholder="Select Item" [typeahead]="itemInput$">
+                        </ng-select>
+                        <small class="text-danger" *ngIf="!item.controls.item.valid && addedRow">
+                          Please Select Item!</small>
+                    </div>
+                    <div class="col">
+                        <input appOnlyNumbers [readonly]="!item.controls.item.valid" type="text" formControlName="qty" placeholder="Quantity" class="form-control form-control-sm">
+                        <small class="text-danger" *ngIf="!item.controls.qty.valid && addedRow">
+                          Please Add Quantity!</small>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-sm btn-outline-primary-light mr-1" *ngIf="last" (click)="addNewItem(i)"><i class="fa fa-fw fa-plus" aria-hidden="true"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline-danger" *ngIf="item.valid || last" (click)="deleteItem(i, item.getRawValue())"><i class="fa fa-fw fa-trash" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="modal-footer py-1">
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.close('Cancel')">CANCEL</button>
+        <button type="button" class="btn btn-sm" [ngClass]="kitData && kitData.kitData ? 'btn-outline-primary-light':'btn-outline-primary'" (click)="saveValue()"><i class="fa fa-fw"
+            [ngClass]="kitData && kitData.kitData ? 'fa-sync-alt':'fa-plus'" aria-hidden="true"></i>
+        {{kitData && kitData.kitData ? 'UPDATE' : 'ADD'}}</button>
+    </div>
+</form>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

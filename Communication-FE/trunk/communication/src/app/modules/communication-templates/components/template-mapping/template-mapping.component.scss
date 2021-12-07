@@ -1,0 +1,12 @@
+:host ::ng-deep {
+    .ngx-datatable.fixed-row {
+        .datatable-footer,
+        .datatable-footer-inner {
+            height: 36px !important;
+            overflow: hidden;
+            .datatable-pager ul li {
+                margin: 0px 0px !important;
+            }
+        }
+    }
+}

@@ -1,0 +1,22 @@
+.dash {
+  color: #a70000;
+}
+
+.custom-height thead tr th,
+.custom-height tbody tr td {
+  height: 6vh;
+  padding: 0.3rem !important;
+}
+
+
+.custom-height thead tr th,
+.custom-height tbody tr td,
+.queue .queue-info .queue-list .col-token .token-no,
+.queue .queue-info .queue-list .col-pt-name-mobile .pt-name {
+  font-size: 2.1vw !important;
+}
+
+.queue .queue-info .queue-list .col-token {
+  padding-top: 0% !important;
+  padding-bottom: 0% !important;
+}

@@ -1,0 +1,115 @@
+<div class="emr-container-fluid container-fluid px-0 nursing-station-mapping-container-fluid">
+    <div class="card-header form-group px-1 pt-0 pb-1">
+        <div class="form-row mx-0">
+            <div class="col-3">
+                <label>Tower</label>
+                <ng-select [items]="level1list$ | async" bindLabel="levelDataName" (change)="onLevelChange($event, 1)" bindValue="levelDataId" [(ngModel)]="filterObj.level1" placeholder="Select" [typeahead]="level1Input$">
+                </ng-select>
+            </div>
+            <div class="col-3">
+                <label>Floor</label>
+                <ng-select [disabled]="!filterObj.level1" [items]="level2list$ | async" bindLabel="levelDataName" (change)="onLevelChange($event, 2)" bindValue="levelDataId" [(ngModel)]="filterObj.level2" placeholder="Select" [typeahead]="level2Input$">
+                </ng-select>
+            </div>
+            <div class="col-3">
+                <label>Ward</label>
+                <ng-select [disabled]="!filterObj.level2" [items]="level3list$ | async" bindLabel="levelDataName" (change)="onLevelChange($event, 3)" bindValue="levelDataId" [(ngModel)]="filterObj.level3" placeholder="Select" [typeahead]="level3Input$">
+                </ng-select>
+            </div>
+        </div>
+        <div class="form-row mx-0">
+            <div class="col-3">
+                <label>Nursing Station</label>
+                <ng-select [items]="nurseStationList$ | async" bindLabel="name" [(ngModel)]="selectedNurseStation" [typeahead]="nurseStationInput$" placeholder="Nurse Station" (change)="selectNurseStationValue($event)">
+                </ng-select>
+            </div>
+        </div>
+    </div>
+    <div class="card-body nursing-station-card-body p-2">
+        <div *ngIf="selectedNurseStation">
+            <div class="dual-list">
+                <div class="listbox">
+                    <div class="form-row mx-0">
+                        <div class="col-4">
+                            <p class="mb-0 font-size-dot-875 font-weight-500">Nurse List</p>
+                        </div>
+                        <div class="col-8 text-right">
+                            <label class="mb-0 mb-0 font-size-dot-875 font-weight-500 pointer">
+                                <input type="checkbox" [(ngModel)]="showNotMappedNurseOnly"
+                                    (change)="getuserList(null, null, null)" class="" id="showNotMappedNurseOnly"> Show
+                                Only Not
+                                Mapped Nurse
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <ul class="buttonbox list-unstyled">
+                </ul>
+                <div class="listbox">
+                    <p class="mb-0 font-size-dot-875 font-weight-500">Selected Nurse List</p>
+                </div>
+            </div>
+            <div class="dual-list">
+                <div class="listbox">
+                    <form class="filter position-relative">
+                        <input type="text" class="form-control form-control-sm pl-2rem" name="filterSource" [(ngModel)]="nurseSearch" (ngModelChange)="this.subject.next();" placeholder="Search Nurse">
+                        <div class="placeholder-icon">
+                            <i class="icon fa-fw icon-search text-muted" aria-hidden="true"></i>
+                        </div>
+                    </form>
+                    <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="allNurseList" [cdkDropListConnectedTo]="[doneList]" class="example-list border first" (cdkDropListDropped)="drop($event)">
+                        <div class="example-box" *ngFor="let item of allNurseList; let i = index;" cdkDrag>
+                            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                            <div class="custom-checkbox custom-control">
+                                <input type="checkbox" [(ngModel)]="item.isChecked" class="custom-control-input" id="isCheck_{{i}}">
+                                <label class="custom-control-label pointer" [class.active]="item.isChecked" for="isCheck_{{i}}"><span>{{item.name}} </span></label>
+                                <span class="text-uppercase" [class.active]="item.isChecked"></span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <ul class="buttonbox list-unstyled">
+                    <li placement="top" ngbTooltip="Add Items to Right">
+                        <button type="button" class="btn btn-secondary btn-block" (click)="moveSelectedFromSourceToDestination()"><i class="fa fa-chevron-right"></i><i
+                                class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                    </li>
+                    <li placement="top" ngbTooltip="Remove Items">
+                        <button type="button" class="btn btn-secondary btn-block" (click)="moveSelectedFromDestinationToSource()"><i class="fa fa-chevron-left"></i><i
+                                class="fa fa-chevron-left" aria-hidden="true"></i></button>
+
+                    </li>
+                </ul>
+                <div class="listbox">
+                    <form class="filter position-relative">
+                        <input type="text" class="form-control form-control-sm pl-2rem" name="filterSource" [(ngModel)]="nurseSearchDest" (ngModelChange)="updateDestinationListArray();" placeholder="Search Nurse">
+                        <div class="placeholder-icon">
+                            <i class="icon fa-fw icon-search text-muted" aria-hidden="true"></i>
+                        </div>
+                    </form>
+                    <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="selectedNurseList" [cdkDropListConnectedTo]="[todoList]" class="example-list border first" (cdkDropListDropped)="drop($event)">
+                        <div class="form-row mx-0 example-box" contenteditable="true" *ngFor="let item of selectedNurseList; let i = index;" cdkDrag>
+                            <div class="col-9">
+                                <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                                <div class="custom-checkbox custom-control">
+                                    <input type="checkbox" [(ngModel)]="item.isCheckedInDestination" class="custom-control-input" id="isCheckedInDestination{{i}}">
+                                    <label class="custom-control-label pointer" [class.active]="item.isCheckedInDestination" for="isCheckedInDestination{{i}}"> <span>{{item.name}} </span></label>
+                                    <span class="text-uppercase" [class.active]="item.isCheckedInDestination"></span>
+                                </div>
+                            </div>
+                            <div class="col-3 text-right">
+                                <button type="button" class="btn btn-sm btn-outline-danger" (click)="deleteComponent(item)"><i class="icon fa-fw icon-trash"
+                                        aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer py-1 text-right">
+        <button (click)="saveMappingVal()" class="btn btn-primary btn-sm" type="submit"><i class="icon fa-fw icon-save"
+                aria-hidden="true"></i> SAVE CHART</button>
+    </div>
+    <app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>
+</div>

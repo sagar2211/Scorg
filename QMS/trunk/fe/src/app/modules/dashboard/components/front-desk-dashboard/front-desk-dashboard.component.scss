@@ -1,0 +1,140 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+.front-desk {
+  background-color: transparent !important;
+  border: 0;
+  box-shadow: none;
+
+  .top-section {
+    padding: 0 5px;
+
+    .col {
+      .card {
+        @include border-radius(5px);
+        @include transition(box-shadow 0.4s);
+        @include custom-box-shadow(0, 0, 3px, rgba(28, 25, 83, 0.15));
+
+        &:hover {
+          @include transition(box-shadow 0.4s);
+          @include custom-box-shadow(0, 0, 6px, rgba(28, 25, 83, 0.3));
+        }
+
+        .card-header {
+          @include border-top-left-radius(5px);
+          @include border-top-right-radius(5px);
+
+          .form-row {
+            .col-title {
+              flex: 0 0 calc(100% - 42px);
+              max-width: calc(100% - 42px);
+
+              h6 {
+                color: var(--bgColor);
+                font-size: 0.99rem;
+                @media screen and (max-width: 1366px) {
+                  font-size: 0.8rem !important;
+                }
+
+                &:after {
+                  content: "";
+                  display: inherit;
+                  width: 50px;
+                  margin-top: 2px;
+                  border-bottom: 2px solid var(--bgColor);
+                }
+
+                .vs {
+                  font-size: 70%;
+                }
+
+                .bracket {
+                  opacity: 0.7;
+                  font-size: 70%;
+                  color: var(--bgColor);
+                }
+              }
+            }
+
+            .col-extend {
+              flex: 0 0 42px;
+              max-width: 42px;
+
+              .icon {
+                width: 42px;
+                opacity: 0.75;
+                padding: 10px;
+                @include transition(opacity 0.4s);
+
+                &:hover {
+                  opacity: 1;
+                  @include transition(opacity 0.4s);
+                }
+              }
+            }
+          }
+        }
+
+        .card-body {
+          .form-row {
+            min-height: 100px;
+
+            h2 {
+              color: var(--bgColor);
+              font-size: 2.75rem;
+              font-weight: 100;
+              sup {
+                font-weight: 100;
+                font-size: 35% !important;
+                top: -1.5em !important;
+                margin-left: -2px;
+                color: inherit !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .table-container-height {
+    height: calc(100vh - 236px);
+  }
+
+  .slide-rules-instructions {
+    top: 0;
+    right: 0;
+    z-index: 1001;
+    overflow: hidden;
+    position: absolute;
+    @include border-radius(5px);
+  }
+}
+
+.height-entity-setting {
+  height: calc(100vh - 135px);
+  overflow-y: auto;
+}
+
+.modal-entity-setting-height {
+  height: calc(100vh - 140px);
+  overflow-y: auto;
+}
+
+:host ::ng-deep {
+  .ngx-datatable.fixed-header {
+    .datatable-body {
+      height: calc(100vh - 310px) !important;
+      overflow-x: hidden;
+    }
+  }
+
+  .slider-history-log {
+    .history-data {
+      height: calc(100vh - 192px) !important;
+    }
+  }
+
+  .entity-details {
+    overflow: hidden !important;
+  }
+}

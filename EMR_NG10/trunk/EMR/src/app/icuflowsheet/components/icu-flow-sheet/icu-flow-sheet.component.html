@@ -1,0 +1,174 @@
+<div class="mx-1">
+    <div class="header-date">
+        <div class="form-row">
+            <div class="col-4">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary border" type="button"
+                            (click)="updateSelectedDate(selectedDate, 'minus')">
+                            <i class="fa fa-angle-left align-top" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                    <span class="date-input bg-white border">{{selectedDate| date: "dd-MMM-yyyy"}}</span>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary border" type="button"
+                            (click)="updateSelectedDate(selectedDate, 'add')">
+                            <i class="fa fa-angle-right align-top" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="icuFlowSheetScroll" class="icu-flow-sheet-scroll">
+        <div class="container-fluid icu-flow px-0 mt-1 border-bottom" #icuFlowSheetOne>
+            <div class="form-row mx-0">
+                <div class="col col-32 pl-0">
+                    <app-current-consultant></app-current-consultant>
+                    <div class="mb-1">
+                        <app-icu-diagnosis></app-icu-diagnosis>
+                    </div>
+                    <ng-container *ngIf="patientObj">
+                        <app-icu-handover-log-params [patientObj]="patientObj"></app-icu-handover-log-params>
+                    </ng-container>
+                    <div class="mb-1 main-events" *ngIf="patientObj">
+                        <app-icu-notes [patientObj]="patientObj"
+                            [displayData]="{displayName: 'Events/References/Pending Investigations', displayKey: 'events_references_pending_investigations', value: ''}">
+                        </app-icu-notes>
+                    </div>
+                </div>
+                <div class="col col-32 pl-0">
+                    <div class="mb-1 current-medication">
+                        <app-icu-current-medications [medicineOrders]="medicineDetails" [source]="'current_medication'">
+                        </app-icu-current-medications>
+                    </div>
+
+                    <div class="onetime-medication">
+                        <app-icu-current-medications [medicineOrders]="medicineDetails"
+                            [source]="'one_time_medication'">
+                        </app-icu-current-medications>
+                    </div>
+                    <div class="special-instruction" *ngIf="patientObj">
+                        <app-icu-notes [patientObj]="patientObj"
+                            [displayData]="{displayName: 'Special Instructions', displayKey: 'special_instructions', value: ''}">
+                        </app-icu-notes>
+                    </div>
+                    <div class="dialysis-order" *ngIf="patientObj">
+                        <app-icu-notes [patientObj]="patientObj"
+                            [displayData]="{displayName: 'Dialysis Orders', displayKey: 'dialysis_orders', value: ''}">
+                        </app-icu-notes>
+                    </div>
+                </div>
+                <div class="col col-36 px-0">
+                    <div class="intake">
+                        <app-icu-intake [medicineOrders]="medicineDetails"></app-icu-intake>
+                    </div>
+                    <app-icu-fluid-balance></app-icu-fluid-balance>
+                    <div class="mb-1 references" *ngIf="patientObj">
+                        <app-icu-notes [patientObj]="patientObj"
+                            [displayData]="{displayName: 'References (Visiting Consultant Advice)', displayKey: 'references_visiting_consultant_advice', value: ''}">
+                        </app-icu-notes>
+                    </div>
+                    <div class="mb-1 care-plan" *ngIf="patientObj">
+                        <app-icu-notes [patientObj]="patientObj"
+                            [displayData]="{displayName: 'Plan Of Care', displayKey: 'plan_of_care', value: ''}">
+                        </app-icu-notes>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid icu-flow px-0 mt-1" #icuFlowSheetTwo>
+            <div class="form-row mx-0">
+                <div class="col col-36 pl-0">
+                    <div class="card border-0 mb-1 icu">
+                        <div class="card-header cus-head py-1 border-dash-bottom">
+                            <div class="container-fluid px-0 icu-flow">
+                                <div class="form-row align-items-center">
+                                    <div class="col-6">
+                                        <p class="mb-0 font-weight-500">Patient Readings</p>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <button type="button" class="btn btn-xs btn-outline-primary mr-1"
+                                            (click)="redirectToVitalSheet()"><i class="fa fa-fw fa-plus"></i>
+                                            ADD</button>
+                                        <button type="button" class="btn btn-xs btn-outline-info"
+                                            (click)="redirectToVitalGraph()"><i
+                                                class="icon fa-fw icon-emr-icu-vital-sheet"></i> VITAL GRAPH</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-0 patient-flowsheet-Table">
+                            <table class="table table-bordered table-responsive-md table-striped text-center">
+                                <tr>
+                                    <th *ngFor="let head of timeList; let id = index" class="text-center">{{head}}</th>
+                                </tr>
+                                <tr *ngFor="let vital of vitalsList; let id = index">
+                                    <td *ngFor="let head of timeList; let id = index">
+                                        <span *ngIf="head=='name'" contenteditable="false">
+                                            <span class="font-weight-bold float-left">{{vital.section}}
+                                            </span>{{vital[head]}}</span>
+                                        <span *ngIf="head!='name'" contenteditable="false"
+                                            [ngStyle]="{'color': getColorCode(vital,head)}" style="display: inline-block;
+                                    width: -webkit-fill-available;
+                                    height: auto" placement="left" ngbTooltip="{{vital.rangetext}}">
+                                            {{vital[head]}} </span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-32 pl-0">
+                    <app-investigation-report-sort-view></app-investigation-report-sort-view>
+                    <ng-container *ngIf="patientObj">
+                        <app-bsl-values [patientObj]="patientObj"></app-bsl-values>
+                    </ng-container>
+
+                    <app-diabetic-chart></app-diabetic-chart>
+                    <div class="card border-0 mb-1 icu">
+                        <div class="card-header cus-head p-1">
+                            <div class="form-row align-items-center">
+                                <div class="col-8">
+                                    <p class="mb-0 font-weight-500">Assessment CHART</p>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <button type="button" class="btn btn-xs btn-outline-primary"
+                                        (click)="showAssessmentPage(); navigate('assessment_chart');"><i
+                                            class="fa fa-fw fa-plus"></i>
+                                        ADD</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-1 cultures" *ngIf="patientObj">
+                        <app-icu-notes [patientObj]="patientObj"
+                            [displayData]="{displayName: 'Cultures', displayKey: 'cultures', value: ''}">
+                        </app-icu-notes>
+                    </div>
+                    <div class="events" *ngIf="patientObj">
+                        <app-icu-notes [patientObj]="patientObj"
+                            [displayData]="{displayName: 'Events', displayKey: 'events', value: ''}"></app-icu-notes>
+                    </div>
+                </div>
+                <div class="col col-32 px-0">
+                    <ng-container *ngIf="patientObj">
+                        <app-sofa-score [patientObj]="patientObj"></app-sofa-score>
+                    </ng-container>
+                    <ng-container *ngIf="patientObj">
+                        <app-pupil-size-scale [patientObj]="patientObj"></app-pupil-size-scale>
+                    </ng-container>
+                    <ng-container *ngIf="patientObj">
+                        <app-pain-scale-icu-sheet [patientObj]="patientObj"></app-pain-scale-icu-sheet>
+                    </ng-container>
+                    <div class="card border-0 text-center icu">
+                        <div class="card-body p-1" style="overflow: hidden; margin: 0 10px !important;">
+                            <a (click)="navigate('image_anotation')"><img class="body-Height image-anotation"
+                                    [src]="annotationImage?.fileData" alt="body" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

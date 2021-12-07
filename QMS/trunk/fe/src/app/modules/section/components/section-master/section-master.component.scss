@@ -1,0 +1,33 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+.section-height {
+  height: calc(100vh - 164px);
+  overflow-y: auto;
+
+  hr {
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  }
+}
+
+fieldset.disabled {
+  opacity: 0.3;
+}
+
+.custom-switch.yes-no-btn {
+  padding-left: 0 !important;
+
+  .custom-control-label::after {
+    top: calc(0.14rem + 0px) !important;
+    left: 2px !important;
+    width: calc(1.5rem - 4px) !important;
+    height: calc(1.5rem - 4px) !important;
+  }
+
+  .custom-control-label.active::after {
+    -webkit-transform: translateX(2.55rem) !important;
+    -moz-transform: translateX(2.55rem) !important;
+    -ms-transform: translateX(2.55rem) !important;
+    transform: translateX(2.55rem) !important;
+
+  }
+}

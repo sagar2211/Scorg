@@ -1,0 +1,75 @@
+.lang-w {
+  width: 100px;
+}
+
+//:host ::ng-deep {
+//  .tribute-container {
+//    position: absolute;
+//    top: 0;
+//    left: 0;
+//    height: auto;
+//    max-height: 300px;
+//    max-width: 500px;
+//    overflow: auto;
+//    display: block;
+//    z-index: 999999;
+//  }
+//
+//  .tribute-container ul {
+//    margin: 0;
+//    margin-top: 2px;
+//    padding: 0;
+//    list-style: none;
+//    background: #efefef;
+//  }
+//
+//  .tribute-container li {
+//    padding: 5px 5px;
+//    cursor: pointer;
+//  }
+//
+//  .tribute-container li.highlight {
+//    background: #ddd;
+//  }
+//
+//  .tribute-container li span {
+//    font-weight: bold;
+//  }
+//
+//  .tribute-container li.no-match {
+//    cursor: default;
+//  }
+//
+//  .tribute-container .menu-highlighted {
+//    font-weight: bold;
+//  }
+//
+//  .tribute-demo-input {
+//    outline: none;
+//    border: 1px solid #eee;
+//    padding: 3px 5px;
+//    border-radius: 2px;
+//    font-size: 15px;
+//    min-height: 32px;
+//    cursor: text;
+//  }
+//
+//  .tribute-demo-input:focus {
+//    border-color: #d1d1d1;
+//    background-color: #fbfbfb;
+//  }
+//
+//  [contenteditable="true"]:empty:before {
+//    content: attr(placeholder);
+//    display: block;
+//    color: #ccc;
+//  }
+//
+//  #test-autocomplete-container {
+//    position: relative;
+//  }
+//
+//  #test-autocomplete-textarea-container {
+//    position: relative;
+//  }
+//}

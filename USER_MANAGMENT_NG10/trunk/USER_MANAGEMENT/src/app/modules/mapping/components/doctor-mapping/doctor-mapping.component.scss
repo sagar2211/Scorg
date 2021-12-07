@@ -1,0 +1,72 @@
+@import "../../../../../scss/custom_bootstrap_theme.scss";
+
+.doctor-mapping {
+  height: calc(100vh - 125px);
+  overflow-y: auto;
+
+  .mapped-list {
+    .doctor-details {
+      position: relative;
+      background-color: rgba($primary, 0.05);
+      // border-bottom: 1px solid rgba($primary, 0.1);
+      padding: 5px 10px 5px 80px;
+      @include border-radius(3px);
+      height: 60px;
+
+      .profile {
+        position: absolute;
+        left: 0;
+        top: 5px;
+        width: 70px;
+        height: 48px;
+      }
+
+      p {
+        white-space: nowrap;
+        width: auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        .detail-heading {
+          width: 90px;
+          display: inline-block;
+        }
+      }
+    }
+
+    .mapped-body-height {
+      height: calc(100vh - 415px);
+
+      // overflow-y: auto;
+      .check-map {
+        position: absolute;
+        bottom: 5px;
+      }
+    }
+  }
+}
+
+:host ::ng-deep {
+  .ngx-datatable.fixed-row {
+    .datatable-body {
+      height: calc(100vh - 322px) !important;
+      overflow-x: hidden;
+    }
+
+    .datatable-body-cell {
+      .custom-switch {
+        .custom-control-label {
+          padding: 0 !important;
+        }
+
+        span {
+          &.active {
+            left: 10px;
+            color: $white !important;
+            padding: 0 !important;
+          }
+        }
+      }
+    }
+  }
+}

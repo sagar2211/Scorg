@@ -1,0 +1,79 @@
+<form [formGroup]="billingForm" (ngSubmit)="savePatientBillConfirmation()">
+    <table class="table custom-table font-size-dot-875 mb-0 border-top-0 table-footer mt-1">
+        <!-- *ngIf="billServiceArray.length" -->
+        <tbody>
+            <tr class="text-right">
+                <td class="text-right" style="width: 50%;">
+                    <h6 class="mb-0">Bill Amount: </h6>
+                </td>
+                <td colspan="2" class="text-right">
+                    <h6 class="mb-0 mr-3">{{billingForm.value.billAmount | number:'1.2-2'}}</h6>
+                </td>
+            </tr>
+            <tr class="text-right">
+                <td class="text-right">Bill Concession: (-)</td>
+                <td class="text-right" >
+                  <div class="row m-0">
+                    <div class="col p-0">
+                      <input type="text" appOnlyNumbersWithDecimal formControlName="discountPercent" (blur)="updateBillCalType('percent')" class="form-control form-control-sm">
+                    </div>
+                    <div class="col p-0">
+                      <input type="text" appOnlyNumbersWithDecimal formControlName="discountAmount" (blur)="updateBillCalType('amount')" class="form-control form-control-sm">
+                    </div>
+                  </div>
+                </td>
+            </tr>
+            <tr class="text-right">
+                <td class="text-right">
+                    <h6 class="mb-0">Net Amount: </h6>
+                </td>
+                <td class="text-right">
+                    <h6 class="mb-0 mr-3">{{billingForm.value.netAmount | number:'1.2-2'}}</h6>
+                </td>
+            </tr>
+            <tr class="text-right">
+              <td class="text-right">Advance Adjusted :(-)</td>
+              <td class="text-right">
+                  <p class="mb-0 mr-3">
+                    <button type="button" *ngIf="billingForm.value.netPayableAmount" (click)="patientAdvancePayment();" class="btn btn-sm p-0" ngbTooltip="Click here to see Advance Payments">
+                      <i class="text-danger font-20 icon-info-circle"></i>
+                    </button>
+
+                    {{billingForm.value.advanceAdjustmentAmt | number:'1.2-2'}}
+
+                  </p>
+              </td>
+          </tr>
+            <tr class="text-right">
+                <td class="text-right" style="width: 50%;">
+                    <h6 class="mb-0">Net Payable : </h6>
+                </td>
+                <td class="text-right">
+                    <h6 class="mb-0 mr-3">{{billingForm.value.finalNetAmount | number:'1.2-2'}}</h6>
+                </td>
+            </tr>
+            <tr class="text-right">
+              <td class="text-right" style="width: 50%;">
+                  <h6 class="mb-0">Settled Amount : </h6>
+              </td>
+              <td class="text-right">
+                  <h6 class="mb-0 mr-3">
+                    <button *ngIf="formValue.consumptionId" type="button" (click)="patientPaymentHistory();" class="btn btn-sm p-0" ngbTooltip="Click here to see Payments History">
+                      <i class="text-danger font-20 icon-info-circle"></i>
+                    </button>
+
+                    {{(formValue.paidAmount ? formValue.paidAmount : 0) | number:'1.2-2'}}
+                  </h6>
+              </td>
+          </tr>
+            <tr class="text-right">
+                <td class="text-right">
+                    <h6 class="mb-0">Balance Amount :</h6>
+                </td>
+                <td class="text-right">
+                    <h6 class="mb-0 mr-3">{{billingForm.value.netPayableAmount | number:'1.2-2'}}</h6>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>

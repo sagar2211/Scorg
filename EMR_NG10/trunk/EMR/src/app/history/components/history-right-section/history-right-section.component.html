@@ -1,0 +1,347 @@
+<div class="col-lable" *ngIf="patientFilterData">
+    <div class="d-inline-flex mr-2" *ngIf="patientFilterData && patientFilterData.serviceType.length > 0">
+        <a class="text-decoration-none filter-type">Service Type:</a>&nbsp;
+        <ng-container *ngFor="let item of patientFilterData.serviceType; let i = index;">
+            <span class="filter">{{item.name}}
+                <a class="text-muted text-decoration-none" (click)="updateFilterObject(item, 'serviceType', i)">
+                    <span class="font-size-1 align-top" aria-hidden="true">&times;</span>
+            </a>
+            </span>
+        </ng-container>
+    </div>
+    <div class="d-inline-flex mr-2" *ngIf="patientFilterData && patientFilterData.docType.length > 0">
+        <a class="text-decoration-none filter-type">Document Type:</a>&nbsp;
+        <ng-container *ngFor="let item of patientFilterData.docType; let i = index;">
+            <span class="filter">{{item.name}}
+                <a class="text-muted text-decoration-none" (click)="updateFilterObject(item, 'docType', i)">
+                    <span class="font-size-1 align-top" aria-hidden="true">&times;</span>
+            </a>
+            </span>
+        </ng-container>
+    </div>
+    <div class="d-inline-flex mr-2" *ngIf="patientFilterData.startDate && patientFilterData.endDate">
+        <a class="text-decoration-none filter-type">Date:</a>&nbsp;
+        <span class="filter">{{patientFilterData.startDate}} - {{patientFilterData.endDate}}
+            <a class="text-muted text-decoration-none" (click)="updateFilterObject(patientFilterData.startDate, 'date', 0)">
+                <span class="font-size-1 align-top" aria-hidden="true">&times;
+                </span>
+        </a>
+        </span>
+    </div>
+</div>
+<div class="no-event" *ngIf="showLoader">
+    <div class="box">
+        <div class="circle"></div>
+        <p class="mb-0 mt-1">Loading</p>
+    </div>
+    <div class="backdrop"></div>
+</div>
+<div class="p-1 visit-history" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="10" (scrolled)="onScrollGetData($event)" [scrollWindow]="false">
+    <div class="master-height" id="parentDiv" scrollSpy [spiedTags]="['DIV']" (sectionChange)="onSectionChange($event);">
+        <div *ngFor="let scrolDoc of scrollDocumentArray ; let i = index">
+            <div class="container-fluid px-0 history-tab">
+                <!-- CUSTOM_CHART  -->
+                <div *ngIf="scrolDoc.documentType === 'CUSTOM_CHART'" id="{{scrolDoc.hashId}}">
+                    <ng-container *ngIf="scrolDoc.documentData">
+                        <ng-container *ngFor="let chrt of scrolDoc.documentData">
+                            <div class="cus-head py-1 border-dash-bottom">
+                                <h6 class="mb-0 pl-1">{{scrolDoc.documentName}} - {{chrt.consultation_datetime | date: 'dd/MM/y hh:mm a'}} - {{chrt.doctor_name}}
+                                </h6>
+                            </div>
+                            <!-- {{chrt| json}} -->
+                            <app-all-components-data-display [chartData]="chrt" [chartComponentList]="chrt.chartComponentList">
+                            </app-all-components-data-display>
+                        </ng-container>
+                    </ng-container>
+                </div>
+                <!-- CUSTOM_CHART  -->
+                <!-- DISCHARGE_SUMMARY   -->
+                <div class="form-row" *ngIf="scrolDoc.documentType === 'DISCHARGE_SUMMARY'" id="{{scrolDoc.hashId}}">
+                    <div class="col-12">
+                        <div class="cus-head py-1 border-dash-bottom">
+                            <h6 class="mb-0 pl-1">{{scrolDoc.documentName}}</h6>
+                        </div>
+                        <table class="table table-bordered border-top-0 mb-0 cus-table" *ngIf="scrolDoc.documentData && scrolDoc.documentData.length > 0">
+                            <tbody>
+                                <tr *ngFor="let item of scrolDoc.documentData; let i = index;">
+                                    <td class="h-heads">{{item.label}}</td>
+                                    <td>
+                                        <ng-container *ngIf="(item.visit_data && item.visit_data.length > 0) || (item.chart_data && item.chart_data.length > 0)">
+                                            <ul class="list-unstyled mb-0">
+                                                <li *ngFor="let visitSummary of item.visit_data;">
+                                                    <span class="tag-list">{{visitSummary}}</span>
+                                                </li>
+                                                <li *ngFor="let chartSummary of item.chart_data;">
+                                                    <span class="tag-list">{{chartSummary}}</span>
+                                                </li>
+                                            </ul>
+                                        </ng-container>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- DISCHARGE_SUMMARY   -->
+                <!-- MEDICINE_ORDER    -->
+                <div class="form-row" *ngIf="scrolDoc.documentType === 'MEDICINE_ORDER'" id="{{scrolDoc.hashId}}">
+                    <div class="col-12" *ngIf="scrolDoc.documentData && scrolDoc.documentData.length > 0">
+                        <div class="cus-head py-1 border-dash-bottom">
+                            <h6 class="mb-0 pl-1">{{scrolDoc.documentName}}</h6>
+                        </div>
+                        <div class="order-table-height">
+                            <ng-container *ngFor="let order of scrolDoc.documentData">
+                                <table class="table table-bordered border-top-0 mb-0 cus-table">
+                                    <tbody>
+                                        <tr class="border-none bg-light">
+                                            <td colspan="3" class="border-none">
+                                                <p class="mb-0 font-weight-500 font-size-dot-8">{{order.orderBy}} - {{order.orderDate | date:"dd/MM/yyyy h:mm a"}}
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-top-0" *ngFor="let med of order.orderData">
+                                            <td class="align-middle border-top-0 order-medicine-name">
+                                                <p class="mb-0 font-size-dot-8"> {{med?.medicineObj?.name}}
+                                                    <small class="ng-star-inserted"> ({{med?.medicineObj?.type?.name}})
+                                                    </small>
+                                                </p>
+                                            </td>
+                                            <td class="align-middle border-top-0 order-frequency">
+                                                <p class="mb-0 small">{{med?.medicineObj?.frequencySchedule}}</p>
+                                                <hr class="my-0">
+                                                <p class="mb-0 small"> {{med?.medicineObj?.duration}} days </p>
+                                            </td>
+                                            <td class="align-middle border-top-0 order-status">
+                                                <p class="mb-0 small">{{med?.status}} </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <!-- MEDICINE_ORDER    -->
+                <!-- DIET_ORDER      -->
+                <div class="form-row" *ngIf="scrolDoc.documentType === 'DIET_ORDER'" id="{{scrolDoc.hashId}}">
+                    <div class="col-12" *ngIf="scrolDoc.documentData && scrolDoc.documentData.length > 0">
+                        <div class="cus-head py-1 border-dash-bottom">
+                            <h6 class="mb-0 pl-1">{{scrolDoc.documentName}}</h6>
+                        </div>
+                        <div class="order-table-height">
+                            <ng-container *ngFor="let order of scrolDoc.documentData">
+                                <table class="table table-bordered border-top-0 mb-0 cus-table">
+                                    <tbody>
+                                        <tr class="border-none bg-light">
+                                            <td colspan="3" class="border-none">
+                                                <p class="mb-0 font-weight-500 font-size-dot-8">{{order.orderBy}} - {{order.orderDate | date:"dd/MM/yyyy h:mm a"}}
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-top-0" *ngFor="let diet of order.orderData">
+                                            <td class="align-middle border-top-0 order-medicine-name">
+                                                <p class="mb-0 font-size-dot-8"> {{diet.name}}
+                                                </p>
+                                            </td>
+                                            <td class="align-middle border-top-0 order-frequency">
+                                                <p class="mb-0 small">{{diet.freq}}</p>
+                                            </td>
+                                            <td class="align-middle border-top-0 order-status">
+                                                <p class="mb-0 small">{{diet.status}} </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <!-- DIET_ORDER      -->
+                <!-- NURSING_ORDER      -->
+                <div class="form-row" *ngIf="scrolDoc.documentType === 'NURSING_ORDER'" id="{{scrolDoc.hashId}}">
+                    <div class="col-12" *ngIf="scrolDoc.documentData && scrolDoc.documentData.length > 0">
+                        <div class="cus-head py-1 border-dash-bottom">
+                            <h6 class="mb-0 pl-1">{{scrolDoc.documentName}}</h6>
+                        </div>
+                        <div class="order-table-height">
+                            <ng-container *ngFor="let order of scrolDoc.documentData">
+                                <table class="table table-bordered border-top-0 mb-0 cus-table">
+                                    <tbody>
+                                        <tr class="border-none bg-light">
+                                            <td colspan="3" class="border-none">
+                                                <p class="mb-0 font-weight-500 font-size-dot-8">{{order.orderBy}} - {{order.orderDate | date:"dd/MM/yyyy h:mm a"}}
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-top-0" *ngFor="let nurs of order.orderData">
+                                            <td class="align-middle border-top-0 order-medicine-name">
+                                                <p class="mb-0 font-size-dot-8"> {{nurs.name}}
+                                                </p>
+                                            </td>
+                                            <td class="align-middle border-top-0 order-frequency">
+                                                <p class="mb-0 small">{{nurs.genericFreq}}</p>
+                                            </td>
+                                            <td class="align-middle border-top-0 order-status">
+                                                <p class="mb-0 small">{{nurs.status}} </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <!-- NURSING_ORDER      -->
+                <!-- RADIOLOGY_ORDER      -->
+                <div class="form-row" *ngIf="scrolDoc.documentType === 'RADIOLOGY_ORDER'" id="{{scrolDoc.hashId}}">
+                    <div class="col-12" *ngIf="scrolDoc.documentData && scrolDoc.documentData.length > 0">
+                        <div class="cus-head py-1 border-dash-bottom">
+                            <h6 class="mb-0 pl-1">{{scrolDoc.documentName}}</h6>
+                        </div>
+                        <div class="order-table-height">
+                            <ng-container *ngFor="let order of scrolDoc.documentData">
+                                <table class="table table-bordered border-top-0 mb-0 cus-table">
+                                    <tbody>
+                                        <tr class="border-none bg-light">
+                                            <td colspan="3" class="border-none">
+                                                <p class="mb-0 font-weight-500 font-size-dot-8">{{order.orderBy}} - {{order.orderDate | date:"dd/MM/yyyy h:mm a"}}
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-top-0" *ngFor="let radio of order.orderData">
+                                            <td class="align-middle border-top-0 order-medicine-name">
+                                                <p class="mb-0 font-size-dot-8"> {{radio.name}}
+                                                </p>
+                                            </td>
+                                            <td class="align-middle border-top-0 order-frequency">
+                                                <p class="mb-0 small">{{radio.frequency}}</p>
+                                            </td>
+                                            <td class="align-middle border-top-0 order-status">
+                                                <p class="mb-0 small">{{radio.status}} </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <!-- RADIOLOGY_ORDER -->
+                <!-- SERVICE_ORDER -->
+                <div class="form-row" *ngIf="scrolDoc.documentType === 'SERVICE_ORDER'" id="{{scrolDoc.hashId}}">
+                    <div class="col-12" *ngIf="scrolDoc.documentData && scrolDoc.documentData.length > 0">
+                        <div class="cus-head py-1 border-dash-bottom">
+                            <h6 class="mb-0 pl-1">{{scrolDoc.documentName}}</h6>
+                        </div>
+                        <div class="order-table-height">
+                            <ng-container *ngFor="let order of scrolDoc.documentData">
+                                <table class="table table-bordered border-top-0 mb-0 cus-table">
+                                    <tbody>
+                                        <tr class="border-none bg-light">
+                                            <td colspan="3" class="border-none">
+                                                <p class="mb-0 font-weight-500 font-size-dot-8">{{order.orderBy}} - {{order.orderDate | date:"dd/MM/yyyy h:mm a"}}
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-top-0" *ngFor="let service of order.orderData">
+                                            <td class="align-middle border-top-0 order-medicine-name">
+                                                <p class="mb-0 font-size-dot-8"> {{service.name}}
+                                                </p>
+                                            </td>
+                                            <td class="align-middle border-top-0 order-frequency">
+                                                <p class="mb-0 small">{{service.freq}}</p>
+                                            </td>
+                                            <td class="align-middle border-top-0 order-status">
+                                                <p class="mb-0 small">{{service.status}} </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <!-- SERVICE_ORDER -->
+                <!-- LAB_ORDER -->
+                <div class="form-row" *ngIf="scrolDoc.documentType === 'LAB_ORDER'" id="{{scrolDoc.hashId}}">
+                    <div class="col-12" *ngIf="scrolDoc.documentData && scrolDoc.documentData.length > 0">
+                        <div class="cus-head py-1 border-dash-bottom">
+                            <h6 class="mb-0 pl-1">{{scrolDoc.documentName}}</h6>
+                        </div>
+                        <div class="order-table-height">
+                            <ng-container *ngFor="let order of scrolDoc.documentData">
+                                <table class="table table-bordered border-top-0 mb-0 cus-table">
+                                    <tbody>
+                                        <tr class="border-none bg-light">
+                                            <td colspan="3" class="border-none">
+                                                <p class="mb-0 font-weight-500 font-size-dot-8">{{order.orderBy}} - {{order.orderDate | date:"dd/MM/yyyy h:mm a"}}
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-top-0" *ngFor="let lab of order.orderData">
+                                            <td class="align-middle border-top-0 order-medicine-name">
+                                                <p class="mb-0 font-size-dot-8"> {{lab.name}}
+                                                </p>
+                                            </td>
+                                            <td class="align-middle border-top-0 order-frequency">
+                                                <p class="mb-0 small">{{lab.frequency}}</p>
+                                            </td>
+                                            <td class="align-middle border-top-0 order-status">
+                                                <p class="mb-0 small">{{lab.status}} </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <!-- LAB_ORDER  -->
+                <!-- DOCTOR_INSTRUCTION     -->
+                <div class="form-row" *ngIf="scrolDoc.documentType === 'DOCTOR_INSTRUCTION'" id="{{scrolDoc.hashId}}">
+                    <div class="col-12" *ngIf="scrolDoc.documentData && scrolDoc.documentData.length > 0">
+                        <div class="cus-head py-1 border-dash-bottom">
+                            <h6 class="mb-0 pl-1">{{scrolDoc.documentName}}</h6>
+                        </div>
+                        <div class="order-table-height">
+                            <ng-container *ngFor="let order of scrolDoc.documentData">
+                                <table class="table table-bordered border-top-0 mb-0 cus-table">
+                                    <tbody>
+                                        <tr class="border-none bg-light">
+                                            <td colspan="3" class="border-none">
+                                                <p class="mb-0 font-weight-500 font-size-dot-8">{{order.orderBy}} - {{order.orderDate | date:"dd/MM/yyyy h:mm a"}}
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr class="border-top-0" *ngFor="let docIns of order.orderData">
+                                            <td class="align-middle border-top-0 order-medicine-name">
+                                                <p class="mb-0 font-size-dot-8"> {{docIns.name}}
+                                                </p>
+                                            </td>
+                                            <td class="align-middle border-top-0 order-frequency">
+                                                <p class="mb-0 small">{{docIns.freq}}</p>
+                                            </td>
+                                            <td class="align-middle border-top-0 order-status">
+                                                <p class="mb-0 small">{{docIns.status}} </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <!-- DOCTOR_INSTRUCTION     -->
+            </div>
+            <!-- PDF DOCUMENT -->
+            <div class="pdf-height" *ngIf="scrolDoc.documentPath" id="{{scrolDoc.hashId}}">
+                <div class="cus-head py-1 border-dash-bottom">
+                    <h6 class="mb-0 pl-1">{{scrolDoc.documentName}}</h6>
+                </div>
+                <pdf-viewer [src]="scrolDoc.documentPath" [render-text]="true" class="d-block">
+                </pdf-viewer>
+            </div>
+            <!-- PDF DOCUMENT -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<form [formGroup]="locationForm" (ngSubmit)="saveLocationMasterData()" *ngIf="loadForm">
+  <div class="form-row form-group">
+    <div class="col-3">
+      <label>Location<sup>*</sup></label>
+      <input type="text" class="form-control form-control-sm" formControlName="name" placeholder="Location">
+    </div>
+    <!--<div class="col-3 align-self-center pt-3 mt-1">-->
+      <!--<div class="custom-control custom-switch yes-no-btn">-->
+        <!--<input type="checkbox" formControlName="isActive" class="custom-control-input" id="customSwitch2">-->
+        <!--<label class="custom-control-label pointer" [class.active]="locationForm.value.isActive"-->
+          <!--for="customSwitch2"></label>-->
+        <!--<span class="text-uppercase"-->
+          <!--[class.active]="locationForm.value.isActive">{{locationForm.value.isActive ? 'Yes' : 'No'}}</span>-->
+      <!--</div>-->
+    <!--</div>-->
+    <div class="col align-self-center text-right pt-3">
+      <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase mr-2"
+        (click)="redirectToLocationList();">
+        Cancel</button>
+      <button [disabled]="!locationForm.valid" type="submit" class="btn btn-sm btn-success"
+        [attr.title]="locationForm.value.id ? 'Update' : 'Save'">
+        <span *ngIf="!locationForm.value.id"> <i class="icon fa-fw icon-save" aria-hidden="true"></i> SAVE</span> <span
+          *ngIf="locationForm.value.id"><i class="fas fa-fw fa-sync-alt" aria-hidden="true"></i> UPDATE</span>
+      </button>
+    </div>
+  </div>
+</form>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

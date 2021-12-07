@@ -1,0 +1,9 @@
+<form [formGroup]="myForm" *ngIf="loadForm">
+  <input type="text" class="form-control mb-3" placeholder="Datepicker" bsDatepicker formControlName="date"
+    *ngIf="showPickerType == 'popup'" [minDate]="selectedMinDate" [maxDate]="selectedMaxDate"
+    [isDisabled]="disableDatePicker" [bsConfig]="dateCustomConfig" (bsValueChange)="onDateValueChange($event)"
+    [readOnly]="readOnlyDatePicker" [dateCustomClasses]="dateWithCustomClass" placeholder="DD/MM/YYYY" />
+  <bs-datepicker-inline [bsValue]="myForm.value.date" *ngIf="showPickerType == 'inline'" [minDate]="selectedMinDate" 
+    [isDisabled]="disableDatePicker" [maxDate]="selectedMaxDate" [bsConfig]="dateCustomConfig" title="{{ title }}"
+    (bsValueChange)="onDateValueChange($event)" [dateCustomClasses]="dateWithCustomClass"></bs-datepicker-inline>
+</form>

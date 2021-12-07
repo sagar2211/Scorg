@@ -1,0 +1,24 @@
+<div class="card border-0 mb-1 icu">
+  <div class="card-header cus-head p-1 border-dash-bottom">
+    <div class="form-row align-items-center">
+      <div class="col-12">
+        <p class="mb-0 font-weight-500">Intake</p>
+      </div>
+    </div>
+  </div>
+  <div class="card-body" style="overflow-y: auto;">
+    <div class="mb-1 medicine-info" *ngFor="let intakeMedicine of allTakenMedicines; let i= index;">
+      <div class="form-row">
+        <div class="col-9">
+          <h6 class="mb-0 font-size-dot-8">{{i+1 + '. ' + intakeMedicine.name}}</h6>
+        </div>
+        <div class="col-3 text-right">
+          <span class="font-12 text-right">{{(intakeMedicine.dose != '' ? intakeMedicine.dose : '')}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+
+  </div>
+</div>

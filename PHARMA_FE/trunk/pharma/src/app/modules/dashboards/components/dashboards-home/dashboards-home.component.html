@@ -1,0 +1,479 @@
+<div class="container-fluid admin-dashboard px-2">
+    <div class="form-row align-items-center mt-2 top-form-row">
+        <div class="col">
+            <div class="btn-group text-uppercase mr-2">
+                <button type="button" class="btn btn-sm btn-white dropdown-toggle dropdown-toggle-split custom-border-radius" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                </button>
+                <button type="button" class="btn btn-sm btn-white rounded-0">01/04/2021 - 08/04/2021</button>
+                <button type="button" class="btn btn-sm btn-white dropdown-toggle dropdown-toggle-split custom-padding" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                </button>
+            </div>
+            <div class="btn-group text-uppercase mr-2">
+                <button type="button" class="btn btn-sm btn-white dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    All day
+                </button>
+            </div>
+            <a class="btn-sm"><u>Advanced Options</u></a>
+        </div>
+        <div class="col-2 text-right">
+            <div class="btn-group text-uppercase mr-2">
+                <button type="button" class="btn btn-sm btn-white dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Export
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="form-row pt-2 py-1 top-card-form-row">
+        <div class="col-4 custom-col-4">
+            <div class="card border-0">
+                <div class="card-header border-bottom-0 p-0">
+                    <div class="form-row align-items-center mx-0">
+                        <div class="col px-0">
+                            <h6 class="font-size-dot-875 mb-0 pl-2">Purchase Order</h6>
+                        </div>
+                        <div class="col-accordion px-0" title="Details">
+                            <a (click)="showTotalRevenueDetail()" [ngClass]="{'active': isTotalRevenueVisible}" class="btn-accordion">
+                            </a>
+                        </div>
+                    </div>
+                    <p class="mb-0 text-muted small pl-2 hidden">Data reflected from 01/04/2021 to 08/04/2021</p>
+                </div>
+                <div class="card-body p-2">
+                    <div class="form-row align-items-center">
+                        <div class="col-10">
+                            <h2 class="mb-0 large-rupee">10,127
+                            </h2>
+                        </div>
+                        <div class="col-2 text-right">
+                            <img class="img-fluid" src="./assets/img/inventory-dashboard/po.svg" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer border-top-0 p-2">
+                    <div class="form-row">
+                        <div class="col-6">
+                            <h6 class="mb-0 small-rupee">6,575</h6>
+                            <p class="mb-0 text-muted text-nowrap bar teal">Purchase Order</p>
+                        </div>
+                        <div class="col-6 text-right">
+                            <h6 class="mb-0 small-rupee">3,552</h6>
+                            <p class="mb-0 text-muted bar primary-light">Rate Contract</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <app-purchase-order-details *ngIf="isMobile" [isTotalRevenueVisible]="isTotalRevenueVisible">
+            </app-purchase-order-details>
+        </div>
+        <app-purchase-order-details *ngIf="isMobile" [isTotalRevenueVisible]="isTotalRevenueVisible">
+        </app-purchase-order-details>
+        <div class="col-4 custom-col-4">
+            <div class="card border-0 card-op">
+                <div class="card-header border-bottom-0 p-0">
+                    <div class="form-row align-items-center mx-0">
+                        <div class="col px-0">
+                            <h6 class="font-size-dot-875 mb-0 pl-2">Purchase (GRN)</h6>
+                        </div>
+                        <div class="col-accordion px-0" title="Details">
+                            <a class="btn-accordion" (click)="showOPPatientDetail()" [ngClass]="{'active': isOPPatientVisible}" class="btn-accordion">
+                                <span class="arrow"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <p class="mb-0 text-muted small pl-2 hidden">Data reflected from 01/04/2021 to 08/04/2021</p>
+                </div>
+                <div class="card-body p-2">
+                    <div class="form-row align-items-center">
+                        <div class="col-10">
+                            <h2 class="mb-0 large-rupee">99,99,999.00
+                            </h2>
+                        </div>
+                        <div class="col-2 text-right">
+                            <img class="img-fluid" src="./assets/img/admin-dashboard/revenue.svg" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer border-top-0 p-2">
+                    <div class="form-row">
+                        <div class="col-4">
+                            <h6 class="mb-0">99,999</h6>
+                            <p class="mb-0 text-muted text-nowrap bar teal">Against PO</p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <h6 class="mb-0">99,999</h6>
+                            <p class="mb-0 text-muted text-nowrap bar primary-light">Direct Purchase</p>
+                        </div>
+                        <div class="col-4 text-right">
+                            <h6 class="mb-0">99,999</h6>
+                            <p class="mb-0 text-muted text-nowrap bar pink">Against Schedule (RC)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <app-purchase-grn-details *ngIf="isMobile" [isOPPatientVisible]="isOPPatientVisible" [selectedSummary]="selectedSummary"></app-purchase-grn-details>
+        </div>
+        <div class="col-4 custom-col-4">
+            <div class="card border-0 card-op">
+                <div class="card-header border-bottom-0 p-0">
+                    <div class="form-row align-items-center mx-0">
+                        <div class="col px-0">
+                            <h6 class="font-size-dot-875 mb-0 pl-2">Purchase Return (GDN)</h6>
+                        </div>
+                        <div class="col-accordion px-0" title="Details">
+                            <a class="btn-accordion" (click)="showIPPatientDetail()" [ngClass]="{'active': isIPPatientVisible}">
+                                <span class="arrow"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <p class="mb-0 text-muted small pl-2 hidden">Data reflected from 01/04/2021 to 08/04/2021</p>
+                </div>
+                <div class="card-body p-2">
+                    <div class="form-row align-items-center">
+                        <div class="col-10">
+                            <h2 class="mb-0 large-rupee">99,99,999.00
+                            </h2>
+                        </div>
+                        <div class="col-2 text-right">
+                            <img class="img-fluid" src="./assets/img/inventory-dashboard/po.svg" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer border-top-0 p-2">
+                    <div class="form-row">
+                        <div class="col-6">
+                            <h6 class="mb-0">99,999</h6>
+                            <p class="mb-0 text-muted text-nowrap bar teal">Against GRN</p>
+                        </div>
+                        <div class="col-6 text-right">
+                            <h6 class="mb-0">99,999</h6>
+                            <p class="mb-0 text-muted text-nowrap bar primary-light">Direct GDN</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <app-purchase-gdn-details *ngIf="isMobile" [isIPPatientVisible]="isIPPatientVisible" [selectedSummary]="selectedSummary"></app-purchase-gdn-details>
+        </div>
+    </div>
+    <app-purchase-order-details *ngIf="!isMobile" [isTotalRevenueVisible]="isTotalRevenueVisible">
+    </app-purchase-order-details>
+    <app-purchase-grn-details *ngIf="!isMobile" [isOPPatientVisible]="isOPPatientVisible" [selectedSummary]="selectedSummary"></app-purchase-grn-details>
+    <app-purchase-gdn-details *ngIf="!isMobile" [isIPPatientVisible]="isIPPatientVisible" [selectedSummary]="selectedSummary"></app-purchase-gdn-details>
+    <div class="form-row pt-1 pb-2 bottom-card-form-row">
+        <div class="col-6">
+            <div class="card border-0 issue-summary">
+                <div class="card-header border-bottom-0 p-0">
+                    <div class="form-row align-items-center mx-0 pt-1">
+                        <div class="col px-0">
+                            <h6 class="font-size-dot-875 mb-0 pl-2">Issue</h6>
+                        </div>
+                        <!-- <div class="col px-0">
+                            <div class="btn-group text-uppercase">
+                                <select class="form-control form-control-sm pointer"
+                                    (change)="updateRevenueSummary(selectedSummary)" [(ngModel)]="selectedSummary">
+                                    <option value="division_wise">Department Wise</option>
+                                    <option value="department_wise">Stock Transfer Wise</option>
+                                </select>
+                            </div>
+                        </div> -->
+                        <!-- <div class="col-switch px-0" title="Details">
+                            <button class="btn btn-xs" (click)="showRevenueSummarySwitch()"
+                                [ngClass]="{'btn-outline-mbd': isRevenueSummarySwitch, 'btn-outline-primary': !isRevenueSummarySwitch}"><i
+                                    class="icon fa-fw icon-eye" aria-hidden="true"></i> <span
+                                    [ngClass]="{'d-inline': isRevenueSummarySwitch, 'd-none': !isRevenueSummarySwitch}">
+                                    GRAPH</span>
+                                <span
+                                    [ngClass]="{'d-none': isRevenueSummarySwitch, 'd-inline': !isRevenueSummarySwitch}">
+                                    TABLE</span>
+                            </button>
+                        </div> -->
+                    </div>
+                    <p class="mb-0 text-muted small pl-2 hidden">Data reflected from 01/04/2021 to 08/04/2021</p>
+                </div>
+                <div class="card-body p-2">
+                    <!-- <div class="table-scroll postion-relative w-100 m-auto overflow-auto">
+                        <table class="table custom-table mb-0 font-size-dot-8">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" class="text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Total Amount</td>
+                                    <td class="text-right"><span class="small-rupee">2,25,100.9</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Deposit</td>
+                                    <td class="text-right"><span class="small-rupee">47,600</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Refund</td>
+                                    <td class="text-right"><span class="small-rupee">7,600</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Concession</td>
+                                    <td class="text-right"><span class="small-rupee">450</span></td>
+                                </tr>
+                                <tr>
+                                    <th>Net Amount</th>
+                                    <th class="text-right"><span class="small-rupee">2,64,650.9</span></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">Payment wise Summary</th>
+                                </tr>
+                                <tr>
+                                    <td>Cash</td>
+                                    <td class="text-right"><span class="small-rupee">50,000</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Cheque/DD</td>
+                                    <td class="text-right"><span class="small-rupee">2,000</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Card(Debit/Credit)</td>
+                                    <td class="text-right"><span class="small-rupee">6,700</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Other</td>
+                                    <td class="text-right"><span class="small-rupee">3,500</span></td>
+                                </tr>
+                                <tr>
+                                    <th>Total</th>
+                                    <th class="text-right"><span class="small-rupee">62,200</span></th>
+                                </tr>
+                                <tr>
+                                    <th>Insurance Receivable</th>
+                                    <th class="text-right"><span class="small-rupee">78,000</span></th>
+                                </tr>
+                                <tr>
+                                    <th>Patient Receivable</th>
+                                    <th class="text-right"><span class="small-rupee">50,000</span></th>
+                                </tr>
+                            </tbody>
+                            <tfoot class="border-top">
+                                <tr>
+                                    <td>Today's Collection</td>
+                                    <td class="text-right small-rupee">3,42,650.9</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        <!-- <div class="col-4 custom-col-4">
+            <div class="card border-0 card-collection">
+                <div class="card-header border-bottom-0 p-0">
+                    <div class="form-row align-items-center mx-0 pt-1">
+                        <div class="col px-0">
+                            <h6 class="font-size-dot-875 mb-0 pl-2">Collection Summary</h6>
+                        </div>
+                    </div>
+                    <p class="mb-0 text-muted small pl-2 pt-1 hidden">Data reflected from 01/04/2021 to 08/04/2021</p>
+                </div>
+                <div class="card-body p-2">
+                    <div class="table-scroll postion-relative w-100 m-auto overflow-auto">
+                        <table class="table custom-table mb-0 font-size-dot-8">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" class="text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Total Amount</td>
+                                    <td class="text-right"><span class="small-rupee">2,25,100.9</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Deposit</td>
+                                    <td class="text-right"><span class="small-rupee">47,600</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Refund</td>
+                                    <td class="text-right"><span class="small-rupee">7,600</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Concession</td>
+                                    <td class="text-right"><span class="small-rupee">450</span></td>
+                                </tr>
+                                <tr>
+                                    <th>Net Amount</th>
+                                    <th class="text-right"><span class="small-rupee">2,64,650.9</span></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">Payment wise Summary</th>
+                                </tr>
+                                <tr>
+                                    <td>Cash</td>
+                                    <td class="text-right"><span class="small-rupee">50,000</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Cheque/DD</td>
+                                    <td class="text-right"><span class="small-rupee">2,000</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Card(Debit/Credit)</td>
+                                    <td class="text-right"><span class="small-rupee">6,700</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Other</td>
+                                    <td class="text-right"><span class="small-rupee">3,500</span></td>
+                                </tr>
+                                <tr>
+                                    <th>Total</th>
+                                    <th class="text-right"><span class="small-rupee">62,200</span></th>
+                                </tr>
+                                <tr>
+                                    <th>Insurance Receivable</th>
+                                    <th class="text-right"><span class="small-rupee">78,000</span></th>
+                                </tr>
+                                <tr>
+                                    <th>Patient Receivable</th>
+                                    <th class="text-right"><span class="small-rupee">50,000</span></th>
+                                </tr>
+                            </tbody>
+                            <tfoot class="border-top">
+                                <tr>
+                                    <td>Today's Collection</td>
+                                    <td class="text-right small-rupee">3,42,650.9</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="col-6">
+            <div class="card border-0 other-summary">
+                <div class="card-header border-bottom-0 p-0">
+                    <div class="form-row align-items-center mx-0 pt-1">
+                        <div class="col px-0">
+                            <h6 class="font-size-dot-875 mb-0 pl-2">Other</h6>
+                        </div>
+                        <div class="col px-0">
+                            <div class="btn-group text-uppercase">
+                                <!-- <select class="form-control form-control-sm pointer"
+                                    (change)="updateRevenueSummary(selectedSummary)" [(ngModel)]="selectedSummary">
+                                    <option value="division_wise">Supplier Wise Payment Due</option>
+                                    <option value="department_wise">Store Wise Current Stock</option>
+                                </select> -->
+                            </div>
+                        </div>
+                        <!-- <div class="col-switch px-0" title="Details">
+                            <button class="btn btn-xs" (click)="showBedOccupancySwitch()"
+                                [ngClass]="{'btn-outline-mbd': isBedOccupancySwitch, 'btn-outline-primary': !isBedOccupancySwitch}"><i
+                                    class="icon fa-fw icon-eye" aria-hidden="true"></i> <span
+                                    [ngClass]="{'d-inline': isBedOccupancySwitch, 'd-none': !isBedOccupancySwitch}">
+                                    GRAPH</span>
+                                <span [ngClass]="{'d-none': isBedOccupancySwitch, 'd-inline': !isBedOccupancySwitch}">
+                                    TABLE</span>
+                            </button>
+                        </div> -->
+                    </div>
+                    <p class="mb-0 text-muted small pl-2 hidden">Data reflected from 01/04/2021 to 08/04/2021</p>
+                </div>
+                <div class="card-body p-2">
+                    <div class="table-scroll postion-relative w-100 m-auto overflow-auto">
+                        <table class="table custom-table mb-0 font-size-dot-8">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Supplier Name</th>
+                                    <th class="text-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>A</td>
+                                    <td class="text-right"><span class="small-rupee">9,99,99.00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>B</td>
+                                    <td class="text-right"><span class="small-rupee">9,99,99.00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>C</td>
+                                    <td class="text-right"><span class="small-rupee">9,99,99.00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>D</td>
+                                    <td class="text-right"><span class="small-rupee">9,99,99.00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>E</td>
+                                    <td class="text-right"><span class="small-rupee">9,99,99.00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>F</td>
+                                    <td class="text-right"><span class="small-rupee">9,99,99.00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>G</td>
+                                    <td class="text-right"><span class="small-rupee">9,99,99.00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>H</td>
+                                    <td class="text-right"><span class="small-rupee">9,99,99.00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>I</td>
+                                    <td class="text-right"><span class="small-rupee">9,99,99.00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>J</td>
+                                    <td class="text-right"><span class="small-rupee">9,99,99.00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>K</td>
+                                    <td class="text-right"><span class="small-rupee">9,99,99.00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>L</td>
+                                    <td class="text-right"><span class="small-rupee">9,99,99.00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>M</td>
+                                    <td class="text-right"><span class="small-rupee">9,99,99.00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>N</td>
+                                    <td class="text-right"><span class="small-rupee">9,99,99.00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>O</td>
+                                    <td class="text-right"><span class="small-rupee">9,99,99.00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>1</td>
+                                    <td>P</td>
+                                    <td class="text-right"><span class="small-rupee">9,99,99.00</span></td>
+                                </tr>
+                            </tbody>
+                            <tfoot class="border-top">
+                                <tr>
+                                    <td colspan="2">Total</td>
+                                    <td class="text-right small-rupee">9,99,99.00</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

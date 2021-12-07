@@ -1,0 +1,10 @@
+<div *ngIf="isModal" class="modal-header">
+  <p class="modal-title">{{editPatientDetails ? 'UPDATE PATIENT' : 'ADD PATIENT'}}</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+    (click)="modal.dismiss('Cross click');">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="parent-iframe">
+  <iframe class="cus-iframe" [src]="urlSafe"></iframe>
+</div>

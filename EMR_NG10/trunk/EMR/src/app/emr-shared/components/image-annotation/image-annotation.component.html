@@ -1,0 +1,51 @@
+<div class="examination-label">
+  <ngb-accordion (panelChange)="menuClicked($event)" [closeOthers]="true" [activeIds]="componentInfo?.activeIdsOfPanels">
+    <ngb-panel id="image_annotation">
+      <ng-template ngbPanelTitle>
+        <div class="form-row align-items-center mx-0">
+          <div class="col-9">
+            <p class="mb-0 font-size-dot-875">{{componentInfo?.section_name}}</p>
+          </div>
+          <div class="col-3">
+            <button class="btn btn-sm btn-link text-white text-right" type="button">
+              <i [ngClass]="isPanelOpen ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div (click)="openCloseSuggPanel()">
+          <div class="form-row">
+            <div class="col-12">
+              <button type="button" [ngStyle]="{'visibility': 'visible'}" (click)="getImageAnnotationFileList();"
+                class="btn btn-sm btn-outline-primary-light">IMAGE ANNOTATION</button>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-2 text-center mt-2" *ngFor="let item of patientAnnotationImageList">
+              <div class="card text-center">
+                <img class="card-img-top" width="100" height="100" (click)="editAnnotation(item)"
+                  src="{{fileServePath + item.thumbnail_path}}">
+                <div class="card-body p-1">
+                  <h6 class="card-title mb-0">{{item.file_title}}</h6>
+                </div>
+                <div class="card-footer">
+                  <div class="row">
+                    <div class="col">
+                      <a href="javaScript:Void(0);" class="text-info" (click)="editAnnotation(item)"><i
+                          class="icon fa-fw icon-edit" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="col">
+                      <a href="javaScript:Void(0);" class="text-danger" (click)="deleteConfirmationPopup(item)"><i
+                          class="icon fa-fw icon-trash" aria-hidden="true"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>

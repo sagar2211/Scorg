@@ -1,0 +1,122 @@
+@import "../../../../scss/custom_bootstrap_theme";
+
+.filter {
+  height: 272px;
+  max-height: 272px;
+  max-width: 736px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+
+
+  .form-row {
+    .col {
+      width: 240px;
+      max-width: 240px;
+
+      .card {
+        .card-header {
+          padding: 2px;
+          min-height: 34px;
+
+          .form-row {
+            a {
+              height: 30px;
+              width: 30px;
+              line-height: 30px;
+              color: var(--bgColor);
+              @include border-radius(3px);
+
+              &:hover {
+                background-color: var(--bgLight);
+              }
+            }
+
+            p {
+              height: 30px;
+              line-height: 30px;
+            }
+
+            .placeholder-icon {
+              &.right-icon {
+                top: 1px;
+                left: auto;
+                right: 6px;
+                pointer-events: unset;
+
+                a {
+                  font-size: 1.2rem;
+                  padding: 2px 6px;
+                  border-radius: inherit;
+                  -o-border-radius: inherit;
+                  -ms-border-radius: inherit;
+                  -moz-border-radius: inherit;
+                  -webkit-border-radius: inherit;
+
+                  &:hover {
+                    background-color: var(--bgLight);
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        .card-body {
+          height: 218px;
+
+          .list-group {
+            max-height: 218px;
+            overflow-y: auto;
+            overflow-x: hidden;
+
+            .list-group-item {
+              color: $gray-900;
+
+              &.custom-checkbox {
+                
+
+                .custom-control-label {
+                  vertical-align: top;
+                  line-height: 16px;
+                  @include no-select;
+
+                  span {
+                    cursor: pointer;
+                    width: 192px;
+                    overflow: hidden;
+                    display: inline-block;
+                    margin: 0 5px 0 5px;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    vertical-align: middle;
+                  }
+
+                  &::before,
+                  &::after {
+                    margin-top: -5px;
+                  }
+                }
+              }
+
+              &:first-child {
+                @include border-top-left-radius(0px);
+                @include border-top-right-radius(0px);
+              }
+
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &::-webkit-scrollbar {
+    height: 12px !important;
+  }
+
+  &::-moz-scrollbar {
+    height: 12px !important;
+  }
+
+}

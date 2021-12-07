@@ -1,0 +1,31 @@
+.template-modal-body {
+  height: calc(100vh - 280px);
+  overflow-y: auto;
+}
+
+.discharge-template-summary-card-body {
+  height: calc(100vh - 347px);
+  overflow-y: auto;
+
+  .table {
+    tbody {
+      tr {
+        td {
+          &:nth-child(1) {
+            width: 60%;
+          }
+
+          &:nth-child(2) {
+            width: 40%;
+          }
+        }
+
+        &:last-child {
+          td {
+            border-bottom: 1px solid #ddd;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+<div class="emr-custom-container-fluid patient-dashboard">
+    <div class="form-row mx-0 my-1">
+        <div class="col-4 pl-0 pr-1">
+            <div class="form-row mx-0">
+                <div class="col-12 px-0 mb-1">
+                    <app-dashboard-patient-detail></app-dashboard-patient-detail>
+                </div>
+                <div class="col-12 px-0">
+                    <app-dashboard-allergy [patientId]="patientId" [allergyLists]="dashboardDataListByObjects?.allergy_detail"></app-dashboard-allergy>
+                    <app-dashboard-medicine [patientOnGoingMedication]="onGoingMedication" [medicationList]="dashboardDataList"></app-dashboard-medicine>
+                </div>
+            </div>
+        </div>
+        <div class="col-8 pl-0 pr-1">
+            <div class="form-row mx-0">
+                <div class="px-0 col-12">
+                    <app-patient-dasgboard-timeline></app-patient-dasgboard-timeline>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

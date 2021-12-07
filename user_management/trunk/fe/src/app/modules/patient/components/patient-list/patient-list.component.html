@@ -1,0 +1,221 @@
+<div class="container-fluid custom-container-fluid pt-2">
+  <div class="form-row form-group align-items-center">
+    <div class="col-4">
+      <div class="input-group">
+        <input type="text" class="form-control form-control-sm pl-2rem" placeholder="Search By Name/Contact/UHID"
+          [(ngModel)]="searchString" (ngModelChange)="this.subject.next();">
+        <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+        <div class="input-group-append">
+          <button class="btn btn-sm btn-outline-secondary border" type="button" title="Filter"
+            (click)="showSearchFilter()"><i class="fa fa-fw fa-caret-down" aria-hidden="true"></i></button>
+          <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear">
+            <i class="fa fa-fw fa-eraser" aria-hidden="true" (click)="clearSearchFilter();"></i></button>
+        </div>
+      </div>
+      <div class="dropdown custom-dropdown" *ngIf="showPatientListFilter">
+        <form [formGroup]="patientListFilterForm" novalidate (ngSubmit)="searchByFilter()">
+          <div id="SearchPopup" class="dropdown-menu pb-0 w-100 d-block shadow" role="menu">
+            <h6 for="filter" class="border-bottom pl-2 pb-2"><i class="fa fa-filter" aria-hidden="true"></i> Filter by
+            </h6>
+            <div class="card-body py-0">
+              <div class="form-row form-group">
+                <div class="col-6">
+                  <label for="contain" class="">Registration From Date</label>
+                  <app-date-picker [inputDate]="patientListFilterForm.value.reg_from_date" placeholder="yyyy-mm-dd"
+                    [max]="patientListFilterForm.value.reg_to_date"
+                    (dateChange)="patientListFilterForm.patchValue({reg_from_date : $event});">
+                  </app-date-picker>
+                </div>
+                <div class="col-6">
+                  <label for="contain" class="">Registration To Date</label>
+                  <app-date-picker [inputDate]="patientListFilterForm.value.reg_to_date" placeholder="dd-mm-yyyy"
+                    [min]="patientListFilterForm.value.reg_from_date"
+                    (dateChange)="patientListFilterForm.patchValue({reg_to_date : $event});">
+                  </app-date-picker>
+                </div>
+              </div>
+              <div class="form-row form-group">
+                <div class="col-6">
+                  <label for="pat_bloodgrp">Gender</label>
+                  <app-select-multiple [disableRoom]="false" [selectedOptionList]="patientListFilterForm.value.gender"
+                    [setSourceList]="genderList" (optionSelectEvent)="updateSelectedGenderList($event)">
+                  </app-select-multiple>
+                </div>
+                <div class="col-6">
+                  <label for="pat_bloodgrp">Blood Group</label>
+                  <app-select-multiple [disableRoom]="false"
+                    [selectedOptionList]="patientListFilterForm.value.blood_group_ids" [setSourceList]="bloodGroupList"
+                    (optionSelectEvent)="updateSelectedBloodList($event)">
+                  </app-select-multiple>
+                </div>
+              </div>
+              <div class="form-row form-group">
+                <div class="col-6">
+                  <label class="mr-5">Age</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control form-control-sm" formControlName="age_value"
+                      placeholder="Enter Age in year">
+                    <div class="input-group-append">
+                      <select class="form-control form-control-sm" formControlName="age_operator">
+                        <option value="greater">Greater</option>
+                        <option value="less">Less</option>
+                        <option value="equal">Equal</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <label for="contain" class="">Marital Status</label>
+                  <select class="form-control form-control-sm" formControlName="marital_status">
+                    <option value="">Select Status</option>
+                    <option value="married">Married</option>
+                    <option value="unmarried">Unmarried</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer text-right py-1">
+              <button class="btn float-left btn-sm btn-outline-secondary" (click)="showSearchFilter()"
+                type="button">CLOSE</button>
+              <button class="btn btn-sm btn-outline-warning mr-1" (click)="clearSearchFilter()" type="button"><i
+                  class="fas fa-fw fa-eraser" aria-hidden="true"></i> CLEAR</button>
+              <button class="btn btn-sm btn-outline-info" type="submit"> <i class="icon fa-fw icon-search"></i>
+                SEARCH</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col switch-w">
+      <div class="custom-control custom-switch">
+        <input type="checkbox" [(ngModel)]="showActivePatient" (ngModelChange)="this.subject.next();"
+          class="custom-control-input" id="customSwitch1">
+        <label class="custom-control-label pointer" [class.active]="showActivePatient" for="customSwitch1"></label>
+        <span class="text-uppercase"
+          [class.active]="showActivePatient">{{showActivePatient ? 'Active' : 'InActive'}}</span>
+      </div>
+    </div>
+    <div class="col-2">
+      <ng-container *ngIf="notify.isPatientSelectAllFlag || notify.selectedPatientIds.length > 0">
+        <app-ng-select-typeahead [inputValue]="notify.templateName?.id" [thDisplayLabel]="'name'" [thDisplayKey]="'id'"
+          [source]="'Select Template..'" (recievedVal)="getTemplateDetails($event)" [returnDataType]="'obj'"
+          [displayList]="templateMasterList">
+        </app-ng-select-typeahead>
+      </ng-container>
+    </div>
+    <div class="col-4">
+      <ng-container *ngIf="notify.isPatientSelectAllFlag || notify.selectedPatientIds.length > 0">
+        <button type="submit" class="btn btn-sm btn-success"
+          (click)="sendBulkNotificationConfirmationPopup()"><i aria-hidden="true" class="icon fa-fw icon-paper-plane"></i>
+          SEND NOTIFICATION</button>
+        <button class="btn btn-sm btn-outline-secondary ml-2" (click)="clearBulkNotification()"
+          type="button">CANCEL</button>
+        <label class="mt-2 float-right">Selected {{notify.selectedPatientCounts}} of {{page.totalElements}}</label>
+      </ng-container>
+    </div>
+    <div class="col">
+      <select class="form-control form-control-sm float-right select-w"
+        (change)="onPageSizeChanged($event.currentTarget.value)" [(ngModel)]="pageSize" id="page-size">
+        <option value="15" selected="">15</option>
+        <option value="30">30</option>
+        <option value="45">45</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+  </div>
+  <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="50" [footerHeight]="70"
+    [rowHeight]="35" [rows]="patientList" [externalSorting]="true" (sort)="onSortChanged($event)"
+    [externalPaging]="externalPaging" [count]="page.totalElements" (page)='onSetPage($event)'>
+    <ngx-datatable-column [sortable]="false" [width]="40" cellClass="text-center" headerClass="text-center">
+      <ng-template ngx-datatable-header-template let-column="column">
+        <div class="custom-control custom-checkbox custom-control-inline mr-0">
+          <input type="checkbox" class="custom-control-input custom-control-input-sm" id="selectAllPatient"
+            [(ngModel)]="notify.isPatientSelectAll"
+            (change)="onPatientSelect('select_all', '', notify.isPatientSelectAll)">
+          <label class="custom-control-label pointer" for="selectAllPatient"></label>
+        </div>
+      </ng-template>
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <div class="custom-control custom-checkbox custom-control-inline mr-0">
+          <input type="checkbox" class="custom-control-input" [(ngModel)]="row.isChecked"
+            id="selectPatient_{{row.pat_id}}" (change)="onPatientSelect('select_patient', row.pat_id, row.isChecked)">
+          <label class="custom-control-label pointer" for="selectPatient_{{row.pat_id}}"></label>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="UHID" prop="pat_uhid" [width]="100">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <span>{{row.pat_uhid}} </span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Title" prop="pat_title" [width]="40">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <span>{{row.pat_title}} </span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Name" prop="pat_name" [width]="200">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <span>{{row.pat_name}} </span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Contact" prop="pat_mobileno" [width]="80">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <span>{{row.pat_mobileno}}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Email" prop="pat_emailid" [width]="250">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <span>{{row.pat_emailid}}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Age" prop="pat_age" [width]="50">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <span>{{row.pat_age !== 0 ? row.pat_age : ''}}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Blood Group" prop="pat_bloodgroup" [width]="40">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <span>{{row.pat_bloodgroup}}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="City" prop="pat_city" [width]="80">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <span>{{row.pat_city}}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Country" prop="pat_country" [width]="80">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <span>{{row.pat_country}}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Active" prop="pat_isactive" [sortable]="false" [width]="50">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <span>{{row.pat_isactive ? 'yes' : 'no'}}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Action" cellClass="text-center" [sortable]="false" [width]="60">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value"
+        let-isSelected="isSelected">
+        <button class="btn btn-xs btn-info" [disabled]="patientEditPermission" (click)="addEditPatientModal(row)"><i class="icon fa-fw icon-edit" aria-hidden="true"></i> EDIT
+        </button>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-footer *ngIf="patientList.length > 0">
+      <ng-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
+        let-curPage="curPage" let-offset="offset" ngx-datatable-footer-template>
+        <div class="mx-3">
+          Showing {{ ((page.pageNumber - 1) *  page.size) + 1}} to
+          {{ ((page.pageNumber - 1) *  page.size) + patientList.length}} of {{rowCount}} entries
+        </div>
+        <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'"
+          [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="page.pageNumber"
+          [size]="page.size" [count]="page.totalElements" [hidden]="!((page.totalElements / page.size) > 1)"
+          (change)="onFooterPage($event)">
+        </datatable-pager>
+      </ng-template>
+    </ngx-datatable-footer>
+  </ngx-datatable>
+  <!-- <app-list-patient></app-list-patient> -->
+
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</div>

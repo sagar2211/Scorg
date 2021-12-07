@@ -1,0 +1,895 @@
+{
+    "data": [
+        {
+            "chart_id": "443",
+            "section_key": "cardiac_investigations",
+            "section_name": "Thyroid Panel",
+            "chart_name": "Thyroid Panel",
+            "chart_status": "save",
+            "patient_chart_data": [
+                {
+                    "section_value_id": "928",
+                    "section_value_name": "FREE T3",
+                    "chart_data": [
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "12:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.30"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.5"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:28",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.30"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "14:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.5"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:28",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:40",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        }
+                    ],
+                    "section_range_min": "1.4",
+                    "section_range_max": "4.4"
+                },
+                {
+                    "section_value_id": "1254",
+                    "section_value_name": "FREE T4 - BAYER",
+                    "chart_data": [
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "12:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "0.90"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "1.1"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:28",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "1.3"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.30"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "14:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.5"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:28",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:40",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        }
+                    ],
+                    "section_range_min": "0.8",
+                    "section_range_max": "1.8"
+                },
+                {
+                    "section_value_id": "72",
+                    "section_value_name": "TSH",
+                    "chart_data": [
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "12:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "3.05"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "3.5"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:28",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "3.9"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.30"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "14:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.5"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:28",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:40",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        }
+                    ],
+                    "section_range_min": "0.3",
+                    "section_range_max": "4"
+                }
+            ]
+        },
+        {
+            "chart_id": "442",
+            "section_key": "cardiac_investigations",
+            "section_name": "Diabetic Panel",
+            "chart_name": "Diabetic Panel",
+            "chart_status": "save",
+            "patient_chart_data": [
+                {
+                    "section_value_id": "160",
+                    "section_value_name": "Fasting Blood Sugar",
+                    "chart_data": [
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "12:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "130"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:11",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "150"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:27",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "170"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.30"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "14:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.5"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:28",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:40",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        }
+                    ],
+                    "section_range_min": "70",
+                    "section_range_max": "100"
+                },
+                {
+                    "section_value_id": "166",
+                    "section_value_name": "POST PRANDIAL BLOOD SUGAR",
+                    "chart_data": [
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "12:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "160"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:11",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "180"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:27",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "190"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.30"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "14:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.5"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:28",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:40",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        }
+                    ],
+                    "section_range_min": "101",
+                    "section_range_max": "140"
+                },
+                {
+                    "section_value_id": "3",
+                    "section_value_name": "HBA1C",
+                    "chart_data": [
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "12:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "4%"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:11",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "4.5%"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:27",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "4.7%"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.30"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "14:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.5"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:28",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:40",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        }
+                    ],
+                    "section_range_min": "0",
+                    "section_range_max": "5"
+                }
+            ],
+            "doc_id": "2883",
+            "hospital_pat_id": "253141",
+            "pat_id": "772188"
+        },
+        {
+            "chart_id": "441",
+            "section_key": "cardiac_investigations",
+            "section_name": "Liver Function Test",
+            "chart_name": "Liver Function Test",
+            "chart_status": "save",
+            "patient_chart_data": [
+                {
+                    "section_value_id": "13",
+                    "section_value_name": "SGPT",
+                    "chart_data": [
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "12:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "10"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "25"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:27",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "20"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.30"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "14:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.5"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:28",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:40",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        }
+                    ],
+                    "section_range_min": "0",
+                    "section_range_max": "40"
+                },
+                {
+                    "section_value_id": "12",
+                    "section_value_name": "SGOT",
+                    "chart_data": [
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "12:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "30"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "45"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:27",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "40"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.30"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "14:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.5"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:28",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:40",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        }
+                    ],
+                    "section_range_min": "0",
+                    "section_range_max": "50"
+                },
+                {
+                    "section_value_id": "1471",
+                    "section_value_name": "Alkaline Phosphatase",
+                    "chart_data": [
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "12:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "150"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "120"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:27",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "100"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.30"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "14:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.5"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:28",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:40",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        }
+                    ],
+                    "section_range_min": "40",
+                    "section_range_max": "150"
+                },
+                {
+                    "section_value_id": "914",
+                    "section_value_name": "Albumin",
+                    "chart_data": [
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "12:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "4"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "4.5"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:27",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "5"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.30"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "14:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.5"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:28",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:40",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        }
+                    ],
+                    "section_range_min": "3.5",
+                    "section_range_max": "5.5"
+                },
+                {
+                    "section_value_id": "26",
+                    "section_value_name": "Sr. Creatinine",
+                    "chart_data": [
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "12:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "1.2"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "1.5"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:27",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "1.3"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "13:50",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.30"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "14:14",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.5"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:28",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        },
+                        {
+                            "administration_date": "2019-04-10",
+                            "administration_time": "15:40",
+                            "administration_data": [
+                                {
+                                    "administration_time": "",
+                                    "administration_value": "2.4"
+                                }
+                            ]
+                        }
+                    ],
+                    "section_range_min": "0.5",
+                    "section_range_max": "1.5"
+                }
+            ],
+            "doc_id": "2883",
+            "hospital_pat_id": "253141",
+            "pat_id": "772188"
+        }
+    ]
+}

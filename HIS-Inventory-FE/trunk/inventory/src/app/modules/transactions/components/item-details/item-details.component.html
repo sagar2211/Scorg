@@ -1,0 +1,145 @@
+<div class="modal-header">
+    <p class="modal-title">Item Details</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-0 supplier-modal-body">
+    <form [formGroup]="itemDetailsFrm">
+        <div class="px-2 custom-bg">
+            <div class="form-row pt-1 pb-2">
+                <div class="col">
+                    <label>Item Code</label>
+                    <p class="mb-0 height-with-line-height">{{itemDetailsFrm.value.itemCode}}</p>
+                </div>
+                <div class="col">
+                    <label>Item Name</label>
+                    <p class="mb-0 height-with-line-height">{{itemDetailsFrm.value.itemName}}</p>
+                </div>
+                <div class="col">
+                    <label>Conversion Factor</label>
+                    <p class="mb-0 height-with-line-height">{{itemDetailsFrm.value.itemCf}}</p>
+                </div>
+                <div class="col">
+                    <label>Unit</label>
+                    <p class="mb-0 height-with-line-height">{{itemDetailsFrm.value.itemUnit}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="px-2">
+            <div class="form-row mt-1 form-group">
+                <div class="col">
+                    <label>P.O. Bal. Quantity</label>
+                    <input class="form-control form-control-sm" formControlName="poQty" type="number" appOnlyNumbersWithDecimal placeholder="Type Po Qty">
+                </div>
+                <div class="col">
+                    <label>Challan Quantity<sup>*</sup></label>
+                    <input class="form-control form-control-sm" formControlName="challanQty" appOnlyNumbersWithDecimal type="number">
+                    <span class="small text-danger">
+                    <span class="error" *ngIf="submitted && itemDetailsFrm.get('challanQty').errors?.isChalanQtyLess">
+            It should be greater or equal to Received quantity.
+          </span>
+                    <span class="error" *ngIf="submitted && itemDetailsFrm.get('challanQty').errors?.isChallanQtyGreaterPo">
+            It should be Less or equal to P.O. Bal. quantity.
+          </span>
+                    </span>
+                </div>
+                <div class="col">
+                    <label>Received Quantity<sup>*</sup></label>
+                    <input class="form-control form-control-sm" formControlName="receivedQty" appOnlyNumbersWithDecimal type="number">
+                    <span class="small text-danger">
+                    <span class="error" *ngIf="submitted && itemDetailsFrm.get('receivedQty').errors?.isRecievedQtyGreater">
+            It should be less or equal to challan quantity.
+          </span>
+                    </span>
+                </div>
+                <div class="col">
+                    <label>Accepted Quantity<sup>*</sup></label>
+                    <input class="form-control form-control-sm" formControlName="acceptedQty" type="number" placeholder="Type Accepted Qty">
+                    <span class="small text-danger" *ngIf="itemDetailsFrm.get('acceptedQty').errors">
+            <span *ngIf="itemDetailsFrm.get('acceptedQty').errors?.isAcceptedQtyLess">
+              It should be less or equal to received quantity.
+            </span>
+                    <span *ngIf="submitted && itemDetailsFrm.get('acceptedQty').errors?.required">
+              Accepted Qty required.
+            </span>
+                    </span>
+                </div>
+                <div class="col">
+                    <label>Free Quantity</label>
+                    <input class="form-control form-control-sm" formControlName="freeQty" type="number" placeholder="Type Free Quantity">
+                </div>
+                <div class="col">
+                    <label>Total Quantity</label>
+                    <input class="form-control form-control-sm" formControlName="totalQty" type="number" placeholder="Type Total Quantity">
+                </div>
+            </div>
+            <div class="form-row form-group">
+                <div class="col">
+                    <label>Batch No.<sup>*</sup> </label>
+                    <input class="form-control form-control-sm" formControlName="batchNo" type="text" placeholder="Type Batch No">
+                    <span class="small text-danger" *ngIf="submitted && itemDetailsFrm.get('batchNo').errors?.required;">Batch No
+            required.</span>
+                </div>
+                <div class="col">
+                    <label>Expiry Date<sup>*</sup></label>
+                    <app-date-picker (dateChange)="itemDetailsFrm.patchValue({ expiryDate: $event  })" [inputDate]="itemDetailsFrm.value.expiryDate"></app-date-picker>
+                    <span class="small text-danger" *ngIf="submitted && itemDetailsFrm.get('expiryDate').errors?.required;">Expiry
+            date required.</span>
+                </div>
+            </div>
+            <div class="form-row form-group">
+                <div class="col">
+                    <label>Purchase Rate</label>
+                    <input class="form-control form-control-sm mt-1" formControlName="purchaseRate" type="number" placeholder="Type Purchase Rate">
+                    <span class="small text-danger" *ngIf="submitted && itemDetailsFrm.get('purchaseRate').errors?.required;">Purchase Rate required.</span>
+                </div>
+                <div class="col">
+                    <label>Disc%</label>
+                    <input class="form-control form-control-sm mt-1" (change)="onDiscountPerChange($event)" formControlName="discountPercent" type="number" placeholder="Type Discount Percent">
+                    <span class="small text-danger" *ngIf="itemDetailsFrm.get('discountPercent').errors?.isGreateThenPR;">less then 100.</span>
+                </div>
+                <div class="col">
+                    <label>Discount Amount</label>
+                    <input class="form-control form-control-sm" (change)="onDiscountAmount($event)" formControlName="discountAmount" type="number" placeholder="Type Discount Amount">
+                    <span class="small text-danger" *ngIf="itemDetailsFrm.get('discountAmount').errors?.isGreateThenPR;">Should be less then Purchase Rate.</span>
+                </div>
+            </div>
+            <div class="form-row form-group">
+                <div class="col">
+                    <label>GST Rate in %</label>
+                    <input class="form-control form-control-sm" formControlName="gstPercent" type="number" placeholder="Type Discount Percent">
+                </div>
+                <div class="col">
+                    <label>GST Amount</label>
+                    <input class="form-control form-control-sm" formControlName="gstAmount" type="text" placeholder="Type Discount Amount">
+                </div>
+                <div class="col">
+                    <label>Unit Rate</label>
+                    <input class="form-control form-control-sm" formControlName="unitRate" type="number" placeholder="Type Unit Rate">
+                </div>
+            </div>
+            <div class="form-row form-group">
+                <div class="col">
+                    <label>Net Total Amount</label>
+                    <input class="form-control form-control-sm" formControlName="netTotalAmount" type="text" placeholder="Type Net Total Amount">
+                </div>
+                <div class="col">
+                    <label>MRP</label>
+                    <input class="form-control form-control-sm" formControlName="mrp" type="text" placeholder="Type MRP">
+                    <span class="small text-danger" *ngIf="itemDetailsFrm.get('mrp').errors?.isLessThenUnitRate;">MRP should be
+            greater than unit rate.</span>
+                </div>
+                <div class="col">
+                    <label>Sale Price</label>
+                    <input class="form-control form-control-sm" formControlName="saleUnitPrice" type="number" placeholder="Type Sale Unit Price">
+                    <span class="small text-danger" *ngIf="itemDetailsFrm.get('saleUnitPrice').errors?.isGreateThenMrp;">Should be less or equal to mrp</span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss('no')">CANCEL</button>
+    <button type="button" (click)="saveItemDetails()" class="btn btn-sm btn-outline-primary"><i class="fa fa-fw fa-plus" aria-hidden="true"></i> ADD</button>
+</div>

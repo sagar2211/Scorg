@@ -1,0 +1,32 @@
+<app-autocomplete-search [data]="data" [searchKeyword]="searchKey" [placeHolder]="placeHolder" [heading]="heading"
+  [initialValue]="initialValue" [notFoundText]="notFoundText" [isLoading]="isLoading" [debounceTime]="debounceTime"
+  [disabled]="disabled" [notFoundTemplate]="notFoundTemplate" [itemTemplate]="itemTemplate"
+  [notFoundTemplate]="notFoundTemplate" (selected)='selected($event)' (inputFocused)='inputFocused($event)'
+  (scrolledToEnd)="scrolledToEnd()" (inputChanged)='inputChanged($event)' (closed)="closed($event)"
+  (opened)="opened($event)">
+</app-autocomplete-search>
+<div class="list-group">
+  <ng-template #itemTemplate let-item>
+    <div class="list-group-item list-group-item-action p-0 border-top-0 rounded-0">
+      <div class="form-row align-items-center justify-content-center mx-0 p-1">
+        <div class="col text-center px-0 col-profile-img">
+          <img alt="profile-image-male" *ngIf="item.gender=='MALE'" src="./assets/img/male.svg">
+          <img alt="profile-image-female" *ngIf="item.gender=='FEMALE'" src="./assets/img/female.svg">
+        </div>
+        <div class="col px-0 col-profile-name">
+          <p class="mb-0 font-size-dot-875" [innerHTML]="item.patient_name"></p>
+          <p class="mb-0 small text-muted">
+            <span>{{item.patient_id}} | </span>
+            <span *ngIf="item.gender=='MALE'">{{ item.gender }} | </span>
+            <span *ngIf="item.gender=='FEMALE'">{{ item.gender }} | </span>
+            <span>{{item.mobile_no}} | </span>
+            <span *ngIf="item.dob">{{ item?.dob | calucalteAge }}</span><span *ngIf="!item.dob">{{ item?.age }}
+              Year<small>(s)</small></span></p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>
+<ng-template #notFoundTemplate let-notFound>
+  <div [innerHTML]="notFound"></div>
+</ng-template>

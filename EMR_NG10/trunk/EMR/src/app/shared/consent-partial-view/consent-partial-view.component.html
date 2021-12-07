@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <p class="modal-title">CONSENT FORMS</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+        (click)="modal.dismiss('CANCEL')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body p-0 notification-modal-body">
+    <iframe class="cus-iframe h-100 w-100" [src]="urlSafe"></iframe>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss('CANCEL')">Close</button>
+</div>

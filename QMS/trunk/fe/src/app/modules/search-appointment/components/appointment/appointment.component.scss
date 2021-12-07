@@ -1,0 +1,32 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+.appointment-view {
+  height: calc(100vh - 254px);
+  overflow-y: auto;
+  position: relative;
+
+  a {
+    position: absolute;
+    right: 5px;
+    top: 10px;
+  }
+}
+
+.slide-rules-instructions {
+  right: 0;
+  z-index: 1001;
+  overflow: hidden;
+  position: absolute;
+  @include border-radius(5px);
+}
+
+.slider-history-log {
+  left: 0;
+  height: calc(100vh - 87px);
+}
+
+:host ::ng-deep {
+  .history-data {
+    height: calc(100vh - 123px) !important;
+  }
+}

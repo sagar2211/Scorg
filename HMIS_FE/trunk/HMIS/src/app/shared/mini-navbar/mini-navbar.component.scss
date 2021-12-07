@@ -1,0 +1,23 @@
+@import "../../../scss/main";
+
+:host ::ng-deep {
+  .bs-popover-bottom {
+    margin-top: 0.4em;
+
+    &.bs-popover-bottom-right {
+      .arrow {
+        right: 0.3em;
+      }
+    }
+  }
+
+  .filter-btn {
+    .popover {
+      min-width: 330px;
+
+      .popover-body {
+        @extend .p-0;
+      }
+    }
+  }
+}

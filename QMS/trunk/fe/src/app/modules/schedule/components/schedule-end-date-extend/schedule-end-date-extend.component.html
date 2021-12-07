@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">{{messageDetails.modalTitle}}</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <span *ngIf="this.messageDetails.scheduleData.endDate">
+      Current End Date : {{this.messageDetails.scheduleData.endDate | date: "dd/MM/yyyy"}}
+    </span>
+    <app-date-picker class="col-3 align-self-center" [min]="minDate" (dateChange)="endDate = $event;">
+    </app-date-picker>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss('CANCEL')">CANCEL</button>
+    <button type="button" class="btn btn-sm btn-outline-primary" (click)="updateEndDate()">Update</button>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

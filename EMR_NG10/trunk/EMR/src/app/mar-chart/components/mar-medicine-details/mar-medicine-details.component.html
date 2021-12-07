@@ -1,0 +1,17 @@
+<div class="marmedicinedetails-inside">
+    <h6 (click)="this.marMedicine.isExpanded = !this.marMedicine.isExpanded" class="font-size-dot-9 pointer">
+        <button type="button" class="btn btn-xs btn-primary" style="line-height: 0; height: 16px; padding-top: 0.55px;;"><i class="fas fa-angle-down"
+        aria-hidden="true"></i></button> {{medicine.name}} [ {{medicine.type.name}} ]</h6>
+    <p class="date mb-0"><span class="mr-5" title="Start Date"><i class="far fa-fw fa-calendar text-muted"></i>
+      <span class="font-size-dot-7">{{ medicine.startDate | date : 'dd-MM-yyyy' }}</span></span>
+        <span title="End Date"><i class="far fa-fw fa-calendar text-muted"></i>
+      <span class="font-size-dot-7">{{ medicine.endDate | date : 'dd-MM-yyyy' }}</span></span>
+    </p>
+    <hr class="mb-1 mt-0" />
+    <p class="mb-1 font-size-dot-8" *ngIf="medicine.sig"><span class="sub-title" title="Sig">Sig:- </span> {{medicine.sig ? medicine.sig.name : "" }}</p>
+    <p class="mb-1 font-size-dot-8" *ngIf="medicine.frequency"><span class="sub-title" title="Frequency">Frequency:-
+    </span>{{medicine.frequency}}</p>
+    <p class="mb-1 font-size-dot-8"><span class="sub-title" title="Instruction">Instructions:- </span>
+        <span *ngIf="medicine.instruction">{{medicine.instruction}},
+    </span><span>{{medicine.route ? medicine.route.name : ""}}</span></p>
+</div>

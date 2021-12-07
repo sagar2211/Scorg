@@ -1,0 +1,117 @@
+<div class="notification-list-body container-fluid px-1 pt-3" *ngIf="loadList">
+    <div class="form-row consultation">
+        <div class="col-12" *ngIf="!patientId">
+            <div class="form-group position-relative">
+                <input type="text" class="form-control form-control-sm pl-2rem" [(ngModel)]="searchString" (ngModelChange)="this.subject.next();" placeholder="Search By Name/PatientId">
+                <div class="placeholder-icon">
+                    <i class="icon fa-fw icon-search text-muted" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <ng-container *ngIf="notificationList.length > 0;else notificationListElse">
+                <div *ngIf="loadSource === 'notification_panel'" [ngClass]="{'notification-list-details': !isPartialLink, 'partial-notification-list-details': isPartialLink}" infinite-scroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="150" [scrollWindow]="false"
+                    (scrolled)="getAllNotificationList()">
+                    <div class="card p-0" *ngFor="let item of notificationList; let i = index;">
+                        <div class="card-body pt-1 pb-0 px-2">
+                            <div class="form-row align-items-center justify-content-center">
+                                <div class="col-3 border-right">
+                                    <h6 class="m-0 font-size-dot-875">{{item.status}}</h6>
+                                </div>
+                                <div class="col-7">
+                                    <div class="mb-0 small">
+                                        <p class="mb-0 font-size-dot-875">{{item.patient_name}}
+                                            <span class="pl-1 text-uppercase">| {{item.patient_id}}</span>
+                                        </p>
+                                        <p class="mb-0 text-muted">
+                                            <span *ngIf="item.gender" class="pr-1 border-right text-uppercase">
+                        {{item.gender}}</span>
+                                            <span *ngIf="item.age" class="pl-1 text-uppercase">{{item.age}},</span>
+                                            <span *ngIf="item.floor" class="pl-1 text-uppercase font-weight-500">
+                        {{item.floor}}
+                      </span>
+                                            <span *ngIf="item.floor && item.ward">/</span>
+                                            <span *ngIf="item.ward" class="pl-1 text-uppercase font-weight-500">
+                        {{item.ward}}
+                      </span>
+                                            <span *ngIf="(item.floor && item.ward && item.bed) || (item.floor && item.bed)">/</span>
+                                            <span *ngIf="item.bed" class="pl-1 text-uppercase font-weight-500">
+                        {{item.bed}}
+                      </span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <p class="mb-0 text-primary small">{{item.notification_time}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer border-0 pt-0 pb-1 px-2">
+                            <div class="form-row align-items-center justify-content-center">
+                                <div class="col-7 offset-3">
+                                    <a *ngIf="item.route_url" (click)="redirctPatient(item)" class="font-size-dot-8 text-primary pointer">{{item.notification_text}}
+                  </a>
+                                    <span *ngIf="!item.route_url" class="font-size-dot-8 text-success">{{item.notification_text}}
+                  </span>
+                                </div>
+                                <div class="col-2 text-right">
+                                    <button type="button" class="btn btn-sm btn-secondary" *ngIf="item.action_name && !item.isActionPerformed" (click)="performActionBtnEvent(item, i)">{{item.action_name}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="partial-notification-list-details border-top" *ngIf="loadSource !== 'notification_panel'" infinite-scroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="150" [scrollWindow]="false" (scrolled)="getAllNotificationList()">
+                    <div class="form-row border-bottom align-items-center justify-content-center" *ngFor="let item of notificationList; let i = index;">
+                        <div class="col">
+                            <h6 class="m-0 font-size-dot-875">{{item.status}}</h6>
+                            <p class="mb-0 text-primary small">{{item.notification_time}}</p>
+                        </div>
+                        <div class="col col-border-left col-border-right">
+                            <div class="mb-0 small">
+                                <p class="mb-0 font-size-dot-875">{{item.patient_name}}
+                                    <span class="pl-1 text-uppercase">| {{item.patient_id}}</span>
+                                </p>
+                                <p class="mb-0 text-muted"> <span *ngIf="item.gender" class="pr-1 border-right text-uppercase">
+                  {{item.gender}}</span>
+                                    <span *ngIf="item.age" class="pl-1 text-uppercase">{{item.age}},</span>
+                                    <span *ngIf="item.floor" class="pl-1 text-uppercase font-weight-500">
+                  {{item.floor}}
+                </span>
+                                    <span *ngIf="item.floor && item.ward">/</span>
+                                    <span *ngIf="item.ward" class="pl-1 text-uppercase font-weight-500">
+                  {{item.ward}}
+                </span>
+                                    <span *ngIf="(item.floor && item.ward && item.bed) || (item.floor && item.bed)">/</span>
+                                    <span *ngIf="item.bed" class="pl-1 text-uppercase font-weight-500">
+                  {{item.bed}}
+                </span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-row align-items-center justify-content-center">
+                                <div class="col-8">
+                                    <a *ngIf="item.route_url" (click)="redirctPatient(item)" class="font-size-dot-8 text-primary pointer">{{item.notification_text}}
+                </a>
+                                    <span *ngIf="!item.route_url" class="font-size-dot-8 text-success">{{item.notification_text}}
+                </span>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <button type="button" class="btn btn-sm btn-secondary" *ngIf="item.action_name && !item.isActionPerformed" (click)="performActionBtnEvent(item, i)">{{item.action_name}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #notificationListElse>
+                <div class="alert alert-warning m-1" role="alert">
+                    <p class="mb-0"><i class="far fa-fw fa-lightbulb mr-1" aria-hidden="true"></i>No Notification available
+                    </p>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</div>

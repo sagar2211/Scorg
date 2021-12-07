@@ -1,0 +1,38 @@
+.carousel-inner>.item>img,
+.carousel-inner>.item>a>img {
+    height: 75.5vh;
+    width: auto;
+}
+
+.slider-thumbs {
+    height: calc(100vh - 115px);
+    overflow-y: scroll;
+    white-space: nowrap;
+}
+
+.ml-01 {
+    margin-left: 0.125rem;
+}
+
+.mr-01 {
+    margin-right: 0.125rem;
+}
+
+.card-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 14px;
+}
+
+.img-array {
+    li {
+        float: left;
+        width: 50%;
+        padding: 2px;
+        height: 143px;
+        img {
+            height: 105px;
+        }
+    }
+}

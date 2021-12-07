@@ -1,0 +1,71 @@
+<div class="card border-0">
+  <div class="card-header border-bottom-0 p-0">
+      <div class="form-row align-items-center mx-0">
+          <div class="col px-0">
+              <h6 class="font-size-dot-875 mb-0 pl-2">Total Revenue</h6>
+          </div>
+          <div class="col-accordion px-0" title="Details">
+            <!-- (click)="showTotalRevenueDetail()" -->
+              <a  [ngClass]="{'active': isTotalRevenueVisible}"
+                  class="btn-accordion">
+              </a>
+          </div>
+      </div>
+      <p class="mb-0 text-muted small pl-2 hidden">Data reflected from 01/04/2021 to 08/04/2021</p>
+  </div>
+  <div class="card-body p-2">
+      <div class="form-row align-items-center">
+          <div class="col-10">
+              <h2 class="mb-0 large-rupee">{{totalRev | number:'1.2-2'}}
+              </h2>
+          </div>
+          <div class="col-2 text-right" *ngIf="loadChart">
+            <dx-pie-chart
+                id="pie"
+                type="doughnut"
+                title=""
+                palette="Soft Blue"
+                paletteExtensionMode="Extrapolate."
+                [dataSource]="donutChartData">
+                <dxo-legend
+                    orientation="horizontal"
+                    itemTextPosition="right"
+                    horizontalAlignment="center"
+                    verticalAlignment="bottom"
+                    [columnCount]="4"></dxo-legend>
+                <dxo-export [enabled]="false"></dxo-export>
+                <dxi-series
+                    argumentField="type"
+                    valueField="val">
+                    <dxo-label
+                        [visible]="false"
+                        position="columns"
+                        [customizeText]="customizeLabel">
+                        <dxo-font [size]="16"></dxo-font>
+                        <dxo-connector
+                            [visible]="false"
+                            [width]="0.5"></dxo-connector>
+                    </dxo-label>
+                </dxi-series>
+            </dx-pie-chart>
+              <!-- <img class="img-fluid" src="./assets/img/admin-dashboard/revenue.svg" /> -->
+          </div>
+      </div>
+  </div>
+  <div class="card-footer border-top-0 p-2">
+      <div class="form-row">
+          <div class="col-4">
+              <h6 class="mb-0 small-rupee">{{opRev | number:'1.2-2'}}</h6>
+              <p class="mb-0 text-muted text-nowrap bar primary-light">OP</p>
+          </div>
+          <div class="col-4 text-center">
+              <h6 class="mb-0 small-rupee">{{ipRev | number:'1.2-2'}}</h6>
+              <p class="mb-0 text-muted text-nowrap bar teal">IP</p>
+          </div>
+          <div class="col-4 text-right">
+              <h6 class="mb-0 small-rupee">{{otherRev | number:'1.2-2'}}</h6>
+              <p class="mb-0 text-muted text-nowrap bar pink">Other</p>
+          </div>
+      </div>
+  </div>
+</div>

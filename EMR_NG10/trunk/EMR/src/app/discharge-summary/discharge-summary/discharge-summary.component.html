@@ -1,0 +1,144 @@
+<div class="emr-custom-container-fluid discharge-summary">
+    <div class="card-header py-1 px-2 border-dash-bottom">
+        <div class="form-row align-items-center mx-0">
+            <div class="col px-0">
+                <div class="form-row align-items-center mx-0">
+                    <div class="col px-0">
+                        <h6 class="m-0 font-size-dot-875"> Discharge Summary</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col text-right px-0 col-more-filter">
+                <button class="btn btn-sm btn-primary mr-2" type="button" (click)="openSetTempatePopup()">SET AS
+                    TEMPLATE</button>
+                <button class="btn btn-sm btn-white" type="button" (click)="openFilterPopup()">
+                    <i class="icon fa-fw icon-filter" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body discharge-summary-height p-0">
+        <div class="card m-1">
+            <div class="card-body p-1">
+                <div class="form-row align-items-center row-date-time-picker mx-0">
+                    <div class="col">
+                        <!-- <div class="form-row align-items-center">
+                            <div class="col">
+                                <p class="mb-0" *ngIf="patientObj?.dischargeType?.name"><span
+                                        class="text-muted font-size-dot-8">Discharge Type : </span><span
+                                        class="font-weight-500 font-size-dot-875">{{patientObj?.dischargeType?.name}}</span>
+                                </p>
+                            </div>
+                            <div class="col">
+                                <p class="mb-0" *ngIf="patientObj?.dischargeType?.name"><span
+                                        class="text-muted font-size-dot-8">Discharge Reason : </span><span
+                                        class="font-weight-500 font-size-dot-875"><span
+                                            *ngFor="let item of patientObj?.dischargeReason;  let l = last;">
+                                            {{item.name}} <span *ngIf="!l">,</span>
+                                        </span></span></p>
+                            </div>
+                            <div class="col">
+                                <p class="mb-0"><span class="text-muted font-size-dot-8">Status : </span><span
+                                        class="font-weight-500 font-size-dot-875">{{patientObj?.status}}</span></p>
+                            </div>
+                        </div> -->
+                        <p class="mb-0"><span class="text-muted font-size-dot-8">Name : </span>
+                          <span class="font-weight-500 font-size-dot-875" [ngClass]="{'text-danger': patientObj?.dischargeType?.name === 'EXPIRED'}">{{patientObj?.patientData?.title}} {{patientObj?.patientData?.name}}</span>
+                        </p>
+                        <p class="mb-0"><span class="text-muted font-size-dot-8">UHID : </span><span class="font-weight-500 font-size-dot-875">{{patientObj?.patientData?.id}}</span>
+                        </p>
+                        <p class="mb-0" *ngIf="patientObj?.dischargeType?.name"><span class="text-muted font-size-dot-8">Discharge Reason : </span><span class="font-weight-500 font-size-dot-875"><span
+                                *ngFor="let item of patientObj?.dischargeReason;  let l = last;">
+                                {{item.name}} <span *ngIf="!l">,</span>
+                            </span>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="col text-right">
+                        <p class="mb-0" *ngIf="patientObj?.dischargeType?.name">
+                          <span class="text-muted font-size-dot-8">Discharge Type : </span>
+                          <span class="font-weight-500 font-size-dot-875" [ngClass]="{'text-danger': patientObj?.dischargeType?.name === 'EXPIRED'}">{{patientObj?.dischargeType?.name}}</span>
+                          <span *ngIf="patientObj?.dischargeType?.date" [ngClass]="{'text-danger': patientObj?.dischargeType?.name === 'EXPIRED'}" class="font-weight-500 font-size-dot-875"> {{patientObj?.dischargeType?.date | date : 'dd-MM-yyyy hh:mm a'}}</span>
+                        </p>
+                        <p class="mb-0"><span class="text-muted font-size-dot-8">Age : </span><span class="font-weight-500 font-size-dot-875">{{patientObj?.patientData?.age}}, </span>
+                            <span class="text-muted font-size-dot-8">Sex : </span><span class="font-weight-500 font-size-dot-875">{{patientObj?.patientData?.gender}}, </span>
+                            <span class="text-muted font-size-dot-8">Admission No : </span><span class="font-weight-500 font-size-dot-875">{{patientObj?.visitNo}} </span>
+                            <span class="text-muted font-size-dot-8" *ngIf="patientObj?.patientData?.address">, Location : </span><span class="font-weight-500 font-size-dot-875">{{patientObj?.patientData?.address}}</span>
+                        </p>
+                        <!-------------------------------->
+                        <div class="form-row align-items-center">
+                            <div class="col">
+                                <p class="mb-0"><span class="text-muted font-size-dot-8">Discharge On : </span><span class="font-weight-500 font-size-dot-875"></span>
+                                </p>
+                            </div>
+                            <div class="col px-0 col-date-picker">
+                                <app-date-picker [inputDate]="dischargeDate" placeholder="yyyy-mm-dd" (dateChange)="updateDischargeDate($event);">
+                                </app-date-picker>
+                            </div>
+                            <div class="col px-0 custom-col">
+                                <ng-select class="w-100 first text-left" [items]="timeArray" (change)="onTimeChange($event)" placeholder="Hour" [(ngModel)]="dischargeTime.time"></ng-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div cdkDropList (cdkDropListDropped)="drop($event)">
+          <div *ngFor="let item of dischargeSummaryListByChart" cdkDrag>
+            <!-- <ng-template let-item> -->
+            <!-- <div class="sortable-list-item"> -->
+            <ng-container *ngIf="item?.chartName">
+                <app-section-data-display-by-chart [discharge]="item"></app-section-data-display-by-chart>
+            </ng-container>
+            <ng-container *ngIf="!item?.chartName">
+                <app-section-data-display-by-flat [orderData]="allOrderData" [discharge]="item">
+                </app-section-data-display-by-flat>
+            </ng-container>
+            <!-- </div> -->
+            <!-- </ng-template> -->
+          </div>
+        </div>
+
+        <!-- <ngx-sortable *ngIf="dischargeSummaryListByChart.length" [items]="dischargeSummaryListByChart" [name]="" (listSorted)="listOrderChanged($event)">
+          <ng-template let-item>
+              <div class="sortable-list-item">
+                  <ng-container *ngIf="item?.chartName">
+                      <app-section-data-display-by-chart [discharge]="item"></app-section-data-display-by-chart>
+                  </ng-container>
+                  <ng-container *ngIf="!item?.chartName">
+                      <app-section-data-display-by-flat [orderData]="allOrderData" [discharge]="item">
+                      </app-section-data-display-by-flat>
+                  </ng-container>
+              </div>
+          </ng-template>
+        </ngx-sortable> -->
+        <!-- <div *ngIf="!isFilterApplied && dischargeSummaryListByChart.length === 0" class="card-body discharge-summary-height p-0"> -->
+            <div *ngIf="!isFilterApplied && dischargeSummaryListByChart.length === 0" class="card-body p-0">
+            <div class="card m-1 p-2">
+                <h7> Note: Apply filter to prepare discharge summary.</h7>
+            </div>
+            <!-- <div *ngIf="!dischargeSummaryListByChart.length" class="card-body discharge-summary-height p-0"> -->
+                <div *ngIf="!dischargeSummaryListByChart.length" class="card-body p-0">
+                <div class="card m-1 p-2">
+                    <h7> No discharge summary available.</h7>
+                </div>
+            </div>
+        </div>
+        <!-- <div *ngIf="allOrderData.length">
+            <ng-container *ngFor="let item of allOrderData">
+                <app-order-display-on-discharge *ngIf="item.data.length > 0" [orderData]="item">
+                </app-order-display-on-discharge>
+            </ng-container>
+        </div> -->
+    </div>
+    <div class="card-footer text-right py-1">
+        <button type="button" class="btn btn-sm btn-outline-secondary mr-1" (click)="preview()"><i
+                class="icon fa-fw icon-pdf" aria-hidden="true"></i>
+            PREVIEW</button>
+        <button type="button" class="btn btn-sm btn-success" (click)="saveDischargeSummery()"><i
+                class="icon fa-fw icon-save" aria-hidden="true"></i>
+            SAVE</button>
+    </div>
+    <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+    <app-print-reports [printData]="printChartData" [printType]="'discharge_summery'"></app-print-reports>
+</div>

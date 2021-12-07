@@ -1,0 +1,52 @@
+<div class="card custom-card px-2 mx-2" [@fadeInOut]>
+  <div class="card-header border-0 p-0">
+    <ul class="nav nav-tabs custom-nav-tabs m-0">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="" (click)="scrollTo('section1')"
+          [ngClass]="{ 'current-section': !!(currentSection === 'section1'), 'py-2 px-2 pointer': true }">Schedule
+          For</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link pointer" [routerLink]="" (click)="scrollTo('section2')"
+          [ngClass]="{ 'current-section': currentSection === 'section2' }">Schedule Rules</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link pointer" [routerLink]="" (click)="scrollTo('section3')"
+          [ngClass]="{ 'current-section': currentSection === 'section3' }">Schedule Instructions</a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body px-0">
+    <div id="parentDiv" class="master-height px-3 pb-4" scrollSpy [spiedTags]="['DIV']"
+      (sectionChange)="onSectionChange($event);">
+      <div id="section1" class="mb-5">
+        <h6 class="border-dash-bottom pb-1 mb-3">
+          <span><i class="icon fa-fw icon-info-circle align-bottom"></i>
+            Schedule For </span>
+          <span class="float-right text-info" *ngIf="lastAppointmentData"><i
+              class="icon fa-fw icon-calendar-day font-size-1 font-weight-500"></i> Latest Appointment Date:
+            {{lastAppointmentData.app_date}} </span></h6>
+        <!-- <h5 *ngIf="lastAppointmentData">Last Appointment Date: {{lastAppointmentData.app_date}}</h5> -->
+        <app-entity-basic-info></app-entity-basic-info>
+      </div>
+      <div id="section2" class="mb-5">
+        <h6 class="border-dash-bottom pb-1 mb-3">
+          <span class="icon fa-fw icon-clipboard-list schedule align-bottom"></span>
+          Schedule Rules</h6>
+        <app-entity-rules></app-entity-rules>
+      </div>
+      <div id="section3" class="">
+        <h6 class="border-dash-bottom pb-1 mb-3">
+          <span class="icon fa-fw icon-clipboard-list-check align-bottom"></span>
+          Schedule Instructions</h6>
+        <app-entity-instruction></app-entity-instruction>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-right py-1">
+    <button type="submit" class="btn btn-sm btn-success" (click)="saveEntityInstructionData()">
+      <i class="icon fa-fw icon-save" aria-hidden="true"></i> SAVE ALL DATA
+    </button>
+  </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

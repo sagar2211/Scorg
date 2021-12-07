@@ -1,0 +1,309 @@
+<div class="emr-container-fluid container-fluid px-0 nursing-station-mapping-container-fluid" [ngClass]="{'partial-view': isPartialLoad, 'popup-view' : loadAs === 'popup', 'page-view' : loadAs === 'page'}" *ngIf="loadForm">
+    <div class="card-body p-1 mlc-body">
+      <div class="card-header pt-0 position-relative px-0 pb-0 border-bottom-0">
+        <div class="position-absolute patient-search-top" *ngIf="showPatientSearchBox">
+          <div class="input-group">
+            <ng-select class="patient-search" #patientSelection [items]="patientList$ | async" bindLabel="patientName" (change)="onPatientChange($event)" bindValue="patientId" placeholder="Patient Select" [typeahead]="patientListInput$">
+              <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                  <div class="form-row align-items-center justify-content-center mx-0 p-1">
+                      <div class="col px-0 col-profile-img">
+                          <img alt="profile-image-female" src="./assets/img/female.svg">
+                      </div>
+                      <div class="col px-0">
+                          <p class="mb-0 font-size-dot-875">{{item.patientName}}</p>
+                          <p class="mb-0 font-size-dot-75 text-muted">
+                              {{item.gender}} / {{item.age}} Year(s)
+                          </p>
+                          <p class="mb-0 font-size-dot-75 text-muted">Date: {{item.admissionDate| customDate: '' : 'DD-MM-YYYY'}}</p>
+                      </div>
+                      <div class="col px-0 text-right">
+                          <p class="mb-0 font-size-dot-75 text-muted">Visit No: {{item.visitNo}}</p>
+                          <p class="mb-0 font-size-dot-75 text-muted">Visit Type: {{item.visitType}}</p>
+                          <p class="mb-0 font-size-dot-75 text-muted">Bed No: {{item.bedNo}}</p>
+                      </div>
+                  </div>
+              </ng-template>
+          </ng-select>
+              <div class="input-group-append">
+                <button class="btn btn-white border text-muted" type="button" title="Close" (click)="enablePatientSearch(false)">
+                  &times;</button>
+              </div>
+          </div>
+      </div>
+      <div class="custom-backdrop" [ngClass]="{'added': showPatientSearchBox}"></div>
+      </div>
+      <form [formGroup]="registerForm">
+        <div class="form-row mx-0 mb-1">
+          <div class="col-4 pl-0">
+            <div class="card patient-info" style="min-height: 67px;">
+              <div class="card-body p-1">
+                <div class="form-row mx-0">
+                  <div class="col-10 px-0">
+                    <p class="mb-0">
+                      <span class="text-muted font-size-dot-75"> Patient UHID:
+                      </span>
+                      <span class="font-size-dot-75">{{registerForm.getRawValue().selectedPatient?.patientId}}</span>
+                    </p>
+                    <div class="patient-name">
+                      <p class="mb-0 font-size-dot-75 short-text ">
+                        <span class="text-muted font-size-dot-75"> Patient Name:
+                        </span>
+                        <a class="pointer" title="View Patient Detail">{{registerForm.getRawValue().selectedPatient?.patientName}} </a>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="col px-0 text-right col-search-btn">
+                    <button class="btn btn-sm btn-outline-info" type="button" (click)="enablePatientSearch(true)"
+                      title="Search New Patient">
+                      <i class="icon fa-fw icon-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="card patient-info" style="min-height: 67px;">
+              <div class="card-body p-1">
+                <div class="form-row mx-0">
+                  <div class="col-12 px-0">
+                    <div class="patient-name">
+                      <p class="mb-0 font-size-dot-75">
+                        <span class="text-muted font-size-dot-75"> Mobile:
+                        </span>
+                        <span class="pr-1" *ngIf="registerForm.getRawValue().selectedPatient?.mobileNo">
+                           {{registerForm.getRawValue().selectedPatient?.mobileNo}}
+                        </span>
+                      </p>
+                      <p class="mb-0 font-size-dot-75">
+                        <span class="text-muted font-size-dot-75"> Gender:
+                        </span>
+                        <span class="pr-1" *ngIf="registerForm.getRawValue().selectedPatient?.gender">
+                          {{registerForm.getRawValue().selectedPatient?.gender}}
+                        </span>
+                      </p>
+                      <p class="mb-0 font-size-dot-75">
+                        <span class="text-muted font-size-dot-75"> Age:
+                        </span>
+                        <span *ngIf="registerForm.getRawValue().selectedPatient?.age">
+                          {{registerForm.getRawValue().selectedPatient?.age}} Year(s)
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-4" *ngIf="registerForm.getRawValue().selectedPatient">
+            <div class="card patient-info" style="min-height: 67px;">
+              <div class="card-body p-1">
+                <div class="form-row mx-0">
+                  <div class="col px-0">
+                    <div class="form-row mx-0">
+                      <div class="col-12 mx-0">
+                        <p class="mb-0">
+                          <span class="text-muted font-size-dot-75">Encounter: </span>
+                          <span class="font-size-dot-875 font-weight-500">
+                            {{registerForm.getRawValue().selectedPatient?.visitType}}/{{registerForm.getRawValue().selectedPatient?.visitNo}}
+                          </span>
+                          <!-- <span class="text-muted font-size-dot-75">
+                            ({{registerForm.getRawValue().selectedPatient?.encounterStatus || 'OPEN'}})
+                          </span> -->
+                        </p>
+                      </div>
+                    </div>
+                    <div class="patient-name">
+                      <div class="form-row mx-0">
+                        <div class="col-12 mx-0">
+                          <p class="mb-0 text-muted font-size-dot-75">
+                            <span class="text-muted font-size-dot-75">DOE:
+                            </span>{{registerForm.getRawValue().selectedPatient?.admissionDate | date: 'dd-MM-yyyy'}}
+                          </p>
+                        </div>
+                      </div>
+                      <div class="form-row mx-0">
+                        <div class="col-10 mx-0">
+                          <p class="mb-0 text-muted font-size-dot-75 bed-empty">
+                              BED: <span class="text-muted font-size-dot-75">
+                                {{registerForm.getRawValue().selectedPatient?.bedNo}}
+                              </span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-row mx-0 mb-1 mlc-sec">
+          <div class="col-12 border-bottom font-weight-500 mlc-sec-heading">
+            <p class="m-0">MLC Details</p>
+          </div>
+          <div class="col-2">
+            <label class="m-0">MLC Rec No.</label>
+            <p class="m-0 text-strong">{{registerForm.getRawValue().mlcRecNo || '---'}}</p>
+          </div>
+          <div class="col-2">
+            <label class="m-0">Date<sup class="text-danger">*</sup></label>
+            <app-date-picker [inputDate]="registerForm.value.mlcDate" placeholder="yyyy-mm-dd" (dateChange)="registerForm.patchValue({mlcDate : $event});">
+            </app-date-picker>
+            <small class="text-danger" *ngIf="getFrmCntrols['mlcDate'].errors?.required && submitted">
+              Please Select Value!</small>
+          </div>
+          <div class="col-2">
+            <label class="m-0">Vehicle No<sup class="text-danger">*</sup></label>
+            <input type="text" class="form-control form-control-sm" formControlName="vehicleNo">
+            <small class="text-danger" *ngIf="getFrmCntrols['vehicleNo'].errors?.required && submitted">
+              Please Select Value!</small>
+          </div>
+          <div class="col-2">
+            <label class="m-0">MLC Type<sup class="text-danger">*</sup></label>
+            <ng-select [items]="mlcTypeList" bindLabel="mlcType" (change)="onMlcTypeChange($event)" formControlName="mlcType" placeholder="MLC TYPE">
+              </ng-select>
+              <small class="text-danger" *ngIf="getFrmCntrols['mlcType'].errors?.required && submitted">
+                Please Select Value!</small>
+          </div>
+          <div class="col-2">
+            <label class="m-0">Reporting Doctor<sup class="text-danger">*</sup></label>
+            <ng-select [items]="doctorList$ | async" bindLabel="user_name" (change)="onUserSelect($event)" formControlName="reportingDoctor" placeholder="Doctor"
+            [typeahead]="docListInput$">
+          </ng-select>
+          <small class="text-danger" *ngIf="getFrmCntrols['reportingDoctor'].errors?.required && submitted">
+            Please Select Value!</small>
+          </div>
+          <div class="col-2">
+            <p class="m-0"><label class="m-0">Condition</label></p>
+            <label class="m-0">
+              <input type="checkbox" formControlName="broughtDead" value="true"> Brought Dead
+            </label>
+          </div>
+        </div>
+        <div class="form-row mx-0 mb-1 mlc-sec">
+          <div class="col-12 border-bottom font-weight-500 mlc-sec-heading">
+            <p class="m-0">Incident Details</p>
+          </div>
+          <div class="col-2">
+            <label class="m-0">Date<sup class="text-danger">*</sup></label>
+            <app-date-picker [inputDate]="registerForm.value.incidentDate" placeholder="yyyy-mm-dd" (dateChange)="registerForm.patchValue({incidentDate : $event});">
+            </app-date-picker>
+            <small class="text-danger" *ngIf="getFrmCntrols['incidentDate'].errors?.required && submitted">
+              Please Select Value!</small>
+          </div>
+          <div class="col-3">
+            <label class="m-0">Time<sup class="text-danger">*</sup></label>
+            <div class="row m-0">
+              <div class=" p-0 pr-1" [ngClass]="{'col-4': timeFormateKey === '12_hour', 'col-6': timeFormateKey !== '12_hour'}">
+                <ng-select class="w-100 first text-left" [items]="timeArray.hrs" placeholder="Hour" formControlName="incidentTimeHr"></ng-select>
+              </div>
+              <div class="p-0 pr-1" [ngClass]="{'col-4': timeFormateKey === '12_hour', 'col-6': timeFormateKey !== '12_hour'}">
+                <ng-select class="w-100 first text-left" [items]="timeArray.min" placeholder="Min" formControlName="incidentTimeMin"></ng-select>
+              </div>
+              <div class="col-4 p-0 pr-1" *ngIf="timeFormateKey === '12_hour'">
+                <ng-select class="w-100 first text-left" [items]="timeArray.amPm" placeholder="Am/Pm" formControlName="incidentTimeAmPm"></ng-select>
+              </div>
+            </div>
+            <small class="text-danger" *ngIf="(getFrmCntrols['incidentTimeHr'].errors?.required || getFrmCntrols['incidentTimeMin'].errors?.required) && submitted">
+              Please Select Value!</small>
+          </div>
+          <div class="col">
+            <label class="m-0">Location & Detail<sup class="text-danger">*</sup></label>
+            <textarea class="form-control form-control-sm" rows="1" formControlName="locationDetail"></textarea>
+            <small class="text-danger" *ngIf="getFrmCntrols['locationDetail'].errors?.required && submitted">
+              Please Select Value!</small>
+          </div>
+        </div>
+        <div class="form-row mx-0 mb-1 mlc-sec">
+          <div class="col-12 border-bottom font-weight-500 mlc-sec-heading">
+            <p class="m-0">Informer Details</p>
+          </div>
+          <div class="col-4">
+            <label class="m-0">Name<sup class="text-danger">*</sup></label>
+            <input type="text" class="form-control form-control-sm" formControlName="informarName">
+            <small class="text-danger" *ngIf="getFrmCntrols['informarName'].errors?.required && submitted">
+              Please Select Value!</small>
+          </div>
+          <div class="col-2">
+            <label class="m-0">Mobile<sup class="text-danger">*</sup></label>
+            <input type="text" appOnlyNumbers class="form-control form-control-sm" formControlName="informarPhone">
+            <small class="text-danger" *ngIf="getFrmCntrols['informarPhone'].errors?.required && submitted">
+              Please Select Value!</small>
+          </div>
+          <div class="col-2">
+            <label class="m-0">Alternate No.</label>
+            <input type="text" appOnlyNumbers class="form-control form-control-sm" formControlName="informarMobile">
+          </div>
+          <div class="col-1">
+            <label class="m-0">Age<sup class="text-danger">*</sup></label>
+            <input type="text" class="form-control form-control-sm" appOnlyNumbers formControlName="informarAge">
+            <small class="text-danger" *ngIf="getFrmCntrols['informarAge'].errors?.required && submitted">
+              Please Select Value!</small>
+          </div>
+          <div class="col-3"></div>
+          <div class="col-2">
+            <label class="m-0">Identification Type</label>
+            <ng-select class="w-100 first text-left" bindLabel="identificationType" [items]="identificationTypeList" placeholder="Identification Type" formControlName="identificationType"></ng-select>
+          </div>
+          <div class="col-2">
+            <label class="m-0">Identification No.</label>
+            <input type="text" class="form-control form-control-sm" formControlName="identificationTypeNo">
+          </div>
+          <div class="col-4">
+            <label class="m-0">Address<sup class="text-danger">*</sup></label>
+            <textarea class="form-control form-control-sm" rows="1" formControlName="informarAdd"></textarea>
+            <small class="text-danger" *ngIf="getFrmCntrols['informarAdd'].errors?.required && submitted">
+              Please Select Value!</small>
+          </div>
+        </div>
+        <div class="form-row mx-0 mb-1 mlc-sec">
+          <div class="col-12 border-bottom font-weight-500 mlc-sec-heading">
+            <p class="m-0">Other Details</p>
+          </div>
+          <div class="col-4">
+            <label class="m-0">Police Name<sup class="text-danger">*</sup></label>
+            <input type="text" class="form-control form-control-sm" formControlName="policeName">
+            <small class="text-danger" *ngIf="getFrmCntrols['policeName'].errors?.required && submitted">
+              Please Select Value!</small>
+          </div>
+          <div class="col-2">
+            <label class="m-0">Buckle No.<sup class="text-danger">*</sup></label>
+            <input type="text" class="form-control form-control-sm" formControlName="buckleNo">
+            <small class="text-danger" *ngIf="getFrmCntrols['buckleNo'].errors?.required && submitted">
+              Please Select Value!</small>
+          </div>
+          <div class="col-3">
+            <label class="m-0">MLC Time<sup class="text-danger">*</sup></label>
+            <div class="row m-0">
+              <div class="col-4 p-0 pr-1">
+                <ng-select class="w-100 first text-left" [items]="timeArray.hrs" placeholder="Hour" formControlName="mlcTimeHr"></ng-select>
+              </div>
+              <div class="col-4 p-0 pr-1">
+                <ng-select class="w-100 first text-left" [items]="timeArray.min" placeholder="Min" formControlName="mlcTimeMin"></ng-select>
+              </div>
+              <div class="col-4 p-0 pr-1" *ngIf="timeFormateKey === '12_hour'">
+                <ng-select class="w-100 first text-left" [items]="timeArray.amPm" placeholder="Am/Pm" formControlName="mlcTimeAmPm"></ng-select>
+              </div>
+            </div>
+            <small class="text-danger" *ngIf="(getFrmCntrols['mlcTimeHr'].errors?.required || getFrmCntrols['mlcTimeMin'].errors?.required) && submitted">
+              Please Select Value!</small>
+          </div>
+          <div class="col-6">
+            <label class="m-0">Police Station Address<sup class="text-danger">*</sup></label>
+            <textarea class="form-control form-control-sm" rows="1" formControlName="policeStationAdd"></textarea>
+            <small class="text-danger" *ngIf="getFrmCntrols['policeStationAdd'].errors?.required && submitted">
+              Please Select Value!</small>
+          </div>
+        </div>
+      </form>
+    </div>
+  <div class="card-footer py-0 border-top">
+    <div class="float-right py-1">
+      <button type="submit" class="btn btn-primary btn-sm" [disabled]="!registerForm.getRawValue().patientId" (click)="saveDeathRegister()">
+    <i class="icon fa-fw icon-save" aria-hidden="true"></i>  SAVE
+  </button>
+  </div>
+  </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

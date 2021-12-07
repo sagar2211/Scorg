@@ -1,0 +1,70 @@
+<div class="form-row justify-content-center mb-2">
+  <div class="col-8">
+    <div class="form-row">
+      <div class="col-1">
+        <button type="button" class="btn btn-block btn-sm btn-outline-secondary back-arrow-btn" mwlCalendarPreviousView
+          [view]="view" [(viewDate)]="viewDate"
+          (viewDateChange)="updateDatePickerDate();viewDateChange.next(viewDate);">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+      </div>
+      <div class="date-col">
+        <button type="button" class="btn btn-block btn-sm btn-outline-secondary font-weight-500 date"
+          (click)="d.toggle()">
+          {{ viewDate | calendarDate: view + 'ViewTitle':locale }}
+        </button>
+        <input class="form-control d-none" placeholder="dd-mm-yyyy" name="dp" (dateSelect)="datePickerDateChange()"
+          [(ngModel)]="datepickerDate" ngbDatepicker #d="ngbDatepicker">
+      </div>
+      <div class="col-1">
+        <button type="button" class="btn btn-block btn-sm btn-outline-secondary" mwlCalendarNextView [view]="view"
+          [(viewDate)]="viewDate" (viewDateChange)="updateDatePickerDate();viewDateChange.next(viewDate)">
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </div>
+      <div class="col col-today">
+        <button type="button" class="btn btn-sm btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate"
+          (viewDateChange)="updateDatePickerDate();viewDateChange.next(viewDate)">
+          Today
+        </button>
+      </div>
+      <div class="col-4" *ngIf="mappedUserList.length">
+        <ng-select [items]="mappedUserList" bindLabel="displayMapUserName"
+          placeholder="Search by Doctor/Service Provider/Joint Clinic" [clearable]="false" [(ngModel)]="selectedEntity"
+          (change)="GetAppointmentListOnEntityId($event)">
+        </ng-select>
+      </div>
+    </div>
+  </div>
+  <!--position-sticky is needed here (do not remove that)-->
+  <div class="col-4 text-right position-sticky parent-view-fav-tab">
+    <ng-container *ngxPermissionsOnly="PermissionsConstantsList.Calendar_View_Print">
+      <button type="button" class="btn btn-sm btn-info mr-2" (click)="getPrintAppointment()" *ngIf="view === 'day'"><i
+          class="icon fa-fw icon-print" aria-hidden="true"></i> Print</button>
+    </ng-container>
+    <div class="btn-group">
+      <button type="button" class="btn btn-sm btn-outline-secondary pr-4"
+        (click)="updateDatePickerDate();viewChange.emit('month');" [class.active]="view === 'month'">
+        <span class="pr-1">Month</span>
+      </button>
+      <span class="favorite-month-tab position-absolute pointer" (click)="setViewFavorite('month')"><i
+          class="text-primary" [ngClass]="(favoriteView =='month') ? 'fa fa-fw fa-star' : 'icon fa-fw icon-star'"
+          aria-hidden="true"></i></span>
+      <button type="button" class="btn btn-sm btn-outline-secondary pr-4"
+        (click)="updateDatePickerDate();viewChange.emit('week');" [class.active]="view === 'week'">
+        <span class="pr-1">Week</span>
+      </button>
+      <span class="favorite-week-tab position-absolute pointer" (click)="setViewFavorite('week')"><i
+          class="text-primary" [ngClass]="(favoriteView =='week') ? 'fa fa-fw fa-star' : 'icon fa-fw icon-star'"
+          aria-hidden="true"></i></span>
+      <button type="button" class="btn btn-sm btn-outline-secondary pr-4"
+        (click)="updateDatePickerDate();viewChange.emit('day');" [class.active]="view === 'day'">
+        <span class="pr-1">Day</span>
+      </button>
+      <span class="favorite-day-tab position-absolute pointer" (click)="setViewFavorite('day')"><i class="text-primary"
+          [ngClass]="(favoriteView =='day') ? 'fa fa-fw fa-star' : 'icon fa-fw icon-star'"
+          aria-hidden="true"></i></span>
+    </div>
+  </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

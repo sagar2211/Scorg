@@ -1,0 +1,30 @@
+//@media (min-width: 1200px) {
+//  .audit-logs {
+//    .modal-xl {
+//      max-width: 70% !important;
+//    }
+//  }
+//}
+
+:host ::ng-deep {
+    .ngx-datatable.fixed-row {
+      .datatable-header-inner {
+        .datatable-row-center {
+          .datatable-header-cell {
+  
+            &[title="Account No."],
+            &[title="Bill No."],
+            &[title="GST Amount"],
+            &[title="Net Amount"] {
+              text-align: right;
+            }
+          }
+        }
+      }
+  
+      .datatable-body {
+        height: calc(100vh - 221px) !important;
+      }
+    }
+  }
+

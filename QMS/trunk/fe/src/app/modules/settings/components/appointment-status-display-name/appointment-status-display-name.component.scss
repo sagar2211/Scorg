@@ -1,0 +1,22 @@
+:host ::ng-deep {
+  .ngx-datatable.fixed-header {
+    .datatable-body {
+      height: calc(100vh - 258px) !important;
+      overflow-x: hidden;
+
+      .datatable-body-cell {
+        &:first-child {
+          display: inline-flex;
+          align-items: center;
+          vertical-align: middle;
+        }
+
+        .datatable-body-cell-label {
+          .child {
+            height: 33px;
+          }
+        }
+      }
+    }
+  }
+}

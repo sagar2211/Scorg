@@ -1,0 +1,58 @@
+<div class="examination-label" *ngIf="!source; else history">
+  <ngb-accordion (panelChange)="menuClicked($event)" [closeOthers]="false" [activeIds]="componentInfo?.activeIdsOfPanels">
+    <ngb-panel id="foot_examination">
+      <ng-template  ngbPanelTitle>
+        <div class="form-row align-items-center mx-0">
+          <div class="col-9">
+            <p class="mb-0 font-size-dot-875">{{componentInfo?.section_name}}</p>
+          </div>
+          <div class="col-3">
+            <button class="btn btn-sm btn-link text-white text-right" type="button">
+              <i class="fa fa-fw fa-chevron-up" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div class="container-fluid" (click)="openCloseSuggPanel()">
+          <div class="form-row">
+            <div *ngIf="!(source)" class="col-2 pointer border text-center">
+              <a (click)="openExaminationPopUp()" class="foot-examination-btn">
+                <img class="img-fluid" *ngIf="!isFootExaminationDone" src="assets/images/human/foot-examination.png"
+                  height="150" />
+                <img class="img-fluid" *ngIf="isFootExaminationDone"
+                  src="assets/images/human/foot-examination-active.png" height="150" />
+              </a>
+            </div>
+            <div class="col-10">
+              <img class="img-fluid m-auto" *ngIf="!isFootExaminationDone" height="150"
+                [src]="imgPath + '/human/foot-examination-guide.png'" title="Human body Guide">
+              <div class="card border-0 foot" *ngIf="isFootExaminationDone">
+                <div class="card-body foot-exam">
+                  <div class="form-row h-100">
+                    <div class="col-6" [inlineSVG]="'assets/images/human/assetFoot_left_print.svg'"
+                      (onSVGInserted)="afterLoadingData()"></div>
+                    <div class="col-6" [inlineSVG]="'assets/images/human/assetFoot_right_print.svg'"
+                      (onSVGInserted)="afterLoadingData()"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>
+<ng-template #history>
+  <div class="card border-0 foot" *ngIf="isFootExaminationDone">
+    <div class="card-body foot-exam">
+      <div class="form-row h-100">
+        <div class="col-6" [inlineSVG]="'assets/images/human/assetFoot_left_print.svg'"
+          (onSVGInserted)="afterLoadingData()"></div>
+        <div class="col-6" [inlineSVG]="'assets/images/human/assetFoot_right_print.svg'"
+          (onSVGInserted)="afterLoadingData()"></div>
+      </div>
+    </div>
+  </div>
+</ng-template>

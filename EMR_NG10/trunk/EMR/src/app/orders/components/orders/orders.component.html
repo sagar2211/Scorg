@@ -1,0 +1,90 @@
+<div class="card emr-custom-container-fluid border-0">
+    <div class="card-header py-1 border-dash-bottom order-wrapper">
+        <div class="form-row align-items-center">
+            <div class="col-4">
+                <h6 class="d-inline-block mb-0 mr-2"><i *ngIf="prevPath !=''" (click)="navigate(prevPath)" class="fa fa-arrow-left" aria-hidden="true"></i>{{((editOrderSetData && editOrderSetData.lenght) ? 'EDIT ORDER SET: ' : !isOrderListVisible ? 'ADD ': isOrderListVisible ? 'ORDER LIST'
+                    : '')}}
+                </h6>
+                <!-- (( !isOrderListVisible ? 'ADD ': '') + activeOrderMenuName | uppercase))}} -->
+                <div class="dropdown d-inline-block order-dropdown">
+                    <button *ngIf="isOrderSetListVisible" (click)="openOrderSetPopup()" class="btn btn-sm btn-outline-primary-light" type="button" aria-haspopup="true" aria-expanded="false">
+                        Add Order Set
+                    </button>
+                    <ng-container>
+                        <div ngbDropdown *ngIf="!isOrderListVisible && !isOrderSetListVisible">
+                            <button ngbDropdownToggle class="btn btn-sm btn-outline-primary-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{activeOrderMenuName | uppercase}}
+                            </button>
+                            <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <ng-container *ngFor="let menu of sideBarOrderMenuList;">
+                                    <a *ngIf="menu.name !== 'Order List' && menu.name !== 'Order Set' && (menu.name | lowercase) !== (activeOrderMenuName | lowercase)" ngbDropdownItem class="dropdown-item; pointer" (click)="navigate(menu.linkKey, menu.sectionKey)">{{menu.name}}</a>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="col-4" *ngIf="!isOrderListVisible && !isOrderSetListVisible">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <label for="inputPassword6">Order By:&nbsp;</label>
+                        <ng-select [items]="careTeamUserList" bindLabel="user_name" placeholder="Select Doctor" [(ngModel)]="selectedorderByUser" (change)="changeOrderByValue($event)">
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 text-right">
+                <button *ngIf="!isOrderListVisible && !isOrderSetListVisible" (click)="openSuggestions()" class="btn btn-primary-light btn-sm text-uppercase" type="button"><i
+                        class="far fa-fw fa-lightbulb mr-1" aria-hidden="true"></i>suggestion</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-0 order-body">
+        <div class="order-content" *ngIf="isOrderListVisible">
+            <app-order-list></app-order-list>
+        </div>
+        <div class="order-content" *ngIf="activeOrderMenuName === 'add_order'">
+            <app-add-order-keyboard [isFormClear]="afterSaveFormClear"></app-add-order-keyboard>
+        </div>
+        <div class="order-content" *ngIf="isOrderSetListVisible">
+            <app-order-set-list (editOrderSetData)="editOrderSetData = $event;" [loadOrderSetList]="loadOrderSetList" [serviceType]="patientObj.serviceType">
+            </app-order-set-list>
+        </div>
+
+        <div class="order-content" [ngClass]="{'d-none':isOrderListVisible}" appFocusInvalidElement>
+            <div (sectionChange)="onSectionChange($event);">
+                <div [ngClass]="{'disabled':!isFormDisable }">
+                    <ng-container #saveOrderRef>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="!isOrderSetListVisible && !isOrderListVisible" class="card-footer py-1 text-right bg-transparent">
+        <button [disabled]="disableSaveReviewButton" type="button" class="btn btn-sm btn-outline-secondary mr-1" (click)="getReviewOrdersPopup()"><i
+                class="icon fa-fw icon-eye" aria-hidden="true"></i>
+            REVIEW</button>
+        <!-- [disabled]="checkifOrdersIsEmpty(isOrderExist())" -->
+        <button [disabled]="disableSaveReviewButton" type="submit" class="btn btn-sm btn-success" (click)="saveOrders()"><i class="icon fa-fw icon-save" aria-hidden="true"></i> SAVE</button>
+    </div>
+    <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+    <ng-template #content let-modal>
+        <div class="select-section-popup">
+            <div class="modal-header">
+                <h5 class="modal-title">Choose Order to add</h5>
+                <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="section-name" *ngFor="let comp of componentList">
+                    <i class="fa fa-angle-right pr-1"></i>
+                    <span (click)="loadSelectedForms(comp);modal.close('Close click')">{{comp.orderName}}</span>
+                </p>
+            </div>
+            <div class="modal-footer p-1">
+                <button type="button" class="btn btn-sm btn-outline-danger border-radius-none font-16 py-0" (click)="modal.close('Close click')">Cancel</button>
+            </div>
+        </div>
+    </ng-template>
+</div>

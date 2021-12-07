@@ -1,0 +1,22 @@
+export const environment = {
+  production: true,
+  baseUrl: '/user-api/api',
+  baseUrlHis: '/hmis-web',
+  dashboardBaseURL: '/emr-api/api',
+  baseUrlAppointment: '/qms-api/api',
+  jsonPath: './assets/JSON/',
+  userNotificationUrl: '/hosted-service/userNotificationHub',
+  limitDataToGetFromServer: 100,
+  ALERT_DURATION: 3000,
+  REPORT_API: '/hmis-web',
+  LoginLogoUrl: '/file-server/HospitalImage/',
+  STATIC_JSON_URL: './assets/JSON/',
+  IMG_PATH: './assets/images',
+  FILE_SERVER_IMAGE_URL: '/file-server',
+  SNOWMED_URL: 'http://172.16.100.71:8181/browser/MAIN',
+  SNOWMED_SEMANTIC_TAG_URL: 'http://172.16.100.71:8181/MAIN',
+  SSO_LOGIN_URL: '',
+  notificationPartialUrl: '/user-web/#/partial-notification-list/#token#/#source#',
+  EMR_FE_APP_URL: '/emr-web',
+};
+

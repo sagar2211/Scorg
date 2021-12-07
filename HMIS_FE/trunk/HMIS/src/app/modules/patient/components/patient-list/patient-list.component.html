@@ -1,0 +1,312 @@
+<div class="container-fluid custom-container-fluid pt-2" [ngClass]="{'partial-view px-0': isPartialLoad, 'px-1': !isPartialLoad}">
+  <div class="form-row form-group align-items-center mx-0">
+    <div class="col-4 pl-0">
+      <div class="input-group">
+        <input type="text" class="form-control form-control-sm pl-2rem" placeholder="Search By Name/Contact/UHID"
+          [(ngModel)]="searchString" (ngModelChange)="this.subject.next('false');">
+        <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+        <div class="input-group-append">
+          <button class="btn btn-sm btn-outline-secondary border" type="button" title="Filter"
+            (click)="showSearchFilter()"><i class="fa fa-fw fa-caret-down" aria-hidden="true"></i></button>
+          <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear">
+            <i class="fa fa-fw fa-eraser" aria-hidden="true" (click)="clearSearchFilter();"></i></button>
+        </div>
+      </div>
+      <div class="dropdown custom-dropdown" [ngClass]="{'d-none': !showPatientListFilter}">
+        <form [formGroup]="patientListFilterForm" novalidate (ngSubmit)="searchByFilter('true')">
+          <div id="SearchPopup" class="dropdown-menu pb-0 w-100 d-block shadow p-2" role="menu">
+            <h6 for="filter" class="border-bottom pl-2 pb-2"><i class="fa fa-filter" aria-hidden="true"></i> Filter by
+            </h6>
+            <div class="card-body p-0">
+              <div class="row mx-0">
+                <div class="form-group col-md-4 float-left p-0 pr-2">
+                  <label class="form-control-label">UHID</label>
+                  <div class="form-group m-0">
+                    <input type="text" formControlName="uhid" class="form-control form-control-sm w-p100"
+                      placeholder="UHID">
+                  </div>
+                </div>
+                <div class="form-group col-md-4 float-left p-0 pr-2">
+                  <label class="form-control-label">PATIENT NAME</label>
+                  <div class="form-group m-0">
+                    <input type="text" formControlName="patientName" class="form-control form-control-sm w-p100"
+                      placeholder="PATIENT NAME">
+                  </div>
+                </div>
+                <div class="form-group col-md-4 float-left p-0 pr-2">
+                  <label class="form-control-label">MOBILE</label>
+                  <div class="form-group m-0">
+                    <input type="text" formControlName="mobile" class="form-control form-control-sm w-p100"
+                      placeholder="MOBILE">
+                  </div>
+                </div>
+                <ng-container *ngFor="let item of settings; let i = index">
+                  <div class="form-group col-md-4 float-left p-0 pr-2"
+                    *ngIf="item.isSearchable && item.key !== 'title' && item.key !== 'firstname' && item.key !== 'middlename' && item.key !== 'lastname' && item.key !== 'mobile' && item.key !== 'gender' && item.key !== 'dob' && item.key !== 'bloodgroup' && item.key !== 'nationality' && item.key !== 'marital_status' && item.key !== 'relation' && item.key !== 'country' && item.key !== 'state' && item.key !== 'city' && item.key !== 'present_country' && item.key !== 'present_state' && item.key !== 'present_city' && item.key !== 'religion' && item.key !== 'occupation' && item.key !== 'language' && item.key !== 'registrationdate'">
+                    <label class="form-control-label">{{item.label | uppercase}}</label>
+                    <div class="form-group m-0">
+                      <input type="text" formControlName="{{item.key}}" class="form-control form-control-sm w-p100"
+                        placeholder="{{item.label | uppercase}}">
+                    </div>
+                  </div>
+                  <div class="form-group m-0 col-4 p-0 pr-2" *ngIf="item.key === 'gender' && item.isSearchable">
+                    <label for="lblName">GENDER</label>
+                    <ng-select [items]="gender" bindLabel="name" formControlName="gender" placeholder="GENDER SELECT">
+                    </ng-select>
+                  </div>
+                  <div class="form-group m-0 col-4 p-0 pr-2" *ngIf="item.key === 'dob' && item.isSearchable">
+                    <label for="lblName">DOB</label>
+                    <app-date-picker [readOnly]="true" [max]="todayDate" [inputDate]="patientListFilterForm.value.dob" placeholder="DD/MM/YYYY"
+                      (dateChange)="ageCalculator($event)">
+                    </app-date-picker>
+                  </div>
+                  <div class="form-group m-0 col-4 p-0 pr-2" *ngIf="item.key === 'bloodgroup' && item.isSearchable">
+                    <label for="lblName">BLOOD GROUP</label>
+                    <ng-select [items]="bloodGroups" bindLabel="BldName" formControlName="bloodgroup"
+                      placeholder="SELECT BLOODGROUP" labelForId="bloodgroup"></ng-select>
+                  </div>
+                  <div class="form-group m-0 p-0  col-4 pr-2" *ngIf="item.key === 'nationality' && item.isSearchable">
+                    <label for="lblName">NATIONALITY</label>
+                    <ng-select [items]="nationality" bindLabel="NnlName" formControlName="nationality"
+                      placeholder="SELECT NATIONALITY" labelForId="nationality"></ng-select>
+                  </div>
+                  <div class="form-group m-0 p-0 col-4 pr-2" *ngIf="item.key === 'marital_status' && item.isSearchable">
+                    <label for="lblName">MARITAL STATUS</label>
+                    <ng-select [items]="maritalStatus" bindLabel="name" formControlName="marital_status"
+                      placeholder="SELECT MARITAL STATUS" labelForId="marital_status"></ng-select>
+                  </div>
+                  <div class="form-group m-0" *ngIf="item.key === 'relation' && item.isSearchable">
+                    <label for="lblName">RELATION</label>
+                    <ng-select [items]="relation" bindLabel="RspName" formControlName="relation"
+                      placeholder="SELECT RELATION" labelForId="relation"></ng-select>
+                  </div>
+                  <div class="form-group col-4 p-0 pl-0 pr-2" *ngIf="item.key === 'country' && item.isSearchable">
+                    <label for="lblName">COUNTRY</label>
+                    <ng-select [items]="countriList$ | async" bindLabel="countryName" bindValue="countryId"
+                      formControlName="country" placeholder="SELECT COUNTRY"
+                      (change)="onCountryChange($event,'permanent_address')" [typeahead]="countriListInput$"></ng-select>
+                  </div>
+                  <div class="form-group col-4 p-0 pr-2" *ngIf="item.key === 'state' && item.isSearchable">
+                    <label for="lblName">STATE</label>
+                    <ng-select [items]="stateList$ | async" bindLabel="stateName" bindValue="stateId"
+                      formControlName="state" placeholder="SELECT STATE"
+                      (change)="onStateChange($event,'permanent_address')" [typeahead]="stateListInput$"></ng-select>
+                  </div>
+                  <div class="form-group col-4 p-0 pr-2" *ngIf="item.key === 'city' && item.isSearchable">
+                    <label for="lblName">CITY</label>
+                    <ng-select [items]="cityList$ | async" (change)="onCityChange($event,'permanent_address')"  bindValue="cityId" bindLabel="cityName" formControlName="city"
+                      placeholder="SELECT CITY" [typeahead]="cityListInput$"></ng-select>
+                  </div>
+                  <div class="form-group col-4 p-0 pr-2" *ngIf="item.key === 'present_country' && item.isSearchable">
+                    <label for="lblName">PRESENT COUNTRY</label>
+                    <ng-select [items]="presentCountryList$ | async" bindLabel="countryName" bindValue="countryId"
+                      formControlName="present_country" placeholder="SELECT PRESENT COUNTRY"
+                      (change)="onCountryChange($event,'present_address')" [typeahead]="presentCountryListInput$"></ng-select>
+                  </div>
+                  <div class="form-group col-4 p-0 pr-2" *ngIf="item.key === 'present_state' && item.isSearchable">
+                    <label for="lblName">PRESENT STATE</label>
+                    <ng-select [items]="presentStateList$ | async" bindLabel="stateName" bindValue="stateId"
+                      formControlName="present_state" placeholder="SELECT PRESENT STATE"
+                      (change)="onStateChange($event,'present_address')" [typeahead]="presentStateListInput$"></ng-select>
+                  </div>
+                  <div class="form-group col-4 p-0 pr-2" *ngIf="item.key === 'present_city' && item.isSearchable">
+                    <label for="lblName">PRESENT CITY</label>
+                    <ng-select [items]="presentCityList$ | async" bindLabel="cityName" bindValue="cityId"
+                      formControlName="present_city" (change)="onCityChange($event,'present_address')" placeholder="SELECT PRESENT CITY" [typeahead]="presentCityListInput$"></ng-select>
+                  </div>
+                  <div class="form-group col-4 p-0 pr-2" *ngIf="item.key === 'religion' && item.isSearchable">
+                    <label for="lblName">RELIGION</label>
+                    <ng-select [items]="religion" bindLabel="rlgName" formControlName="religion"
+                      placeholder="SELECT RELIGION" labelForId="religion"></ng-select>
+                  </div>
+                  <div class="form-group col-4 p-0 pr-2" *ngIf="item.key === 'occupation' && item.isSearchable">
+                    <label for="lblName">OCCUPATION</label>
+                    <ng-select [items]="occupation" bindLabel="ocpName" formControlName="occupation"
+                      placeholder="SELECT OCCUPATION" labelForId="occupation"></ng-select>
+                  </div>
+                  <div class="form-group col-4 p-0 pr-2" *ngIf="item.key === 'language' && item.isSearchable">
+                    <label for="lblName">LANGUAGE</label>
+                    <ng-select [items]="language" bindLabel="lngName" formControlName="language"
+                      placeholder="SELECT LANGUAGE" labelForId="language"></ng-select>
+                  </div>
+                  <div class="form-group m-0 col-4 p-0 pr-2"
+                    *ngIf="item.key === 'registrationdate' && item.isSearchable">
+                    <label for="lblName">Registration Date</label>
+                    <app-date-picker [readOnly]="true" [max]="todayDate" [inputDate]="patientListFilterForm.value.registrationdate" placeholder="DD/MM/YYYY"
+                      (dateChange)="dateChange($event)">
+                    </app-date-picker>
+                  </div>
+                </ng-container>
+
+                <div class="form-group col-md-12  mb-10  p-0">
+                  <span class="checkbox-custom checkbox-default paddL">
+                    <input type="checkbox" formControlName="activeEncounter">
+                    <label for="inputonlybedview">
+                      <strong>Show Active Encounter Patients ?</strong>
+                    </label>
+                  </span>
+                  <span class="checkbox-custom checkbox-default pl-3">
+                    <input type="checkbox" formControlName="isPatientUnknown">
+                    <label for="inputonlybedview">
+                      <strong>Patient Is Unknown ?</strong>
+                    </label>
+                  </span>
+                  <span class="checkbox-custom checkbox-default  pl-3">
+                    <input type="checkbox" formControlName="isPatientTemporary">
+                    <label for="inputonlybedview">
+                      <strong>Patient Is Temporary ?</strong>
+                    </label>
+                  </span>
+                  <span class="checkbox-custom checkbox-default  pl-3">
+                    <input type="checkbox" formControlName="isPatientActive">
+                    <label for="inputonlybedview">
+                      <strong>Patient Is Active ?</strong>
+                    </label>
+                  </span>
+                  <span class="checkbox-custom checkbox-default  pl-3">
+                    <input type="checkbox" formControlName="isPatientLive">
+                    <label for="inputonlybedview">
+                      <strong>Patient Is Alive ?</strong>
+                    </label>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer text-right py-1">
+              <button class="btn float-left btn-sm btn-outline-secondary" (click)="showSearchFilter()"
+                type="button">CLOSE</button>
+              <button class="btn btn-sm btn-outline-warning mr-1" (click)="clearSearchFilter()" type="button"><i
+                  class="fas fa-fw fa-eraser" aria-hidden="true"></i> CLEAR</button>
+              <button class="btn btn-sm btn-outline-info" type="submit"> <i class="icon fa-fw icon-search"></i>
+                SEARCH</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-2">
+      <ng-container *ngIf="notify.isPatientSelectAllFlag || notify.selectedPatientIds.length > 0">
+        <app-ng-select-typeahead [inputValue]="notify.templateName?.id" [thDisplayLabel]="'name'" [thDisplayKey]="'id'"
+          [source]="'Select Template..'" (recievedVal)="getTemplateDetails($event)" [returnDataType]="'obj'"
+          [displayList]="templateMasterList">
+        </app-ng-select-typeahead>
+      </ng-container>
+    </div>
+    <div class="col-4">
+      <ng-container *ngIf="notify.isPatientSelectAllFlag || notify.selectedPatientIds.length > 0">
+        <button type="submit" class="btn btn-sm btn-success" (click)="sendBulkNotificationConfirmationPopup()"><i
+            aria-hidden="true" class="icon fa-fw icon-paper-plane"></i>
+          SEND NOTIFICATION</button>
+        <button class="btn btn-sm btn-outline-secondary ml-2" (click)="clearBulkNotification()"
+          type="button">CANCEL</button>
+        <label class="mt-2 float-right">Selected {{notify.selectedPatientCounts}} of {{page.totalElements}}</label>
+      </ng-container>
+    </div>
+    <div class="col">
+      <select class="form-control form-control-sm float-right select-w"
+        (change)="onPageSizeChanged($event.currentTarget.value)" [(ngModel)]="pageSize" id="page-size">
+        <option value="25" selected="">25</option>
+        <option value="30">30</option>
+        <option value="45">45</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+  </div>
+  <ng-container>
+    <ng-container *ngIf="patientList">
+      <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25"
+      [footerHeight]="35" [rowHeight]="30" [rows]="patientList" [externalSorting]="true" (sort)="onSortChanged($event)"
+      [externalPaging]="externalPaging" [count]="patientList.length" [scrollbarH]="true" (page)='onSetPage($event)'>
+      <ngx-datatable-column [sortable]="false" name="UHID" prop="uhid" [width]="100" [frozenLeft]="true">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <span class="pl-1">{{row.uhid}} </span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [sortable]="false" name="Name" prop="fullName" [frozenLeft]="true" [width]="300">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <span [ngClass]="{'patientDeceased': row.isLive === 'NO'}">{{row.isUnknownUhid === 'YES' ? row.fullName + ' (Unknown)' : row.fullName}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [sortable]="false" name="Registration Date" prop="registrationDate">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <span class="pl-1">{{row.registrationDate}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [sortable]="false" name="Aadhar No" prop="aadharNo">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <span class="text-uppercase">{{row.aadharNo}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [sortable]="false" name="DOB" prop="dob">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <span>{{row.dob}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [sortable]="false" name="Pan No" prop="panNo">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <span class="text-uppercase">{{row.panNo}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [sortable]="false" name="Gender" prop="gender">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <span>{{row.gender}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [sortable]="false" name="Address" prop="address">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <span>{{row.address}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [sortable]="false" name="Status" prop="status">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <span>{{row.status}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column [sortable]="false" name="Is Alive" prop="isLive">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+          <span>{{row.isLive}}</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Action" [frozenRight]="true" cellClass="text-center" [sortable]="false"  [width]="100">
+        <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value"
+          let-isSelected="isSelected">
+          <button class="bg-transparent border-0" placement="left-bottom" [autoClose]="true" [ngbPopover]="popContent"
+            container="body" #p="ngbPopover">
+            <i class="fa fa-fw fa-bars" aria-hidden="true"></i> <i class="fa fa-xs fa-caret-down"
+              aria-hidden="true"></i>
+          </button>
+          <ng-template #popContent>
+            <ul class="list-unstyled popover-content mb-0">
+              <li><button class="btn btn-sm btn-block text-left info edit" (click)="onView(row)"><i
+                class="icon fa-fw icon-info mr-1" aria-hidden="true"></i> View
+            </button></li>
+              <li><button class="btn btn-sm btn-block text-left edit" *ngIf="row.isLive !== 'NO'" (click)="onEdit(row)"><i
+                    class="icon fa-fw icon-edit mr-1" aria-hidden="true"></i> Edit
+                </button></li>
+            </ul>
+          </ng-template>
+
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-footer *ngIf="patientList.length > 0">
+        <ng-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
+          let-curPage="curPage" let-offset="offset" ngx-datatable-footer-template>
+          <div class="mx-3">
+            Showing {{ ((page.pageNumber - 1) * page.size) + 1}} to
+            {{ ((page.pageNumber - 1) * page.size) + patientList.length}} of {{total_records}} entries
+          </div>
+          <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'"
+            [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="page.pageNumber"
+            [size]="page.size" [count]="page.totalElements" [hidden]="!((page.totalElements / page.size) > 1)"
+            (change)="onFooterPage($event)">
+          </datatable-pager>
+        </ng-template>
+      </ngx-datatable-footer>
+    </ngx-datatable>
+    </ng-container>
+
+  </ng-container>
+
+
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

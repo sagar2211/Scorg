@@ -1,0 +1,14 @@
+<div appOutSideClickEvent (clickOutside)="appOutSideClickEvent($event)" [clickInputValue]="false">
+  <div *ngIf='title=="Profile" || logoutFlag || autoLogoutFlag'>
+    <app-user-profile [isLogOutFlag]="logoutFlag" [isAutoLogoutFlag]="autoLogoutFlag"></app-user-profile>
+  </div>
+  <div *ngIf='title === "Settings"'>
+    <!-- <app-settings></app-settings> -->
+  </div>
+  <div *ngIf='title === "Notification"'>
+    <app-notification></app-notification>
+  </div>
+  <div
+    [ngClass]="{'sidebar-before-icon':true, 'profile':title=='Profile','setting':title=='Settings','notification':title=='Notification'}">
+  </div>
+</div>

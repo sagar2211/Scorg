@@ -1,0 +1,936 @@
+@import "../../../../../scss/main";
+
+.square-height {
+  height: 90vh !important;
+}
+
+.img-fluid {
+  max-width: inherit;
+  height: inherit;
+}
+
+//template height css
+:host::ng-deep {
+  .h-mh-30 {
+    height: 30% !important;
+    max-height: 30% !important;
+  }
+
+  .h-mh-36 {
+    height: 36% !important;
+    max-height: 36% !important;
+  }
+
+  .h-mh-40 {
+    height: 40% !important;
+    max-height: 40% !important;
+  }
+
+  .h-mh-45 {
+    height: 45% !important;
+    max-height: 45% !important;
+  }
+
+  .h-mh-50 {
+    height: 50% !important;
+    max-height: 50% !important;
+  }
+
+  .h-mh-51 {
+    height: 51% !important;
+    max-height: 51% !important;
+  }
+
+  .h-mh-60 {
+    height: 60% !important;
+    max-height: 60% !important;
+  }
+
+  .h-mh-70 {
+    height: 70% !important;
+    max-height: 70% !important;
+  }
+
+  .h-mh-80 {
+    height: 80% !important;
+    max-height: 80% !important;
+  }
+
+  .h-mh-81 {
+    height: 81% !important;
+    max-height: 81% !important;
+  }
+}
+
+:host::ng-deep {
+  .info {
+    position: absolute;
+    left: 0%;
+    top: 0.5%;
+    width: 100%;
+    height: 100%;
+    border: 2px solid $white;
+    @include border-radius(15px);
+    @include custom-box-shadow(0, 0, 4px, rgba($black, 0.15));
+    background: rgb(219, 223, 224);
+    background: linear-gradient(45deg, #f7f7f7 0%, #e4e8e9 150%);
+  }
+
+  .queue {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+
+    .dr-info {
+      @extend .info;
+      top: 0;
+
+      .dr-img {
+        height: 40%;
+        max-height: 40%;
+        text-align: center;
+        @include border-top-left-radius(15px);
+        @include border-top-right-radius(15px);
+        background: rgb(219, 223, 224);
+        @include custom-box-shadow(0, 2px, 10px, rgba($black, 0.15));
+
+        img {
+          height: 100%;
+          @include border-top-left-radius(15px);
+          @include border-top-right-radius(15px);
+          border: 2px solid #fff;
+          @include box-shadow-multiple(3px 3px 3px rgba($black, 0.12), -3px 0px 2px rgba($black, 0.24));
+        }
+      }
+
+      .dr-name-row {
+        height: 20%;
+        max-height: 20%;
+        padding: 0 0.5%;
+        color: $gray-900;
+
+        .dr-name {
+          line-height: 0.8;
+          font-size: 3vw;
+        }
+      }
+
+      .dr-speciality {
+        height: 20%;
+        max-height: 20%;
+        padding: 0 0.5%;
+        color: $gray-900;
+
+        .speciality {
+          opacity: 0.8;
+          @extend .line-height-1;
+          font-size: 1.5vw;
+        }
+      }
+
+      .room-number {
+        height: 19%;
+        max-height: 19%;
+        padding: 0 0.5%;
+        border-top: 2px solid $white;
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit;
+        background: rgb(219, 223, 224);
+        background: linear-gradient(45deg, #f7f7f7 0%, #e4e8e9 150%);
+        @include custom-box-shadow(0, -2px, 5px, rgba($black, 0.15));
+
+        .room {
+          opacity: 0.8;
+          font-size: 2.5vw;
+          color: $black;
+          @include transform(translateY(10%));
+        }
+
+        .section {
+          color: $white;
+          font-size: 3vw;
+          padding: 0 0.6%;
+          display: inline-block;
+          border: 2px solid #fff;
+          font-weight: 600 !important;
+          @include border-radius(10px);
+          background: rgb(219, 223, 224);
+          @include custom-box-shadow(0, 2px, 10px, rgba($black, 0.15));
+        }
+      }
+    }
+
+    .calling-info {
+      @extend .info;
+
+      .calling {
+        color: $white;
+        height: 30%;
+        max-height: 30%;
+        text-align: center;
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+        background-color: rgb(219, 223, 224);
+        @include custom-box-shadow(0, 2px, 10px, rgba($black, 0.15));
+
+        .calling-txt {
+          position: absolute;
+          top: 8px;
+          left: 7px;
+          z-index: 1;
+          font-weight: 500;
+          font-size: 1.4vw;
+          padding: 0px 6px;
+          border-radius: 25px;
+          background-color: rgba(0, 0, 0, 0.4);
+          text-shadow: 0 0 6px $white;
+        }
+
+        .token-no {
+          font-size: 5vw;
+          padding-left: 20px;
+          text-shadow: 0 0 3px $white;
+        }
+      }
+
+      .pt-name-row {
+        height: 21%;
+        max-height: 21%;
+        padding: 0 0.5%;
+        color: $gray-900;
+
+        .pt-name {
+          line-height: 0.8;
+          font-size: 3vw;
+        }
+      }
+
+      .mobile-no-row {
+        height: 30%;
+        max-height: 30%;
+        padding: 0 0.5%;
+        color: $gray-900;
+
+        .mobile-no {
+          opacity: 0.8;
+          @extend .line-height-1;
+          font-size: 1.5vw;
+        }
+      }
+
+      .room-number {
+        height: 19%;
+        max-height: 19%;
+        padding: 0 0.5%;
+        border-top: 2px solid $white;
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit;
+        background: rgb(219, 223, 224);
+        background: linear-gradient(45deg, #f7f7f7 0%, #e4e8e9 150%);
+        @include custom-box-shadow(0, -2px, 5px, rgba($black, 0.15));
+
+        .room {
+          opacity: 0.8;
+          font-size: 2.5vw;
+          line-height: 0.8;
+          color: $black;
+          @include transform(translateY(10%));
+        }
+
+        .section {
+          color: $white;
+          font-size: 3vw;
+          padding: 0 0.6%;
+          @include border-radius(10px);
+          display: inline-block;
+          border: 2px solid #fff;
+          background: rgb(219, 223, 224);
+          font-weight: 600 !important;
+          @include custom-box-shadow(0, 2px, 10px, rgba($black, 0.15));
+        }
+      }
+    }
+
+    .queue-info {
+      position: absolute;
+      top: 0.2%;
+      left: 0.2%;
+      width: 99.5%;
+
+      .queue-list {
+        @include border-radius(10px);
+        margin-bottom: 0.3%;
+        border: 2px solid $white;
+        @include custom-box-shadow(0, 0, 10px, rgba($black, 0.15));
+        background: rgb(219, 223, 224);
+        background: linear-gradient(45deg, #f7f7f7 25%, #e4e8e9 150%);
+
+        .next-txt {
+          position: absolute;
+          top: 28%;
+          right: 7px;
+          z-index: 1;
+          color: $white;
+          font-weight: 500;
+          font-size: 1.4vw;
+          padding: 0px 6px;
+          border-radius: 25px;
+          text-shadow: 0 0 6px $white;
+        }
+
+        .col-token {
+          color: $white;
+          padding-top: 0.6%;
+          padding-bottom: 0.6%;
+          text-align: center;
+          @include border-radius(10px);
+          @include custom-box-shadow(2px, 2px, 10px, rgba($black, 0.15));
+
+          .token-no {
+            font-size: 3vw;
+          }
+        }
+
+        .col-pt-name-mobile {
+          padding-left: 0.7% !important;
+          @extend .line-height-1;
+          color: $gray-900;
+
+          .pt-name {
+            font-size: 2.5vw;
+          }
+
+          .mobile-no {
+            opacity: 0.8;
+            font-size: 1.5vw;
+          }
+        }
+
+        .wait-time {
+          font-size: 1vw;
+          padding-right: 5px;
+        }
+      }
+    }
+  }
+
+  .blink {
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: 10;
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 2s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: 10;
+    animation-name: blinker;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: 10;
+  }
+
+  .blink-infinite {
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 2s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: infinite;
+    animation-name: blinker;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  @-moz-keyframes blinker {
+    0% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.1;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @-webkit-keyframes blinker {
+    0% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.1;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes blinker {
+    0% {
+      opacity: 1;
+    }
+
+    10% {
+      opacity: 0.1;
+    }
+
+    40% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
+:host::ng-deep {
+  .blank-devide {
+    .template1 {
+      .calling-info {
+        .room-number {
+          .room {
+            transform: translateY(75%);
+          }
+        }
+      }
+    }
+
+    .template2 {
+      .queue-info {
+        .queue-list {
+          .col-token {
+            .token-no {
+              font-size: 2.8vw !important;
+            }
+          }
+        }
+      }
+    }
+
+    .template5 {
+      .dr-info {
+        .dr-speciality {
+          .speciality {
+            font-size: 2vw;
+          }
+        }
+
+        .room-number {
+          .room {
+            @include transform(translateY(0%));
+          }
+
+          .section {
+            font-size: 2.5vw;
+          }
+        }
+      }
+
+      .calling-info {
+        .room-number {
+          .room {
+            @include transform(translateY(70%));
+          }
+        }
+      }
+    }
+
+    .template6 {
+      .calling-info {
+        .calling .token-no {
+          font-size: 4vw !important;
+        }
+      }
+
+      .queue-info {
+        .queue-list {
+          .col-token {
+            .token-no {
+              font-size: 2vw !important;
+            }
+          }
+        }
+      }
+
+      .next-info {
+        .next {
+          .token-no {
+            font-size: 4vw !important;
+          }
+        }
+      }
+    }
+
+    .template7 {
+      .calling-info {
+        .pt-name-row {
+          .pt-name {
+            font-size: 9vw !important;
+          }
+        }
+      }
+
+      .calling-info {
+        .mobile-no-row {
+          .mobile-no {
+            font-size: 8vw !important;
+          }
+        }
+      }
+    }
+
+    .template8,
+    .template9 {
+      .queue-container {
+        .table {
+          border-collapse: separate;
+          border-spacing: 0;
+          text-align: left;
+
+          &.w-99 {
+            width: 99% !important;
+            margin: auto;
+          }
+
+          thead {
+            tr {
+              line-height: 1.38;
+
+              th {
+                background-color: #eaeaea;
+                border-top: 1px solid $warning;
+              }
+
+              &:first-child {
+                th:first-child {
+                  border-top-left-radius: 6px;
+                }
+
+                th:last-child {
+                  border-top-right-radius: 6px;
+                }
+              }
+            }
+          }
+
+          tbody {
+            tr {
+              td {
+                vertical-align: middle;
+                padding: 0.5rem;
+
+                span,
+                .dr-name {
+                  padding: 1.5%;
+                  color: $white;
+                  border-radius: 1.2rem;
+                  border: 2px solid $white;
+                  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.15);
+                  font-weight: 500;
+                }
+
+                .c-token-w,
+                .n-token-w {
+                  padding: 0;
+                  width: 260px;
+                  display: inline-block;
+                  text-align: center;
+                }
+
+                .room-name,
+                .dr-name {
+                  background: linear-gradient(45deg, #f7f7f7 0%, #e4e8e9 150%);
+                  color: $black;
+                }
+              }
+
+              .queue-list {
+                &.no-check-in {
+                  padding: 0.3rem;
+                  background: rgb(255, 166, 158);
+                  background: linear-gradient(45deg, #ffa69e 25%, rgb(218, 142, 186) 150%);
+                }
+
+                .col-pt-name-mobile {
+                  .pt-name {
+                    &.no-check-in {
+                      color: $white;
+                    }
+                  }
+                }
+              }
+
+              &:last-child {
+                td:first-child {
+                  border-bottom-left-radius: 6px;
+                }
+
+                td:last-child {
+                  border-bottom-right-radius: 6px;
+                }
+              }
+            }
+          }
+
+          thead tr th,
+          tbody tr td {
+            border-right: 1px solid $warning;
+            border-bottom: 1px solid $warning;
+            font-size: 3vw;
+            @extend .align-middle;
+
+            &:first-child {
+              border-left: 1px solid $warning;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+:host::ng-deep {
+  .horizontal-devide {
+    height: 50% !important;
+
+    &:nth-child(2) {
+      position: absolute;
+      bottom: 4%;
+    }
+
+    .template7 {
+      height: 45.5% !important;
+
+      .calling-info {
+        .calling {
+          .token-no {
+            font-size: 6vw !important;
+          }
+        }
+      }
+
+      .calling-info {
+        .mobile-no-row {
+          .mobile-no {
+            font-size: 4vw !important;
+          }
+        }
+      }
+
+      .calling-info {
+        .room-number {
+          .room {
+            font-size: 3.7vw;
+            -webkit-transform: translateY(26%) !important;
+            -moz-transform: translateY(26%) !important;
+            -ms-transform: translateY(26%) !important;
+            -o-transform: translateY(26%) !important;
+            transform: translateY(26%) !important;
+          }
+
+          .section {
+            font-size: 3.7vw !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+:host::ng-deep {
+  .vertical-devide {
+    width: 50%;
+
+    .template2 {
+      width: 50%;
+      margin-right: 5px;
+      padding-right: 5px;
+
+      .dr-info {
+        .dr-name-row {
+          .dr-name {
+            font-size: 2vw;
+          }
+        }
+
+        .room-number {
+          .room {
+            font-size: 1.9vw;
+            @include transform(translateY(25%));
+          }
+        }
+      }
+
+      .calling-info {
+        .pt-name-row {
+          .pt-name {
+            font-size: 2vw;
+          }
+        }
+
+        .mobile-no-row {
+          .mobile-no {
+            font-size: 1.3vw;
+          }
+        }
+
+        .room-number {
+          .room {
+            font-size: 1.5vw;
+            @include transform(translateY(0%));
+          }
+        }
+
+        .token-no {
+          padding-left: unset;
+          font-size: 2.8vw !important;
+        }
+      }
+
+      .queue-info {
+        .col-token {
+          .token-no {
+            font-size: 1.4vw;
+          }
+        }
+      }
+
+      .section {
+        font-size: 2.5vw !important;
+      }
+
+      .speciality {
+        font-size: 1.3vw !important;
+      }
+
+      .queue-info {
+        .queue-list {
+          .col-pt-name-mobile {
+            .pt-name {
+              font-size: 1.5vw !important;
+            }
+          }
+        }
+      }
+    }
+
+    .template1 {
+      width: 50%;
+
+      .calling-info {
+        .room-number {
+          .room {
+            font-size: 2vw;
+            -webkit-transform: translateY(0%) !important;
+            -moz-transform: translateY(0%) !important;
+            -ms-transform: translateY(0%) !important;
+            -o-transform: translateY(0%) !important;
+            transform: translateY(0%) !important;
+          }
+        }
+      }
+    }
+
+    .template3 {
+      width: 50%;
+
+      .queue-info {
+        .queue-list {
+          .col-token {
+            .token-no {
+              font-size: 2.2vw;
+            }
+          }
+        }
+      }
+    }
+
+    .template4 {
+      width: 50%;
+
+      .dr-info {
+        .dr-img {
+          img {
+            height: 50%;
+          }
+        }
+
+        .dr-name-row {
+          .dr-name {
+            font-size: 3vw !important;
+          }
+        }
+
+        .dr-speciality {
+          .speciality {
+            font-size: 2vw !important;
+          }
+        }
+      }
+
+      .queue-info {
+        .queue-list {
+
+          .col-pt-name-mobile .pt-name,
+          .col-token .token-no {
+            font-size: 1.8vw !important;
+          }
+        }
+      }
+    }
+
+    .template5 {
+      width: 50%;
+
+      .dr-info {
+        .dr-speciality {
+          .speciality {
+            font-size: 2vw;
+          }
+        }
+
+        .room-number {
+          .room {
+            @include transform(translateY(0%));
+          }
+
+          .section {
+            font-size: 2.5vw;
+          }
+        }
+      }
+
+      .queue-info {
+        .queue-list {
+          .col-pt-name-mobile {
+            .pt-name {
+              font-size: 2vw;
+            }
+          }
+        }
+      }
+
+      .queue-info {
+        .queue-list {
+          .col-token {
+            .token-no {
+              font-size: 2vw;
+            }
+          }
+        }
+      }
+    }
+
+    .template7 {
+      width: 50%;
+
+      .calling-info {
+        .calling {
+          .token-no {
+            font-size: 7vw !important;
+          }
+        }
+      }
+
+      .calling-info {
+        .pt-name-row {
+          .pt-name {
+            font-size: 4vw !important;
+          }
+        }
+      }
+
+      .calling-info {
+        .room-number {
+          .room {
+            font-size: 3vw !important;
+            -webkit-transform: translateY(26%) !important;
+            -moz-transform: translateY(26%) !important;
+            -ms-transform: translateY(26%) !important;
+            -o-transform: translateY(26%) !important;
+            transform: translateY(26%) !important;
+          }
+        }
+      }
+    }
+
+    .template8 {
+      width: 50%;
+    }
+
+    &:first-child {
+      .queue {
+        border-right: 3px solid rgba(132, 132, 132, 0.5);
+      }
+    }
+  }
+
+  .vh-h {
+    height: 100vh !important;
+  }
+}
+
+:host::ng-deep {
+  .square-devide {
+    width: 50%;
+    height: 50% !important;
+
+    .template7 {
+      height: 45vh !important;
+      width: 50%;
+
+      .calling-info {
+        .calling {
+          .token-no {
+            font-size: 4vw !important;
+          }
+        }
+      }
+
+      .calling-info {
+        .pt-name-row {
+          .pt-name {
+            font-size: 4vw !important;
+          }
+        }
+      }
+
+      .calling-info {
+        .room-number {
+          .room {
+            font-size: 2vw !important;
+            -webkit-transform: translateY(100%) !important;
+            -moz-transform: translateY(100%) !important;
+            -ms-transform: translateY(100%) !important;
+            -o-transform: translateY(100%) !important;
+            transform: translateY(100%) !important;
+          }
+        }
+      }
+
+      .calling-info .room-number .section {
+        font-size: 3vw !important;
+      }
+    }
+  }
+}
+
+.branding {
+  position: fixed;
+  width: 100%;
+  height: 8%;
+  bottom: 0;
+  border-top: 2px solid $white;
+
+  .container-fluid {
+    background-color: $gray-100;
+  }
+}

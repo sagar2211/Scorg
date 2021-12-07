@@ -1,0 +1,9 @@
+@import "../../../../../scss/custom_bootstrap_theme.scss";
+
+.role-permissions {
+  .card-body {
+    height: calc(100vh - 196px);
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}

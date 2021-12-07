@@ -1,0 +1,22 @@
+{
+  "data": [
+    {
+      "advice_id": "123",
+      "template_name": "template1",
+      "description": "Probably the simplest and safest way to do that is to let the browser handle the HTML-escaping for you, like this:"
+    },
+    {
+      "advice_id": "124",
+      "template_name": "template2",
+      "description": "Probably the simplest and safest way to do that is to let the browser handle the HTML-escaping for you, like this:"
+    },
+    {
+      "advice_id": "125",
+      "template_name": "template3",
+      "description": "Probably the simplest and safest way to do that is to let the browser handle the HTML-escaping for you, like this:"
+    }
+  ],
+  "status_code": 200,
+  "status_message": "Success",
+  "message": "Details fetched successfully"
+}

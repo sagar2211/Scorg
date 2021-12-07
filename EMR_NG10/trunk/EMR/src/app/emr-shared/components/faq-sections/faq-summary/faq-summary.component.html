@@ -1,0 +1,111 @@
+<div class="row m-0" *ngIf="(source == 'clubbed' || source == 'unClubbed') && !faqSection.popupSetting.showFaqQuestions">
+  <div class="col-12 custom-scroll modal-wof p-0" scroll>
+    <section class="m-0">
+      <div class="content-body p-0">
+        <!--<legend class="mb-1 text-primary text-15 pb-2 pl-2 legend-bg">-->
+        <!--<span>Summary</span>-->
+        <!--<span class="badge badge-warning float-right cursor-pointer p-2" style="cursor: pointer;" (click)="faqSection.clearAllTemplateAnswer()"> Clear All</span>-->
+        <!--</legend>-->
+        <div class="form-row">
+          <div class="col-12" *ngFor="let category of faqSection.faqCurrentSectionCategoryList | filterArray:'sectionId':faqSection.sectionId; let categoryIndex = index;trackBy: trackByFunction;">
+            <div class="margin-bottom-0 text-strong col-xs-12 padding-right-0">
+              <span class="text-uppercase mb-0 font-size-dot-875" *ngIf="category.faqSummaryObject.length > 0">
+                Summary of <span [innerHTML]="category.categorySummary"></span>
+              </span>
+            </div>
+            <!-- <ul class="summary-list">
+            <li *ngFor='let story of category.faqSummaryObject; let storyIndex = index;trackBy: trackByFunction;' class="no-list-style">
+              <p class="summary-li-bullet text-black bold no-margin" *ngIf="story.category!=''"><span [innerHTML]="story.category"></span></p>
+              <p class="summary-li-sub-bullet no-margin"><span [innerHTML]="story.storyData"></span> </p>
+            </li>
+          </ul> -->
+            <div class="card font-size-dot-875 faq-custom-card" *ngFor='let story of category.faqSummaryObject; let storyIndex = index;trackBy: trackByFunction;'>
+              <div class="card-header border-dash-bottom" *ngIf="story.category!=''">
+                <h6 class="text-uppercase mb-0 font-size-dot-875" *ngIf="story.category!=''"><i class="icon fa-fw icon-info-circle mr-1 text-info"></i><span [innerHTML]="story.category"></span>
+                </h6>
+              </div>
+              <div class="card-body p-1">
+                <p class="mb-0"><span [innerHTML]="story.storyData"></span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="alert alert-warning p-1 m-1 text-capitalize font-size-dot-875" role="alert"
+          *ngIf="faqSection.templateSummaryNotExists">
+          <p class="mb-0"><i class="far fa-fw fa-lightbulb mr-1" aria-hidden="true"></i>No Summary Available</p>
+        </div> -->
+      </div>
+    </section>
+  </div>
+</div>
+<div class="row mx-0 faq-row">
+  <div class="col-12 px-0" *ngIf="source == 'openForm'">
+    <div *ngFor="let summaryItem of faqSummaryData">
+      <div *ngFor="let category of summaryItem.faqCurrentSectionCategoryList | filterArray:'sectionId':summaryItem.sectionId; let categoryIndex = index;trackBy: trackByFunction;">
+        <p class="text-uppercase mb-0 font-size-dot-875" *ngIf="category.faqSummaryObject.length > 0">
+          Summary of <span [innerHTML]="category.categorySummary"></span>
+        </p>
+        <ng-container  *ngIf="category.sectionGroupFormat !== 'tabular'" >
+          <div class="card font-size-dot-875 faq-custom-card" *ngFor='let story of category.faqSummaryObject; let storyIndex = index;trackBy: trackByFunction;'>
+            <div class="card-header border-dash-bottom" *ngIf="story.category!=''">
+              <h6 class="text-uppercase mb-0 font-size-dot-875"><i class="icon fa-fw icon-info-circle mr-1 text-info"></i><span [innerHTML]="story.category"></span>
+              </h6>
+            </div>
+            <div class="card-body p-1">
+              <p class="mb-0"><span [innerHTML]="story.storyData"></span></p>
+            </div>
+          </div>
+        </ng-container>
+        <div *ngIf="category.sectionGroupFormat === 'tabular'" >
+          <div *ngFor="let section of patientFaqSectionList | getSectionGroupData: category.categoryId" >
+            <div class="border-dash-bottom py-1">
+              <h6 class="text-uppercase mb-0 font-size-dot-875"><i class="icon fa-fw icon-info-circle mr-1 text-info"></i><span [innerHTML]="section.sectionGroupName"></span>
+              </h6>
+            </div>
+            <div class="card-body">
+              <table class="table border custom-table font-size-dot-875 mb-0 first-table">
+                <thead class="w-100">
+                  <tr>
+                    <th [ngStyle]="{'width.%': (100 / (section.sectionTabularHeadingData.length+1)) }" *ngIf="section.sectionQuestionHeading != 'hide'">
+                      <span *ngIf="section.sectionQuestionHeading != '-'"
+                        [innerHTML]="section.sectionQuestionHeading"></span></th>
+                    <th [ngStyle]="{'width.%': (100 / (section.sectionTabularHeadingData.length+1)) }"
+                      *ngFor="let answerHeading of section.sectionTabularHeadingData | orderBy : 'id':false"><span
+                        [innerHTML]="answerHeading.answer_group_heading"></span></th>
+                    <th style="width:5%" *ngIf="section.repeatAnsGroupExists"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="first-td" [attr.colspan]="section.sectionTabularHeadingData.length + 1 + (section.repeatAnsGroupExists?1:0)">
+                      <div
+                        *ngFor="let question of patientFaqSectionList | filterArray:'sectionGroupId':section.sectionGroupId; let questionIndex = index;">
+                        <table class="table custom-table mb-0">
+                          <tbody>
+                            <tr
+                              *ngFor="let answerRowData of question.answerModelArray | keyvalue; let i = index; trackBy: trackByFunction;let first = first; let last = last;">
+                              <td [ngStyle]="{'width.%': (100 / (section.sectionTabularHeadingData.length+1)) }" [attr.rowspan]="question.answerModelArray.length" *ngIf="first && section.sectionQuestionHeading != 'hide'">
+                                <span [innerHTML]="question.questionText"></span>
+                              </td>
+                              <td [ngStyle]="{'width.%': (100 / (section.sectionTabularHeadingData.length+1)) }"
+                                *ngFor="let answerHeading of section.sectionTabularHeadingData | orderBy : 'id':false">
+                                <div
+                                  *ngFor="let answer of answerRowData.value | filterArray:'ansGroup':answerHeading.answer_group_key; let answerIndex = index;trackBy: trackByFunction;"
+                                  class="col-xs-12 p-0">
+                                  {{answer.selectedAns}}
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- {{category | json }} -->
+    </div>
+  </div>

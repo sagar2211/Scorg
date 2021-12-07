@@ -1,0 +1,39 @@
+@import "./../../../../scss/main";
+
+:host ::ng-deep {
+
+  .st5_left,
+  .st5_right {
+    font-family: 'roboto';
+  }
+
+  .accordion {
+    .card-body {
+      height: calc(100vh - 74vh);
+      overflow-y: auto;
+    }
+  }
+
+  .card {
+    .card-header {
+      @extend .cus-head;
+      @extend .p-0;
+      @extend .border-dash-bottom;
+
+      .btn-link {
+        width: 100%;
+        @extend .p-1;
+      }
+    }
+
+    .card-body {
+      @extend .p-0;
+    }
+
+    &:not(:first-of-type) {
+      &:not(:last-of-type) {
+        border-bottom: 1px;
+      }
+    }
+  }
+}

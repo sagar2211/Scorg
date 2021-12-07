@@ -1,0 +1,180 @@
+<div class="custom-container-fluid">
+    <div class="p-2">
+        <div class="form-row form-group">
+            <div class="col-3">
+                <label>&nbsp;</label>
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-sm pl-2rem" [(ngModel)]="searchString"
+                        (ngModelChange)="this.subject.next();" placeholder="Search">
+                    <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear">
+                            <i class="fa fa-fw fa-eraser" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-5">
+                <form>
+                    <div class="form-row">
+                        <div class="col">
+                            <label>&nbsp;</label>
+                            <ng-select [clearable]="false" [items]="statusValues"
+                                (change)="status = $event;this.getPurchaseRecieptList()" [(ngModel)]="status"
+                                placeholder="GRN Status"></ng-select>
+                        </div>
+                        <div class="col">
+                            <label for="entity_type">Start Date</label>
+                            <app-date-picker (dateChange)="fromDate = $event;" [inputDate]="fromDate">
+                            </app-date-picker>
+                        </div>
+                        <div class="col">
+                            <label for="provider">End Date</label>
+                            <app-date-picker (dateChange)="toDate = $event;" [inputDate]="toDate">
+                            </app-date-picker>
+                        </div>
+                        <div class="col">
+                            <label class="d-block">&nbsp;</label>
+                            <button class="btn btn-sm btn-outline-info mt-2" (click)="getPurchaseRecieptList();"
+                                type="button">
+                                <i class="icon fa-fw icon-search"></i> SEARCH
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col text-right">
+                <label class="d-block">&nbsp;</label>
+                <select class="form-control form-control-sm float-right select-w mt-2"
+                    (change)="onPageSizeChanged($event.currentTarget.value)">
+                    <option value="15" selected="">15</option>
+                    <option value="30">30</option>
+                    <option value="45">45</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+        </div>
+        <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25"
+            [footerHeight]="70" [rowHeight]="30" [rows]="purchaseRecieptList" [externalSorting]="true"
+            (sort)="onSortChanged($event)" [externalPaging]="externalPaging" [count]="page.totalElements"
+            [scrollbarH]="true" (page)='onSetPage($event)'>
+            <ngx-datatable-column name="GRN No." [frozenLeft]="true" [width]="170">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <a class="text-primary pointer text-underline"
+                        [routerLink]="['/inventory/transactions/purchaseRecieptAddUpdate/', row.grnId]">{{row.grnNo}}
+                    </a>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Supplier Name" [width]="175">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.supplierName}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [sortable]="false" name="Account No." cellClass="text-right" [width]="110">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.custAcNo}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Bill No." cellClass="text-right" [width]="100">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.billNo}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Bill Date" [width]="100">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.billDate | customDate: '' : 'DD-MM-YYYY' }} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="GST Amount" cellClass="text-right" [width]="110">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.gstAmount | number:'1.2-2' }} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Net Amount" cellClass="text-right" [width]="130">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.netAmount | number:'1.2-2' }} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Status" [width]="80">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.status}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Created By" prop="createdByUser" [width]="140">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.createdByUser}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Created Date" prop="createdDate" [width]="120">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.createdDate | customDate: '' : 'DD-MM-YYYY' }} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Last Updated By" prop="lastUpdatedByUser" [width]="150">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.lastUpdatedByUser}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Last Updated Date" prop="lastUpdatedDate" [width]="160">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.lastUpdatedDate | customDate: '' : 'DD-MM-YYYY'}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Action" [frozenRight]="true" cellClass="text-center" [width]="75"
+                [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value"
+                    let-isSelected="isSelected">
+                    <button class="bg-transparent border-0" placement="left-bottom" [autoClose]="true"
+                        [ngbPopover]="popContent" container="body" #p="ngbPopover">
+                        <i class="fa fa-fw fa-bars" aria-hidden="true"></i> <i class="fa fa-xs fa-caret-down"
+                            aria-hidden="true"></i>
+                    </button>
+                    <ng-template #popContent>
+                        <ul class="list-unstyled popover-content mb-0">
+                            <li>
+                                <button class="btn btn-sm btn-block text-left notes" (click)="getPrintData(row)">
+                                    <i class="icon fa-fw icon-print" aria-hidden="true"></i> Print
+                                </button>
+                            </li>
+                            <li>
+                                <button class="btn btn-sm btn-block text-left inactive" (click)="showAuditLog(row)">
+                                    <i class="icon fa-fw icon-log" aria-hidden="true"></i> Log
+                                </button>
+                            </li>
+                            <li *ngIf="row.status === 'Created'">
+                                <button *ngxPermissionsOnly="constpermissionList.APPROVE_GRN"
+                                    (click)="updateStatus('Approve', row)" type="button"
+                                    class="btn btn-sm btn-block text-left active"><i class="icon fa-fw icon-check"
+                                        aria-hidden="true"></i> Approve</button>
+                            </li>
+                            <li *ngIf="row.status === 'Created'">
+                                <button *ngxPermissionsOnly="constpermissionList.REJECT_GRN"
+                                    (click)="updateStatus('Reject', row)" type="button"
+                                    class="btn btn-sm btn-block text-left warning"><i class="icon fa-fw icon-ban"
+                                        aria-hidden="true"></i> Reject</button>
+                            </li>
+                            <li *ngIf="row.status === 'Created'">
+                                <button *ngxPermissionsOnly="constpermissionList.CANCEL_GRN"
+                                    (click)="updateStatus('Cancel', row)" type="button"
+                                    class="btn btn-sm btn-block text-left inactive"><i class="fa fa-fw fa-times"
+                                        aria-hidden="true"></i> CANCEL</button>
+                            </li>
+                            <li *ngIf="row.status === 'Created'">
+                                <button type="button" *ngxPermissionsOnly="constpermissionList.DELETE_GRN"
+                                    (click)="onDelete(row)" class="btn btn-sm btn-block text-left del"><i
+                                        class="icon fa-fw icon-trash" aria-hidden="true"></i>
+                                    Delete</button></li>
+                            <li>
+                                <button type="button" *ngxPermissionsOnly="constpermissionList.UPDATE_GRN"
+                                    (click)="onEdit(row)" class="btn btn-sm btn-block text-left edit"><i
+                                        class="icon fa-fw icon-edit" aria-hidden="true"></i>
+                                    Edit</button></li>
+                        </ul>
+                    </ng-template>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>
+<app-print-data [printData]="printData" (printDiaglogClose)="true"></app-print-data>

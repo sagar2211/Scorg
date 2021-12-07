@@ -1,0 +1,7 @@
+:host ::ng-deep {
+    .ngx-datatable.fixed-row {
+      .datatable-body {
+        height: calc(100vh - 162px) !important;
+      }
+    }
+  }

@@ -1,0 +1,54 @@
+<div class="modal-header">
+  <p class="modal-title">{{storeData.type === 'edit' ? 'EDIT' : 'ADD'}} STORE</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-2">
+  <div class="form-row form-group">
+    <div class="col-6">
+      <label>Department</label>
+      <app-ng-select-typeahead [inputValue]="addEditStoreMasterObject.department?.id"
+        [selectedValue]="addEditStoreMasterObject.department?.name" [thDisplayLabel]="'name'" [thDisplayKey]="'id'"
+        (recievedVal)="selectValue($event)" [source]="'Select Department'" [returnDataType]="'obj'" [isDisabled]="false"
+        [compInstance]="compInstance" [searchFun]="getDepartmentList" [isSearchDataFromApi]="true">
+      </app-ng-select-typeahead>
+    </div>
+    <div class="col-6">
+      <label for="range">Store Name</label>
+      <input class="col form-control form-control-sm" [(ngModel)]="addEditStoreMasterObject.name" type="text"
+        placeholder="Name">
+    </div>
+  </div>
+  <div class="form-row form-group">
+    <div class="col-6">
+      <label>Status</label>
+      <div class="custom-control custom-switch pb-1 mt-1">
+        <input type="checkbox" [(ngModel)]="addEditStoreMasterObject.isActive" class="custom-control-input"
+          id="isActive">
+        <label class="custom-control-label pointer" [class.active]="addEditStoreMasterObject.isActive"
+          for="isActive"></label>
+        <span class="text-uppercase"
+          [class.active]="addEditStoreMasterObject.isActive">{{addEditStoreMasterObject.isActive ? 'Active' : 'InActive'}}</span>
+      </div>
+    </div>
+    <div class="col-6">
+      <label>Main Store</label>
+      <div class="custom-control custom-switch pb-1 mt-1 yes-no">
+        <input type="checkbox" [(ngModel)]="addEditStoreMasterObject.isMainStore" class="custom-control-input"
+          id="isMainStore">
+        <label class="custom-control-label pointer" [class.active]="addEditStoreMasterObject.isMainStore"
+          for="isMainStore"></label>
+        <span class="text-uppercase"
+          [class.active]="addEditStoreMasterObject.isMainStore">{{addEditStoreMasterObject.isMainStore ? 'Yes' : 'No'}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closePopup()">CANCEL</button>
+  <button type="button" class="btn btn-sm" [ngClass]="storeData.type === 'edit' ? 'btn-outline-primary-light':'btn-outline-primary'" (click)="selectValueConfirm('Ok');">
+    <i class="fa fa-fw" [ngClass]="storeData.type === 'edit' ? 'fa-sync-alt':'fa-plus'" aria-hidden="true"></i>
+    {{storeData.type === 'edit' ? 'UPDATE' : 'ADD'}}</button>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

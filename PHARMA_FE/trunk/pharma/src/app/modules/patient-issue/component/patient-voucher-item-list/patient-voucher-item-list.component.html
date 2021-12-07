@@ -1,0 +1,137 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">Voucher List</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-1 audit-logs-modal-body">
+    <div class="custom-container-fluid">
+        <div class="p-2">
+            <div class="form-row form-group">
+                <div class="col-3">
+                    <label>&nbsp;</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm pl-2rem" [(ngModel)]="searchString" (ngModelChange)="this.subject.next();" placeholder="Search">
+                        <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+                    </div>
+                </div>
+                <div class="col-4">
+                  <form>
+                      <div class="form-row">
+                          <div class="col">
+                              <label for="entity_type">Start Date</label>
+                              <app-date-picker (dateChange)="fromDate = $event;" [inputDate]="fromDate">
+                              </app-date-picker>
+                          </div>
+                          <div class="col">
+                              <label for="provider">End Date</label>
+                              <app-date-picker (dateChange)="toDate = $event;" [inputDate]="toDate">
+                              </app-date-picker>
+                          </div>
+                          <div class="col">
+                              <label class="d-block">&nbsp;</label>
+                              <button class="btn btn-sm btn-outline-info mt-2" type="button" (click)="getVoucherList()">
+                              <i class="icon fa-fw icon-search"></i> SEARCH
+                            </button>
+                          </div>
+                      </div>
+                  </form>
+              </div>
+                <div class="col text-right">
+                    <label class="d-block">&nbsp;</label>
+                    <select class="form-control form-control-sm float-right select-w mt-2" (change)="onPageSizeChanged($event.currentTarget.value)">
+                  <option value="15" selected="">15</option>
+                  <option value="30">30</option>
+                  <option value="45">45</option>
+                  <option value="100">100</option>
+                </select>
+                </div>
+            </div>
+            <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25" [footerHeight]="70" [rowHeight]="30" [rows]="patientIssueList" [externalSorting]="true" (sort)="onSortChanged($event)" [externalPaging]="externalPaging"
+                [count]="page.totalElements" [scrollbarH]="true" (page)='onSetPage($event)'>
+                <ngx-datatable-column name="Issue No." prop="consumptionNo" [frozenLeft]="true" [width]="160">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        {{row.consumptionNo}}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Issue Date" prop="consumptionDate" [width]="130">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.consumptionDate | customDate: '': 'DD-MM-YYYY'}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Store" prop="storeName" [width]="130">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.storeName}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Visit Type" prop="visitType" [width]="100">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.visitType}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Amount" prop="amount" [width]="100" cellClass="text-right">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.amount | number:'1.2-2'}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Discount" sortable="false" [width]="140" cellClass="text-right">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.discountPercent | number:'1.2-2'}}% / {{row.discountAmount | number:'1.2-2'}}</span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Net Amount" prop="netAmount" [width]="130" cellClass="text-right">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.netAmount | number:'1.2-2'}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+              <ngx-datatable-column name="Paid Amount" prop="paidAmount" [width]="120" cellClass="text-right">
+                  <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                      <span>{{row.paidAmount | number:'1.2-2'}} </span>
+                  </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Payment Status" prop="paymentStatus" [width]="130" cellClass="text-right">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.paymentStatus}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Remark" prop="remark" [width]="120" cellClass="text-right">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.remark}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+                <ngx-datatable-column name="Created By" prop="createdByUser" [width]="200">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.createdByUser}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Created Date" prop="createdDate" [width]="120">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.createdDate | customDate: '':'DD-MM-YYYY'}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Last Updated By" prop="lastUpdatedByUser" [width]="200">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.lastUpdatedByUser}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Last Updated Date" prop="lastUpdatedDate" [width]="160">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.lastUpdatedDate | customDate: '':'DD-MM-YYYY'}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Action" [frozenRight]="true" cellClass="text-center" [sortable]="false" [width]="75">
+                  <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value" let-isSelected="isSelected">
+                    <button class="btn btn-sm btn-outline-info p-0 px-1" (click)="viewVoucher(row)">
+                      View
+                    </button>
+                  </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+        </div>
+    </div>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closePopup()">CLOSE</button>
+</div>
+
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

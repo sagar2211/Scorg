@@ -1,0 +1,117 @@
+<div class="position-relative">
+  <ngb-tabset *ngIf="!isCompLoadFrom || isCompLoadFrom === 'frontDesk'" activeId="complete" #t="ngbTabset">
+    <ng-container *ngFor="let tab of tabs ; let index = index;">
+      <ngb-tab id='{{tab.id}}'
+        title="{{tab.name}} ({{ tab.id == 'all' ?  (qSlotList | globalSearchDat : appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true : ['NEXT', 'CALLING', 'INCONSULTATION', 'SKIP', 'COMPLETE'] : true : !isShowConfirmedOrTentetive).length : tab.id == 'queue' ? (qSlotList | globalSearchDat : appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true : ['NEXT', 'CALLING'] : true : !isShowConfirmedOrTentetive).length : (tab.id == 'inConsultation' ? (qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true: ['INCONSULTATION']).length : (tab.id == 'skipped' ? (qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true: ['SKIP']).length : (qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true: ['COMPLETE']).length))}})">
+        <ng-template ngbTabContent>
+          <ng-container *ngIf="tab.id === 'all'">
+            <div cdkDropList
+              [cdkDropListData]="(qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus : !isShowEmptySlot: ['NEXT', 'CALLING', 'INCONSULTATION', 'SKIP', 'COMPLETE'] : true : !isShowConfirmedOrTentetive)"
+              (cdkDropListDropped)="drop($event)" class="grid-body"
+              [ngStyle]="{'height': isCompLoadFrom === 'frontDesk' ? 'calc(100vh - 235px)' : 'calc(100vh - 165px)'}">
+              <div class="cursor-move" cdkDrag [cdkDragData]="slot" [cdkDragDisabled]="slot.isDisabled"
+                *ngFor="let slot of (qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus : !isShowEmptySlot: ['NEXT', 'CALLING', 'INCONSULTATION', 'SKIP', 'COMPLETE'] : true : !isShowConfirmedOrTentetive); let slotIndx = index;trackBy: trackByFunction">
+                <div id="{{slot.slotId}}">
+                  <app-q-dsiplay-grid-details (selectedAppointmentId)="getselectedAppointment($event)" (selectedPatUhid)="getSelectedPatUhId($event)"
+                    [appointmentSlots]="qSlotList" [hideActions]="hideActions" [slotIndx]="slotIndx" [slot]="slot"
+                    (cancelAppntment)="cancelAppointment($event)" (updateStatus)="updateAppointentStatus($event)"
+                    (skipAppointment)="onSkip($event)" (allSelected)="isAllSelected()" [source]="'all'">
+                  </app-q-dsiplay-grid-details>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="tab.id === 'queue'">
+            <div cdkDropList
+              [cdkDropListData]="(qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus : !isShowEmptySlot: ['NEXT', 'CALLING'] : true : !isShowConfirmedOrTentetive)"
+              (cdkDropListDropped)="drop($event)" class="grid-body"
+              [ngStyle]="{'height': isCompLoadFrom === 'frontDesk' ? 'calc(100vh - 235px)' : 'calc(100vh - 165px)'}">
+              <div class="cursor-move" cdkDrag [cdkDragData]="slot" [cdkDragDisabled]="slot.isDisabled"
+                *ngFor="let slot of (qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus : !isShowEmptySlot: ['NEXT', 'CALLING'] : true : !isShowConfirmedOrTentetive); let slotIndx = index;trackBy: trackByFunction">
+                <div id="{{slot.slotId}}">
+                  <app-q-dsiplay-grid-details (selectedAppointmentId)="getselectedAppointment($event)" (selectedPatUhid)="getSelectedPatUhId($event)"
+                    [appointmentSlots]="qSlotList" [hideActions]="hideActions" [slotIndx]="slotIndx" [slot]="slot"
+                    (cancelAppntment)="cancelAppointment($event)" (updateStatus)="updateAppointentStatus($event)"
+                    (skipAppointment)="onSkip($event)" (allSelected)="isAllSelected()" [source]="'queue'">
+                  </app-q-dsiplay-grid-details>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="tab.id === 'inConsultation'">
+            <div class="grid-body"
+              [ngStyle]="{'height': isCompLoadFrom === 'frontDesk' ? 'calc(100vh - 235px)' : 'calc(100vh - 165px)'}">
+              <div
+                *ngFor="let slot of qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus : !isShowEmptySlot: ['INCONSULTATION']; let slotIndx = index;trackBy: trackByFunction">
+                <div id="{{slot.slotId}}">
+                  <app-q-dsiplay-grid-details (selectedAppointmentId)="getselectedAppointment($event)" (selectedPatUhid)="getSelectedPatUhId($event)"
+                    [hideActions]="hideActions" [slotIndx]="slotIndx" [slot]="slot"
+                    (cancelAppntment)="cancelAppointment($event)" (updateStatus)="updateAppointentStatus($event);"
+                    (allSelected)="isAllSelected()" [source]="'inConsultation'"></app-q-dsiplay-grid-details>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="tab.id === 'skipped'">
+            <div class="grid-body"
+              [ngStyle]="{'height': isCompLoadFrom === 'frontDesk' ? 'calc(100vh - 235px)' : 'calc(100vh - 165px)'}">
+              <div
+                *ngFor="let slot of qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus : !isShowEmptySlot: ['SKIP']; let slotIndx = index;trackBy: trackByFunction">
+                <div id="{{slot.slotId}}">
+                  <app-q-dsiplay-grid-details (selectedAppointmentId)="getselectedAppointment($event)" (selectedPatUhid)="getSelectedPatUhId($event)"
+                    [appointmentSlots]="qSlotList" [hideActions]="hideActions" [slotIndx]="slotIndx" [slot]="slot"
+                    (cancelAppntment)="cancelAppointment($event)" (updateStatus)="updateAppointentStatus($event);"
+                    (allSelected)="isAllSelected()" [source]="'skipped'"></app-q-dsiplay-grid-details>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="tab.id === 'complete'">
+            <div class="grid-body"
+              [ngStyle]="{'height': isCompLoadFrom === 'frontDesk' ? 'calc(100vh - 235px)' : 'calc(100vh - 165px)'}">
+              <div
+                *ngFor="let slot of qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus : !isShowEmptySlot: ['COMPLETE']; let slotIndx = index;trackBy: trackByFunction">
+                <div id="{{slot.slotId}}">
+                  <app-q-dsiplay-grid-details (selectedAppointmentId)="getselectedAppointment($event)" (selectedPatUhid)="getSelectedPatUhId($event)"
+                    [hideActions]="hideActions" [slotIndx]="slotIndx" [slot]="slot"
+                    (cancelAppntment)="cancelAppointment($event)" (updateStatus)="updateAppointentStatus($event);"
+                    (allSelected)="isAllSelected()" [source]="'complete'"></app-q-dsiplay-grid-details>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </ng-template>
+      </ngb-tab>
+    </ng-container>
+  </ngb-tabset>
+  <div *ngIf="isCompLoadFrom === 'doctorDashboard'" class="filters">
+    <div cdkDropList [cdkDropListData]="qSlotList" (cdkDropListDropped)="drop($event)" class="grid-body"
+      [ngStyle]="{'height': isCompLoadFrom === 'doctorDashboard' ? 'calc(100vh - 199px)' : 'calc(100vh - 165px)'}">
+      <div class="cursor-move" cdkDrag [cdkDragData]="slot" [cdkDragDisabled]="slot.isDisabled"
+        *ngFor="let slot of qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus : !isShowEmptySlot: filter ; let slotIndx = index;trackBy: trackByFunction">
+        <div id="{{slot.slotId}}">
+          <app-q-dsiplay-grid-details [appointmentSlots]="qSlotList" (selectedAppointmentId)="getselectedAppointment($event)" [hideActions]="hideActions" [slotIndx]="slotIndx" (selectedPatUhid)="getSelectedPatUhId($event)"
+            [slot]="slot" (cancelAppntment)="cancelAppointment($event)" (updateStatus)="updateAppointentStatus($event)"
+            (skipAppointment)="onSkip($event)" (allSelected)="isAllSelected()" [source]="'all'">
+          </app-q-dsiplay-grid-details>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slider-history-log"
+    [ngStyle]="{'height': (isCompLoadFrom === 'frontDesk') ? 'calc(100vh - 195px)' : 'calc(100vh - 124px)'}"
+    [@slideInOut]="loganimationState"
+    [ngStyle]="{'width': isShowLog ? '30%' : '0px', 'visibility' : isShowLog ? 'visible' : 'hidden'}">
+    <ng-container *ngIf="selectedAppointmentId">
+      <app-appointment-history [appointmentId]="selectedAppointmentId"></app-appointment-history>
+    </ng-container>
+    <ng-container *ngIf="selectedPatientUhid">
+      <!-- <app-slider-patienthistory [selectedPatUhid]="selectedPatientUhid" [selectedProviderDetais]="providerDetails"></app-slider-patienthistory> -->
+      <app-appointment-history [selectedPatUhid]="selectedPatientUhid"></app-appointment-history>
+    </ng-container>
+  </div>
+  <div class="backdrop-log" [ngStyle]="{'top': isCompLoadFrom === 'frontDesk' ? '29px' : '40px'}" name="backdrop"
+    *ngIf="isShowLog" (click)="closeLogSlider()">
+  </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

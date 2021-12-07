@@ -1,0 +1,38 @@
+@import "../../../../scss/main";
+
+.history-data {
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+
+  .history {
+    &:not(:last-child) {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      @extend .mb-3;
+    }
+    &:first-child {
+      @extend .mt-2;
+    }
+    .history-date {
+      position: relative;
+      display: inline-block;
+      padding: 2px 10px 2px 8px;
+      border-radius: 0 20px 20px 0;
+      color: #0c5460;
+      background-color: #d1ecf1; //#e5f2f5
+      border: 1px solid #bee5eb;
+    }
+    .history-list {
+      .history-deatails {
+        padding: 5px 10px;
+
+        &:not(:last-child) {
+          border-bottom: 1px dashed #ccc;
+        }
+
+        .history-status {
+          color: #e2b13c;
+        }
+      }
+    }
+  }
+}

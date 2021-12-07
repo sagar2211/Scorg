@@ -1,0 +1,405 @@
+<div class="emr-container-fluid container-fluid p-0">
+  <form [formGroup]="registerForm" novalidate (ngSubmit)="saveValue()">
+      <div class="card border-0 card-resister-patinet">
+          <div class="card-header py-1">
+              <div class="form-inline">
+                  <div class="form-group mr-2">
+                      <label>Date:&nbsp;</label>
+                      <app-date-picker [inputDate]="registerForm?.value?.date" placeholder="yyyy-mm-dd" (dateChange)="updateDate($event);">
+                      </app-date-picker>
+                  </div>
+                  <div class="form-group mr-2 otsection">
+                      <label>Patient:&nbsp;</label>
+                      <ng-container *ngIf="mainDateDisable">
+                          <span class="mb-0 form-control form-control-sm font-size-8 d-inline-block min-width-200" readonly>
+                              {{registerForm.getRawValue().patientData?.patientInfo?.patientName}}</span>
+                      </ng-container>
+                      <ng-container *ngIf="!mainDateDisable">
+                          <ng-select class="min-width-200" [items]="patientList$ | async" bindLabel="patientInfo.patientName" (change)="onPatientChange($event)" bindValue="patientInfo.patientId" formControlName="patientId" placeholder="Patient Select" [typeahead]="patientInput$">
+                            <ng-template ng-option-tmp let-item="item" let i="index" let-search="searchTerm">
+                              <div class="row m-0 border border-bottom-0 detail-row">
+                                <div class="col-3 px-1 border-right border-bottom font-weight-500">
+                                  <p class="m-0">{{item.patientInfo.patientName}}</p>
+                                </div>
+                                <div class="col-3 px-1 border-right border-bottom">
+                                  <p class="m-0">{{item.roomName}} </p>
+                                </div>
+                                <div class="col-2 px-1 border-right border-bottom">
+                                  <p class="m-0">{{item.startTime}}</p>
+                                </div>
+                                <div class="col-2 px-1 border-right border-bottom">
+                                  <p class="m-0">{{item.endTime}}</p>
+                                </div>
+                                <div class="col-2 px-1 border-right border-bottom">
+                                  <p class="m-0">{{item.status}}</p>
+                                </div>
+                              </div>
+                            </ng-template>
+                          </ng-select>
+                      </ng-container>
+                  </div>
+                  <!-- <ng-container *ngIf="!mainDateDisable">
+                      <button class="btn btn-sm btn-outline-primary" type="button" (click)="addNewPatient();"><i
+                              aria-hidden="true" class="fa fa-fw fa-plus"></i>ADD</button>
+                  </ng-container> -->
+              </div>
+          </div>
+          <div class="card-body p-1">
+              <div class="form-row">
+                  <div class="col-3">
+                      <ng-container *ngIf="registerForm.getRawValue().patientData">
+                          <div class="card mb-1">
+                              <div class="card-header px-2 py-1">
+                                  <p class="font-size-dot-9 font-weight-500 mb-0">OT ROOM : <span class="text-primary">{{registerForm.getRawValue().patientData?.roomName}}</span>
+                                  </p>
+                              </div>
+                              <div class="card-body p-0">
+                                  <ul class="list-group">
+                                      <li class="list-group-item border-top-0 border-right-0 border-left-0 py-1 px-2">
+                                          <p class="mb-0 small"><span class="text-muted">Speciality:
+                                              </span>{{registerForm.getRawValue().patientData?.specialityName}}</p>
+                                      </li>
+                                      <li class="list-group-item border-right-0 border-bottom-0 border-left-0 py-1 px-2">
+                                          <p class="mb-0 small"><span class="text-muted">Procedure:
+                                              </span>{{registerForm.getRawValue().patientData?.procedureName}}</p>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </div>
+                          <div class="card">
+                              <div class="card-body p-0">
+                                  <div class="bg-light py-1">
+                                      <div class="profile-img text-center">
+                                        <img alt="profile-image-male" *ngIf="registerForm.getRawValue().patientData?.patientInfo?.patImage" src="{{imgBaseUrl+'/images/patient/profile/'+registerForm.getRawValue().patientData?.patientInfo?.patImage}}">
+                                        <img alt="profile-image-male" *ngIf="!registerForm.getRawValue().patientData?.patientInfo?.patImage && (registerForm.getRawValue().patientData?.patientInfo?.gender) === 'Male'" src="./assets/img/male.svg">
+                                        <img alt="profile-image-female" *ngIf="!registerForm.getRawValue().patientData?.patientInfo?.patImage && (registerForm.getRawValue().patientData?.patientInfo?.gender) === 'Female'" src="./assets/img/female.svg">
+                                        <img *ngIf="!registerForm.getRawValue().patientData?.patientInfo?.patImage && (registerForm.getRawValue().patientData?.patientInfo?.gender) !== 'Male' && (registerForm.getRawValue().patientData?.patientInfo?.gender) !== 'Female'" src="./assets/img/profile.svg" alt="profile-image-male">
+                                      </div>
+                                      <div class="mt-1 text-center">
+                                          <h6 class="text-primary mb-0">
+                                              {{registerForm.getRawValue().patientData?.patientInfo?.patientName}}
+                                          </h6>
+                                          <p class="text-muted mb-0 small">
+                                              {{registerForm.getRawValue().patientData?.patientInfo?.patientId}}
+                                          </p>
+                                      </div>
+                                  </div>
+                                  <div class="form-row mx-0 gender-blood">
+                                      <div class="col border-right px-2 py-1">
+                                          <p class="mb-0 font-size-dot-8"><small class="text-muted">Gender:
+                                              </small>{{registerForm.getRawValue().patientData?.patientInfo?.gender}}
+                                          </p>
+                                      </div>
+                                      <div class="col px-2 py-1">
+                                          <p class="mb-0 font-size-dot-8"><small class="text-muted">Age:
+                                              </small>{{registerForm.getRawValue().patientData?.patientInfo?.age}}
+                                          </p>
+                                      </div>
+                                  </div>
+                                  <ul class="list-group">
+                                      <li class="list-group-item border-top-0 border-left-0 border-right-0 py-1 px-2">
+                                          <p class="mb-0"><small class="text-muted">Email:
+                                              </small>{{registerForm.getRawValue().patientData?.patientInfo?.emailId}}
+                                          </p>
+                                      </li>
+                                      <li class="list-group-item border-left-0 border-right-0 py-1 px-2">
+                                          <p class="mb-0"><small class="text-muted">Phone No:
+                                              </small>{{registerForm.getRawValue().patientData?.patientInfo?.mobileNo}}
+                                          </p>
+                                      </li>
+                                      <li class="list-group-item border-left-0 border-right-0 border-bottom-0 py-1 px-2">
+                                          <p class="mb-0 font-size-dot-875"><small class="text-muted">Address:
+                                              </small> {{registerForm.getRawValue().patientData?.patientInfo?.resAddress}}
+                                          </p>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </ng-container>
+                  </div>
+                  <div class="col-9">
+                      <ng-container *ngIf="registerForm.getRawValue().patientData">
+                          <div class="form-row form-group">
+                              <div class="col-12">
+                                  <div class="form-row">
+                                      <div class="col-4">
+                                          <div class="">
+                                              <label>Surgery Type</label>
+                                              <ng-select [items]="surgeryLevelList" bindLabel="levelName" (change)="onSurgeryLevelChange($event)" bindValue="levelId" formControlName="surgeryLevelId" placeholder="Select">
+                                              </ng-select>
+                                          </div>
+                                          <div class="">
+                                              <label>Anaesthesia Type</label>
+                                              <ng-select [items]="anaesthesiaTypeList" bindLabel="typeName" (change)="onAnaesthesiaTypeChange($event)" bindValue="typeId" formControlName="anaesthesiaTypeId" placeholder="Select">
+                                              </ng-select>
+                                          </div>
+                                      </div>
+                                      <div class="col-8">
+                                          <div class="">
+                                              <div class="form-row">
+                                                  <div class="col-4">
+                                                      <label>OT Schedule Date</label>
+                                                      <p class="mb-0 form-control form-control-sm font-size-8" readonly>
+                                                          {{registerForm.getRawValue().patientData?.appointmentDate | customDateFormat: "":"DD/MM/YYYY"}}
+                                                      </p>
+                                                  </div>
+                                                  <div class="col-4">
+                                                      <label>Start Time</label>
+                                                      <p class="mb-0 form-control form-control-sm font-size-8" readonly>
+                                                          {{registerForm.getRawValue().patientData?.sTime}}</p>
+                                                  </div>
+                                                  <div class="col-4">
+                                                      <label>End Time</label>
+                                                      <p class="mb-0 form-control form-control-sm font-size-8" readonly>
+                                                          {{registerForm.getRawValue().patientData?.eTime}}</p>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="">
+                                              <div class="form-row">
+                                                  <div class="col-4">
+                                                      <label>Actual OT Schedule Date</label>
+                                                      <app-date-picker [inputDate]="registerForm.value.actualOtDate" [makeDisabled]="(loadType ==='view' ? true : false)" placeholder="yyyy-mm-dd" (dateChange)=" registerForm.patchValue({ actualOtDate: $event })" [(min)]="registerForm.value.actualOtDateMin"
+                                                          [(max)]="registerForm.value.actualOtDateMax">
+                                                      </app-date-picker>
+                                                  </div>
+                                                  <div class="col-4">
+                                                      <label>Actual Start Time</label>
+                                                      <select class="form-control form-control-sm custom-order-select pointer" (change)="startTimeValueChange(registerForm.value.actualStartTime)" formControlName="actualStartTime">
+                                                          <option *ngFor="let item of startTimeArray"
+                                                              [disabled]="item.disabled" [value]="item.time"> {{
+                                                              item.time
+                                                              }} </option>
+                                                      </select>
+                                                  </div>
+                                                  <div class="col-4">
+                                                      <label>Actual End Time</label>
+                                                      <select class="form-control form-control-sm custom-order-select pointer" (change)="startTimeValueChange(registerForm.value.actualEndTime)" formControlName="actualEndTime">
+                                                          <option *ngFor="let item of endTimeArray"
+                                                              [disabled]="item.disabled" [value]="item.time"> {{
+                                                              item.time
+                                                              }} </option>
+                                                      </select>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="card">
+                              <div class=" card-body-custom-height" formArrayName="procedureForm">
+                                  <ng-container *ngFor="let pf of registerForm.controls.procedureForm['controls']; let pfi=index; last as pfl;" [formGroupName]="pfi">
+                                      <div class="form-row align-items-center custom-bg py-1">
+                                          <div class="col-1">
+                                              <button type="button" class="btn btn-sm btn-outline-primary-light m-1 p-0" (click)="expandCollapse(pfi)">
+                                                  <i class="icon fa fa-fw"
+                                                      [ngClass]="{'fa-plus': !pf.value.isExpand, 'fa-minus': pf.value.isExpand}"
+                                                      aria-hidden="true"></i>
+                                              </button>
+                                          </div>
+                                          <div class="col-9">
+                                              <ng-container *ngIf="pf.value.isPrimary">
+                                                  <label class="mb-0 font-size-dot-8 font-weight-500">{{pf.value.procedure?.name}}<sup>*</sup></label>
+                                              </ng-container>
+                                              <ng-container *ngIf="!pf.value.isPrimary">
+                                                  <div class="form-inline">
+                                                      <div class="form-group mb-0">
+                                                          <label class="mr-1">Surgery / Procedure<sup>*</sup></label>
+                                                          <ng-select class="width-26vw" [items]="procedureList$ | async" [disabled]="!pf.value.specialityId" bindLabel="name" (change)="onProcedureChange($event, pfi)" formControlName="procedure" placeholder="procedure Select" [typeahead]="procedureInput$">
+                                                          </ng-select>
+                                                      </div>
+                                                  </div>
+                                              </ng-container>
+                                          </div>
+                                          <div class="col-2">
+                                              <div class="custom-margin-left">
+                                                  <button *ngIf="pfl && loadType !=='view'" type="button" class="btn btn-sm btn-outline-primary-light mr-1" [disabled]="false" (click)="addNewRowProcedure()"><i
+                                                          class="icon fa fa-fw fa-plus"
+                                                          aria-hidden="true"></i></button>
+                                                  <button *ngIf="pfi > 0 && loadType !=='view'" type="button" class="btn btn-sm btn-outline-danger" [disabled]="false" (click)="deleteRowProcedure(pfi)"><i
+                                                          class="icon fa-fw icon-trash"
+                                                          aria-hidden="true"></i></button>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <ng-container *ngIf="((pfi === 0) || (pfi > 0 && pf.value.procedure)) && pf.value.isExpand">
+                                          <div class="card-body p-0">
+                                              <div class="form-row form-group border-bottom custom-bg-light-1 mx-0">
+                                                  <div class="custom-col-size align-self-center">
+                                                      <label>Surgeon<sup>*</sup></label>
+                                                  </div>
+                                                  <div class="col">
+                                                      <div class="form-row form-group custom-mb-0">
+                                                          <div class="col-4">
+                                                              <label>Type</label>
+                                                          </div>
+                                                          <div class="col-6">
+                                                              <label>Name</label>
+                                                          </div>
+                                                          <div class="col-2">
+                                                              <label>&nbsp;</label>
+                                                          </div>
+                                                      </div>
+                                                      <div formArrayName="surgeon">
+                                                          <ng-container *ngFor="let sur of pf.controls.surgeon['controls']; let j=index; last as last;" [formGroupName]="j">
+                                                              <div class="form-row form-group">
+                                                                  <div class="col-4">
+                                                                      <div *ngIf="j === 0">
+                                                                          <ng-select [items]="[lclConstant.otUserGrpType.primary]" (change)="onGrpTypeChange('surgeon', true, $event, j, pfi)" formControlName="type" placeholder="Select Type">
+                                                                          </ng-select>
+                                                                      </div>
+                                                                      <div *ngIf="j !== 0">
+                                                                          <ng-select [items]="otUsrGrpType" (change)="onGrpTypeChange('surgeon', false, $event, j, pfi)" formControlName="type" placeholder="Select Type">
+                                                                          </ng-select>
+                                                                      </div>
+                                                                  </div>
+                                                                  <div class="col-6">
+                                                                      <div *ngIf="sur.value.type === lclConstant.otUserGrpType.primary || sur.value.type === lclConstant.otUserGrpType.additional">
+                                                                          <ng-select [items]="surgeonList$ | async" [disabled]="!sur.value.type" bindLabel="userName" (change)="onSurgeonChange($event, j, pfi)" bindValue="userId" formControlName="userId" placeholder="Select Surgeon" [typeahead]="surgeonInput$">
+                                                                          </ng-select>
+                                                                      </div>
+                                                                      <div *ngIf="sur.value.type === lclConstant.otUserGrpType.assistant">
+                                                                          <ng-select [items]="assSurgeonList$ | async" [disabled]="!sur.value.type" bindLabel="userName" (change)="onAssSurgeonChange($event, j, pfi)" bindValue="userId" formControlName="userId" placeholder="Select Surgeon" [typeahead]="assSurgeonInput$">
+                                                                          </ng-select>
+                                                                      </div>
+                                                                  </div>
+                                                                  <div class="col-2">
+                                                                      <button *ngIf="last && loadType !=='view'" type="button" class="btn btn-sm btn-outline-primary-light mr-1" [disabled]="!sur.value.userId" (click)="addNewRow('surgeon', pfi)"><i
+                                                                              class="icon fa fa-fw fa-plus"
+                                                                              aria-hidden="true"></i></button>
+                                                                      <button *ngIf="sur.value.userId && j > 0 && loadType !=='view'" type="button" class="btn btn-sm btn-outline-danger" [disabled]="!sur.value.userId" (click)="deleteRow('surgeon', j, pfi)"><i
+                                                                              class="icon fa-fw icon-trash"
+                                                                              aria-hidden="true"></i></button>
+                                                                  </div>
+                                                              </div>
+                                                          </ng-container>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <div class="form-row form-group border-bottom custom-bg-light-2 mx-0">
+                                                  <div class="custom-col-size align-self-center">
+                                                      <label>Anaesthetist</label>
+                                                  </div>
+                                                  <div class="col">
+                                                      <div class="form-row form-group custom-mb-0">
+                                                          <div class="col-4">
+                                                              <label>Type</label>
+                                                          </div>
+                                                          <div class="col-6">
+                                                              <label>Name</label>
+                                                          </div>
+                                                          <div class="col-2">
+                                                              <label>&nbsp;</label>
+                                                          </div>
+                                                      </div>
+                                                      <div formArrayName="anesthetist">
+                                                          <ng-container *ngFor="let sur of pf.controls.anesthetist['controls']; let j=index; last as last;" [formGroupName]="j">
+                                                              <div class="form-row form-group">
+                                                                  <div class="col-4">
+                                                                      <div *ngIf="j === 0">
+                                                                          <ng-select [items]="[lclConstant.otUserGrpType.primary]" (change)="onGrpTypeChange('anesthetist', true, $event, j, pfi)" formControlName="type" placeholder="Select Type">
+                                                                          </ng-select>
+                                                                      </div>
+                                                                      <div *ngIf="j !== 0">
+                                                                          <ng-select [items]="otUsrGrpType" (change)="onGrpTypeChange('anesthetist', false, $event, j, pfi)" formControlName="type" placeholder="Select Type">
+                                                                          </ng-select>
+                                                                      </div>
+                                                                  </div>
+                                                                  <div class="col-6">
+                                                                      <ng-select [items]="anaesthetistList$ | async" [disabled]="!sur.value.type" bindLabel="userName" (change)="onAnaesthetistChange($event, j)" bindValue="userId" formControlName="userId" placeholder="Select Anaesthetist" [typeahead]="anaesthetistInput$">
+                                                                      </ng-select>
+                                                                  </div>
+                                                                  <div class="col-2">
+                                                                      <button *ngIf="last && loadType !=='view'" type="button" class="btn btn-sm btn-outline-primary-light mr-1" [disabled]="!sur.value.userId" (click)="addNewRow('anesthetist', pfi)"><i
+                                                                              class="icon fa fa-fw fa-plus"
+                                                                              aria-hidden="true"></i></button>
+                                                                      <button *ngIf="sur.value.userId && j >0 && loadType !=='view'" type="button" class="btn btn-sm btn-outline-danger" [disabled]="!sur.value.userId" (click)="deleteRow('anesthetist', j, pfi)"><i
+                                                                              class="icon fa-fw icon-trash"
+                                                                              aria-hidden="true"></i></button>
+                                                                  </div>
+                                                              </div>
+                                                          </ng-container>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <div class="form-row form-group border-bottom custom-bg-light-1 mx-0">
+                                                  <div class="custom-col-size align-self-center">
+                                                      <label>Scrub Nurse</label>
+                                                  </div>
+                                                  <div class="col">
+                                                      <div class="form-row form-group custom-mb-0">
+                                                          <div class="col-4">
+                                                              <label>Type</label>
+                                                          </div>
+                                                          <div class="col-6">
+                                                              <label>Name</label>
+                                                          </div>
+                                                          <div class="col-2">
+                                                              <label>&nbsp;</label>
+                                                          </div>
+                                                      </div>
+                                                      <div formArrayName="nurse">
+                                                          <ng-container *ngFor="let sur of pf.controls.nurse['controls']; let j=index; last as last;" [formGroupName]="j">
+                                                              <div class="form-row form-group">
+                                                                  <div class="col-4">
+                                                                      <div *ngIf="j === 0">
+                                                                          <ng-select [items]="[lclConstant.otUserGrpType.primary]" (change)="onGrpTypeChange('nurse', true, $event, j, pfi)" formControlName="type" placeholder="Select">
+                                                                          </ng-select>
+                                                                      </div>
+                                                                      <div *ngIf="j !== 0">
+                                                                          <ng-select [items]="otUsrGrpType" (change)="onGrpTypeChange('nurse', false, $event, j, pfi)" formControlName="type" placeholder="Select">
+                                                                          </ng-select>
+                                                                      </div>
+                                                                  </div>
+                                                                  <div class="col-6">
+                                                                      <ng-select [items]="scrubNurseList$ | async" [disabled]="!sur.value.type" bindLabel="userName" (change)="onNurseChange($event, j)" bindValue="userId" formControlName="userId" placeholder="Nurse Select" [typeahead]="scrubNurseInput$">
+                                                                      </ng-select>
+                                                                  </div>
+                                                                  <div class="col-2">
+                                                                      <button *ngIf="last && loadType !=='view'" type="button" class="btn btn-sm btn-outline-primary-light mr-1" [disabled]="!sur.value.userId" (click)="addNewRow('nurse', pfi)"><i
+                                                                              class="icon fa fa-fw fa-plus"
+                                                                              aria-hidden="true"></i></button>
+                                                                      <button *ngIf="sur.value.userId && j > 0 && loadType !=='view'" type="button" class="btn btn-sm btn-outline-danger" [disabled]="!sur.value.userId" (click)="deleteRow('nurse', j, pfi)"><i
+                                                                              class="icon fa-fw icon-trash"
+                                                                              aria-hidden="true"></i></button>
+                                                                  </div>
+                                                              </div>
+                                                          </ng-container>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </ng-container>
+                                  </ng-container>
+                              </div>
+                          </div>
+                          <div class="form-row">
+                              <div class="col">
+                                  <div class="custom-control custom-checkbox custom-control-inline col form-group mb-0 mt-2">
+                                      <input class="custom-control-input" formControlName="isReExploration" type="checkbox" id="isReExploration" />
+                                      <label class="custom-control-label pointer" for="isReExploration">Re-Exploration</label>
+                                  </div>
+                                  <div *ngIf="registerForm.value.isReExploration">
+                                      <textarea class="form-control" rows="1" formControlName="reExplorationReason"></textarea>
+                                  </div>
+                              </div>
+                          </div>
+                      </ng-container>
+                  </div>
+              </div>
+          </div>
+          <div class="card-footer text-right py-1" *ngIf="loadType !=='view'">
+              <button class="btn btn-sm btn-success" type="submit">
+                  <i aria-hidden="true" class="icon fa-fw icon-save"></i> SAVE
+              </button>
+          </div>
+          <div class="card-footer text-right py-1" *ngIf="loadType ==='view'">
+              <button class="btn btn-sm btn-success" type="button" (click)="loadList()">
+                  <i aria-hidden="true" class="icon fa-fw icon-save"></i> Back
+              </button>
+          </div>
+      </div>
+  </form>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

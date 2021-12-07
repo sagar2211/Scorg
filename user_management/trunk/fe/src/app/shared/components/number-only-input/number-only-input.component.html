@@ -1,0 +1,4 @@
+<form [formGroup]="numberForm">
+    <input type="number" class="form-control form-control-sm" formControlName="numberVal" placeholder="{{placeholder}}" min="{{minVal}}" max="{{maxVal}}" maxlength="{{maxLength}}" (change)="checkValueIsValidOrNot();" (keyup)="checkValueIsValidOrNot();" (blur)="checkValueIsValidOrNot();"
+        [ngStyle]="{'color': color ? color : ''}">
+</form>

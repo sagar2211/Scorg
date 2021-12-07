@@ -1,0 +1,164 @@
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<div *ngIf="isShowAddBtn" class="grid-view mb-2">
+  <div class="form-row align-items-center">
+    <div class="form-group view-height mr-1 position-relative">
+      <input type="text" class="form-control pl-2rem" placeholder="Search By Patient Name / UHID" [ngModel]="searchTxt"
+        (ngModelChange)="searchTxtValue.emit($event)">
+      <div class="placeholder-icon">
+        <i class="icon fa-fw icon-search text-muted" aria-hidden="true"></i>
+      </div>
+    </div>
+    <div class="form-group mr-1">
+      <app-provider-details [frontDeskProviderList]="frontDeskProviderList" [isFromFrontDesk]="isShowAddBtn"
+        [selectedUserFromFrontDeskToList]="providerDetails" (currentEntity)="currentSelectedEntity($event)">
+      </app-provider-details>
+    </div>
+    <div class="form-group mr-1">
+      <label>
+        Schedule :
+      </label>
+    </div>
+    <div class="form-group mr-2">
+      <select *ngIf="scheduleTimeArray.length>0" class="form-control form-control-sm pointer"
+        [(ngModel)]="selectedSchedule" (change)="onSelectSchedule()">
+        <!--<option value="">Select Schedule</option>-->
+        <option value="all">All</option>
+        <option *ngFor="let item of scheduleTimeArray" [ngValue]="item">
+          {{item.startTime + ' - ' + item.endTime  }}</option>
+      </select>
+    </div>
+    <ng-container *ngIf="selectedSchedule?.roomMapId">
+      <ng-container *ngxPermissionsOnly="permissions.CheckIn_CheckOut">
+        <span class="form-group mr-2" *ngIf="!isCheckOut">
+          <button type="button" *ngIf="!isCheckIn" (click)="checknInDoctor()" class="btn btn-sm btn-success"><i
+              class="icon fa-fw icon-sign-in-alt" aria-hidden="true"></i> Check
+            In</button>
+          <button type="button" *ngIf="isCheckIn && checkInStatus !== 'Stop'" (click)="checkOutDoctor()"
+            class="btn btn-outline-danger btn-sm"><i class="icon fa-fw icon-sign-out-alt" aria-hidden="true"></i> Check
+            Out</button>
+        </span>
+        <span class="form-group mr-2 small text-warning" *ngIf="isCheckOut">
+          User already checkout for this schedule.
+        </span>
+        <span class="form-group mr-2" *ngIf="isCheckIn && !isCheckOut">
+          <button type="button" *ngIf="checkInStatus == 'Resume'" (click)="pause()"
+            class="btn btn-sm btn-warning mr-2"><i class="fa fa-fw fa-pause" aria-hidden="true"></i> Pause</button>
+          <button type="button" *ngIf="checkInStatus == 'Pause'" (click)="updateCheckInStatus('Resume')"
+            class="btn btn-outline-info btn-sm mr-2"><i class="fa fa-repeat" aria-hidden="true"></i>
+            Resume</button>
+          <button type="button" *ngIf="checkInStatus !== 'Stop'" (click)="updateCheckInStatus('Stop')"
+            class="btn btn-sm btn-danger"><i class="icon fa-fw icon-ban" aria-hidden="true"></i> Stop OPD</button>
+
+          <span class="form-group mr-2 small text-warning" *ngIf="checkInStatus === 'Stop'">
+            User already stopped OPD for this schedule.
+          </span>
+        </span>
+      </ng-container>
+    </ng-container>
+    <div class="col form-group text-right">
+      <button *ngxPermissionsOnly="permissions.Queue_call" #p="ngbPopover" placement="left" container="body"
+        triggers="manual" [ngbPopover]="roomContent" (click)="onPopover()" class="btn btn-sm btn-success mr-1"
+        type="button" [disabled]="checkInStatus === 'Stop'"><i class="icon fa-fw icon-calling" aria-hidden="true"></i>
+        Call</button>
+      <div class="btn-group text-right" *ngxPermissionsOnly="permissions.Queue_Book_Appointment"
+        #qlistAddSectionPopover="ngbPopover" triggers="manual" [autoClose]="'outside'" placement="bottom-right"
+        [ngbPopover]="qlistAddSectionPopoverContent">
+        <button (click)="redirectToAppointmentBooking()" [disabled]="checkInStatus === 'Stop'" type="button"
+          class="btn btn-add btn-sm border-right"><i [ngStyle]="{'pointer-events':checkInStatus === 'Stop'?'none':''}"
+            class="fa fa-fw fa-plus" aria-hidden="true"></i>ADD</button>
+        <button (click)="toggleqList()" [disabled]="checkInStatus === 'Stop'" type="button"
+          class="btn btn-add btn-sm dropdown-toggle dropdown-toggle-split px-2 border-left"
+          data-toggle="dropdown"></button>
+      </div>
+      <ng-template #qlistAddSectionPopoverContent>
+        <ng-container>
+          <app-qlist-add-section [url]="'frontDesk'" [providers]="providerDetails"></app-qlist-add-section>
+        </ng-container>
+      </ng-template>
+    </div>
+  </div>
+</div>
+<div class="grid-view d-flex" [ngClass]="!isShowAddBtn ? 'justify-content-between' : 'justify-content-end'">
+  <!-- left section -->
+  <div *ngIf="!isShowAddBtn" class="d-flex align-items-center">
+    <div class="form-group view-height position-relative mr-1">
+      <input type="text" class="form-control pl-2rem" placeholder="Search By Patient Name / UHID" [ngModel]="searchTxt"
+        (ngModelChange)="searchTxtValue.emit($event)">
+      <div class="placeholder-icon">
+        <i class="icon fa-fw icon-search text-muted" aria-hidden="true"></i>
+      </div>
+    </div>
+    <div class="form-group mr-1">
+      <app-provider-details [frontDeskProviderList]="frontDeskProviderList" [isFromFrontDesk]="isShowAddBtn"
+        [selectedUserFromFrontDeskToList]="providerDetails" (currentEntity)="currentSelectedEntity($event)">
+      </app-provider-details>
+    </div>
+    <div class="form-group mr-1">
+      <label>
+        Schedule :
+      </label>
+    </div>
+    <span class="form-group mr-2">
+      <select *ngIf="scheduleTimeArray.length>0" class="form-control form-control-sm pointer"
+        [ngStyle]="{'width': isCompLoadFrom === 'doctorDashboard' ? '140px' : ''}" [(ngModel)]="selectedSchedule"
+        (change)="onSelectSchedule()">
+        <!-- <option *ngIf value="">Select Schedule</option> -->
+        <option value="all">All</option>
+        <option *ngFor="let item of scheduleTimeArray" [ngValue]="item">
+          {{item.startTime + ' - ' + ((item.endTime === '00:00'  || item.endTime === '12:00 AM') ?  'Mid Night' : item.endTime)}}
+        </option>
+      </select>
+    </span>
+    <ng-container *ngIf="selectedSchedule?.roomMapId">
+      <ng-container *ngxPermissionsOnly="permissions.Queue_CheckIn_CheckOut">
+        <span class="form-group mr-2" *ngIf="!isCheckOut">
+          <button type="button" *ngIf="!isCheckIn" (click)="checknInDoctor()" class="btn btn-sm btn-success"><i
+              class="icon fa-fw icon-sign-in-alt" aria-hidden="true"></i> Check
+            In</button>
+          <button type="button" *ngIf="isCheckIn && checkInStatus !== 'Stop'" (click)="checkOutDoctor()"
+            class="btn btn-outline-danger btn-sm"><i class="icon fa-fw icon-sign-out-alt" aria-hidden="true"></i> Check
+            Out</button>
+        </span>
+        <span class="form-group mr-2 small text-warning" *ngIf="isCheckOut">
+          User already checkout for this schedule.
+        </span>
+        <span class="form-group mr-2" *ngIf="isCheckIn && !isCheckOut">
+          <button type="button" *ngIf="checkInStatus == 'Resume'" (click)="pause()"
+            class="btn btn-sm btn-warning mr-2"><i class="fa fa-fw fa-pause" aria-hidden="true"></i> Pause</button>
+          <button type="button" *ngIf="checkInStatus == 'Pause'" (click)="updateCheckInStatus('Resume')"
+            class="btn btn-outline-info btn-sm mr-2"><i class="fa fa-repeat" aria-hidden="true"></i>
+            Resume</button>
+          <button type="button" *ngIf="checkInStatus !== 'Stop'" (click)="updateCheckInStatus('Stop')"
+            class="btn btn-sm btn-danger"><i class="icon fa-fw icon-ban" aria-hidden="true"></i> Stop OPD</button>
+
+          <span class="form-group mr-2 small text-warning" *ngIf="checkInStatus === 'Stop'">
+            User already stopped OPD for this schedule.
+          </span>
+        </span>
+      </ng-container>
+    </ng-container>
+  </div>
+  <!-- right section -->
+  <div class="d-flex">
+    <div class="d-flex mb-2" *ngIf="!isShowAddBtn">
+      <button *ngxPermissionsOnly="permissions.Queue_call" #p="ngbPopover" placement="left" container="body"
+        triggers="manual" [ngbPopover]="roomContent" (click)="onPopover()" class="btn btn-sm btn-success" type="button"
+        [disabled]="checkInStatus === 'Stop'"><i class="icon fa-fw icon-calling" aria-hidden="true"></i>
+        Call</button>
+      <!-- <button *ngxPermissionsOnly="[permissions.View_Queue_AllAccess]" class="btn btn-sm btn-info mr-2" (click)="getPrintAppointment()" type="button" [disabled]="checkInStatus === 'Stop'"><i class="icon fa-fw icon-print"></i> Print</button> -->
+      <!-- <span class="bg-col-btns mr-2 text-info" *ngIf="queueStatusCheck(2, slot)" (click)="onPopover()"
+            #p="ngbPopover" placement="left" container="body" triggers="manual" [ngbPopover]="roomContent"
+            title="Calling"><i class="icon fa-fw icon-stethoscope" aria-hidden="true"></i></span> -->
+    </div>
+    <!-- <span *ngxPermissionsOnly="[permissions.View_Queue_AllAccess]">
+      <button *ngIf="!isCheckIn && !isCheckOut" class="btn btn-sm btn-delay ml-2" (click)="delayNotification()" type="button"><i class="icon fa-fw icon-bell" aria-hidden="true"></i> Delay Notification</button>
+    </span> -->
+  </div>
+</div>
+<ng-template #roomContent>
+  <ul class="list-unstyled popover-content mb-0">
+    <li *ngFor="let room of selectedAppointment?.roomDetails">
+      <button class="btn btn-sm btn-block text-left edit" (click)="onRoomSelect(room.roomId)">
+        {{room.roomName}}</button></li>
+  </ul>
+</ng-template>

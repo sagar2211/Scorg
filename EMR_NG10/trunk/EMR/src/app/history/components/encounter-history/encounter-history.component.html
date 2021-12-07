@@ -1,0 +1,235 @@
+<div class="no-event" *ngIf="!showHistory">
+    <div class="box">
+        <div class="circle"></div>
+        <p class="mb-0 mt-1">Loading</p>
+    </div>
+    <div class="backdrop"></div>
+</div>
+<div class="card border-0" *ngIf="showHistory">
+    <div class="card-header py-1 px-2 border-dash-bottom">
+        <p class="m-0 font-size-dot-875"> Encounter History</p>
+    </div>
+    <div class="card-body p-0" *ngIf="collaseDatesArray.length > 0">
+        <div class="form-row mx-0 encounter-custom-scroll">
+            <div class="col-2 px-0">
+                <div class="encounter-custom-scroll">
+                    <ng-container *ngFor="let dateAry of collaseDatesArray; let di = index;">
+                        <p (click)="updateDateSection(di)" class="m-0 py-1 font-size-dot-875 date text-white font-weight-500 pointer no-select"><i [ngClass]="{'fa-folder-open': !dateAry.isCollapse, 'fa-folder': dateAry.isCollapse}" class="far mx-1" aria-hidden="true"></i>{{dateAry.date | date: "dd/MM/y"}}</p>
+                        <div class="encounter-nav" [ngClass]="{'d-none': dateAry.isCollapse}">
+                            <ul class="nav flex-column mb-0 pl-2 custom-nav">
+                                <!-- add active class at "nav-item" -->
+                                <ng-container>
+                                    <li class="nav-item w-100" [ngClass]="{'active': item.isSelected}" *ngFor="let item of dateAry.chartData; let parIndx = index;">
+                                        <a class="nav-link text-dark pointer" (click)="scrollToSection(di, parIndx)">
+                                            <span class="link-text font-size-dot-8">{{item.chartName}}</span>
+                                        </a>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="col-10 px-0">
+                <div class="encounter-custom-scroll">
+                    <ng-container *ngFor="let dateAry of collaseDatesArray; let di = index;">
+                        <ng-container *ngIf="!dateAry.isCollapse">
+                            <ng-container *ngFor="let chrt of dateAry.chartData; let parIndx = index;">
+                                <ng-container *ngIf="chrt.chartId">
+                                    <div class="container-fluid px-0 history-tab mb-1" id="{{'patient_chart_' + chrt.chartId}}">
+                                        <p class="mb-0 p-1 font-size-dot-875">{{chrt.chartName}}</p>
+                                        <ng-container *ngFor="let item of chrt.chartData; let chrtIndx = index;">
+                                            <div class="cus-head py-1 border-dash-bottom">
+                                                <p class="mb-0 text-right font-size-dot-8 pr-1">{{item.doctor_name}} - {{item.consultation_datetime | date: "dd/MM/y hh:mm a"}}
+                                                </p>
+                                            </div>
+                                            <app-all-components-data-display [chartDetails]="chrt" [chartData]="item" [chartComponentList]="item.componentListArray">
+                                            </app-all-components-data-display>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="!chrt.chartId">
+                                    <div id="all_order_list_{{di}}">
+                                        <!-- MEDICINE_ORDER    -->
+                                        <div class="container-fluid px-0 history-tab mb-1" id="patient_order_medicine_{{di}}" *ngIf="chrt.chartData?.medicineOrders.length > 0">
+                                            <p class="mb-0 p-1 font-size-dot-875">Medicine Order</p>
+                                            <div class="cus-head py-1 border-dash-bottom">
+                                                <p class="mb-0 text-right font-size-dot-8 pr-1">
+                                                    {{chrt.chartData?.medicineOrders[0].order_by.user_name}} - {{chrt.chartData?.medicineOrders[0].order_date | date: "dd/MM/y hh:mm a"}}
+                                                </p>
+                                            </div>
+                                            <div class="order-table-height">
+                                                <ul class="list-unstyled pl-3 pt-2">
+                                                    <li class="m-0" *ngFor="let med of chrt.chartData?.medicineOrders; let chrtIndx = index;">
+                                                       <span class="tag-list"><span [innerHTML]="med.medicineObj?.name"></span>
+                                                        <span *ngIf="med.medicineObj?.type?.name" [innerHTML]="'(' + med.medicineObj?.type?.name + ')'"></span>
+                                                        <span *ngIf="med.medicineObj?.dose && med.medicineObj?.dose?.dose">,
+                                                    </span><span class="text-muted small">
+                                                        <span *ngIf="med.medicineObj?.dose && med.medicineObj?.dose?.dose"
+                                                            [innerHTML]="med.medicineObj?.dose?.dose"></span>
+                                                        <span *ngIf="med.medicineObj?.doseUnit && med.medicineObj?.doseUnit?.dose_unit" [innerHTML]="med.medicineObj?.doseUnit?.dose_unit"></span>
+                                                        <span *ngIf="med.medicineObj?.frequencySchedule">, </span>
+                                                        <span *ngIf="med.medicineObj?.frequencySchedule" [innerHTML]="med.medicineObj?.frequencySchedule + ' time(s) '"></span>
+                                                        <span *ngIf="med.medicineObj?.duration">for </span>
+                                                        <span *ngIf="med.medicineObj?.duration" [innerHTML]="med.medicineObj?.duration + ' Day(s)'"></span>
+                                                        <span *ngIf="med.medicineObj?.instruction">, </span>
+                                                        <span *ngIf="med.medicineObj?.instruction" [innerHTML]="med.medicineObj?.instruction"></span></span>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- MEDICINE_ORDER    -->
+                                        <!-- DIET_ORDER    -->
+                                        <div class="container-fluid px-0 history-tab mb-1" id="patient_order_diet_{{di}}" *ngIf="chrt.chartData?.dietOrders.length > 0">
+                                            <p class="mb-0 p-1 font-size-dot-875">Diet Order</p>
+                                            <div class="cus-head py-1 border-dash-bottom">
+                                                <p class="mb-0 text-right font-size-dot-8 pr-1">
+                                                    {{chrt.chartData?.dietOrders[0].order_by.user_name}} - {{chrt.chartData?.dietOrders[0].order_date | date: "dd/MM/y hh:mm a"}}
+                                                </p>
+                                            </div>
+                                            <div class="order-table-height">
+                                                <ul class="list-unstyled pl-3 pt-2">
+                                                    <li class="m-0" *ngFor="let diet of chrt.chartData?.dietOrders; let chrtIndx = index;">
+                                                        <span class="tag-list"> <span [innerHTML]="diet.name"></span>
+                                                        <span *ngIf="diet.freq">, </span><span class="text-muted small">
+                                                        <span [innerHTML]="diet.freq + ' time(s)'"></span>
+                                                        <span *ngIf="diet.specInstruction">, </span>
+                                                        <span [innerHTML]="diet.specInstruction"></span></span>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- DIET_ORDER    -->
+                                        <!-- NURSING_ORDER    -->
+                                        <div class="container-fluid px-0 history-tab mb-1" id="patient_order_nursing_{{di}}" *ngIf="chrt.chartData?.nursingOrders.length > 0">
+                                            <p class="mb-0 p-1 font-size-dot-875">Nursing Order</p>
+                                            <div class="cus-head py-1 border-dash-bottom">
+                                                <p class="mb-0 text-right font-size-dot-8 pr-1">
+                                                    {{chrt.chartData?.nursingOrders[0].order_by.user_name}} - {{chrt.chartData?.nursingOrders[0].order_date | date: "dd/MM/y hh:mm a"}}
+                                                </p>
+                                            </div>
+                                            <div class="order-table-height">
+                                                <ul class="list-unstyled pl-3 pt-2">
+                                                    <li class="m-0" *ngFor="let nurs of chrt.chartData?.nursingOrders; let chrtIndx = index;">
+                                                        <span class="tag-list"><span [innerHTML]="nurs.name"></span>
+                                                        <span *ngIf="nurs.genericFreq">, </span><span class="text-muted small">
+                                                        <span [innerHTML]="nurs.genericFreq + ' time(s) '"></span>
+                                                        <span *ngIf="nurs.genericDuration">for </span>
+                                                        <span [innerHTML]="nurs.genericDuration + ' Day(s)'"></span></span>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- NURSING_ORDER    -->
+                                        <!-- RADIOLOGY_ORDER    -->
+                                        <div class="container-fluid px-0 history-tab mb-1" id="patient_order_radio_{{di}}" *ngIf="chrt.chartData?.radiologyOrders.length > 0">
+                                            <p class="mb-0 p-1 font-size-dot-875">Radiology Order</p>
+                                            <div class="cus-head py-1 border-dash-bottom">
+                                                <p class="mb-0 text-right font-size-dot-8 pr-1">
+                                                    {{chrt.chartData?.radiologyOrders[0].order_by.user_name}} - {{chrt.chartData?.radiologyOrders[0].order_date | date: "dd/MM/y hh:mm a"}}
+                                                </p>
+                                            </div>
+                                            <div class="order-table-height">
+                                                <ul class="list-unstyled pl-3 pt-2">
+                                                    <li class="m-0" *ngFor="let radio of chrt.chartData?.radiologyOrders; let chrtIndx = index;">
+                                                        <span class="tag-list"><span [innerHTML]="radio.name"></span>
+                                                        <span *ngIf="radio.frequency">, </span><span class="text-muted small">
+                                                        <span [innerHTML]="radio.frequency + ' time(s)'"></span>
+                                                        <span *ngIf="radio.patientInstruction">, </span>
+                                                        <span [innerHTML]="radio.patientInstruction"></span>
+                                                        <span *ngIf="radio.radiologyInstruction">, </span>
+                                                        <span [innerHTML]="radio.radiologyInstruction"></span>
+                                                        <span *ngIf="radio.requisition">, </span>
+                                                        <span [innerHTML]="radio.requisition"></span></span>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- RADIOLOGY_ORDER    -->
+                                        <!-- SERVICE_ORDER    -->
+                                        <div class="container-fluid px-0 history-tab mb-1" id="patient_order_radio_{{di}}" *ngIf="chrt.chartData?.serviceOrders.length > 0">
+                                            <p class="mb-0 p-1 font-size-dot-875">Service Order</p>
+                                            <div class="cus-head py-1 border-dash-bottom">
+                                                <p class="mb-0 text-right font-size-dot-8 pr-1">
+                                                    {{chrt.chartData?.serviceOrders[0].order_by.user_name}} - {{chrt.chartData?.serviceOrders[0].order_date | date: "dd/MM/y hh:mm a"}}
+                                                </p>
+                                            </div>
+                                            <div class="order-table-height">
+                                                <ul class="list-unstyled pl-3 pt-2">
+                                                    <li class="m-0" *ngFor="let service of chrt.chartData?.serviceOrders; let chrtIndx = index;">
+                                                        <span class="tag-list"> <span [innerHTML]="service.name"></span>
+                                                        <span *ngIf="service.freq">, </span><span class="text-muted small">
+                                                        <span [innerHTML]="service.freq + ' time(s)'"></span>
+                                                        <span *ngIf="service.instruction">, </span>
+                                                        <span [innerHTML]="service.instruction"></span></span>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- SERVICE_ORDER    -->
+                                        <!-- LAB_ORDER    -->
+                                        <div class="container-fluid px-0 history-tab mb-1" id="patient_order_radio_{{di}}" *ngIf="chrt.chartData?.labOrders.length > 0">
+                                            <p class="mb-0 p-1 font-size-dot-875">Lab Order</p>
+                                            <div class="cus-head py-1 border-dash-bottom">
+                                                <p class="mb-0 text-right font-size-dot-8 pr-1">
+                                                    {{chrt.chartData?.labOrders[0].order_by.user_name}} - {{chrt.chartData?.labOrders[0].order_date | date: "dd/MM/y hh:mm a"}}
+                                                </p>
+                                            </div>
+                                            <div class="order-table-height">
+                                                <ul class="list-unstyled pl-3 pt-2">
+                                                    <li class="m-0" *ngFor="let lab of chrt.chartData?.labOrders; let chrtIndx = index;">
+                                                        <span class="tag-list"><span [innerHTML]="lab.name"></span>
+                                                        <span *ngIf="lab.frequency">, </span><span class="text-muted small">
+                                                        <span [innerHTML]="lab.frequency + ' time(s)'"></span>
+                                                        <span *ngIf="lab.patientInstruction">, </span>
+                                                        <span [innerHTML]="lab.patientInstruction"></span>
+                                                        <span *ngIf="lab.labInstruction">, </span>
+                                                        <span [innerHTML]="lab.labInstruction"></span>
+                                                        <span *ngIf="lab.requisition">, </span>
+                                                        <span [innerHTML]="lab.requisition"></span></span>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- LAB_ORDER-->
+                                        <!-- DOCTOR_INSTRUCTION-->
+                                        <div class="container-fluid px-0 history-tab mb-1" id="patient_order_radio_{{di}}" *ngIf="chrt.chartData?.instructionOrders.length > 0">
+                                            <p class="mb-0 p-1 font-size-dot-875">Lab Order</p>
+                                            <div class="cus-head py-1 border-dash-bottom">
+                                                <p class="mb-0 text-right font-size-dot-8 pr-1">
+                                                    {{chrt.chartData?.instructionOrders[0].order_by.user_name}} - {{chrt.chartData?.instructionOrders[0].order_date | date: "dd/MM/y hh:mm a"}}
+                                                </p>
+                                            </div>
+                                            <div class="order-table-height">
+                                                <ul class="list-unstyled pl-3 pt-2">
+                                                    <li class="m-0" *ngFor="let docIns of chrt.chartData?.instructionOrders; let chrtIndx = index;">
+                                                        <span class="tag-list"><span [innerHTML]="docIns.name"></span>
+                                                        <span *ngIf="docIns.freq">, </span><span class="text-muted small">
+                                                        <span [innerHTML]="docIns.freq + ' time(s)'"></span>
+                                                        <span *ngIf="docIns.instruction">, </span>
+                                                        <span [innerHTML]="docIns.instruction"></span></span>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <!-- DOCTOR_INSTRUCTION    -->
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="collaseDatesArray.length == 0">
+        No History Found
+    </div>
+</div>

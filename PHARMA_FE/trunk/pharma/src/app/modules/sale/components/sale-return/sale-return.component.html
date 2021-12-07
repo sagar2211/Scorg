@@ -1,0 +1,169 @@
+<div class="custom-container-fluid container-patient-issue">
+    <form [formGroup]="allTypeSaleForm" (ngSubmit)="saveSaleData()" *ngIf="loadForm">
+        <div class="card-header p-1 position-relative pt-1 px-0 pb-0 border-bottom-0">
+            <div class="row m-0 form-row">
+              <div class="col-10 bg-light py-1 px-0 border">
+                <div class="row m-0">
+                  <div class="col-2 px-1">
+                    <label>Start Date</label>
+                    <app-date-picker [inputDate]="allTypeSaleForm.value.startDate" (dateChange)="allTypeSaleForm.patchValue({startDate: $event});">
+                    </app-date-picker>
+                </div>
+                <div class="col-2 px-1">
+                    <label>End Date</label>
+                    <app-date-picker [inputDate]="allTypeSaleForm.value.endDate" (dateChange)="allTypeSaleForm.patchValue({endDate: $event});">
+                    </app-date-picker>
+                </div>
+                    <div class="col-2 px-1">
+                      <label>Type</label>
+                      <ng-select [items]="counterTypeList" bindLabel="name"  formControlName="counterType"
+                                placeholder="Select Value" (change)="onCounterTypeChange($event)">
+                            </ng-select>
+                    </div>
+                        <ng-container *ngIf="allTypeSaleForm.getRawValue().counterType?.id === 1">
+                          <div class="col-3 px-1 dropdownWidth">
+                            <label>Debtor</label>
+                            <ng-select [items]="debtorList$ | async" bindLabel="accountName" bindValue="accountId"  formControlName="debtorId"
+                                [closeOnSelect]="true" [multiple]="false" [hideSelected]="false"
+                                [typeahead]="debtorListInput$" placeholder="Debtor Select"
+                                (change)="onDebtorChange($event)">
+                                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                                    <div class="form-row align-items-center justify-content-center mx-0 p-1">
+                                        <!-- <div class="col px-0 col-profile-img">
+                                        <img alt="profile-image-female" src="./assets/img/female.svg">
+                                        </div> -->
+                                        <div class="col px-0">
+                                            <p class="mb-0 font-size-dot-875">{{item.accountName}}</p>
+                                            <p class="mb-0 font-size-dot-75 text-muted">{{item.accountId}} | {{item.accountType}}
+                                                | {{item.contactNo}}</p>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                        <div class="col-2 px-1">
+                          <label>Patient</label>
+                            <ng-select [items]="patientList$ | async" bindLabel="patientName" bindValue="patientId"
+                                [closeOnSelect]="true" [multiple]="false" [hideSelected]="false"
+                                [typeahead]="patientListInput$" placeholder="Patient Select"
+                                (change)="onPatientChange($event)"  formControlName="patientId">
+                                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                                    <div class="form-row align-items-center justify-content-center mx-0 p-1">
+                                        <div class="col px-0">
+                                            <p class="mb-0 font-size-dot-875">{{item.patientName}}</p>
+                                            <p class="mb-0 font-size-dot-75 text-muted">{{item.patientId}} | {{item.gender}} | {{item.mobileNo}}</p>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                        </ng-container>
+                        <ng-container *ngIf="allTypeSaleForm.getRawValue().counterType?.id === 2">
+                          <div class="col-4 px-1">
+                            <label>Patient</label>
+                              <ng-select [items]="patientVoucherList$ | async" bindLabel="patientName" bindValue="patientId"
+                                  [closeOnSelect]="true" [multiple]="false" [hideSelected]="false"
+                                  [typeahead]="patientListtVoucherInput$" placeholder="Patient Select"
+                                  (change)="onPatientChange($event)"  formControlName="patientId">
+                                  <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                                      <div class="form-row align-items-center justify-content-center mx-0 p-1">
+                                          <div class="col px-0">
+                                              <p class="mb-0 font-size-dot-875">{{item.patientName}}</p>
+                                              <p class="mb-0 font-size-dot-75 text-muted">{{item.patientId}} | {{item.gender}} | {{item.mobileNo}}</p>
+                                          </div>
+                                      </div>
+                                  </ng-template>
+                              </ng-select>
+                          </div>
+                        </ng-container>
+
+                      <div class="col-1 px-1 mt-4">
+                          <button class="btn mt-1 btn-outline-primary btn-sm" type="button" (click)="applySearch()">SEARCH</button>
+                      </div>
+                </div>
+              </div>
+             <div class="col-2 bg-light p-1 border">
+              <label>Return Date</label>
+              <app-date-picker [inputDate]="allTypeSaleForm.value.returnDate" (dateChange)="allTypeSaleForm.patchValue({returnDate: $event});">
+              </app-date-picker>
+             </div>
+            </div>
+        </div>
+        <div class="card-body p-1 card-body-patient-issue">
+            <div class="form-row mx-0 mb-1">
+                <div class="col-12">
+                    <ng-container>
+                      <dx-data-grid id="gridContainer" [dataSource]="saleReturnItemArray" keyExpr="tempId" (onEditorPreparing)="onEditorPreparing($event)" [showBorders]="true">
+                        <dxo-paging [enabled]="false"></dxo-paging>
+                        <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="true" [allowDeleting]="false" [useIcons]="true">
+                        </dxo-editing>
+                        <dxi-column caption="Sr No" [fixed]="true" [width]="60" [allowEditing]="allowEditing" cellTemplate="SerialNoTemplate" alignment="center">
+                          <div *dxTemplate="let data of 'SerialNoTemplate'">
+                            {{data.row.rowIndex + 1}}
+                          </div>
+                        </dxi-column>
+                        <dxi-column dataField="saleBillNo" [fixed]="true" [width]="150" [allowEditing]="allowEditing" caption="Bill No"></dxi-column>
+                        <dxi-column dataField="saleBillDate" [fixed]="true" [width]="100" caption="Bill Date" format="dd-MM-yyyy" dataType="date" [allowEditing]="false"></dxi-column>
+                        <dxi-column dataField="itemName" [fixed]="true" [width]="160" [allowEditing]="allowEditing" caption="Item Name"></dxi-column>
+                        <dxi-column dataField="batchNo" [width]="80" [allowEditing]="allowEditing" caption="Batch No"></dxi-column>
+                        <dxi-column dataField="expiry" caption="Expiry" format="dd-MM-yyyy" dataType="date" [width]="100" [allowEditing]="allowEditing"></dxi-column>
+                        <dxi-column dataField="qty" [width]="60" [allowEditing]="allowEditing" caption="Qty">
+                          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                        </dxi-column>
+                        <dxi-column dataField="returnQty" [width]="100" [allowEditing]="true" caption="Return Qty">
+                          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                        </dxi-column>
+                        <dxi-column dataField="saleRate" [width]="100" [allowEditing]="allowEditing" caption="Sale Rate">
+                          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                        </dxi-column>
+                        <dxi-column dataField="amount" [width]="100" [allowEditing]="allowEditing" caption="Amount">
+                          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                        </dxi-column>
+                        <dxi-column dataField="retAmount" [width]="100" [allowEditing]="allowEditing" caption="Return Amount">
+                          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                        </dxi-column>
+                        <dxi-column dataField="gstPer" [width]="100" [allowEditing]="allowEditing" caption="GST Per">
+                          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                        </dxi-column>
+                        <dxi-column dataField="gstAmount" [width]="100" [allowEditing]="allowEditing" caption="GST Amount">
+                          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                        </dxi-column>
+                        <dxo-summary [recalculateWhileEditing]="true">
+                          <dxi-total-item name="subTotalLabel" valueFormat="decimal" displayFormat="Total: " cssClass="totalAmountSummary-skip" showInColumn="item">
+                          </dxi-total-item>
+                          <dxi-total-item column="qty" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                          <dxi-total-item column="returnQty" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                          <dxi-total-item column="amount" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                          <dxi-total-item column="retAmount" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                          <dxi-total-item column="gstAmount" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                      </dxo-summary>
+                      </dx-data-grid>
+                  </ng-container>
+                </div>
+            </div>
+            <div class="form-row mx-0 mb-1">
+              <div class="col-4 px-1 boder">
+                <p class="m-0">Return Amount: <b>{{allTypeSaleForm.getRawValue().retAmountTotal | number:'1.2-2'}}</b></p>
+              </div>
+              <div class="col-4 px-1 boder">
+                <p class="m-0">Round Amount: <b>{{allTypeSaleForm.getRawValue().roundingAmt | number:'1.2-2'}}</b></p>
+              </div>
+              <div class="col-4 px-1 boder">
+                <p class="m-0">Net Amount: <b>{{allTypeSaleForm.getRawValue().amountNet | number:'1.2-2'}}</b></p>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer py-0 border-top">
+            <div class="float-right col-1 py-1">
+              <button type="submit" class="btn btn-primary btn-sm">
+            <i class="icon fa-fw icon-save" aria-hidden="true"></i>  SAVE
+          </button>
+          </div>
+              <div class="float-right py-1 col-3">
+                  <h4 class="m-0 text-strong" > Net Amount : {{allTypeSaleForm.getRawValue().amountNet| number:'1.2-2'}}</h4>
+              </div>
+          </div>
+    </form>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<!-- <app-print-data [printData]="printData" (printDiaglogClose)="navigateToSummery()"></app-print-data> -->

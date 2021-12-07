@@ -1,0 +1,45 @@
+<div class="card border-0 suggestion">
+  <div class="card-header p-0 border-dash-bottom">
+    <div class="form-row align-items-center justify-content-center mx-0">
+      <div class="col mt-1"><span class="mb-0 mr-1 text-white">History</span>
+      </div>
+    </div>
+  </div>
+  <div class="card-body pt-1 pr-0 pb-1 pl-1 latest-history-area">
+    <div class="no-event" *ngIf="!isHistoryLoad">
+      <div class="box">
+          <div class="circle"></div>
+          <p class="mb-0 mt-1">Loading</p>
+      </div>
+      <div class="backdrop"></div>
+  </div>
+    <ng-container *ngIf="isHistoryLoad">
+      <div class="latest-history">
+        <ng-container *ngFor="let item of historyData; let i = index;">
+          <div class="row m-0" [ngClass]="{'d-none': (i > 0 && !allHistoryShow)}">
+            <div class="col-12 px-1 mx-1 border bg-light" style="margin-bottom: -5px !important;">
+              <div class="row m-0">
+                <div class="col-10 p-1">
+                  <i [ngClass]="{'fa-plus': !item.isExpanded, 'fa-minus': item.isExpanded}" (click)="item.isExpanded = !item.isExpanded" class="fa pr-1 text-primary"></i> Dr. {{item.doctor_name}} ({{item.consultation_datetime | date: "dd-MM-yyyy hh:mm a"}})
+                </div>
+                <div class="col-2 p-1 text-right text-primary">
+                  <a (click)="applyToChart(item)" class="p-1"><i class="fa fa-copy"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="item.isExpanded" class="row m-0" [ngClass]="{'d-none': (i > 0 && !allHistoryShow)}">
+            <div class="col-12 p-1 history-section">
+              <app-all-components-data-display [showCopyIcon]="false" [chartData]="item" [chartComponentList]="chartData.chart_details">
+              </app-all-components-data-display>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <p class="m-0 p-2 border text-right bg-light text-primary show-more" style="margin-left: -5px !important;">
+        <span (click)="allHistoryShow = true">Show More</span>
+      </p>
+    </ng-container>
+  </div>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

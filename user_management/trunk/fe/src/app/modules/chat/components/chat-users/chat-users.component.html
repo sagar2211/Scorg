@@ -1,0 +1,34 @@
+<div class="card chat-user border-0">
+  <div class="card-header">
+    <input class="form-control form-control-sm pl-4" placeholder="Search User" type="text">
+    <div _ngcontent-tct-c27="" class="placeholder-icon"><i _ngcontent-tct-c27=""
+        class="icon fa-fw icon-search text-muted" aria-hidden="true"></i></div>
+  </div>
+  <div class="card-body p-0">
+    <div class="inbox-height">
+      <ul class="list-unstyled h-100 m-0" (click)="selectChatingUser($event)">
+        <ng-container *ngFor="let user of usersList; let i = index;">
+          <li class="chat-items pointer p-1" [routerLink]="['chat-room/',user.id]">
+            <div class="chat-img px-1 py-2">
+              <img class="img-fluid rounded-circle" src="./assets/img/profile.png">
+              <a class="status-icon" [ngClass]="{'text-success':user.status==1,
+                  'text-warning':user.status==2}"><i *ngIf="user.status!=3"
+                  class="fas fa-circle font-size-dot-7"></i></a>
+              <!-- {{user.status}} -->
+            </div>
+            <div class="chat-details">
+              <div class="user-name-time w-100 d-flex">
+                <p class="font-size-dot-875 mb-0">{{user.name}}</p>
+                <small class="text-right text-muted">12/3/1019</small>
+              </div>
+              <div class="clearfix">
+                <!-- <small class="float-right badge badge-pill unread">9+</small> -->
+                <small class="float-left">{{user.id}}</small>
+              </div>
+            </div>
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<div class="container-fluid">
+  <div class="row" id="homeComponent">
+      <app-emr-setting-side-menu [showMenuType]="showMenuType"></app-emr-setting-side-menu>
+      <div class="column"
+    [ngClass]="{'right-side': showMenuType === 'slide', 'fixed-right-side': showMenuType === 'fixed'}">
+          <router-outlet></router-outlet>
+      </div>
+  </div>
+</div>

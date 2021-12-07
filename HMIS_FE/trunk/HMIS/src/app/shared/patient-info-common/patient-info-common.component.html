@@ -1,0 +1,265 @@
+<div class="card-header p-1 position-relative pt-1 px-0 pb-0 border-bottom-0">
+  <div class="position-absolute patient-search-top" *ngIf="showPatientSearchBox">
+    <div class="input-group">
+      <ng-select class="patient-search" [items]="patientList$ | async" bindLabel="fullName"
+        (change)="onPatientChange($event)" bindValue="uhid" [(ngModel)]="billingForm.patientId"
+        placeholder="Patient Select" [typeahead]="patientListInput$">
+        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+          <div class="form-row align-items-center justify-content-center mx-0 p-1">
+            <div class="col px-0 col-profile-img">
+              <img alt="profile-image-female" src="./assets/img/female.svg">
+            </div>
+            <div class="col px-0">
+              <p class="mb-0 font-size-dot-875">{{item.fullName}}</p>
+              <p class="mb-0 font-size-dot-75 text-muted">{{item.uhid}} | {{item.patGenderAge}} | {{item.patMobile}}</p>
+            </div>
+            <div class="col px-0 text-right">
+              <p class="mb-0 font-size-dot-75 text-muted">Visit No: {{item.penVisitNo}}</p>
+              <p class="mb-0 font-size-dot-75 text-muted">Visit Date: {{item.admissionDate| customDate: '' :
+                'DD-MM-YYYY'}}</p>
+              <p class="mb-0 font-size-dot-75 text-muted">Visit Type: {{item.penVisitType}}</p>
+            </div>
+          </div>
+        </ng-template>
+      </ng-select>
+      <div class="input-group-append">
+        <button class="btn btn-white border text-muted" [ngClass]="{'py-0': isPatientClassChangePage}" type="button" title="Close"
+          (click)="enablePatientSearch(false)">
+          &times;</button>
+      </div>
+    </div>
+  </div>
+  <div class="custom-backdrop" [ngClass]="{'added': showPatientSearchBox}"></div>
+  <div class="form-row mx-0">
+    <div class="col-3 pl-0">
+      <div class="card patient-info">
+        <div class="card-body p-1">
+          <div class="form-row mx-0">
+            <div class="col-8 pl-0 billsection">
+              <ng-container *ngIf="!billingForm.isVoucherDropDownVisible">
+                {{billingForm?.billNo ? billingForm?.billNo : 'New Bill'}}
+              </ng-container>
+              <ng-container *ngIf="billingForm.isVoucherDropDownVisible">
+                <ng-select [items]="voucherList" bindValue="billId" bindLabel="customName"
+                  (change)="getSelectedVoucher($event)" [(ngModel)]="billingForm.billId"
+                  placeholder="Select Patient Bill">
+                  <ng-template ng-option-tmp let-item="item" let i="index" let-search="searchTerm">
+                    <div class="row m-0 border border-bottom-0 detail-row" *ngIf="item.billId">
+                      <div class="col-3 px-1 border-right border-bottom font-weight-500">
+                        <p class="m-0">{{item.billNo}}</p>
+                      </div>
+                      <div class="col-3 px-1 border-right border-bottom">
+                        <p class="m-0">{{item.billDatetime}} </p>
+                      </div>
+                      <div class="col-2 px-1 border-right border-bottom">
+                        <p class="m-0">{{item.status}}</p>
+                      </div>
+                      <div class="col-2 px-1 border-right border-bottom text-right font-weight-500">
+                        <p class="m-0">₹{{item.finalNetAmount}}</p>
+                      </div>
+                      <div class="col-2 px-1 border-right border-bottom">
+                        <p class="m-0" *ngIf="item.isSpotBill">Spot Bill</p>
+                      </div>
+                    </div>
+                    <!-- <p class="mb-0" *ngIf="item.billId">
+                      <span>{{i}}={{item.billNo}} || </span>
+                      <span>{{item.billDatetime}} || </span>
+                      <span>{{item.status}} || </span>
+                      <span>₹{{item.finalNetAmount}}</span>
+                      <span *ngIf="item.isSpotBill"> || Spot Bill</span>
+                    </p> -->
+                    <p class="mb-0" *ngIf="item.billId === 0">
+                      <span>{{item.billNo}}</span>
+                    </p>
+                  </ng-template>
+                </ng-select>
+              </ng-container>
+            </div>
+            <div class="col p-0">
+              <!-- *ngIf="billingForm?.selectedPatient?.penType != 'IP' || allowAddNewBill" -->
+              <button
+                class="btn btn-sm btn-outline-info pl-2" type="button" (click)="getSelectedVoucher(null);"
+                title="Add New">
+                <i class="fa fa-plus"></i>
+              </button>
+            </div>
+            <div class="col p-0">
+              <button class="btn btn-sm btn-outline-info px-2" type="button" (click)="enableViewOnlyBillMode(!isViewOnlyBillMode);"
+                title="{{isViewOnlyBillMode ? 'Edit Bill' : 'Enable View only Mode'}}">
+                <i class="fa {{isViewOnlyBillMode ? 'fa-edit' : 'fa-eye'}}"></i>
+              </button>
+            </div>
+            <div class="col p-0">
+              <button class="btn btn-sm btn-outline-info" type="button"
+                (click)="billingForm.isVoucherDropDownVisible = !billingForm.isVoucherDropDownVisible" title="Search New Bill">
+                <i class="icon fa-fw icon-search"></i>
+              </button>
+            </div>
+          </div>
+          <div class="form-row mx-0">
+            <div class="col-6 px-0">
+              <p class="mb-0 text-muted font-size-dot-75">
+                {{billingForm.billDatetime}}
+              </p>
+            </div>
+            <div class="col mt-1 mr-2 px-0 text-right short-text">
+              <span class="badge badge-pill badge-warning px-2"
+                *ngIf="(billingForm.billTypeStatus == 'FINAL BILL' || billingForm.billTypeStatus == 'FINAL DRAFT BILL'); else pendingStatus">
+                {{billingForm.status}}
+              </span>
+              <ng-template #pendingStatus>
+                <span class="badge badge-pill badge-secondary px-2">
+                  {{billingForm.status}}
+                </span>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card patient-info">
+        <div class="card-body p-1">
+          <div class="form-row mx-0">
+            <div class="col-10 px-0">
+              <p class="mb-0">
+                <span class="text-muted font-size-dot-75"> Patient Info -
+                </span>
+                <span class="font-size-dot-75">{{billingForm.selectedPatient?.uhid}}</span>
+              </p>
+              <div class="patient-name">
+                <p class="mb-0 font-size-dot-875 font-weight-500 short-text btn-link">
+                  <a class="pointer" (click)="showPatientEncounterDetail()"
+                    title="View Patient Detail">{{billingForm.selectedPatient?.fullName}} </a>
+                </p>
+                <p class="mb-0 text-muted">
+                  <span>{{billingForm.selectedPatient?.patGenderAge || 'NA'}}</span>
+                  <!-- <span class="ml-5 badge badge-pill badge-warning px-2" *ngIf="isViewOnlyBillMode">
+                    VIEW ONLY MODE <span class="pl-1 pointer" title="Modify Bill" (click)="cancelViewOnlyBillMode()">X</span>
+                  </span> -->
+                </p>
+              </div>
+            </div>
+            <div class="col px-0 text-right col-search-btn">
+              <button class="btn btn-sm btn-outline-info" type="button" (click)="enablePatientSearch(true)"
+                title="Search New Patient">
+                <i class="icon fa-fw icon-search"></i>
+              </button>
+              <!-- <button type="button" (click)="showPatientEncounterDetail()" title="View Patient Detail" class="btn btn-sm btn-outline-info ml-2">
+                <i class="fa fa-fw fa-arrows-alt"></i>
+              </button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="card patient-info">
+        <div class="card-body p-1">
+          <div class="form-row mx-0">
+            <div class="col px-0">
+              <div class="form-row mx-0">
+                <div class="col-6 mx-0">
+                  <p class="mb-0">
+                    <!-- <span class="text-muted font-size-dot-75">Encounter -</span> -->
+                    <span class="font-size-dot-875 font-weight-500">
+                      {{billingForm.selectedPatient?.penType}}/{{billingForm.selectedPatient?.penVisitNo}}
+                    </span>
+                  </p>
+                </div>
+                <div class="col px-0 text-right short-text">
+                  <span class="badge badge-pill badge-secondary px-2"
+                    *ngIf="(billingForm.selectedPatient?.patEncounterStatus != 'IP TREATMENT' && billingForm.selectedPatient?.patEncounterStatus != 'OPEN'); else pendingEncounterStatus">
+                    {{billingForm.selectedPatient?.patEncounterStatus || 'OPEN'}}
+                  </span>
+                  <ng-template #pendingEncounterStatus>
+                    <span class="badge badge-pill badge-secondary px-2">
+                      {{billingForm.selectedPatient?.patEncounterStatus || 'OPEN'}}
+                    </span>
+                  </ng-template>
+                </div>
+              </div>
+              <div class="patient-name">
+                <div class="form-row mx-0">
+                  <div class="col-12 mx-0">
+                    <p class="mb-0 text-muted font-size-dot-75">
+                      <span class="text-muted font-size-dot-75">{{ (billingForm.selectedPatient?.penType == 'IP' ? 'DOA'
+                        : 'DOE') }} -
+                      </span>{{billingForm.selectedPatient?.patEncDate12}}
+                    </p>
+                  </div>
+                </div>
+                <div class="form-row mx-0">
+                  <div class="col-10 mx-0">
+                    <p class="mb-0 text-muted font-size-dot-75 bed-empty">
+                      <ng-container>
+                        <span class="text-muted font-size-dot-75">
+                          {{billingForm.selectedPatient?.orginalChargingType}} / {{billingForm.selectedPatient?.penCategory}}
+                        </span>
+                      </ng-container>
+                    </p>
+                  </div>
+                  <div class="col p-0 font-size-dot-75" *ngIf="billingForm.selectedPatient?.penType == 'IP'">
+                    <button type="button" class="btn btn-sm p-0" container="body" placement="bottom" ngbTooltip="Bed Info: {{billingForm.selectedPatient?.BedInfo?.LvdmName || (billingForm.selectedPatient?.SubBedInfo?.BmtBedname || 'Bed Not Assigned')}}">
+                      <i class="icon fa-fw icon-bed-empty text-success align-text-bottom"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-3 pr-0">
+      <div class="card patient-info">
+        <div class="card-body p-1">
+          <div class="form-row mx-0">
+            <div class="col px-0">
+              <p class="mb-0">
+              <p class="mb-0 text-muted font-size-dot-75">
+                <span class="text-muted font-size-dot-75"> Deposit -
+                </span> <span class="font-size-dot-75 font-weight-500">₹
+                  {{billingForm.selectedPatient?.advanceDeposit | number:'1.2-2'}}
+                </span>
+              </p>
+              <div class="patient-name">
+                <p class="mb-0 text-muted font-size-dot-75">
+                  <span class="text-muted font-size-dot-75">Pending</span>
+                  <span *ngIf="billingForm.selectedPatient?.refundBillAmount"> / Refund Bill</span> -
+                  <span class="font-size-dot-75 font-weight-500 text-danger btn-link pointer"
+                  (click)="redirectToBillPayment($event)" title="Go to Bill Payment">₹
+                    {{billingForm.selectedPatient?.pendingBillAmount | number:'1.2-2'}}
+                  </span>
+                  <span class="font-size-dot-75 font-weight-500 text-success btn-link pointer"
+                  *ngIf="billingForm.selectedPatient?.refundBillAmount"
+                  (click)="redirectToBillRefund($event)" title="Go to Bill Refund">
+                    / ₹ {{billingForm.selectedPatient?.refundBillAmount | number:'1.2-2'}}
+                  </span>
+                </p>
+                <p class="mb-0">
+                  <!-- <span class="text-muted font-size-dot-75"> Status -</span> -->
+                  <span class="badge badge-pill badge-secondary px-2">
+                    {{billingForm?.paymentStatus}}
+                  </span>
+                  <span class="badge badge-pill badge-warning px-2 ml-1"
+                    *ngIf="(billingForm?.billTypeStatus != 'INTERIM BILL'); else pendingBillTypeStatus">
+                    {{billingForm?.billTypeStatus}}
+                  </span>
+                  <ng-template #pendingBillTypeStatus>
+                    <span class="badge badge-pill badge-secondary px-2 ml-1">
+                      {{billingForm?.billTypeStatus}}
+                    </span>
+                  </ng-template>
+                  <span *ngIf="(billingForm?.isSpotBill)" class="badge badge-pill badge-warning px-2 ml-1">
+                    Spot Bill
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

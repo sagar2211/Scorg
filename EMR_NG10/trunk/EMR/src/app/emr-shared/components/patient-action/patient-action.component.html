@@ -1,0 +1,11 @@
+<div class="row m-0">
+    <div class="col-2 px-1 text-right">
+        <p class="m-0 pt-1"><b>Action</b></p>
+    </div>
+    <div class="col-10 px-1">
+        <ng-select #select [items]="dischargeStatusList" (change)="changeActionStatus($event)"
+            [(ngModel)]="encounterNextStatus" placeholder="Select Action">
+        </ng-select>
+    </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

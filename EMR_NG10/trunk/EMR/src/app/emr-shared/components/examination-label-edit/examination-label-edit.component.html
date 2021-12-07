@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">Update</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+    (click)="selectValueConfirm('cancel')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-row">
+    <div class="col-2">
+      <p class="mb-2 font-weight-500"> Current: </p>
+    </div>
+    <div class="col">
+      <p class="mb-2"> {{this.examinationData.tagName}} </p>
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-2">
+      <p class="mb-0 font-weight-500"> Updated: </p>
+    </div>
+    <div class="col">
+      <input class="form-control form-control-sm" type="text" [(ngModel)]="examinationText">
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="selectValueConfirm('cancel');">CANCEL</button>
+  <button type="button" class="btn btn-sm btn-success" (click)="selectValueConfirm('Ok');"><i
+      class="fas fa-fw fa-sync-alt"></i> UPDATE</button>
+</div>

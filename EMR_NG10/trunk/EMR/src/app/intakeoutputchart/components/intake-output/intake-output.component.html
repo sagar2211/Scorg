@@ -1,0 +1,236 @@
+<div class="emr-custom-container-fluid">
+    <div class="card-header py-2 border-dash-bottom">
+        <h6 class="mb-0"> Fluid Balance Chart</h6>
+    </div>
+    <div class="card-body nursing-height p-1 pb-0">
+        <div class="nursing-data">
+            <table class="table custom-table font-size-dot-875 mb-0">
+                <thead class="w-100">
+                    <tr>
+                        <th colspan="6">In Take</th>
+                        <th colspan="6">Out Put</th>
+                        <th rowspan="4">Fluid Balance</th>
+                    </tr>
+                    <tr>
+                        <th rowspan="2">Time</th>
+                        <th colspan="2">IV FLuids</th>
+                        <th colspan="2">RT Feeds</th>
+                        <th rowspan="2">Total Intake ml</th>
+                        <th rowspan="2">R. T. Aspiration ml</th>
+                        <th rowspan="2">Urine ml</th>
+                        <th rowspan="2">Drains ml</th>
+                        <th rowspan="2">Total Output ml</th>
+                    </tr>
+                    <tr>
+                        <th class="name-w">Name</th>
+                        <th>Qty/ML</th>
+                        <th class="name-w">NAME</th>
+                        <th>Qty/ML</th>
+                    </tr>
+                </thead>
+            </table>
+            <div class="scroll-div">
+                <div *ngFor="let reportData of intakeOutputChartData; let parInx = index" class="expand-collapse-div"
+                    [ngClass]="{'expand' : reportData.isExpanded, 'close-div' : !reportData.isExpanded}">
+                    <table class="table custom-table expand-table font-size-dot-875 mb-0">
+                        <tbody>
+                            <tr class="pointer" (click)="getChardDataForSelectedDate(reportData, parInx)">
+                                <td class="border-0">
+                                    <span class="text-primary">
+                                        <i class="fas fa-fw font-size-sm"
+                                            [ngClass]="{'fa-angle-down' : !reportData.isExpanded, 'fa-angle-up' : reportData.isExpanded}"></i>
+                                        <span class="font-weight-500 font-size-sm">{{reportData.chartDate| date:'d MMM
+                                            y'}}</span>
+                                    </span>
+                                </td>
+                                <td class="border-0"></td>
+                                <td class="border-0">
+                                    <span class="font-weight-500 val-clr"
+                                        *ngIf="reportData.intakeIivFluidQtyTotal">{{reportData.intakeIivFluidQtyTotal}}</span>
+                                    <span *ngIf="!reportData.intakeIivFluidQtyTotal"> - </span>
+                                </td>
+                                <td class="border-0"></td>
+                                <td class="border-0">
+                                    <span class="font-weight-500 val-clr"
+                                        *ngIf="reportData.intakeRtFeedQtyTotal">{{reportData.intakeRtFeedQtyTotal}}</span>
+                                    <span *ngIf="!reportData.intakeRtFeedQtyTotal"> - </span>
+                                </td>
+                                <td class="border-0">
+                                    <span class="font-weight-500 val-clr"
+                                        *ngIf="reportData.intakeTotal">{{reportData.intakeTotal}}</span>
+                                    <span *ngIf="!reportData.intakeTotal"> - </span>
+                                </td>
+                                <td class="border-0">
+                                    <span class="font-weight-500 val-clr"
+                                        *ngIf="reportData.outputRTQtyTotal">{{reportData.outputRTQtyTotal}}</span>
+                                    <span *ngIf="!reportData.outputRTQtyTotal"> - </span>
+                                </td>
+                                <td class="border-0">
+                                    <span class="font-weight-500 val-clr"
+                                        *ngIf="reportData.outputUrineQtyTotal">{{reportData.outputUrineQtyTotal}}</span>
+                                    <span *ngIf="!reportData.outputUrineQtyTotal"> - </span>
+                                </td>
+                                <td class="border-0">
+                                    <span class="font-weight-500 val-clr"
+                                        *ngIf="reportData.outputDrainQtyTotal">{{reportData.outputDrainQtyTotal}}</span>
+                                    <span *ngIf="!reportData.outputDrainQtyTotal"> - </span>
+                                </td>
+                                <td class="border-0">
+                                    <span class="font-weight-500 val-clr"
+                                        *ngIf="reportData.outputTotal">{{reportData.outputTotal}}</span>
+                                    <span *ngIf="!reportData.outputTotal"> - </span>
+                                </td>
+                                <td class="border-0">
+                                    <span class="font-weight-500 val-clr"
+                                        *ngIf="reportData.outputFluidBalTotal">{{reportData.outputFluidBalTotal}}</span>
+                                    <span *ngIf="!reportData.outputFluidBalTotal"> - </span>
+                                </td>
+                            </tr>
+                            <tr class="pointer" (click)="selectOptionType(reportRowData, parInx, childInx);"
+                                *ngFor="let reportRowData of reportData.chartData; let childInx = index"
+                                [ngClass]="((!reportRowData.intakeIvFluidName) && (!reportRowData.intakeIvFluidQty) && (!reportRowData.intakeRtFeedName) && (!reportRowData.intakeRtFeedQty) && (!reportRowData.outputRTQty) && (!reportRowData.outputUrineQty) && (!reportRowData.outputDrainQty)) ? 'bg-row' : 'bg-active-row'">
+                                <td class="font-size-sm">
+                                    {{reportRowData.intakeTime}}
+                                </td>
+                                <td class="name-w">
+                                    <span
+                                        *ngFor="let item of reportRowData?.intakeIvFluidName; let last = last">{{item.name}}<span
+                                            *ngIf="!last">, </span></span>
+                                </td>
+                                <td>
+                                    {{reportRowData.intakeIvFluidQty}}
+                                </td>
+                                <td class="name-w">
+                                    <span
+                                        *ngFor="let item of reportRowData?.intakeRtFeedName; let last = last">{{item.name}}<span
+                                            *ngIf="!last">, </span></span>
+                                </td>
+                                <td>
+                                    {{reportRowData.intakeRtFeedQty}}
+                                </td>
+                                <td>
+                                    <span *ngIf="reportRowData.intakeIvFluidQty || reportRowData.intakeRtFeedQty">
+                                        {{(reportRowData.intakeIvFluidQty ? reportRowData.intakeIvFluidQty: 0)
+                                        + (reportRowData.intakeRtFeedQty ? reportRowData.intakeRtFeedQty :
+                                        0)}}</span>
+                                </td>
+                                <td>
+                                    {{reportRowData.outputRTQty}}
+                                </td>
+                                <td>
+                                    {{reportRowData.outputUrineQty}}
+                                </td>
+                                <td>
+                                    {{reportRowData.outputDrainQty}}
+                                </td>
+                                <td>
+                                    <span
+                                        *ngIf="reportRowData.outputRTQty || reportRowData.outputUrineQty || reportRowData.outputDrainQty">
+                                        {{(reportRowData.outputRTQty ? reportRowData.outputRTQty : 0)
+                                        + (reportRowData.outputUrineQty ? reportRowData.outputUrineQty: 0)
+                                        + (reportRowData.outputDrainQty ? reportRowData.outputDrainQty :
+                                        0)}}</span>
+                                </td>
+                                <td>
+                                    <span
+                                        *ngIf="reportRowData.outputRTQty || reportRowData.intakeIvFluidQty || reportRowData.intakeRtFeedQty || reportRowData.outputUrineQty || reportRowData.outputDrainQty">
+                                        {{(reportRowData.intakeIvFluidQty ? reportRowData.intakeIvFluidQty: 0) +
+                                        (reportRowData.intakeRtFeedQty ? reportRowData.intakeRtFeedQty : 0)
+                                        - ((reportRowData.outputRTQty ? reportRowData.outputRTQty : 0)
+                                        + (reportRowData.outputUrineQty ? reportRowData.outputUrineQty: 0)
+                                        + (reportRowData.outputDrainQty ? reportRowData.outputDrainQty :
+                                        0))}}
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr class="bg-total-row font-weight-500">
+                                <td colspan='3'>
+                                    Total
+                                </td>
+                                <td>
+                                    <span *ngIf="reportData.intakeIivFluidQtyTotal">
+                                        {{reportData.intakeIivFluidQtyTotal}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span *ngIf="reportData.intakeRtFeedQtyTotal">
+                                        {{reportData.intakeRtFeedQtyTotal}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span *ngIf="reportData.intakeTotal">
+                                        {{reportData.intakeTotal}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span *ngIf="reportData.outputRTQtyTotal">
+                                        {{reportData.outputRTQtyTotal}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span *ngIf="reportData.outputUrineQtyTotal">
+                                        {{reportData.outputUrineQtyTotal}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span *ngIf="reportData.outputDrainQtyTotal">
+                                        {{reportData.outputDrainQtyTotal}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span *ngIf="reportData.outputTotal">
+                                        {{reportData.outputTotal}}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span *ngIf="reportData.outputFluidBalTotal">
+                                        {{reportData.outputFluidBalTotal}}
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="py-2 pr-2 text-right bg-active-row border-left border-right">
+                        <button class="btn btn-sm btn-primary " (click)="saveAllDatesReportData(reportData); "
+                            type="button"><i class="icon fa-fw icon-save"></i> SAVE CHART</button>
+                    </div>
+                </div>
+            </div>
+            <table class="table custom-table bg-grand font-size-dot-875 mb-0 font-weight-500"
+                *ngIf="intakeOutputChartData.length > 1">
+                <tbody>
+                    <tr>
+                        <td class="border-0">Grand Total</td>
+                        <td class="border-0"></td>
+                        <td class="border-0">
+                            {{allDateTotalData.intakeIivFluidQtyTotalAllDate}}
+                        </td>
+                        <td class="border-0"></td>
+                        <td class="border-0">
+                            {{allDateTotalData.intakeRtFeedQtyTotalAllDate}}
+                        </td>
+                        <td class="border-0">
+                            {{allDateTotalData.intakeTotalAllDate}}
+                        </td>
+                        <td class="border-0">
+                            {{allDateTotalData.outputRTQtyTotalAllDate}}
+                        </td>
+                        <td class="border-0">
+                            {{allDateTotalData.outputUrineQtyTotalAllDate}}
+                        </td>
+                        <td class="border-0">
+                            {{allDateTotalData.outputDrainQtyTotalAllDate}}
+                        </td>
+                        <td class="border-0">
+                            {{allDateTotalData.outputTotalAllDate}}
+                        </td>
+                        <td class="border-0">
+                            {{allDateTotalData.outputFluidBalTotalAllDate}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

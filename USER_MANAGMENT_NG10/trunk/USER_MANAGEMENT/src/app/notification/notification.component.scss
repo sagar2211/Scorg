@@ -1,0 +1,50 @@
+@import "../../scss/main";
+
+.notification-details {
+  height: calc(100vh - 107px);
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  ul {
+    li.notify-item {
+      position: relative;
+      @extend .d-flex;
+      @extend .border-bottom;
+
+      &:hover,
+      &:focus,
+      &.active {
+        background-color: var(--bgLight);
+      }
+
+      a {
+        display: inline-flex;
+        width: 100%;
+
+        .notify-left {
+          width: 20%;
+
+          img {
+            width: 50px;
+            height: 50px;
+          }
+        }
+
+        .notify-right {
+          width: 80%;
+
+          h6 {
+            color: var(--bgColor);
+          }
+        }
+      }
+    }
+  }
+
+}
+
+:host ::ng-deep {
+
+
+
+}

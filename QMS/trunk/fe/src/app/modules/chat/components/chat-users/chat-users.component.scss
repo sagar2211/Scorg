@@ -1,0 +1,78 @@
+@import "../../../../../scss/main";
+
+.chat-user {
+  background-color: inherit;
+
+  .card-header {
+    background-color: inherit !important;
+    @include custom-box-shadow(0, 8px, 6px,rgba(0, 0, 0, 0.05));
+
+    .placeholder-icon {
+      left: 20px;
+      top: 18px;
+    }
+  }
+
+  .inbox-height {
+    height: calc(100vh - 106px);
+    overflow-y: auto;
+
+    ul {
+      li.chat-items {
+        position: relative;
+        @extend .d-flex;
+        @extend .border-bottom;
+
+        &:hover,
+        &:focus,
+        &.active {
+          outline: none;
+          background-color: rgba($primary, 0.08);
+        }
+
+        .chat-img {
+          width: 15%;
+          position: relative;
+
+          img {
+            width: 40px;
+            height: 40px;
+          }
+
+          a.status-icon {
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+          }
+        }
+
+        .chat-details {
+          width: 85%;
+          @include no-select;
+          padding: 8px 2px 8px 8px;
+
+          .user-name-time {
+            p {
+              width: 75%;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            }
+
+            small {
+              width: 25%;
+            }
+          }
+
+          .badge {
+            padding: 8px 4px;
+            line-height: 0;
+            @extend .font-weight-normal;
+            color: var(--txtColor);
+            background-color: var(--bgColor);
+          }
+        }
+      }
+    }
+  }
+}

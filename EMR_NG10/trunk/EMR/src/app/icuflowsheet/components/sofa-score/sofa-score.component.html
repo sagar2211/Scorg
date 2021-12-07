@@ -1,0 +1,26 @@
+<form [formGroup]="sofaScore">
+  <div class="card border-0 mb-1 icu">
+    <div class="card-body p-1">
+      <div class="container-fluid px-0">
+        <div class="form-row mx-0 mb-1 align-items-center">
+          <div class="col-10">
+            <span class="font-size-dot-8 font-weight-500">SOFA SCORE :</span>
+          </div>
+          <div class="col-2">
+            <input type="text" class="form-control form-control-sm" formControlName="sofaScoreVal"
+              (keyup)="updateValues()" placeholder="">
+          </div>
+        </div>
+        <table class="table border-0 mb-0">
+          <tbody>
+            <tr>
+              <th class="border-top-0" scope="row">ADDITIONAL SCORES :</th>
+              <td class="border-top-0"><input type="text" class="form-control form-control-sm"
+                  formControlName="addScoreVal" (keyup)="updateValues()" placeholder=""></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</form>

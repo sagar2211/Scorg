@@ -1,0 +1,89 @@
+<div class="container-fluid filter px-2 my-1">
+  <div class="form-row">
+    <div class="col-6">
+      <div class="form-row">
+        <div class="col">
+          <app-breadcrumb></app-breadcrumb>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="form-row justify-content-end">
+        <!-- <div *ngIf="url === 'appointmentsList' || url === 'fduserappointmentsList'" class="col text-right">
+          <span class="edit-input bg-white d-inline-block">{{startDate | customDateFormat : '' : 'DD/MM/YYYY'}}</span>
+        </div> -->
+        <div *ngIf="currentConstants?.isAddPopup" class="col text-right "
+          [ngClass]="(url === 'appointmentsList') ? 'add-patient' : (url === 'fduserappointmentsList') ? 'apt-custom-dropdown' : 'custom-dropdown'">
+          <!-- <div *ngIf="currentConstants?.isAddPopup" class="col text-right"
+          [ngClass]="(url === 'appointmentsList' || url === 'fduserappointmentsList') ? 'add-patient' : 'custom-dropdown'"> -->
+          <!-- <button type="button" class="btn btn-add btn-sm dropdown-toggle dropdown-toggle-split px-2 border-left" (click)="showHideAddSectionPopOver();" #addSectionPopover="ngbPopover"
+            triggers="manual" [autoClose]="false" placement="auto" data-toggle="dropdown" [ngbPopover]="addSectionPopoverContent">
+            {{currentConstants?(currentConstants.btntext?currentConstants.btntext:'ADD'):'ADD'}}
+          </button> -->
+          <ng-container *ngIf="false; else otherUrlsection">
+            <!-- <div class="btn-group" #addSectionPopover="ngbPopover" triggers="manual" [autoClose]="'true'"
+              placement="bottom-right" [ngbPopover]="addSectionPopoverContent">
+              <button appSohwhideElementOnPermission [currentActiveUrl]="url" [typeOfButton]="'Add'"
+                (click)="showHideAddSectionPopOverForQlist();" [disabled]="checkInStatus === 'Stop'" type="button"
+                class="btn btn-add btn-sm border-right"><i
+                  [ngStyle]="{'pointer-events':checkInStatus === 'Stop'?'none':''}" class="fa fa-fw fa-plus"
+                  aria-hidden="true"></i>
+                {{currentConstants?(currentConstants.btntext?currentConstants.btntext:'ADD'):'ADD'}}</button>
+              <button appSohwhideElementOnPermission [currentActiveUrl]="url" [typeOfButton]="'dropdown-toggle'"
+                (click)="showHideAddSectionPopOver();" type="button"
+                class="btn btn-add btn-sm dropdown-toggle dropdown-toggle-split px-2 border-left"
+                data-toggle="dropdown">
+              </button>
+            </div> -->
+          </ng-container>
+        </div>
+        <div *ngIf="currentConstants?.isFilter" class="col filter-btn">
+          <button class="btn btn-sm btn-white" type="button" #p="ngbPopover" triggers="manual" [autoClose]="'outside'"
+            placement="auto" [ngbPopover]="popContent" (click)="showfilterPopup()">
+            <i class="icon fa-fw icon-filter" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #otherUrlsection>
+  <button type="button" appSohwhideElementOnPermission [currentActiveUrl]="url"
+    class="btn btn-add btn-sm px-2 border-left" (click)="showHideAddSectionPopOver();" #addSectionPopover="ngbPopover"
+    triggers="manual" [autoClose]="'outside'" placement="auto" [disabled]="commonService.isAddButtonDisable"
+    [ngbPopover]="addSectionPopoverContent"><i class="fa fa-fw fa-plus" aria-hidden="true"></i>
+    {{currentConstants?(currentConstants.btntext?currentConstants.btntext:'ADD'):'ADD'}}
+  </button>
+</ng-template>
+<ng-template #addSectionPopoverContent>
+  <ng-container [ngSwitch]="url">
+    <ng-container *ngSwitchCase="'entitySettings'">
+      <!-- <app-entitysettingpopover [url]="url" (click)="ngbAddSectionPopover.close();"></app-entitysettingpopover> -->
+    </ng-container>
+  </ng-container>
+</ng-template>
+<ng-template #popContent>
+  <!-- (click)="showfilterPopup()" #p="ngbPopover"  [autoClose]="false" placement="bottom" [ngbPopover]="popContent" -->
+  <h6 for="filter" class="border-bottom p-2 mb-0"><i class="fa fa-filter" aria-hidden="true"></i>
+    Filter by</h6>
+  <div class="card-body p-2">
+    <!-- <ng-container [ngSwitch]="url">
+      <ng-container *ngSwitchCase="'qList'">
+        <app-qlist-filter [url]="url"></app-qlist-filter>
+      </ng-container>
+      <ng-container *ngSwitchCase="'calendar'">
+        <app-calender-filter [url]="url"></app-calender-filter>
+      </ng-container>
+      <ng-container *ngSwitchCase="'appointmentsList'">
+        <app-bulk-filter [url]="url" (getfilterDate)="getFilterDate($event)"></app-bulk-filter>
+      </ng-container>
+      <ng-container *ngSwitchCase="'fduserappointmentsList'">
+        <app-bulk-filter [url]="url" (getfilterDate)="getFilterDate($event)"></app-bulk-filter>
+      </ng-container>
+    </ng-container> -->
+  </div>
+  <div class="card-footer text-right p-1">
+    <button class="btn btn-sm btn-outline-secondary" type="button" (click)="ngbPopover.close()">CLOSE</button>
+  </div>
+</ng-template>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

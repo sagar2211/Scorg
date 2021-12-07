@@ -1,0 +1,74 @@
+<div class="examination-label">
+  <ngb-accordion [closeOthers]="true" [activeIds]="componentInfo?.activeIdsOfPanels" (panelChange)="panelChange($event)">
+    <ngb-panel id="vitals">
+      <ng-template ngbPanelTitle>
+        <div class="form-row align-items-center mx-0">
+          <div class="col-9">
+            <p class="mb-0 font-size-dot-875">{{componentInfo?.section_name}}</p>
+          </div>
+          <div class="col-3">
+            <button class="btn btn-sm btn-link text-white text-right" type="button">
+              <i [ngClass]="isPanelOpen ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div *ngIf="vitalDataList.length > 0" (click)="openCloseSuggPanel()">
+          <div class="form-row form-group mt-1 vital-list">
+            <div class="col" [ngClass]="item.clubbedVital ? 'clubbed':'custom-col'" *ngFor="let item of vitalDataList; let i= index;">
+              <span *ngIf="item.prefix">{{item.prefix}}</span>
+              <ng-container *ngIf="!item.clubbedVital">
+                <label class="mb-0 d-block">
+                  <!-- [ngClass]="{'invisible': !item.vital.value, 'visible': item.vital.value}" -->
+                  <span>
+                    {{item.vital.name}}&nbsp;
+                  </span>
+                </label>
+              </ng-container>
+              <ng-container *ngIf="item.clubbedVital">
+                <label class="mb-0 d-block">
+                  <!-- [ngClass]="{'invisible': (!item.vital.value || !item.clubbedVital.value), 'visible':  (item.vital.value || item.clubbedVital.value)}" -->
+                  <span>
+                    {{item.vital.name}} / {{item.clubbedVital.name}}</span>&nbsp;
+                </label>
+              </ng-container>
+              <app-number-only-input *ngIf="item.vital.vitalType === 'number'" placement="bottom" [autoClose]="true" [ngbPopover]="popContent" container="body" #p="ngbPopover"
+                [disable]="(item.vitalFormula && item.vitalFormula?.detail)" [color]="item.color" [inputVal]="item.vital.value" [valueType]="item.isDecimal ? 'decimal' : 'number'"
+                (numberChange)="item.vital.value = $event; updateVitalValueFormula(item, i, false)" [placeholder]="item.vital.name">
+              </app-number-only-input>
+              <input *ngIf="item.vital.vitalType === 'text'" placement="bottom" appNumbersOnly [autoClose]="true" [ngbPopover]="popContent" container="body" #p="ngbPopover"
+                [ngStyle]="{'color': item.color}" [disabled]="(item.vitalFormula && item.vitalFormula?.detail)" type="text" [(ngModel)]="item.vital.value" placeholder="{{item.vital.name}}"
+                (change)="updateVitalValueFormula(item, i, false)">
+              <span *ngIf="item.suffix">{{item.suffix}}</span>
+              <ng-template #popContent>
+                <div *ngIf="item.tooltip" [innerHTML]="item.tooltip"></div>
+                <div *ngIf="!item.tooltip">No Range Set</div>
+              </ng-template>
+              <span *ngIf="item.clubbedVital">
+                <span class="d-inline-block mx-1 align-middle slash">/</span>
+                <span *ngIf="item.clubbedVitalData.prefix">{{item.clubbedVitalData.prefix}}</span>
+                <app-number-only-input *ngIf="item.clubbedVital.vitalType === 'number'" placement="bottom" [autoClose]="true" [ngbPopover]="popContentClb" container="body" #clb="ngbPopover"
+                  [disable]="(item.clubbedVitalData.vitalFormula && item.clubbedVitalData.vitalFormula?.detail)" [color]="item.clubbedVitalData.color" [inputVal]="item.clubbedVital.value"
+                  (numberChange)="item.clubbedVital.value = $event; updateVitalValueFormula(item, i, true)" [placeholder]="item.clubbedVital.name"
+                  [valueType]="item.clubbedVitalData.isDecimal ? 'decimal' : 'number'">
+                </app-number-only-input>
+                <input *ngIf="item.clubbedVital.vitalType === 'text'" [ngStyle]="{'color': item.clubbedVitalData.color}" placement="bottom" [autoClose]="true" [ngbPopover]="popContentClb"
+                  container="body" #clb="ngbPopover" type="text" [(ngModel)]="item.clubbedVital.value" placeholder="{{item.clubbedVital.name}}" (change)="updateVitalValueFormula(item, i, true)">
+                <span *ngIf="item.clubbedVitalData.suffix">{{item.clubbedVitalData.prefix}}</span>
+                <ng-template #popContentClb>
+                  <div *ngIf="item.clubbedVitalData.tooltip" [innerHTML]="item.clubbedVitalData.tooltip">
+                  </div>
+                  <div *ngIf="!item.clubbedVitalData.tooltip">No Range Set</div>
+                </ng-template>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="alert alert-warning m-1" role="alert" *ngIf="vitalDataList.length === 0" (click)="openCloseSuggPanel()">
+          <p class="mb-0"><i class="far fa-fw fa-lightbulb mr-1" aria-hidden="true"></i>No Vital Mapped</p>
+        </div>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>

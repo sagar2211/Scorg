@@ -1,0 +1,14 @@
+.faq-row {
+  .faq-custom-card {
+    color: #444444;
+
+    .card-header {
+      background-color: #fff !important;
+      padding: 0.25rem !important;
+    }
+
+    // &:not(:first-child) {
+    //   border-top: 1px solid transparent;
+    // }
+  }
+}

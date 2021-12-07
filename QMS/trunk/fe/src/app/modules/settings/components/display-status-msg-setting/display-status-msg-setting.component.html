@@ -1,0 +1,60 @@
+<form [formGroup]="statusSettingForm" (ngSubmit)="UpdateStatusMsgSettings()">
+  <div class="card border-top-0 border-bottom-0 border-right-0">
+    <div class="card-header border-dash-bottom py-2">
+      <h6 class="mb-0">Display Status</h6>
+    </div>
+    <div class="card-body status-setting">
+      <div class="form-row form-group">
+        <div class="col-4">
+          <label for="checkin">Check In</label>
+          <input class="form-control form-control-sm" formControlName="checkinStatusText" type="text"
+            placeholder="Check-In Status Message" [(ngModel)]="statusSettingForm.value.checkinStatusText">
+        </div>
+        <div class="col-4">
+          <label for="checkout">Check Out</label>
+          <input class="form-control form-control-sm" formControlName="checkoutStatusText" type="text"
+            placeholder="Check-Out Status Message" [(ngModel)]="statusSettingForm.value.checkoutStatusText">
+        </div>
+      </div>
+      <div class="form-row form-group">
+        <div class="col-4">
+          <label for="pause">Pause</label>
+          <input class="form-control form-control-sm" formControlName="pauseStatusText" type="text"
+            placeholder="Pause Status Message" [(ngModel)]="statusSettingForm.value.pauseStatusText">
+        </div>
+        <div class="col-4">
+          <label for="stop">Stop OPD</label>
+          <input class="form-control form-control-sm" formControlName="stopStatusText" type="text"
+            placeholder="Stop Status Message" [(ngModel)]="statusSettingForm.value.stopStatusText">
+        </div>
+      </div>
+      <div class="form-row form-group">
+        <div class="col-4">
+          <label for="pause">OPD Not Started</label>
+          <input class="form-control form-control-sm" formControlName="opdnotstartedStatusText" type="text"
+            placeholder="Pause Status Message" [(ngModel)]="statusSettingForm.value.opdnotstartedStatusText">
+        </div>
+        <div class="col-4">
+          <label for="stop">Not Check In</label>
+          <input class="form-control form-control-sm" formControlName="opdnotcheckedinStatusText" type="text"
+            placeholder="Stop Status Message" [(ngModel)]="statusSettingForm.value.opdnotcheckedinStatusText">
+        </div>
+      </div>
+      <div class="form-row form-group">
+        <div class="col-4">
+          <label for="pause">OPD Delay</label>
+          <input class="form-control form-control-sm" formControlName="opdisdelayStatusText" type="text"
+            placeholder="Pause Status Message" [(ngModel)]="statusSettingForm.value.opdisdelayStatusText">
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-right py-1">
+      <button class="btn btn-sm btn-warning mr-2" (click)="clearForm()" type="button"><i class="fas fa-fw fa-eraser"
+          aria-hidden="true"></i> CLEAR</button>
+      <button *ngxPermissionsOnly="PermissionsConstantsList.Update_Display_Status_Settings" type="submit"
+        class="btn btn-sm btn-success"><i class="icon fa-fw icon-save"></i> SAVE
+      </button>
+    </div>
+  </div>
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</form>

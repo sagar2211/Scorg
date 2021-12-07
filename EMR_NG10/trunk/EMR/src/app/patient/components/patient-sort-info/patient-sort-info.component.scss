@@ -1,0 +1,183 @@
+@import "./../../../../scss/main";
+// .side-bar {
+//   top: 40px;
+//   left: 5px;
+//   z-index: 5;
+//   a {
+//     display: inline-block;
+//     width: 26px;
+//     height: 25px;
+//     padding: 2px 3px 2px 3px;
+//     @include border-radius(2px);
+//     background-color: var(--bgLight);
+//     @include medium-max {
+//       width: 40px;
+//       padding: 2px 10px 2px 10px;
+//     }
+//     &:hover {
+//       background-color: rgba(0, 0, 0, 0.1);
+//       @include transition(background-color 0.3s linear);
+//     }
+//     .close-btn {
+//       transform: rotate(0deg) !important;
+//       @include transition(transform 0.2s linear);
+//     }
+//     .open-btn {
+//       transform: rotate(180deg) !important;
+//       @include transition(transform 0.2s linear);
+//     }
+//   }
+// }
+// .patient-side-menu-backdrop {
+//   width: 96.7%;
+//   margin-left: 3.4%;
+//   left: 0;
+//   height: calc(100vh - 40px);
+//   bottom: 0;
+//   z-index: 2;
+//   background-color: rgba(0, 0, 0, 0.4);
+//   @include transition(width 0.4s ease-in-out);
+//   &.active {
+//     width: 0%;
+//     @include transition(width 0.4s ease-in-out);
+//   }
+// }
+.patient-info {
+    min-height: 25px;
+    .patient-container {
+        z-index: 1;
+        -webkit-box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2);
+        background-color: var(--bgLight) !important;
+        .basic-info {
+            height: 25px;
+            @include no-select;
+            @include transition(height 0.2s linear);
+            .custom-col-3 {
+                flex: 0 0 30%;
+                max-width: 30%;
+            }
+            .custom-col-4 {
+                flex: 0 0 40%;
+                max-width: 40%;
+            }
+            .custom-col-2 {
+                flex: 0 0 16%;
+                max-width: 16%;
+            }
+            .custom-col-1 {
+                flex: 0 0 14%;
+                max-width: 14%;
+            }
+            .custom-col-1.doted-border-left:after,
+            .custom-col-2.doted-border-left:after,
+            .custom-col-3.doted-border-left:after,
+            .custom-col-4.doted-border-left:after {
+                content: "";
+                left: 0;
+                position: absolute;
+                border-left: 0.55px dashed #ababab;
+            }
+            .custom-col-3.doted-border-left:after,
+            .custom-col-4.doted-border-left:after {
+                height: 25px;
+                top: -2px;
+                @include transition(height 0.15s linear, top 0.15s linear);
+            }
+            .custom-col-1.doted-border-left:after,
+            .custom-col-2.doted-border-left:after {
+                height: 25px;
+                top: -2px;
+                @include transition(height 0.15s linear, top 0.15s linear);
+            }
+            .more-btn {
+                top: 2px;
+                left: -9px;
+                z-index: 1;
+                width: 25px;
+                height: 21px;
+                padding: 1px;
+                margin: 0 auto;
+            }
+            .custom-col-3,
+            .custom-col-4 {
+                .d-flex {
+                    img {
+                        opacity: 0;
+                        width: 20px;
+                        height: 20px;
+                        visibility: hidden;
+                        @include border-radius(50%);
+                        border: 1px dashed #ababab;
+                        background-color: var(--bgLight);
+                        @include transition( width 0.2s linear, height 0.2s linear, opacity 0.2s linear);
+                    }
+                }
+            }
+            &.more {
+                height: 70px;
+                @include transition(height 0.2s linear);
+                .more-class {
+                    display: block !important;
+                }
+                .custom-col-4 {
+                    img {
+                        opacity: 1 !important;
+                        visibility: visible !important;
+                        width: 48px !important;
+                        height: 48px !important;
+                        @include transition( width 0.2s linear, height 0.2s linear, opacity 0.2s linear);
+                    }
+                }
+                .custom-col-4.doted-border-left:after {
+                    height: 68px;
+                    top: -3px;
+                    @include transition(height 0.2s linear, top 0.2s linear);
+                }
+                .custom-col-2.doted-border-left:after {
+                    height: 68px;
+                    top: -14px;
+                    @include transition(height 0.2s linear, top 0.2s linear);
+                }
+                .custom-col-2.doted-border-left.last-class:after {
+                    height: 68px;
+                    top: -24px;
+                    @include transition(height 0.2s linear, top 0.2s linear);
+                }
+                .reason {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    max-width: 75%;
+                    line-height: 16px;
+                    vertical-align: middle;
+                }
+            }
+        }
+        .allergey-info {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+    }
+}
+
+.patient-info.nursing-mode {
+    .container-fluid {
+        width: 95% !important;
+    }
+}
+
+@media (max-width: 1024px) {
+    .patient-info {
+        .patient-container {
+            .basic-info {
+                h6,
+                .font-size-dot-875 {
+                    font-size: 78% !important;
+                }
+            }
+        }
+    }
+}

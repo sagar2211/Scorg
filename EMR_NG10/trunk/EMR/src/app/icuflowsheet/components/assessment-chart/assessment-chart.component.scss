@@ -1,0 +1,13 @@
+@import "../../../../scss/main";
+
+.assesment-body {
+  height: calc(100vh - 150px);
+  overflow-y: auto;
+
+  .custom-table {
+    tbody {
+      height: calc(100vh - 200px);
+      overflow-y: auto;
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<form [formGroup]="typeHeadFrm" class="type-head-dropdown">
+  <ng-template #rt let-r="result" let-s="term">
+    <ngb-highlight [result]="r[searchKey]" [term]="s"></ngb-highlight>
+  </ng-template>
+  <div class="mb-0">
+    <label for="Medicines" class="sr-only">Medicines</label>
+    <input type="text" [class.invalid]="required" class="form-control form-control-sm pr-4 invalid"
+      formControlName="selectedItem" [resultTemplate]="rt" [ngbTypeahead]="search" (selectItem)="onSelectItem($event)"
+      (focus)="focus$.next($event.target.value)" (click)="click$.next($event.target.value)" [inputFormatter]="formatter"
+      placeholder="Enter {{placeHolder}} .." #instance="ngbTypeahead">
+    <div class="dropdown-icon">
+      <i class="fa fa-xs fa-fw fa-search text-muted" aria-hidden="true"></i>
+    </div>
+  </div>
+</form>

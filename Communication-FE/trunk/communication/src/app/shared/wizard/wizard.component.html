@@ -1,0 +1,23 @@
+<div class="card">
+  <div class="card-header">
+    <ul class="nav nav-justified">
+      <li (click)="goToStep(step)" class="nav-item" *ngFor="let step of steps"
+        [ngClass]="{'active': step.isActive, 'enabled': !step.isDisabled, 'disabled': step.isDisabled, 'completed': isCompleted}">
+        <a><span>{{step.title}} </span><span>{{step.description}}</span></a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-block">
+    <ng-content></ng-content>
+  </div>
+  <div class="card-footer" [hidden]="isCompleted">
+    <button type="button" class="btn btn-sm btn-outline-secondary float-left" (click)="previous()"
+      [hidden]="!hasPrevStep || !activeStep.showPrev"><i class="icon fa-fw icon-arrow"
+        aria-hidden="true"></i>{{activeStep.preButtonName ? activeStep.preButtonName : 'Previous'}}</button>
+    <button type="button" class="btn btn-sm btn-primary float-right" (click)="next()" [disabled]="!activeStep.isValid"
+      [hidden]="!hasNextStep || !activeStep.showNext">{{activeStep.nextButtonName ? activeStep.nextButtonName : 'Next'}}<i
+        class="icon fa-fw icon-arrow fa-rotate-180" aria-hidden="true"></i></button>
+    <button type="button" class="btn btn-sm btn-success float-right" (click)="complete()" [disabled]="!activeStep.isValid"
+      [hidden]="hasNextStep"><i aria-hidden="true" class="icon fa-fw icon-paper-plane"></i> {{activeStep.compeleteButtonName ? activeStep.compeleteButtonName : 'Done'}}</button>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+.custom-switch {
+  .custom-control-label {
+    &:before {
+      width: 75px;
+    }
+    &.active {
+      &:after {
+        transform: translateX(3.2rem) !important;
+      }
+    }
+  }
+  span {
+    left: 103px;
+
+    &.active {
+      left: 73px;
+    }
+  }
+}
+.status-clr {
+  color: rgb(227, 114, 75);
+}
+.cus-color {
+  position: relative;
+}
+.top-bg {
+  position: absolute;
+  height: 5px;
+  width: 75%;
+  top: 1px;
+}
+

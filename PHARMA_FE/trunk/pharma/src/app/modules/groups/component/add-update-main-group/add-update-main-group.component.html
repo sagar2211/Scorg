@@ -1,0 +1,47 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">{{supplierData && supplierData.supplierData ? 'Update' : 'Add'}} Primary Group
+    </p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+        (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body p-2">
+    <form [formGroup]="grpForm" (ngSubmit)="saveValue()" *ngIf="loadForm">
+        <div class="form-row form-group">
+            <div class="col-6">
+                <label>Primary Group Name<sup>*</sup></label>
+                <input type="text" class="form-control form-control-sm" formControlName="name" placeholder="Type Primary Group Name">
+                <small class="text-danger" *ngIf="grpFormControl['name'].errors?.required && submitted">
+                    Please Add Value!</small>
+            </div>
+            <div class="col-6">
+                <label>Alias Name</label>
+                <input type="text" class="form-control form-control-sm" formControlName="aliasName"
+                    placeholder="Type Alias Name">
+            </div>
+        </div>
+        <div class="form-row form-group">
+            <div class="col-12">
+                <label>Status</label>
+                <div class="custom-control custom-switch pb-1">
+                    <input type="checkbox" formControlName="isActive" class="custom-control-input" id="customSwitch">
+                    <label class="custom-control-label pointer" [class.active]="grpForm.value.isActive"
+                        for="customSwitch"></label>
+                    <span class="text-uppercase"
+                        [class.active]="grpForm.value.isActive">{{grpForm.value.isActive ? 'Active' : 'InActive'}}</span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.close('Cancel')">CANCEL</button>
+    <button type="button" class="btn btn-sm"
+        [ngClass]="supplierData && supplierData.supplierData ? 'btn-outline-primary-light':'btn-outline-primary'"
+        (click)="saveValue()">
+        <i class="fa fa-fw" [ngClass]="supplierData && supplierData.supplierData ? 'fa-sync-alt':'fa-plus'"
+            aria-hidden="true"></i>
+        {{supplierData && supplierData.supplierData ? 'UPDATE' : 'ADD'}}</button>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

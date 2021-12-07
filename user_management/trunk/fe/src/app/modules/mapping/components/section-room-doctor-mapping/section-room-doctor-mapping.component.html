@@ -1,0 +1,110 @@
+<div class="container-fluid pt-2 custom-container-fluid">
+  <div class="row form-group">
+    <div class="col-4">
+      <div class="input-group">
+        <input type="text" class="form-control form-control-sm pl-2rem" placeholder="Search By Section/Room/Provider"
+          [(ngModel)]="searchBy" (ngModelChange)="this.subject.next();">
+        <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+        <div class="input-group-append">
+          <button class="btn btn-sm btn-outline-secondary border" type="button" title="Filter"
+            (click)="showSearchFilter()"><i class="fa fa-fw fa-caret-down" aria-hidden="true"></i></button>
+          <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear" (click)="clearForm();">
+            <i class="fa fa-fw fa-eraser" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="dropdown custom-dropdown" *ngIf="isShowFilter">
+        <form [formGroup]="filterForm" novalidate (ngSubmit)="getFilteredData()">
+          <div id="SearchPopup" class="dropdown-menu pb-0 w-100 d-block shadow" role="menu">
+            <h6 for="filter" class="border-bottom pl-2 pb-2"><i class="fa fa-filter" aria-hidden="true"></i> Filter by
+            </h6>
+            <div class="container-fluid">
+              <div class="card-body p-0">
+                <div class="form-row form-group">
+                  <div class="col-6">
+                    <label for="contain">From Date</label>
+                    <app-date-picker [inputDate]="filterForm.value.from_date" placeholder="yyyy-mm-dd"
+                      [max]="filterForm.value.to_date" (dateChange)="filterForm.patchValue({from_date : $event});">
+                    </app-date-picker>
+                  </div>
+                  <div class="col-6">
+                    <label for="contain">To Date<sup>*</sup></label>
+                    <app-date-picker [inputDate]="filterForm.value.to_date" placeholder="dd-mm-yyyy"
+                      [makeDisabled]="!filterForm.value.from_date" [min]="filterForm.value.from_date"
+                      (dateChange)="filterForm.patchValue({to_date : $event});">
+                    </app-date-picker>
+                  </div>
+                </div>
+                <div class="form-row form-group">
+                  <div class="col-6">
+                    <label for="contain">Status</label>
+                    <select class="form-control form-control-sm" formControlName="is_active">
+                      <option value="">Select Status</option>
+                      <option value="true">Active</option>
+                      <option value="false">Inactive</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row card-footer px-0 py-1">
+                <div class="col-12 text-right">
+                  <button class="btn float-left btn-sm btn-outline-secondary" (click)="showSearchFilter()"
+                    type="button"> CLOSE</button>
+                  <button class="btn btn-sm btn-outline-warning mr-1" (click)="clearForm()" type="button"><i
+                      class="fas fa-fw fa-eraser" aria-hidden="true"></i> CLEAR</button>
+                  <button class="btn btn-sm btn-outline-info" type="submit"> <i class="icon fa-fw icon-search"></i>
+                    SEARCH</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-8">
+      <select class="form-control form-control-sm float-right select-w" id="page-size"
+        (change)="onPageSizeChanged($event.currentTarget.value)">
+        <option value="15" selected="">15</option>
+        <option value="30">30</option>
+        <option value="45">45</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+  </div>
+  <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="50" [footerHeight]="70"
+    [rowHeight]="30" (sort)="onSortChanged($event)" [count]="page.totalElements" [rows]="sectionMappingData">
+    <ngx-datatable-column name="Section" prop="section_name" [width]="100"></ngx-datatable-column>
+    <ngx-datatable-column name="Room" prop="room_name" [width]="100">
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Provider Type" prop="entity_key" [sortable]='false' [width]="100">
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Provider Name" prop="entity_value_name" [width]="200">
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Appointment Type" [sortable]='false' prop="app_type" [width]="100">
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Mapping Start" prop="start_date" [width]="100">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <span>{{row.start_date|customDateFormat : '' : 'DD/MM/YYYY'}},&nbsp; {{row.start_time}}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Mapping End" prop="end_date" [width]="100">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <span *ngIf="!row.end_date">Till Now</span>
+        <span>{{row.end_date|customDateFormat : '' : 'DD/MM/YYYY'}},&nbsp; {{row.end_time}}</span>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-footer *ngIf="sectionMappingData.length > 0">
+      <ng-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
+        let-curPage="curPage" let-offset="offset" ngx-datatable-footer-template>
+        <div class="mx-3">
+          Showing {{ ((page.pageNumber - 1) *  page.size) + 1}} to
+          {{ ((page.pageNumber - 1) *  page.size) + sectionMappingData.length}} of {{page.totalElements}} entries
+        </div>
+        <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'"
+          [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="page.pageNumber"
+          [size]="page.size" [count]="page.totalElements" [hidden]="!((page.totalElements / page.size) > 1)"
+          (change)="onFooterPage($event)">
+        </datatable-pager>
+      </ng-template>
+    </ngx-datatable-footer>
+  </ngx-datatable>
+</div>

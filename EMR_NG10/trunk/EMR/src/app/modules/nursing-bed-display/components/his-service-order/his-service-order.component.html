@@ -1,0 +1,12 @@
+<div class="modal-header">
+    <p class="modal-title">SERVICE ORDERS</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('CANCEL')">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body p-0 service-orders-modal-body">
+    <app-service-order></app-service-order>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss('CANCEL')">Close</button>
+</div>

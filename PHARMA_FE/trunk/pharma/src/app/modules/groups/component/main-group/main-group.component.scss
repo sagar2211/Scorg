@@ -1,0 +1,79 @@
+@import "../../../../../scss/main";
+
+.custom-switch {
+  .custom-control-input {
+    &:checked {
+      .custom-control-label {
+        &::after {
+          -webkit-transform: translateX(4.15rem) !important;
+          -moz-transform: translateX(4.15rem) !important;
+          -ms-transform: translateX(4.15rem) !important;
+          transform: translateX(4.15rem) !important;
+        }
+      }
+    }
+  }
+
+  .custom-control-label {
+    &:before {
+      width: 90px;
+      top: 0;
+      left: 0;
+      @include border-radius(12px);
+    }
+
+    &::after {
+      background-color: $white;
+      top: calc(0.14rem + 0px);
+      // left: calc(-1.95rem + 2px);
+      left: 2px;
+      width: calc(1.5rem - 4px);
+      height: calc(1.5rem - 4px);
+      @include border-radius(50%);
+      z-index: 0;
+    }
+
+    &.active {
+      &::after {
+        -webkit-transform: translateX(4.15rem) !important;
+        -moz-transform: translateX(4.15rem) !important;
+        -ms-transform: translateX(4.15rem) !important;
+        transform: translateX(4.15rem) !important;
+      }
+    }
+  }
+
+  span {
+    top: 4px;
+    left: 29px;
+    @include no-select;
+
+    &.active {
+      left: 10px;
+    }
+  }
+}
+.custom-container-fluid{
+  height: calc(100vh - 50px);
+}
+
+:host ::ng-deep{
+  .ngx-datatable{
+    &.fixed-row {
+      .datatable-body{
+        height: calc(100vh - 154px) !important;
+        overflow: hidden;
+        overflow-y: scroll;
+        &::-webkit-scrollbar-track{
+          background: transparent;
+        }
+      }
+      .datatable-footer {
+        .datatable-footer-inner{
+          height: 20px !important;
+          background: white;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,163 @@
+@import "../../../scss/main.scss";
+
+.calendar-height {
+  height: calc(100vh - 358px);
+  overflow-y: auto;
+}
+
+.calendar {
+  @include border-radius(3px);
+  @extend .font-size-dot-875;
+}
+
+.main-calender {
+  margin-top: 0 !important;
+  height: calc(100vh - 134px);
+  overflow-y: auto;
+}
+
+:host ::ng-deep {
+  .calendar {
+    .cal-month-view {
+      .cal-header {
+        @extend .font-weight-500;
+
+        &:last-child {
+          margin-right: 5px;
+        }
+      }
+
+      .cal-day-badge {
+        font-weight: 400;
+        background-color: var(--bgColor) !important;
+      }
+
+      .cal-event {
+        top: 0px;
+        width: 5px;
+        height: 5px;
+        background-color: var(--bgColor) !important;
+      }
+
+      .cal-cell.cal-has-events.cal-open {
+        background-color: var(--bgLight) !important;
+      }
+
+      .cal-day-cell.cal-today {
+        .cal-day-number {
+          font-size: 1.5em;
+          @extend .font-weight-500;
+        }
+      }
+
+      .cal-days {
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
+      }
+
+      .cal-open-day-events {
+        color: $gray-750;
+        background-color: var(--bgLight) !important;
+        @extend .shadow-none;
+      }
+
+      .cal-cell-row:hover,
+      .cal-cell-row .cal-cell:hover {
+        background-color: inherit;
+      }
+    }
+
+    .cal-week-view {
+      .cal-time-events {
+        border-color: transparent !important;
+        .cal-day-columns {
+          .custom-bg-light {
+            background-color: $gray-400 !important;
+          }
+        }
+      }
+
+      .cal-event {
+        background-color: #d1e8ff !important;
+        border-color: #1e90ff !important;
+        color: #1e90ff;
+      }
+
+      .cal-day-headers .cal-header:hover {
+        background-color: inherit;
+      }
+
+      .cal-header.cal-today:hover {
+        background-color: #e8fde7;
+      }
+
+      .cal-hour-segment.cal-after-hour-start .cal-time {
+        display: block;
+      }
+    }
+
+    .cal-day-headers {
+      border-color: transparent;
+
+      .cal-header {
+        border-left-color: transparent;
+        border-right-color: transparent;
+
+        &:last-child {
+          margin-right: 5px;
+        }
+      }
+    }
+
+    .cal-day-view {
+      .cal-time {
+        font-weight: normal !important;
+      }
+
+      .cal-event {
+        background-color: #d1e8ff !important;
+        border-color: #1e90ff !important;
+        color: #1e90ff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .cal-hour:nth-child(odd) {
+        background-color: transparent !important;
+      }
+    }
+  }
+
+  .calendar-height {
+    .cal-hour-rows {
+      height: calc(100vh - 358px);
+      overflow-y: auto;
+    }
+  }
+
+  .expand-height {
+    .cal-hour-rows {
+      height: calc(100vh - 200px);
+      overflow-y: auto;
+    }
+  }
+
+  .btn-outline-secondary {
+    color: $gray-900;
+    border-color: $gray-600;
+  }
+
+  .btn-outline-secondary:hover,
+  .btn-outline-secondary:not(:disabled):not(.disabled):active,
+  .btn-outline-secondary:not(:disabled):not(.disabled).active {
+    color: $primary;
+    background-color: $gray-200;
+    border-color: $gray-600;
+  }
+}
+
+.expand-height {
+  height: calc(100vh - 200px);
+  overflow-y: auto;
+}

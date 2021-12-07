@@ -1,0 +1,27 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+.q-list {
+  border:none;
+  box-shadow:none;
+  background-color: transparent !important;
+}
+.grid-view {
+  input {
+    height: 31px;
+    width: 305px;
+  }
+  .placeholder-icon {
+    top: 6px;
+  }
+  .cus-searchicon {
+    position: absolute;
+    z-index: 10;
+    left: 15px;
+    top: 7px;
+    color: grey;
+  }
+  span .form-control {
+    height: 31px;
+    padding: 0px;
+    max-width: 150px;
+  }
+}

@@ -1,0 +1,268 @@
+<div class="emr-container-fluid container-fluid px-0">
+  <div class="card-body p-0" *ngIf="loadForm">
+    <div class="form-row mx-0 score-template-form-row">
+      <div class="col-3">
+        <div class="form-group pt-2">
+          <label>Service Type<sup>*</sup> :</label>
+          <ng-select [items]="serviceType$ | async" bindLabel="name" autofocus bindValue="id"
+            [(ngModel)]="scoreTemplateDataSelected.selectedServiceType" placeholder="Service Type">
+          </ng-select>
+          <span class="text-danger" *ngIf="errorObj?.serviceType">{{errorObj?.serviceType}}</span>
+        </div>
+        <div class="form-group">
+          <label>Speciality :</label>
+          <ng-select [items]="speciality$ | async" bindLabel="name" autofocus bindValue="id"
+            [(ngModel)]="scoreTemplateDataSelected.selectedSpeciality" placeholder="Speciality">
+          </ng-select>
+        </div>
+        <div class="form-group mb-3">
+          <label>Template Name<sup>*</sup> :</label>
+          <input class="form-control form-control-sm" type="text" [(ngModel)]="scoreTemplateDataSelected.templateName">
+          <small *ngIf="errorObj?.templateName" name="templateName"
+            class="text-danger">{{errorObj?.templateName}}</small>
+        </div>
+        <div class="card basic-conrtols-card">
+          <div class="card-header p-1 border-dash-bottom">
+            <h6 class="mb-0"><span class="icon fa-fw icon-info-circle"></span> Basic Conrtols</h6>
+          </div>
+          <div class="card-body p-0 basic-conrtols-card-body">
+            <!--a draggable element-->
+            <div class="list-group" *ngFor="let item of fieldModels">
+              <div class="list-group-item pointer p-2" [dndDraggable]="item" [dndEffectAllowed]="'copy'"
+                (dndEnd)="onDragEnd($event)">
+                <p class="mb-0"><i [ngClass]="item.icon" class="fa fa-fw mr-1"></i>
+                  {{item.label==='Question label_1'?'Question':item.label}}<sup class="text-secondary">(draggable)</sup>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-9 preview-template">
+        <div class="card rounded-0 pt-2 border-top-0 border-right-0 border-bottom-0 preview-template-card">
+          <div class="card-header p-1 border-dash-bottom">
+            <h6 class="mb-0"><span class="icon fa-fw icon-info-circle"></span>Template</h6>
+          </div>
+          <!--a dropzone-->
+          <!--to allow dropping content that is not [dndDraggable] set dndAllowExternal to true-->
+          <div class="card-body p-0 preview-template-card-body">
+            <div dndDropzone (dndDragover)="onDragover($event)" (dndDrop)="onDrop($event,model.attributes)"
+              class="dnd-drop-area boder-bottom-0" [ngClass]="{'empty':model.attributes.length == 0}"
+              [style.backgroundColor]="model.theme.bgColor" [style.color]="model.theme.textColor">
+              <div class="alert alert-light m-1" role="alert">
+                <p class="mb-0 font-size-dot-9"><i class="far fa-fw fa-lightbulb mr-1" aria-hidden="true"></i>You
+                  Can Drop Your Question Here and Edit</p>
+              </div>
+              <div class="card my-2 field border-0" *ngFor="let item of model.attributes;let i= index;"
+                (dndStart)="onDragStart($event)" (dndCanceled)="onDragCanceled($event)"
+                (dndMoved)="onDragged(item, model.attributes, 'move')" [dndEffectAllowed]="'all'" [dndDraggable]="item">
+                <div class="card-header position-relative p-0 border">
+                  <div class="form-row align-items-center justify-content-between mx-0 conrtols-row">
+                    <div class="col-11 border-right">
+                      <div class="form-row align-items-center justify-content-between mx-0 py-1">
+                        <div class="col-04">
+                          <span class="bg-col-btns pointer" title="Drag" dndHandle><i class="fa fa-fw fa-ellipsis-v"
+                              aria-hidden="true"></i></span>
+                        </div>
+                        <div class="col-70">
+                          <div *ngIf="item.type=='radio'">
+                            <p class="word-break-all mb-1 font-weight-500">{{item.label}}<sup *ngIf="item.required"
+                                class="text-danger">*</sup></p>
+                            <div class="form-row mx-0">
+                              <div *ngFor="let v of item.values" class="inline-form-group {{'col-' + v.optionSize}}">
+                                <label class="pointer mb-0">
+                                  <input (change)="showCalculatedFormulaValue(item, v.value)" type="radio"
+                                    [value]="v.value" name="{{item.name}}"> {{v.label}}
+                                  <span class="checkmark"></span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="item.type=='paragraph'">
+                            <p class="word-break-all mb-0">{{item.label}}</p>
+                            <p class="form-text">{{item.formulaValue ? item.formulaValue : item.placeholder }}</p>
+                            <span>{{item.answerSelected}}</span>
+                          </div>
+                          <div *ngIf="item.type=='button'" class="btn-cont">
+                            <input type="{{item.subtype}}" (click)="onSubmit()" value="{{item.label}}"
+                              class="btn btn-primary" id="{{item.name}}">
+                          </div>
+                        </div>
+                        <div class="col-23 text-right">
+                          <span class="bg-col-btns mr-1 text-primary pointer" title="Duplicate"
+                            (click)="onDrop(item, model.attributes, true)"><i
+                              class="icon fa-fw icon-copy text-primary-light" aria-hidden="true"></i></span>
+                          <span class="bg-col-btns mr-2 text-danger pointer" title="Delete" (click)="removeField(i)"><i
+                              class="icon fa-fw icon-trash text-pink" aria-hidden="true"></i></span>
+                          <span *ngIf="item.toggle" class="bg-col-btns ml-2 pointer" title="Collapse"
+                            (click)="item.toggle=false"><i class="fa fa-fw fa-chevron-up text-secondary"
+                              aria-hidden="true"></i></span>
+                          <span *ngIf="!item.toggle" class="bg-col-btns ml-2 pointer" title="Expand"
+                            (click)="item.toggle=true"><i class="fa fa-fw fa-chevron-down text-secondary"
+                              aria-hidden="true"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-1 text-center">
+                      <span>{{item.answerSelected}}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="bg-light p-2" *ngIf="item.toggle">
+                  <div class="form-group" *ngIf="item.type =='radio'">
+                    <label>Question Name</label>
+                    <input class="form-control form-control-sm" type="text" [(ngModel)]="item.label"
+                      (blur)="onBlurQuestion(item, model.attributes)" />
+                  </div>
+                  <div *ngIf="item.type =='paragraph'">
+                    <div class="form-group">
+                      <label>Label</label>
+                      <input class="form-control form-control-sm" type="text" [(ngModel)]="item.label"
+                        (blur)="onBlurQuestion(item, model.attributes)" />
+                    </div>
+                    <div class="form-row">
+                      <div class="col-12 form-group">
+                        <!-- <h6 class="border-dash-bottom pb-1 mb-3">Score Template Formula Section</h6> -->
+                        <label>Formula <small class="text-muted" *ngIf="item.isFormulaSqrt">(Note: Please select
+                            question from below formula and press select button)</small> </label>
+                        <input [hidden]="true" [ngClass]="{'margin-bottom-0': (!item.formulaValue)}"
+                          class="form-control form-control-sm" id="formulaField" [(ngModel)]="item.formulaValue">
+                        <div class="form-row align-items-center justify-content-between mx-0 form-group">
+                          <div class="input-group position-relative">
+                            <textarea class="form-control noresize" rows="4" (change)="changeFormula(item)"
+                              #formulaSelectionText [(ngModel)]="item.formulaSelectedTextForSqrt"
+                              (input)="checkFormulaIsValid(item)"></textarea>
+                            <div class="input-group-append" *ngIf="item.isFormulaSqrt">
+                              <button (click)="addSqrtInFormula(formulaSelectionText, item)" type="button"
+                                class="btn btn-outline-secondary"><i
+                                  class="fas fa-fw fa-clipboard-check"></i>SELECT</button>
+                            </div>
+                            <div class="position-absolute input-group-valid">
+                              <i *ngIf="!item.isFormulaValid" class="fa fa-check-circle text-success"
+                                aria-hidden="true"></i>
+                              <i *ngIf="item.isFormulaValid" class="fa fa-times-circle text-danger"
+                                aria-hidden="true"></i>
+                            </div>
+                          </div>
+                          <small class="text-danger" *ngIf="!item.formulaValue">Please enter
+                            value</small>
+                        </div>
+                        <div class="container-fluid px-2 pt-3">
+                          <div class="mb-3">
+                            <label class="text-muted mb-0">Double click to add formula</label>
+                            <div class="btn-group mr-2 w-100">
+                              <button type="button" class="btn btn-sm btn-outline-secondary"
+                                (dblclick)="addDataToFormula(item, opList, 'operator')"
+                                *ngFor="let opList of operatorList">{{opList}}</button>
+                            </div>
+                          </div>
+                          <div class="vital-list pt-1">
+                            <p class="mb-2 text-muted border-dash-bottom">Question List</p>
+                            <div class="vital-list-height w-100 px-1">
+                              <button type="button" class="btn btn-sm btn-outline-primary px-3 mb-2 mr-2"
+                                title="{{question.label}}" (dblclick)="addDataToFormula(item, question, 'question')"
+                                *ngFor="let question of questionNameList">{{question.name}}</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- radio || checkbox || autocomplete -->
+                  <div *ngIf="item.type=='radio'|| item.type=='checkbox' || item.type=='autocomplete'">
+                    <div class="row">
+                      <div class="col-4">
+                        <div class="form-group">
+                          <label>Label</label>
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group">
+                          <label>Value</label>
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        <div class="form-group">
+                          <label>Option Size</label>
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        <div class="form-group">
+                          <label>Action</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row" *ngFor="let i of item.values; let valueIndex=index;">
+                      <div class="col-4">
+                        <div class="form-group">
+                          <input class="form-control form-control-sm" type="text" [(ngModel)]="i.label"
+                            (blur)="onBlurOptions(i, item.values, 'label', false)" />
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group">
+                          <input class="form-control form-control-sm" min='0' type="number" [(ngModel)]="i.value"
+                            (blur)="onBlurOptions(i, item.values, 'value', false)" />
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        <select class="form-control form-control-sm pointer" [(ngModel)]="i.optionSize">
+                          <option *ngFor="let size of optionSizeList" value={{size}}>{{size}}</option>
+                        </select>
+                      </div>
+                      <div class="col-2">
+                        <div class="form-group">
+                          <button class="btn btn-sm btn-danger text-uppercase"
+                            (click)="item.values.splice(valueIndex,1)" type="button">
+                            <i class="icon fa-fw icon-trash"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col-4">
+                        <div class="form-group">
+                          <input class="form-control form-control-sm" type="text" [(ngModel)]="value.label"
+                            (blur)="onBlurOptions(value, item.values, 'label', true)" />
+                        </div>
+                      </div>
+                      <div class="col-4">
+                        <div class="form-group">
+                          <input class="form-control form-control-sm" type="text" [(ngModel)]="value.value"
+                            (blur)="onBlurOptions(value, item.values, 'value', true)" />
+                        </div>
+                      </div>
+                      <div class="col-2">
+                        <select class="form-control form-control-sm pointer" [(ngModel)]="value.optionSize">
+                          <option value="0">Select Option Size</option>
+                          <option *ngFor="let size of optionSizeList" value={{size}}>{{size}}</option>
+                        </select>
+                      </div>
+                      <div class="col-2">
+                        <div class="form-group">
+                          <button class="btn btn-sm btn-primary text-uppercase mr-2" (click)="addValue(item.values)"
+                            type="button"><i class="fas fa-fw fa-plus"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--optional placeholder element for dropzone-->
+              <!--will be removed from DOM on init-->
+              <div class="dndPlaceholder" dndPlaceholderRef>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer py-1 text-right">
+    <button type="button" class="btn btn-sm btn-outline-secondary mr-2" (click)="cancelScoreTemplate();">CANCEL</button>
+    <button type="button" class="btn btn-sm btn-success" (click)="saveScoreTemplate();">
+      <i class="fa-fw" [ngClass]="scoreTemplateAction.type === 'edit' ? 'fas fa-sync-alt' : 'icon icon-save'"></i>
+      {{scoreTemplateAction.type === 'edit' ? 'Update' : 'Save'}}
+    </button>
+  </div>
+  <app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>
+</div>

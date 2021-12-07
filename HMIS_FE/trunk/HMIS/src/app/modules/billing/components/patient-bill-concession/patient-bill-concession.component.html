@@ -1,0 +1,73 @@
+<div class="modal-header">
+  <h6 class="mb-0 pt-1">Bill Concession. {{popupHeaderTitle}}</h6>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-2">
+  <div class="panel-body p-0 panel-panel-body">
+    <div class="form-row form-group">
+      <div class="col-12">
+        <dx-data-grid id="billConcessionGridContainer" [dataSource]="billConcessionArray" keyExpr="tempId" [showBorders]="true"
+          (onEditorPrepared)="onEditorPrepared($event)" (onEditorPreparing)="onEditorPreparing($event)"
+          [showRowLines]="true" [focusedRowEnabled]="true" (onFocusedRowChanged)="onFocusedRowChanged($event)"
+          [allowColumnResizing]="true" [columnAutoWidth]="true" (onEditingStart)="onEditingStart($event)"
+          (onRowPrepared)="onRowPrepared($event)" (onRowRemoving)="onRowRemoving($event)"
+          [repaintChangesOnly]="true">
+          <dxo-sorting mode="none"></dxo-sorting>
+          <dxo-paging [enabled]="false"></dxo-paging>
+          <dxo-keyboard-navigation [editOnKeyPress]="true"></dxo-keyboard-navigation>
+          <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="true" [allowDeleting]="allowDeleting"
+            [useIcons]="true">
+          </dxo-editing>
+          <dxi-column caption="Sr No" cellTemplate="SerialNoTemplate" alignment="center" width="4%">
+            <div *dxTemplate="let data of 'SerialNoTemplate'">
+              {{data.row.rowIndex + 1}}
+            </div>
+          </dxi-column>
+          <dxi-column dataField="discountEntityType" calculateDisplayValue="discountEntityTypeName" caption="Select Entity">
+            <dxo-lookup [dataSource]="discountEntityArray" displayExpr="entityTypeName" valueExpr="entityType">
+            </dxo-lookup>
+          </dxi-column>
+          <dxi-column dataField="discountEntityId" calculateDisplayValue="discountEntityName" caption="Entity Name">
+            <dxo-lookup [dataSource]="entityDataSource" displayExpr="name" valueExpr="id">
+            </dxo-lookup>
+          </dxi-column>
+          <dxi-column dataField="applicableOn" caption="Applicable On" [allowEditing]="false" width="8%">
+          </dxi-column>
+          <dxi-column dataField="entityBillAmount" caption="Entity Billing Amount" [allowEditing]="false" width="12%">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column dataField="discountPercent" caption="Concession %" width="8%">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+            <dxi-validation-rule type="range" min="0" max="100" message="Percent must be between 0 and 100"></dxi-validation-rule>
+          </dxi-column>
+          <dxi-column dataField="discountAmount" caption="Concession Amt" [allowEditing]="false" width="10%">
+            <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+          </dxi-column>
+          <dxi-column type="buttons" caption="Action" width="6%" alignment="right">
+            <dxi-button name="add" cssClass="my-class" text="Add" icon="add" [visible]="isAddIconVisible"
+              hint="Add Service" [onClick]="onAddButtonClick"></dxi-button>
+            <dxi-button name="delete" hint="Delete Service" [visible]="isDeleteIconVisible"></dxi-button>
+          </dxi-column>
+          <dxo-summary [recalculateWhileEditing]="true">
+            <dxi-total-item summaryType="count" displayFormat="Sub Total: " showInColumn="discountEntityType">
+            </dxi-total-item>
+            <dxi-total-item column="entityBillAmount" summaryType="sum" [customizeText]="decimalWithPrecision">
+            </dxi-total-item>
+            <dxi-total-item column="discountAmount" summaryType="sum" [customizeText]="decimalWithPrecision">
+            </dxi-total-item>
+          </dxo-summary>
+        </dx-data-grid>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <div class="float-right mt-15 ml-auto">
+    <button type="button" class="btn btn-sm btn-warning text-uppercase" (click)="modal.dismiss();">Cancel</button>
+    <button type="button" class="btn btn-sm btn-outline-success ml-2 text-uppercase" (click)="applyConcession()">
+      <i aria-hidden="true" class="icon fa-fw icon-save"></i> Apply</button>
+  </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

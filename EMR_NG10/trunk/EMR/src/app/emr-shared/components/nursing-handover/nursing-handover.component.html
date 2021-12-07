@@ -1,0 +1,31 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">Handover To Nurse</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.close('cancel')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="nursingHandeoverFrm" (ngSubmit)="updateValueInService()">
+  <div class="modal-body py-2">
+    <div class="form-row form-group">
+      <div class="col-5">
+        <label class="text-muted font-weight-normal">Nurse</label>
+        <ng-select [items]="nurseList$ | async" bindLabel="name" autofocus formControlName="nurse" placeholder="Nurse"
+          (change)="selectValue($event)">
+        </ng-select>
+      </div>
+    </div>
+    <div class="form-row form-group">
+      <div class="col-12">
+        <label for="comment">Comment</label>
+        <textarea formControlName="comment" class="form-control"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer py-1">
+    <!-- <span *ngIf="!isAccepted" class="font-size-dot-75 mr-auto text-info">
+    Note: Patient transfer request already initiated. Waiting for Approval
+  </span> -->
+    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase" (click)="modal.close('cancel');">Cancel</button>
+    <button type="submit" class="btn btn-sm btn-outline-primary text-uppercase">Hand Over</button>
+  </div>
+</form>

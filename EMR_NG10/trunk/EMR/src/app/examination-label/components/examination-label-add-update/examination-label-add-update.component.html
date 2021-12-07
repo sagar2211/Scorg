@@ -1,0 +1,66 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">{{headId ? 'Edit' : 'Add'}} Examination Label</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+    (click)="selectValueConfirm('cancel')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body py-2">
+  <div class="form-row form-group">
+    <div class="col-6">
+      <label for="ward_name">Service Type <sup>*</sup></label>
+      <app-service-type-select [disableServiceType]="false" [setValue]="selectedServicesType"
+        (selectedserviceTypeValueObj)="getSelectedServiceType($event)"></app-service-type-select>
+    </div>
+    <div class="col-6">
+      <label for="deparment_name">Speciality</label>
+      <speciality [disableSpeciality]="false" [setValue]="selectedSpeciality"
+        (selectedSpecilityValueObj)="getSelectedSpeciality($event)"></speciality>
+    </div>
+  </div>
+  <div class="form-row form-group">
+    <div class="col-6">
+      <label for="range">Examination Type <sup>*</sup></label>
+      <app-exmination-type [disableExaminationType]="false" [setValue]="selectedExaminationType"
+        (selectedexaminationTypeValueObj)="getSelectedExaminationType($event)"></app-exmination-type>
+    </div>
+    <div class="col-6">
+      <label for="range">Label Name <sup>*</sup></label>
+      <input class="col form-control form-control-sm" [(ngModel)]="labelName" type="text" placeholder="Name">
+    </div>
+  </div>
+  <div class="form-row align-items-center form-group">
+    <div class="col-6">
+      <label>Print Setting <sup>*</sup></label>
+      <select class="form-control form-control-sm pointer" [(ngModel)]="selectedPrintSetting">
+        <option value="">Select Type</option>
+        <option *ngFor="let item of constVar.printSettingArray" value="{{item.key}}">{{item.name}}</option>
+      </select>
+    </div>
+    <div class="col-6" *ngIf="selectedExaminationType?.id === 1 || selectedExaminationType?.id === 2">
+      <label>Save Setting</label>
+      <select class="form-control form-control-sm pointer" [(ngModel)]="selectedSaveSetting">
+        <option *ngFor="let item of constVar.examinationSaveSettingArray" value="{{item.key}}">{{item.name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-row align-items-center form-group">
+    <div class="col-6">
+      <label class="d-block">Status</label>
+      <div class="custom-control custom-switch switch-w mt-1">
+        <input type="checkbox" [(ngModel)]="labelIsActive" class="custom-control-input" id="customSwitch">
+        <label class="custom-control-label pointer" [class.active]="labelIsActive" for="customSwitch"></label>
+        <span class="text-uppercase" [class.active]="labelIsActive">{{labelIsActive ? 'Active' : 'InActive'}}</span>
+      </div>
+      <!-- {{labelIsActive ? 'Active' : 'Inactive'}}
+      <input type="checkbox" [(ngModel)]="labelIsActive"> -->
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="selectValueConfirm('cancel');">CANCEL</button>
+  <button type="button" class="btn btn-sm" [ngClass]="headId ? 'btn-primary-light' : 'btn-primary'"
+    (click)="selectValueConfirm('Ok');"><i class="fa fa-fw" [ngClass]="headId ? 'fa-sync-alt' : 'fa-plus'"></i>
+    {{headId ? 'UPDATE' : 'ADD'}}</button>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

@@ -1,0 +1,50 @@
+<div
+  [ngClass]="{'container-fluid custom-container-fluid pt-3 mx-2': !isFromFrontDesk}">
+  <div *ngIf="isFromFrontDesk" class="text-right mb-2">
+    <div class="btn-group text-right" #addHolidaySectionPopover="ngbPopover" [autoClose]="'outside'"
+      placement="bottom-right" [ngbPopover]="addHolidaySectionPopoverContent">
+      <button type="button" class="btn btn-add btn-sm border-right"><i class="fa fa-fw fa-plus"
+          aria-hidden="true"></i>ADD</button>
+      <button type="button" class="btn btn-add btn-sm dropdown-toggle dropdown-toggle-split px-2 border-left"
+        data-toggle="dropdown">
+      </button>
+    </div>
+    <ng-template #addHolidaySectionPopoverContent>
+      <ng-container>
+        <app-entitysettingpopover (click)="addHolidaySectionPopover.close()"></app-entitysettingpopover>
+      </ng-container>
+    </ng-template>
+  </div>
+  <div class="entity-setting">
+    <div class="card mb-3" *ngIf="isBlockSettingVisible">
+      <div class="card-header py-1 px-3">
+        <p class="mb-0 font-weight-500 text-uppercase">Block Setting</p>
+      </div>
+      <div class="card-body p-0">
+        <app-block-appointment-setting [timeFormatkey]="timeFormat"
+          [selectedUserFromFrontDeskToList]="selectedUserFromFrontDesk" [isFromFrontDesk]="isFromFrontDesk">
+        </app-block-appointment-setting>
+      </div>
+    </div>
+    <div class="card mb-3" *ngIf="isHolidaySettingVisible">
+      <div class="card-header py-1 px-3">
+        <p class="mb-0 font-weight-500 text-uppercase">Holiday Setting</p>
+      </div>
+      <div class="card-body p-0">
+        <app-entity-holiday-setting [timeFormatkey]="timeFormat"
+          [selectedUserFromFrontDeskToList]="selectedUserFromFrontDesk" [isFromFrontDesk]="isFromFrontDesk">
+        </app-entity-holiday-setting>
+      </div>
+    </div>
+    <div class="card" [ngClass]="{'mb-3': !isFromFrontDesk}">
+      <div class="card-header py-1 px-3">
+        <p class="mb-0 font-weight-500 text-uppercase">Holiday And Block List</p>
+      </div>
+      <div class="card-body p-0">
+        <app-entity-holiday-list [timeFormatkey]="timeFormat"
+          [selectedUserFromFrontDeskToList]="selectedUserFromFrontDesk" [isFromFrontDesk]="isFromFrontDesk"
+          [islistShow]="islistShowFlag"></app-entity-holiday-list>
+      </div>
+    </div>
+  </div>
+</div>

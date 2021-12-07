@@ -1,0 +1,44 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+.modal-body.modal-scroll {
+  height: calc(100vh - 140px);
+  overflow-y: auto;
+
+  .group-w {
+    max-width: 130px;
+  }
+}
+
+.patient-h {
+  height: calc(100vh - 126px);
+  overflow-y: auto;
+}
+
+.patient-registration {
+  .card {
+    h6 {
+      color: $gray-700;
+    }
+
+    .col-or {
+      flex: 0 0 45px;
+      max-width: 45px;
+    }
+  }
+  .line-height-1-8 {
+    line-height: 1.8;
+  }
+}
+
+.parent-iframe {
+  width: 100%;
+  margin: auto;
+  height: calc(100vh - 84px);
+  overflow-y: auto;
+  .cus-iframe {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    border: 1px solid #9a9a9a;
+  }
+}

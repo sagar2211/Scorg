@@ -1,0 +1,211 @@
+@import "../../../../../scss/main";
+
+.container-purchase-order-add-apdate {
+  .card-body {
+    height: calc(100vh - 128px);
+    overflow: auto;
+
+    .min-height-52 {
+      min-height: 52px;
+    }
+
+    .custom-switch {
+      &.yes-no {
+        .custom-control-label:before {
+          width: 60px !important;
+        }
+
+        .custom-control-label.active::after {
+          -webkit-transform: translateX(2.23rem) !important;
+          -moz-transform: translateX(2.23rem) !important;
+          -ms-transform: translateX(2.23rem) !important;
+          transform: translateX(2.23rem) !important;
+        }
+      }
+
+      .custom-control-input {
+        &:checked {
+          .custom-control-label {
+            &::after {
+              -webkit-transform: translateX(4.15rem) !important;
+              -moz-transform: translateX(4.15rem) !important;
+              -ms-transform: translateX(4.15rem) !important;
+              transform: translateX(4.15rem) !important;
+            }
+          }
+        }
+      }
+
+      .custom-control-label {
+        &:before {
+          width: 90px;
+          top: 0;
+          left: 0;
+          @include border-radius(12px);
+        }
+
+        &::after {
+          background-color: $white;
+          top: calc(0.14rem + 0px);
+          // left: calc(-1.95rem + 2px);
+          left: 2px;
+          width: calc(1.5rem - 4px);
+          height: calc(1.5rem - 4px);
+          @include border-radius(50%);
+          z-index: 0;
+        }
+
+        &.active {
+          &::after {
+            -webkit-transform: translateX(4.15rem) !important;
+            -moz-transform: translateX(4.15rem) !important;
+            -ms-transform: translateX(4.15rem) !important;
+            transform: translateX(4.15rem) !important;
+          }
+        }
+      }
+
+      span {
+        top: 4px;
+        left: 29px;
+        @include no-select;
+
+        &.active {
+          left: 10px;
+        }
+      }
+    }
+
+    .table-footer {
+      margin-top: 7px;
+      tbody {
+        tr {
+          td {
+            padding: 1px !important;
+            &:first-child {
+              border-right: 1px solid transparent !important;
+            }
+
+            .form-control {
+              width: 60px;
+              border: none;
+              border-radius: 0;
+              display: inline-block !important;
+              border-bottom: 1px solid #d1d1d1;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .custom-mb-0 {
+    margin-bottom: 0px !important;
+  }
+  .card-footer {
+    .is-approved {
+      display: inline-block;
+      width: 160px;
+      margin-bottom: 0 !important;
+  
+      .custom-switch {
+        &.yes-no {
+          .custom-control-label:before {
+            width: 60px !important;
+          }
+  
+          .custom-control-label.active::after {
+            -webkit-transform: translateX(2.23rem) !important;
+            -moz-transform: translateX(2.23rem) !important;
+            -ms-transform: translateX(2.23rem) !important;
+            transform: translateX(2.23rem) !important;
+          }
+        }
+  
+        .custom-control-input {
+          &:checked {
+            .custom-control-label {
+              &::after {
+                -webkit-transform: translateX(4.15rem) !important;
+                -moz-transform: translateX(4.15rem) !important;
+                -ms-transform: translateX(4.15rem) !important;
+                transform: translateX(4.15rem) !important;
+              }
+            }
+          }
+        }
+  
+        .custom-control-label {
+          &:before {
+            width: 90px;
+            top: 0;
+            left: 0;
+            @include border-radius(12px);
+          }
+  
+          &::after {
+            background-color: $white;
+            top: calc(0.14rem + 0px);
+            // left: calc(-1.95rem + 2px);
+            left: 2px;
+            width: calc(1.5rem - 4px);
+            height: calc(1.5rem - 4px);
+            @include border-radius(50%);
+            z-index: 0;
+          }
+  
+          &.active {
+            &::after {
+              -webkit-transform: translateX(4.15rem) !important;
+              -moz-transform: translateX(4.15rem) !important;
+              -ms-transform: translateX(4.15rem) !important;
+              transform: translateX(4.15rem) !important;
+            }
+          }
+        }
+  
+        span {
+          top: 4px;
+          left: 29px;
+          @include no-select;
+  
+          &.active {
+            left: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+:host ::ng-deep {
+  .ngx-datatable.fixed-row {
+    .datatable-header-inner {
+      .datatable-row-center {
+        .datatable-header-cell {
+          &[title="Quantity"],
+          &[title="Free Quantity"],
+          &[title="Total Quantity"],
+          &[title="Rate"],
+          &[title="Discount"],
+          &[title="Amount"],
+          &[title="GST"],
+          &[title="Rate"],
+          &[title="CGST"],
+          &[title="SGST"],
+          &[title="Net Amount"],
+          &[title="Unit Price"],
+          &[title="MRP"] {
+            text-align: right;
+          }
+        }
+      }
+    }
+
+    .datatable-body {
+      height: calc(100vh - 446px) !important;
+    }
+  }
+}

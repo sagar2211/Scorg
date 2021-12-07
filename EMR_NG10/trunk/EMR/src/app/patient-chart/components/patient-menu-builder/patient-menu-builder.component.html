@@ -1,0 +1,83 @@
+<div class="emr-container-fluid container-fluid px-0">
+  <div class="card-header py-1">
+    <form [formGroup]="patientChartForm" novalidate>
+      <div class="form-row form-group align-items-center">
+        <div class="col-2">
+          <label>Service Type: <sup>*</sup></label>
+          <ng-select [items]="serviceType$ | async" bindLabel="name" autofocus bindValue="id"
+            formControlName="serviceType" placeholder="Service Type" (change)="onServiceTypeChange($event)">
+          </ng-select>
+          <span class="error" *ngIf="submitted && patientChartForm.get('serviceType').invalid">Required..</span>
+        </div>
+        <div class="col-4">
+          <label>Speciality: <sup>*</sup></label>
+          <ng-select [items]="speciality$ | async" bindLabel="name" autofocus bindValue="id"
+            formControlName="speciality" placeholder="Speciality" (change)="onSpecialityChange($event)">
+          </ng-select>
+          <span class="error" *ngIf="submitted && patientChartForm.get('speciality').invalid">Required..</span>
+        </div>
+        <div class="col-2">
+          <label>Role: <sup>*</sup></label>
+          <ng-select [items]="roleList$ | async" bindLabel="roleType" autofocus bindValue="roleTypeId"
+            formControlName="role" placeholder="Role" (change)="onRoleChange($event)">
+          </ng-select>
+          <span class="error" *ngIf="submitted && patientChartForm.get('role').invalid">Required..</span>
+        </div>
+        <div class="col-2">
+          <label>User: </label>
+          <ng-select [items]="doctorList$ | async" bindLabel="user_name" [loading]="doctorLoading" autofocus
+            bindValue="user_id" formControlName="doctor" placeholder="User" [typeahead]="docListInput$"
+            (change)="onDoctorChange($event)">
+          </ng-select>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="card-body patient-chart-body p-2">
+    <div class="form-row">
+      <div [formGroup]="patientChartForm" class="col-6">
+        <p class="mb-0 font-size-dot-875 font-weight-500">Chart Lists</p>
+        <select name="selectedSectionTyped" class="form-control form-control-sm pointer"
+          formControlName="selectedSectionType">
+          <option value="">All Charts</option>
+          <option value="FIXED_CHART">Fixed Chart</option>
+          <option value="CONSULTATION_CHART">Consultation Chart</option>
+          <option value="FOLLOWUP_CHART">Follow Chart</option>
+          <option value="DISCHARG_CHART">Discharge Chart</option>
+          <option value="SURGICAL_EMR">Surgical EMR</option>
+          <option value="ANAESTHETIST_EMR">Anaesthetist EMR</option>
+          <option value="NURSING_EMR">Nursing EMR</option>
+        </select>
+      </div>
+      <div class="col-6">
+        <p class="mb-0 font-size-dot-875 font-weight-500">Selected Charts</p>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-6">
+        <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="allChartLists" [cdkDropListConnectedTo]="[doneList]"
+          class="example-list border first" (cdkDropListDropped)="drop($event)">
+          <div class="example-box" *ngFor="let item of allChartLists" cdkDrag>
+            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+            {{item.chart_name}}
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="selectedChartLists"
+          [cdkDropListConnectedTo]="[todoList]" class="example-list border" (cdkDropListDropped)="drop($event)">
+          <div class="example-box" *ngFor="let item of selectedChartLists" cdkDrag
+            [cdkDragDisabled]="itemDisable(item)">
+            <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+            {{item.chart_name}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer py-1 text-right">
+    <button (click)="saveForm()" class="btn btn-primary btn-sm" type="submit"><i class="icon fa-fw icon-save"
+        aria-hidden="true"></i> Save Form</button>
+  </div>
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</div>

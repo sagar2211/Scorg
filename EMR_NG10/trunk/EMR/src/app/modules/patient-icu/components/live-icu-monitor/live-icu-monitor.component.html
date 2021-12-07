@@ -1,0 +1,155 @@
+<div class="emr-custom-container-fluid">
+    <div class="live-icu-monitor">
+        <div class="patient-header" style="display: none;">
+            <div class="title">
+                <div class="form-row">
+                    <div class="col-6">
+                        <p class="mb-0 font-size-dot-875 font-weight-500 text-white">
+                            <span class="mr-1">Bed : {{patient.Bed}}</span> {{patient.PatientName}}({{patient.Age}} : {{patient.Gender}})
+                            <span class="desc"></span>
+                        </p>
+                    </div>
+                    <div class="col-5 text-right">
+                        <span style="color:black">{{graphDateAndTime}} </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-section">
+            <div class="form-row mt-1" *ngIf="showChartAfterInit">
+                <div class="col-9 d-flex flex-column">
+                    <!-- pr-0 -->
+                    <div class="chart-h">
+                        <ng-container *ngFor="let chart of graphChartTypes | filterBy: 'display': true">
+                            <!-- {{chart.LastDateAndTimeOfObservations}}
+              chartData: {{chart.chartData}}
+              lineChartData: {{chart.ngChart.lineChartData[0].data}}
+              counter: {{chart.counter}} -->
+                            <section class="chart-box position-relative" [ngClass]="chart.cssClass">
+                                <div class="chart-w align-items-center h-100">
+                                    <canvas baseChart width="400" [datasets]="chart.ngChart.lineChartData" [labels]="chart.ngChart.labels" [options]="chart.ngChart.options" [colors]="chart.ngChart.colors" [legend]="chart.ngChart.legend" [chartType]="chart.ngChart.chartType" [plugins]="chart.ngChart.plugins">
+                  </canvas>
+                                </div>
+                                <div class="chart-msg" *ngIf="chart.commnicationLost">
+                                    <p class="mb-0 text-uppercase"> Communication Loss </p>
+                                </div>
+                            </section>
+                        </ng-container>
+                    </div>
+                </div>
+                <!-- <div class="col-4 d-flex flex-column">
+        <div class="chart-h">
+          <ng-container *ngFor="let chart of graphChartTypes">
+            <section class="chart-box" [ngClass]="chart.cssClass">
+              <div class="chart-w align-items-center h-100">
+                <canvas baseChart width="400" height="60"
+                  [datasets]="chart.ngChart.lineChartData"
+                  [labels]="chart.ngChart.labels"
+                  [options]="chart.ngChart.options"
+                  [colors]="chart.ngChart.colors"
+                  [legend]="chart.ngChart.legend"
+                  [chartType]="chart.ngChart.chartType"
+                  [plugins]="chart.ngChart.plugins">
+                </canvas>
+              </div>
+            </section>
+          </ng-container>
+        </div>
+      </div> -->
+                <div class="col-3 d-flex flex-column pl-0">
+                    <div class="monitor-count">
+                        <div class="h-vital-hr px-custom-5 py-1 mb-1">
+                            <div class="form-row h-100">
+                                <div class="col-6">
+                                    <p class="mb-0 chart-name">HR(bpm)</p>
+                                    <div class="vital-txt">
+                                        <h1 class="font-weight-normal mb-0">{{patientActiveVitals.hr}}</h1>
+                                    </div>
+                                </div>
+                                <div class="col-6 d-flex flex-column">
+                                    <div class="h-50">
+                                        <p class="mb-0 chart-name">VPC</p>
+                                        <div class="vital-txt">
+                                            <h6 class="font-weight-normal mb-0">{{patientActiveVitals.vpc}}/m</h6>
+                                        </div>
+                                    </div>
+                                    <div class="h-50 text-white">
+                                        <p class="mb-0 chart-name">ST(II)mV</p>
+                                        <div class="vital-txt">
+                                            <h6 class="font-weight-normal mb-0">{{patientActiveVitals.st2}}</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="h-vital-spO2 text-info p-1 mb-1">
+                            <p class="mb-0 chart-name">SPO <sub>2</sub>(%)</p>
+                            <div class="vital-txt">
+                                <h2 class="font-weight-normal mb-0">{{patientActiveVitals.spo2}}</h2>
+                            </div>
+                        </div>
+                        <div class="h-vital-resp px-custom-5 py-1 mb-1">
+                            <div class="form-row h-100">
+                                <div class="col-8 text-yellow">
+                                    <p class="mb-0 chart-name">RESP(rpm)</p>
+                                    <div class="vital-txt">
+                                        <h3 class="font-weight-normal mb-0">{{patientActiveVitals.resp}}</h3>
+                                    </div>
+                                </div>
+                                <div class="col-4" style="color: #00b400;">
+                                    <p class="mb-0 chart-name">T1(°C)</p>
+                                    <div class="vital-txt">
+                                        <h6 class="font-weight-normal mb-0">37.2</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="h-vital-nibp p-1 mb-1">
+                            <div class="nibp-custom-h d-flex flex-column">
+                                <p class="mb-0 chart-name">NIBP(mmHg) <span class="ml-4">Manual</span></p>
+                                <div class="vital-txt h-100">
+                                    <h5 class="font-weight-normal mb-0">{{patientActiveVitals.nibp_mean}}/80/(100)</h5>
+                                </div>
+                            </div>
+                            <div class="nibp-custom-h d-flex flex-column">
+                                <p class="mb-0 chart-name">IBP1(mmHg)</p>
+                                <div class="vital-txt h-100">
+                                    <h5 class="font-weight-normal mb-0">{{patientActiveVitals.nibp_sys}}/85/(95)</h5>
+                                </div>
+                            </div>
+                            <div class="nibp-custom-h d-flex flex-column">
+                                <p class="mb-0 chart-name">IBP2(mmHg)</p>
+                                <div class="vital-txt h-100">
+                                    <h5 class="font-weight-normal mb-0">{{patientActiveVitals.nibp_dia}}/85/(95)</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="h-vital-st text-yellow px-custom-5 py-1">
+                            <div class="form-row h-100">
+                                <div class="col-4">
+                                    <p class="mb-0 chart-name">EtCO <sub>2</sub>(mmHg)</p>
+                                    <div class="vital-txt">
+                                        <h4 class="font-weight-normal mb-0">{{patientActiveVitals.etco2}}</h4>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <p class="mb-0 chart-name">InCO <sub>2</sub>(mmHg)</p>
+                                    <div class="vital-txt">
+                                        <h4 class="font-weight-normal mb-0">{{patientActiveVitals.inco2}}</h4>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <p class="mb-0 chart-name">RR(rpm)</p>
+                                    <div class="vital-txt">
+                                        <h4 class="font-weight-normal mb-0">{{patientActiveVitals.rr}}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

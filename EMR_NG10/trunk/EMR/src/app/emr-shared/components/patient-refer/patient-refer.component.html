@@ -1,0 +1,45 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">Refer Doctor</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.close('cancel')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body py-2 height-400">
+  <form [formGroup]="careTeamFrm">
+    <div formArrayName="doctorListArray">
+      <div *ngFor="let dList of doctorListArray.controls; let i = index;let last = last;first as first"
+        [formGroupName]="i">
+        <div class="form-row form-group">
+          <div class="col-5">
+            <label for="doctor" *ngIf="i == 0">Doctor</label>
+            <app-type-head [inputValue]="dList.value.name" [selectedData]="dList.value" [searchKey]="'name'"
+              [placeHolder]="'Doctor'" [searchData]="getAllUserList" [compInstance]='compInstance'
+              (selectedItem)="getDoctorName($event, i)" [searchDataFromAPI]='true'>
+            </app-type-head>
+            <small class="error" *ngIf="isAdd && dList.get('name').invalid">Select Doctor </small>
+          </div>
+          <div class="col-5">
+            <label for="doctor" *ngIf="i == 0">Speciality</label>
+            <app-type-head [inputValue]="dList.value.speciality" [selectedData]="dList.value" [searchKey]="'speciality'"
+              [placeHolder]="'Speciality'" [searchData]="getAllUserList" [compInstance]='compInstance'
+              (selectedItem)="getDoctorSpeciality($event, i)" [searchDataFromAPI]='true'>
+            </app-type-head>
+            <small class="error" *ngIf="isAdd && dList.get('name').invalid">Select Speciality </small>
+          </div>
+          <div class="col-2 align-self-center mt-custom-1-2">
+            <button class="btn btn-sm btn-primary text-uppercase mr-2" type="button" [ngClass]="{'invisible': !last}"
+              (click)="addDoctor(dList);"><i class="fas fa-fw fa-plus"></i></button>
+            <button type="button" class="btn btn-sm btn-danger text-uppercase" (click)="deleteDoctor(i)">
+              <i class="icon fa-fw icon-trash"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
+    (click)="modal.close('cancel'); updateValueInService();">Cancel</button>
+  <button type="button" class="btn btn-sm btn-outline-primary text-uppercase"
+    (click)="modal.close('Ok'); updateValueInService();">Ok</button>
+</div>

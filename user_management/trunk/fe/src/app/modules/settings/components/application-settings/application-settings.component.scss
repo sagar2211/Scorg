@@ -1,0 +1,9 @@
+.application-setting-height {
+  height: calc(100vh - 198px);
+  overflow-y: auto;
+
+  .setting-height {
+    height: calc(100vh - 230px);
+    overflow-y: auto;
+  }
+}

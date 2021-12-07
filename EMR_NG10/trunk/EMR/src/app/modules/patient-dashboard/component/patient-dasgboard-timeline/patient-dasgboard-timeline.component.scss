@@ -1,0 +1,28 @@
+.top-card {
+  .card-body {
+    height: calc(100vh - 112px);
+    //height: 82.3vh;
+    // height: 41vh;
+
+    .custom-table {
+      &.vital-table {
+        tbody {
+          tr {
+            td {
+              width: 12.5%;
+
+              p:last-child {
+                min-height: 23px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 1280px) {
+    .card-body {
+      height: 39.2vh;
+    }
+  }
+}

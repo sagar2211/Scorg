@@ -1,0 +1,112 @@
+@import "../../scss/custom_bootstrap_theme";
+
+.consultation {
+  .card {
+    border-radius: 0;
+    border: 0.55px solid #f3f3f3;
+
+    &:not(:first-child) {
+      border-top: 0.55px solid transparent;
+    }
+
+    .card-header,
+    .card-body {
+      border-bottom: 0.55px dashed #f7f7f7;
+    }
+
+    & {
+      * {
+        line-height: 1.2;
+      }
+
+      background-color: #f9f9f91f !important;
+      @include transition(background-color 0.4s);
+
+      .card-header,
+      .card-footer {
+        background-color: inherit !important;
+      }
+
+      &:hover {
+        background-color: #f9f9f940 !important;
+        @include transition(background-color 0.4s);
+
+        .card-header,
+        .card-footer {
+          background-color: inherit !important;
+        }
+      }
+    }
+
+    &:nth-child(odd) {
+      background-color: #f9f9f940 !important;
+      @include transition(background-color 0.4s);
+
+      .card-header,
+      .card-footer {
+        background-color: inherit !important;
+      }
+
+      &:hover {
+        background-color: #f9f9f91f !important;
+        @include transition(background-color 0.4s);
+
+        .card-header,
+        .card-footer {
+          background-color: inherit !important;
+        }
+      }
+    }
+
+    &:first-child {
+      @include border-top-left-radius(5px);
+      @include border-top-right-radius(5px);
+    }
+
+    &:last-child {
+      @include border-bottom-left-radius(5px);
+      @include border-bottom-right-radius(5px);
+    }
+  }
+
+  .col-border-left:before,
+  .col-border-right:after {
+    content: "";
+    position: absolute;
+    height: 50%;
+    top: 25%;
+  }
+
+  .col-border-left:before {
+    left: 0;
+    border-left: 0.55px solid #9c9c9c;
+  }
+
+  .col-border-right:after {
+    right: 0;
+    border-right: 0.55px solid #9c9c9c;
+  }
+}
+.notification-list-body {
+  background-color: #fff;
+}
+.notification-list-details {
+  height: calc(100vh - 157px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  + .border-top {
+    height: calc(100vh - 166px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}
+.partial-notification-list-details {
+  height: calc(100vh - 65px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  + .border-top {
+    height: calc(100vh - 166px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+}

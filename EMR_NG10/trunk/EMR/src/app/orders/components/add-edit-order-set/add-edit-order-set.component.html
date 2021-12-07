@@ -1,0 +1,65 @@
+<div class="modal-header">
+  <h6 class="mb-0 pt-1 text-uppercase">Add/Edit {{serviceType.name}} Order Set</h6>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup();">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-0">
+  <div class="form-row form-group mx-0">
+    <div class="col-6 mb-2">
+      <label>Order Set Name<sup>*</sup></label>
+      <input [(ngModel)]="orderSetDetails.orderSetName" class="form-control form-control-sm" type="text"
+        placeholder="Enter Order Set Name">
+    </div>
+    <div class="col-6">
+      <label>Type:</label>
+      <select name="sectionFilter" class="form-control form-control-sm pointer" [(ngModel)]="selectedSection">
+        <option *ngFor="let section of sectionLevels;" [value]="section">{{section}}</option>
+      </select>
+    </div>
+    <div class="col-12">
+      <label>Order Set Description</label>
+      <textarea class="form-control" rows="3" [(ngModel)]="orderSetDetails.orderSetDescription"
+        placeholder="Enter Order Set Description">
+      </textarea>
+    </div>
+  </div>
+  <div *ngIf="allOrdersListWithKey" class="p-2 master-height">
+    <div *ngFor="let category of masterCategories; let i = index;" class="pb-4">
+      <div *ngIf="category.orderKey !== 'otherOrders' && allOrdersListWithKey[category.orderKey].length">
+        <h6 class="border-dash-bottom pb-1 mb-3">
+          <i class="icon fa-fw icon-info-circle align-bottom"></i>
+          {{category.orderName}}</h6>
+        <div *ngFor="let orderDisp of allOrdersListWithKey[category.orderKey]" class="card p-1">
+          <app-orders-display [isShowActions]="false" [isEdit]="false" [item]="orderDisp" [source]="category.orderKey"
+            [isDelete]="false">
+          </app-orders-display>
+        </div>
+      </div>
+      <div *ngIf="category.orderKey === 'otherOrders' && allOrdersListWithKey['Doctor Instruction'].length">
+        <h6 class="border-dash-bottom pb-1 mb-3">
+          <i class="icon fa-fw icon-info-circle align-bottom"></i>Doctor Instruction</h6>
+        <div *ngFor="let orderord of allOrdersListWithKey['Doctor Instruction']" class="card p-1">
+          <app-orders-display [isShowActions]="false" [isEdit]="false" [item]="orderord" [source]="'Doctor Instruction'"
+            [isDelete]="false">
+          </app-orders-display>
+        </div>
+      </div>
+      <div *ngIf="category.orderKey === 'otherOrders' && allOrdersListWithKey['Services with Notes'].length">
+        <h6 class="border-dash-bottom pb-1 mb-3">
+          <i class="icon fa-fw icon-info-circle align-bottom"></i>Services with Notes</h6>
+        <div *ngFor="let orderord of allOrdersListWithKey['Services with Notes']" class="card p-1">
+          <app-orders-display [isShowActions]="false" [isEdit]="false" [item]="orderord"
+            [source]="'Services with Notes'" [isDelete]="false">
+          </app-orders-display>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase" (click)="closePopup();">Cancel</button>
+  <button [disabled]="ordersCount === 0 || orderSetDetails.orderSetName === ''" type="button"
+    class="btn btn-sm btn-outline-success text-uppercase" (click)="saveOrderSet();">
+    <i aria-hidden="true" class="icon fa-fw icon-save"></i> Save</button>
+</div>

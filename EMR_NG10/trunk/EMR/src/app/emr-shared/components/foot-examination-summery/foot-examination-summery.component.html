@@ -1,0 +1,19 @@
+<ngb-accordion [closeOthers]="false" *ngFor="let data of examineData|keyvalue">
+    <ngb-panel>
+        <ng-template ngbPanelTitle>
+            <span *ngIf="data.key=='left_footFlag'">Left Part</span>
+            <span *ngIf="data.key=='right_footFlag'">Right Part</span>
+        </ng-template>
+        <ng-template ngbPanelContent>
+            <ul class="list-group">
+                <li class="list-group-item p-1" *ngFor="let part of data.value|keyvalue">
+                    <span> <i class="fa fa-fw fa-circle" aria-hidden="true"></i> Sensation is {{part.key}}
+                        at</span>
+                    <p class="mb-0" *ngFor="let element of part.value ; let i=index;">
+                        <span *ngIf="i>0">,</span> {{element.body_part}}
+                    </p>
+                </li>
+            </ul>
+        </ng-template>
+    </ngb-panel>
+</ngb-accordion>

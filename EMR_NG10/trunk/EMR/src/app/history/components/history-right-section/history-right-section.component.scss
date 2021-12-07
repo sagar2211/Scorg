@@ -1,0 +1,101 @@
+@import "../../../../scss/main";
+
+.visit-history {
+  height: calc(100vh - 111px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.master-height {
+  height: calc(100vh - 119px);
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  h6 {
+    color: $gray-700;
+    font-size: 0.875rem;
+  }
+
+  .icon {
+    font-size: 20px;
+  }
+}
+
+.history-tab {
+  & {
+    border-top: 4px solid $primary-light;
+  }
+
+  .map-svg {
+    min-height: 250px;
+
+    .custom-col {
+      -webkit-box-flex: 0;
+      flex: 0 0 20%;
+      max-width: 20%;
+      margin: 0 20px;
+    }
+  }
+
+}
+
+:host::ng-deep {
+  .summary-score-template {
+
+    .summary-table,
+    .note-table {
+      height: unset !important;
+      overflow-y: unset !important;
+    }
+  }
+}
+
+.cus-table {
+  tr {
+    td {
+      &.h-heads {
+        width: 167px;
+        font-size: 0.8rem;
+        @include border-left-radius(10px);
+      }
+    }
+
+    td.order-checkbox {
+      width: 2%;
+    }
+
+    td.order-category-name {
+      width: 13%;
+    }
+
+    td.order-medicine-name {
+      width: 55%;
+    }
+
+    td.order-frequency {
+      width: 10%;
+    }
+
+    td.order-status {
+      width: 10%;
+    }
+
+    td.order-action-btn {
+      width: 10%;
+    }
+  }
+}
+@media screen and (max-width: 1280px) {
+  td.order-status {
+    width: 9% !important;
+  }
+
+  td.order-action-btn {
+    width: 11% !important;
+  }
+}
+
+.table th,
+.table td {
+  padding: 0.2rem;
+}

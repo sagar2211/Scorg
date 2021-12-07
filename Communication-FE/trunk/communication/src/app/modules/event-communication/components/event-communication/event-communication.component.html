@@ -1,0 +1,114 @@
+<div class="card border-top-0 border-bottom-0 border-right-0 emr-container-fluid container-fluid px-0">
+    <div class="card-header border-dash-bottom py-2">
+        <div class="row">
+            <div class="col-2">
+                <h6 class="mb-0">Event Communication</h6>
+            </div>
+            <div class="form-group col-2">
+                <label for="applications">Event Category</label>
+                <ng-select [items]="applicationsData" bindLabel="eventCategoryName" bindValue="eventCategoryId" [(ngModel)]="eventId" (change)="onEventChange($event);" placeholder="Event Select"></ng-select>        
+            </div>
+            <div class="form-group col-2">
+                <label for="applications">Event User Type</label>
+                <ng-select [items]="eventUserType" bindLabel="eventUserType" bindValue="eventUserTypeId" [(ngModel)]="eventUserTypeId" (change)="onEventUserTypeChange($event);" placeholder="User Type Select"></ng-select>        
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        
+        <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="50" [rowHeight]="'auto'" [rows]="eventData" [externalSorting]="true">
+            <ngx-datatable-column name="Category" prop="name" [width]="150" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.category_name}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="User Type" prop="userType" [width]="300" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <div class="child" *ngFor="let r of row.catData" [ngStyle]="{ 'height' : 30 * r.userData.length +'px' }">
+                        <span>{{r.userTypeName}}</span>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Event" prop="eventValue" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <div *ngFor="let r of row.catData">
+                        <div class="child" *ngFor="let itr of r.userData">
+                            <span>{{itr.eventValue}}</span>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+            
+            <ngx-datatable-column name="Template" prop="eventName" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <div *ngFor="let itr of row.catData; let catIndx=index;">
+                        <div class="child" *ngFor="let r of itr.userData; let i=index;">
+                            <ng-select class="ml-2 min-width-200px" [items]="templateData" [(ngModel)]="r.templateId" bindValue="template_id" bindLabel="template_name" (change)="changeTemplate(itr,$event,catIndx,i)" placeholder="Select Template">
+                            </ng-select>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Email" prop="email" [width]="100" cellClass="text-center" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <div *ngFor="let r of row.catData; let catIndx=index;">
+                        <div class="child" *ngFor="let itr of r.userData; let i=index;">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="email_i_{{r.userTypeName | lowercase}}_{{itr.eventId}}" [disabled]="!itr.templateId || itr.templateId === 0 || itr.enableEmail" (change)="catchEmail($event.target.checked,catIndx,i)" [checked]="itr.isSendEmail" />
+                                <label class="custom-control-label pointer" for="email_i_{{r.userTypeName | lowercase}}_{{itr.eventId }}"></label>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="SMS" prop="sms" [width]="80" cellClass="text-center" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <div *ngFor="let r of row.catData; let catIndx=index;">
+                        <div class="child" *ngFor="let itr of r.userData; let i=index;">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="sms_i_{{r.userTypeName | lowercase}}_{{itr.eventId}}" [disabled]="!itr.templateId || itr.templateId === 0 || itr.enableSMS" (change)="catchSms($event.target.checked,catIndx,i)" [checked]="itr.isSendSms" />
+                                <label class="custom-control-label pointer" for="sms_i_{{r.userTypeName | lowercase}}_{{itr.eventId }}"></label>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="WhatsApp" prop="whatsApp" [width]="80" cellClass="text-center" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <div *ngFor="let r of row.catData; let catIndx=index;">
+                        <div class="child" *ngFor="let itr of r.userData; let i=index;">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="whatsApp_i_{{r.userTypeName | lowercase}}_{{itr.eventId}}" [disabled]="!itr.templateId || itr.templateId === 0 || itr.enableWhatsapp" (change)="catchWhatsApp($event.target.checked,catIndx,i)" [checked]="itr.isSendWhatsapp" />
+                                <label class="custom-control-label pointer" for="whatsApp_i_{{r.userTypeName | lowercase}}_{{itr.eventId }}"></label>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Notification" prop="notification" [width]="80" cellClass="text-center" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <div *ngFor="let r of row.catData; let catIndx=index;">
+                        <div class="child" *ngFor="let itr of r.userData; let i=index;">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="notification_i_{{r.userTypeName | lowercase}}_{{itr.eventId}}" [disabled]="itr.enableNotification" (change)="catchNotification($event.target.checked,catIndx,i)" [checked]="itr.isSendNotification" />
+                                <label class="custom-control-label pointer" for="notification_i_{{r.userTypeName | lowercase}}_{{itr.eventId }}"></label>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+    <div class="card-footer text-right py-1">
+        <!-- *ngxPermissionsOnly="permissionDetails.Event_Communication_Setting_Update" -->
+        <button class="btn btn-sm btn-primary" type="button" [disabled]="!eventData" (click)="updateData()"><i class="fas fa-fw fa-sync-alt" aria-hidden="true"></i> UPDATE
+        </button>
+    </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

@@ -1,0 +1,84 @@
+@import "../../../../scss/main";
+
+.visit-history {
+  height: calc(100vh - 112px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.master-height {
+  height: calc(100vh - 120px);
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  h6 {
+    color: $gray-700;
+  }
+
+  .icon {
+    font-size: 20px;
+  }
+}
+
+.history-tab {
+  & {
+    border-top: 4px solid $primary-light;
+  }
+
+  .map-svg {
+    min-height: 250px;
+
+    .custom-col {
+      -webkit-box-flex: 0;
+      flex: 0 0 20%;
+      max-width: 20%;
+      margin: 0 20px;
+    }
+  }
+
+}
+
+:host::ng-deep {
+  .summary-score-template {
+    .summary-table, .note-table {
+      height: unset !important;
+      overflow-y: unset !important;
+    }
+  }
+}
+
+.cus-table {
+  tr {
+    td {
+      &.h-heads {
+        width: 150px;
+        font-size: 0.8rem;
+        @include border-left-radius(10px);
+      }
+    }
+
+    td.order-checkbox {
+      width: 2%;
+    }
+
+    td.order-category-name {
+      width: 13%;
+    }
+
+    td.order-medicine-name {
+      width: 55%;
+    }
+
+    td.order-frequency {
+      width: 10%;
+    }
+
+    td.order-status {
+      width: 10%;
+    }
+
+    td.order-action-btn {
+      width: 10%;
+    }
+  }
+}

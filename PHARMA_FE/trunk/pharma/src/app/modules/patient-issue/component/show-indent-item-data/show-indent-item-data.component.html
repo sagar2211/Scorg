@@ -1,0 +1,35 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">Stock List</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup()">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body section-data p-1">
+  <dx-data-grid #dataGridItem id="gridContainerIndent" [dataSource]="indentItemList" keyExpr="id" [showBorders]="true" (onSelectionChanged)="selectionChangedHandler($event)" (onRowPrepared)="onRowPrepared($event)" (onEditorPreparing)="onEditorPreparing($event)">
+      <dxo-selection [selectAllMode]="allMode" [allowSelectAll]="false" [showCheckBoxesMode]="checkBoxesMode" mode="multiple"></dxo-selection>
+      <dxo-sorting mode="none"></dxo-sorting>
+      <dxo-paging [enabled]="false"></dxo-paging>
+      <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="false" [allowDeleting]="false" [useIcons]="false">
+      </dxo-editing>
+      <dxi-column dataField="indentId" caption="Indent" groupCellTemplate="grpTemplate" [groupIndex]="0" [allowEditing]="false"></dxi-column>
+      <dxi-column [width]="400" dataField="itemName" cellTemplate="itemTemplate" caption="Item Name" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="closingStock" caption="Available Qty" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="requiredQty" caption="Prescribed Qty" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="issueQty" caption="Issue Qty" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="saleQty" caption="Sale Qty" [allowEditing]="allowEditingSale"></dxi-column>
+      <div *dxTemplate="let data of 'itemTemplate'">
+          <p class="m-0">{{data.value}} - ({{data.data.itemCode}})</p>
+      </div>
+      <div *dxTemplate="let data of 'grpTemplate'">
+          <p class="m-0">{{getCellData(data)}}</p>
+          <!-- <p class="m-0">{{data.data.items[0].prescriptionDate | date: 'dd-MM-yyyy hh:mm a' }} - {{data.data.items[0].doctorName}}</p> -->
+          <!--   <p class="m-0">{{data.data.dose}} {{data.data.doseUnit}}/{{data.data.frequency}}/{{data.data.days}} Day(s)</p> -->
+      </div>
+  </dx-data-grid>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-primary" (click)="onSelectIndentItem()">Select</button>
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closePopup()">CLOSE</button>
+</div>
+
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

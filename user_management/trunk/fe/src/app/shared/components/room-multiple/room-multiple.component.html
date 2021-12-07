@@ -1,0 +1,8 @@
+<form [formGroup]="roomListForm" *ngIf="loadForm">
+  <ng-select [typeahead]="subject" bindLabel="name" placeholder="Select item" multiple="true" [searchable]="true"
+    [clearable]="true"  formControlName="roomVal" [items]="roomsListSub$ | async" (change)="getSelectedRoomValues()">
+    <ng-option [value]="item.id" *ngFor="let item of roomsList">
+      {{item.name}}
+    </ng-option>
+  </ng-select>
+</form>

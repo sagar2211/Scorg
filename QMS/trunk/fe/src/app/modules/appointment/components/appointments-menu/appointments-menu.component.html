@@ -1,0 +1,29 @@
+<div class="container-fluid">
+  <div class="row">
+    <!-- left-column  [ngClass]="{'collapsed': userMenuToggleValue}" -->
+    <div class="column left-side">
+      <ul class="list-unstyled mb-0">
+        <li [routerLinkActive]="['active']">
+          <a class="text-decoration-none item d-flex flex-column pointer" [routerLink]="['searchAppointment']">
+            <i class="icon icon-calendar-day fa-fw mx-auto" aria-hidden="true"></i> <span class="label">
+              Appointment</span>
+          </a>
+        </li>
+        <li [routerLinkActive]="['active']"><a class="text-decoration-none item d-flex flex-column pointer"
+            [routerLink]="['calendar']">
+            <i class="icon icon-calendar-alt fa-fw mx-auto" aria-hidden="true"></i> <span class="label">
+              Calendar</span></a>
+        </li>
+        <li [routerLinkActive]="['active']"><a class="text-decoration-none item d-flex flex-column pointer"
+            [routerLink]="['entitySettings']">
+            <i class="icon icon-calendar-alt fa-fw mx-auto" aria-hidden="true"></i> <span class="label"> Entity
+              Setting</span></a>
+        </li>
+      </ul>
+    </div>
+    <!-- right-column -->
+    <div class="column right-side">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

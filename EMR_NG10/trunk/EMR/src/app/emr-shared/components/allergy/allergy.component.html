@@ -1,0 +1,82 @@
+<div class="examination-label">
+  <ngb-accordion [closeOthers]="false" (panelChange)="panelChange($event)" [activeIds]="componentInfo?.activeIdsOfPanels">
+    <ngb-panel id="allergies">
+      <ng-template ngbPanelTitle let-opened="opened">
+        <div class="form-row align-items-center mx-0">
+          <div class="col-9">
+            <p class="mb-0 font-size-dot-875">{{componentInfo?.section_name}}</p>
+          </div>
+          <div class="col-3">
+            <button class="btn btn-sm btn-link text-white text-right" type="button">
+              <i [ngClass]="isPanelOpen ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <form [formGroup]="allergiesFrm" (click)="openCloseSuggPanel()" *ngIf="loadForm">
+          <div class="form-row form-group custom-mb-0">
+            <div class="col-12">
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" id="customRadio_{{chartDetailId}}" formControlName="isAllergySelected"
+                  [value]="'YES'">
+                <label class="custom-control-label pointer" for="customRadio_{{chartDetailId}}">YES</label>
+              </div>
+              <div class="custom-control custom-radio custom-control-inline">
+                <input type="radio" class="custom-control-input" id="customRadio1_{{chartDetailId}}" formControlName="isAllergySelected"
+                  [value]="'NO'">
+                <label class="custom-control-label pointer" for="customRadio1_{{chartDetailId}}">NO</label>
+              </div>
+              <div class="custom-control-inline">
+                <button type="button" class="btn btn-sm btn-outline-warning" (click)="clearAllergies()"> <i
+                    class="fas fa-fw fa-eraser" aria-hidden="true"></i>
+                  CLEAR</button>
+              </div>
+            </div>
+          </div>
+          <div formArrayName="allergiesListFrm" [ngClass]="{'d-none': allergiesFrm?.value?.isAllergySelected !== 'YES'}">
+            <div class="form-row form-group"
+              *ngFor="let aList of allergiesListFrm.controls; let i = index;let last = last; first as first"
+              [formGroupName]="i">
+              <div class="col-10">
+                <div class="form-row">
+                  <div [ngClass]="aList?.value?.type == 2 ? 'col-4' :'col-6'">
+                    <label *ngIf="i == 0">Allergy Type<sup>*</sup></label>
+                    <ng-select [items]="allergyTypes" bindValue="id" bindLabel="name" (change)="onAllergySelected($event, aList);" formControlName="type" placeholder="Select Type">
+                    </ng-select>
+                    <span class="text-danger small" *ngIf="isAdd && aList.get('type').invalid">Select Allergy</span>
+                  </div>
+                  <div [ngClass]="aList?.value?.type == 2 ? 'col-4' :'col-6'" *ngIf="aList?.value?.type == 2">
+                    <label *ngIf="i == 0">Medicine Name<sup>*</sup></label>
+                    <ng-select  [items]="medicineList$ | async" (change)="selectMedicine($event, aList)" bindLabel="name" formControlName="medicineObject" placeholder="Select Medicine" [typeahead]="medicineListInput$">
+                    </ng-select>
+                    <span class="text-danger small"
+                      *ngIf="isAdd && aList.get('medicine').invalid && !aList.value?.medicineObject">
+                      Select medicine</span>
+                  </div>
+                  <div [ngClass]="aList?.value?.type == 2 ? 'col-4' :'col-6'">
+                    <label *ngIf="i == 0">Remark<sup>*</sup></label>
+                    <input type="text" class="form-control form-control-sm" formControlName="remark"
+                      placeholder="Remarks...">
+                    <span class="text-danger small" *ngIf="isAdd && aList.get('remark').invalid"> Enter remarks</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2">
+                <label [ngClass]="{'mb-0': first, 'd-none': !first}">&nbsp;</label>
+                <div>
+                  <button type="button" class="btn btn-sm btn-outline-primary-light"
+                    [ngStyle]="{'visibility': last ? 'visible' : 'hidden'}" (click)="addAllergy(aList);">
+                    <i class="fa fa-fw fa-plus"></i>
+                  </button>&nbsp;
+                  <button type="button" class="btn btn-sm btn-outline-danger" *ngIf="allergiesListFrm.controls.length>1"
+                    (click)="deleteAllergy(i)"><i class="fa fa-fw fa-trash"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>

@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">{{fileData.fileData.file_name}}</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup('close');">
+      <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-1 custom-modal-body">
+    <ng-container ng-if="fileData">
+        <ng-container *ngIf="fileData.fileType === 'pdf'">
+            <p>{{fileData.fileData.file_name}}</p>
+            <p>{{fileServePath + fileData.fileData.file_path}}</p>
+            <pdf-viewer [src]="fileServePath + fileData.fileData.file_path" [original-size]="false" [render-text]="true" class="d-block">
+            </pdf-viewer>
+        </ng-container>
+        <ng-container *ngIf="fileData.fileType !== 'pdf'">
+            <img [src]="fileServePath + fileData.fileData.file_path">
+            <p>{{fileData.fileData.file_name}}</p>
+        </ng-container>
+        <!-- {{fileData | json}} -->
+    </ng-container>
+</div>
+<div class="modal-footer py-1">
+    <!-- <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase" (click)="closePopup('close');">Cancel</button> -->
+    <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" (click)="closePopup('close');">Ok</button>
+</div>

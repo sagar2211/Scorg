@@ -1,0 +1,50 @@
+<form (ngSubmit)="UpdateDcotorFieldSettings()">
+  <table class="table custom-table border font-size-dot-875 text-center">
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Mask</th>
+        <th>Number of Characters</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of fields; let i = index;">
+        <td>{{item.name}}</td>
+        <td>
+          <div *ngIf="item.key!='contact'" class="custom-control custom-checkbox custom-control-inline">
+            <input type="checkbox" class="custom-control-input" id="dchkword{{item.id}}" name="dchkword{{item.id}}"
+              type="checkbox" [(ngModel)]="item.isWord">
+            <label class="custom-control-label pointer" [class.active]="item.isWord"
+              for="dchkword{{item.id}}">Word</label>
+          </div>
+
+          <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" name="{{item.id}}" [(ngModel)]="item.maskType" class="custom-control-input"
+              id="dmaskTypePre{{item.id}}" value="pre">
+            <label class="custom-control-label pointer" for="dmaskTypePre{{item.id}}">PRE</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" name="{{item.id}}" [(ngModel)]="item.maskType" class="custom-control-input"
+              id="dmaskTypeMid{{item.id}}" value="mid">
+            <label class="custom-control-label pointer" for="dmaskTypeMid{{item.id}}">MID</label>
+          </div>
+          <div class="custom-control custom-radio custom-control-inline">
+            <input type="radio" name="{{item.id}}" [(ngModel)]="item.maskType" class="custom-control-input"
+              id="dmaskTypePost{{item.id}}" value="post">
+            <label class="custom-control-label pointer" for="dmaskTypePost{{item.id}}">POST</label>
+          </div>
+        </td>
+        <td>
+          <input name="noOfchar{{item.id}}" class="form-control form-control-sm" [(ngModel)]="item.numberOfCharacter"
+            type="number" max="10" min="0" (keyup)="selectNumberOfCharacter(item, i)">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="text-right">
+    <button *ngxPermissionsOnly="permissionDetails.Update_Display_Field_Settings" type="submit"
+      class="btn btn-sm btn-success"><i class="icon fa-fw icon-save"></i> SAVE
+    </button>
+  </div>
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</form>

@@ -1,0 +1,174 @@
+@import "../../../../scss/custom_bootstrap_theme";
+
+:host ::ng-deep {
+  p.label-suggestion {
+    position: relative;
+    color: $gray-600;
+    font-weight: 500;
+    font-size: 0.8rem;
+
+    &:before,
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      border-bottom: 1px dashed #ccc;
+      width: 220px;
+      bottom: 9px;
+      left: 0;
+    }
+
+    &:after {
+      left: unset;
+      right: 0;
+    }
+  }
+
+  @include sm-max {
+    .form-inline .form-control {
+      width: 180px;
+    }
+
+    p.label-suggestion {
+
+      &:before,
+      &:after {
+        width: 120px;
+      }
+    }
+  }
+
+  .card-section {
+    height: calc(100vh - 153px);
+    overflow-y: auto;
+
+    .card {
+      @include border-radius(5px);
+
+      &:hover {
+        border: 1px solid #7d8bd8;
+        @include transition(border 0.4s);
+      }
+
+      &.order-card {
+        &.active {
+          background-color: $gray-30;
+          border: 1px solid #7d8bd8;
+          @include transition(background-color 0.4s, border 0.4s);
+
+          .card-heading {
+            border-bottom: 1px solid #7d8bd8 !important;
+            @include transition(border 0.4s);
+          }
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 1280px) {
+
+    .card-section {
+      height: calc(100vh - 165px);
+    }
+  }
+
+  .suggestion {
+    .suggestion-body {
+      height: calc(100vh - 269px);
+      overflow: auto;
+
+      a {
+        @include no-select;
+      }
+    }
+  }
+}
+
+.select-section-popup {
+  .modal-body {
+    .section-name {
+      margin-bottom: 10px;
+      color: #333333;
+      font-size: 14px;
+      font-weight: 600;
+
+      i {
+        font-size: 16px;
+        color: #04abdf;
+      }
+
+      &:hover {
+        color: #04abdf;
+      }
+    }
+  }
+}
+
+.order-content {
+  .card {
+    .card-header {
+      .nav {
+        .nav-item {
+          width: 20%;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+.order-dropdown {
+  .dropdown-menu {
+
+    li {
+      padding: 0.25rem 0.5rem;
+
+      a {
+        &:hover {
+          color: $white !important;
+        }
+      }
+
+      &:hover {
+        background: $secondary;
+
+        a {
+          &:hover {
+            color: $white !important;
+          }
+        }
+      }
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: $white;
+        background: $secondary;
+      }
+    }
+  }
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.order-body {
+  height: calc(100vh - 147px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+:host ::ng-deep {
+  .order-wrapper {
+    .form-inline {
+      .form-group {
+        margin-bottom: 0 !important;
+
+        .ng-select {
+          min-width: 230px;
+        }
+      }
+    }
+  }
+}

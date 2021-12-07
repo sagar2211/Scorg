@@ -1,0 +1,34 @@
+<div class="modal-body history_height p-2" *ngIf="historyData && historyData.Data.length>0;else noDataTemplate">
+  <p class="text-primary font-weight-500 text-right"><i class="icon fa-fw icon-calendar-alt"></i> History Date : {{historyDateString}}</p>
+  <div class="form-row border border-bottom-0 font-size-dot-875 font-weight-500 mx-0 mt-3">
+    <div class="col-4 border-right text-center">Schedule Time</div>
+    <div class="col-3 text-center">Delay Time<small class="text-muted">(Min)</small></div>
+    <div class="col-5 text-center border-left">Remark</div>
+  </div>
+  <div class="form-row border mx-0 text-center" *ngFor="let history of historyData?.Data">
+    <div class="col-4 border-right">
+      <span>{{history.from_time}}-{{history.to_time}}</span>
+    </div>
+    <div class="ml-auto border-left" class="col-8">
+      <div class="form-row">
+        <span class="time-width border-right">
+          {{history.time_delay}}
+        </span>
+        <span class="col">
+          {{history.remarks}}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #noDataTemplate>
+  <div class="history_height px-2">
+    <div class="form-row align-items-center h-100 justify-content-center">
+      <div class="no-data w-50 mx-auto mb-0"><span aria-hidden="true" class="fa-stack fa-2x"><i class="fa fa-clipboard"
+            aria-hidden="true"></i><i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse"
+            aria-hidden="true"></i></span>
+        <p>No Data Found !!</p>
+      </div>
+    </div>
+  </div>
+</ng-template>

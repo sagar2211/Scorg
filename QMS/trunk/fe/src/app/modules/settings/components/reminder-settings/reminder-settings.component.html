@@ -1,0 +1,381 @@
+<div class="card border-top-0 border-bottom-0 border-right-0 mx-2">
+    <div class="card-header border-dash-bottom py-2">
+        <h6 class="mb-0">Reminder Setting For SMS and Email Template</h6>
+    </div>
+    <div class="card-body reminder-setting">
+        <ngb-tabset #tab="ngbTabset">
+            <ngb-tab id="hospital" class="custom-nav-tabs">
+                <ng-template ngbTabTitle class="nav-item">Hospital</ng-template>
+                <ng-template ngbTabContent>
+                    <div class="container-fluid pt-3 tab-content-height">
+                        <div class="form-row form-group" *ngFor="let remItem of saveObjForDefaultTemplate.hospital.reminderSettingVal; let remi= index; last as last;">
+                            <div class="col-3">
+                                <label for="reminder_setting">Reminder setting for</label>
+                                <select class="form-control form-control-sm" [(ngModel)]="remItem.key" (change)="checkExistReminderSettings('hospital', remItem, 0, remi)">
+                  <option *ngFor="let reminderFor of reminderKeyArray" value={{reminderFor}}>
+                    {{reminderFor}}
+                  </option>
+                </select>
+                            </div>
+                            <div class="col-3">
+                                <label for="value">Value</label>
+                                <input class="form-control form-control-sm" type="number" name="reminderValue{{remi}}" placeholder="" [(ngModel)]="remItem.value" (change)="checkExistReminderSettings('hospital', remItem, 0, remi)">
+                                <small class="text-danger" *ngIf="">
+                  valid!</small>
+                            </div>
+                            <div class="col col-btn align-self-end">
+                                <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}" (click)="addNewReminderSection('hospital_reminder',0, remi);" type="button"> <i
+                    class="fas fa-fw fa-plus"></i></button>
+                                <!-- *ngIf="saveObjForDefaultTemplate.hospital.reminderSettingVal.length!==1" -->
+                                <button class="btn btn-sm btn-danger text-uppercase" (click)="deleteReminderSection('hospital_reminder', 0, remi, remItem);" type="button">
+                  <i class="icon fa-fw icon-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab id="department">
+                <ng-template ngbTabTitle>Department</ng-template>
+                <ng-template ngbTabContent>
+                    <div class="container-fluid pt-3 tab-content-height">
+                        <div class="form-row form-group" *ngFor="let item of saveObjForDefaultTemplate.department; let i= index; last as last;">
+                            <div class="col-3">
+                                <label for="department">Department</label>
+                                <app-ng-select-typeahead [inputValue]="item.department?.id" [selectedValue]="item.department?.name" [displayList]="departmentmasteList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Department'" (recievedVal)="selectDepartment($event , i)"
+                                    [returnDataType]="'obj'" [isDisabled]="item.editId">
+                                </app-ng-select-typeahead>
+                            </div>
+                            <div class="col col-btn mt-custom-1-2">
+                                <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}" (click)="addNewSection('department', i);formLoad=false;" type="button"> <i class="fas fa-fw fa-plus"></i></button>
+                                <button class="btn btn-sm btn-danger text-uppercase" (click)="deleteSection('department', i, item);formLoad=true;" type="button">
+                  <i class="icon fa-fw icon-trash"></i></button>
+                            </div>
+                            <div class="col-7">
+                                <div class="form-row form-group" *ngFor="let remItem of item.reminderSettingVal; let remi = index; last as last;">
+                                    <div class="col-5">
+                                        <label for="reminder_setting">Reminder setting for</label>
+                                        <select class="form-control form-control-sm" [(ngModel)]="remItem.key" (change)="checkExistReminderSettings('department', remItem, i, remi)">
+                      <option *ngFor="let reminderFor of reminderKeyArray" value={{reminderFor}}>
+                        {{reminderFor}}
+                      </option>
+                    </select>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="value">Value</label>
+                                        <input class="form-control form-control-sm" type="number" name="reminderValue{{remi}}" placeholder="" [(ngModel)]="remItem.value" (change)="checkExistReminderSettings('department', remItem, i, remi)">
+                                        <!-- <small class="text-danger"
+                  *ngIf="remItem.value <= 0">
+                please enter !</small> -->
+                                    </div>
+                                    <div class="col col-btn align-self-end">
+                                        <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}" (click)="addNewReminderSection('department_reminder', i, remi);" type="button"> <i
+                        class="fas fa-fw fa-plus"></i></button>
+                                        <button class="btn btn-sm btn-danger text-uppercase" *ngIf="item.reminderSettingVal.length!==1" (click)="deleteReminderSection('department_reminder', i, remi, item);" type="button">
+                      <i class="icon fa-fw icon-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab id="entity">
+                <ng-template ngbTabTitle>Provider</ng-template>
+                <ng-template ngbTabContent>
+                    <div class="container-fluid pt-3 tab-content-height">
+                        <div class="form-row form-group" *ngFor="let item of saveObjForDefaultTemplate.entity; let i= index; last as last;">
+                            <div class="col-2">
+                                <label for="entity_type">Provider Type</label>
+                                <app-entity [disableEntity]="item.editId" (selectedEntityObj)="getEntityData($event, i)" [setEntity]="item.entity">
+                                </app-entity>
+                            </div>
+                            <div class="col-3">
+                                <label for="provider">Provider</label>
+                                <app-entity-value [disableEntity]="!item.entity || item.editId" [selectedEntity]="item.entity" [selectedSpeciality]="null" [searchStringEdit]="" (selectedEntityValueObj)="getEntityValue($event, i)" [setValue]="item.entityVal">
+                                </app-entity-value>
+                            </div>
+                            <div class="col col-btn mt-custom-1-2">
+                                <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}" (click)="addNewSection('entity', i);formLoad=false;" type="button"> <i class="fas fa-fw fa-plus"></i></button>
+                                <button class="btn btn-sm btn-danger text-uppercase" (click)="deleteSection('entity', i, item);formLoad=true;" type="button">
+                  <i class="icon fa-fw icon-trash"></i></button>
+                            </div>
+                            <div class="col">
+                                <div class="form-row form-group" *ngFor="let remItem of item.reminderSettingVal; let remi = index; last as last;">
+                                    <div class="col-5">
+                                        <label for="reminder_setting">Reminder setting for</label>
+                                        <select class="form-control form-control-sm" [(ngModel)]="remItem.key" (change)="checkExistReminderSettings('entity', remItem, i, remi)">
+                      <option *ngFor="let reminderFor of reminderKeyArray" value={{reminderFor}}>
+                        {{reminderFor}}
+                      </option>
+                    </select>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="value">Value</label>
+                                        <input class="form-control form-control-sm" type="number" name="reminderValue{{remi}}" placeholder="" [(ngModel)]="remItem.value" (change)="checkExistReminderSettings('entity', remItem, i, remi)">
+                                        <small class="text-danger" *ngIf="">
+                      valid!</small>
+                                    </div>
+                                    <div class="col col-btn align-self-end">
+                                        <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}" (click)="addNewReminderSection('entity_reminder', i, remi);" type="button"> <i
+                        class="fas fa-fw fa-plus"></i></button>
+                                        <button class="btn btn-sm btn-danger text-uppercase" *ngIf="item.reminderSettingVal.length!==1" (click)="deleteReminderSection('entity_reminder', i, remi, item);" type="button">
+                      <i class="icon fa-fw icon-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab id="appointmentType">
+                <ng-template ngbTabTitle>Appointment Type</ng-template>
+                <ng-template ngbTabContent>
+                    <div class="container-fluid pt-3 tab-content-height">
+                        <div class="form-row form-group" *ngFor="let item of saveObjForDefaultTemplate.appoitmentType; let i= index; last as last;">
+                            <div class="col-3">
+                                <label for="appointment_type">Appointment Type</label>
+                                <app-ng-select-typeahead [inputValue]="item.appoitmentType?.id" [displayList]="appointmentTypeList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Appointment Type'" (recievedVal)="selectAppointmentType($event , i)" [returnDataType]="'obj'"
+                                    [isDisabled]="item.editId">
+                                </app-ng-select-typeahead>
+                            </div>
+                            <div class="col col-btn mt-custom-1-2">
+                                <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}" (click)="addNewSection('appointment_type', i);formLoad=false;" type="button"> <i
+                    class="fas fa-fw fa-plus"></i></button>
+                                <button class="btn btn-sm btn-danger text-uppercase" (click)="deleteSection('appointment_type', i, item);formLoad=true;" type="button">
+                  <i class="icon fa-fw icon-trash"></i></button>
+                            </div>
+                            <div class="col-7">
+                                <div class="form-row form-group" *ngFor="let remItem of item.reminderSettingVal; let remi = index; last as last;">
+                                    <div class="col-5">
+                                        <label for="reminder_setting">Reminder setting for</label>
+                                        <select class="form-control form-control-sm" [(ngModel)]="remItem.key" (change)="checkExistReminderSettings('appointment_type', remItem, i, remi)">
+                      <option *ngFor="let reminderFor of reminderKeyArray" value={{reminderFor}}>
+                        {{reminderFor}}
+                      </option>
+                    </select>
+                                    </div>
+                                    <div class="col-4">
+                                        <label for="value">Value</label>
+                                        <input class="form-control form-control-sm" type="number" name="reminderValue{{remi}}" placeholder="" [(ngModel)]="remItem.value" (change)="checkExistReminderSettings('appointment_type', remItem, i, remi)">
+                                        <small class="text-danger" *ngIf="">
+                      valid!</small>
+                                    </div>
+                                    <div class="col col-btn align-self-end">
+                                        <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}" (click)="addNewReminderSection('appointment_type_reminder', i, remi);" type="button"> <i
+                        class="fas fa-fw fa-plus"></i></button>
+                                        <button class="btn btn-sm btn-danger text-uppercase" *ngIf="item.reminderSettingVal.length!==1" (click)="deleteReminderSection('appointment_type_reminder', i, remi, item);" type="button">
+                      <i class="icon fa-fw icon-trash"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-tab>
+        </ngb-tabset>
+
+        <!-- <div class="form-group form-gender">
+      <label class="d-block" for="slot">Select Type<sup>*</sup></label>
+      <div class="custom-control custom-radio custom-control-inline" *ngFor="let item of reminderSettingsFor">
+        <input type="radio" class="custom-control-input" id="{{item.key}}" [(ngModel)]="reminderSettingSetAs"
+          value="{{item.key}}">
+        <label class="custom-control-label pointer" for="{{item.key}}">{{item.name}}</label>
+      </div>
+    </div> -->
+
+        <!-- <div class="form-row mt-4">
+      <div class="col-12" [hidden]="reminderSettingSetAs !== 'hospital'">
+        <div class="form-row form-group"
+          *ngFor="let remItem of saveObjForDefaultTemplate.hospital.reminderSettingVal; let remi= index; last as last;">
+          <div class="col-2">
+            <label for="reminder_setting">Reminder setting for</label>
+            <select class="form-control form-control-sm" [(ngModel)]="remItem.key"
+              (change)="checkExistReminderSettings('hospital', remItem, 0, remi)">
+              <option *ngFor="let reminderFor of reminderKeyArray" value={{reminderFor}}>
+                {{reminderFor}}
+              </option>
+            </select>
+          </div>
+          <div class="col-2">
+            <label for="value">Value</label>
+            <input class="form-control form-control-sm" type="number" name="reminderValue{{remi}}" placeholder=""
+              [(ngModel)]="remItem.value" (change)="checkExistReminderSettings('hospital', remItem, 0, remi)">
+            <small class="text-danger" *ngIf="">
+              valid!</small>
+          </div>
+          <div class="col-2 align-self-end">
+            <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}"
+              (click)="addNewReminderSection('hospital_reminder',0, remi);" type="button"> <i
+                class="fas fa-fw fa-plus"></i></button>
+            <button class="btn btn-sm btn-danger text-uppercase"
+              *ngIf="saveObjForDefaultTemplate.hospital.reminderSettingVal.length!==1"
+              (click)="deleteReminderSection('hospital_reminder', 0, remi, remItem);" type="button">
+              <i class="icon fa-fw icon-trash"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12" [hidden]="reminderSettingSetAs !== 'department'">
+        <div class="form-row form-group"
+          *ngFor="let item of saveObjForDefaultTemplate.department; let i= index; last as last;">
+          <div class="col-2">
+            <label for="department">Department</label>
+            <app-ng-select-typeahead [inputValue]="item.department?.id" [selectedValue]="item.department?.name"
+              [displayList]="departmentmasteList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'"
+              [source]="'Department'" (recievedVal)="selectDepartment($event , i)" [returnDataType]="'obj'"
+              [isDisabled]="item.editId">
+            </app-ng-select-typeahead>
+          </div>
+          <div class="col-1 mt-custom-1-2">
+            <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}"
+              (click)="addNewSection('department', i);" type="button"> <i class="fas fa-fw fa-plus"></i></button>
+            <button class="btn btn-sm btn-danger text-uppercase" (click)="deleteSection('department', i, item);"
+              type="button">
+              <i class="icon fa-fw icon-trash"></i></button>
+          </div>
+          <div class="col-5">
+            <div class="form-row form-group"
+              *ngFor="let remItem of item.reminderSettingVal; let remi = index; last as last;">
+              <div class="col-5">
+                <label for="reminder_setting">Reminder setting for</label>
+                <select class="form-control form-control-sm" [(ngModel)]="remItem.key"
+                  (change)="checkExistReminderSettings('department', remItem, i, remi)">
+                  <option *ngFor="let reminderFor of reminderKeyArray" value={{reminderFor}}>
+                    {{reminderFor}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-5">
+                <label for="value">Value</label>
+                <input class="form-control form-control-sm" type="number" name="reminderValue{{remi}}" placeholder=""
+                  [(ngModel)]="remItem.value" (change)="checkExistReminderSettings('department', remItem, i, remi)">
+              </div>
+              <div class="col-2 align-self-end">
+                <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}"
+                  (click)="addNewReminderSection('department_reminder', i, remi);" type="button"> <i
+                    class="fas fa-fw fa-plus"></i></button>
+                <button class="btn btn-sm btn-danger text-uppercase" *ngIf="item.reminderSettingVal.length!==1"
+                  (click)="deleteReminderSection('department_reminder', i, remi, item);" type="button">
+                  <i class="icon fa-fw icon-trash"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12" [hidden]="reminderSettingSetAs !== 'entity'">
+        <div class="form-row form-group"
+          *ngFor="let item of saveObjForDefaultTemplate.entity; let i= index; last as last;">
+          <div class="col-2">
+            <label for="entity_type">Entity Type</label>
+            <app-entity [disableEntity]="item.editId" (selectedEntityObj)="getEntityData($event, i)"
+              [setEntity]="item.entity">
+            </app-entity>
+          </div>
+          <div class="col-2">
+            <label for="provider">Provider</label>
+            <app-entity-value [disableEntity]="!item.entity || item.editId" [selectedEntity]="item.entity"
+              [selectedSpeciality]="null" [searchStringEdit]="" (selectedEntityValueObj)="getEntityValue($event, i)"
+              [setValue]="item.entityVal">
+            </app-entity-value>
+          </div>
+          <div class="col-1 mt-custom-1-2">
+            <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}"
+              (click)="addNewSection('entity', i);" type="button"> <i class="fas fa-fw fa-plus"></i></button>
+            <button class="btn btn-sm btn-danger text-uppercase" (click)="deleteSection('entity', i, item);"
+              type="button">
+              <i class="icon fa-fw icon-trash"></i></button>
+          </div>
+          <div class="col-5">
+            <div class="form-row form-group"
+              *ngFor="let remItem of item.reminderSettingVal; let remi = index; last as last;">
+              <div class="col-5">
+                <label for="reminder_setting">Reminder setting for</label>
+                <select class="form-control form-control-sm" [(ngModel)]="remItem.key"
+                  (change)="checkExistReminderSettings('entity', remItem, i, remi)">
+                  <option *ngFor="let reminderFor of reminderKeyArray" value={{reminderFor}}>
+                    {{reminderFor}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-5">
+                <label for="value">Value</label>
+                <input class="form-control form-control-sm" type="number" name="reminderValue{{remi}}" placeholder=""
+                  [(ngModel)]="remItem.value" (change)="checkExistReminderSettings('entity', remItem, i, remi)">
+                <small class="text-danger" *ngIf="">
+                  valid!</small>
+              </div>
+              <div class="col-2 align-self-end">
+                <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}"
+                  (click)="addNewReminderSection('entity_reminder', i, remi);" type="button"> <i
+                    class="fas fa-fw fa-plus"></i></button>
+                <button class="btn btn-sm btn-danger text-uppercase" *ngIf="item.reminderSettingVal.length!==1"
+                  (click)="deleteReminderSection('entity_reminder', i, remi, item);" type="button">
+                  <i class="icon fa-fw icon-trash"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12" [hidden]="reminderSettingSetAs !== 'appointment_type'">
+        <div class="form-row form-group"
+          *ngFor="let item of saveObjForDefaultTemplate.appoitmentType; let i= index; last as last;">
+          <div class="col-2">
+            <label for="appointment_type">Appointment Type</label>
+            <app-ng-select-typeahead [inputValue]="item.appoitmentType?.id" [displayList]="appointmentTypeList"
+              [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Appointment Type'"
+              (recievedVal)="selectAppointmentType($event , i)" [returnDataType]="'obj'" [isDisabled]="item.editId">
+            </app-ng-select-typeahead>
+          </div>
+          <div class="col-1 mt-custom-1-2">
+            <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}"
+              (click)="addNewSection('appointment_type', i);" type="button"> <i class="fas fa-fw fa-plus"></i></button>
+            <button class="btn btn-sm btn-danger text-uppercase" (click)="deleteSection('appointment_type', i, item);"
+              type="button">
+              <i class="icon fa-fw icon-trash"></i></button>
+          </div>
+          <div class="col-5">
+            <div class="form-row form-group"
+              *ngFor="let remItem of item.reminderSettingVal; let remi = index; last as last;">
+              <div class="col-5">
+                <label for="reminder_setting">Reminder setting for</label>
+                <select class="form-control form-control-sm" [(ngModel)]="remItem.key"
+                  (change)="checkExistReminderSettings('appointment_type', remItem, i, remi)">
+                  <option *ngFor="let reminderFor of reminderKeyArray" value={{reminderFor}}>
+                    {{reminderFor}}
+                  </option>
+                </select>
+              </div>
+              <div class="col-5">
+                <label for="value">Value</label>
+                <input class="form-control form-control-sm" type="number" name="reminderValue{{remi}}" placeholder=""
+                  [(ngModel)]="remItem.value"
+                  (change)="checkExistReminderSettings('appointment_type', remItem, i, remi)">
+                <small class="text-danger" *ngIf="">
+                  valid!</small>
+              </div>
+              <div class="col-2 align-self-end">
+                <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}"
+                  (click)="addNewReminderSection('appointment_type_reminder', i, remi);" type="button"> <i
+                    class="fas fa-fw fa-plus"></i></button>
+                <button class="btn btn-sm btn-danger text-uppercase" *ngIf="item.reminderSettingVal.length!==1"
+                  (click)="deleteReminderSection('appointment_type_reminder', i, remi, item);" type="button">
+                  <i class="icon fa-fw icon-trash"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div> -->
+
+    </div>
+    <div class="card-footer text-right py-1">
+        <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase mr-2">
+      Cancel</button>
+        <button type="button" [disabled]="!formLoad || editPermission" (click)="saveReminderSettingTemplateData()" class="btn btn-sm btn-success text-uppercase">
+      <i class="icon fa-fw icon-save"></i> SAVE</button>
+    </div>
+    <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</div>

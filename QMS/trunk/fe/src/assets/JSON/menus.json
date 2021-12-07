@@ -1,0 +1,155 @@
+[
+  {
+    "menu_name": "Initial Assessment",
+    "fav_key": "initialAssessment",
+    "router_link": "initialAssessment",
+    "logo_img_path": "/patient-menu/second-image.png",
+    "is_show": true,
+    "display_on_menu": true,
+    "isView":false
+  },
+  {
+    "menu_name": "Dashboard",
+    "fav_key": "patientDashboard",
+    "router_link": "pDefaultDashboard",
+    "logo_img_path": "/patient-menu/dashboard.png",
+    "is_show": true,
+    "display_on_menu": true,
+    "isView":false
+  },
+  {
+    "menu_name": "History",
+    "fav_key": "consultationHistory",
+    "router_link": "consultationHistory",
+    "logo_img_path": "/patient-menu/summary-timeline.png",
+    "is_show": true,
+    "display_on_menu": true,
+    "isView":false
+  },
+  {
+    "menu_name": "Orders",
+    "fav_key": "orders",
+    "router_link": "orders",
+    "logo_img_path": "/patient-menu/order.png",
+    "is_show": true,
+    "display_on_menu": true,
+    "isView":false
+  },
+  {
+    "menu_name": "Progress Notes",
+    "fav_key": "consultation",
+    "router_link": "consultation",
+    "logo_img_path": "/patient-menu/prog-notes.png",
+    "is_show": true,
+    "display_on_menu": true,
+    "isView":false
+  },
+  {
+    "menu_name": "Nursing Notes",
+    "fav_key": "nursingNotes",
+    "router_link": "nursingNotes",
+    "logo_img_path": "/patient-menu/nursing.png",
+    "is_show": true,
+    "display_on_menu": true,
+    "isView":false
+  },
+  {
+    "menu_name": "ICU Flow Sheet",
+    "fav_key": "icuFlowSheet",
+    "router_link": "icuFlowSheet",
+    "logo_img_path": "/patient-menu/flowsheet.png",
+    "is_show": true,
+    "display_on_menu": true,
+    "isView":false
+  },
+  {
+    "menu_name": "ICU VITAL Sheet",
+    "fav_key": "icuVitalSheet",
+    "router_link": "icuvitalschart",
+    "logo_img_path": "/patient-menu/vital.png",
+    "is_show": true,
+    "display_on_menu": true,
+    "isView":false
+  },
+  {
+    "menu_name": "MAR",
+    "fav_key": "mar",
+    "router_link": "mar",
+    "logo_img_path": "/patient-menu/mar.png",
+    "is_show": true,
+    "display_on_menu": true,
+    "isView":false
+  },
+  {
+    "menu_name": "Diagnosis",
+    "fav_key": "diagnosis",
+    "router_link": "diagnosis",
+    "logo_img_path": "/patient-menu/diagnosis.png",
+    "is_show": true,
+    "display_on_menu": true,
+    "isView":false
+  },
+  {
+    "menu_name": "Documents",
+    "fav_key": "documents",
+    "router_link": "documents",
+    "logo_img_path": "/patient-menu/documents.png",
+    "is_show": true,
+    "display_on_menu": true,
+    "isView":false
+  },
+  {
+    "menu_name": "PACS",
+    "fav_key": "pacs",
+    "router_link": "",
+    "logo_img_path": "/patient-menu/lab-result.png",
+    "is_show": true,
+    "display_on_menu": true,
+    "isView":false
+  },
+  {
+    "menu_name": "Live ICU Monitor",
+    "fav_key": "icuMonitor",
+    "router_link": "icu",
+    "logo_img_path": "/patient-menu/lab-result.png",
+    "is_show": true,
+    "display_on_menu": true,
+    "isView":false
+  },
+  {
+    "menu_name": "Intake/Output",
+    "fav_key": "nursingReport",
+    "router_link": "nursingReport",
+    "logo_img_path": "/patient-menu/output.png",
+    "is_show": true,
+    "display_on_menu": true,
+    "isView":false
+  },
+  {
+    "menu_name": "Care Team",
+    "fav_key": "careTeam",
+    "router_link": "careTeam",
+    "logo_img_path": "/patient-menu/care-team.png",
+    "is_show": true,
+    "display_on_menu": true,
+    "isView":false
+  },
+  {
+    "menu_name": "Diabetic Chart",
+    "fav_key": "diabetic_chart",
+    "router_link": "diabeticChart",
+    "logo_img_path": "/patient-menu/writing-notes.png",
+    "is_show": true,
+    "display_on_menu": false,
+    "isView":false
+  },
+  {
+    "menu_name": "Assessment Chart",
+    "fav_key": "assessment_chart",
+    "router_link": "assessmentChart",
+    "logo_img_path": "/patient-menu/writing-notes.png",
+    "is_show": true,
+    "display_on_menu": false,
+    "isView":false
+  }
+]

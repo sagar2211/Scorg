@@ -1,0 +1,95 @@
+<div class="custom-container-fluid mx-2" [@fadeInOut]>
+  <div class="card-header p-1 border-dash-bottom">
+    <button title="Back" class="btn btn-sm border-0 back-arrow-btn" (click)="redirectToRoomList();" type="button"><i
+        class="icon fa-fw icon-arrow" aria-hidden="true"></i>
+    </button>
+    <h6 class="mb-0 d-inline-block align-middle"> {{editMode ? 'Edit': addroomFromSchedule ? 'Add' : 'Add'}} Provider Room Map</h6>
+  </div>
+  <div class="card-body entity-room-map py-2">
+    <div class="form-row align-items-center" *ngIf="loadForm">
+      <div class="col-3 form-group">
+        <label for="entity_type">Provider Type </label>
+        <p class="edit-input mb-0" *ngIf="editMode || addroomFromSchedule">{{this.entityRoomMapForm.selectedEntity.name}}</p>
+        <app-entity *ngIf="!editMode && !addroomFromSchedule" [disableEntity]="false" (selectedEntityObj)="getEntityData($event)"
+          [setEntity]="null"></app-entity>
+        <!-- <h6 class="ml-1 font-weight-500 d-inline" *ngIf="editMode">{{this.entityRoomMapForm.selectedEntity.name}}</h6> -->
+      </div>
+      <div class="col-3 form-group">
+        <label for="provider">Provider </label>
+        <p class="edit-input mb-0" *ngIf="editMode || addroomFromSchedule">{{this.entityRoomMapForm.selectedEntityValue.name}}</p>
+        <app-entity-value *ngIf="!editMode && !addroomFromSchedule" [disableEntity]="checkEmpty(entityRoomMapForm.selectedEntity)"
+          [selectedEntity]="entityRoomMapForm.selectedEntity" [selectedSpeciality]="null" [searchStringEdit]=""
+          (selectedEntityValueObj)="getEntityValue($event)" [setValue]="null">
+        </app-entity-value>
+        <!-- <h6 class="ml-1 font-weight-500 d-inline" *ngIf="editMode">{{this.entityRoomMapForm.selectedEntityValue.name}}
+        </h6> -->
+      </div>
+      <div class="col-3 form-group">
+        <label for="room-map">Room List</label>
+        <app-room-multiple [disableRoom]="false" [setRoomList]="entityRoomMapForm.selectedEntityRoomList"
+          (selectedRoomList)="updateSelectedRoomListToentity($event)">
+        </app-room-multiple>
+      </div>
+      <div class="col-3 form-group">
+        <div class="custom-control custom-checkbox custom-control-inline mt-custom-1-2">
+          <input type="checkbox" [disabled]="checkEmpty(entityRoomMapForm.selectedEntityRoomList)"
+            [(ngModel)]="entityRoomMapForm.applyToAllSchedules" (ngModelChange)="updateAllSchedule()"
+            class="custom-control-input" id="entity-map">
+          <label class="custom-control-label pointer pl-1" for="entity-map">Apply For All</label>
+        </div>
+      </div>
+      <div class="col-12 entity-room-details pt-2" *ngIf="!checkEmpty(entityRoomMapForm.timeScheduleList)">
+        <div *ngFor="let scheduleMain of entityRoomMapForm.timeScheduleList; let i=index; last as last;">
+          <h6 class="border-dash-bottom pb-1 font-size-dot-875 mb-0"><i class="icon icon-calendar-alt fa-fw"
+              aria-hidden="true"></i>
+            <span> {{scheduleMain.startDate | date: "dd-MM-yyyy"}}</span> - <span
+              *ngIf="scheduleMain.endDate">{{scheduleMain.endDate | date: "dd-MM-yyyy"}}</span> <span
+              *ngIf="!scheduleMain.endDate">Till Now</span>
+          </h6>
+          <div class="card-body pb-2">
+            <div class="form-row">
+              <div class="col-4 mb-3"
+                *ngFor="let scheduleType of scheduleMain.appointmentTypeTimeArray; let k=index; last as last;">
+                <div class="card custom-card">
+                  <div class="card-body">
+                    <div class="form-row form-group">
+                      <div class="col-6">
+                        <p class="mb-0 font-size-dot-875 font-weight-500">{{scheduleType.appointmentType.name}}
+                        </p>
+                      </div>
+                      <div class="col-6">
+                        <p class="mb-0 font-size-dot-875 text-muted text-right"><i class="far fa-clock fa-fw"></i>
+                          {{getTimeByTimeFormatSetting(scheduleType.startTime)}}
+                          - {{getTimeByTimeFormatSetting(scheduleType.endTime)}}</p>
+                      </div>
+                    </div>
+                    <app-room-multiple [disableRoom]="disableAllRoomListVal"
+                      [setRoomList]="scheduleType.selectedRoomList"
+                      (selectedRoomList)="updateSelectedRoomList($event, i, k)">
+                    </app-room-multiple>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 mt-4" *ngIf="!checkHaveSchedule">
+        <div class="no-data w-20 text-center m-auto">
+          <span aria-hidden="true" class="fa-stack fa-2x"><i class="fa fa-clipboard" aria-hidden="true"></i>
+            <i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse" aria-hidden="true"></i></span>
+          <p> No Schedule Found! </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-right py-1" *ngIf="checkHaveSchedule">
+    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase mr-2" (click)="redirectToRoomList();">
+      Cancel</button>
+    <button *ngIf="editMode" class="btn btn-sm btn-success text-uppercase" (click)="saveEntityRoomData()"><i
+        class="fas fa-fw fa-sync-alt"></i> Update</button>
+    <button *ngIf="!editMode || addroomFromSchedule" class="btn btn-sm btn-success text-uppercase" (click)="saveEntityRoomData()"><i
+        class="icon fa-fw icon-save"></i> Save</button>
+  </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

@@ -1,0 +1,116 @@
+@import "./../../../../scss/custom_bootstrap_theme.scss";
+
+.vitals-chart {
+  .table-editable {
+    height: calc(100vh - 166px);
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      height: 12px !important;
+    }
+  
+    &::-moz-scrollbar {
+      height: 12px !important;
+    }
+    .green {
+      display: flex;
+      width: -webkit-fill-available;
+      height: auto;
+      color: green;
+    }
+
+    input.green {
+      display: flex;
+      width: 50px;
+      height: auto;
+      outline: none;
+      border-top: none;
+      border-right: none;
+      border-left: none;
+      border-image: initial;
+      border-bottom: 1px solid rgb(4, 171, 223);
+      background-color: transparent;
+      color: green;
+    }
+
+    .red {
+      display: flex;
+      width: -webkit-fill-available;
+      height: auto;
+      color: red;
+    }
+
+    input.red {
+      display: flex;
+      width: 50px;
+      height: auto;
+      outline: none;
+      border-top: none;
+      border-right: none;
+      border-left: none;
+      border-image: initial;
+      border-bottom: 1px solid rgb(4, 171, 223);
+      background-color: transparent;
+      color: red;
+    }
+
+    .orange {
+      display: flex;
+      width: -webkit-fill-available;
+      height: auto;
+      color: rgb(255, 165, 0);
+    }
+
+    input.orange {
+      display: flex;
+      width: 50px;
+      height: auto;
+      outline: none;
+      border-top: none;
+      border-right: none;
+      border-left: none;
+      border-image: initial;
+      border-bottom: 1px solid rgb(4, 171, 223);
+      background-color: transparent;
+      color: rgb(255, 165, 0);
+    }
+
+    .black {
+      display: flex;
+      width: -webkit-fill-available;
+      height: auto;
+      color: black;
+    }
+
+    input.black {
+      display: flex;
+      width: 50px;
+      height: auto;
+      outline: none;
+      border-top: none;
+      border-right: none;
+      border-left: none;
+      border-image: initial;
+      border-bottom: 1px solid rgb(4, 171, 223);
+      background-color: transparent;
+      color: red;
+    }
+  }
+
+  .table {
+    .head {
+      background-color: rgba(63, 81, 181, 0.06);
+      th {
+        border-top: 0 !important;
+        padding: 0.5rem;
+      }
+    }
+    .vital-body {
+      &:nth-of-type(even) {
+        background-color: rgba($primary, 0.02);
+      }
+      td {
+        padding: 0.5rem;
+      }
+    }
+  }
+}

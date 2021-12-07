@@ -1,0 +1,414 @@
+@import "../../../../../scss/main";
+
+:host ::ng-deep {
+  .admin-dashboard {
+    .hidden {
+      display: none;
+    }
+
+    .top-form-row {
+      .custom-border-radius {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+      .custom-padding {
+        padding-left: 0.5625rem;
+        padding-right: 0.5625rem;
+      }
+    }
+
+    .form-row {
+      .card {
+        @include border-radius(5px);
+        @include transition(box-shadow 0.2s ease-in);
+        @include custom-box-shadow(0, 0, 3px, rgba(28, 25, 83, 0.15));
+
+        &:hover {
+          @include transition(box-shadow 0.3s ease);
+          @include custom-box-shadow(0, 0, 6px, rgba(28, 25, 83, 0.3));
+        }
+
+        .card-header {
+          @include border-top-left-radius(5px);
+          @include border-top-right-radius(5px);
+
+          .form-row {
+            .col {
+              h6 {
+
+                &:after {
+                  content: "";
+                  display: inherit;
+                  width: 50px;
+                  margin-top: 2px;
+                  border-bottom: 1px solid $gray-900;
+                }
+
+                .vs {
+                  font-size: 70%;
+                }
+
+                .bracket {
+                  opacity: 0.7;
+                  font-size: 70%;
+                  color: $primary;
+                }
+              }
+            }
+
+            .col-accordion {
+              flex: 0 0 42px;
+              max-width: 42px;
+            }
+
+            .col-switch {
+              flex: 0 0 72px;
+              max-width: 72px;
+
+              .btn-xs {
+                min-width: 65px;
+                text-align: left;
+              }
+            }
+          }
+        }
+
+        .card-body {
+          min-height: 90px;
+          h2 {
+            color: $primary;
+            font-size: 2.5rem;
+            font-weight: 100;
+
+            span {
+              line-height: 30px;
+            }
+          }
+        }
+
+        .card-footer {
+          @include border-bottom-left-radius(5px);
+          @include border-bottom-right-radius(5px);
+
+          * {
+            line-height: 1.2;
+          }
+        }
+
+        .bar {
+          font-size: 0.7rem;
+
+          &:before {
+            content: "";
+            display: inline-block;
+            width: 9px;
+            height: 3px;
+            margin-right: 2px;
+            @include border-radius(5px);
+            vertical-align: middle;
+            margin-top: -2px;
+          }
+
+          &.primary-light:before {
+            background-color: $primary-light;
+          }
+
+          &.pink:before {
+            background-color: $pink;
+          }
+
+          &.teal:before {
+            background-color: $teal;
+          }
+        }
+
+        .large-rupee:before {
+          display: inline-block;
+          content: ' ';
+          background: transparent url('../../../../../assets/img/admin-dashboard/large-rupee.svg') no-repeat left top;
+          height: 29px;
+          width: 26px;
+        }
+
+        .small-rupee:before {
+          display: inline-block;
+          content: ' ';
+          background: transparent url('../../../../../assets/img/admin-dashboard/small-rupee.svg') no-repeat left top;
+          height: 12px;
+          width: 10px;
+        }
+
+        .btn-accordion {
+          &:before {
+            width: 22px;
+            height: 22px;
+            top: 6px;
+            left: 12px;
+            content: ' ';
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+            background: transparent url('../../../../../assets/img/admin-dashboard/accordion.svg') no-repeat left top;
+            -ms-transform: rotate(0deg);
+            transform: rotate(0deg);
+            @include transition(-ms-transform 0.2s ease-in, transform 0.2s ease-in);
+          }
+
+          &.active:before {
+            -ms-transform: rotate(180deg);
+            transform: rotate(180deg);
+            @include transition(-ms-transform 0.3s ease, transform 0.3s ease);
+          }
+        }
+      }
+    }
+
+    .card {
+      .card-body {
+
+        .custom-table thead tr th:not(:last-child),
+        .custom-table tbody tr td {
+          border-right: 0 !important;
+        }
+
+        .table-scroll {
+          z-index: 1;
+          height: calc(100vh - 268px);
+
+          table {
+
+            thead th {
+              position: -webkit-sticky;
+              position: sticky;
+              top: 0;
+
+              &:first-child {
+                position: -webkit-sticky;
+                position: sticky;
+                left: 0;
+                z-index: 2;
+                background-color: #f4f5fb;
+              }
+            }
+
+            tfoot,
+            tfoot tr td {
+              position: -webkit-sticky;
+              position: sticky;
+              bottom: 0;
+              background-color: #f4f5fb;
+              z-index: 4;
+              font-weight: 600;
+              padding: 5px !important;
+            }
+
+            thead tr th:first-child,
+            tfoot tr th:first-child {
+              z-index: 5;
+            }
+
+            tbody tr th {
+              @extend .p-1;
+              background-color: #f4f5fb;
+              border-bottom: 1px solid #dee2e6;
+            }
+
+            .small-rupee {
+              &:before {
+                width: 9px;
+                height: 10px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .card-revenue-summary {
+      .card-body {
+        .table-scroll {
+          table {
+            tbody tr {
+              &.header {
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+
+                &.active {
+                  td:first-child:before {
+                    -ms-transform: rotate(180deg);
+                    transform: rotate(180deg);
+                    @include transition(-ms-transform 0.3s ease, transform 0.3s ease);
+                  }
+                }
+
+                td:first-child:before {
+                  width: 22px;
+                  height: 22px;
+                  top: 6px;
+                  margin-top: -7px;
+                  margin-right: 4px;
+                  content: " ";
+                  position: relative;
+                  display: inline-block;
+                  background: transparent url('../../../../../assets/img/admin-dashboard/accordion.svg') no-repeat left top;
+                  -ms-transform: rotate(0deg);
+                  transform: rotate(0deg);
+                  @include transition(all 0.2s ease-in);
+                }
+              }
+
+              &.more {
+                overflow: hidden;
+                height: 0;
+                line-height: 0;
+                @include transition(all 0.2s ease-in);
+
+                &.active {
+                  overflow: unset;
+                  height: 34px;
+                  line-height: 1.2;
+                  @include transition(all 0.3s ease);
+
+                  td {
+                    border-top-width: 1px;
+                    padding: 2px !important;
+
+                    p {
+                      display: block;
+                    }
+                  }
+                }
+
+                td {
+                  border-top-width: 0px;
+                  padding: 0 !important;
+
+                  p {
+                    display: none;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .card-collection {
+      .card-body .table-scroll {
+        height: calc(100vh - 268px) !important;
+        tfoot{
+          border-top: 2px solid #dee2e6 !important;
+          }
+      }
+    }
+
+    .card-revenue-summary {
+      .card-body {
+        height: calc(100vh - 264px) !important;
+        overflow-y: auto;
+      }
+    }
+
+    .card-bed {
+      .card-body {
+        height: calc(100vh - 258px) !important;
+        overflow-y: auto;
+        .badge {
+          border-radius: 10px;
+          font-weight: 400 !important;
+          padding: 4px 9px !important;
+        }
+      }
+    }
+
+    .total-revenue-details,
+    .op-patient-details,
+    .ip-patient-details {
+      &.hide-details {
+        overflow: hidden;
+        min-height: 0;
+        height: 0;
+        @extend .py-0;
+        @include transition(all 0.2s ease-in);
+      }
+
+      &.show-details {
+        overflow: unset;
+        min-height: 205px;
+        height: auto;
+        padding-top: 0.25rem;
+        padding-bottom: 0.25rem;
+        @include transition(all 0.3s ease);
+      }
+
+      .card .card-body .table-scroll {
+        height: auto;
+      }
+    }
+
+    .top-card-form-row {
+      .for-mobile {
+        display: none;
+      }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .admin-dashboard {
+      padding-right: 5px !important;
+      padding-left: 5px !important;
+
+      .total-revenue-details,
+      .op-patient-details,
+      .ip-patient-details,
+      .top-form-row {
+        &.show-details {
+          padding-top: 0.5rem !important;
+          padding-bottom: 0 !important;
+        }
+
+        .col,
+        .col-6,
+        .col-2 {
+          flex: 0 0 100% !important;
+          max-width: 100% !important;
+
+          .btn-group,
+          a.btn-sm {
+            display: inline-block;
+            margin-top: 2px;
+          }
+        }
+      }
+
+      .top-card-form-row {
+        padding-bottom: 0 !important;
+      }
+
+      .bottom-card-form-row {
+        padding-top: 0 !important;
+      }
+
+      .top-card-form-row,
+      .bottom-card-form-row {
+
+        .col-3,
+        .custom-col-4 {
+          margin: 5px 0;
+          flex: 0 0 100% !important;
+          max-width: 100% !important;
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 768px) and (min-width: 430px) {
+    .img-fluid {
+      max-width: 70%;
+      height: auto;
+    }
+  }
+}

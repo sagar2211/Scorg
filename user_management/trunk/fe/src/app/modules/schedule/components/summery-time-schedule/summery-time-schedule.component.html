@@ -1,0 +1,90 @@
+<div class="card custom-card mb-3" [ngClass]="{'border-active': highlightEditedTime}">
+    <div class="card-header position-relative shadow-sm border-0 pb-1" [ngClass]="{'bottom-radius': hideDetailSection}">
+        <h6 class="mb-1 font-size-dot-97"><span class="text-muted font-weight-normal font-size-sm">From</span> {{scheduleTimeData.startDate| customDateFormat : '' : 'DD/MM/YYYY'}} <span class="text-muted font-weight-normal font-size-sm">to </span> <span *ngIf="scheduleTimeData.endDate">{{scheduleTimeData.endDate| customDateFormat : '' : 'DD/MM/YYYY'}}</span>
+            <span *ngIf="!scheduleTimeData.endDate">
+        {{checkEndDate(scheduleTimeData.startDate,scheduleTimeData.endDate)}}
+      </span>
+            <span *ngIf="checkCurrent(scheduleTimeData.startDate,scheduleTimeData.endDate,scheduleTimeData.NewSlotTime)" class="font-size-sm text-success current ml-2"><i class="fas fa-fw fa-circle"></i>Current</span>
+            <span *ngIf="scheduleTimeData.NewSlotTime" class="font-size-sm text-warning modified ml-2"> Altered</span>
+        </h6>
+        <p class="mb-0 font-size-sm" *ngIf="!scheduleTimeData.NewSlotTime" [ngClass]="getSelectedDays(scheduleTimeData.weekOffDays).length > 0 ? 'text-muted' : 'text-success'"><i class="icon fa-fw icon-calendar-minus mr-1"></i> {{getSelectedDays(scheduleTimeData.weekOffDays).length > 0 ? 'Weekly off -' : 'No Weekly off'}}
+            <span *ngFor="let days of getSelectedDays(scheduleTimeData.weekOffDays); let dayLast = last;" class="text-danger font-weight-500">
+              <span *ngIf="days.isSelected">{{days.name}}
+          <span *ngIf="!dayLast">,</span>
+            </span>
+            </span>
+        </p>
+        <button appSohwhideElementOnPermission [currentActiveUrl]="'updateTimeSchedule'" *ngIf="showEditButton && !scheduleTimeData.NewSlotTime" [ngClass]="{'d-none': hideDetailSection}" class="btn btn-sm btn-link action-btn text-muted" [autoClose]="true" placement="left-top"
+            #schedulePopover="ngbPopover" [ngbPopover]="popContent"><i class="fa fa-fw fa-bars" aria-hidden="true"></i><i
+        class="fa fa-xs fa-caret-down" aria-hidden="true"></i></button>
+        <ng-template #popContent>
+            <ul class="list-unstyled popover-content mb-0">
+                <ng-container *ngxPermissionsOnly="permissionConstList.Schedule_Time_Delete">
+                    <li *ngIf="showDeleteOption">
+                        <button class="btn btn-sm btn-block text-left del" (click)="deleteScheduleData(scheduleTimeData, index, null , 'date_range_schedule')">
+              <i class="icon fa-fw icon-trash mr-1"></i> Delete Schedule
+            </button>
+                    </li>
+                </ng-container>
+                <ng-container *ngxPermissionsOnly="permissionConstList.Schedule_Time_Extend">
+                    <li>
+                        <button class="btn btn-sm btn-block text-left active" (click)="extendEndDate(scheduleTimeData)">
+              <i class="icon fa-fw icon-extend mr-1"></i> Extend Schedule
+            </button>
+                    </li>
+                </ng-container>
+                <ng-container *ngxPermissionsOnly="permissionConstList.Schedule_Time_End">
+                    <li>
+                        <button class="btn btn-sm btn-block text-left inactive" *ngIf="showEndOption" (click)="endSchedule()">
+              <i class="icon fa-fw icon-times mr-1"></i> End Schedule
+            </button>
+                    </li>
+                </ng-container>
+
+                <ng-container *ngxPermissionsOnly="permissionConstList.Schedule_Time_Add_New_Time_Slot">
+                    <li>
+                        <button class="btn btn-sm btn-block text-left primary" (click)="editScheduleData(scheduleTimeData, 'schedule', 'add_new')">
+              <i class="icon fa-fw icon-clock mr-1"></i> Add New Time Slot
+            </button>
+                    </li>
+                </ng-container>
+
+                <ng-container *ngxPermissionsOnly="permissionConstList.Schedule_Time_Edit">
+                    <li>
+                        <button class="btn btn-sm btn-block text-left edit" (click)="editScheduleData(scheduleTimeData, 'schedule', 'edit_existing')">
+              <i class="icon fa-fw icon-edit mr-1"></i> Edit Schedule
+            </button>
+                    </li>
+                </ng-container>
+            </ul>
+        </ng-template>
+    </div>
+
+    <div class="card-body sm-line-height" [ngClass]="{'d-none': hideDetailSection}">
+        <div class="form-row align-items-center py-1 mx-0 mb-2" *ngFor="let appTime of scheduleTimeData.appointmentTypeTimeArray; let j= index;">
+            <div class="col-6">
+                <p class="mb-1 font-size-dot-875 font-weight-500" *ngIf="appTime.appointmentType">
+                    {{appTime.appointmentType.name}}
+                    <span *ngIf="appTime.allowAppointments" class="text-teal small font-weight-normal">(Walkin Only)</span>
+                </p>
+            </div>
+            <div class="col-6 text-right">
+                <p class="mb-1 font-size-dot-8"><i class="icon fa-fw icon-clock align-middle mr-1" aria-hidden="true"></i>{{getTimeByTimeFormatSetting(appTime.startTime)}} to {{getTimeByTimeFormatSetting(appTime.endTime)}}
+                </p>
+            </div>
+            <div class="col-12">
+                <p class="mb-1 text-muted font-size-sm">
+                    <i class="icon fa-fw icon-briefcase mr-1" aria-hidden="true"></i>
+                    <span *ngFor="let days of getSelectedDays(appTime.selectedDays); let dayLast = last;">
+            <span *ngIf="days.isSelected">{{days.name}}
+              <span *ngIf="!dayLast">,</span>
+                    </span>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <button type="button" class="btn btn-white btn-accordion" placement="bottom" ngbTooltip="Collapse" (click)="toggelDetailSection()"><i class="fas fa-chevron-down"
+      [ngClass]="{'fa-chevron-up': hideDetailSection, 'fa-chevron-down': !hideDetailSection}"></i></button>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

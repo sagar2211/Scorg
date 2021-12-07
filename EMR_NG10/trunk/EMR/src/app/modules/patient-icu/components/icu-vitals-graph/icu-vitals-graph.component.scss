@@ -1,0 +1,35 @@
+.graph-height {
+  height: calc(100vh - 157px);
+  overflow-y: auto;
+}
+
+:host::ng-deep {
+  .multiselect-dropdown {
+    height: 31px !important;
+    .dropdown-btn {
+      padding: 3px 5px !important;
+      .selected-item {
+        font-size: 0.875rem !important;
+      }
+      .dropdown-down {
+        border-top: 7px solid #adadad !important;
+        border-left: 6px solid transparent !important;
+        border-right: 6px solid transparent !important;
+      }
+      .dropdown-up {
+        border-bottom: 7px solid #adadad !important;
+        border-left: 6px solid transparent !important;
+        border-right: 6px solid transparent !important;
+      }
+    }
+  }
+  @media screen and (max-width: 1280px) {
+    .multiselect-dropdown, .multiselect-dropdown .dropdown-btn {
+      height: 38px !important;
+      max-height: 38px !important;
+      .dropdown-btn {
+        line-height: 28px !important;
+      }
+    }
+  }
+}

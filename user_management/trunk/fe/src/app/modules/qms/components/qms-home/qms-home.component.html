@@ -1,0 +1,11 @@
+<div class="container-fluid" *ngIf="setingLoaded">
+    <div class="row">
+        <!-- left-column  [ngClass]="{'collapsed': userMenuToggleValue}" -->
+        <app-qms-side-menu></app-qms-side-menu>
+        <!-- right-column -->
+        <div class="column right-side">
+            <app-mini-navbar></app-mini-navbar>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="container-fluid q-list" [ngClass]="{'custom-container-fluid px-0' : !isCompLoadFrom, 'pt-3': isCompLoadFrom }">
+    <!-- <app-qlist-search *ngIf="isCompLoadFrom !== 'doctorDashboard'" [frontDeskProviderList]="frontDeskProviderList"
+    [appointmentSlots]="qSlotList" [loggedUserProvidersList]="loggedUserProvidersList"
+    (isCheckinEvent)="isCheckin= $event" (checkInStatusVal)="onCheckInStatus($event)"
+    (searchTxtValue)="appointmentSearch = $event" [providerDetails]="providerDetails" [isCompLoadFrom]="isCompLoadFrom"
+    (selectedProviderDetails)="onProviderSelect($event)"
+    (updateStatus)="updateAppointentStatus($event.slot, $event.status, $event.roomId, $event.isSkip).subscribe();"
+    (updateSlot)="setSelectedSchedule($event)" [firstSelectedProvider]="getProviderDetails">
+  </app-qlist-search> -->
+
+    <ng-container *ngIf="displayType == 'grid'">
+        <lib-qms-qlist-lib #qmsLibTemplateRef [loginUserDetails]="userInfo" [permissions]="PermissionsConstantsList" [environment]="environment" [gridType]="displayType" [isShowEmptySlot]="isShowSlot"></lib-qms-qlist-lib>
+    </ng-container>
+
+    <!-- Grid view -->
+    <!-- <ng-container *ngIf="displayType == 'grid'">
+    <app-q-display-grid-view [isShowConfirmedOrTentetive]="isShowConfirmedOnly" [repeatCallingCount]="repeatCallingCount" [isShowEmptySlot]="isShowSlot"
+      [qSlotList]="qSlotList" [appointmentSearch]="appointmentSearch" [providerDetails]="providerDetails"
+      [isCompLoadFrom]="isCompLoadFrom" [filter]="filter" (cancelApp)="cancelAppointment($event)"
+      (updateApp)="updateAppointentStatus($event.slot, $event.status, $event.roomId, $event.isSkip).subscribe();"
+      (skip)="onSkip($event)" (updateSequence)="updateQueueSequence($event.from_slot, $event.to_slot)">
+    </app-q-display-grid-view>
+  </ng-container> -->
+
+    <!-- Card view -->
+    <ng-container *ngIf="displayType == 'card'">
+        <app-q-display-card-view [isShowConfirmedOrTentetive]="isShowConfirmedOnly" [repeatCallingCount]="repeatCallingCount" [isCompLoadFrom]="isCompLoadFrom" [providerDetails]="providerDetails" [appointmentSearch]="appointmentSearch" [qSlotList]="qSlotList"
+            (skip)="onSkip($event)" (cancelApp)="cancelAppointment($event)" (updateStatus)="updateAppointentStatus($event.event, $event.status, $event.roomId, $event.isSkip).subscribe()">
+        </app-q-display-card-view>
+    </ng-container>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<app-print-reports [printData]="printData" [printType]="'appointment'"></app-print-reports>

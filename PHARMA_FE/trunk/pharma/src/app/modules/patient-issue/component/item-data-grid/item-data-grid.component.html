@@ -1,0 +1,111 @@
+<dx-data-grid id="gridContainer" keyExpr="tempId" [dataSource]="itemList" [showBorders]="true" (onEditorPreparing)="onEditorPreparing($event)" [showRowLines]="true" [allowColumnResizing]="true" [columnAutoWidth]="true">
+    <dxo-sorting mode="none"></dxo-sorting>
+    <dxo-paging [enabled]="false"></dxo-paging>
+    <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="true" [allowDeleting]="allowDeleting" [useIcons]="true">
+    </dxo-editing>
+    <dxi-column dataField="itemName" calculateDisplayValue="itemName" caption="Item Name" [width]="300" [editorOptions]="editorOptions" [fixed]="true" [allowEditing]="allowEditing">
+        <dxo-lookup [dataSource]="itemMasterDataSource" displayExpr="itemName" valueExpr="itemId">
+        </dxo-lookup>
+        <!-- <dxi-validation-rule type="required"></dxi-validation-rule> -->
+    </dxi-column>
+    <dxi-column dataField="qty" caption="Qty" [allowEditing]="allowEditing" [width]="90">
+        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+    </dxi-column>
+    <dxi-column dataField="batchNo" caption="Batch No." [allowEditing]="false" [width]="120"></dxi-column>
+    <dxi-column dataField="expiryDate" caption="Expiry" format="dd-MM-yyyy" dataType="date" [width]="120" [allowEditing]="false"></dxi-column>
+    <dxi-column dataField="unitRate" caption="Unit Rate" [allowEditing]="false">
+        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+    </dxi-column>
+    <dxi-column dataField="amount" caption="Amt." [allowEditing]="false" [width]="100">
+        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+    </dxi-column>
+    <dxi-column dataField="discountAmount" [allowEditing]="allowEditing" caption="Disc. Amt">
+        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+    </dxi-column>
+    <dxi-column dataField="discountPercent" [allowEditing]="allowEditing" caption="Disc. %">
+        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+    </dxi-column>
+    <dxi-column dataField="remark" [allowEditing]="allowEditing" caption="Remark"></dxi-column>
+    <dxi-column dataField="gstAmount" caption="GST Amt." [allowEditing]="false">
+        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+    </dxi-column>
+    <dxi-column dataField="gstPercent" caption="GST %" [allowEditing]="false">
+        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+    </dxi-column>
+    <dxi-column dataField="netAmount" caption="Net Total" [allowEditing]="false">
+        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+    </dxi-column>
+    <dxi-column type="buttons" caption="Action" [visible]="allowEditing" [width]="50" [fixed]="true">
+        <dxi-button name="Add" icon="add"  [visible]="isAddIconVisible" [onClick]="onAddNewItem"></dxi-button>
+        <dxi-button name="delete" icon="trash" [onClick]="onDelete"></dxi-button>
+    </dxi-column>
+    <dxo-summary [recalculateWhileEditing]="true">
+        <dxi-total-item name="subTotalLabel" valueFormat="decimal" displayFormat="Total: " cssClass="totalAmountSummary-skip" showInColumn="item">
+        </dxi-total-item>
+        <dxi-total-item column="qty" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+        <dxi-total-item column="amount" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+        <dxi-total-item column="discountAmount" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+        <dxi-total-item column="gstAmount" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+        <dxi-total-item column="netAmount" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+    </dxo-summary>
+    <div *dxTemplate="let item of 'itemTemplate' let i = index">
+        <div *ngIf="item === null" ; else elseBlock>
+            <span>(All)</span>
+        </div>
+        <div dx-template #elseBlock>
+            <div class="row m-0 headerTab text-white text-strong bg-primary" *ngIf="i === 0">
+                <div class="col-4 border-bottom border-left border-right border-top align-center">
+                    Item Name
+                </div>
+                <div class="col-1 border-bottom border-left border-right border-top align-center">
+                    UOM
+                </div>
+                <div class="col-1 border-bottom border-left border-right border-top align-center">
+                    Pack
+                </div>
+                <div class="col-1 border-bottom border-left border-right border-top align-center">
+                    Type
+                </div>
+                <div class="col-1 border-bottom border-left border-right border-top align-center">
+                    Com
+                </div>
+                <div class="col-1 border-bottom border-left border-right border-top align-center">
+                    GST%
+                </div>
+                <div class="col-1 border-bottom border-left border-right border-top align-center">
+                  Clo. Stk.
+              </div>
+              <div class="col-2 border-bottom border-left border-right border-top align-center">
+                MRP
+            </div>
+            </div>
+            <div [ngOptionHighlight]="search" class="row m-0 table-item" [ngClass]="{'no-stock': !item.closingQty, 'item-first' : i===0}">
+                <div class="col-4 border-bottom border-left border-right">
+                    {{item.itemName}}
+                </div>
+                <div class="col-1 border-bottom border-left border-right">
+                  {{item.uom}}
+                </div>
+                <div class="col-1 border-bottom border-left border-right">
+                  {{item.unitName}}
+                </div>
+                <div class="col-1 border-bottom border-left border-right">
+                  {{item.issueUnitName}}
+                </div>
+                 <div class="col-1 border-bottom border-left border-right">
+                  {{item.companyShortName}}
+                </div>
+                <div class="col-1 border-bottom border-left border-right">
+                  {{item.gstPer | number:'1.2-2'}}%
+                </div>
+                <div class="col-1 border-bottom border-left border-right">
+                  {{item.closingQty}}
+                </div>
+                <div class="col-2 border-bottom border-left border-right">
+                  {{item.mrp | number:'1.2-2'}}
+                </div>
+            </div>
+        </div>
+    </div>
+</dx-data-grid>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

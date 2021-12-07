@@ -1,0 +1,17 @@
+.top-card {
+  // height: 26vh;
+  // overflow: auto;
+
+  .col-3,
+  .col-9 {
+    // height: 18vh;
+
+    img {
+      border: 1px dashed #ababab;
+      background-color: #f9f9f9;
+    }
+  }
+  .btn {
+    font-size: 0.6rem !important;
+  }
+}

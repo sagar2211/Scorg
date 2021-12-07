@@ -1,0 +1,303 @@
+@import "../../../scss/main";
+
+.slide-faq-form {
+  top: 0;
+  right: 0;
+  z-index: 1001;
+  @include border-radius(3px);
+
+  &.dynamic-chart {
+    top: 0px;
+
+    &.open {
+      width: 80% !important;
+      top: 67px;
+      right: 5px;
+      height: calc(100vh - 70px);
+      overflow-y: auto !important;
+    }
+  }
+
+  &.open {
+    width: 90% !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    @include transition(width 0.4s ease-in-out, opacity 0.4s ease-in-out, visibility 0.4s ease-in-out);
+  }
+
+  &.close {
+    width: 0%;
+    opacity: 0;
+    visibility: hidden;
+    @include transition(width 0.4s ease-in-out, visibility 0.4s ease-in-out, opacity 0.4s ease-in-out);
+  }
+}
+
+.dynamic-chart {
+  .left-col {
+    z-index: 0;
+    position: relative;
+    -webkit-box-flex: 0;
+
+    &.pin {
+      flex: 0 0 66.6666666667%;
+      max-width: 66.6666666667%;
+      @include transition(max-width 0.4s ease-in-out, flex 0.4s ease-in-out);
+    }
+
+    &.unpin {
+      z-index: 0;
+      position: relative;
+      flex: 0 0 97%;
+      max-width: 97%;
+      @include transition(max-width 0.4s ease-in-out, flex 0.4s ease-in-out);
+    }
+  }
+
+  .right-col {
+    -webkit-box-flex: 0;
+
+    &.pin {
+      flex: 0 0 33.3333333333%;
+      max-width: 33.3333333333%;
+      background-color: transparent;
+      @include transition(width 0.4s ease-in-out);
+    }
+
+    &.unpin {
+      // width: 40%;
+      width: 2.7%;
+      @include transition(width 0.4s ease-in-out);
+      @extend .bg-white;
+      @extend .border-left;
+      @extend .border-bottom;
+      @extend .position-fixed;
+      @include border-radius(2px);
+      height: calc(100vh - 111px);
+      //overflow-y: auto;
+      overflow: hidden;
+      right: 4px;
+      @include custom-box-shadow(2px, 0, 4px, rgba(28, 25, 83, 0.12));
+
+    }
+  }
+
+  @media screen and (max-width: 1280px) {
+    .right-col {
+      &.unpin {
+        width: 3%;
+      }
+    }
+  }
+
+  .col-suggestion {
+    // flex: 0 0 calc(100% - 36px);
+    // max-width: calc(100% - 36px);
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .col-custom-side-btn {
+    flex: 0 0 35px;
+    max-width: 35px;
+    background-color: #f5f5f5;
+    height: calc(100vh - 67px);
+
+    .btn-group-vertical {
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      flex-direction: column;
+      -webkit-box-pack: justify;
+      justify-content: space-between;
+      height: 350px;
+
+      .btn {
+        height: 116px !important;
+        padding: 0;
+        width: 36px;
+
+        span {
+          -webkit-transform: rotate(90deg);
+          -moz-transform: rotate(90deg);
+          -ms-transform: rotate(90deg);
+          -o-transform: rotate(90deg);
+          transform: rotate(90deg);
+          height: 24px;
+          width: 32px;
+          padding: 0;
+          line-height: 20px;
+          display: inline-block;
+          position: absolute;
+          top: 30px;
+          left: 0;
+        }
+      }
+
+      .favorite-tab {
+        z-index: 1;
+        left: 8px;
+        color: #d1d1d1;
+      }
+
+      .suggestion1 {
+        top: 4px;
+      }
+
+      .suggestion2 {
+        top: 121px;
+      }
+
+      .suggestion3 {
+        top: 236px;
+      }
+
+      .btn:hover+.favorite-tab {
+        color: #fff;
+      }
+
+      .btn-primary-light+.favorite-tab {
+        color: #2035a2;
+      }
+    }
+  }
+}
+
+.only-checkbox {
+  .form-check-input {
+    top: -15px;
+  }
+}
+
+:host ::ng-deep {
+  .dynamic-chart {
+    margin-top: 3px;
+
+    .component-card-body {
+      height: calc(100vh - 112px);
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      .accordion {
+        .card {
+          // @extend .border-bottom;
+          @include border-radius(0);
+          overflow: inherit;
+
+          .card-header {
+            // @extend .cus-head;
+            background-color: #a1a7ca !important;
+            @extend .p-0;
+            //@extend .border-dash-bottom;
+
+            .btn-link {
+              width: 100%;
+              padding-top: 1px !important;
+              padding-bottom: 1px !important;
+              @extend .text-decoration-none;
+              text-align: left;
+            }
+
+            p {
+              color: #fff;
+            }
+          }
+
+          .card-body {
+            padding: 0.25rem;
+          }
+        }
+      }
+    }
+
+    @media screen and (max-width: 1280px) {
+
+      .component-card-body {
+        height: calc(100vh - 120px);
+        overflow-y: auto;
+      }
+    }
+  }
+
+  .col-suggestion {
+    .nav {
+      .nav-item {
+        .nav-link {
+          padding: 0.5rem 0.74rem;
+        }
+      }
+    }
+
+    .tab-content {
+      .tab-pane {
+        .all-suggestion {
+          height: calc(100vh - 174px);
+          overflow-y: auto;
+        }
+      }
+    }
+  }
+
+  // this is for temp
+  .unpin {
+    .col-suggestion {
+
+      .card-header .form-row .col:first-child,
+      .card-body,
+      .img-fluid {
+        display: none;
+      }
+    }
+  }
+
+
+  //for i-pad 
+  .suggestion-card-modal {
+    top: 40px;
+    left: 4px;
+    width: 99.5%;
+    height: calc(100vh - 70px);
+    z-index: -1;
+    opacity: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 1.75rem auto 0;
+    border-radius: 0.3rem;
+    background-clip: padding-box;
+    @include transition(opacity 0.4s, z-index 0.4s);
+
+    &.active {
+      z-index: 1051;
+      opacity: 1;
+      @include transition(opacity 0.4s, z-index 0.4s);
+    }
+
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 1rem 1rem;
+      border-bottom: 1px solid #dee2e6;
+      border-top-left-radius: 3px;
+      border-top-right-radius: 3px;
+      background-color: $primary !important;
+
+      p {
+        padding-top: 2px;
+      }
+    }
+
+    .card-body {
+      .suggestion {
+        >.card-header.border-dash-bottom {
+          display: none;
+        }
+
+        .suggestion-list {
+          height: calc(100vh - 168px) !important;
+        }
+      }
+    }
+  }
+}

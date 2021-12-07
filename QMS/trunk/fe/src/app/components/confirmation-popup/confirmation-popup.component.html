@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">CONFIRMATION</p>
+  <button type="button" *ngIf="isShowCrossIcon"  class="close font-weight-normal text-white" aria-label="Close"
+    (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p class="my-2" [innerHtml]="messageDetails.modalBody"></p>
+</div>
+<div class="modal-footer py-1" *ngIf="messageDetails.buttonType && messageDetails.buttonType == 'yes_no'">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.close('no')">No</button>
+  <button type="button" class="btn btn-sm btn-outline-primary" (click)="modal.close('yes')">Yes</button>
+</div>
+<div class="modal-footer py-1" *ngIf="!messageDetails.buttonType && messageDetails.buttonType !== 'yes_no'">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss('CANCEL')">CANCEL</button>
+  <button type="button" class="btn btn-sm btn-outline-primary" (click)="modal.close('Ok')">OK</button>
+</div>

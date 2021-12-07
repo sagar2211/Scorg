@@ -1,0 +1,20 @@
+<div class="form-row form-group">
+  <div class class="mb-2 col-12" >
+    <label for="info">Providers Info</label>
+    <app-provider-details *ngIf="!isFromFrontDesk" (currentEntity)="currentSelectedEntity($event)"></app-provider-details>
+    <app-provider-details *ngIf="isFromFrontDesk" [frontDeskProviderList]="mappedUserList" [selectedUserFromFrontDeskToList]="selectedProvider"
+      [isFromFrontDesk]="isFromFrontDesk" (currentEntity)="currentSelectedEntity($event)"></app-provider-details>
+  </div>
+  <label for="info" class="p-2 my-1">Appointment Types</label>
+  <div class="col-12" >
+    <div class="custom-control custom-checkbox custom-control-inline mr-3 align-items-center cus-color" *ngFor="let item of appointmentTypList; let i = index">
+      <input type="checkbox" class="custom-control-input" [ngModel]="item.isSelected" (ngModelChange)="onChecked($event, item)" id="{{'checkbox' + i}}">
+      <label class="custom-control-label pointer" [ngClass]="[item.id === 7 ? 'dentists' : '',item.id === 6 ? 'lateeveningsurgery':'', item.id === 5 ? 'minorillness' :'',
+      item.id === 4 ? 'routine' :'' ,item.id === 3 ? 'emergency' :'' ,item.id === 2 ? 'free' :'' ,item.id === 1 ? 'privilege' :'']"  for="{{'checkbox' + i}}">
+                {{item.name}}
+      </label>
+      <!-- <span placement="left" [ngStyle]="{'color': getAppTypeColor(item.id)}"><i class="fa fa-fw fa-square"></i></span> -->
+      <!-- <div class="top-bg" [ngStyle]="{'background-color': getAppTypeColor(item.id)}"></div> -->
+    </div>
+  </div>
+</div>

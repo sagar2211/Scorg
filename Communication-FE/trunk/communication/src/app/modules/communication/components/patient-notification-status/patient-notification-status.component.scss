@@ -1,0 +1,35 @@
+:host ::ng-deep {
+    .ngx-datatable.fixed-header {
+        .datatable-body {
+            height: calc(100vh - 208px) !important;
+            overflow-x: hidden;
+            .datatable-body-cell {
+                &:first-child,
+                &:last-child {
+                    display: inline-flex;
+                    align-items: center;
+                    vertical-align: middle;
+                }
+                &:last-child {
+                    justify-content: center;
+                }
+                .datatable-body-cell-label {
+                    .child {
+                        height: 30px;
+                        span {
+                            line-height: 2.2;
+                        }
+                    }
+                }
+            }
+        }
+        .datatable-footer,
+        .datatable-footer-inner {
+            height: 36px !important;
+            overflow: hidden;
+            .datatable-pager ul li {
+                margin: 0px 0px !important;
+            }
+        }
+    }
+}

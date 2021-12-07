@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">Select Chart</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup('close');">
+    <span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body p-1 custom-modal-body">
+  <h4 class="border-bottom mb-0">Chart List</h4>
+  <p class="text-danger text-center mb-1">Prescription Will overwrite on selected charts</p>
+  <div class="row m-0">
+    <div class="col-6 p-1" *ngFor="let chrt of chartList">
+      <div class="row m-0">
+        <div class="col-12 p-0 border bg-light mb-1">
+          <p class="m-0 px-2 font-weight-600 border-bottom"> {{chrt.chart_name}}</p>
+          <ul class="list-unstyled p-1 pl-2 m-0">
+            <ng-container *ngFor="let item of chrt.chart_details">
+              <li *ngIf="item.section_key === 'prescription'">
+                <input type="checkbox" [(ngModel)]="item.isSelected"> <span class="text-strong pl-1">{{item.section_name}}</span>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase" (click)="closePopup('close');">Cancel</button>
+  <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" (click)="copyPrescriptionForSelectedChart()">Copy</button>
+</div>

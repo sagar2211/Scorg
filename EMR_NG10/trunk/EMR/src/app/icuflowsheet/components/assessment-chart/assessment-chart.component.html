@@ -1,0 +1,105 @@
+<div class="emr-custom-container-fluid">
+  <div class="card-header p-1 border-dash-bottom">
+    <button title="Back to Map List" *ngIf="prevPath !=''" (click)="navigate()"
+      class="btn btn-sm border-0 back-arrow-btn" type="button">
+      <i class="icon fa-fw icon-arrow" aria-hidden="true"></i>
+    </button>
+    <h6 class="mb-0 d-inline-block align-middle"> Assessment Chart</h6>
+  </div>
+  <div class="card-body assesment-body">
+    <table class="table border custom-table font-size-dot-875 mb-0">
+      <thead>
+        <tr class="text-center">
+          <th>Assessment</th>
+          <th>M</th>
+          <th>E</th>
+          <th>N</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of assessmentArray; let i=index;">
+          <td>{{item.name}}</td>
+          <td class="text-center pointer">
+            <p class="m-0" *ngIf="item.type == 'bool'" (click)="updateRowVal(i, 'mVal')">
+              <i *ngIf="item.mVal" class="icon fa-fw icon-check font-weight-bold"></i>
+              <span *ngIf="!item.mVal">-</span>
+            </p>
+            <input *ngIf="item.type != 'bool'" type="text" [(ngModel)]="item.mVal" class="form-control form-control-sm">
+          </td>
+          <td class="text-center pointer">
+            <p class="m-0" *ngIf="item.type == 'bool'" (click)="updateRowVal(i, 'eVal')">
+              <i *ngIf="item.eVal" class="icon fa-fw icon-check font-weight-bold"></i>
+              <span *ngIf="!item.eVal">-</span>
+            </p>
+            <input *ngIf="item.type != 'bool'" type="text" [(ngModel)]="item.eVal" class="form-control form-control-sm">
+          </td>
+          <td class="text-center pointer">
+            <p class="m-0" *ngIf="item.type == 'bool'" (click)="updateRowVal(i, 'nVal')">
+              <i *ngIf="item.nVal" class="icon fa-fw icon-check font-weight-bold"></i>
+              <span *ngIf="!item.nVal">-</span>
+            </p>
+            <input *ngIf="item.type != 'bool'" type="text" [(ngModel)]="item.nVal" class="form-control form-control-sm">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer py-1 text-right">
+    <button type="button" class="btn btn-sm btn-success text-uppercase" (click)="goToIcuFlowSheet()"><i
+        class="icon fa-fw icon-save"></i> Save</button>
+  </div>
+</div>
+
+<!-- <div class="bg-white h-100 p-2">
+  <div class="card border-0 icu">
+    <div class="card-header assesment-header border-bottom-0">
+      <div class="form-row align-items-center">
+        <div class="col-12">
+          <p class="mb-0 font-weight-500"><span><i *ngIf="prevPath !=''" (click)="navigate()" class="fa fa-arrow-left"
+                aria-hidden="true"></i></span> Assessment Chart</p>
+        </div>
+      </div>
+    </div>
+    <div class="card-body assesment-body p-0">
+      <table class="table table-bordered mb-0">
+        <thead>
+          <tr class="text-center">
+            <td>Assessment</td>
+            <td>M</td>
+            <td>E</td>
+            <td>N</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of assessmentArray; let i=index;">
+            <td class="assesment-name">{{item.name}}</td>
+            <td class="text-center cursor">
+              <p class="no-margin mb-0" *ngIf="item.type == 'bool'" (click)="updateRowVal(i, 'mVal')">
+                <i *ngIf="item.mVal" class="fa fa-check"></i>
+                <span *ngIf="!item.mVal">-</span>
+              </p>
+              <input *ngIf="item.type != 'bool'" type="text" [(ngModel)]="item.mVal" class="form-control">
+            </td>
+            <td class="text-center cursor">
+              <p class="no-margin m-0" *ngIf="item.type == 'bool'" (click)="updateRowVal(i, 'eVal')">
+                <i *ngIf="item.eVal" class="fa fa-check"></i>
+                <span *ngIf="!item.eVal">-</span>
+              </p>
+              <input *ngIf="item.type != 'bool'" type="text" [(ngModel)]="item.eVal" class="form-control">
+            </td>
+            <td class="text-center cursor">
+              <p class="no-margin m-0" *ngIf="item.type == 'bool'" (click)="updateRowVal(i, 'nVal')">
+                <i *ngIf="item.nVal" class="fa fa-check"></i>
+                <span *ngIf="!item.nVal">-</span>
+              </p>
+              <input *ngIf="item.type != 'bool'" type="text" [(ngModel)]="item.nVal" class="form-control">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer p-1 text-right">
+      <button type="button" class="btn btn-sm btn-success" (click)="goToIcuFlowSheet()">Save</button>
+    </div>
+  </div>
+</div> -->

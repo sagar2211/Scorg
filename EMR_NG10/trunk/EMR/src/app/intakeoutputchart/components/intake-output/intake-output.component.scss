@@ -1,0 +1,108 @@
+@import "../../../../scss/main";
+
+.chart-btn {
+  flex: 0 0 102px;
+  max-width: 102px;
+}
+
+.nursing-height {
+  height: calc(100vh - 108px);
+  overflow-y: auto;
+
+  .nursing-data {
+    color: $gray-700;
+
+    .custom-table {
+      @extend .border-top;
+      @extend .border-left;
+
+      &.disabled {
+        pointer-events: none;
+      }
+
+      &.bg-grand {
+        background-color: #adadad;
+      }
+
+      thead {
+        tr {
+          th {
+            @extend .border-bottom;
+            @extend .border-top-0;
+            @extend .font-weight-500;
+            @extend .text-uppercase;
+            @extend .border-right;
+            color: $gray-700;
+          }
+        }
+      }
+
+      th,
+      td {
+        @extend .p-1;
+        width: 8%;
+        @extend .align-middle;
+        @extend .text-center;
+        // &.name-w {
+        //   width: 9%;
+        // }
+      }
+
+      tbody {
+        tr {
+          td {
+            @extend .border-right;
+          }
+        }
+      }
+    }
+
+    .scroll-div {
+      height: calc(100vh - 249px);
+      overflow-y: overlay;
+
+      .expand-collapse-div {
+        background-color: rgba($primary, 0.15);
+        color: #4d5377;
+        border-bottom: 1px solid $gray-400;
+
+        &.close-div {
+          height: 30px;
+          overflow: hidden;
+        }
+
+        @media screen and (max-width: 1280px) {
+
+          &.close-div,
+          &.close-div table {
+            height: 60px;
+          }
+        }
+
+        &.expand {
+          height: auto;
+        }
+
+        .expand-table {
+          @extend .border-top-0;
+
+          .val-clr {
+            color: #4d5377;
+          }
+        }
+
+        .bg-row {
+          background-color: #eaeaea;
+        }
+
+        .bg-active-row {
+          background-color: #f9f9f9 !important;
+        }
+
+        .bg-total-row {
+          background-color: #d4d4d4;
+        }
+      }
+    }
+  }
+}

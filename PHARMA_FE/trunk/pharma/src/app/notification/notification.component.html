@@ -1,0 +1,13 @@
+<div class="contents-wrapper w-100">
+    <div class="card-header bg-white">
+        <h6 class="mb-0">Notifications
+            <a class="icon fa-fw icon-times pointer float-right" (click)="closeNotification()" title="Close"></a>
+        </h6>
+    </div>
+    <div class="card-body p-0" *ngIf="isOpenNotificaton">
+        <!-- <app-notification-list [loadSource]="'notification_panel'"></app-notification-list> -->
+        <div class="parent-iframe">
+          <iframe (load)="myLoadEvent()" class="cus-iframe" [src]="urlSafe"></iframe>
+        </div>
+    </div>
+</div>

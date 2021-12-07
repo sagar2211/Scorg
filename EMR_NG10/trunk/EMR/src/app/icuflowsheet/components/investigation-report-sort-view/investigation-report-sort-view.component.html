@@ -1,0 +1,25 @@
+<form [formGroup]="investigationOrder">
+  <div class="card border-0 icu mb-1">
+    <div class="card-header cus-head p-1 border-dash-bottom">
+      <div class="form-row align-items-center">
+        <div class="col-8">
+          <p class="mb-0 font-weight-500">Investigation Reports</p>
+        </div>
+        <div class="col-4 text-right">
+          <button type="button" class="btn btn-xs btn-outline-primary" (click)="navigate('orders');"><i
+              class="fa fa-fw fa-plus"></i> ADD</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body investigation-list p-0" formArrayName="investigationList">
+      <span class="m-1 pointer"
+        [ngClass]="{'bg-light': !item.value.isSelected, 'bg-primary text-white': item.value.isSelected}"
+        *ngFor="let item of investigationList.controls; let i=index; last as last" [formGroupName]="i">
+        <label class="mb-0 p-1">
+          <input type="checkbox" (change)="updateValues(item.value)" formControlName="isSelected"
+            class="d-none">{{item.value.investigation.name}}
+        </label>
+      </span>
+    </div>
+  </div>
+</form>

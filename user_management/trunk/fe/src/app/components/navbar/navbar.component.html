@@ -1,0 +1,446 @@
+<nav class="navbar p-0" [ngClass]="{'emr-nav':this.moduleName === 'emr'}">
+  <!-- toggle open class when side menu bar is open -->
+  <a *ngIf="this.moduleName === 'emr' && hideBarIcon" (click)="showHideMainMenu()"
+    class="d-flex align-items-center emr-menu" [ngClass]="{'open': showHideMainMenuStatus}">
+    <!-- <div class="bars d-inline-block w-100" [ngClass]="{'bar-close': showHideMainMenuStatus}">
+            <div class="bar1"></div>
+            <div class="bar2"></div>
+            <div class="bar3"></div>
+        </div> -->
+    <i class="fa icon fa-fw icon-home mx-auto text-white" aria-hidden="true"></i>
+  </a>
+  <a class="navbar-brand mr-3" [routerLink]="'/app/qms/qList'" (click)="highlightedSelectedMenu('Grid')">
+    <span><img src="./assets/img/logo.png" alt="logo"></span>
+    <h6 class="mb-0 ml-2 text-uppercase">{{selectedModule.displayValue}}</h6>
+  </a>
+  <div class="nav-patients-list">
+    <div class="d-flex align-items-center" *ngIf="this.moduleName === 'emr' && activePatientList.length > 0">
+      <ng-container *ngFor="let item of activePatientList; let i = index;">
+        <a class="patients-tab position-relative d-inline-block" *ngIf="i < 2"
+          [ngClass]="{'other': currentActivePatient?.patientData.id !== item.patientData.id}">
+          <span (click)="goToPatientPage(item, i);"
+            class="pointer text-uppercase font-size-dot-8">{{item.patientData.name}}</span>
+          <i (click)="removeFromPatientList(item, i);"
+            class="icon fa-fw icon-times position-absolute pointer align-middle" title="Close"></i>
+        </a>
+      </ng-container>
+      <ng-container *ngIf="activePatientList.length > 2">
+        <div ngbDropdown>
+          <button class="bg-transparent text-white px-2 border-0 arrow-dropdown" id="dropdownBasic2" ngbDropdownToggle>
+            <i class="icon fa-fw icon-chevron-double-right fa-rotate-90" aria-hidden="true"></i>
+            <span class="badge badge-pill arrow-badge">{{activePatientList.length-2}}</span>
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+            <ng-container *ngFor="let item of activePatientList; let i = index;">
+              <ng-container *ngIf="i > 1">
+                <button class="position-relative font-size-dot-8" ngbDropdownItem
+                  (click)="goToPatientPage(item, i);">{{item.patientData.name}}
+                  <!-- <i class="fa fa-chevron-right position-absolute"></i> -->
+                </button>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="collapse navbar-collapse d-inline-flex justify-content-end" id="navbarSupportedContent">
+    <div class="input-width mr-2" *ngIf="this.moduleName === 'emr'">
+      <!-- <input class="form-control form-control-sm" type="text" placeholder="Search by Patient Name / Mobile No. / Ref ID"> -->
+      <app-custom-autocomplete-search [data]="patList" [searchKey]="keyword"
+        [placeHolder]="'Search by Patient Id / Name / Mobile No.'" (selectEvent)='selectEvent($event)'
+        (inputChangedEvent)='onChangeSearch($event)' (onScrolledToEnd)="onScroll()" (closedEvent)="closed($event)">
+      </app-custom-autocomplete-search>
+
+    </div>
+    <ul class="info-menu list-unstyled m-0" [ngClass]="{'active':isHelpMenuSelected}">
+      <li ngbDropdown #myDrop="ngbDropdown" class="nav-item" placement="bottom" ngbTooltip="Application Menu"
+        [ngClass]="{'active':isGridMenuSelected}">
+        <a ngbDropdownToggle class="nav-link" [routerLink]=""
+          (click)="onMenuIconClick($event); highlightedSelectedMenu('Grid')" id="dropdownBasic1">
+          <i class="icon fa-fw font-18 icon-th" aria-hidden="true"></i>
+        </a>
+        <!--Show Dropdown Menu-->
+        <ul (click)="myDrop.close();" ngbDropdownMenu
+          class="dropdown-menu menu-collapse-details mt-1 shadow rounded-3 border-0 bg-white"
+          aria-labelledby="dropdownBasic1">
+          <ng-container *ngFor="let app of appList">
+            <ng-container [ngSwitch]="app.app_key">
+              <li *ngSwitchCase="'user_management'" class="text-center p-0 d-inline-block">
+                <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.navLink == './'}"
+                  [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                  class="m-1 d-block pointer text-decoration-none">
+                  <i class="icon fa-fw fa-2x" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 38" style="height: 35px;">
+                      <path
+                        d="M6,1.29A5.94,5.94,0,0,0,.1,7.22V30.78A5.94,5.94,0,0,0,6,36.71H38a5.92,5.92,0,0,0,5.93-5.93h0V7.22A5.92,5.92,0,0,0,38,1.29H6ZM26.4,29.34A1.61,1.61,0,0,1,24.84,31h-17a1.61,1.61,0,0,1-1.61-1.61h0V27.93a5.09,5.09,0,0,1,5.09-5.09h1.31a1.25,1.25,0,0,0,1.24-1.24,1,1,0,0,0-.28-.67,8.63,8.63,0,0,1-1.85-2.77.59.59,0,0,1-.26.07c-.74,0-1.6-1.63-1.6-2.74s.1-2,.84-2h.2c0-3,.61-6.76,5.41-6.76,4.61,0,5.37,3.76,5.42,6.77H22c.73,0,.84.9.84,2s-.87,2.74-1.61,2.74a.59.59,0,0,1-.31-.12,8.9,8.9,0,0,1-1.87,2.82,1,1,0,0,0-.29.67A1.24,1.24,0,0,0,20,22.84h1.31a5.09,5.09,0,0,1,5.09,5.09Zm11.34-1.82a1.19,1.19,0,0,1-1.19,1.19H27.91v-.78a6.53,6.53,0,0,0-1-3.49h9.68a1.19,1.19,0,0,1,1.19,1.19Zm0-7.78a1.19,1.19,0,0,1-1.19,1.19H21.75V19.79a1.74,1.74,0,0,0,.11-.18,4.06,4.06,0,0,0,2.31-3H36.58a1.19,1.19,0,0,1,1.19,1.19h0V19.7Zm0-7.79a1.19,1.19,0,0,1-1.19,1.19H23.88a1.92,1.92,0,0,0-.72-.85,10.63,10.63,0,0,0-.82-3.42H36.58a1.2,1.2,0,0,1,1.2,1.19V12Z"
+                        style="fill:#7d8bd8" />
+                      <rect width="44" height="38" style="fill:#fff;fill-opacity:0" />
+                    </svg>
+                  </i>
+                  <p class="m-1 font-weight-500">ACCESS</p>
+                </a>
+              </li>
+              <li *ngSwitchCase="'hmis'" class="text-center p-0 d-inline-block">
+                <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.navLink == './'}"
+                  [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                  class="m-1 d-block pointer text-decoration-none">
+                  <i class="icon fa-fw fa-2x" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 38">
+                      <rect width="44" height="38" style="fill:#fff;fill-opacity:0" />
+                      <path d="M14.5,25.17a.93.93,0,0,0-.84-1A.92.92,0,0,0,13.5,26h.09A.88.88,0,0,0,14.5,25.17Z"
+                        transform="translate(0 0)" style="fill:#fd7e14" />
+                      <path d="M13.59,18.33a.85.85,0,0,0,.12,1.7.86.86,0,0,0,.79-.86A.88.88,0,0,0,13.59,18.33Z"
+                        transform="translate(0 0)" style="fill:#fd7e14" />
+                      <path d="M14.5,13.17a.92.92,0,1,0-1,.85h.08a.88.88,0,0,0,.91-.85Z" transform="translate(0 0)"
+                        style="fill:#fd7e14" />
+                      <path
+                        d="M33.5,0A8.51,8.51,0,1,0,42,8.53,8.51,8.51,0,0,0,33.5,0Zm0,7.89a2.84,2.84,0,0,1,.5,5.65v.8a.61.61,0,0,1-1.21,0v-.83a2.83,2.83,0,0,1-2.17-2.75.61.61,0,0,1,1.21,0,1.63,1.63,0,1,0,1.63-1.63,2.83,2.83,0,0,1-.67-5.59V2.78a.61.61,0,0,1,1.21,0v.73A2.84,2.84,0,0,1,36.29,6.3a.6.6,0,0,1-1.2,0,1.65,1.65,0,0,0-1.61-1.63h-.14a1.62,1.62,0,0,0,.12,3.24Z"
+                        transform="translate(0 0)" style="fill:#6f42c1" />
+                      <path
+                        d="M23.75,37.61a5.35,5.35,0,0,1-1.57-3.78V31.41H2v2.43A4.15,4.15,0,0,0,6.14,38h18A3.59,3.59,0,0,1,23.75,37.61Z"
+                        transform="translate(0 0)" style="fill:#fd7e14" />
+                      <path
+                        d="M25.33,13.73H18a.6.6,0,1,1,0-1.2h6.65a9.52,9.52,0,0,1-.88-4,9.64,9.64,0,0,1,.21-2H7.75L7.59,30.21H22.82a.53.53,0,0,1,.41.16.57.57,0,0,1,.16.41v3A4.15,4.15,0,0,0,27.47,38h.07a4.13,4.13,0,0,0,4.12-4.13V18.07A9.56,9.56,0,0,1,25.33,13.73ZM13.59,27.22a2.05,2.05,0,1,1,2.12-2A2.09,2.09,0,0,1,13.59,27.22Zm0-6a2.05,2.05,0,1,1,2.12-2A2.09,2.09,0,0,1,13.59,21.22Zm0-6a2.06,2.06,0,1,1,2.12-2.06,2.1,2.1,0,0,1-2.12,2.07ZM27.22,25.81H18a.61.61,0,0,1-.68-.53.6.6,0,0,1,.52-.68.43.43,0,0,1,.16,0h9.2a.61.61,0,0,1,0,1.21Zm.6-6.64a.6.6,0,0,1-.6.6H18a.61.61,0,0,1-.68-.53.6.6,0,0,1,.52-.68H27.2a.6.6,0,0,1,.62.58Z"
+                        transform="translate(0 0)" style="fill:#fd7e14" />
+                    </svg>
+                  </i>
+                  <p class="m-1 font-weight-500">HMIS</p>
+                </a>
+              </li>
+              <li *ngSwitchCase="'lis'" class="text-center p-0 d-inline-block">
+                <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.navLink == './'}"
+                  [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                  class="m-1 d-block pointer text-decoration-none">
+                  <i class="icon fa-fw fa-2x" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 38">
+                      <path
+                        d="M26.34,9.77a9.81,9.81,0,0,1-1.81,18,1,1,0,0,1-.35.06H20.35a1.17,1.17,0,0,1-1.17-1.17h0v-.26H13.61v5.25H30.72A2.84,2.84,0,0,0,33,28.31a2.8,2.8,0,0,0-.94-1.65A13.3,13.3,0,0,0,26.82,6.13h0a1.16,1.16,0,0,0-1.42.44L24.5,8m6.13,21.75a1,1,0,0,1-.41.09,1,1,0,0,1-1-1h0a1,1,0,0,1,1-1h0a1,1,0,0,1,.41.09l.19.11a1,1,0,0,1,.39.79,1,1,0,0,1-.59.9Z"
+                        style="fill:#61676c" />
+                      <path d="M13.61,33a4.91,4.91,0,0,0-4.56,4.9h20.4a1.17,1.17,0,0,0,1.17-1.16h0V33H14Z"
+                        style="fill:#61676c" />
+                      <path
+                        d="M23.55,7.81a3.08,3.08,0,0,0-.61.06L24.53,5.4,25,4.63A1.16,1.16,0,0,0,24.67,3L20.41.28A1.18,1.18,0,0,0,18.8.64L11.4,12.17a1.16,1.16,0,0,0,.35,1.61l.81.52-.37.57-.37.57-.23.36A1.17,1.17,0,0,0,12,17.41l.69.45a1.16,1.16,0,0,0,1.61-.35l.23-.36.37-.57.37-.57.79.51a1.17,1.17,0,0,0,1.61-.37l3-4.72a3,3,0,1,0,2.9-3.62Zm0,4a1.06,1.06,0,1,1,1.05-1.05,1.05,1.05,0,0,1-1.05,1.05Z"
+                        style="fill:#359fd8" />
+                      <rect width="44" height="38" style="fill:#fff;opacity:0" />
+                    </svg>
+                  </i>
+                  <p class="m-1 font-weight-500">LIS</p>
+                </a>
+              </li>
+              <li *ngSwitchCase="'dms'" class="text-center p-0 d-inline-block">
+                <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.navLink == './'}"
+                  [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                  class="m-1 d-block pointer text-decoration-none">
+                  <i class="icon fa-fw fa-2x" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 38" style="height: 34px;">
+                      <rect width="44" height="38" style="fill:#fff;fill-opacity:0" />
+                      <path
+                        d="M39.77,14.63H19.83a3.62,3.62,0,0,0-3.55,2.8h0l-4.82,17a6.31,6.31,0,0,1-2,3.28H36a3.65,3.65,0,0,0,3.58-2.94h0L43.35,19a3.63,3.63,0,0,0-2.87-4.27,3.42,3.42,0,0,0-.71-.07Z"
+                        style="fill:#4f5e7e" />
+                      <path
+                        d="M25.9,6.07a4.33,4.33,0,0,1,4.24,3.54h.26a4.23,4.23,0,0,1,4.16,3.47h.74V8.47a3.94,3.94,0,0,0-3.92-3.92H23.71a5.18,5.18,0,0,1-3.42-1.28L17.85,1.15a3.67,3.67,0,0,0-2.4-.9H4.51A3.93,3.93,0,0,0,.58,4.17V33A4.8,4.8,0,0,0,2.9,37.08V11.27a5.22,5.22,0,0,1,5.2-5.2Z"
+                        style="fill:#4f5e7e" />
+                      <path
+                        d="M10,34.07l4.81-17a5.18,5.18,0,0,1,5.06-4H33a2.68,2.68,0,0,0-2.57-1.92H12.52A3.67,3.67,0,0,0,8.87,14.8V36.17A4.63,4.63,0,0,0,10,34.1Z"
+                        style="fill:#11cdef" />
+                      <path
+                        d="M28.55,9.61a2.76,2.76,0,0,0-2.65-2H8.1a3.64,3.64,0,0,0-3.65,3.65h0v26.4a4.73,4.73,0,0,0,2.87-.36V14.81a5.22,5.22,0,0,1,5.2-5.2Z"
+                        style="fill:#11cdef" />
+                      <path
+                        d="M31.31,27.16a.47.47,0,0,1-.47.49H28.39a.47.47,0,0,0-.48.48h0v2.43a.49.49,0,0,1-.49.49h-2a.49.49,0,0,1-.49-.49V28.14a.47.47,0,0,0-.47-.49h-2.4a.47.47,0,0,1-.48-.48h0V25.21a.47.47,0,0,1,.48-.48H24.5a.47.47,0,0,0,.48-.48h0V21.8a.49.49,0,0,1,.49-.48h2a.49.49,0,0,1,.49.48v2.44a.47.47,0,0,0,.47.49h2.45a.47.47,0,0,1,.48.48Z"
+                        style="fill:#fff;stroke:#000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.04426887258887291px" />
+                    </svg>
+                  </i>
+                  <p class="m-1 font-weight-500">DMS</p>
+                </a>
+              </li>
+              <li *ngSwitchCase="'inventory'" class="text-center p-0 d-inline-block">
+                <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.navLink == './'}"
+                  [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                  class="m-1 d-block pointer text-decoration-none">
+                  <i class="icon fa-fw fa-2x" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 38">
+                      <rect width="44" height="38" style="fill:#fff;fill-opacity:0" />
+                      <path
+                        d="M38.82,37.77H5.18l.1-20.13a4.14,4.14,0,0,1,.17-1.17A2,2,0,0,1,6,14.88L19.46,1.36A3.81,3.81,0,0,1,22.12.23a3.46,3.46,0,0,1,2.46,1L37.74,14.9a2,2,0,0,1,.48.8,4.06,4.06,0,0,1,.51,1.94Z"
+                        style="fill:#677691" />
+                      <path d="M9.77,27.75v7H16.7v-7Zm3.56.37h.44v3.93h-.44Zm-.63,0h.42v3.93h-.45Z" style="fill:#fff" />
+                      <path d="M18.45,27.75v7h6.92v-7Zm3.56.37h.43v3.93H22Zm-.64,0h.44v3.93h-.44Z" style="fill:#fff" />
+                      <path d="M14.06,20.37v7H21v-7Zm3.36,4.33H17v-4h.44Zm.64,0h-.43v-4h.43Z" style="fill:#fff" />
+                      <path d="M22.76,20.37v7H29.7v-7Zm3.36,4.33H25.7v-4h.42Zm.66,0h-.44v-4h.44Z" style="fill:#fff" />
+                      <path d="M27.15,27.75v7H34v-7Zm3.56.37h.44l0,3.93h-.41Zm-.67,0h.44v3.93H30Z" style="fill:#fff" />
+                      <path
+                        d="M38.73,17.64a4.06,4.06,0,0,0-.51-1.94,2,2,0,0,0-.48-.8L24.58,1.25a3.46,3.46,0,0,0-2.46-1,3.81,3.81,0,0,0-2.66,1.13L6,14.88a2,2,0,0,0-.58,1.59,4.14,4.14,0,0,0-.17,1.17l-.1,20.13H38.82ZM22.07,4.44l8.85,9.18H13ZM9.23,33.74,9.3,18.31H34.71l.07,15.43Z"
+                        style="fill:#222d3d" />
+                    </svg>
+                  </i>
+                  <p class="m-1 font-weight-500">INVENTORY</p>
+                </a>
+              </li>
+              <li *ngSwitchCase="'ris'" class="text-center p-0 d-inline-block">
+                <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.navLink == './'}"
+                  [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                  class="m-1 d-block pointer text-decoration-none">
+                  <i class="icon fa-fw fa-2x" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 38">
+                      <title>icons</title>
+                      <rect width="44" height="38" style="fill:#fff;fill-opacity:0" />
+                      <path d="M26.45,20a4.89,4.89,0,1,0-4.89,4.89A4.89,4.89,0,0,0,26.45,20Z" style="fill:#d87251" />
+                      <path
+                        d="M26.86,31A12.33,12.33,0,1,0,13,13.46h1.32a11.33,11.33,0,0,1,9.67-5.64A11.16,11.16,0,0,1,31.73,27l-.15.14H1.46v4H24.58A13.34,13.34,0,0,0,26.86,31Z"
+                        style="fill:#4f5e7e" />
+                      <path
+                        d="M23.79.25A18.74,18.74,0,0,0,5.9,13.46h4.8A14.2,14.2,0,1,1,23.75,33.21H11.58A18.74,18.74,0,1,0,23.79.25Z"
+                        style="fill:#4f5e7e" />
+                      <path d="M15.65,21.05a3.8,3.8,0,0,0-3.81-3.81H1.46v7.63H11.84A3.81,3.81,0,0,0,15.65,21.05Z"
+                        style="fill:#d87251" />
+                    </svg>
+                  </i>
+                  <p class="m-1 font-weight-500">RIS</p>
+                </a>
+              </li>
+              <li *ngSwitchCase="'emr'" class="text-center p-0 d-inline-block">
+                <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.navLink == './'}"
+                  [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                  class="m-1 d-block pointer text-decoration-none">
+                  <i class="icon fa-fw fa-2x" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                      <path
+                        d="M224,256A128,128,0,1,0,96,128,128,128,0,0,0,224,256ZM104,424a24,24,0,1,0,24-24A23.94,23.94,0,0,0,104,424ZM320,288.6v49A80.12,80.12,0,0,1,384,416v41.7a16,16,0,0,1-12.9,15.7l-32.2,6.4a8,8,0,0,1-9.4-6.3l-3.1-15.7a7.91,7.91,0,0,1,6.3-9.4l19.3-3.9V416c0-62.8-96-65.1-96,1.9v26.7l19.3,3.9a8.11,8.11,0,0,1,6.3,9.4l-3.1,15.7a8.11,8.11,0,0,1-9.4,6.3l-31.2-4.2a16,16,0,0,1-13.8-15.9V416a80.2,80.2,0,0,1,64-78.4V292.4c-2.2.7-4.4,1.1-6.6,1.9a173,173,0,0,1-114.8,0,110.52,110.52,0,0,0-22.6-5.2v81.6a56,56,0,1,1-32,0V290.3C48.5,301,0,355.8,0,422.4v44.8A44.85,44.85,0,0,0,44.8,512H403.2A44.85,44.85,0,0,0,448,467.2V422.4c0-72-56.8-130.3-128-133.8Z"
+                        style="fill:#3f51b5" />
+                    </svg>
+                  </i>
+                  <p class="m-1 font-weight-500">EMR</p>
+                </a>
+              </li>
+              <li *ngSwitchCase="'qms'" class="text-center p-0 d-inline-block">
+                <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.navLink == './'}"
+                  [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                  class="m-1 d-block pointer text-decoration-none">
+                  <i class="icon fa-fw fa-2x" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 38">
+                      <rect width="44" height="38" style="fill:#fff;fill-opacity:0" />
+                      <path
+                        d="M42.75,27.74v1.79a2.06,2.06,0,0,1-2.07,2.07h-2V29.87a8.51,8.51,0,0,0-4.24-7.35A13.9,13.9,0,0,1,37,21.94,5.8,5.8,0,0,1,42.75,27.74Z"
+                        style="fill:#d87251" />
+                      <path
+                        d="M38.61,15a5.51,5.51,0,0,1-7,5.32,8.15,8.15,0,0,0,.25-10.7,5.34,5.34,0,0,1,1.21-.14A5.52,5.52,0,0,1,38.61,15Z"
+                        style="fill:#d87251" />
+                      <path
+                        d="M37,29.87V32c0,.11,0,.21,0,.32a2.42,2.42,0,0,1-.2.71,2.44,2.44,0,0,1-2.21,1.41H28.82a4.25,4.25,0,0,0,.1-1V31.12a9.45,9.45,0,0,0-3.44-7.29h.09c2.4,0,3.11-.82,4.57-.82A6.85,6.85,0,0,1,37,29.87Z"
+                        style="fill:#d87251" />
+                      <path
+                        d="M21.64,14.47a7.17,7.17,0,0,1-1.36,4.2,5,5,0,0,1-.54.67,6.57,6.57,0,0,1-.59.59,7.25,7.25,0,1,1,.39-10.56,6.71,6.71,0,0,1,.55.63,7.18,7.18,0,0,1,.48.7A7.09,7.09,0,0,1,21.64,14.47Z"
+                        style="fill:#d87251" />
+                      <path
+                        d="M32.09,14.87A6.51,6.51,0,0,1,30,19.63a4.79,4.79,0,0,1-.55.46,6.9,6.9,0,0,1-.63.42l-.07,0a6.34,6.34,0,0,1-2.93.83h-.27a6.46,6.46,0,0,1-4-1.37A9,9,0,0,0,22,9.44a6.53,6.53,0,0,1,7.12,0,6.76,6.76,0,0,1,.61.44,6.28,6.28,0,0,1,.54.49A6.53,6.53,0,0,1,32.09,14.87Z"
+                        style="fill:#d87251" />
+                      <path d="M28.9,20.55h-.13l.07,0Z" style="fill:#d87251" />
+                      <path
+                        d="M27.07,31.12v2.36a2.72,2.72,0,0,1-.18,1,2.79,2.79,0,0,1-.5.83A2.7,2.7,0,0,1,25,36.1a3.09,3.09,0,0,1-.68.09H4.44a2.71,2.71,0,0,1-2.72-2.71V31.12a7.61,7.61,0,0,1,7.61-7.6c1.63,0,2.4.9,5.07.9h.08a8.7,8.7,0,0,0,1.22-.09,11.59,11.59,0,0,0,2.12-.51,5.14,5.14,0,0,1,1.65-.3,7.68,7.68,0,0,1,3.41.81c.21.11.41.23.61.35s.4.26.59.41A7.59,7.59,0,0,1,27.07,31.12Z"
+                        style="fill:#d87251" />
+                      <path d="M15.45,23.44l-.07.06" style="fill:#d87251" />
+                    </svg>
+                  </i>
+                  <p class="m-1 font-weight-500">QMS</p>
+                </a>
+              </li>
+              <li *ngSwitchCase="'asset_managment'" class="text-center p-0 d-inline-block">
+                <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.navLink == './'}"
+                  [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                  class="m-1 d-block pointer text-decoration-none">
+                  <i class="icon fa-fw fa-2x" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 38">
+                      <rect width="44" height="38" style="fill:#fff;fill-opacity:0" />
+                      <path
+                        d="M12.56,6.06l-.63-1.32,1.16-.56L14,6.06h1.14l1.11-2.23,1.16.58-.82,1.65h1.75L19.79,2.5,18.85,3a1.13,1.13,0,0,1-1.4-.33l-.74-1-1,1a1.17,1.17,0,0,1-.88.32A1.09,1.09,0,0,1,14,2.52l-.65-.87L12.22,2.83a1.15,1.15,0,0,1-1.11.28L9.55,2.66l1.84,3.4Z"
+                        style="fill:#17a2b8" />
+                      <path
+                        d="M18.76,19h4.53V9.94H18.76ZM22,11.24h.65v1.29H22Zm0,2.58h.65v1.3H22Zm0,2.59h.65v1.3H22Zm-1.94-5.17h.65v1.29h-.65Zm0,2.58h.65v1.3h-.65Zm0,2.59h.65v1.3h-.65Z"
+                        style="fill:#17a2b8" />
+                      <path
+                        d="M11,19h6.47V9.29a.65.65,0,0,1,.65-.64h1.12a7.48,7.48,0,0,0-.74-1.3H11.17c-.61.38-2.76,3.61-2.76,7.08v2A2.59,2.59,0,0,0,11,19Zm1.29-4.53h2.59v-.65H12.94a.65.65,0,0,1-.65-.64V11.24a.65.65,0,0,1,.65-.65h.65V9.94h1.29v.65h.65a.65.65,0,0,1,.65.65v.64H13.59v.65h1.94a.65.65,0,0,1,.65.65v1.94a.65.65,0,0,1-.65.64h-.65v.65H13.59v-.65h-.65a.65.65,0,0,1-.65-.64Z"
+                        style="fill:#17a2b8" />
+                      <path d="M32.35,17.06h1.3V19h-1.3Z" style="fill:#17a2b8" />
+                      <path
+                        d="M28.47,15.12h-.65a.64.64,0,0,1-.59-.4.65.65,0,0,1,.14-.71l2.39-2.4V2.18H24.59V19h3.88ZM27.82,3.47h.65v1.3h-.65Zm0,2.59h.65V7.35h-.65Zm0,2.59h.65V9.94h-.65Zm0,2.59h.65v1.29h-.65Zm-1.29,1.29h-.65V11.24h.65Zm0-2.59h-.65V8.65h.65Zm0-2.59h-.65V6.06h.65Zm0-2.58h-.65V3.47h.65Z"
+                        style="fill:#17a2b8" />
+                      <path d="M36.61,13.82,33,10.21l-3.61,3.61Z" style="fill:#17a2b8" />
+                      <path d="M36.23,19V15.12H29.76V19h1.3V16.41a.65.65,0,0,1,.65-.65h2.58a.65.65,0,0,1,.65.65V19Z"
+                        style="fill:#17a2b8" />
+                      <path
+                        d="M35.52,23.82a.62.62,0,0,1-.32.3L31,25.92a3.23,3.23,0,0,1-3.19,2.79H17.47v-1.3H27.82a1.94,1.94,0,1,0,0-3.88H18.51a16.58,16.58,0,0,0-9.45,2.94v8.71H23.69A16.06,16.06,0,0,0,39.48,21.93l.28-1.59a1.13,1.13,0,0,0-.25-.93,1.14,1.14,0,0,0-1.9.22v0H8.41v1.29H37Z"
+                        style="fill:#6c757d" />
+                      <path d="M3.88,37.76H7.77V23.53H3.88Zm1.3-12.29H6.47v1.94H5.18Z" style="fill:#6c757d" />
+                      <path d="M35.59,1.53h1.29V2.82H35.59Z" style="fill:#17a2b8" />
+                      <path d="M36.88.24h1.3V1.53h-1.3Z" style="fill:#17a2b8" />
+                      <path d="M38.18,1.53h1.29V2.82H38.18Z" style="fill:#17a2b8" />
+                      <path d="M36.88,2.82h1.3v1.3h-1.3Z" style="fill:#17a2b8" />
+                      <path d="M40.12,4.77h1.29V6.06H40.12Z" style="fill:#17a2b8" />
+                      <path d="M35.59,6.71h1.29V8H35.59Z" style="fill:#17a2b8" />
+                      <path d="M2.59,6.06H3.88V7.35H2.59Z" style="fill:#17a2b8" />
+                      <path d="M3.88,4.77h1.3V6.06H3.88Z" style="fill:#17a2b8" />
+                      <path d="M5.18,6.06H6.47V7.35H5.18Z" style="fill:#17a2b8" />
+                      <path d="M3.88,7.35h1.3v1.3H3.88Z" style="fill:#17a2b8" />
+                      <path d="M2.59,11.24H3.88v1.29H2.59Z" style="fill:#17a2b8" />
+                      <path d="M5.18.24H6.47V1.53H5.18Z" style="fill:#17a2b8" />
+                    </svg>
+                  </i>
+                  <p class="m-1 font-weight-500" style="line-height: 1.2;">
+                    <span class="d-block">ASSET</span>
+                    <span class="d-block">MANAGEMENT</span>
+                  </p>
+                </a>
+              </li>
+              <li *ngSwitchCase="'nursing'" class="text-center p-0 d-inline-block">
+                <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.navLink == './'}"
+                  [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                  class="m-1 d-block pointer text-decoration-none">
+                  <i class="icon fa-fw fa-2x" aria-hidden="true">
+                    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                      <path style="fill: #83B5FF;"
+                        d="M319.41,320,224,415.39,128.59,320C57.1,323.1,0,381.6,0,453.79A58.21,58.21,0,0,0,58.21,512H389.79A58.21,58.21,0,0,0,448,453.79C448,381.6,390.9,323.1,319.41,320Z"
+                        transform="translate(0 0)" />
+                      <path style="fill: #83B5FF;"
+                        d="M224,304A128,128,0,0,0,352,176V65.82a32,32,0,0,0-20.76-30L246.47,4.07a64,64,0,0,0-44.94,0L116.76,35.86A32,32,0,0,0,96,65.82V176A128,128,0,0,0,224,304Z"
+                        transform="translate(0 0)" />
+                      <path style="fill: #e51010;"
+                        d="M184,71.67a5,5,0,0,1,5-5h21.67V45a5,5,0,0,1,5-5h16.66a5,5,0,0,1,5,5V66.67H259a5,5,0,0,1,5,5V88.33a5,5,0,0,1-5,5H237.33V115a5,5,0,0,1-5,5H215.67a5,5,0,0,1-5-5V93.33H189a5,5,0,0,1-5-5Z"
+                        transform="translate(0 0)" />
+                      <path style="fill: #fff;" d="M144,160H304v16a80,80,0,0,1-160,0Z" transform="translate(0 0)" />
+                    </svg>
+                  </i>
+                  <p class="m-1 font-weight-500">NURSING</p>
+                </a>
+              </li>
+              <li *ngSwitchCase="'ot'" class="text-center p-0 d-inline-block">
+                <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.navLink == './'}"
+                  [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                  class="m-1 d-block pointer text-decoration-none">
+                  <i class="icon fa-fw fa-2x" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 403.2 489">
+                      <path d="M376.88,311a41.09,41.09,0,1,0-41.17-41.09A41.13,41.13,0,0,0,376.88,311Z"
+                        transform="translate(-22.4 -8)" style="fill:#345e32" />
+                      <path
+                        d="M406.28,316.84H329.84V281.61a11.77,11.77,0,0,0-23.53,0v58.71h100a11.74,11.74,0,1,0,0-23.48Z"
+                        transform="translate(-22.4 -8)" style="fill:#345e32" />
+                      <path d="M30,316.84v23.48H300.44V269.87H77A47,47,0,0,0,30,316.84Z" transform="translate(-22.4 -8)"
+                        style="fill:#345e32" />
+                      <path
+                        d="M347.79,80.4H244.63V8H203.37V80.4H100.21a41.23,41.23,0,0,0-41.27,41.19v10.3H389.05v-10.3A41.22,41.22,0,0,0,347.79,80.4Z"
+                        transform="translate(-22.4 -8)" style="fill:#d6dab0" />
+                      <polygon
+                        points="403.2 338.19 0 338.19 0 400.77 91.6 400.77 91.6 489 311.6 489 311.6 400.77 403.2 400.77 403.2 338.19"
+                        style="fill:#011900" />
+                    </svg>
+                  </i>
+                  <p class="m-1 font-weight-500">OT</p>
+                </a>
+              </li>
+              <li *ngSwitchCase="'communication'" class="text-center p-0 d-inline-block">
+                <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.navLink == './'}"
+                  [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                  class="m-1 d-block pointer text-decoration-none">
+                  <i class="icon fa-fw fa-2x" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 125.38 118.27">
+                      <path
+                        d="M84.47,76.14A41.2,41.2,0,1,0,2.89,87.69v0a39.14,39.14,0,0,0,1.25,5.78A41.38,41.38,0,0,0,9.3,103.73c0,.33,0,.65,0,1a19,19,0,0,1-7.63,15.66,1,1,0,0,0-.21,1.37,1,1,0,0,0,.65.39,29.33,29.33,0,0,0,20.62-4.71c.19-.12.37-.25.55-.38l.15-.11a48.81,48.81,0,0,0,15.12,5.89A41.24,41.24,0,0,0,84.47,76.14Zm-60,11.24a5.46,5.46,0,1,1,5.46-5.46,5.46,5.46,0,0,1-5.46,5.46Zm19.36,0a5.46,5.46,0,1,1,5.46-5.46,5.45,5.45,0,0,1-5.46,5.46Zm19.35,0a5.46,5.46,0,1,1,5.46-5.46,5.45,5.45,0,0,1-5.46,5.46Z"
+                        transform="translate(-1.31 -4.86)" style="fill:#2d3e50" />
+                      <path
+                        d="M126.66,85.54a1,1,0,0,1-.81.74,29.33,29.33,0,0,1-20.62-4.71c-.19-.12-.37-.25-.55-.38l-.15-.1a48.85,48.85,0,0,1-14.64,5.77,46.52,46.52,0,0,0-45.38-51.4,41.2,41.2,0,1,1,79.63,21.21c-.09.33-.18.65-.28,1a41.8,41.8,0,0,1-5.15,10.23c0,.33,0,.65,0,1a19,19,0,0,0,7.63,15.66A1,1,0,0,1,126.66,85.54Z"
+                        transform="translate(-1.31 -4.86)" style="fill:#1d75b8" />
+                    </svg>
+                  </i>
+                  <p class="m-1 font-weight-500">Communication</p>
+                </a>
+              </li>
+              <li *ngSwitchCase="'pharmacy'" class="text-center p-0 d-inline-block">
+                <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.navLink == './'}"
+                  [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                  class="m-1 d-block pointer text-decoration-none">
+                  <i class="icon fa-fw fa-2x" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 38">
+                      <rect width="44" height="38" style="fill:#fff;fill-opacity:0" />
+                      <path
+                        d="M38.82,37.77H5.18l.1-20.13a4.14,4.14,0,0,1,.17-1.17A2,2,0,0,1,6,14.88L19.46,1.36A3.81,3.81,0,0,1,22.12.23a3.46,3.46,0,0,1,2.46,1L37.74,14.9a2,2,0,0,1,.48.8,4.06,4.06,0,0,1,.51,1.94Z"
+                        style="fill:#677691" />
+                      <path d="M9.77,27.75v7H16.7v-7Zm3.56.37h.44v3.93h-.44Zm-.63,0h.42v3.93h-.45Z" style="fill:#fff" />
+                      <path d="M18.45,27.75v7h6.92v-7Zm3.56.37h.43v3.93H22Zm-.64,0h.44v3.93h-.44Z" style="fill:#fff" />
+                      <path d="M14.06,20.37v7H21v-7Zm3.36,4.33H17v-4h.44Zm.64,0h-.43v-4h.43Z" style="fill:#fff" />
+                      <path d="M22.76,20.37v7H29.7v-7Zm3.36,4.33H25.7v-4h.42Zm.66,0h-.44v-4h.44Z" style="fill:#fff" />
+                      <path d="M27.15,27.75v7H34v-7Zm3.56.37h.44l0,3.93h-.41Zm-.67,0h.44v3.93H30Z" style="fill:#fff" />
+                      <path
+                        d="M38.73,17.64a4.06,4.06,0,0,0-.51-1.94,2,2,0,0,0-.48-.8L24.58,1.25a3.46,3.46,0,0,0-2.46-1,3.81,3.81,0,0,0-2.66,1.13L6,14.88a2,2,0,0,0-.58,1.59,4.14,4.14,0,0,0-.17,1.17l-.1,20.13H38.82ZM22.07,4.44l8.85,9.18H13ZM9.23,33.74,9.3,18.31H34.71l.07,15.43Z"
+                        style="fill:#222d3d" />
+                    </svg>
+                  </i>
+                  <p class="m-1 font-weight-500">PHARMACY</p>
+                </a>
+              </li>
+              <li *ngSwitchCase="'appointment'" class="text-center p-0 d-inline-block">
+                <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.navLink == './'}"
+                  [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                  class="m-1 d-block pointer text-decoration-none">
+                  <i class="icon fa-fw fa-2x" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33.25 38">
+                      <path d="M0,14.25V34.44A3.56,3.56,0,0,0,3.56,38H29.69a3.56,3.56,0,0,0,3.56-3.56h0V14.25Zm25.62,8.39L15,33.16a.89.89,0,0,1-1.26,0h0L7.62,27a.89.89,0,0,1,0-1.26h0l2.11-2.09a.89.89,0,0,1,1.26,0h0l3.41,3.44,7.87-7.8a.9.9,0,0,1,1.26,0h0l2.09,2.12a.88.88,0,0,1,0,1.25ZM22.56,9.5h2.38a1.19,1.19,0,0,0,1.19-1.19V1.19A1.19,1.19,0,0,0,24.94,0H22.56a1.18,1.18,0,0,0-1.18,1.19V8.31A1.18,1.18,0,0,0,22.56,9.5ZM8.31,9.5h2.38a1.19,1.19,0,0,0,1.19-1.19V1.19A1.19,1.19,0,0,0,10.69,0H8.31A1.18,1.18,0,0,0,7.13,1.19V8.31A1.18,1.18,0,0,0,8.31,9.5Z" style="fill:#4f5e7e"/>
+                      <path d="M25.63,21.38l-2.09-2.11a.89.89,0,0,0-1.26,0h0l-7.87,7.81L11,23.63a.89.89,0,0,0-1.26,0h0L7.62,25.71a.9.9,0,0,0,0,1.26h0l6.13,6.18a.89.89,0,0,0,1.26,0h0L25.62,22.63a.89.89,0,0,0,0-1.26h0Z" style="fill:#fff"/>
+                      <path d="M29.69,4.75H26.13V8.31A1.19,1.19,0,0,1,24.94,9.5H22.56a1.18,1.18,0,0,1-1.18-1.19V4.75h-9.5V8.31A1.19,1.19,0,0,1,10.69,9.5H8.31A1.18,1.18,0,0,1,7.13,8.31V4.75H3.56A3.56,3.56,0,0,0,0,8.31v5.94H33.25V8.31A3.56,3.56,0,0,0,29.69,4.75Z" style="fill:#adb5bd"/>
+                    </svg>
+                  </i>
+                  <p class="m-1 font-weight-500">Appointment</p>
+                </a>
+              </li>
+			  <li *ngSwitchCase="'discharge'" class="text-center p-0 d-inline-block">
+                <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.navLink == './'}"
+                  [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                  class="m-1 d-block pointer text-decoration-none">
+                  <i class="icon fa-fw fa-2x" aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42.36 38">
+                      <path d="M16.57,16.93A1.59,1.59,0,0,0,19,15.12c-.8-2.56-.41-3.94,4.43-4.23v2.6A1.59,1.59,0,0,0,25,15.07a1.57,1.57,0,0,0,1.12-.46L31.9,8.8a1.58,1.58,0,0,0,0-2.24h0L26.09.75a1.58,1.58,0,0,0-2.24,0,1.6,1.6,0,0,0-.47,1.11V4.52c-4.55.14-10,1-10,6.65A6.79,6.79,0,0,0,16.57,16.93ZM25,6.09V1.86l5.81,5.81L25,13.48V9.26c-5.44.06-9.17,1.12-7.54,6.33a5.22,5.22,0,0,1-2.52-4.41C14.92,6.48,20.24,6.11,25,6.09Z" style="fill:#28a745"/>
+                      <path d="M35,17.18H20.12a.73.73,0,0,0-.71.71V31H2.74V13.63a.72.72,0,0,0-.7-.7H1a.7.7,0,0,0-.7.7V37a.7.7,0,0,0,.7.7H2a.71.71,0,0,0,.71-.7h0V33.47H39.62V37a.7.7,0,0,0,.7.7h1.07a.7.7,0,0,0,.7-.7V24.27A7.11,7.11,0,0,0,35,17.18ZM39.62,31H21.88V19.65H35a4.62,4.62,0,0,1,4.62,4.62Z" style="fill:#6c757d"/>
+                      <path d="M11.08,28.4a5.73,5.73,0,1,0-5.73-5.73h0A5.74,5.74,0,0,0,11.08,28.4Zm0-8.51A2.78,2.78,0,1,1,8.3,22.67h0A2.78,2.78,0,0,1,11.08,19.89Z" style="fill:#6c757d"/><rect width="42.36" height="38" style="fill:none"/>
+                    </svg>
+                  </i>
+                  <p class="m-1 font-weight-500">Discharge</p>
+                </a>
+              </li>
+            </ng-container>
+          </ng-container>
+        </ul>
+      </li>
+      <!-- <li class="nav-item cursor-not-allowed" placement="bottom" ngbTooltip="Chat" [ngClass]="{'active':isChatMenuSelected}">
+        <a class="nav-link disabledanchor" [routerLink]="['chat']" (click)="highlightedSelectedMenu('Chat')">
+          <i class="icon fa-fw font-20 icon-chat" aria-hidden="true"></i>
+        </a>
+      </li> -->
+      <!-- <li class="nav-item cursor-not-allowed" [ngClass]="{'active':isSettingMenuSelected}" placement="bottom"
+        ngbTooltip="Setting">
+        <a class="nav-link disabledanchor" [routerLink]="" (click)="onMenuIconClick($event,'Settings')">
+          <i class="icon fa-fw font-18 icon-tools" aria-hidden="true"></i>
+        </a>
+      </li> -->
+      <li class="nav-item" [ngClass]="{'active':isNotificationMenuSelected}" placement="bottom"
+        ngbTooltip="Notifications">
+        <a class="nav-link position-relative" [routerLink]="" (click)="onMenuIconClick($event,'Notification')">
+          <i class="icon fa-fw font-20 icon-bell" aria-hidden="true"></i>
+          <span class="badge badge-pill badge-blink">{{notificationCount}}</span>
+        </a>
+      </li>
+      <li class="nav-item mr-1" [ngClass]="{'active':isProfileMenuSelected}" placement="bottom-right"
+        ngbTooltip="User Profile">
+        <a class="nav-link" [routerLink]="" (click)="onMenuIconClick($event,'Profile')">
+          <i class="icon fa-fw font-20 icon-user user" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li class="nav-item" [ngClass]="{'active':isLogoutMenuSelected}" placement="bottom"
+      ngbTooltip="{{loginUserName}}, Logout" placement="auto">
+        <a class="nav-link" [routerLink]="" (click)="onMenuIconClick($event,'Logout')">
+          <i class="icon fa-fw icon-sign-out-alt font-18" aria-hidden="true"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</nav>

@@ -1,0 +1,13 @@
+<div class="card border-0 mb-1 icu">
+  <div class="card-body p-0">
+    <table class="table border-0 mb-0">
+      <tbody>
+        <tr *ngFor=" let param of paramDetails; let i = index;">
+          <th scope="row" width="60%">{{param.name}}</th>
+          <td><input type="text" class="form-control form-control-sm" [(ngModel)]="param.value"
+              (change)="updateParamValue()" placeholder=""></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

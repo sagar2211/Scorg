@@ -1,0 +1,40 @@
+.upload-annotations-modal-body {
+  height: calc(100vh - 150px);
+  overflow-y: auto;
+
+  .image-preview-input {
+    position: relative;
+    overflow: hidden;
+    margin: 0px;
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+
+    input[type=file] {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 0;
+      padding: 0;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 0;
+      filter: alpha(opacity=0);
+    }
+  }
+
+  .list-card-body {
+    height: calc(100vh - 240px);
+    overflow-y: auto;
+  }
+
+  img {
+    pointer-events: visible;
+  }
+
+  .camera-capture {
+    max-width: 400px;
+    text-align: center;
+    margin: auto;
+  }
+}

@@ -1,0 +1,81 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">Audit Logs</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-1 audit-logs-modal-body">
+  <div class="form-row form-group align-items-center m-0">
+    <div class="col-4">
+      <div class="input-group">
+        <input type="text" class="form-control form-control-sm pl-2rem" [(ngModel)]="searchString"
+          (ngModelChange)="this.subject.next();" placeholder="Search">
+        <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+      </div>
+    </div>
+    <div class="col-2">
+      <ng-select [clearable]="false" bindLabel="Name" [items]="logTypes" (change)="getListData()" cross
+        [(ngModel)]="selectedLogType" placeholder="Log Type Status"></ng-select>
+    </div>
+    <div class="col text-right">
+      <select class="form-control form-control-sm float-right select-w"
+        (change)="onPageSizeChanged($event.currentTarget.value)">
+        <option value="15" selected="">15</option>
+        <option value="30">30</option>
+        <option value="45">45</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-row m-0">
+    <div class="col">
+      <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25"
+        [footerHeight]="70" [rowHeight]="30" [rows]="dataList" [externalSorting]="true" (sort)="onSortChanged($event)"
+        [externalPaging]="externalPaging" [count]="page.totalElements" [scrollbarH]="true" (page)='onSetPage($event)'>
+        <ngx-datatable-column name="User Name" prop="userName" [width]="200">
+          <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+            <span>{{row.userName}} </span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Action" prop="action" [width]="200">
+          <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+            <span>{{row.action}} </span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Remark" prop="logDescription" [width]="200">
+          <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+            <span>{{row.logDescription}} </span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Created Date" prop="addDate" [width]="120">
+          <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+            <span>{{row.addDate}} </span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="System Node" prop="systemNode" [width]="200">
+          <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+            <span>{{row.systemNode}} </span>
+          </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-footer *ngIf="dataList.length > 0">
+          <ng-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
+            let-curPage="curPage" let-offset="offset" let-isVisible="isVisible" ngx-datatable-footer-template>
+            <div class="mx-3">
+              Showing {{ ((page.pageNumber - 1) * page.size) + 1}} to {{ ((page.pageNumber - 1) * page.size) +
+              dataList.length}} of {{rowCount}} entries
+            </div>
+            <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'"
+              [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'"
+              [page]="page.pageNumber" [size]="page.size" [count]="page.totalElements"
+              [hidden]="!((page.totalElements / page.size) > 1)" (change)="onFooterPage($event)">
+            </datatable-pager>
+          </ng-template>
+        </ngx-datatable-footer>
+      </ngx-datatable>
+    </div>
+  </div>
+  <app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closePopup()">CLOSE</button>
+</div>

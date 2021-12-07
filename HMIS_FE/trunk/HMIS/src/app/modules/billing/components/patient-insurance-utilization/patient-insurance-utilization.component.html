@@ -1,0 +1,310 @@
+<div class="modal-header">
+  <h6 class="mb-0 pt-1 text-uppercase">Patient Insurance Payment</h6>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-0 bg-light">
+  <div class="panel-body p-2 panel-panel-body">
+    <div class="form-row mx-0"> <!-- *ngIf="billingForm.value.selectedPatient?.uhid" -->
+      <div class="col-3 px-1 border bg-white">
+          <div class="card patient-info">
+              <div class="card-body p-1">
+                <div class="form-row mx-0">
+                  <div class="col-9 pl-0">
+                    <ng-container>
+                      {{billingForm.value?.billNo ? billingForm.value?.billNo : 'New Bill'}}
+                    </ng-container>
+                  </div>
+                </div>
+                <div class="form-row mx-0">
+                  <div class="col-6 px-0">
+                      <p class="mb-0 text-muted font-size-dot-75">Bill Date - {{billingForm.value.billDatetime}}
+                      </p>
+                  </div>
+                  <div class="col mt-1 mr-5 px-0 text-left">
+                      <p class="mb-0 text-muted font-size-dot-75">
+                        {{billingForm.value.status}}
+                      </p>
+                  </div>
+                </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-3 px-1 border bg-white">
+          <div class="card patient-info">
+              <div class="card-body p-1">
+                  <div class="form-row mx-0">
+                      <div class="col px-0">
+                          <p class="mb-0">
+                              <span class="text-muted font-size-dot-75"> Patient Info -
+                              </span>
+                              <span class="font-weight-500">{{billingForm.value.selectedPatient?.uhid}}</span>
+                          </p>
+                          <div class="patient-name">
+                              <p class="mb-0 font-size-dot-875 font-weight-500">
+                                  {{billingForm.value.selectedPatient?.fullName}}</p>
+                              <p class="mb-0 text-muted font-size-dot-75">
+                                  {{billingForm.value.selectedPatient?.patGenderAge}}</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-3 px-1 border bg-white">
+          <div class="card patient-info">
+              <div class="card-body p-1">
+                  <div class="form-row mx-0">
+                      <div class="col px-0">
+                          <p class="mb-0">
+                              <span class="text-muted font-size-dot-75"> Encounter -
+                              </span>
+                              <span class="font-size-dot-875 font-weight-500">{{billingForm.value.selectedPatient?.penType}}/{{billingForm.value.selectedPatient?.penVisitNo}}</span>
+                          </p>
+                          <div class="patient-name">
+                              <p class="mb-0 text-muted font-size-dot-75">
+                                  <span class="text-muted font-size-dot-75"> DOA -
+                                  </span>{{billingForm.value.selectedPatient?.patEncDate12}}
+                              </p>
+                              <p class="mb-0 text-muted font-size-dot-75">
+                                  <span class="text-muted font-size-dot-75"> Bed No. -
+                                  </span>{{billingForm.value.selectedPatient?.BedInfo?.LvdmName}}
+                              </p>
+                          </div>
+                      </div>
+                      <!-- <div class="col px-0 text-right col-vouchers-btn">
+                          <button class="btn btn-sm btn-outline-info" type="button" (click)="getAllVauchers()" title="Vouchers">
+                              <i class="fa fa-fw fa-tag"></i>VOUCHERS
+                          </button>
+                      </div> -->
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="col-3 px-1 border bg-white">
+          <div class="card patient-info">
+              <div class="card-body p-1">
+                  <div class="form-row mx-0">
+                      <div class="col px-0">
+                          <p class="mb-0">
+                              <span class="text-muted font-size-dot-75"> Doctor Info -
+                              </span>
+                              <span class="font-size-dot-875 font-weight-500">Dr.
+                                  {{billingForm.value.selectedPatient?.doctorName}}</span>
+                          </p>
+                          <div class="patient-name">
+                              <p class="mb-0 text-muted font-size-dot-75">
+                                  {{billingForm.value.selectedPatient?.docSpecialityName}}
+                              </p>
+                              <p class="mb-0">
+                                <span class="text-muted font-size-dot-75"> Patient Class -
+                                </span><span class="font-size-dot-875 font-weight-500">
+                                  {{billingForm.value.selectedPatient?.activeChargingType}}
+                                </span>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 px-1 mb-1">
+    <ul ngbNav #nav="ngbNav" [(activeId)]="activeTab" class="nav nav-pills border-bottom">
+      <li [ngbNavItem]="'insurance'">
+        <a ngbNavLink>
+          <span class="">Insurance Detail</span>
+            </a>
+        </li>
+        <li [ngbNavItem]="'bill'">
+          <a ngbNavLink>
+            <span class="">Bill Detail</span>
+              </a>
+          </li>
+    </ul>
+  </div>
+  <div class="col-12 px-1" *ngIf="activeTab === 'insurance'">
+      <dx-data-grid id="insuranceDetail"
+        [dataSource]="insuranceData"
+        [height]="'340px'"
+        [showBorders]="true"
+      [showRowLines]="true"
+      [columnAutoWidth]="true"
+      [allowColumnResizing]="true">
+        <dxo-sorting mode="none"></dxo-sorting>
+        <dxo-paging [enabled]="false"></dxo-paging>
+        <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="false" [allowDeleting]="false"
+          [useIcons]="true">
+        </dxo-editing>
+        <dxi-column dataField="customName" caption="Client Name" [fixed]="true" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="insuranceCompanyName" caption="Insurance Company Name" [allowEditing]="false"></dxi-column>
+        <!-- <dxi-column dataField="priorityNo" caption="Priority No" [allowEditing]="false"></dxi-column> -->
+        <!-- <dxi-column dataField="priorityName" caption="Priority Name" [allowEditing]="false"></dxi-column> -->
+        <dxi-column dataField="policyNo" caption="Policy No" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="policyOwner" caption="Policy Owner" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="planType" caption="Plan Type" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="relationship" caption="Relationship" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="employmentType" caption="Employment Type" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="policyAmount" caption="Policy Amt" [allowEditing]="false">
+          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+        </dxi-column>
+        <dxi-column dataField="insuranceDate" caption="Insurance Date" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="requestedAmount" caption="Claim Amt" [allowEditing]="false" [fixed]="true" fixedPosition="right">
+          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+        </dxi-column>
+        <dxi-column dataField="approvalAmount" caption="Approval Amt" [allowEditing]="false" [fixed]="true" fixedPosition="right">
+          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+        </dxi-column>
+        <dxi-column dataField="utilizedAmount" caption="Utilized Amt" [allowEditing]="false" [fixed]="true" fixedPosition="right">
+          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+        </dxi-column>
+        <dxi-column type="buttons" caption="Action" [width]="80" [fixed]="true" fixedPosition="right">
+          <dxi-button hint="info" icon="info" [onClick]="onInfo">
+          </dxi-button>
+        </dxi-column>
+      </dx-data-grid>
+  </div>
+  <div class="col-12 px-1" *ngIf="activeTab === 'bill'">
+      <dx-data-grid id="patientInsuranceGridContainer" #patientInsuranceGridContainer
+        [dataSource]="billServiceData"
+        keyExpr="tempId"
+        [showBorders]="true"
+        (onEditorPreparing)="onEditorPreparing($event)"
+        [showRowLines]="true"
+        [focusedRowEnabled]="true"
+        (onFocusedRowChanged)="onFocusedRowChanged($event)"
+        [allowColumnResizing]="true"
+        [columnAutoWidth]="true"
+        (onContentReady)="onContentReady($event)"
+        (onEditingStart)="onEditingStart($event)">
+        <dxo-load-panel [enabled]="true"></dxo-load-panel>
+        <dxo-scrolling mode="virtual"></dxo-scrolling>
+        <dxo-sorting mode="none"></dxo-sorting>
+        <dxo-paging [enabled]="false"></dxo-paging>
+        <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="false" [allowDeleting]="false"
+          [useIcons]="true">
+        </dxo-editing>
+
+        <dxi-column dataField="isChecked" caption="" dataType="boolean" [width]="30" [fixed]="true"></dxi-column>
+        <dxi-column dataField="serviceCategory" caption="Service Head" [fixed]="true" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="service.serviceName" caption="Service Name" [fixed]="true" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="orderDate" caption="Order Date" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="orderQty" caption="Order Qty" [allowEditing]="false"></dxi-column>
+        <dxi-column dataField="totNetAmt" caption="Net Amt" [allowEditing]="false">
+          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+        </dxi-column>
+        <dxi-column dataField="patInsApprovalId" caption="Insurance Approver">
+          <dxo-lookup [dataSource]="insuranceData" displayExpr="clientName" valueExpr="piaId">
+          </dxo-lookup>
+        </dxi-column>
+        <dxi-column dataField="insuranceRate" caption="Ins Rate">
+          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+        </dxi-column>
+        <!-- <dxi-column dataField="insuranceRateCopy" caption="Ins Rate Copy" [hidingPriority]="0">
+          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+        </dxi-column> -->
+        <dxi-column dataField="approvalAmmount" caption="Ins Pay" [setCellValue]="calSelfContri" [allowEditing]="false" [fixed]="true" fixedPosition="right">
+          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+        </dxi-column>
+        <dxi-column dataField="selfContriAmt" caption="Self Pay" [allowEditing]="false" [fixed]="true" fixedPosition="right">
+          <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+        </dxi-column>
+        <dxo-summary [recalculateWhileEditing]="true" >
+          <dxi-total-item summaryType="count" displayFormat="Sub Total: " showInColumn="serviceCategory"></dxi-total-item>
+          <dxi-total-item summaryType="sum" column="totNetAmt" [customizeText]="decimalWithPrecision"></dxi-total-item>
+          <dxi-total-item summaryType="sum" column="approvalAmmount" [customizeText]="decimalWithPrecision"></dxi-total-item>
+          <dxi-total-item summaryType="sum" column="selfContriAmt" [customizeText]="decimalWithPrecision"></dxi-total-item>
+      </dxo-summary>
+      </dx-data-grid>
+  </div>
+  <dx-popup
+    title="Insurance Rule Information"
+    [(visible)]="popupVisible"
+    [width]="870"
+    [height]="400"
+    [dragEnabled]="true"
+    [closeOnOutsideClick]="true"
+    contentTemplate="popupContent">
+    <div *dxTemplate="let data of 'popupContent'">
+      <dx-data-grid id="insuranceRuleInfo"
+      [dataSource]="selectedRowInfo"
+      [showBorders]="true"
+      [showRowLines]="true"
+      [columnAutoWidth]="true"
+      [allowColumnResizing]="true">
+      <dxo-sorting mode="none"></dxo-sorting>
+      <dxo-paging [enabled]="false"></dxo-paging>
+      <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="false" [allowDeleting]="false"
+        [useIcons]="true">
+      </dxo-editing>
+
+      <dxi-column dataField="srNo" caption="Sr. No" [fixed]="true" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="categoryType" caption="Category Type" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="subServiceName" caption="Sub Service Name" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="cappingType" caption="Capping Type" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="cappingAmount" caption="Capping Amount" [allowEditing]="false">
+        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+      </dxi-column>
+    </dx-data-grid>
+    </div>
+  </dx-popup>
+</div>
+<!-- <div class="card-body p-1 card-body-patient-issue">
+  <div class="form-row align-items-center justify-content-center mx-0">
+      <div class="col-12 bottom-inputs">
+          <div class="clearfix">
+              <div class="float-right">
+                  <div class="form-inline">
+                    <div class="form-group">
+                      <label class="mx-1">Insurance Approval Amount</label>
+                      <input type="number" class="form-control form-control-sm width-140" [value]="totalApprovalAmount" readonly appUpperCase appOnlyNumbersWithDecimal placeholder="Amount">
+                    </div>
+                      <span class="d-inline-block mx-2 font-20">-</span>
+                      <div class="form-group">
+                          <label class="mx-1">Insurance Utilize Amount</label>
+                          <input type="number" class="form-control form-control-sm width-140" [value]="totalUtilizedAmount" readonly appUpperCase appOnlyNumbersWithDecimal placeholder="Amount">
+                      </div>
+                      <span class="d-inline-block mx-2 font-20">=</span>
+                      <div class="form-inline">
+                          <div class="form-group">
+                              <label class="font-size-1 mx-1">Remaining Amount</label>
+                              <h5> {{totalApprovalAmount - totalUtilizedAmount}}</h5>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div> -->
+<div class="modal-footer mt-1 p-1 ">
+  <div class="form-inline">
+    <div class="form-group mr-5" style='justify-content: flex-end; position: relative;'>
+      <label class="mx-1">Insurance Approval Amount</label>
+      <input type="number" class="form-control form-control-sm col-4 p-0" [value]="totalApprovalAmount" readonly appUpperCase appOnlyNumbersWithDecimal placeholder="Amount">
+      <span class="d-inline-block mx-2 font-20 minus">-</span>
+    </div>
+      <div class="form-group" style='position: relative'>
+          <label class="mx-1">Insurance Utilize Amount</label>
+          <input type="number" class="form-control form-control-sm col-4 p-0" [value]="totalUtilizedAmount" readonly appUpperCase appOnlyNumbersWithDecimal placeholder="Amount">
+          <span class=" d-inline-block mx-2 font-20 equal" >=</span>
+      </div>
+      <div class="form-inline">
+          <div class="form-group">
+              <label class="font-size-1 mx-1">Remaining Amount</label>
+              <h5 class="m-0"> {{totalApprovalAmount - totalUtilizedAmount}}</h5>
+          </div>
+      </div>
+      <div class="form-group ml-2">
+        <button type="button" class="btn btn-sm btn-outline-secondary ml-2 text-uppercase"
+          (click)="modal.dismiss();">Cancel</button>
+        <button type="button" class="btn btn-sm btn-outline-success text-uppercase ml-2 " (click)="saveInsurancePayment()">
+          <i aria-hidden="true" class="icon fa-fw icon-save"></i> Save</button>
+    </div>
+  </div>
+
+
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

@@ -1,0 +1,42 @@
+<div class="emr-custom-container-fluid">
+  <div *ngIf="source !== 'history'" class="card-header py-2 border-dash-bottom">
+    <button title="Back to Map List" *ngIf="prevPath !=''" (click)="navigate(prevPath)"
+      class="btn btn-sm border-0 back-arrow-btn" type="button">
+      <i class="icon fa-fw icon-arrow" aria-hidden="true"></i>
+    </button>
+    <h6 class="mb-0 d-inline-block align-middle"> ICU Vitals Chart</h6>
+  </div>
+  <div class="card-body vitals-chart py-2">
+    <div *ngIf="source !== 'history'" class="input-group mb-2">
+      <app-date-picker [inputDate]="date" (dateChange)="date = $event; changeDate();"></app-date-picker>
+      <button type="button" class="btn btn-sm btn-outline-primary text-uppercase ml-2"
+        (click)="navigate('icu_vital_graph')"><i class="icon fa-fw icon-emr-icu-vital-sheet"></i> Vital
+        Graph</button>
+    </div>
+    <div id="table" class="table-editable border-top border-bottom">
+      <table class="table table-bordered table-responsive-md border-top-0 border-bottom-0 mb-0 text-center">
+        <tr class="head">
+          <th *ngFor="let head of timeList; let id = index" class="text-center">{{head=='name'?'Parameter':head}}</th>
+        </tr>
+        <tr class="vital-body" *ngFor="let vital of vitalsList; let id = index">
+          <td *ngFor="let head of timeList; let id = index">
+            <span *ngIf="head=='name'" contenteditable="false">
+              <span class="font-weight-bold float-left">{{vital.section}} </span>{{vital[head]}}</span>
+            <span *ngIf="head!='name' && now!=head" contenteditable="false" style="display: inline-block;
+            width: -webkit-fill-available;
+            height: auto" [ngStyle]="{'color': getColorCode(vital,head)}">
+              {{vital[head]}}</span>
+              <ng-container *ngIf="source !== 'history'" >
+                <input type='text' *ngIf="head!='name' && now==head && currentDate==currentSelectedDate"
+                (blur)="updateList(id, vital, head, $event)" contenteditable="true"
+                [ngStyle]="{'color': getColorCode(vital,head)}"
+                style="display: inline-block;
+                width:100px; height: auto; outline: none;border: none;border-bottom:1px solid#04abdf;background-color: transparent;" placement="left"
+                value={{vital[head]}} ngbTooltip="{{vital.rangetext}}" />
+              </ng-container>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

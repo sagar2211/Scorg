@@ -1,0 +1,94 @@
+@import "../../../../../scss/main";
+
+.services-table {
+  @extend .border;
+  @include border-radius(3px);
+}
+.data-height {
+  height: calc(100vh - 22rem);
+  overflow-y: auto;
+  padding: 0 5px;
+}
+
+//   .table {
+//     thead,
+//     tbody,
+//     tr,
+//     th,
+//     td {
+//       display: block;
+//       font-size: $word-font-size;
+//     }
+
+//     thead {
+//       background-color: rgba($primary, 0.06);
+
+//       th {
+//         line-height: 28px;
+//         @extend .font-weight-500;
+//         border-bottom: unset;
+//         border-top: unset;
+//       }
+//     }
+
+//     tbody {
+//       height: calc(100vh - 22rem);
+//       overflow-y: scroll;
+//       @extend .w-100;
+
+//       tr {
+//         td:first-child {
+//           line-height: 31px;
+//           @include medium-max {
+//             line-height: 28px;
+//           }
+//         }
+
+//         td:not(:first-child) {
+//           @extend .border-left;
+//         }
+//       }
+
+//       tr:last-child {
+//         td {
+//           @extend .border-bottom;
+//         }
+//       }
+
+//       tr:nth-child(even) {
+//         td {
+//           background-color: rgba($primary, 0.02);
+//         }
+//       }
+//     }
+
+//     thead tr,
+//     tbody tr {
+//       th,
+//       td {
+//         @extend .float-left;
+//         padding: 0.2rem;
+//       }
+
+//       td:nth-child(1),
+//       th:nth-child(1) {
+//         width: 58%;
+//       }
+
+//       td:nth-child(2),
+//       th:nth-child(2) {
+//         width: 16%;
+//       }
+
+//       td:nth-child(3),
+//       th:nth-child(3) {
+//         width: 16%;
+//       }
+
+//       td:nth-child(4),
+//       th:nth-child(4) {
+//         width: 10%;
+//       }
+//     }
+//   }
+// }

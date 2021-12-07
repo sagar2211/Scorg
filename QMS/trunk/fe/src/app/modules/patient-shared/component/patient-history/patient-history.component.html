@@ -1,0 +1,92 @@
+<div class="card-header cus-head py-1 border-dash-bottom">
+  <h6 class="mb-0">Appointment History</h6>
+</div>
+<div class="card-body px-2 py-0 patient-history-height">
+  <div class="pt-2" *ngIf="historyListByGroupYear.length; else elseTemplate">
+    <ng-container *ngFor="let history of historyListByGroupYear">
+      <h6 class="mb-1 text-center year"> <span>{{history.year}}</span> </h6>
+      <div class="card bg-light patient-history border-0" *ngFor="let item of history?.data;">
+        <div class="form-row">
+          <div class="col-12 mb-1">
+            <div class="form-row">
+              <div class="col-4">
+                <span class="font-size-dot-8 font-weight-500 date">
+                  <span><i aria-hidden="true" class="icon fa-fw icon-calendar-day font-weight-500"></i><span
+                      [innerHTML]="item.appointmentDate | date : 'dd'"></span><span
+                      [innerHTML]="item.appointmentDate | date : 'MMM'"></span></span>,
+                  <span class="time"><span [innerHTML]="item.appointmentTime"></span></span>
+                </span>
+              </div>
+              <div class="col-8 text-right">
+                <span class="status font-size-dot-75"
+                  [ngClass]="{'status_tentative' : item.appointmentStatus === 'TENTATIVE', 'status_confirmed' : item.appointmentStatus === 'CONFIRMED', 'status_reschedule' : item.appointmentStatus === 'RESCHEDULE', 'status_cancelled' : item.appointmentStatus === 'CANCELLED', 'status_absent' : item.appointmentStatus === 'ABSENT', 'status_complete' : item.appointmentStatus === 'COMPLETE', 'status_notserved' : item.appointmentStatus === 'NOTSERVED'}">
+                  {{item.appointmentStatus === 'NOTSERVED' ? 'NOT SERVED' : item.appointmentDisplayStatus }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 mb-1">
+            <p class="mb-0 ml-1">
+              <span *ngFor="let entity of item.entityValue" (click)="onSearchAppointmentDataByEntity(item)"
+                class="text-primary pointer font-weight-500 font-size-dot-875"><span
+                  *ngIf="item.entityName === 'DOCTOR'">Dr. </span>
+                {{entity.entityValueName}}
+                <span class="font-size-dot-7 font-weight-normal"
+                  *ngIf="item.entityName !== 'DOCTOR'">({{item.entityName}})</span>
+              </span>
+            </p>
+          </div>
+        </div>
+        <div class="form-row border-top">
+          <div class="col-1 px-0 pt-1">
+            <button class="bg-transparent border-0 align-middle" (click)="showPatientAppointmentsDetails(item)"
+              placement="right" ngbTooltip="Appointment Info" type="button"><i
+                class="icon fa-fw icon-extend text-primary"></i></button>
+          </div>
+          <div class="col text-right pt-1">
+            <!-- edit_appointment Tetnative- Yes ,Absent- Yes,Confirm- yes ,Skip-Yes, Complete- No,Cancelled- No-->
+            <ng-container *ngxPermissionsOnly="PermissionsConstantsList.Queue_Edit_Appointment">
+              <!-- <button *ngIf="((item.queueStatus !== 'INCONSULTATION' && item.isDisable &&
+                ((item.queueStatusId !== 5 && item.appointmentStatus === 'CONFIRMED')
+                || item.appointmentStatus === 'TENTATIVE'
+                || (item.queueStatusId > 0 && (item.queueStatus === 'ABSENT' || item.queueStatus === 'SKIP'))))
+                || (item.queueStatusId === 0 && item.appointmentStatus === 'RESCHEDULE'))" type="button"
+                class="btn btn-xs btn-info" (click)="onReschedule(item, 'reschedule')"><i class="icon fa-fw icon-edit"
+                  aria-hidden="true"></i>
+                EDIT</button> -->
+                <button *ngIf="(item.appointmentStatusId !== 6 && item.appointmentStatusId !== 4 && isAppointmentDataExist(item.appointmentDate))" type="button"
+                class="btn btn-xs btn-info" (click)="onReschedule(item, 'reschedule')"><i class="icon fa-fw icon-edit"
+                  aria-hidden="true"></i>
+                EDIT</button>
+            </ng-container>
+            <button class="bg-transparent border-0 align-middle" [autoClose]="true" placement="left-bottom"
+              #schedulePopover="ngbPopover" [ngbPopover]="popContent">
+              <i class="fa fa-fw fa-bars" aria-hidden="true"></i> <i class="fa fa-xs fa-caret-down"
+                aria-hidden="true"></i>
+            </button>
+            <ng-template #popContent>
+              <ul class="list-unstyled popover-content mb-0">
+                <!-- <li *ngxPermissionsOnly="PermissionsConstantsList.Manage_Appointment_Reschedule"><button
+                    *ngIf="(item.appointmentStatus === 'CONFIRMED' || item.appointmentStatus === 'TENTATIVE') && item.queueStatus !== 'INCONSULTATION'"
+                    appHideStatusBtn [type]="'RESCHEDULE'" [item]="item"
+                    class="btn btn-sm btn-block text-left reschedule" (click)="onReschedule(item, 'reschedule')"><i
+                      class="icon fa-fw font-size-dot-8 icon-redo mr-1" aria-hidden="true"></i> Reschedule</button></li> -->
+                <li *ngxPermissionsOnly="PermissionsConstantsList.Manage_Appointment_cancel"><button
+                    *ngIf="item.appointmentStatus !== 'COMPLETE' && item.appointmentStatus !== 'CANCELLED'" appHideStatusBtn [type]="'CANCEL'" [item]="item"
+                    class="btn btn-sm btn-block text-left del" (click)="cancelAppointment(item)"><i
+                      class="icon fa-fw icon-times mr-1" aria-hidden="true"></i> Cancel</button></li>
+                <li *ngxPermissionsOnly="PermissionsConstantsList.Call_Center_View_History"><button
+                    class="btn btn-sm btn-block text-left history" title="Appointment history"
+                    (click)="showAppointmentHistory(item.appointmentId)">
+                    <i class="icon fa-fw icon-history mr-1" aria-hidden="true"></i> History</button></li>
+              </ul>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <ng-template #elseTemplate>
+    <small class="text-muted mb-0">No History Found...</small>
+  </ng-template>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

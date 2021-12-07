@@ -1,0 +1,95 @@
+<ng-container *ngIf="apiData.length > 0">
+    <div class="form-row m-0 position-relative tree" [ngClass]="{'treeview': !treeShow}">
+        <div class="toggle-btn" (click)="showHideTree()" *ngIf="isCompareEnable">
+            <i class="icon icon-right-arrow position-absolute item-arrow" aria-hidden="true"></i>
+        </div>
+        <div [ngClass]="{'col-3': treeShow, 'col-1': !treeShow}" class="px-0">
+            <div class="card border-top-0 border-bottom-0 border-left-0 card-tree">
+                <ng-container *ngIf="loadTree">
+                    <div class="form-row mx-0">
+                        <div class="col-12 px-0">
+                            <div class="input-group">
+                                <input type="text" class="form-control form-control-sm pl-2rem" [(ngModel)]="filterText" (ngModelChange)="onSearchTree();">
+                                <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+                                <div class="input-group-append">
+                                    <button class="btn btn-sm btn-outline-secondary border" type="button" title="Filter" (click)="openFilterPopup()">
+                                    <i class="icon fa-fw icon-filter" aria-hidden="true"></i></button>
+                                    <button class="btn btn-sm btn-outline-secondary border" type="button" title="Compare" (click)="compareFiles()">
+                                    <i class="fa fa-fw fa-exchange-alt" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 tree-height px-0">
+                            <tree-root #tree [nodes]="nodes" [focused]="true" [options]="options" (activate)="onEvent($event, 'activate')" (toggleExpanded)="onEvent($event, 'toggleExpanded')">
+                                <ng-template #treeNodeTemplate let-node let-index="index">
+                                    <span [ngClass]="node.data.value.hashId === selectedHashId ? 'active':'inactive'">{{
+                                    node.data.name }}</span>
+                                </ng-template>
+                            </tree-root>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-6">
+                            <button type="button" class="btn btn-sm btn-outline-mbd" title="Previous" (click)="getNextPrevTreeData('prev')" *ngIf="isPrevEnable"><i
+                                class="fa fa-fw fa-angle-right" aria-hidden="true"></i></button>
+                        </div>
+                        <div class="col-6 text-right">
+                            <button type="button" class="btn btn-sm btn-outline-mbd" title="Next" (click)="getNextPrevTreeData('next')" *ngIf="isNextEnable">
+                            <i class="fa fa-fw fa-angle-left" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div [ngClass]="{'col-9': treeShow, 'col-11': !treeShow}" class="px-0 pdf">
+            <div class="row mx-0">
+                <div class="col-{{isCompareEnable ? '6' : '12'}} px-0 position-relative">
+                    <div class="pdf-height" *ngIf="documentPath" id="{{documentPathId}}">
+                        <div class="cus-head py-1 border-dash-bottom">
+                            <h6 class="mb-0 pl-1">{{documentName}}</h6>
+                        </div>
+                        <div class="custom-pdf-height">
+                            <pdf-viewer [zoom]="documentZoom" [autoresize]="true" [original-size]="false" [src]="documentPath" [render-text]="true" class="d-block">
+                            </pdf-viewer>
+                        </div>
+                        <!-- <div class="custom-pdf-height" *ngIf="isCompareEnable">
+                        <pdf-viewer [zoom]="documentZoom" [autoresize]="true" [original-size]="false" [src]="documentPath" [render-text]="true" class="d-block">
+                        </pdf-viewer>
+                    </div> -->
+                    </div>
+                    <div class="zoom-in-out-btns position-absolute">
+                        <button (click)="zoomInOut('plus', 'com1');" type="button" class="btn btn-sm btn-outline-secondary d-flex align-items-center mb-2"><i
+                            class="fas fa-search-plus"></i></button>
+                        <button (click)="zoomInOut('minus', 'com1');" type="button" class="btn btn-sm btn-outline-secondary d-flex align-items-center"><i
+                            class="fas fa-search-minus"></i></button>
+                    </div>
+
+                </div>
+                <div class="col-6 px-0 border-left position-relative" *ngIf="isCompareEnable">
+                    <div class="pdf-height" *ngIf="documentPathCompare" id="{{documentPathIdCompare}}">
+                        <div class="cus-head py-1 border-dash-bottom">
+                            <h6 class="mb-0 pl-1">{{documentNameCompare}}</h6>
+                            <button type="button" title="Close" class="close font-weight-normal" aria-label="Close" *ngIf="documentNameCompare" (click)="removeFileForCompare('side')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                        <div class="custom-pdf-height">
+                            <pdf-viewer [zoom]="documentCompareZoom" [autoresize]="true" [original-size]="false" [src]="documentPathCompare" [render-text]="true" class="d-block">
+                            </pdf-viewer>
+                        </div>
+                    </div>
+                    <div class="zoom-in-out-btns position-absolute">
+                        <button (click)="zoomInOut('plus', 'com2');" type="button" class="btn btn-sm btn-outline-secondary d-flex align-items-center mb-2"><i
+                            class="fas fa-search-plus"></i></button>
+                        <button (click)="zoomInOut('minus', 'com2');" type="button" class="btn btn-sm btn-outline-secondary d-flex align-items-center"><i
+                            class="fas fa-search-minus"></i></button>
+                    </div>
+                </div>
+            </div>
+            <!-- PDF DOCUMENT -->
+        </div>
+    </div>
+</ng-container>
+<ng-container *ngIf="apiData.length === 0">
+    No Data Found
+</ng-container>

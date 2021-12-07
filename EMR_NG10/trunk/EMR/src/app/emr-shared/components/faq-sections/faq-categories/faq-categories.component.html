@@ -1,0 +1,83 @@
+<ngb-accordion *ngIf="faqSectionDisplaySetting == 'unClubbed' && !isPreview" [closeOthers]="false" [activeIds]="componentInfo?.activeIdsOfPanels" (panelChange)="panelChange($event)">
+  <ngb-panel id="{{componentInfo?.section_key}}">
+    <ng-template ngbPanelTitle>
+      <div class="form-row align-items-center mx-0">
+        <div class="col-3">
+          <p class="mb-0 font-size-dot-875">{{componentInfo?.section_name}}</p>
+        </div>
+        <div class="col-9">
+          <button class="btn btn-sm btn-link text-white text-right" type="button">
+            <i [ngClass]="isPanelOpen ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template ngbPanelContent>
+      <div class="form-row m-0" (click)="openCloseSuggPanel()">
+        <div class="col-4" *ngFor="let category of faqCurrentSectionCategoryList; let i = index;trackBy: trackByFunction;">
+          <div *ngIf="category.sectionId == sectionData.template_id">
+            <button type="button" (click)="loadFaqSectionFromUnclubbed(category, false)" class="btn btn-sm btn-outline-primary-light mb-1"><span [innerHTML]="category.categoryName"></span></button>
+          </div>
+        </div>
+      </div>
+      <div (click)="openCloseSuggPanel()" class="form-row" *ngFor="let category of faqCurrentSectionCategoryList; let faqCurrIndx = index;trackBy: trackByFunction;">
+        <div class="col-12" *ngIf="category.sectionId==sectionData.template_id">
+          <div class="mb-2">
+            <span *ngIf="category.faqSummaryObject.length > 0">Summary of <span [innerHTML]="category.categoryName"></span></span>
+          </div>
+          <div class="mb-2" *ngIf="category.faqSummaryObject.length > 0">
+            <!-- <ul>
+                    <li class="ng-binding no-list-style"
+                      *ngFor="let story of category.faqSummaryObject; let faqSummaryIndx = index;trackBy: trackByFunction;">
+                      <p class="summary-li-bullet text-black bold m-0" *ngIf="story.category!=''"><span
+                          [innerHTML]="story.category"></span></p>
+                      <p class="summary-li-sub-bullet m-0"><span [innerHTML]="story.storyData"></span></p>
+                    </li>
+                  </ul> -->
+            <ul class="list-group summary-list p-1">
+              <li class="list-group-item p-1 bg-light" *ngFor="let story of category.faqSummaryObject; let faqSummaryIndx = index;trackBy: trackByFunction;">
+                <h6 class="text-uppercase mb-0" *ngIf="story.category!=''"><i class="icon fa-fw icon-info-circle align-text-top mr-1"></i><span [innerHTML]="story.category"></span></h6>
+                <ul class="list-group summary-list p-1">
+                  <li class="list-group-item p-1 bg-white">
+                    <p class="mb-0"><span [innerHTML]="story.storyData"></span></p>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
+<ngb-accordion *ngIf="faqSectionDisplaySetting == 'clubbed' && !isPreview" [closeOthers]="false" activeIds="custom_template">
+  <ngb-panel id="custom_template">
+    <ng-template ngbPanelTitle>
+      <span> Custom Template </span>
+    </ng-template>
+    <ng-template ngbPanelContent>
+      <div class="form-row" (click)="openCloseSuggPanel()">
+        <div class="col-12" *ngFor="let section of faqTemplateList | filterArray:'is_Active':true; let faqTempIndx = index;trackBy: trackByFunction;">
+          <button type="button" class="btn btn-primary btn-temp-opd btn-sm btn-border text-uppercase-imp margin-right-10 text-left opd-template-btn" (click)="changeFaqSectionFromPopup(section, false)"
+            [ngClass]="{'opd-template-btn-data': section.isDirty}" title="{{section.template_name}}">
+            <span class="padding-left-5 name" [innerHTML]="section.template_name"></span>
+          </button>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
+<div (click)="openCloseSuggPanel()" *ngIf="faqSectionDisplaySetting == 'openForm' && activeSubSection.sectionId == sectionData.template_id && !isPreview">
+  <app-faq-forms [source]="'openForm'" *ngIf="activeTabName == 'form'" [faqSection]="compInstance"></app-faq-forms>
+</div>
+<ng-container *ngIf="isPreview">
+  <app-faq-popup  [faqSection]="compoInstance"></app-faq-popup>
+</ng-container>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>
+<!--<div class="bg-white position-absolute overflow-hidden slide-faq-form dynamic-chart" [@slideInOut]="animationState"-->
+<!--[ngClass]="{'open': popupLoaded, 'close': !popupLoaded}">-->
+<!--<ng-container>-->
+<!--<app-faq-popup [faqSection]="compoInstance"></app-faq-popup>-->
+<!--</ng-container>-->
+<!--</div>-->
+<!--<div class="backdrop-log" name="backdrop" *ngIf="popupLoaded"></div>-->

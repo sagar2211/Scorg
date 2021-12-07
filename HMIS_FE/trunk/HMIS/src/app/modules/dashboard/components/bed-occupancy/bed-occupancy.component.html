@@ -1,0 +1,80 @@
+<div class="card border-0 card-bed">
+  <div class="card-header border-bottom-0 p-0">
+      <div class="form-row align-items-center mx-0 pt-1">
+          <div class="col px-0">
+              <h6 class="font-size-dot-875 mb-0 pl-2">Bed Occupancy</h6>
+          </div>
+          <div class="col-switch px-0" title="Details">
+              <button class="btn btn-xs" (click)="showBedOccupancySwitch()"
+                  [ngClass]="{'btn-outline-mbd': isBedOccupancySwitch, 'btn-outline-primary': !isBedOccupancySwitch}"><i
+                      class="icon fa-fw icon-eye" aria-hidden="true"></i> <span
+                      [ngClass]="{'d-inline': isBedOccupancySwitch, 'd-none': !isBedOccupancySwitch}">
+                      GRAPH</span>
+                  <span [ngClass]="{'d-none': isBedOccupancySwitch, 'd-inline': !isBedOccupancySwitch}">
+                      TABLE</span>
+              </button>
+          </div>
+      </div>
+      <p class="mb-0 text-muted small pl-2 hidden">Data reflected from 01/04/2021 to 08/04/2021</p>
+  </div>
+  <div class="card-body p-2">
+      <div class="table-scroll postion-relative w-100 m-auto overflow-auto"
+          [ngClass]="{'d-block': isBedOccupancySwitch, 'd-none': !isBedOccupancySwitch}">
+          <table class="table custom-table mb-0 font-size-dot-8">
+              <thead>
+                  <tr>
+                      <th>Bed Type</th>
+                      <th class="text-right">Total</th>
+                      <th class="text-right">Occupied</th>
+                      <th class="text-right">Vacant</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let item of bedData">
+                      <td>{{item.bedType}}</td>
+                      <td class="text-right">{{item.total}}</td>
+                      <td class="text-right">{{item.occupied}}</td>
+                      <td class="text-right">
+                        <span class="font-size-dot-75 p-1 badge custom-badge-success">{{item.vacant}}</span></td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+      <ng-container *ngIf="!isBedOccupancySwitch && loadChart">
+        <dx-chart
+          id="chart"
+          title=""
+          [dataSource]="bedData"
+          [rotated]="true">
+          <dxi-series valueField="total" name="Total" color="#e91d1d"></dxi-series>
+          <dxi-series valueField="occupied" name="Occupied" color="#7d8bd8"></dxi-series>
+          <dxi-series valueField="vacant" name="Vacant" color="#97da97"></dxi-series>
+          <dxi-series valueField="other" name="Other" color="#facb86"></dxi-series>
+          <dxi-value-axis position="right">
+              <!-- <dxo-title text="millions"></dxo-title> -->
+          </dxi-value-axis>
+          <dxo-common-series-settings
+              argumentField="bedType"
+              type="stackedBar"
+              hoverMode="allArgumentPoints"
+              selectionMode="allArgumentPoints">
+              <dxo-label [visible]="true" backgroundColor="transparent"></dxo-label>
+          </dxo-common-series-settings>
+          <dxo-legend
+              verticalAlignment="bottom"
+              horizontalAlignment="center"
+              itemTextPosition="top">
+          </dxo-legend>
+          <dxo-export [enabled]="false"></dxo-export>
+          <!-- <dxo-tooltip
+              [enabled]="true"
+              location="edge"
+              [customizeTooltip]="customizeTooltip">
+          </dxo-tooltip> -->
+      </dx-chart>
+      </ng-container>
+
+      <!-- <img class="img-fluid" src="./assets/img/admin-dashboard/bed.png"
+          [ngClass]="{'d-none': isBedOccupancySwitch, 'd-block': !isBedOccupancySwitch}" /> -->
+  </div>
+</div>

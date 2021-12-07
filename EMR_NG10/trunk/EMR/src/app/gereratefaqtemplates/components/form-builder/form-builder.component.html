@@ -1,0 +1,386 @@
+<div class="emr-container-fluid container-fluid">
+  <div class="card-body p-0">
+    <div class="form-row mx-0 score-template-form-row">
+      <div class="col-3">
+        <div class="form-group">
+          <label>Form Name<sup>*</sup> <span>({{this.templateData?.template_name}})</span></label>
+          <input [(ngModel)]="formModel.formName" class="form-control form-control-sm" type="text"
+            placeholder="Form Name">
+        </div>
+        <div class="form-group">
+          <label>Form Description</label>
+          <input [(ngModel)]="formModel.formDescription" class="form-control form-control-sm" type="text"
+            placeholder="Form Description">
+        </div>
+        <div class="form-group">
+          <label>Form Summary Description</label>
+          <input [(ngModel)]="formModel.formSummary" class="form-control form-control-sm" type="text"
+            placeholder="Summary Description">
+        </div>
+        <div class="card border-bottom-0 basic-conrtols-card">
+          <div class="card-header p-1 border-dash-bottom">
+            <h6 class="mb-0"><span class="icon fa-fw icon-info-circle"></span> Basic Conrtols</h6>
+          </div>
+          <div class="card-body p-0 basic-conrtols-card-body">
+            <!--a draggable element-->
+            <div class="list-group" *ngFor="let control of formControlsModel">
+              <div class="list-group-item pointer p-2" [dndDraggable]="control" [dndEffectAllowed]="'copy'"
+                (dndEnd)="onDragEnd($event)">
+                <p class="mb-0"><i [ngClass]="control.icon" class="fa fa-fw mr-1"></i>{{control.controlName}}<sup
+                    class="text-secondary">(draggable)</sup></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-9 px-0">
+        <div class="card border-top-0 border-right-0 border-bottom-0 preview-template-card">
+          <div class="card-header p-1 border-dash-bottom">
+            <h6 class="mb-0"><span class="icon fa-fw icon-info-circle"></span>Template</h6>
+          </div>
+          <div class="card-body p-0 preview-template-card-body">
+            <div class="field position-relative mt-1"
+              *ngFor="let qusGrp of formModel.queGroupData;let qusGrpIndex= index; let first = first; let last = last;">
+              <div class="form-row align-items-center justify-content-between mx-1 py-1 border">
+                <div class="col-9">
+                  <h6 class="mb-0 word-break-all mb-0 font-size-dot-9">{{qusGrp.questionGroupName}}</h6>
+                </div>
+                <div class="col-3 text-right">
+                  <span class="bg-col-btns mr-1 pointer" title="Move Up" *ngIf="!first"
+                    (click)="updateIndexOfPanel(qusGrpIndex, 'up')">
+                    <i class="icon fa-fw icon-switch-up text-up" aria-hidden="true"></i>
+                  </span>
+                  <span class="bg-col-btns mr-1 pointer" title="Move Down" *ngIf="!last"
+                    (click)="updateIndexOfPanel(qusGrpIndex, 'down')">
+                    <i class="icon fa-fw icon-switch-down text-down" aria-hidden="true"></i>
+                  </span>
+                  <span class="bg-col-btns mr-1 pointer" title="Edit"
+                    (click)="editFormControlSetting(qusGrp,'queGroup', formModel)">
+                    <i class="icon fa-fw icon-edit text-primary" aria-hidden="true"></i>
+                  </span>
+                  <span class="bg-col-btns mr-1 pointer" title="Add"
+                    (click)="addQusGroup(formModel.queGroupData,qusGrpIndex)">
+                    <i class="icon fa-fw icon-plus-circle text-info" aria-hidden="true"></i>
+                  </span>
+                  <span class="bg-col-btns mr-1 pointer" title="Duplicate"
+                    (click)="copyQusGroup(formModel.queGroupData,qusGrp, qusGrpIndex)">
+                    <i class="icon fa-fw icon-copy text-primary-light" aria-hidden="true"></i>
+                  </span>
+                  <span class="bg-col-btns mr-2 pointer" title="Clear"
+                    (click)="removeField(formModel.queGroupData,qusGrpIndex,'queGroup')">
+                    <i class="icon fa-fw icon-eraser text-warning" aria-hidden="true"></i></span>
+                  <span class="bg-col-btns ml-2 pointer" title="Collapse" (click)="qusGrp.collapse=!qusGrp.collapse">
+                    <i class="fa fa-fw fa-chevron-{{qusGrp.collapse ? 'down' : 'up'}} text-secondary"
+                      aria-hidden="true"></i></span>
+                </div>
+              </div>
+              <div class="form-row form-group mx-0 question-panel">
+                <div class="col-12" *ngIf="qusGrp.displayFormat==='horizontal'">
+                  <!-- add collapse class -->
+                  <div class="dnd-drop-area boder-bottom-0" dndDropzone
+                    (dndDrop)="onQueGroupPanelDrop($event,qusGrp.questionPanel)"
+                    [ngClass]="{'empty':qusGrp.questionPanel.length == 0, 'collapse': qusGrp.collapse }">
+                    <div class="alert alert-light m-1" role="alert" *ngIf="qusGrp.questionPanel.length == 0">
+                      <p class="mb-0 font-size-dot-9"><i class="far fa-fw fa-lightbulb mr-1" aria-hidden="true"></i>You
+                        Can Drop Your Question Here and Edit</p>
+                    </div>
+                    <!-- [dndEffectAllowed]="'all'" [dndDraggable]="qus" -->
+                    <div class="card my-2 field border-0 mx-2"
+                      *ngFor="let qus of qusGrp.questionPanel;let qp = index;let first = first; let last = last;"
+                      (dndMoved)="onQuePanelDragged(qus,qusGrp.questionPanel, 'move')">
+                      <div class="card-header position-relative p-0 border">
+                        <div class="form-row align-items-center justify-content-between mx-0 py-1">
+                          <!-- if drag drop required then uncomment below code -->
+                          <!-- <i class="fa fa-ellipsis-v dndHandle" dndHandle></i> -->
+                          <!-- <div class="col-04">
+                                                        <span class="bg-col-btns pointer" title="Drag">
+                                                          <i class="fa fa-fw fa-ellipsis-v" aria-hidden="true"></i>
+                                                        </span>
+                                                    </div> -->
+                          <div class="col-70">
+                            <p class="word-break-all mb-0 font-size-dot-8">{{qus.questionText}}</p>
+                          </div>
+                          <div class="col-23 text-right">
+                            <span class="bg-col-btns mr-1 pointer" title="Move Up" *ngIf="!first"
+                              (click)="updateIndexForQus(qusGrpIndex, qp, 'up')">
+                              <i class="icon fa-fw icon-switch-up text-up" aria-hidden="true"></i>
+                            </span>
+                            <span class="bg-col-btns mr-1 pointer" title="Move Down" *ngIf="!last"
+                              (click)="updateIndexForQus(qusGrpIndex, qp, 'down')">
+                              <i class="icon fa-fw icon-switch-down text-down" aria-hidden="true"></i>
+                            </span>
+                            <span class="bg-col-btns mr-1 pointer" title="Edit"
+                              (click)="editFormControlSetting(qus,'qustion', formModel)">
+                              <i class="icon fa-fw icon-edit text-primary" aria-hidden="true"></i>
+                            </span>
+                            <span class="bg-col-btns mr-1 text-info pointer" title="Add"
+                              (click)="copyQusGroup(formModel.queGroupData,qusGrp, qusGrpIndex)">
+                              <i class="icon fa-fw icon-plus-circle" aria-hidden="true"></i>
+                            </span>
+                            <span class="bg-col-btns mr-1 text-primary pointer" title="Duplicate"
+                              (click)="addQustion(qusGrp,qus,qp)">
+                              <i class="icon fa-fw icon-copy text-primary-light" aria-hidden="true"></i>
+                            </span>
+                            <span class="bg-col-btns mr-2 text-danger pointer" title="Delete"
+                              (click)="removeField(qusGrp.questionPanel,qp)">
+                              <i class="icon fa-fw icon-trash text-pink" aria-hidden="true"></i>
+                            </span>
+                            <span class="bg-col-btns ml-2 pointer" title="Collapse"
+                              (click)="qus.collapse=!qus.collapse">
+                              <i class="fa fa-fw fa-chevron-{{qusGrp.collapse ? 'down' : 'up'}} text-secondary"
+                                aria-hidden="true"></i>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- add collapse class -->
+                      <div class="dnd-drop-area" dndDropzone (dndDrop)="onQuePanelDrop($event,qusGrp,qus.answerData)"
+                        [ngClass]="{'empty':qus.answerData.length == 0, 'collapse': qus.collapse }">
+                        <div class="alert alert-light m-1" role="alert" *ngIf="qus.answerData.length == 0">
+                          <p class="mb-0 font-size-dot-9"><i class="far fa-fw fa-lightbulb mr-1"
+                              aria-hidden="true"></i>You Can Drop Your Answer Groups Here and Edit</p>
+                        </div>
+                        <div class="form-row field mx-0 mt-4" *ngIf="qus.answerData.length > 0">
+                          <ng-container
+                            *ngFor="let item of qus.answerData;let i= index;let first = first; let last = last;">
+                            <!--  [dndEffectAllowed]="'all'" [dndDraggable]="item" -->
+                            <div class="col-{{item.colWidth}}"
+                              (dndMoved)="onAnsGroupDragged(item, qus.answerData, 'move')">
+                              <!-- if drag drop required then uncomment below code -->
+                              <!-- <i class="fa fa-ellipsis-v dndHandle" dndHandle></i> -->
+                              <ng-container [ngSwitch]="item.type">
+                                <div class="form-group pb-4" *ngSwitchCase="'text'">
+                                  <label>{{item.groupLabel ? item.groupLabel : ''}}</label>
+                                  <input type="text" class="form-control form-control-sm"
+                                    placeholder="{{item.groupPlaceHolder}}">
+                                </div>
+                                <div class="form-group pb-4" *ngSwitchCase="'date'">
+                                  <label>{{item.groupLabel ? item.groupLabel : ''}}</label>
+                                  <input type="date" class="form-control form-control-sm"
+                                    placeholder="{{item.groupPlaceHolder}}">
+                                </div>
+                                <div class="form-group pb-4" *ngSwitchCase="'datetime-local'">
+                                  <label>{{item.groupLabel ? item.groupLabel : ''}}</label>
+                                  <input type="datetime-local" class="form-control form-control-sm"
+                                    placeholder="{{item.groupPlaceHolder}}">
+                                </div>
+                                <div class="form-group pb-4" *ngSwitchCase="'textarea'">
+                                  <label>{{item.groupLabel ? item.groupLabel : ''}}</label>
+                                  <textarea class="form-control form-control-sm noresize" rows="4"
+                                    placeholder="{{item.groupPlaceHolder}}"></textarea>
+                                </div>
+                                <div class="form-group pb-4" *ngSwitchCase="'select'">
+                                  <label>{{item.groupLabel ? item.groupLabel : ''}}</label>
+                                  <select *ngIf="item.isDynamicOptions == 'false'"
+                                    class="form-control form-control-sm pointer">
+                                    <option *ngFor="let v of item.optionList" [value]="v.answerKey">{{v.answerText}}
+                                    </option>
+                                  </select>
+                                  <ng-select *ngIf="item.isDynamicOptions == 'true'" [items]="item.dynamicList"
+                                    bindLabel="answerText" bindValue="asnwerKey" [(ngModel)]="item.selectedAns"
+                                    placeholder="{{item.ansGroupPlaceholder}}">
+                                  </ng-select>
+                                </div>
+                                <div class="form-group pb-4" *ngSwitchCase="'checkbox'">
+                                  <label>{{item.groupLabel ? item.groupLabel : ''}}</label>
+                                  <div *ngFor="let v of item.optionList"
+                                    class="{{'inline-form-group col-' + v.colWidth}}">
+                                    <label>
+                                      <input type="checkbox" [value]="v.answerKey" (click)="toggleValue(v)">
+                                      {{v.answerText}}
+                                      <span class="checkmark"></span>
+                                    </label>
+                                  </div>
+                                </div>
+                                <div class="form-group pb-4" *ngSwitchCase="'radio'">
+                                  <label>{{item.groupLabel ? item.groupLabel : ''}}</label>
+                                  <div *ngFor="let v of item.optionList"
+                                    class="{{'inline-form-group col-' + v.colWidth}}">
+                                    <label>
+                                      <input type="radio" [value]="v.answerKey"> {{v.answerText}}
+                                      <span class="checkmark"></span>
+                                    </label>
+                                  </div>
+                                </div>
+                              </ng-container>
+                              <div class="position-absolute componenet-icon">
+                                <!-- <span class="bg-col-btns mr-2 pointer" title="Drag">
+                                  <i class="fa fa-fw fa-ellipsis-v" aria-hidden="true"></i>
+                                </span> -->
+                                <span class="bg-col-btns ml-2 mr-1 pointer" title="Move Up" *ngIf="!first"
+                                  (click)="updateIndexForAns(qusGrpIndex, qp, i, 'up')">
+                                  <i class="icon fa-fw icon-switch-up text-up" aria-hidden="true"></i>
+                                </span>
+                                <span class="bg-col-btns ml-2 mr-1 pointer" title="Move Down" *ngIf="!last"
+                                  (click)="updateIndexForAns(qusGrpIndex, qp, i, 'down')">
+                                  <i class="icon fa-fw icon-switch-down text-down" aria-hidden="true"></i>
+                                </span>
+                                <span class="bg-col-btns mr-1 pointer" title="Edit"
+                                  (click)="editFormControlSetting(item,'ansGroup',qus.answerData)">
+                                  <i class="icon fa-fw icon-edit text-primary" aria-hidden="true"></i>
+                                </span>
+                                <span class="bg-col-btns mr-1 pointer" title="Duplicate"
+                                  (click)="copyAnswerGroup(qus,item,i)">
+                                  <i class="icon fa-fw icon-copy text-primary-light" aria-hidden="true"></i>
+                                </span>
+                                <span class="bg-col-btns mr-1 pointer" title="Delete"
+                                  (click)="removeField(qus.answerData,i)">
+                                  <i class="icon fa-fw icon-trash text-pink" aria-hidden="true"></i>
+                                </span>
+                              </div>
+                            </div>
+                          </ng-container>
+                        </div>
+                        <div class="dnd-placeholder" dndPlaceholderRef></div>
+                      </div>
+                    </div>
+                    <!--optional placeholder element for dropzone-->
+                    <!--will be removed from DOM on init-->
+                    <div class="dnd-placeholder" dndPlaceholderRef>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12" *ngIf="qusGrp.displayFormat!=='horizontal'">
+                  <table class="table custom-table font-size-dot-875 mb-0 border border-top-0">
+                    <thead class="w-100">
+                      <td class="border-top-0 font-weight-500 border-right p-1">
+                        <span>{{qusGrp.questionHeading}}</span>
+                      </td>
+                      <td class="border-top-0 font-weight-500 border-right p-1"
+                        *ngFor="let item of qusGrp.tabularHeadingsData;let i= index;">
+                        <span>{{item.answerGroupHeading}}</span>
+                      </td>
+                      <td class="border-top-0 font-weight-500 p-1">
+                        Actions
+                      </td>
+                    </thead>
+                    <tbody class="w-100">
+                      <tr *ngFor="let qus of qusGrp.questionPanel;let qp= index;">
+                        <td class="first-td">
+                          <span>{{qus.questionText}}</span>
+                        </td>
+                        <td class="first-td" *ngFor="let item of qusGrp.tabularHeadingsData;let tabIndex= index;">
+                          <div class="dnd-drop-area" dndDropzone
+                            (dndDrop)="onQuePanelDrop($event,qusGrp,qus.answerData,tabIndex)"
+                            [ngClass]="{'empty':qus.answerData.length == 0}">
+                            <div class="form-row form-group field" *ngIf="qus.answerData[tabIndex]">
+                              <!--  [dndEffectAllowed]="'all'" [dndDraggable]="item" -->
+                              <div class="col-{{qus.answerData[tabIndex].colWidth}}"
+                                (dndMoved)="onAnsGroupDragged(qus.answerData[tabIndex], qus.answerData, 'move')">
+                                <!-- if drag drop required then uncomment below code -->
+                                <!-- <i class="fa fa-ellipsis-v dndHandle" dndHandle></i> -->
+                                <div class="position-relative">
+                                  <ng-container [ngSwitch]="qus.answerData[tabIndex].type">
+                                    <div *ngSwitchCase="'text'">
+                                      <input type="text" class="form-control form-control-sm"
+                                        id="{{qus.answerData[tabIndex].name}}"
+                                        placeholder="{{qus.answerData[tabIndex].placeholder}}">
+                                    </div>
+                                    <div *ngSwitchCase="'date'">
+                                      <input type="date" class="form-control form-control-sm"
+                                        id="{{qus.answerData[tabIndex].name}}"
+                                        placeholder="{{qus.answerData[tabIndex].placeholder}}">
+                                    </div>
+                                    <div *ngSwitchCase="'datetime-local'">
+                                      <input type="datetime-local" class="form-control form-control-sm"
+                                        id="{{qus.answerData[tabIndex].name}}"
+                                        placeholder="{{qus.answerData[tabIndex].placeholder}}">
+                                    </div>
+                                    <div *ngSwitchCase="'textarea'">
+                                      <textarea class="form-control form-control-sm"
+                                        id="{{qus.answerData[tabIndex].name}}"
+                                        placeholder="{{qus.answerData[tabIndex].placeholder}}">
+                                                                            </textarea>
+                                    </div>
+                                    <div *ngSwitchCase="'select'">
+                                      <ng-container *ngIf="qus.answerData[tabIndex].isSearchByKeyword === 'false'">
+                                        <select class="form-control form-control-sm pointer"
+                                          id="{{qus.answerData[tabIndex].name}}">
+                                          <option *ngFor="let v of qus.answerData[tabIndex].optionList"
+                                            [value]="v.answerKey">
+                                            {{v.answerText}}</option>
+                                        </select>
+                                      </ng-container>
+                                      <ng-container *ngIf="qus.answerData[tabIndex].isSearchByKeyword !== 'false'">
+                                        <select class="form-control form-control-sm pointer"
+                                          id="{{qus.answerData[tabIndex].name}}">
+                                          <option *ngFor="let v of qus.answerData[tabIndex].optionList"
+                                            [value]="v.answerKey">
+                                            {{v.answerText}}</option>
+                                        </select>
+                                      </ng-container>
+                                    </div>
+                                    <div *ngSwitchCase="'checkbox'" class="row">
+                                      <div *ngFor="let v of qus.answerData[tabIndex].optionList"
+                                        class="{{'inline-form-group col-' + v.colWidth}}">
+                                        <label class="cust-check-bx">
+                                          <input type="checkbox" [value]="v.answerKey"
+                                            name="{{qus.answerData[tabIndex].name}}" (click)="toggleValue(v)">
+                                          {{v.answerText}}
+                                          <span class="checkmark"></span>
+                                        </label>
+                                      </div>
+                                    </div>
+                                    <div *ngSwitchCase="'radio'" class="row">
+                                      <div *ngFor="let v of qus.answerData[tabIndex].optionList"
+                                        class="{{'inline-form-group col-' + v.colWidth}}">
+                                        <label class="cust-check-bx">
+                                          <input type="radio" [value]="v.answerKey"
+                                            name="{{qus.answerData[tabIndex].name}}">
+                                          {{v.answerText}}
+                                          <span class="checkmark"></span>
+                                        </label>
+                                      </div>
+                                    </div>
+                                  </ng-container>
+                                </div>
+                                <div class="position-absolute componenet-icon tabular">
+                                  <span class="bg-col-btns ml-2 mr-1 pointer" title="Edit"
+                                    (click)="editFormControlSetting(qus.answerData[tabIndex],'ansGroup',qus.answerData)">
+                                    <i class="icon fa-fw icon-edit text-primary" aria-hidden="true"></i></span>
+                                  <span class="bg-col-btns mr-1 pointer" title="Duplicate"
+                                    (click)="copyAnswerGroup(qus,qus.answerData[tabIndex],tabIndex)">
+                                    <i class="icon fa-fw icon-copy text-primary-light" aria-hidden="true"></i></span>
+                                  <span class="bg-col-btns mr-1 pointer" title="Delete"
+                                    (click)="removeField(qus.answerData,tabIndex)">
+                                    <i class="icon fa-fw icon-trash text-pink" aria-hidden="true"></i></span>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="dndPlaceholder" dndPlaceholderRef>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="bg-col-btns mr-1 pointer" title="Edit"
+                            (click)="editFormControlSetting(qus,'qustion', formModel)">
+                            <i class="icon fa-fw icon-edit text-primary" aria-hidden="true"></i></span>
+                          <span class="bg-col-btns mr-1 text-info pointer" title="Add"
+                            (click)="copyQusGroup(formModel.queGroupData,qusGrp, qusGrpIndex)">
+                            <i class="icon fa-fw icon-plus-circle" aria-hidden="true"></i></span>
+                          <span class="bg-col-btns mr-1 text-primary pointer" title="Duplicate"
+                            (click)="copyQustion(qusGrp,qus,qp)">
+                            <i class="icon fa-fw icon-copy text-primary-light" aria-hidden="true"></i></span>
+                          <span class="bg-col-btns text-danger pointer" title="Delete"
+                            (click)="removeField(qusGrp.questionPanel,qp,'qustion',qusGrp)">
+                            <i class="icon fa-fw icon-trash text-pink" aria-hidden="true"></i></span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer py-1 text-right">
+    <button type="button" class="btn btn-sm btn-outline-secondary mr-2" (click)="showFaqTemplateList()">CANCEL</button>
+    <button type="button" class="btn btn-sm btn-success" (click)="saveTemplateForm()">
+      <i class="icon fa-fw icon-save"></i>SAVE
+    </button>
+  </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

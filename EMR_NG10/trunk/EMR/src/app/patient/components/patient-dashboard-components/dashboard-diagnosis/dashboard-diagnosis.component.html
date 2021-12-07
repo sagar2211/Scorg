@@ -1,0 +1,31 @@
+<div class="card">
+  <div class="card-header cus-head border-dash-bottom px-2 py-1">
+    <h6 class="mb-0"> Diagnosis </h6>
+  </div>
+  <div class="card-body p-0">
+    <div *ngIf="dashboardDataList.length">
+      <table class="table border custom-table font-size-dot-8 mb-0">
+        <thead>
+          <tr class="text-left">
+            <th>Date</th>
+            <th>Diagnosis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let item of dashboardDataList">
+            <tr *ngIf="item.chart_data?.diagnosis_detail && item.chart_data?.diagnosis_detail.length">
+              <td>{{ item.consultation_datetime | date: 'dd-MM-yyyy' }}</td>
+              <td>
+                <ul class="list-unstyled mb-0">
+                  <li *ngFor="let d of item.chart_data?.diagnosis_detail">
+                    <span class="tag-list">{{d.diagnosis }}</span>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

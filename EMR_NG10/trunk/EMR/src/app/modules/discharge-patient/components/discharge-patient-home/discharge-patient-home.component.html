@@ -1,0 +1,16 @@
+<!-- <div class="container-fluid">
+  <div class="row" id="homeComponent">
+      <app-discharge-side-menu [showMenuType]="showMenuType"></app-discharge-side-menu>
+      <div class="column"
+    [ngClass]="{'right-side': showMenuType === 'slide', 'fixed-right-side': showMenuType === 'fixed'}">
+          <router-outlet></router-outlet>
+      </div>
+  </div>
+</div> -->
+<div class="container-fluid">
+  <div class="row" id="homeComponent">
+    <div class="column fixed-right-side discharge-list">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

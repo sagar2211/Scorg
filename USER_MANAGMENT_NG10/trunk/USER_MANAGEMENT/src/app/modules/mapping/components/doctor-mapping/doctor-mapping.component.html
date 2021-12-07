@@ -1,0 +1,135 @@
+<div class="custom-container-fluid mx-2" [@fadeInOut]>
+  <div class="card-header p-1 border-dash-bottom">
+    <button title="Back to Map List" [routerLink]="['./../mappeddoctorlist']" class="btn btn-sm border-0 back-arrow-btn"
+      type="button">
+      <i class="icon fa-fw icon-arrow" aria-hidden="true"></i>
+    </button>
+    <h6 class="mb-0 d-inline-block align-middle"> Add New Mapping</h6>
+  </div>
+  <div class="card-body doctor-mapping pb-0">
+    <div class="card shadow-xs border-0">
+      <div class="container-fluid pt-1">
+        <app-doctor-search (searchResult)="getDoctorSearchResult('select_doctor', $event)"
+          [selectedParentDoc]="assignDoctor" [sourceType]="'select_doctor'">
+        </app-doctor-search>
+      </div>
+    </div>
+    <div class="mapped-list pt-3" *ngIf="selectedDepartment?.id || assignDoctor?.id">
+      <div class="form-row">
+        <div class="col-5">
+          <p class="font-size-dot-875 mb-1 font-weight-500">Doctor Details</p>
+
+          <div class="doctor-details shadow-xs">
+            <div class="profile text-center">
+              <img src="./assets/img/profile.png" width="50" />
+            </div>
+            <p class="font-size-dot-875 mb-1"><span class="detail-heading">Doctor : </span><span
+                class="font-weight-500"> {{assignDoctor?.name}}</span></p>
+            <p class="font-size-dot-875 mb-1"><span class="detail-heading">Department : </span><span
+                class="font-weight-500"> {{selectedDepartment?.name}}</span></p>
+          </div>
+          <div class="text-right pt-2" *ngIf="(!!!updateDoctorMapFlag && !!!addDoctorMapFlag)">
+            <button (click)="cancelMapDoctor();addDoctorMapFlag = true" class="btn btn-xs btn-primary" type="button"><i
+                class="fa fa-fw fa-plus" aria-hidden="true"></i> ADD</button>
+          </div>
+
+          <div class="card mt-3" *ngIf="(addDoctorMapFlag || updateDoctorMapFlag)">
+            <div class="card-header py-2">
+              <h6 class="m-0 font-size-dot-875">Mapping With</h6>
+            </div>
+            <div class="card-body mapped-body-height position-relative py-2">
+              <ng-container *ngIf="addDoctorMapFlag">
+                <app-doctor-search (searchResult)="getDoctorSearchResult('map_doctor', $event)"
+                  [selectedParentDoc]="assignDoctor" [validator]="validateError.mapDoctor" [sourceType]="'map_doctor'">
+                </app-doctor-search>
+              </ng-container>
+              <div class="form-row" *ngIf="updateDoctorMapFlag">
+                <div class="col-12 form-group">
+                  <div class="doctor-details shadow-xs">
+                    <div class="profile text-center">
+                      <img src="./assets/img/profile.png" width="50" />
+                    </div>
+                    <p class="font-size-dot-875 mb-1"><span class="detail-heading">Map Doctor : </span><span
+                        class="font-weight-500">{{doctorMapForm.value.mapDoctor?.name}}</span></p>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row form-group">
+                <div class="col-6">
+                  <label>Map From Date </label>
+                  <app-date-picker [inputDate]="doctorMapForm.value.mapFromDate" placeholder="yyyy-mm-dd"
+                    [max]="doctorMapForm.value.mapToDate" [min]="searchFromMinDate"
+                    (dateChange)="doctorMapForm.patchValue({mapFromDate : $event});">
+                  </app-date-picker>
+                  <small class="text-danger d-block" *ngIf="validateError.mapFromDate">
+                    Please Select From Date</small>
+                </div>
+                <div class="col-6">
+                  <label>Map To Date</label>
+                  <app-date-picker [inputDate]="doctorMapForm.value.mapToDate" placeholder="dd-mm-yyyy"
+                    [min]="doctorMapForm.value.mapFromDate"
+                    (dateChange)="doctorMapForm.patchValue({mapToDate : $event});">
+                  </app-date-picker>
+                  <small class="text-danger d-block" *ngIf="validateError.mapToDate">
+                    Please Select To Date</small>
+                </div>
+                <small class="text-danger d-block" *ngIf="validateError.dateRange">
+                  Invalid from Date</small>
+              </div>
+              <div class="check-map" *ngIf="checkMappedDocflag">
+                <span class="text-danger"> You have already mapped the Doctor during the selected date </span>
+              </div>
+            </div>
+            <div class="card-footer text-right py-1">
+              <button (click)="cancelMapDoctor();addDoctorMapFlag = false;updateDoctorMapFlag = false"
+                class="btn btn-sm btn-outline-secondary mr-2" type="button">CANCEL</button>
+              <button (click)="saveMapDoctor()" type="submit" class="btn btn-sm"
+                [ngClass]="updateDoctorMapFlag ? 'btn-success' : 'btn-primary'">
+                <span *ngIf="addDoctorMapFlag"><i class="icon fa-fw icon-link" aria-hidden="true"></i> MAP</span><span
+                  *ngIf="updateDoctorMapFlag"><i class="fas fa-fw fa-sync-alt" aria-hidden="true"></i> UPDATE</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-7">
+          <p class="font-size-dot-875 mb-1 font-weight-500">Mapping List</p>
+          <ngx-datatable ngx-resize-watcher class="bootstrap" [headerHeight]="50" [footerHeight]="20" [rowHeight]="35"
+            [rows]="doctorMappingDetails['mappingListDetails']" [columnMode]="'force'" [count]="page.totalElements"
+            [limit]='page.size'>
+            <ngx-datatable-column name="Map Doctor" prop="mapdoctorName" [width]="170"></ngx-datatable-column>
+            <ngx-datatable-column name="From Date" prop="fromDate" [width]="140">
+              <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                <span class="align-self-center">{{row.fromDate | customDateFormat : '' : 'DD/MM/YYYY'}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="To Date" prop="toDate" [width]="140">
+              <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                <span class="align-self-center">{{row.toDate | customDateFormat : '' : 'DD/MM/YYYY'}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Status" [width]="150">
+              <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                <div class="custom-control custom-switch" *ngIf="!!!row.isExpiry">
+                  <input type="checkbox" class="custom-control-input" id={{rowIndex}} [checked]='row.isActive'
+                    (click)="toggleOnChange(row)">
+                  <label class="custom-control-label pointer" [class.active]="row.isActive" for={{rowIndex}}></label>
+                  <span class="text-uppercase"
+                    [class.active]="row.isActive">{{row.isActive ? 'Active' : 'InActive'}}</span>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Action" cellClass="text-center" [width]="110" [sortable]="false">
+              <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value"
+                let-isSelected="isSelected">
+                <button *ngIf="row.isActive" class="btn btn-xs btn-info" (click)="editDoctor(row,'')">
+                  <i class="icon fa-fw icon-edit" aria-hidden="true"></i> EDIT
+                </button>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

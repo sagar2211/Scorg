@@ -1,0 +1,407 @@
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<div class="emr-container-fluid container-fluid px-0">
+    <div class="form-row mx-0 connect-card-body">
+        <div class="col-9 border-right px-0">
+            <app-wizard>
+                <app-wizard-step [title]="'Manage Template'" [isValid]="templateFrm.valid" [description]="step1Description" (onNext)="onStep1Next($event)">
+                    <div class="card border-0 pt-2">
+                        <form [formGroup]="templateFrm">
+                            <div class="form-row form-group mx-0">
+                                <div class="col-4">
+                                    <label for="campaignName">Campaign Name <sup>*</sup></label>
+                                    <input class="form-control form-control-sm" formControlName="campaignName" type="text" placeholder="Campaign Name" [(ngModel)]="templateFrm.value.campaignName" [class.error]="templateFrmCntrols['campaignName'].errors?.required">
+                                </div>
+                                <div class="col-4">
+                                    <label for="templateCategory">Category</label>
+                                    <app-ng-select-typeahead [inputValue]="templateFrm.value.templateCategory?.id" [displayList]="templateCategoryList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Select Category'" [returnDataType]="'obj'">
+                                    </app-ng-select-typeahead>
+                                </div>
+                                <div class="col-4">
+                                    <label for="templateName">Template Name</label>
+                                    <app-ng-select-typeahead [inputValue]="templateFrm.value.templateName?.id" [thDisplayLabel]="'displayname'" [thDisplayKey]="'id'" [source]="'Search..'" (recievedVal)="getTemplateDetails($event)" [returnDataType]="'obj'" [displayList]="templateMasterList">
+                                    </app-ng-select-typeahead>
+                                </div>
+                            </div>
+                            <div class="form-row form-group mx-0">
+                                <div class="col-8">
+                                    <div class="form-row">
+                                        <div class="col-9">
+                                            <h6 class="mb-1 font-size-dot-875">SMS Template <sup>*</sup></h6>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="badge badge-secondary font-weight-500 float-right cursor-context mr-1" placement="left" ngbTooltip="Character Count">
+                        {{templateFrm.value.smstemplateDetails.length}}</span>
+                                        </div>
+                                    </div>
+                                    <textarea class="form-control p-2 type-msg" (click)="getSMSCaretPos(smsEditor);" placeholder="SMS Details" (keyup)="getSMSCaretPos(smsEditor)" #smsEditor [class.error]="templateFrmCntrols['smstemplateDetails'].errors?.required" formControlName='smstemplateDetails'></textarea>
+                                    <!-- <small class="text-danger"
+                          *ngIf="templateFrmCntrols['smstemplateDetails'].errors && submitted">Please
+                          add template details</small> -->
+                                </div>
+                                <!-- [ngClass]="{ 'col-8': toggleEdit, 'col-12': !toggleEdit }" -->
+                                <div class="col-4 tag-list-col">
+                                    <div class="form-row">
+                                        <div class="col-6 align-self-end">
+                                            <h6 class="mb-1 font-size-dot-875">Tag List </h6>
+                                        </div>
+                                        <div class="col-6">
+                                            <span class="float-right">
+                        <i class="fas fa-fw font-18 fa-question-circle text-info ml-1" placement="left"
+                          ngbTooltip="Double click on tags to use in template"></i>
+                      </span>
+                                        </div>
+                                    </div>
+                                    <div class="tag-list border">
+                                        <ul class="list-unstyled m-0" *ngIf="tagMasterList.length > 0">
+                                            <li class="pointer p-1" *ngFor="let tag of tagMasterList" (dblclick)="toAddTag(tag.tag_name, templateFrm.value.templateType?.id)">
+                                                <a class="text-capitalize px-2">{{tag.tag_name}}</a>
+                                            </li>
+                                        </ul>
+                                        <p class="font-size-sm text-pink mb-0" *ngIf="tagMasterList.length === 0">Please select template category
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </app-wizard-step>
+                <app-wizard-step [title]="'Patient'" [isValid]="patientListCount > 0" [description]="step2Description" (onNext)="onStep2Next($event)">
+                    <div class="card border-0">
+                        <div class="card-body p-0 query-card-body">
+                            <div class="card m-2 query-card" *ngFor="let qForm of queryListArray; let i=index; last as last">
+                                <div class="card-header p-1 query-card-header">
+                                    <div class="form-row align-items-center mx-0">
+                                        <div class="col-6">
+                                            <div class="form-inline">
+                                                <label class="mb-0 font-size-dot-875">Query On: &nbsp;</label>
+                                                <ng-select class="min-width-select" [items]="queryOnList" bindLabel="name" [(ngModel)]="qForm.queryOn" [clearable]="false">
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <button class="btn btn-sm btn-outline-primary-light text-uppercase mr-2" [ngClass]="{'invisible': i === 3 || !last}" (click)="addQueryBy(i);patientListCount = -1;step2Description = ''" type="button"> <i
+                          class="fas fa-fw fa-plus"></i></button>
+                                            <button class="btn btn-sm btn-outline-danger text-uppercase" (click)="deleteQueryBy(i);patientListCount = -1;step2Description = ''" type="button">
+                        <i class="icon fa-fw icon-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-body p-1" *ngIf="qForm.queryOn?.name === 'PATIENT' || qForm.queryOn?.name === 'PROVIDER'
+                || qForm.queryOn?.name === 'APPOINTMENT' || qForm.queryOn?.name==='SERVICES'">
+                                    <div class="card m-2 query-card" *ngFor="let qbyForm of qForm.querBy; let j=index; last as last">
+                                        <div class="card-header p-0">
+                                            <div class="form-row align-items-center mx-0 py-1">
+                                                <div class="col-6">
+                                                    <div class="form-inline">
+                                                        <label class="mb-0 font-size-dot-875">Query By: &nbsp;</label>
+                                                        <ng-select *ngIf="qForm.queryOn?.name === 'PATIENT'" class="min-width-select" [items]="queryByPatientParamList" bindLabel="name" [(ngModel)]="qbyForm.queryName" [clearable]="false">
+                                                        </ng-select>
+                                                        <ng-select *ngIf="qForm.queryOn?.name === 'APPOINTMENT'" class="min-width-select" [items]="queryByAppParamList" bindLabel="name" [(ngModel)]="qbyForm.queryName" [clearable]="false">
+                                                        </ng-select>
+                                                        <label class="mb-0 font-size-dot-875" *ngIf="qForm.queryOn?.name === 'PROVIDER'">PROVIDER</label>
+                                                        <label class="mb-0 font-size-dot-875" *ngIf="qForm.queryOn?.name === 'SERVICES'">SERVICES</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6 text-right" *ngIf="qForm.queryOn?.name === 'PATIENT' || qForm.queryOn?.name === 'APPOINTMENT'">
+                                                    <button class="btn btn-sm btn-link text-uppercase mr-2" (click)="addQueryOn(i,j);patientListCount = -1;step2Description = ''" [ngClass]="{'invisible': !last ||  j === queryByParamLength(qForm.queryOn?.name)}" type="button"> <i class="fas fa-fw fa-plus"></i></button>
+                                                    <button class="btn btn-sm btn-link text-uppercase" (click)="deleteQueryOn(i,j);patientListCount = -1;step2Description = ''" type="button">
+                            <i class="icon fa-fw icon-trash text-danger"></i></button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body p-1" *ngIf="qForm.queryOn?.name === 'PATIENT' || qForm.queryOn?.name === 'PROVIDER'
+                    || qForm.queryOn?.name === 'APPOINTMENT' || qForm.queryOn?.name==='SERVICES'">
+                                            <form [formGroup]="patientFilterForm" novalidate>
+                                                <div *ngIf="qForm.queryOn?.name === 'PATIENT'">
+                                                    <div class="form-group form-row" *ngIf="qbyForm.queryName?.name === 'PATIENT DETAIL'">
+                                                        <div class="col-4">
+                                                            <label for="gendergrp">Gender</label>
+                                                            <ng-select [items]="genderList" [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="name" placeholder="Select Gender" formControlName="gender"></ng-select>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <label for="bloodgrp">Blood Group</label>
+                                                            <ng-select [items]="bloodGroupList" [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="name" placeholder="Select Doctor" formControlName="blood_group_ids"></ng-select>
+                                                        </div>
+                                                        <div class="col-4" *ngIf="qbyForm.queryName?.name === 'PATIENT DETAIL'">
+                                                            <label class="mr-5">Age</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control form-control-sm" formControlName="age_value" placeholder="Enter Age in year">
+                                                                <div class="input-group-append">
+                                                                    <select class="form-control form-control-sm" formControlName="age_operator">
+                                    <option value="greater">Greater</option>
+                                    <option value="less">Less</option>
+                                    <option value="equal">Equal</option>
+                                  </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group form-row" *ngIf="qbyForm.queryName?.name === 'GEOGRAPHICALY'">
+                                                        <div class="col-4">
+                                                            <label class="mr-5">Country</label>
+                                                            <app-ng-select-typeahead [isSearchDataFromApi]="true" [selectedValue]="patientFilterForm.value.country_id?.name" [inputValue]="patientFilterForm.value.country_id?.id" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Select Country'" (recievedVal)="selectCountry($event)"
+                                                                [searchFun]="getCountryList" [returnDataType]="'obj'" [compInstance]="compInstance">
+                                                            </app-ng-select-typeahead>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <label class="mr-5">State</label>
+                                                            <app-ng-select-typeahead [displayList]="stateList" [inputValue]="patientFilterForm.value.state_id?.id" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Select State'" (recievedVal)="selectState($event)" [returnDataType]="'obj'" [compInstance]="compInstance"
+                                                                [isDisabled]="!!!(patientFilterForm.value.country_id?.id)">
+                                                            </app-ng-select-typeahead>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <label class="mr-5">City</label>
+                                                            <app-ng-select-typeahead [isSearchDataFromApi]="true" [selectedValue]="patientFilterForm.value.city_id?.name" [inputValue]="patientFilterForm.value.city_id?.id" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Select City'" (recievedVal)="selectCity($event)"
+                                                                [returnDataType]="'obj'" [compInstance]="compInstance" [searchFun]="getCity" [isDisabled]="!!!(patientFilterForm.value.state_id?.id)">
+                                                            </app-ng-select-typeahead>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group form-row" *ngIf="qbyForm.queryName?.name === 'GEOGRAPHICALY'">
+                                                        <div class="col-4">
+                                                            <label class="mr-5">Pin Code</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control form-control-sm" formControlName="pin_code" placeholder="Enter Pincode">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group form-row" *ngIf="qbyForm.queryName?.name === 'REGISTRATION DATE'">
+                                                        <div class="col-4">
+                                                            <label for="contain" class="">Registration From Date</label>
+                                                            <app-date-picker [inputDate]="patientFilterForm.value?.reg_from_date" placeholder="yyyy-mm-dd" [max]="patientFilterForm.value.reg_to_date" [isClear]="true" [makeDisabled]="patientFilterForm.value?.registrationCustomDuration?.id != '0'" (dateChange)="patientFilterForm.patchValue({reg_from_date : $event});">
+                                                            </app-date-picker>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <label for="contain" class="">Registration To Date</label>
+                                                            <app-date-picker [inputDate]="patientFilterForm.value?.reg_to_date" placeholder="dd-mm-yyyy" [min]="patientFilterForm.value.reg_from_date" [isClear]="true" [makeDisabled]="patientFilterForm.value?.registrationCustomDuration?.id != '0'" (dateChange)="patientFilterForm.patchValue({reg_to_date : $event});">
+                                                            </app-date-picker>
+                                                        </div>
+                                                        <!-- <div class="col-4">
+                              <label for="contain" class="">Registration Duration</label>
+                              <ng-select class="mb-3" [items]="durationList" bindLabel="name" [closeOnSelect]="true"
+                                [clearable]="false" placeholder="Select Visit duration"
+                                formControlName="registrationCustomDuration"
+                                (change)="durationSelection($event,'registerDuration')">
+                              </ng-select>
+                            </div> -->
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="qForm.queryOn?.name === 'APPOINTMENT'">
+                                                    <div class="form-group form-row">
+                                                        <div class="col-3 form-row" *ngIf="qbyForm.queryName?.name === 'APPOINTMENT STATUS'">
+                                                            <label class="mr-5">Appointment Status</label>
+                                                            <ng-select [items]="appointmentStatusArrayList" bindLabel="name" placeholder="Select Appointment Status" formControlName="appointment_status_id">
+                                                            </ng-select>
+                                                        </div>
+                                                        <div class="col-3 form-row" *ngIf="qbyForm.queryName?.name === 'QUEUE STATUS'">
+                                                            <label class="mr-5">Queue Status</label>
+                                                            <ng-select [items]="queueStatusArrayList" bindLabel="name" placeholder="Select Queue Status" formControlName="queue_status_id">
+                                                            </ng-select>
+                                                        </div>
+                                                        <div class="col-3 form-row" *ngIf="qbyForm.queryName?.name === 'VISIT TYPE'">
+                                                            <label class="mr-5">Visit Type</label>
+                                                            <ng-select class="mb-3" [items]="visitTypeList" bindLabel="visitName" placeholder="Select Visit Type" formControlName="visit_type_id">
+                                                            </ng-select>
+                                                        </div>
+                                                        <div class="col-3 form-row" *ngIf="qbyForm.queryName?.name === 'PATIENT TYPE'">
+                                                            <label class="mr-5">Patient Type</label>
+                                                            <ng-select class="mb-3" [items]="patientTypeList" placeholder="Select Patient Type" formControlName="patient_type">
+                                                            </ng-select>
+                                                        </div>
+                                                        <div class="form-row" *ngIf="qbyForm.queryName?.name === 'VISITED DURATION'">
+                                                            <div class="col-4">
+                                                                <label for="contain" class="">Visited Duration</label>
+                                                                <ng-select class="mb-3" [items]="durationList" [closeOnSelect]="true" [clearable]="false" bindLabel="name" (change)="durationSelection($event,'visitedDuration')" placeholder="Select Visit duration" formControlName="lastvisitedCustomDuration">
+                                                                </ng-select>
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <label for="contain" class="">Visited From Date</label>
+                                                                <app-date-picker [inputDate]="patientFilterForm.value?.lastAppointment_from_date" [makeDisabled]="patientFilterForm.value?.lastvisitedCustomDuration?.id != '0'" placeholder="yyyy-mm-dd" [max]="patientFilterForm.value.reg_to_date" [isClear]="true" (dateChange)="patientFilterForm.patchValue({lastAppointment_from_date : $event});">
+                                                                </app-date-picker>
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <label for="contain" class="">Visisted To Date</label>
+                                                                <app-date-picker [inputDate]="patientFilterForm.value?.lastAppointment_to_date" [makeDisabled]="patientFilterForm.value?.lastvisitedCustomDuration?.id != '0'" placeholder="dd-mm-yyyy" [min]="patientFilterForm.value.reg_from_date" [isClear]="true" (dateChange)="patientFilterForm.patchValue({lastAppointment_to_date : $event});">
+                                                                </app-date-picker>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="qForm.queryOn?.name === 'PROVIDER'">
+                                                    <div class="form-group form-row">
+                                                        <div class="col-3">
+                                                            <label>Provider Type<sup>*</sup></label>
+                                                            <lib-ng-select-typeahead [inputValue]="patientFilterForm.value.entityType?.id" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Search..'" [returnDataType]="'obj'" (recievedVal)="selectEntity($event)" [displayList]="entityList">
+                                                            </lib-ng-select-typeahead>
+                                                        </div>
+                                                        <div class="col-3" *ngIf="patientFilterForm.value.entityType && patientFilterForm.value.entityType.key == 'doctor'">
+                                                            <label>Doctor</label>
+                                                            <lib-ng-select-typeahead [isSearchDataFromApi]="true" [selectedValue]="patientFilterForm.value.entityTypeValue?.name" [inputValue]="patientFilterForm.value.entityTypeValue?.id" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Search..'" (recievedVal)="selectValue($event)"
+                                                                [returnDataType]="'obj'" [searchFun]="getAllDoctorList" [compInstance]="compInstance">
+                                                            </lib-ng-select-typeahead>
+                                                        </div>
+                                                        <div class="col-3" *ngIf="patientFilterForm.value.entityType && patientFilterForm.value.entityType.key == 'joint_clinic'">
+                                                            <label>Joint Clinic</label>
+                                                            <lib-ng-select-typeahead [inputValue]="patientFilterForm.value.entityTypeValue?.id" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Search..'" (recievedVal)="selectValue($event)" [returnDataType]="'obj'" [displayList]="jointClinicList">
+                                                            </lib-ng-select-typeahead>
+                                                        </div>
+                                                        <div class="col-3" *ngIf="patientFilterForm.value.entityType && patientFilterForm.value.entityType.key == 'service_provider'">
+                                                            <label for="lab-service">Service Provider</label>
+                                                            <lib-ng-select-typeahead [inputValue]="patientFilterForm.value.entityTypeValue?.id" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Select provider..'" (recievedVal)="selectValue($event)" [returnDataType]="'obj'" [displayList]="serviceProviderList">
+                                                            </lib-ng-select-typeahead>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" *ngIf="qForm.queryOn?.name === 'SERVICES'">
+                                                    <div class="col-6">
+                                                        <label class="mr-5">Services</label>
+                                                        <ng-select class="mb-3" [items]="serviceList" [multiple]="true" [closeOnSelect]="true" [searchable]="true" bindLabel="name" placeholder="Select Service" formControlName="service_taken_id"></ng-select>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="form-row align-items-center mx-0">
+                                <div class="col-6" *ngIf="patientListCount !== -1">
+                                    <button type="button" class="btn btn-sm btn-block btn-outline-primary-light text-center" role="alert" (click)="showPatientList()">
+                    <p class="mb-0" *ngIf="patientListCount > 0">Selected Template will sent to
+                      <span class="font-weight-600">{{patientListCount}}</span> patients</p>
+                    <p class="mb-0" *ngIf="patientListCount === 0">No Record Found.</p>
+                  </button>
+                                </div>
+                                <div class="col-6 text-right" [ngClass]="{'offset-md-6': patientListCount === -1}">
+                                    <button class="btn btn-sm btn-outline-warning mr-1" (click)="defaultSearchFilter();" type="button"><i
+                      class="fas fa-fw fa-eraser" aria-hidden="true"></i> CLEAR</button>
+                                    <button (click)="searchByFilter();" class="btn btn-sm btn-outline-info" type="submit"> <i
+                      class="icon fa-fw icon-search"></i>
+                    SEARCH</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </app-wizard-step>
+                <app-wizard-step [title]="'Schedule'" [isValid]="patientListCount > 0 && notificationDate" [description]="step3Description" (onNext)="onStep3Next($event)">
+                    <div class="card border-0">
+                        <div class="card-body send-on p-0">
+                            <div class="card m-2">
+                                <div class="card-body p-1">
+                                    <div class="form-row align-items-center mx-0 py-1">
+                                        <div class="col-12 text-center">
+                                            <p class="mb-0 font-size-dot-875 small text-danger" *ngIf="!step3Description">Please select date and time for Schedule sms<sup>*</sup></p>
+                                            <app-date-time-picker [showCalenderOnly]="true" [(ngModel)]="notificationDate" [minInputDatetime]="minDate" [inputDatetimeFormat]="'dd/M/yyyy H:mm'" (outputDateTime)="onDateChange($event)" [seconds]="false">
+                                            </app-date-time-picker>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer p-0">
+                                    <div class="form-row align-items-center mx-0 py-1">
+                                        <div class="col-12 text-center">
+                                            <div *ngIf="patientListCount > 0 && step3Description">
+                                                <p class="mb-0">Selected Template will sent to
+                                                    <span class="font-weight-600">{{patientListCount}}</span> patients on <span class="font-weight-600">{{step3Description}}</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </app-wizard-step>
+                <app-wizard-step [title]="'Summary'" [isValid]="patientListCount > 0 && notificationDate" [compeleteButtonName]="'Send Notification'" (onComplete)="sendNotification()">
+                    <div class="card border-0 pt-2">
+                        <div class="card-body">
+                            <div [ngSwitch]="isCompleted">
+                                <div *ngSwitchDefault>
+                                    Filter By:
+                                    <span *ngIf="patientFilterForm.value.gender?.length">Gender:
+                    <span *ngFor="let q of patientFilterForm.value.gender">
+                      <span class="font-size-dot-875 filter-list mb-1">{{q.name}}</span>
+                                    </span>
+                                    </span>
+                                    <span *ngIf="patientFilterForm.value.blood_group_ids?.length">Blood Group:
+                    <span *ngFor="let q of patientFilterForm.value.blood_group_ids">
+                      <span class="font-size-dot-875 filter-list mb-1">{{q.name}}</span>
+                                    </span>
+                                    </span>
+                                    <span *ngIf="patientFilterForm.value.service_taken_id?.length">Services:
+                    <span *ngFor="let q of patientFilterForm.value.service_taken_id">
+                      <span class="font-size-dot-875 filter-list mb-1">{{q.name}}</span>
+                                    </span>
+                                    </span>
+                                    <span *ngIf="patientFilterForm.value.appointment_from_date">Appointment From Date:
+                    <span
+                      class="font-size-dot-875 filter-list mb-1">{{patientFilterForm.value.appointment_from_date | customDateFormat: '' : 'DD-MMM-YYYY': 'DD/MM/YYYY'}}</span>
+                                    </span>
+                                    <span *ngIf="patientFilterForm.value.appointment_from_date">Appointment To Date:
+                    <span
+                      class="font-size-dot-875 filter-list mb-1">{{patientFilterForm.value.appointment_to_date | customDateFormat: '' : 'DD-MMM-YYYY': 'DD/MM/YYYY'}}</span>
+                                    </span>
+                                    <span *ngIf="patientFilterForm.value.visit_type_id"> Visit Type :
+                    <span
+                      class="font-size-dot-875 filter-list mb-1">{{patientFilterForm.value.visit_type_id.name}}</span>
+                                    </span>
+                                    <span *ngIf="patientFilterForm.value.queue_status_id"> Queue Status :
+                    <span
+                      class="font-size-dot-875 filter-list mb-1">{{patientFilterForm.value.queue_status_id.name}}</span>
+                                    </span>
+                                    <span *ngIf="patientFilterForm.value.appointment_status_id"> Appointment Status :
+                    <span
+                      class="font-size-dot-875 filter-list mb-1">{{patientFilterForm.value.appointment_status_id.name}}</span>
+                                    </span>
+                                    <span *ngIf="patientFilterForm.value.entityType"> Provider Type :
+                    <span
+                      class="font-size-dot-875 filter-list mb-1">{{patientFilterForm.value.entityType.name}}</span>
+                                    </span>
+                                    <span *ngIf="patientFilterForm.value.entityTypeValue"> Provider Name :
+                    <span
+                      class="font-size-dot-875 filter-list mb-1">{{patientFilterForm.value.entityTypeValue.name}}</span>
+                                    </span>
+                                    <span *ngIf="patientFilterForm.value.pin_code"> Pincode :
+                    <span class="font-size-dot-875 filter-list mb-1">{{patientFilterForm.value.pin_code}}</span>
+                                    </span>
+                                    <span *ngIf="patientFilterForm.value.city_id"> City :
+                    <span class="font-size-dot-875 filter-list mb-1">{{patientFilterForm.value.city_id.name}}</span>
+                                    </span>
+                                    <span *ngIf="patientFilterForm.value.state_id"> State :
+                    <span class="font-size-dot-875 filter-list mb-1">{{patientFilterForm.value.state_id.name}}</span>
+                                    </span>
+                                    <span *ngIf="patientFilterForm.value.country_id"> Country :
+                    <span class="font-size-dot-875 filter-list mb-1">{{patientFilterForm.value.country_id.name}}</span>
+                                    </span>
+                                    <span *ngIf="patientFilterForm.value.age_value"> Age :
+                    <span
+                      class="font-size-dot-875 filter-list mb-1">{{patientFilterForm.value.age_value}}-{{patientFilterForm.value.age_operator}}</span>
+                                    </span>
+                                    <span *ngIf="patientFilterForm.value.reg_from_date">Registration From Date:
+                    <span
+                      class="font-size-dot-875 filter-list mb-1">{{patientFilterForm.value.reg_from_date | customDateFormat: '' : 'DD-MMM-YYYY': 'DD/MM/YYYY'}}</span>
+                                    </span>
+                                    <span *ngIf="patientFilterForm.value.reg_to_date">Registration To Date:
+                    <span
+                      class="font-size-dot-875 filter-list mb-1">{{patientFilterForm.value.reg_to_date | customDateFormat: '' : 'DD-MMM-YYYY': 'DD/MM/YYYY'}}</span>
+                                    </span>
+                                    <div>
+                                        <p class="mb-0">Selected Template will notify to
+                                            <span class="font-weight-600">{{patientListCount}}</span> patients on <span class="font-weight-600">{{step3Description}}</span></p>
+                                    </div>
+                                </div>
+                                <div *ngSwitchCase="true">
+                                    <p class="mb-0">Selected Template will notify to
+                                        <span class="font-weight-600">{{patientListCount}}</span> patients on scheduled date and time<span class="mb-0 font-weight-600">{{step3Description}}</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </app-wizard-step>
+            </app-wizard>
+        </div>
+        <div class="col-3 text-center mt-4">
+            <div class="mobile">
+                <textarea class="form-control font-size-dot-75 msg" disabled [(ngModel)]="simulatorStringValue"></textarea>
+            </div>
+        </div>
+    </div>
+</div>

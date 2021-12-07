@@ -1,0 +1,18 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+.entity-setting {
+  .card {
+    @include border-radius(5px);
+    @include custom-box-shadow(0, 0, 5px,rgba(28, 25, 83, 0.12));
+    @include transition(box-shadow 0.5s);
+
+    &:hover {
+      @include custom-box-shadow(0, 4px, 9px,rgba(165, 165, 165, 0.5));
+      @include transition(box-shadow 0.6s, border 0.6s);
+    }
+
+    .card-header {
+      background-color: rgba($primary, 0.06) !important;
+    }
+  }
+}

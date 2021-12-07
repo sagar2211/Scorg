@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <p class="modal-title">COPY TEMPLATE FROM</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+        (click)="modal.dismiss('CANCEL')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body py-2 px-0 orders-modal-body">
+    <div class="form-row form-group mx-0 mb-2">
+        <div class="col">
+            <label>Type</label>
+            <ng-select [items]="typeListArray" bindLabel="name" (change)="onTypeChange($event)"
+                [(ngModel)]="certificateData.formType" placeholder="Select Type">
+            </ng-select>
+        </div>
+        <div class="col">
+            <label> Name</label>
+            <ng-select [disabled]="!certificateData.formType" [items]="templateList" bindLabel="templateName"
+                (change)="onTemplateChange($event)" [(ngModel)]="certificateData.template" placeholder="Select Type">
+            </ng-select>
+        </div>
+    </div>
+    <div class="form-row form-group mx-0 mb-2">
+        <div class="col">
+            <label>Template</label>
+            <p class="word-break-all mb-0 template" *ngIf="certificateData.templateContent"
+                [innerHTML]="certificateData.templateContent">
+            </p>
+        </div>
+    </div>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-mbd" (click)="updateValue()"><i class="icon fa-fw icon-copy"
+            aria-hidden="true"></i>COPY</button>
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss('CANCEL')">CANCEL</button>
+</div>

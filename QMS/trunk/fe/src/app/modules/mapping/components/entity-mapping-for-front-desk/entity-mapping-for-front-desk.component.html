@@ -1,0 +1,80 @@
+<div class="custom-container-fluid mx-2" [@fadeInOut]>
+  <div class="card-header p-1 border-dash-bottom">
+    <button title="Back to Map List" [routerLink]="['./../frontDeskentityMappingList']"
+      class="btn btn-sm border-0 back-arrow-btn" type="button">
+      <i class="icon fa-fw icon-arrow" aria-hidden="true"></i>
+    </button>
+    <h6 class="mb-0 d-inline-block align-middle"> User Mapping List</h6>
+  </div>
+  <form [formGroup]="userMapingForm" (ngSubmit)="saveRoomMasterData();">
+    <div class="container-fluid mapping-height pt-3">
+      <div class="form-row form-group">
+        <div class="col-3">
+          <label>Front Desk User<sup>*</sup></label>
+          <app-ng-select-typeahead [isSearchDataFromApi]="true" [isDisabled]="editMode" [inputValue]="userMapingForm.value.fuId?.user_id"
+            [selectedValue]="userMapingForm.value.fuId?.name" [thDisplayLabel]="'name'" [thDisplayKey]="'user_id'"
+            [source]="'Select Front Desk User'" (recievedVal)="selectFuid($event)" [searchFun]="getUserList"
+            [returnDataType]="'obj'" [compInstance]="compInstance">
+          </app-ng-select-typeahead>
+        </div>
+        <div formArrayName="userMappingList" class="col-9">
+          <div class="form-row form-group"
+            *ngFor="let mapForm of userMappingListArray.controls; let i=index; last as last" [formGroupName]="i">
+            <div class="col-4">
+              <label>Provider Type<sup>*</sup></label>
+              <app-ng-select-typeahead [inputValue]="mapForm.value.entityType?.id" [thDisplayLabel]="'name'"
+                [thDisplayKey]="'id'" [source]="'Search..'" [returnDataType]="'obj'"
+                (recievedVal)="selectEntity($event, i)" [displayList]="entityList">
+              </app-ng-select-typeahead>
+            </div>
+            <div class="col-4" *ngIf="mapForm.value.entityType && mapForm.value.entityType.key == 'doctor'">
+              <label>Doctor</label>
+              <app-ng-select-typeahead [isSearchDataFromApi]="true"
+                [selectedValue]="mapForm.value.entityTypeValue?.name" [inputValue]="mapForm.value.entityTypeValue?.id"
+                [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Search..'"
+                (recievedVal)="selectValue($event, i)" [returnDataType]="'obj'" [searchFun]="getAllDoctorList"
+                [compInstance]="compInstance">
+              </app-ng-select-typeahead>
+            </div>
+            <div class="col-4" *ngIf="mapForm.value.entityType && mapForm.value.entityType.key == 'joint_clinic'">
+              <label>Joint Clinic</label>
+              <app-ng-select-typeahead [inputValue]="mapForm.value.entityTypeValue?.id" [thDisplayLabel]="'name'"
+                [thDisplayKey]="'id'" [source]="'Search..'" (recievedVal)="selectValue($event, i)"
+                [returnDataType]="'obj'" [displayList]="jointClinicList">
+              </app-ng-select-typeahead>
+            </div>
+            <div class="col-4" *ngIf="mapForm.value.entityType && mapForm.value.entityType.key == 'service_provider'">
+              <label for="lab-service">Select Provider</label>
+              <app-ng-select-typeahead [inputValue]="mapForm.value.entityTypeValue?.id" [thDisplayLabel]="'name'"
+                [thDisplayKey]="'id'" [source]="'Select provider..'" (recievedVal)="selectValue($event, i)"
+                [returnDataType]="'obj'" [displayList]="serviceProviderList">
+              </app-ng-select-typeahead>
+            </div>
+            <div class="col-4">
+              <label></label>
+              <div>
+                <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}"
+                  [disabled]="!mapForm.valid" (click)="addNewSection(i)" type="button"> <i
+                    class="fas fa-fw fa-plus"></i></button>
+                <button class="btn btn-sm btn-danger text-uppercase" (click)="deleteSection(i)" type="button">
+                  <i class="icon fa-fw icon-trash"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-right py-1">
+      <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase mr-2"
+        [routerLink]="['./../frontDeskentityMappingList']">
+        Cancel</button>
+      <button [disabled]="!userMapingForm.valid" type="submit" class="btn btn-sm btn-success"
+        [attr.title]="userMapingForm.value.mapid ? 'Update' : 'Save'">
+        <span *ngIf="!userMapingForm.value.mapid"> <i class="icon fa-fw icon-save" aria-hidden="true"></i> SAVE</span>
+        <span *ngIf="userMapingForm.value.mapid"><i class="fas fa-fw fa-sync-alt" aria-hidden="true"></i>
+          UPDATE</span>
+      </button>
+    </div>
+  </form>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

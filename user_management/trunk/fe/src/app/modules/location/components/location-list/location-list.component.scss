@@ -1,0 +1,14 @@
+:host ::ng-deep {
+  .ngx-datatable.fixed-row {
+    .datatable-body {
+      overflow-x: hidden !important;
+      .datatable-body-row {
+        .datatable-body-cell {
+          &:last-child {
+            padding: 2px;
+          }
+        }
+      }
+    }
+  }
+}

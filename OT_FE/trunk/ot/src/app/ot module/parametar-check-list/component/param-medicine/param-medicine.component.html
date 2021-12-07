@@ -1,0 +1,215 @@
+<form>
+    <div class="modal-header">
+        <p class="modal-title text-uppercase">{{addUpdateData?.title}}</p>
+        <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body p-2 pre-ot-modal-body">
+        <div class="form-row mt-1 form-group">
+            <div class="col-2">
+                <ng-select [items]="selectedTypeArray" (change)="updateValueType($event);" [ngModelOptions]="{standalone: true}" [(ngModel)]="selectedType" placeholder="Select Type">
+                </ng-select>
+            </div>
+            <ng-container *ngIf="selectedType === 'Prescription'">
+                <div class="col">
+                    <ng-select [items]="prescriptionList$ | async" bindLabel="name" (change)="onPrescrirtionChange($event)" bindValue="id" [ngModelOptions]="{standalone: true}" [(ngModel)]="prescription.medicineId" placeholder="Select Prescription" [typeahead]="prescriptionInput$"
+                        placeholder="Select Prescription">
+                    </ng-select>
+                </div>
+                <div class="col-2">
+                    <input class="form-control form-control-sm font-size-dot-8 height-31" placeholder="Type Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="prescription.qty">
+                </div>
+                <div class="col-2">
+                    <ng-select [items]="doseList" bindLabel="dose_unit" (change)="onDoseChange($event, 'prescription')" bindValue="id" [ngModelOptions]="{standalone: true}" [(ngModel)]="prescription.unitId" placeholder="Dose">
+                    </ng-select>
+                </div>
+                <div class="custom-col-1">
+                    <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" (click)="addValToArray('medicine');"><i class="fa fa-fw fa-plus"
+                            aria-hidden="true"></i>Add</button>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="selectedType === 'Blood'">
+                <div class="col">
+                    <ng-select [items]="bloodList$ | async" bindLabel="itemName" (change)="onItemChange($event, 'blood')" bindValue="itemId" [ngModelOptions]="{standalone: true}" [(ngModel)]="blood.itemId" placeholder="Select" [typeahead]="bloodnInput$">
+                    </ng-select>
+                </div>
+                <div class="col-2">
+                    <input class="form-control form-control-sm font-size-dot-8 height-31" placeholder="Type Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="blood.qty">
+                </div>
+                <div class="col-2">
+                    <ng-select [items]="doseList" bindLabel="dose_unit" (change)="onDoseChange($event, 'blood')" bindValue="id" [ngModelOptions]="{standalone: true}" [(ngModel)]="blood.unitId" placeholder="Dose">
+                    </ng-select>
+                </div>
+                <div class="custom-col-1">
+                    <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" (click)="addValToArray('blood');"><i class="fa fa-fw fa-plus"
+                            aria-hidden="true"></i>Add</button>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="selectedType === 'Implants'">
+                <div class="col">
+                    <ng-select [items]="implantsList$ | async" bindLabel="itemName" (change)="onItemChange($event, 'implants')" bindValue="itemId" [ngModelOptions]="{standalone: true}" [(ngModel)]="implants.itemId" placeholder="Select" [typeahead]="implantsInput$">
+                    </ng-select>
+                </div>
+                <div class="col-2">
+                    <input class="form-control form-control-sm font-size-dot-8 height-31" placeholder="Type Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="implants.qty">
+                </div>
+                <div class="col-2">
+                    <ng-select [items]="doseList" bindLabel="dose_unit" (change)="onDoseChange($event, 'implants')" bindValue="id" [ngModelOptions]="{standalone: true}" [(ngModel)]="implants.unitId" placeholder="Dose">
+                    </ng-select>
+                </div>
+                <div class="custom-col-1">
+                    <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" (click)="addValToArray('implants');"><i class="fa fa-fw fa-plus"
+                            aria-hidden="true"></i>Add</button>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="selectedType === 'CSSD Eqipment'">
+                <div class="col">
+                    <ng-select [items]="cssdEqipList$ | async" bindLabel="itemName" (change)="onItemChange($event, 'CSSDEqipment')" bindValue="itemId" [ngModelOptions]="{standalone: true}" [(ngModel)]="CSSDEqipment.itemId" placeholder="Select" [typeahead]="cssdEqipInput$">
+                    </ng-select>
+                </div>
+                <div class="col-2">
+                    <input class="form-control form-control-sm font-size-dot-8 height-31" placeholder="Type Quantity" [ngModelOptions]="{standalone: true}" [(ngModel)]="CSSDEqipment.qty">
+                </div>
+                <div class="col-2">
+                    <ng-select [items]="doseList" bindLabel="dose_unit" (change)="onDoseChange($event, 'CSSDEqipment')" bindValue="id" [ngModelOptions]="{standalone: true}" [(ngModel)]="CSSDEqipment.unitId" placeholder="Dose">
+                    </ng-select>
+                </div>
+
+                <div class="custom-col-1">
+                    <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" (click)="addValToArray('cssdEqipments');"><i class="fa fa-fw fa-plus"
+                            aria-hidden="true"></i>Add</button>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="selectedType === 'General'">
+                <div class="col-4">
+                    <input class="form-control form-control-sm font-size-dot-8 height-31" [ngModelOptions]="{standalone: true}" [(ngModel)]="general.name">
+                </div>
+                <div class="custom-col-1">
+                    <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" (click)="addValToArray('generalEqipments');"><i class="fa fa-fw fa-plus"
+                            aria-hidden="true"></i>Add</button>
+                </div>
+            </ng-container>
+        </div>
+        <!-- prescription / medicine section -->
+        <table class="table custom-table font-size-dot-875 border mb-1" *ngIf="parameterDrug.length > 0">
+            <thead>
+                <tr>
+                    <th>Medicine</th>
+                    <th width="05%">Dose</th>
+                    <th width="15%">Unit</th>
+                    <th width="05%">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of parameterDrug; let rowIndex = index;">
+                    <td>{{row.name}}</td>
+                    <td>{{row.qty}} </td>
+                    <td>{{row.unitName}}</td>
+                    <td>
+                        <button title="Delete" type="button" class="btn btn-xs btn-outline-danger" (click)="removeValFomArray('medicine', rowIndex);"><i class="fa fa-fw fa-trash"
+                                aria-hidden="true"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- prescription / medicine section -->
+        <!-- blood section -->
+        <table class="table custom-table font-size-dot-875 border mb-1" *ngIf="parameterBlood.length > 0">
+            <thead>
+                <tr>
+                    <th>Blood</th>
+                    <th width="05%">Qty</th>
+                    <th width="15%">Unit</th>
+                    <th width="05%">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of parameterBlood; let rowIndex = index;">
+                    <td>{{row.name}}</td>
+                    <td>{{row.qty}}</td>
+                    <td>{{row.unitName}}</td>
+                    <td>
+                        <button title="Delete" type="button" class="btn btn-xs btn-outline-danger" (click)="removeValFomArray('blood', rowIndex);"><i class="fa fa-fw fa-trash"
+                                aria-hidden="true"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- blood section -->
+        <!-- implants section -->
+        <table class="table custom-table font-size-dot-875 border mb-1" *ngIf="parameterImplants.length > 0">
+            <thead>
+                <tr>
+                    <th>Implants</th>
+                    <th width="05%">Qty</th>
+                    <th width="15%">Unit</th>
+                    <th width="05%">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of parameterImplants; let rowIndex = index;">
+                    <td>{{row.name}}</td>
+                    <td>{{row.qty}}</td>
+                    <td>{{row.unitName}}</td>
+                    <td>
+                        <button title="Delete" type="button" class="btn btn-xs btn-outline-danger" (click)="removeValFomArray('implants', rowIndex);"><i class="fa fa-fw fa-trash"
+                                aria-hidden="true"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- implants section -->
+        <!-- CSSD Eqipment section -->
+        <table class="table custom-table font-size-dot-875 border mb-1" *ngIf="parameterCSSDEqipment.length > 0">
+            <thead>
+                <tr>
+                    <th>CSSD Eqip.</th>
+                    <th width="05%">Qty</th>
+                    <th width="15%">Unit</th>
+                    <th width="05%">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of parameterCSSDEqipment; let rowIndex = index;">
+                    <td>{{row.name}}</td>
+                    <td>{{row.qty}}</td>
+                    <td>{{row.unitName}}</td>
+                    <td>
+                        <button title="Delete" type="button" class="btn btn-xs btn-outline-danger" (click)="removeValFomArray('cssdEqipments', rowIndex);"><i class="fa fa-fw fa-trash"
+                                aria-hidden="true"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- CSSD Eqipment section -->
+        <!-- General Eqipment section -->
+        <table class="table custom-table font-size-dot-875 border mb-1" *ngIf="parameterGeneralEqipment.length > 0">
+            <thead>
+                <tr>
+                    <th>General</th>
+                    <th width="05%">Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of parameterGeneralEqipment; let rowIndex = index;">
+                    <td>{{row.name}}</td>
+                    <td>
+                        <button title="Delete" type="button" class="btn btn-xs btn-outline-danger" (click)="removeValFomArray('generalEqipments', rowIndex);"><i class="fa fa-fw fa-trash"
+                                aria-hidden="true"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- General Eqipment section -->
+    </div>
+    <div class="modal-footer py-1">
+        <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" (click)="saveValue()">
+            <i class="fa fa-fw" [ngClass]="{'fa-plus': !addUpdateData.data, 'fa-sync-alt': addUpdateData.data}"
+                aria-hidden="true"></i>
+            {{addUpdateData.data ? 'Update' : 'Add'}}
+        </button>
+        <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase" (click)="closeModal('{type : no}')">Cancel</button>
+    </div>
+</form>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

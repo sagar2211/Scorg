@@ -1,0 +1,17 @@
+<div class="position-relative">
+  <div class="color-selector-container">
+    <span class="color-box position-absolute pointer">
+      <div class="color-selector" [ngStyle]="{backgroundColor:selctedColor}" (click)="showColorPallate(); $event.stopPropagation()" >
+      </div>
+    </span>
+  </div>
+  <div class="color-picker-container" *ngIf="showColorPallateContainer">
+    <div (click)="onSelect(codes)" class="color-picker" *ngFor="let codes of colorCodes"
+      [ngStyle]="{backgroundColor:codes.colorCode}">
+    </div>
+  </div>
+</div>
+
+<ng-template #colorInputTemplate>
+
+</ng-template>

@@ -1,0 +1,210 @@
+<div class="custom-container-fluid container-material-indent-add-apdate">
+    <div [ngClass]="{'no-select': deptStoreObj.status === constantsVal.issueStatusComplete}">
+        <div class="card-body p-1">
+            <div class="form-row form-group mx-0 custom-margin-bottom-0">
+                <div class="col-2">
+                    <label>Issue Store</label>
+                    <p class="mb-0 height-with-line-height">{{deptStoreObj.toStoreName}}</p>
+                </div>
+                <div class="col-2">
+                    <label>Issue Type</label>
+                    <p class="mb-0 height-with-line-height">{{deptStoreObj.indentTypeName}}</p>
+                </div>
+                <div class="col-2">
+                    <label>{{deptStoreObj.indentType === 'DC' ? 'Dept' : 'Store'}}</label>
+                    <p class="mb-0 height-with-line-height">
+                        {{deptStoreObj.indentType === 'DC' ? deptStoreObj.deptName : deptStoreObj.storeName}}</p>
+                </div>
+                <div class="col-2">
+                    <label>Issue No.</label>
+                    <p class="mb-0 height-with-line-height">{{deptStoreObj.issueNo}}</p>
+                </div>
+                <div class="col-2">
+                    <label>Indent No.</label>
+                    <p class="mb-0 height-with-line-height">{{deptStoreObj.indentNo}}</p>
+                </div>
+                <div class="col-2">
+                    <label>Indent Date </label>
+                    <p class="mb-0 height-with-line-height">{{deptStoreObj.indentDate| date:'dd-MM-yyyy'}}</p>
+                </div>
+            </div>
+            <div class="form-row form-group mx-0 custom-margin-bottom-0">
+                <div class="col-6">
+                    <label>Remark</label>
+                    <textarea class="form-control vresize" [(ngModel)]="deptStoreObj.remark" rows="1"></textarea>
+                </div>
+            </div>
+            <form [formGroup]="itemForm" (ngSubmit)="addItemValue()" *ngIf="loadForm">
+                <div class="form-row form-group mx-0 custom-margin-bottom-0">
+                    <div class="col-2">
+                        <label>Item</label>
+                        <ng-select [disabled]="editItemRowData" [items]="deptStoreObj.itemArrayList"
+                            bindLabel="itemDescription" formControlName="itemId" bindValue="itemId" placeholder="Item"
+                            (change)="changeItemValue($event)">
+                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                {{item.itemDescription}} ({{item.itemCode}})
+                            </ng-template>
+                        </ng-select>
+                        <small class="text-danger" *ngIf="itemFormControl['itemId'].errors?.required && submitted">
+                            Please Select Value!</small>
+                    </div>
+                    <ng-container *ngIf="itemForm.value.itemId">
+                        <!-- <div class="col-2">
+                            <label>Description</label>
+                            <p class="mb-0 height-with-line-height">{{itemForm.value.item?.itemDescription}}</p>
+                        </div> -->
+                        <div class="col-2">
+                            <label>Units</label>
+                            <p class="mb-0 height-with-line-height">{{itemForm.value.item?.units}}</p>
+                        </div>
+                        <div class="col-2">
+                            <label>Indent Balance Qty.</label>
+                            <p class="mb-0 height-with-line-height">{{itemForm.value.item?.indentBalQty}}</p>
+                        </div>
+                        <div class="col-4">
+                            <label>Batch No.</label>
+                            <ng-select [disabled]="editItemRowData" [items]="selectedItemStockList" bindLabel="batchNo"
+                                formControlName="batch" bindValue="stockId" placeholder="Batch"
+                                (change)="selectBatchValue($event)">
+                                <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                    {{item.batchNo}} - {{item.unitRate}} - {{item.closingQty}} -
+                                    {{item.expiryDate | date:'dd-MM-yyyy'}}
+                                </ng-template>
+                            </ng-select>
+                            <small class="text-danger" *ngIf="itemFormControl['batch'].errors?.required && submitted">
+                                Please Select Value!</small>
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="form-row form-group mx-0">
+                    <ng-container *ngIf="itemForm.value.itemId">
+                        <div class="col-2">
+                            <label>Closing Quantity</label>
+                            <p class="mb-0 height-with-line-height">{{itemForm.value.batchData?.closingQty}}</p>
+
+                        </div>
+                        <div class="col-2">
+                            <label>Exp. Date</label>
+                            <p class="mb-0 height-with-line-height">
+                                {{itemForm.value.batchData?.expiryDate| date:'dd-MM-yyyy'}}</p>
+                        </div>
+                        <div class="col-2">
+                            <label>Qty.</label>
+                            <input type="number" formControlName="qty" class="form-control form-control-sm"
+                                (blur)="updateAmount()">
+                            <small class="text-danger" *ngIf="itemFormControl['qty'].errors?.required && submitted">
+                                Please Add Value!</small>
+                        </div>
+                        <div class="col-2">
+                            <label>Rate</label>
+                            <p class="mb-0 height-with-line-height">{{itemForm.value.rate}}</p>
+
+                        </div>
+                        <div class="col-2">
+                            <label>Amount</label>
+                            <p class="mb-0 height-with-line-height">{{itemForm.value.amount}}</p>
+                        </div>
+                        <div class="col-2">
+                            <label class="d-block">&nbsp;</label>
+                            <button type="submit" class="btn btn-sm btn-primary mr-1 mt-2"
+                                [disabled]="!itemForm.valid && !itemForm.value.qty">
+                                <i class="fa icon fa-fw" [ngClass]="[editItemRowData ? 'fa-sync-alt':'fa-plus']"
+                                    aria-hidden="true"></i>{{editItemRowData ? 'UPDATE' : 'ADD'}}</button>
+                            <button type="button" class="btn btn-sm btn-outline-warning mt-2"
+                                (click)="clearItemForm()"><i class="fas fa-fw fa-eraser" aria-hidden="true"></i>
+                                CLEAR</button>
+                        </div>
+                    </ng-container>
+                </div>
+            </form>
+            <div class="form-row mx-0">
+                <div class="col-12">
+                    <table class="table custom-table font-size-dot-875 mb-0 border">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Batch</th>
+                                <th>Exp. Date</th>
+                                <th class="text-right">Qty.</th>
+                                <th class="text-right">Rate</th>
+                                <th class="text-right">Amount</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngIf="addedItemStockList.length > 0">
+                                <tr *ngFor="let item of addedItemStockList; let i = index;">
+                                    <td>{{item.item.itemDescription}} ({{item.item.itemCode}})</td>
+                                    <td>{{item.batchData.batchNo}}</td>
+                                    <td>{{item.batchData.expiryDate| date:'dd-MM-yyyy'}}</td>
+                                    <td class="text-right">{{item.qty}}</td>
+                                    <td class="text-right">{{item.rate | number:'1.2-2'}}</td>
+                                    <td class="text-right">{{item.amount | number:'1.2-2'}}</td>
+                                    <td class="text-center">
+                                        <ng-container *ngIf="deptStoreObj.status !== constantsVal.issueStatusComplete">
+                                            <button type="button" class="btn btn-sm btn-link"
+                                                (click)="editItemValue(item)"><i class="icon fa-fw icon-edit"
+                                                    aria-hidden="true"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-link" (click)="deleteItemValue(item, i)"
+                                                type="button">
+                                                <i class="icon fa-fw icon-trash text-danger"></i></button>
+                                        </ng-container>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            <ng-container *ngIf="addedItemStockList.length === 0">
+                                <td colspan="7">No Item Added</td>
+                            </ng-container>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5" class="text-right">
+                                    <h5 class="mb-0">Total</h5>
+                                </td>
+                                <td class="text-right border-right">
+                                    <h5 class="mb-0">{{this.itemForm.value.totalAmount | number:'1.2-2'}}
+                                    </h5>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer py-1 border-top">
+            <div class="float-right">
+                <ng-container *ngxPermissionsOnly="constpermissionList.UPDATE_ISSUE_SUMMARY">
+                    <div class="is-approved form-group"
+                        *ngIf="pageType === 'issue' && deptStoreObj.status !== constantsVal.issueStatusAccepted">
+                        <label class="font-size-dot-875 d-inline-block mr-2">PRINT</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" [(ngModel)]="itemForm.value.isTakePrint" class="custom-control-input"
+                                id="isTakePrint">
+                            <label class="custom-control-label pointer" [class.active]="itemForm.value.isTakePrint"
+                                for="isTakePrint"></label>
+                            <span class="text-uppercase"
+                                [class.active]="itemForm.value.isTakePrint">{{itemForm.value.isTakePrint ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="saveIndentItemValues()"
+                        *ngIf="pageType === 'issue' && deptStoreObj.status !== constantsVal.issueStatusAccepted"><i
+                            class="fas fa-fw fa-sync-alt"></i>
+                        UPDATE</button>
+                </ng-container>
+                <ng-container
+                    *ngIf="pageType !== 'issue' && deptStoreObj.status !== constantsVal.issueIndentStatusComplete">
+                    <button type="button" class="btn btn-sm btn-success" (click)="saveIndentItemValues()"><i
+                            class="fa fa-fw fa-save" aria-hidden="true"></i> SAVE</button>
+                </ng-container>
+                <button *ngIf="pageType === 'issue' && deptStoreObj.status === constantsVal.issueStatusAccepted"
+                    type="button" class="btn btn-sm btn-success ml-1" (click)="getPrintData()">
+                    <i class="icon fa-fw icon-save" aria-hidden="true"></i> PRINT
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<app-print-data [printData]="printData" (printDiaglogClose)="redirectToListPage()"></app-print-data>

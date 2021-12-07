@@ -1,0 +1,133 @@
+@import "../../../../scss/main";
+
+.chart-btn {
+  flex: 0 0 102px;
+  max-width: 102px;
+}
+
+.nursing-height {
+  height: calc(100vh - 108px);
+  overflow-y: auto;
+
+  .nursing-data {
+    color: $gray-700;
+
+    .custom-table {
+      @extend .border-top;
+      @extend .border-left;
+
+      &.disabled {
+        pointer-events: none;
+      }
+
+      &.bg-grand {
+        background-color: #adadad;
+      }
+
+      thead {
+        tr {
+          th {
+            @extend .border-bottom;
+            @extend .border-top-0;
+            @extend .font-weight-500;
+            @extend .text-uppercase;
+            @extend .border-right;
+            color: $gray-700;
+          }
+        }
+      }
+
+      th,
+      td {
+        @extend .p-1;
+        @extend .align-middle;
+        @extend .text-center;
+        word-break: break-all;
+        width: 100px;
+      }
+
+      tbody {
+        tr {
+          td {
+            @extend .border-right;
+          }
+
+          &.bg-white {
+            td {
+              border-right: 1px solid transparent !important;
+            }
+          }
+        }
+      }
+    }
+
+    .scroll-div {
+      height: calc(100vh - 198px);
+      overflow-y: overlay;
+
+      .expand-collapse-div {
+        height: auto;
+        background-color: rgba($primary, 0.15);
+        color: #4d5377;
+        border-bottom: 1px solid $gray-400;
+
+        &.close-div {
+          height: 30px;
+          overflow: hidden;
+        }
+
+        @media screen and (max-width: 1280px) {
+          &.close-div, &.close-div table {
+            height: 60px;
+          }
+        }
+
+        &.height-0 {
+          height: 0px;
+          @extend .mb-0;
+        }
+
+        &.expand {
+          height: auto;
+        }
+
+        .expand-table {
+          @extend .border-top-0;
+
+          .val-clr {
+            color: #4d5377;
+          }
+        }
+        
+        .bg-row {
+          background-color: #eaeaea;
+        }
+
+        .bg-active-row {
+          background-color: #f9f9f9 !important;
+
+          a {
+            opacity: 0;
+            padding: 3px;
+            @include border-radius(10px);
+          }
+
+          &:hover {
+            a {
+              opacity: 1;
+
+              &:hover {
+                background-color: rgba(29, 29, 29, 0.12);
+                @include transition(background-color 0.2s ease-in-out);
+              }
+            }
+          }
+        }
+
+        .bg-total-row {
+          background-color: #d4d4d4;
+        }
+      }
+    }
+  }
+}

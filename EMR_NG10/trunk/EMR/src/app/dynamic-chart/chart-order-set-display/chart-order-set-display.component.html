@@ -1,0 +1,52 @@
+<div class="card border-0 suggestion">
+  <div class="card-header p-0 border-dash-bottom">
+    <div class="form-row align-items-center justify-content-center mx-0">
+      <div class="col"><span class="mb-0 mr-1 text-white">Order set details</span>
+      </div>
+      <div class="col text-right px-0">
+        <button (click)="addOrderSet()" class="btn btn-xs btn-white" type="button"><i aria-hidden="true"
+            class="fa fa-fw fa-plus"></i>ADD</button>
+      </div>
+    </div>
+  </div>
+  <div class="card-body pt-1 pr-0 pb-1 pl-1">
+    <!-- <p class="mt-2 mb-0">Chart Order Set List</p> -->
+    <div *ngIf="!(orderSetList.length)" class="bg-img mt-2 text-center"><img src="./assets/img/no-order-set.png" class="img-fluid"
+        alt="no order set" />
+    </div>
+    <div class="order-scroll-body" *ngIf="orderSetList.length" >
+      <ngb-accordion [closeOthers]="false" [destroyOnHide]="false" (panelChange)="toggleAccordian($event)">
+        <ng-container *ngFor="let item of orderSetList">
+          <ngb-panel id="{{item.visitOrdersetId}}">
+            <ng-template ngbPanelTitle>
+              <div class="form-row align-items-center mx-0">
+                <div class="col-7 px-0">
+                  <p class="mb-0 font-size-dot-875">{{item.ordersetName}}</p>
+                </div>
+                <div class="col-5 text-right px-0 pl-1">
+                  <button type="button" class="btn btn-sm btn-white-success mr-1"
+                    (click)="applyOrderSetToChart(item, $event)" title="Apply"><i class="icon fa-fw icon-check"
+                      aria-hidden="true"></i></button>
+                  <button type="button" class="btn btn-sm btn-white mr-1" (click)="addOrderSet(item, $event)"
+                    title="Edit"><i class="icon fa-fw icon-edit" aria-hidden="true"></i></button>
+                  <button type="button" class="btn btn-sm btn-white-danger mr-2"
+                    (click)="deletePatientVisitOrderSet(item, $event)" title="Delete"><i class="icon fa-fw icon-trash"
+                      aria-hidden="true"></i></button>
+                  <button class="btn btn-sm btn-link text-white" type="button">
+                    <i [ngClass]=" openById[item.visitOrdersetId] ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'  "
+                      aria-hidden="true"></i>
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <app-all-components-data-display [chartData]="item" [chartComponentList]="chartComponentList">
+              </app-all-components-data-display>
+            </ng-template>
+          </ngb-panel>
+        </ng-container>
+      </ngb-accordion>
+    </div>
+  </div>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

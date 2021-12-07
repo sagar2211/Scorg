@@ -1,0 +1,38 @@
+<ngb-accordion [closeOthers]="false" *ngFor="let footPart of examineData|keyvalue">
+    <ngb-panel>
+        <ng-template ngbPanelTitle>
+            <div class="clearfix p-1">
+                <div class="float-right">
+                    <button class="btn btn-sm btn-outline-warning mr-1" type="button"
+                        (click)="onClearAllData('left')"><i class="fas fa-fw fa-eraser" aria-hidden="true"></i>
+                        CLEAR</button>
+                </div>
+                <div class="float-left mt-1">
+                    <p class="mb-0" *ngIf="footPart.key=='left_footFlag'">Left Part</p>
+                    <p class="mb-0" *ngIf="footPart.key=='right_footFlag'">Right Part</p>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template ngbPanelContent>
+            <ul class="list-group" *ngFor="let part of footPart.value|keyvalue">
+                <li class="list-group-item p-1" *ngFor="let element of part.value">
+                    <div class="form-row align-items-center justify-content-center mx-0">
+                        <div class="col">
+                            <p class="mb-0">{{element.body_part}}</p>
+                        </div>
+                        <div class="col-3">
+                            <button type="button" class="btn btn-sm btn-outline-info mr-1"
+                                (click)="openCommentPopUp(element)"><i class="icon fa-fw icon-edit"
+                                    aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                (click)="openDeleteConfirmation(element)"><i class="icon fa-fw icon-trash"
+                                    aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </ng-template>
+    </ngb-panel>
+</ngb-accordion>

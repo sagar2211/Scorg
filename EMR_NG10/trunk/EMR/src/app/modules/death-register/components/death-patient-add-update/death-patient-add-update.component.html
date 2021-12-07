@@ -1,0 +1,303 @@
+<div class="emr-container-fluid container-fluid px-0 nursing-station-mapping-container-fluid" [ngClass]="{'partial-view': isPartialLoad}">
+
+  <div class="card-body p-1 card-body-patient-issue">
+    <div class="card-header p-0 position-relative pt-0 px-0 pb-0 border-bottom-0">
+      <div class="position-absolute patient-search-top" *ngIf="showPatientSearchBox">
+        <div class="input-group">
+          <ng-select class="patient-search" #patientSelection [items]="patientList$ | async" bindLabel="patientName" (change)="onPatientChange($event)" bindValue="patientId" placeholder="Patient Select" [typeahead]="patientListInput$">
+            <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                <div class="form-row align-items-center justify-content-center mx-0 p-1">
+                    <div class="col px-0 col-profile-img">
+                        <img alt="profile-image-female" src="./assets/img/female.svg">
+                    </div>
+                    <div class="col px-0">
+                        <p class="mb-0 font-size-dot-875">{{item.patientName}}</p>
+                        <p class="mb-0 font-size-dot-75 text-muted">
+                            {{item.gender}} / {{item.age}} Year(s)
+                        </p>
+                        <p class="mb-0 font-size-dot-75 text-muted">Date: {{item.admissionDate| customDate: '' : 'DD-MM-YYYY'}}</p>
+                    </div>
+                    <div class="col px-0 text-right">
+                        <p class="mb-0 font-size-dot-75 text-muted">Visit No: {{item.visitNo}}</p>
+                        <p class="mb-0 font-size-dot-75 text-muted">Visit Type: {{item.visitType}}</p>
+                        <p class="mb-0 font-size-dot-75 text-muted">Bed No: {{item.bedNo}}</p>
+                    </div>
+                </div>
+            </ng-template>
+        </ng-select>
+            <div class="input-group-append">
+              <button class="btn btn-white border text-muted" type="button" title="Close" (click)="enablePatientSearch(false)">
+                &times;</button>
+            </div>
+        </div>
+    </div>
+    <div class="custom-backdrop" [ngClass]="{'added': showPatientSearchBox}"></div>
+    </div>
+    <ng-container>
+      <div class="form-row mx-0 mb-1">
+        <div class="col-4 pl-0">
+          <div class="card patient-info" style="min-height: 67px;">
+            <div class="card-body p-1">
+              <div class="form-row mx-0">
+                <div class="col-10 px-0">
+                  <p class="mb-0">
+                    <span class="text-muted font-size-dot-75"> Patient UHID:
+                    </span>
+                    <span class="font-size-dot-75">{{registerForm.getRawValue().selectedPatient?.patientId}}</span>
+                  </p>
+                  <div class="patient-name">
+                    <p class="mb-0 font-size-dot-75 short-text ">
+                      <span class="text-muted font-size-dot-75"> Patient Name:
+                      </span>
+                      <a class="pointer" title="View Patient Detail">{{registerForm.getRawValue().selectedPatient?.patientName}} </a>
+                    </p>
+                  </div>
+                </div>
+                <div class="col px-0 text-right col-search-btn">
+                  <button class="btn btn-sm btn-outline-info" type="button" (click)="enablePatientSearch(true)"
+                    title="Search New Patient">
+                    <i class="icon fa-fw icon-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card patient-info" style="min-height: 67px;">
+            <div class="card-body p-1">
+              <div class="form-row mx-0">
+                <div class="col-12 px-0">
+                  <div class="patient-name">
+                    <p class="mb-0 font-size-dot-75">
+                      <span class="text-muted font-size-dot-75"> Mobile:
+                      </span>
+                      <span class="pr-1" *ngIf="registerForm.getRawValue().selectedPatient?.mobileNo">
+                         {{registerForm.getRawValue().selectedPatient?.mobileNo}}
+                      </span>
+                    </p>
+                    <p class="mb-0 font-size-dot-75">
+                      <span class="text-muted font-size-dot-75"> Gender:
+                      </span>
+                      <span class="pr-1" *ngIf="registerForm.getRawValue().selectedPatient?.gender">
+                        {{registerForm.getRawValue().selectedPatient?.gender}}
+                      </span>
+                    </p>
+                    <p class="mb-0 font-size-dot-75">
+                      <span class="text-muted font-size-dot-75"> Age:
+                      </span>
+                      <span *ngIf="registerForm.getRawValue().selectedPatient?.age">
+                        {{registerForm.getRawValue().selectedPatient?.age}} Year(s)
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-4 pr-0" *ngIf="registerForm.getRawValue().selectedPatient">
+          <div class="card patient-info" style="min-height: 67px;">
+            <div class="card-body p-1">
+              <div class="form-row mx-0">
+                <div class="col px-0">
+                  <div class="form-row mx-0">
+                    <div class="col-12 mx-0">
+                      <p class="mb-0">
+                        <span class="text-muted font-size-dot-75">Encounter: </span>
+                        <span class="font-size-dot-875 font-weight-500">
+                          {{registerForm.getRawValue().selectedPatient?.visitType}}/{{registerForm.getRawValue().selectedPatient?.visitNo}}
+                        </span>
+                        <!-- <span class="text-muted font-size-dot-75">
+                          ({{registerForm.getRawValue().selectedPatient?.encounterStatus || 'OPEN'}})
+                        </span> -->
+                      </p>
+                    </div>
+                  </div>
+                  <div class="patient-name">
+                    <div class="form-row mx-0">
+                      <div class="col-12 mx-0">
+                        <p class="mb-0 text-muted font-size-dot-75">
+                          <span class="text-muted font-size-dot-75">DOE:
+                          </span>{{registerForm.getRawValue().selectedPatient?.admissionDate | date: 'dd-MM-yyyy'}}
+                        </p>
+                      </div>
+                    </div>
+                    <div class="form-row mx-0">
+                      <div class="col-10 mx-0">
+                        <p class="mb-0 text-muted font-size-dot-75 bed-empty">
+                            BED: <span class="text-muted font-size-dot-75">
+                              {{registerForm.getRawValue().selectedPatient?.bedNo}}
+                            </span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form [formGroup]="registerForm">
+      <div class="form-row mx-0 head-sec">
+        <div class="col-6 pr-0 pl-0">
+          <div class="row m-0 border mb-1 py-1 border-right-0" style="">
+            <div class="col-4 px-1">
+              <label class="m-0">Death Type</label>
+              <ng-select [items]="deathTypeList" bindLabel="deathType" formControlName="deathType" placeholder="Death Type Select"></ng-select>
+              <span
+                  *ngIf="((!registerForm.get('deathType').valid && registerForm.get('deathType').touched) || submitted)"
+                  class="help-block">
+                  <span class="validate-msg"
+                      *ngIf="registerForm.get('deathType').errors?.required">
+                      Death type is required!
+                  </span>
+              </span>
+            </div>
+            <div class="col-4 px-1">
+              <label class="m-0">Date of Death</label>
+              <app-date-picker [inputDate]="registerForm.value.dateOfDeath" placeholder="yyyy-mm-dd" (dateChange)="registerForm.patchValue({dateOfDeath : $event});">
+              </app-date-picker>
+            </div>
+            <div class="col-4 px-1">
+              <label class="m-0">Death Time<sup class="text-danger">*</sup></label>
+              <div class="row m-0">
+                <div class="p-0 pr-1" [ngClass]="{'col-4': timeFormateKey === '12_hour', 'col-6': timeFormateKey !== '12_hour'}">
+                  <ng-select class="w-100 first text-left" [items]="timeArray.hrs" placeholder="Hour" formControlName="deathTimeHr"></ng-select>
+                </div>
+                <div class="p-0 pr-1" [ngClass]="{'col-4': timeFormateKey === '12_hour', 'col-6': timeFormateKey !== '12_hour'}">
+                  <ng-select class="w-100 first text-left" [items]="timeArray.min" placeholder="Min" formControlName="deathTimeMin"></ng-select>
+                </div>
+                <div class="col-4 p-0" *ngIf="timeFormateKey === '12_hour'">
+                  <ng-select class="w-100 first text-left" [items]="timeArray.amPm" placeholder="Am/Pm" formControlName="deathTimeAmPm"></ng-select>
+                </div>
+              </div>
+              <span
+                  *ngIf="(((!registerForm.get('deathTimeHr').valid && registerForm.get('deathTimeHr').touched) || (!registerForm.get('deathTimeMin').valid && registerForm.get('deathTimeMin').touched)) || submitted)"
+                  class="help-block">
+                  <span class="validate-msg"
+                      *ngIf="(registerForm.get('deathTimeHr').errors?.required || registerForm.get('deathTimeMin').errors?.required)">
+                      Please Select Value!
+                  </span>
+              </span>
+              <!-- <small class="text-danger" *ngIf="(getFrmCntrols['deathTimeHr'].errors?.required || getFrmCntrols['deathTimeMin'].errors?.required) && submitted">
+                Please Select Value!</small> -->
+            </div>
+          </div>
+        </div>
+        <div class="col-6 pl-0 pr-0">
+          <div class="row m-0 border mb-1 py-1 border-left-0" style="min-height: 63px; ">
+            <div class="col-12 p-1">
+              <p class="m-0">
+                If deceased patient is a female, was death associated with pregnancy?
+                <label class="m-0"><input type="radio" formControlName="isPregnant" value="true" name="isPregnant"> Yes</label>
+                <label class="pl-1 m-0"><input type="radio" formControlName="isPregnant" value="false" name="isPregnant"> No</label>
+              </p>
+              <p class="m-0">
+                If yes, Was there a delivery?
+                <label class="m-0"><input type="radio" formControlName="isDelivery" value="true"> Yes</label>
+                <label class="pl-1 m-0"><input type="radio" formControlName="isDelivery" value="false"> No</label>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row mx-0">
+        <div class="col-6 p-1">
+          <div class="row mx-0">
+            <div class="col-12 p-0">
+              <p class="m-0 font-weight-500" style="padding: 2px 1px; background-color: #ddd;">Immediate Cause</p>
+              <small> State the desease, injury or complication which cause Death</small>
+              <textarea class="form-control form-control-sm" cols="2" formControlName="immediateCause"></textarea>
+              <span
+                  *ngIf="((!registerForm.get('immediateCause').valid && registerForm.get('immediateCause').touched) || submitted)"
+                  class="help-block">
+                  <span class="validate-msg"
+                      *ngIf="registerForm.get('immediateCause').errors?.required">
+                      Immediate cause is required!
+                  </span>
+              </span>
+            </div>
+            <div class="col-12 p-0">
+              <small> Other significant condition contributing to the death but not related to the desease or contribution causing it</small>
+              <textarea class="form-control form-control-sm" cols="2" formControlName="otherCause"></textarea>
+              <span
+                  *ngIf="((!registerForm.get('otherCause').valid && registerForm.get('otherCause').touched) || submitted)"
+                  class="help-block">
+                  <span class="validate-msg"
+                      *ngIf="registerForm.get('otherCause').errors?.required">
+                      Other cause is required!
+                  </span>
+              </span>
+            </div>
+            <div class="col-12 p-0">
+              <label class="m-0">Death Body Handover</label>
+              <textarea class="form-control form-control-sm" cols="2" formControlName="deathBodyHandOver"></textarea>
+              <span
+                  *ngIf="((!registerForm.get('deathBodyHandOver').valid && registerForm.get('deathBodyHandOver').touched) || submitted)"
+                  class="help-block">
+                  <span class="validate-msg"
+                      *ngIf="registerForm.get('deathBodyHandOver').errors?.required">
+                      Death body hand over is required!
+                  </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 p-1">
+          <div class="row mx-0">
+            <div class="col-12 p-0">
+              <p class="m-0 font-weight-500" style="padding: 2px 1px; background-color: #ddd;">Antecedent Cause</p>
+              <small> Morbid condition, if any giving rise to the above cause, stating underlying condition last</small>
+              <textarea class="form-control form-control-sm" cols="2" formControlName="antecedentCause"></textarea>
+              <span
+                  *ngIf="((!registerForm.get('antecedentCause').valid && registerForm.get('antecedentCause').touched) || submitted)"
+                  class="help-block">
+                  <span class="validate-msg"
+                      *ngIf="registerForm.get('antecedentCause').errors?.required">
+                      Antecedent cause is required!
+                  </span>
+              </span>
+            </div>
+            <div class="col-12 p-0">
+              <label class="m-0">Diagnosis</label>
+              <textarea class="form-control form-control-sm" cols="2" formControlName="diagnosis"></textarea>
+              <span
+                  *ngIf="((!registerForm.get('diagnosis').valid && registerForm.get('diagnosis').touched) || submitted)"
+                  class="help-block">
+                  <span class="validate-msg"
+                      *ngIf="registerForm.get('diagnosis').errors?.required">
+                      Diagnosis is required!
+                  </span>
+              </span>
+            </div>
+            <div class="col-12 p-0">
+              <label class="m-0">Address</label>
+              <textarea class="form-control form-control-sm" cols="2" formControlName="address"></textarea>
+              <span
+                  *ngIf="((!registerForm.get('address').valid && registerForm.get('address').touched) || submitted)"
+                  class="help-block">
+                  <span class="validate-msg"
+                      *ngIf="registerForm.get('address').errors?.required">
+                      Address is required!
+                  </span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    </ng-container>
+
+  </div>
+  <div class="card-footer py-0 border-top">
+    <div class="float-right py-1">
+      <button type="submit" class="btn btn-primary btn-sm" [disabled]="!registerForm.getRawValue().encounterId" (click)="saveDeathRegister()">
+    <i class="icon fa-fw icon-save" aria-hidden="true"></i>  SAVE
+  </button>
+  </div>
+  </div>
+
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

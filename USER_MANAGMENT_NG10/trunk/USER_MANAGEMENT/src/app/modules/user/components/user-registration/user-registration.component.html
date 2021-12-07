@@ -1,0 +1,507 @@
+<div class="custom-container-fluid px-2 mx-2" [@fadeInOut]>
+  <div class="card-header border-0 p-0">
+    <ul class="nav nav-tabs custom-nav-tabs m-0">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="" (click)="scrollTo('section1')"
+          [ngClass]="{ 'current-section': !!(currentSection === 'section1'), 'pointer': true }">Basic Info</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link pointer" [routerLink]="" (click)="scrollTo('section2')"
+          [ngClass]="{ 'current-section': currentSection === 'section2' }">Application Privilege</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link pointer" [routerLink]="" (click)="scrollTo('section3')"
+          [ngClass]="{ 'current-section': currentSection === 'section3' }">Additional Privilege</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link pointer" [routerLink]="" (click)="scrollTo('section4')"
+          [ngClass]="{ 'current-section': currentSection === 'section4' }">Doctor Assignment</a>
+      </li>
+    </ul>
+  </div>
+  <form class="col-12 p-0" [formGroup]="userRegistrationFrm" (ngSubmit)="AddUpdateUser()" appFocusInvalidElement>
+    <div class="card-body px-0">
+      <div id="parentDiv" class="user-registration-height px-3" scrollSpy [spiedTags]="['DIV']"
+        (sectionChange)="onSectionChange($event);">
+        <div id="section1" class="mb-5">
+          <h6 class="border-dash-bottom pb-1 mb-3">
+            <span class="icon fa-fw icon-info-circle align-top"></span>
+            Basic Info</h6>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-9">
+                <div class="form-row form-group">
+                  <div class="col-1 pr-0">
+                    <label for="titleList">Title</label>
+                    <select class="form-control form-control-sm px-0" formControlName="title" [appAutoFocus]="true">
+                      <option [value]="item.title_id" *ngFor="let item of titleList">{{item.title}}</option>
+                    </select>
+                  </div>
+                  <div class="col-3">
+                    <label>First Name<sup>*</sup></label>
+                    <input class="form-control form-control-sm" formControlName="first_name" type="text"
+                      placeholder="First Name" appUpperCase [(ngModel)]="userRegistrationFrm.value.first_name"
+                      [class.error]="userRegistrationFrmCntrols['first_name'].errors?.required && submitted" trim>
+                    <small class="text-danger"
+                      *ngIf="userRegistrationFrmCntrols['first_name'].errors?.required && submitted">
+                      Please Enter First Name!</small>
+                  </div>
+                  <div class="col-4">
+                    <label for="middle_name">Middle Name</label>
+                    <input class="form-control form-control-sm" appUpperCase
+                      [(ngModel)]="userRegistrationFrm.value.middle_name" formControlName="middle_name" type="text"
+                      placeholder="Middle Name" trim>
+                  </div>
+                  <div class="col-4">
+                    <label for="last_name">Last Name<sup>*</sup></label>
+                    <input class="form-control form-control-sm" formControlName="last_name" type="text"
+                      placeholder="Last Name" appUpperCase [(ngModel)]="userRegistrationFrm.value.last_name"
+                      [class.error]="userRegistrationFrmCntrols['last_name'].errors && submitted" trim>
+                    <small class="text-danger" *ngIf="userRegistrationFrmCntrols['last_name'].errors && submitted">
+                      Please Enter Last Name!</small>
+                  </div>
+                </div>
+                <div class="form-row form-group">
+                  <div class="col-4 form-gender">
+                    <label class="d-block" for="gender">Gender<sup>*</sup></label>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" class="custom-control-input" id="customRadio" formControlName="user_gender"
+                        value="male" (change)="onGenderChangeGetTitle('MR')">
+                      <label class="custom-control-label pointer"
+                        [class.error]="userRegistrationFrmCntrols['user_gender'].errors && submitted"
+                        for="customRadio">Male</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" class="custom-control-input" id="customRadio1" formControlName="user_gender"
+                        value="female" (change)="onGenderChangeGetTitle('MS')">
+                      <label class="custom-control-label pointer"
+                        [class.error]="userRegistrationFrmCntrols['user_gender'].errors && submitted"
+                        for="customRadio1">Female</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" class="custom-control-input" id="customRadio2" formControlName="user_gender"
+                        value="transgender">
+                      <label class="custom-control-label pointer"
+                        [class.error]="userRegistrationFrmCntrols['user_gender'].errors && submitted"
+                        for="customRadio2">Transgender</label>
+                    </div>
+                    <small class="d-block text-danger"
+                      *ngIf="userRegistrationFrmCntrols['user_gender'].errors && submitted">
+                      Please Select Gender!</small>
+                  </div>
+                  <div class="col-4">
+                    <label for="email_address">Email<sup>*</sup></label>
+                    <input class="form-control form-control-sm" formControlName="email_address" type="email"
+                      placeholder="Email" appUpperCase [(ngModel)]="userRegistrationFrm.value.email_address"
+                      [class.error]="userRegistrationFrmCntrols['email_address'].errors?.required && submitted || userRegistrationFrmCntrols['email_address'].errors?.email || userRegistrationFrmCntrols['email_address']?.errors?.incorrect"
+                      trim (blur)="isEmailExist(userRegistrationFrmCntrols['email_address'])">
+                    <small class="text-danger"
+                      *ngIf="userRegistrationFrmCntrols['email_address'].errors?.required && submitted">
+                      Please Enter Email </small>
+                    <small class="text-danger" *ngIf="userRegistrationFrmCntrols['email_address'].errors?.email">
+                      Email must be a valid email address!</small>
+                    <small class="text-danger" *ngIf="userRegistrationFrmCntrols['email_address']?.errors?.incorrect">
+                      Email Id alreday Exist!</small>
+                  </div>
+                  <div class="col-4">
+                    <label>Login Id<sup>*</sup></label>
+                    <input [attr.disabled]="(isEditFromProfile || editUserId) ? true : null"
+                      class="form-control form-control-sm" formControlName="login_id" type="text"
+                      (blur)="isLoginExist(userRegistrationFrmCntrols['login_id'])" placeholder="Login Id"
+                      maxlength="50"
+                      [class.error]="userRegistrationFrmCntrols['login_id'].errors?.required && submitted || userRegistrationFrmCntrols['login_id']?.errors?.incorrect"
+                      trim>
+                    <small class="text-danger"
+                      *ngIf="userRegistrationFrmCntrols['login_id'].errors?.required && submitted">
+                      Please Enter Valid Login Id!</small>
+                    <small class="text-danger" *ngIf="userRegistrationFrmCntrols['login_id']?.errors?.incorrect">
+                      Login Id Already Exist!</small>
+                  </div>
+                </div>
+                <div class="form-row form-group">
+                  <div class="col-4">
+                    <label for="mobile_no">Mobile No</label>
+                    <input class="form-control form-control-sm" formControlName="mobile_no" type="text" maxlength="10"
+                      placeholder="Mobile No" (blur)="isMobileNumberExist(userRegistrationFrmCntrols['mobile_no'])"
+                      [class.error]="userRegistrationFrmCntrols['mobile_no'].errors?.minlength || userRegistrationFrmCntrols['mobile_no'].errors?.pattern || userRegistrationFrmCntrols['mobile_no']?.errors?.incorrect"
+                      trim>
+                    <small class="text-danger" *ngIf="userRegistrationFrmCntrols['mobile_no'].errors?.minlength">
+                      Number should be 10 Digits!</small>
+                    <small class="text-danger" *ngIf="userRegistrationFrmCntrols['mobile_no'].errors?.pattern">
+                      Invalid Number!</small>
+                    <small class="text-danger" *ngIf="userRegistrationFrmCntrols['mobile_no']?.errors?.incorrect">
+                      Mobile number alreday Exist!</small>
+                  </div>
+                  <div class="col-4">
+                    <label for="alternate_mobile_no">Alternate No</label>
+                    <input class="form-control form-control-sm" formControlName="alternate_mobile_no" type="text"
+                      placeholder="Alternate No" maxlength="15"
+                      [class.error]="userRegistrationFrmCntrols['alternate_mobile_no'].errors?.pattern" trim>
+                    <small class="text-danger"
+                      *ngIf="userRegistrationFrmCntrols['alternate_mobile_no'].errors?.pattern">
+                      Invalid Number!</small>
+                  </div>
+                  <!-- <div class="col-4">
+                    <label>Role Type<sup>*</sup></label>
+                    <ng-select  [disabled]="isEditFromProfile" [items]="rolesTypeUniqueList" bindLabel="name" placeholder="Select Role Type" formControlName="role_type"
+                      (change)="selectRoleType($event)">
+                    </ng-select>
+                    <small class="text-danger" *ngIf="userRegistrationFrmCntrols['role_type'].errors?.required && submitted">
+                      Please Enter Role Type!</small>
+                  </div> -->
+                </div>
+                <div class="form-row form-group">
+                  <div class="col-4">
+                    <label>Designation Type<sup>*</sup></label>
+                    <ng-select [disabled]="(!!!(userRegistrationFrm.value.role_type?.id) || isEditFromProfile)"
+                      [items]="designationList" bindLabel="designation" placeholder="Designation Type"
+                      formControlName="designation_type">
+                    </ng-select>
+                    <small class="text-danger"
+                      *ngIf="userRegistrationFrmCntrols['designation_type'].errors?.required && submitted">
+                      Please Select Designation Type!</small>
+                  </div>
+                  <div class="col-8">
+                    <label>Department<sup>*</sup></label>
+                    <ng-select [disabled]="isEditFromProfile" [items]="departmentmasteList" bindLabel="name"
+                      placeholder="Department" formControlName="department">
+                    </ng-select>
+                    <small class="text-danger"
+                      *ngIf="userRegistrationFrmCntrols['department'].errors?.required && submitted">
+                      Please Select Department!</small>
+                  </div>
+                </div>
+                <div class="form-row form-group">
+                  <div class="col-4">
+                    <label>Speciality</label>
+                    <ng-select [items]="specialityList$ | async" bindLabel="name" autofocus formControlName="speciality"
+                      placeholder="Speciality" [typeahead]="specialityListInput$" (change)="selectSpecialities($event)">
+                    </ng-select>
+                  </div>
+                  <div class="col-4">
+                    <label>Entity Type</label>
+                    <ng-select [disabled]="isEditFromProfile" [items]="entityList" bindLabel="name" placeholder="Entity"
+                      formControlName="selectedEntity"
+                      (change)="selectEntity($event, userRegistrationFrm.get('selectedEntity'))">
+                    </ng-select>
+                  </div>
+                  <div class="col-4"
+                    *ngIf="userRegistrationFrm.value.selectedEntity && userRegistrationFrm.value.selectedEntity.key == 'joint_clinic'">
+                    <label>Joint Clinic</label>
+                    <ng-select [disabled]="isEditFromProfile" [items]="jointClinicList" bindLabel="name"
+                      placeholder="Entity" formControlName="selectedJointClinic"
+                      (change)="selectJointClinic($event, userRegistrationFrm.get('selectedJointClinic'))">
+                    </ng-select>
+                  </div>
+                  <div class="col-4"
+                    *ngIf="userRegistrationFrm.value.selectedEntity && userRegistrationFrm.value.selectedEntity.key == 'service_provider'">
+                    <label for="lab-service">Select Provider</label>
+                    <ng-select [disabled]="isEditFromProfile" [items]="serviceProviderList" bindLabel="name"
+                      placeholder="Select provider.." formControlName="selectedServiceProvider"
+                      (change)="selectProvider($event, userRegistrationFrm.get('selectedServiceProvider'))">
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="form-row form-group">
+                  <div class="col-4">
+                    <label>Services</label>
+                    <input class="form-control form-control-sm" formControlName="user_services" type="text"
+                      placeholder="services">
+                  </div>
+                  <div class="col-4">
+                    <label>Education</label>
+                    <input class="form-control form-control-sm" formControlName="education" type="text"
+                      placeholder="Education">
+                  </div>
+                  <div class="col-4">
+                    <label>Experience</label>
+                    <input class="form-control form-control-sm" formControlName="experience" type="text"
+                      placeholder="Experience" minlength="1" maxlength="2"
+                      [class.error]="userRegistrationFrmCntrols['experience'].errors?.pattern">
+                    <small class="text-danger" *ngIf="userRegistrationFrmCntrols['experience'].errors?.pattern">
+                      Invalid Number!</small>
+                  </div>
+                </div>
+                <div class="form-row form-group">
+                  <div class="col-12">
+                    <label for="comment">About</label>
+                    <textarea class="form-control form-control-sm mb-0 vresize" formControlName="aboutUser" rows="2"
+                      id="aboutUser" name="text"></textarea>
+                  </div>
+                </div>
+                <div class="form-row form-group mt-4" formArrayName='application_assigmentlist'>
+                  <div class="col-4">
+                    <span class="font-size-dot-8 font-weight-500">Applications Assignment<sup>*</sup></span>
+                  </div>
+                  <div class="col-8">
+                    <div class="custom-control custom-checkbox custom-control-inline mr-3"
+                      *ngFor="let item of allApplicationFrmCntrols.controls; let i = index" [formGroupName]="i"
+                      [ngClass]="{'cdisbaled': isEditFromProfile}">
+                      <input type="checkbox" class="custom-control-input" id="chek_{{item.value.id}}"
+                        formControlName="checked" (change)="onclickApplicationValid()">
+                      <label class="custom-control-label pointer"
+                        [class.error]="userRegistrationFrmCntrols['application_assigmentlist'].errors && submitted"
+                        for="chek_{{item.value.id}}">{{item.value.name}}</label>
+                    </div>
+                    <small class="text-danger d-block"
+                      *ngIf="userRegistrationFrmCntrols['application_assigmentlist'].errors && submitted">
+                      Please Check Assignment!</small>
+                  </div>
+                </div>
+                <div class="form-row form-group">
+                  <div class="col-4">
+                    <label class="d-block" for="gender">Default Application<sup>*</sup></label>
+                  </div>
+                  <div class="col-8">
+                    <div class="custom-control custom-radio custom-control-inline"
+                      *ngFor="let item of defaultApplicationList; let i = index"
+                      [ngClass]="{'cdisbaled': isEditFromProfile}">
+                      <input type="radio" class="custom-control-input" id="customRadio_{{item.id}}"
+                        formControlName="default_application" value="{{item.id}}">
+                      <label class="custom-control-label pointer"
+                        [class.error]="userRegistrationFrmCntrols['default_application'].errors && submitted"
+                        for="customRadio_{{item.id}}">{{item.name}}</label>
+                    </div>
+                    <small class="d-block text-danger"
+                      *ngIf="userRegistrationFrmCntrols['default_application'].errors && submitted">
+                      Please Select Default Application!</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-3 text-center">
+                <div class="user-image mb-3 mt-2">
+                  <img class="img-fluid rounded-circle text-center" [src]="imageUrl" width="150" alt="profile-image" />
+                  <label for="imageUpload" class="img-upload">
+                    <a class="edit-profile-pic d-flex justify-content-center rounded-circle text-center pointer">
+                      <i class="icon icon-camera" aria-hidden="true">
+                      </i>
+                    </a>
+                  </label>
+                  <input type='file' name="user_image" id="imageUpload" accept=".png, .jpg, .jpeg" #fileInput
+                    (change)="uploadFile($event)" />
+                </div>
+                <div class="row form-group justify-content-center pt-2 mb-0">
+                  <div class="custom-control custom-checkbox custom-control-inline mt-custom-1-2"
+                    [ngClass]="{'cdisbaled': isEditFromProfile}">
+                    <input type="checkbox" formControlName="is_active" class="custom-control-input" id="chek_Active">
+                    <label class="custom-control-label pointer" for="chek_Active">Active</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="section2" class="mb-5 pt-4">
+          <h6 class="border-dash-bottom pb-1 mb-3">
+            <span class="icon fa-fw icon-tv align-top" aria-hidden="true"></span>
+            Application Privilege</h6>
+          <div class="container-fluid form-group my-4">
+            <div class="row">
+              <div class="col-12" formArrayName='application_role_detail'>
+                <ng-container *ngFor="let item of allApplicationRoleFrmCntrols.controls; let i = index"
+                  [formGroupName]="i">
+                  <div class="form-row my-4">
+                    <div class="col-3 mt-4 text-right">
+                      <label>Application <span>{{item.value.application.name}}</span><sup>*</sup></label>
+                    </div>
+                    <div class="col-3">
+                      <label>Role Type<sup>*</sup></label>
+                      <ng-select [items]="item.value.applicationRoleTypeList" bindLabel="name"
+                        placeholder="Select Role Type" formControlName="role_type"
+                        (change)="selectRoleType($event, item)">
+                      </ng-select>
+                    </div>
+                    <div class="col-3">
+                      <label>Primary Role<sup>*</sup></label>
+                      <ng-select [items]="item.value.primaryRolesList" bindLabel="name" placeholder="Primary Roles"
+                        formControlName="primary_role">
+                      </ng-select>
+                    </div>
+                    <div class="col-3">
+                      <label>Landing Page<sup>*</sup></label>
+                      <ng-container *ngIf="item.value.application.name === 'ACCESS'">
+                        <ng-select [items]="accessPerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'ADMIN'">
+                        <ng-select [items]="adminPerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                       <ng-container *ngIf="item.value.application.name === 'BILLING'">
+                        <ng-select [items]="billingPerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'APPOINTMENT'">
+                        <ng-select [items]="appointmentPerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'COMMUNICATION'">
+                        <ng-select [items]="communicationPerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'CONFIGURATION'">
+                        <ng-select [items]="configurationPerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'DISCHARGE'">
+                        <ng-select [items]="dischargePerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'DMS'">
+                        <ng-select [items]="dmsPerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'DOCTOR DESK'">
+                        <ng-select [items]="doctorDeskPerList" bindLabel="permission_name" placeholder="Landing Page"
+                        formControlName="primary_permission">
+                      </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'DOCTOR SHARE'">
+                        <ng-select [items]="doctorSharePerList" bindLabel="permission_name" placeholder="Landing Page"
+                        formControlName="primary_permission">
+                      </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'EMERGENCY'">
+                        <ng-select [items]="emergencyPerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'EMR SETTINGS'">
+                        <ng-select [items]="emrSettingPerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'ENQUIRY DESK'">
+                        <ng-select [items]="enqDeskPerList" bindLabel="permission_name" placeholder="Landing Page"
+                        formControlName="primary_permission">
+                      </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'INSURANCE'">
+                        <ng-select [items]="insurancePerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'INVENTORY'">
+                        <ng-select [items]="inventoryPerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'IPD'">
+                        <ng-select [items]="ipdPerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'LABORATORY'">
+                        <ng-select [items]="laboratoryPerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'NURSING'">
+                        <ng-select [items]="nursingPerList" bindLabel="permission_name" placeholder="Landing Page"
+                        formControlName="primary_permission">
+                      </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'OPD'">
+                        <ng-select [items]="opdPerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'OT'">
+                        <ng-select [items]="otPerList" bindLabel="permission_name" placeholder="Landing Page"
+                        formControlName="primary_permission">
+                      </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'PHARMACY'">
+                        <ng-select [items]="pharmaPerList" bindLabel="permission_name" placeholder="Landing Page"
+                        formControlName="primary_permission">
+                      </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'QMS'">
+                        <ng-select [items]="qmsPerList" bindLabel="permission_name" placeholder="Landing Page"
+                        formControlName="primary_permission">
+                      </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'RADIOLOGY'">
+                        <ng-select [items]="radiologyPerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                      <ng-container *ngIf="item.value.application.name === 'REGISTRATION'">
+                        <ng-select [items]="registrationPerList" bindLabel="permission_name" placeholder="Landing Page"
+                          formControlName="primary_permission">
+                        </ng-select>
+                      </ng-container>
+                    </div>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="section3" class="mb-5 pt-4">
+          <h6 class="border-dash-bottom pb-1 mb-3">
+            <span class="icon fa-fw icon-bring-forward align-top" aria-hidden="true"></span>
+            Additional Privilege</h6>
+          <div class="container-fluid">
+            <div class="dual-list form-group">
+              <div class="listbox">
+                <p class="m-0 font-weight-500">All Privilege</p>
+                <label>Select Application </label>
+                <ng-select [items]="getSelectedApplication()" [ngModelOptions]="{standalone: true}"
+                  [(ngModel)]="selectedApplication" (change)="onSelectedApplication($event)"
+                  bindLabel="application.name" placeholder="Select Role Type">
+                </ng-select>
+              </div>
+              <div class="buttonbox">
+                <div class="dummy-btn"></div>
+              </div>
+              <div class="listbox">
+                <p class="m-0 font-weight-500">Selected Privilege</p>
+              </div>
+            </div>
+            <app-custom-dual-listbox [sort]="true" [source]="roleSource" [key]="roleKey" [display]="roleDisplay"
+              [filter]="true" [(destination)]="secondaryRoleConfirmed" height="265px" [format]="dualListboxFormat"
+              [disabled]="isEditFromProfile"></app-custom-dual-listbox>
+          </div>
+        </div>
+        <div id="section4" class="mb-1 pt-1">
+          <h6 class="border-dash-bottom pb-1 mb-3">
+            <span class="icon fa-fw icon-clipboard-list-check align-top" aria-hidden="true"></span>
+            Doctor Assignment</h6>
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-6">
+                <p class="m-0 font-weight-500">All Assignment</p>
+              </div>
+              <div class="col-6 pl-5">
+                <p class="m-0 font-weight-500">Selected Assignment</p>
+              </div>
+            </div>
+            <app-custom-dual-listbox [sort]="true" [source]="docSource" [key]="docKey" [display]="docDisplay"
+              [filter]="true" [(destination)]="docAssignmentConfirmed" height="265px" [format]="dualListboxFormat"
+              [disabled]="isEditFromProfile"></app-custom-dual-listbox>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-right py-1">
+      <button class="btn btn-sm btn-outline-secondary mr-1" (click)="cancel()" type="button">
+        CANCEL</button>
+      <button class="btn btn-sm btn-warning mr-1" (click)="clearForm()" type="button" [disabled]="isEditFromProfile"><i
+          class="fas fa-fw fa-eraser" aria-hidden="true"></i> CLEAR</button>
+      <button type="submit" class="btn btn-sm btn-success" [attr.title]="editUserId ? 'Update' : 'Save'">
+        <span *ngIf="!!!editUserId"> <i class="icon fa-fw icon-save" aria-hidden="true"></i> SAVE</span> <span
+          *ngIf="editUserId"><i class="fas fa-fw fa-sync-alt"></i> UPDATE</span>
+      </button>
+    </div>
+  </form>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

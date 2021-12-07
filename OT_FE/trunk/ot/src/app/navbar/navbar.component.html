@@ -1,0 +1,122 @@
+<nav class="navbar p-0" [ngClass]="{'emr-nav':this.moduleName === 'emr'}">
+  <!-- toggle open class when side menu bar is open -->
+  <a *ngIf="this.moduleName === 'emr' && hideBarIcon" (click)="showHideMainMenu()"
+    class="d-flex align-items-center emr-menu" [ngClass]="{'open': showHideMainMenuStatus || showHidePatientMenu}">
+    <div class="bars d-inline-block w-100" [ngClass]="{'bar-close': showHideMainMenuStatus || showHidePatientMenu}">
+      <div class="bar1"></div>
+      <div class="bar2"></div>
+      <div class="bar3"></div>
+    </div>
+    <!-- <i class="fa icon fa-fw icon-home mx-auto text-white" aria-hidden="true"></i> -->
+  </a>
+  <a class="navbar-brand mr-3" [routerLink]="[selectedModule.navLink]" (click)="highlightedSelectedMenu('Grid')">
+    <span><img src="./assets/img/logo.png" alt="logo"></span>
+    <h6 class="mb-0 ml-2 text-uppercase">{{selectedModule.displayValue}}</h6>
+  </a>
+  <div class="nav-patients-list">
+    <div class="d-flex align-items-center" *ngIf="activePatientList.length > 0">
+      <ng-container *ngFor="let item of activePatientList; let i = index;">
+        <a class="patients-tab position-relative d-inline-block" *ngIf="i < 2"
+          [ngClass]="{'other': currentActivePatient?.patientData.id !== item.patientData.id}">
+          <span (click)="goToPatientPage(item, i);" class="pointer text-uppercase font-size-dot-8"
+            title="{{item.patientData.name}}">{{item.patientData.name}}</span>
+          <i (click)="removeFromPatientList(item, i);"
+            class="icon fa-fw icon-times position-absolute pointer align-middle" title="Close"></i>
+        </a>
+      </ng-container>
+      <ng-container *ngIf="activePatientList.length > 2">
+        <div ngbDropdown>
+          <button class="bg-transparent text-white px-2 border-0 arrow-dropdown" id="dropdownBasic2" ngbDropdownToggle>
+            <i class="icon fa-fw icon-chevron-double-right fa-rotate-90" aria-hidden="true"></i>
+            <span class="badge badge-pill arrow-badge">{{activePatientList.length-2}}</span>
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+            <ng-container *ngFor="let item of activePatientList; let i = index;">
+              <ng-container *ngIf="i > 1">
+                <button class="position-relative font-size-dot-8" ngbDropdownItem
+                  (click)="goToPatientPage(item, i);">{{item.patientData.name}}
+                  <!-- <i class="fa fa-chevron-right position-absolute"></i> -->
+                </button>
+              </ng-container>
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <div class="collapse navbar-collapse d-inline-flex justify-content-end" id="navbarSupportedContent">
+    <!-- <div class="input-width mr-2"> -->
+      <!-- <input class="form-control form-control-sm" type="text" placeholder="Search by Patient Name / Mobile No. / Ref ID"> -->
+      <!-- <app-custom-autocomplete-search [data]="patList" [searchKey]="keyword"
+        [placeHolder]="'Search by Patient Id / Name / Mobile No.'" (selectEvent)='selectEvent($event)'
+        (inputChangedEvent)='onChangeSearch($event)' (onScrolledToEnd)="onScroll()" (closedEvent)="closed($event)">
+      </app-custom-autocomplete-search> -->
+
+    <!-- </div> -->
+    <ul class="info-menu list-unstyled m-0" [ngClass]="{'active':isHelpMenuSelected}">
+      <li ngbDropdown #myDrop="ngbDropdown" class="nav-item" placement="bottom"
+        [ngClass]="{'active':isGridMenuSelected}">
+        <a ngbDropdownToggle class="nav-link" ngbTooltip="Application Menu" [routerLink]=""
+          (click)="onMenuIconClick($event); highlightedSelectedMenu('Grid')" id="dropdownBasic1">
+          <i class="icon fa-fw font-18 icon-th" aria-hidden="true"></i>
+        </a>
+        <!--Show Dropdown Menu-->
+        <ul (click)="myDrop.close();" ngbDropdownMenu
+          class="dropdown-menu menu-collapse-details mt-1 shadow rounded-3 border-0 bg-white"
+          aria-labelledby="dropdownBasic1">
+          <ng-container *ngFor="let app of appList">
+            <li class="text-center p-0 d-inline-block">
+              <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.app_key === app.app_key}"
+                [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                class="m-1 d-block pointer text-decoration-none">
+                <i class="icon fa-fw fa-2x" aria-hidden="true" [innerHTML]="app.svgDomsanitize">
+                </i>
+                <p class="m-1 font-weight-500">{{app.app_name}}</p>
+              </a>
+            </li>
+          </ng-container>
+        </ul>
+      </li>
+      <!-- <li ngbDropdown #myDrop="ngbDropdown" class="nav-item" placement="bottom" ngbTooltip="Grid Menu" [ngClass]="{'active':isGridMenuSelected}">
+        <a ngbDropdownToggle class="nav-link" [routerLink]="" (click)="onMenuIconClick($event); highlightedSelectedMenu('Grid')" id="dropdownBasic1">
+          <i class="icon fa-fw font-18 icon-th" aria-hidden="true"></i>
+        </a>
+        <ul (click)="myDrop.close();" ngbDropdownMenu class="dropdown-menu menu-collapse-details mt-1 shadow rounded-3 border-0 bg-white" aria-labelledby="dropdownBasic1">
+          <li class="text-center p-0 d-inline-block" *ngFor="let app of appList">
+            <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.navLink == './'}"
+              [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+              class="m-1 d-block pointer text-decoration-none">
+              <i class="icon fa-fw fa-2x {{ (app.icon ? app.icon : 'icon-user user') }}" aria-hidden="true"></i>
+              <p class="m-1 font-weight-500">{{app.app_name}}</p>
+            </a>
+          </li>
+        </ul>
+      </li> -->
+      <!-- <li class="nav-item" [ngClass]="{'active':isSettingMenuSelected}" placement="bottom" ngbTooltip="Setting">
+        <a class="nav-link disabledanchor" [routerLink]="" (click)="onMenuIconClick($event,'Settings')">
+          <i class="icon fa-fw font-18 icon-tools" aria-hidden="true"></i>
+        </a>
+      </li> -->
+      <li class="nav-item" [ngClass]="{'active':isNotificationMenuSelected}" placement="bottom"
+        ngbTooltip="Notifications">
+        <a class="nav-link position-relative" [routerLink]="" (click)="onMenuIconClick($event,'Notification')">
+          <i class="icon fa-fw font-20 icon-bell" aria-hidden="true"></i>
+          <span class="badge badge-pill badge-blink">{{notificationCount}}</span>
+        </a>
+      </li>
+      <li class="nav-item mr-1" [ngClass]="{'active':isProfileMenuSelected}" placement="bottom-right"
+        ngbTooltip="User Profile">
+        <a class="nav-link" [routerLink]="" (click)="onMenuIconClick($event,'Profile')">
+          <i class="icon fa-fw font-20 icon-user user" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li class="nav-item" [ngClass]="{'active':isLogoutMenuSelected}" placement="bottom"
+      ngbTooltip="{{loginUserName}}, Logout" placement="auto">
+        <a class="nav-link" [routerLink]="" (click)="onMenuIconClick($event,'Logout')">
+          <i class="icon fa-fw icon-sign-out-alt font-18" aria-hidden="true"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</nav>

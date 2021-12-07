@@ -1,0 +1,46 @@
+<div class="custom-container-fluid role-permissions mx-2">
+  <div class="card-header py-1">
+    <div class="form-row form-group">
+      <div class="col-3">
+        <label for="login_id">Select Application</label>
+        <ng-select [items]="applications" bindLabel="name" placeholder="Filter permissions by application"
+          [(ngModel)]="selectedApplication" (clear)="onClearApplication()" (change)="onApplicationChange($event)">
+        </ng-select>
+      </div>
+      <div class="col-3">
+        <label for="id">Select Role Type</label>
+        <ng-select [items]="appRoleTypes" bindLabel="name" placeholder="Select Role Type" [(ngModel)]="selectedRoleType"
+          (change)="onRoleTypeChange($event)">
+        </ng-select>
+      </div>
+      <div class="col-3">
+        <label for="login_id">Select Role</label>
+        <ng-select [items]="roles" bindLabel="name" placeholder="Select Role" [disabled]="!selectedRoleType"
+          [(ngModel)]="selectedRoleName" (clear)="onClear()" (change)="onChange($event)">
+        </ng-select>
+      </div>
+      <div class="col-3 align-self-center mt-3" *ngIf="!selectedRoleName">
+        <small class="m-0 text-warning"><i class="icon icon-ban fa-fw" aria-hidden="true"></i> Please select role to
+          manage permissions</small>
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-6">
+        <p class="mb-0 font-size-dot-875 font-weight-500">Master Permissions</p>
+      </div>
+      <div class="col-6 pl-5">
+        <p class="mb-0 font-size-dot-875 font-weight-500">Role Permissions</p>
+      </div>
+    </div>
+    <app-custom-dual-listbox [sort]="true" [source]="sourcePermissions" [key]="id" [display]="name" [filter]="true"
+      [(destination)]="destinationPermissions" height="265px" [format]="dualListboxFormat" [disabled]="isDisabled">
+    </app-custom-dual-listbox>
+  </div>
+  <div class="card-footer py-1 text-right">
+    <button class="btn btn-sm btn-success" (click)="savePermissions()" type="button">
+      <i class="icon fa-fw icon-save" aria-hidden="true"></i> SAVE</button>
+  </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

@@ -1,0 +1,542 @@
+[
+    {
+        "chart_date": "2019-04-11T12:55:11.241Z",
+        "isExpanded": true,
+        "chart_data": [
+            {
+                "intake_time": "2019-04-10T18:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-10T19:30:00.000Z",
+                "intake_iv_fluid_name": "Normal Saline",
+                "intake_iv_fluid_qty": 500,
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": 200,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-10T20:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-10T21:30:00.000Z",
+                "intake_iv_fluid_name": "5% Dextrose",
+                "intake_iv_fluid_qty": 500,
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-10T22:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-10T23:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T00:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "Milk",
+                "intake_rt_feed_qty": 100,
+                "output_r_t_qty": "",
+                "output_urine_qty": 150,
+                "output_drain_qty": 150,
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T01:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T02:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": null,
+                "output_urine_qty": 250,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T03:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T04:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": 25,
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T05:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T06:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": 180,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T07:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T08:30:00.000Z",
+                "intake_iv_fluid_name": "Normal Saline",
+                "intake_iv_fluid_qty": 1000,
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T09:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "Milk",
+                "intake_rt_feed_qty": 200,
+                "output_r_t_qty": "",
+                "output_urine_qty": 50,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T10:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T11:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": 200,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T12:30:00.000Z",
+                "intake_iv_fluid_name": "5% Dextrose",
+                "intake_iv_fluid_qty": 500,
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": 20,
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T13:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T14:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "Milk",
+                "intake_rt_feed_qty": 200,
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T15:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": 150,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T16:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": 100,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T17:30:00.000Z",
+                "intake_iv_fluid_name": "9% Normal Saline",
+                "intake_iv_fluid_qty": 500,
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            }
+        ]
+    },
+    {
+        "chart_date": "2019-04-11T12:55:11.241Z",
+        "isExpanded": true,
+        "chart_data": [
+            {
+                "intake_time": "2019-04-10T18:30:00.000Z",
+                "intake_iv_fluid_name": "5% Dextrose",
+                "intake_iv_fluid_qty": 500,
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-10T19:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": null,
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": null,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-10T20:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "Milk",
+                "intake_rt_feed_qty": 100,
+                "output_r_t_qty": "",
+                "output_urine_qty": 150,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-10T21:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": null,
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-10T22:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": 250,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-10T23:30:00.000Z",
+                "intake_iv_fluid_name": "Normal Saline",
+                "intake_iv_fluid_qty": 500,
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": 200,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T00:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": null,
+                "output_r_t_qty": "",
+                "output_urine_qty": null,
+                "output_drain_qty": 150,
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T01:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T02:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": 25,
+                "output_urine_qty": null,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T03:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T04:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": null,
+                "output_urine_qty": 180,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T05:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T06:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "Milk",
+                "intake_rt_feed_qty": 200,
+                "output_r_t_qty": "",
+                "output_urine_qty": 50,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T07:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T08:30:00.000Z",
+                "intake_iv_fluid_name": "Normal Saline",
+                "intake_iv_fluid_qty": 1000,
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T09:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": null,
+                "output_r_t_qty": "",
+                "output_urine_qty": null,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T10:30:00.000Z",
+                "intake_iv_fluid_name": "5% Dextrose",
+                "intake_iv_fluid_qty": 500,
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": 20,
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T11:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": 200,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T12:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": null,
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": null,
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T13:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "Milk",
+                "intake_rt_feed_qty": 200,
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T14:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": null,
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T15:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": 150,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T16:30:00.000Z",
+                "intake_iv_fluid_name": "",
+                "intake_iv_fluid_qty": "",
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": 100,
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            },
+            {
+                "intake_time": "2019-04-11T17:30:00.000Z",
+                "intake_iv_fluid_name": "9% Normal Saline",
+                "intake_iv_fluid_qty": 500,
+                "intake_rt_feed_name": "",
+                "intake_rt_feed_qty": "",
+                "output_r_t_qty": "",
+                "output_urine_qty": "",
+                "output_drain_qty": "",
+                "is_current_row_visible": true
+            }
+        ]
+    }
+]

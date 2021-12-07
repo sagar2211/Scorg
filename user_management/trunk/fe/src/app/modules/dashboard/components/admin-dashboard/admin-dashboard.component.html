@@ -1,0 +1,426 @@
+<div class="container-fluid custom-container-fluid admin-dashboard px-2">
+  <div class="w-1360 mb-2">
+    <div class="form-row">
+      <div class="col-3 col-320">
+        <div class="card border-0 card-appointment h-100">
+          <div class="card-header border-bottom-0 p-0">
+            <div class="form-row align-items-center mx-0">
+              <div class="col px-0 pt-1">
+                <h6 class="mb-0 pl-2">Appointments Today</h6>
+              </div>
+              <!-- <div class="col-extend px-0">
+                <a href="javaScript:Void(0);" class="text-decoration-none icon fa-fw icon-extend text-primary"></a>
+              </div> -->
+            </div>
+          </div>
+          <ng-container>
+            <div class="card-body p-2">
+              <div class="form-row align-items-center justify-content-center pointer"
+                (click)="getReport('appointmentSummary')">
+                <div class="col-10">
+                  <h2 class="mb-0">
+                    {{ appointmentData.total_appointment_count }}
+                  </h2>
+                </div>
+                <div class="col-2 text-right">
+                  <img class="img-fluid" src="./assets/img/admin-dashboard/arrow.png" />
+                </div>
+              </div>
+            </div>
+            <div class="card-footer border-top-0 p-2">
+              <div class="form-row">
+                <div class="col-4">
+                  <h6 class="mb-0">{{ appointmentData.walkin_count }}</h6>
+                  <p class="mb-0 text-muted">Walk-ins</p>
+                </div>
+                <div class="col-4 text-center pointer" (click)="getReport('emptySlot')">
+                  <h6 class="mb-0">{{ appointmentData.Empty_Percentage }}%</h6>
+                  <p class="mb-0 text-muted">Empty</p>
+                </div>
+                <div class="col-4 text-right pointer" (click)="getReport('patientNoShowAppointment')">
+                  <h6 class="mb-0">{{ appointmentData.total_noshow }}</h6>
+                  <p class="mb-0 text-muted">No-Shows</p>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="col-3 col-320">
+        <div class="card border-0 card-service-stats h-100">
+          <div class="card-header border-bottom-0 p-0">
+            <div class="form-row align-items-center mx-0">
+              <div class="col px-0 pt-1">
+                <h6 class="mb-0 pl-2">Service Stats</h6>
+              </div>
+              <!-- <div class="col-extend px-0 pointer">
+                <a (click)="getReport('serviceSummary')"
+                  class="text-decoration-none icon fa-fw icon-extend text-primary"></a>
+              </div> -->
+            </div>
+          </div>
+          <div class="card-body p-2 pointer" (click)="getReport('serviceSummary')">
+            <app-admin-dashboard-donut-chart></app-admin-dashboard-donut-chart>
+          </div>
+          <div class="card-footer border-top-0 p-2 bullets">
+            <div class="form-row">
+              <div class="col-4">
+                <p class="mb-0 text-muted active-points">Delayed</p>
+              </div>
+              <div class="col-4 text-center">
+                <p class="mb-0 text-muted empty">Not Started</p>
+              </div>
+              <div class="col-4 text-right">
+                <p class="mb-0 text-muted on-time">On Time</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3 col-320">
+        <div class="card border-0 card-service-efficiency h-100">
+          <div class="card-header border-bottom-0 p-0">
+            <div class="form-row align-items-center mx-0">
+              <div class="col px-0 pt-1">
+                <h6 class="mb-0 pl-2">Service Efficiency</h6>
+              </div>
+              <!-- <div class="col-extend px-0">
+                <a href="javaScript:Void(0);" class="text-decoration-none icon fa-fw icon-extend text-primary"></a>
+              </div> -->
+            </div>
+          </div>
+          <div class="card-body p-2">
+            <app-service-efficiency-line-chart></app-service-efficiency-line-chart>
+          </div>
+          <div class="card-footer border-top-0 p-2 bullets">
+            <div class="form-row">
+              <div class="col-6">
+                <p class="mb-0 text-muted on-time">On Time Services</p>
+              </div>
+              <div class="col-6 text-right">
+                <p class="mb-0 text-muted skip">Total Services</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3 col-320">
+        <div class="card border-0 card-patients h-100">
+          <div class="card-header border-bottom-0 p-0">
+            <div class="form-row align-items-center mx-0">
+              <div class="col px-0 pt-1">
+                <h6 class="mb-0 pl-2">Patients</h6>
+              </div>
+              <!-- <div class="col-extend px-0">
+                <a href="javaScript:Void(0);" class="text-decoration-none icon fa-fw icon-extend text-primary"></a>
+              </div> -->
+            </div>
+          </div>
+          <div class="card-body p-2">
+            New Registration
+            <div class="progress mb-3 mx-2 pointer" (click)="getReport('patientMaster', 'today')">
+              <div ngbTooltip="Today's register patient count: {{
+                patientRegistrationDetails.todays_registration_count
+              }}" class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"
+                [ngStyle]="{
+                width:
+                  patientRegistrationDetails.todays_registration_count_percent
+                  | percent
+              }"></div>
+            </div>
+            <div class="progress mx-2 pointer" (click)="getReport('patientMaster', 'week')">
+              <div ngbTooltip="Weekly register patient avg count: {{
+                patientRegistrationDetails.weekly_registration_average
+              }}" class="progress-bar bg-info progress-bar-info" role="progressbar" aria-valuenow="50"
+                aria-valuemin="0" aria-valuemax="100" [ngStyle]="{
+                width:
+                  patientRegistrationDetails.weekly_registration_count_percent
+                  | percent
+              }"></div>
+            </div>
+          </div>
+          <div class="card-body p-2">
+            Total Appointments
+            <div class="progress mb-3 mx-2 pointer" (click)="getReport('patientAppointment', 'today')">
+              <div ngbTooltip="Today's total appointment patient count: {{
+                patientRegistrationDetails.todays_booking_count
+              }}" class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                [ngStyle]="{
+                width: patientRegistrationDetails.todays_booking_percent + '%'
+              }"></div>
+            </div>
+            <div class="progress mx-2 pointer" (click)="getReport('patientAppointment', 'week')">
+              <div ngbTooltip="Weekly appointment patient avg count: {{
+                patientRegistrationDetails.weekly_booking_average
+              }}" class="progress-bar bg-info progress-bar-info" role="progressbar" aria-valuenow="100"
+                aria-valuemin="0" aria-valuemax="100" [ngStyle]="{
+                width: patientRegistrationDetails.weekly_booking_percent + '%'
+              }"></div>
+            </div>
+          </div>
+          <div class="card-footer border-top-0 p-2 bullets">
+            <div class="form-row">
+              <div class="col-6">
+                <p class="mb-0 text-muted today">Today</p>
+              </div>
+              <div class="col-6 text-right">
+                <p class="mb-0 text-muted weekly">Weekly</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-row mb-2">
+    <div class="col-6">
+      <div class="card border-0 card-opd-stats h-100">
+        <div class="card-header border-bottom-0 p-0">
+          <div class="form-row align-items-center mx-0">
+            <div class="col px-0 pt-1">
+              <h6 class="mb-0 pl-2">OPD Stats</h6>
+            </div>
+            <!-- <div class="col-extend px-0">
+              <a href="javaScript:Void(0);" class="text-decoration-none icon fa-fw icon-extend text-primary"></a>
+            </div> -->
+          </div>
+        </div>
+        <div class="card-body card-body-opd">
+          <div class="card border-0 mb-2">
+            <div class="form-row align-items-center mx-0 p-1 opd-list">
+              <div class="col-opd px-0 opd-count text-center bg-red">
+                <span>{{ opdStatsDetails.SchExpiredCount }}</span>
+              </div>
+              <div class="col-opd-txt px-0 text-red">
+                <h6 class="mb-0 pl-2">Provider(s) schedule is expired</h6>
+                <!-- <sup class="small font-size-dot-75">Entities</sup> -->
+              </div>
+            </div>
+          </div>
+          <div class="card border-0 mb-2">
+            <div class="form-row align-items-center mx-0 p-1 opd-list pointer"
+              (click)="getReport('roomSectionMapping')">
+              <div class="col-opd px-0 opd-count text-center bg-red">
+                <span>{{roomMappingcount}}</span>
+              </div>
+              <div class="col-opd-txt px-0 text-red">
+                <h6 class="mb-0 pl-2">Room(s) mapping pending</h6>
+              </div>
+            </div>
+          </div>
+          <div class="card border-0 mb-2">
+            <div class="form-row align-items-center mx-0 p-1 opd-list">
+              <div class="col-opd px-0 opd-count text-center bg-warning">
+                <span>{{roomMappingExpireCount}}</span>
+              </div>
+              <div class="col-opd-txt px-0 text-warning">
+                <h6 class="mb-0 pl-2">Room(s) mapping will Expire in 15 days</h6>
+              </div>
+            </div>
+          </div>
+          <div class="card border-0 mb-2">
+            <div class="form-row align-items-center mx-0 p-1 opd-list">
+              <div class="col-opd px-0 opd-count text-center bg-warning">
+                <span>{{ opdStatsDetails.SchWillExpireCount }}</span>
+              </div>
+              <div class="col-opd-txt px-0 text-warning">
+                <h6 class="mb-0 pl-2">
+                  Provider(s) schedule will expire in 15 days
+                </h6>
+              </div>
+            </div>
+          </div>
+          <div class="card border-0 mb-2">
+            <div class="form-row align-items-center mx-0 p-1 opd-list">
+              <div class="col-opd px-0 text-center opd-count">
+                <span>{{ opdStatsDetails.ExtendedSlotsCount }}</span>
+              </div>
+              <div class="col-opd-txt px-0">
+                <h6 class="mb-0 pl-2">Provider(s) extended their OPD booking</h6>
+              </div>
+            </div>
+          </div>
+          <div class="card border-0 mb-2">
+            <div class="form-row align-items-center mx-0 p-1 opd-list pointer"
+              (click)="getReport('patientNoShowAppointment')">
+              <div class="col-opd px-0 opd-count text-center">
+                <span>{{ opdStatsDetails.AbsentCount
+                  }}<sup class="text-white">&#x25;</sup></span>
+              </div>
+              <div class="col-opd-txt px-0">
+                <h6 class="mb-0 pl-2">Appointments are no-show</h6>
+              </div>
+            </div>
+          </div>
+          <div class="card border-0 mb-2">
+            <div class="form-row align-items-center mx-0 p-1 opd-list pointer" (click)="getReport('patientNotServed')">
+              <div class="col-opd px-0 opd-count text-center">
+                <span>{{ opdStatsDetails.LateServedCount
+                  }}<sup class="text-white">&#x25;</sup></span>
+              </div>
+              <div class="col-opd-txt px-0">
+                <h6 class="mb-0 pl-2">Patients are not served on time</h6>
+              </div>
+            </div>
+          </div>
+          <div class="card border-0 mb-2">
+            <div class="form-row align-items-center mx-0 p-1 opd-list pointer" (click)="getReport('patientSkip')">
+              <div class="col-opd px-0 opd-count text-center">
+                <span>{{opdStatsDetails.SkipCount}}<sup class="text-white">&#x25;</sup></span>
+              </div>
+              <div class="col-opd-txt px-0">
+                <h6 class="mb-0 pl-2">Patients skipped their turn</h6>
+              </div>
+            </div>
+          </div>
+          <div class="card border-0 mb-2">
+            <div class="form-row align-items-center mx-0 p-1 opd-list pointer"
+              (click)="getReport('patientCancelledAppointment')">
+              <div class="col-opd px-0  opd-count text-center">
+                <span>{{opdStatsDetails.CancelledCount}}<sup class="text-white">&#x25;</sup></span>
+              </div>
+              <div class="col-opd-txt px-0">
+                <h6 class="mb-0 pl-2">Appointments are cancelled</h6>
+              </div>
+            </div>
+          </div>
+          <div class="card border-0 mb-2">
+            <div class="form-row align-items-center mx-0 p-1 opd-list pointer" (click)="getReport('emptySlot')">
+              <div class="col-opd px-0 opd-count text-center">
+                <span>{{ opdStatsDetails.EmptySlotsCount}}<sup class="text-white">&#x25;</sup></span>
+              </div>
+              <div class="col-opd-txt px-0">
+                <h6 class="mb-0 pl-2">Slots are empty</h6>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="card border-0 h-100">
+        <div class="card-header border-bottom-0 p-0">
+          <div class="form-row align-items-center mx-0">
+            <div class="col px-0 pt-1">
+              <h6 class="mb-0 pl-2">
+                OPD Slots Occupancy
+                <!-- <span class="bracket">&#40;SD Graph&#41;</span> -->
+              </h6>
+            </div>
+            <!-- <div class="col-extend px-0">
+              <a href="javaScript:Void(0);" class="text-decoration-none icon fa-fw icon-extend text-primary"></a>
+            </div> -->
+          </div>
+        </div>
+        <div class="card-body p-2">
+          <!-- <img class="img-fluid" src="./assets/img/admin-dashboard/6.png"> -->
+          <!--<app-admin-dashboard-sd-chart></app-admin-dashboard-sd-chart>-->
+          <app-admin-opd-slot-sd-graph></app-admin-opd-slot-sd-graph>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="w-1360">
+    <div class="form-row">
+      <div class="col-4 col-450">
+        <div class="card border-0 card-patient-turnout">
+          <div class="card-header border-bottom-0 p-0">
+            <div class="form-row align-items-center mx-0">
+              <div class="col px-0 pt-1">
+                <h6 class="mb-0 pl-2">
+                  Patient Turnout <span class="bracket">&#40;Monthly&#41;</span>
+                </h6>
+              </div>
+              <!-- <div class="col-extend px-0">
+                <a href="javaScript:Void(0);" class="text-decoration-none icon fa-fw icon-extend text-primary"></a>
+              </div> -->
+            </div>
+          </div>
+          <div class="card-body p-2">
+            <app-admin-dashboard-multiline-chart></app-admin-dashboard-multiline-chart>
+          </div>
+          <div class="card-footer border-top-0 p-2 bullets">
+            <div class="form-row">
+              <div class="col-4">
+                <p class="mb-0 text-muted appointment">Appointment</p>
+              </div>
+              <div class="col-4 text-center">
+                <p class="mb-0 text-muted completed">Completed</p>
+              </div>
+              <div class="col-4 text-right">
+                <p class="mb-0 text-muted no-shows">No-Shows</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 col-450">
+        <div class="card border-0 card-expected-actual h-100">
+          <div class="card-header border-bottom-0 p-0">
+            <div class="form-row align-items-center mx-0">
+              <div class="col px-0 pt-1">
+                <h6 class="mb-0 pl-2">
+                  Expected <span class="vs">VS</span> Actual
+                  <span class="bracket">&#40;Daily&#41;</span>
+                </h6>
+              </div>
+              <!-- <div class="col-extend px-0">
+                <a href="javaScript:Void(0);" class="text-decoration-none icon fa-fw icon-extend text-primary"></a>
+              </div> -->
+            </div>
+          </div>
+          <div class="card-body p-2">
+            <app-admin-dashboard-stacked-bar-chart></app-admin-dashboard-stacked-bar-chart>
+          </div>
+          <div class="card-footer border-top-0 p-2 bullets">
+            <div class="form-row">
+              <div class="col-4">
+                <p class="mb-0 text-muted completed">Completed</p>
+              </div>
+              <div class="col-4 text-center">
+                <p class="mb-0 text-muted no-shows">No-Shows</p>
+              </div>
+              <div class="col-4 text-right">
+                <p class="mb-0 text-muted empty">Empty</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4 col-450">
+        <div class="card border-0 card-appointment-type-stats h-100">
+          <div class="card-header border-bottom-0 p-0">
+            <div class="form-row align-items-center mx-0">
+              <div class="col px-0 pt-1">
+                <h6 class="mb-0 pl-2">
+                  Appointment Type Stats
+                  <span class="bracket">&#40;Daily&#41;</span>
+                </h6>
+              </div>
+              <!-- <div class="col-extend px-0">
+                <a href="javaScript:Void(0);" class="text-decoration-none icon fa-fw icon-extend text-primary"></a>
+              </div> -->
+            </div>
+          </div>
+          <div class="card-body p-2">
+            <app-admin-dashboard-multiseries-bar-chart></app-admin-dashboard-multiseries-bar-chart>
+          </div>
+          <div class="card-footer border-top-0 p-2 bullets">
+            <div class="form-row">
+              <div class="col-4">
+                <p class="mb-0 text-muted previlage">Privilege</p>
+              </div>
+              <div class="col-4 text-center">
+                <p class="mb-0 text-muted normal">Normal</p>
+              </div>
+              <div class="col-4 text-right">
+                <p class="mb-0 text-muted free">Free</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

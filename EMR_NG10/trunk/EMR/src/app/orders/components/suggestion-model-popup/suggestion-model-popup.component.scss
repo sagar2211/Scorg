@@ -1,0 +1,41 @@
+.search-w {
+  width: 800px;
+}
+
+:host::ng-deep {
+  .patient-history-area {
+    padding-left: 15px;
+    padding-right: 15px;
+
+    .rightnavheader {
+      display: none;
+    }
+  }
+
+  .custom-modal-suggesstion-list {
+    .modal-body {
+      .SuggestionFav {
+        .custome-scroll2 {
+          height: 34.4%;
+        }
+      }
+
+      .frequently-wrapper,
+      .other-wrapper,
+      .favourite-wrapper {
+        h6 {
+          background: none !important;
+          padding: 0px !important;
+          font-weight: 600 !important;
+          box-shadow: none !important;
+        }
+      }
+    }
+
+    .selected-suggesstion {
+      font-size: 14px;
+      font-weight: 600;
+      border-bottom: 1px solid #ddd;
+    }
+  }
+}

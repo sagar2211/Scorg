@@ -1,0 +1,131 @@
+@import "../../../../../scss/main";
+
+.schedule-main {
+  .left-panel {
+    flex: 0 0 70%;
+    min-width: 70%;
+
+    .entity-details {
+      padding: 5px 0.5rem 0;
+      height: 100px;
+      background-color: $white;
+      @extend .border-bottom;
+
+      [class*="col-"]:not(:last-child):after {
+        background: $gray-500;
+        width: 2px;
+        content: "";
+        display: block;
+        position: absolute;
+        top: 10px;
+        bottom: 10px;
+        right: 0;
+        min-height: 20px;
+      }
+
+      .latest-apt-date {
+        position: absolute;
+        bottom: 0;
+      }
+
+      .type-height {
+        height: 75px;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+          width: 4px !important;
+        }
+
+        &::-moz-scrollbar {
+          width: 4px !important;
+        }
+      }
+    }
+
+    .schedule-maker {
+      height: calc(100vh - 227px);
+      overflow-y: auto;
+
+      > .card {
+        &:nth-of-type(even) {
+          .card-header,
+          .card-body {
+            background-color: $gray-50 !important;
+          }
+        }
+
+        .start-date-w,
+        .end-date-w {
+          max-width: 84px;
+        }
+
+        .card-body {
+          .appointment-type {
+            @include custom-box-shadow(0, 0, 4px, rgba(0, 0, 0, 0.2));
+
+            .appointmentment-type-w {
+              max-width: 165px;
+            }
+
+            .my-width {
+              .time-width {
+                flex: 12.6%;
+                max-width: 13.6%;
+              }
+
+              .week-width {
+                flex: 50%;
+                max-width: 50%;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .right-panel {
+    flex: 0 0 30%;
+    min-width: 30%;
+  }
+
+  .resizeable {
+    top: 0;
+    right: 30%;
+    z-index: 0;
+    height: 100%;
+    display: block;
+    position: absolute;
+    border: 1px solid #ccc;
+    background-color: $white;
+    cursor: col-resize;
+    width: 8px;
+    line-height: 14px;
+    @include no-select;
+
+    span {
+      top: 50%;
+      width: 4px;
+      height: 20px;
+      margin: -10px 0 0 1px;
+      position: absolute;
+      box-sizing: border-box;
+      display: block;
+      border-width: 0 1px;
+      border-left: 1px solid #828282;
+      border-right: 1px solid #828282;
+    }
+  }
+
+  .slider-history-log {
+    right: 0;
+    height: calc(100vh - 87px);
+  }
+
+}
+
+:host ::ng-deep {
+  .nav-tabs {
+    border: 0;
+  }
+}

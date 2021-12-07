@@ -1,0 +1,42 @@
+<div class="modal-header bg-primary text-white py-1">
+  <p class="modal-title text-uppercase">Cancel Holiday</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div *ngIf="appointmentList.length>0">
+    <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="50"
+      [footerHeight]="70" [rowHeight]="30" [rows]="appointmentList">
+      <ngx-datatable-column name="Patient Id" prop="pat_uhid" [sortable]='false' [width]="60">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Name" prop="pat_name" [sortable]='true' [width]="200">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Age" prop="patientAge" [sortable]='false' [width]="50">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Gender" prop="pat_gender" [sortable]='false' [width]="50">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Contact number" [sortable]='false' prop="pat_mobile_no" [width]="100">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Booking Time" [sortable]='false' prop="bookingTime" [width]="90">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Appointment Time" [sortable]='false' prop="communicationTime" [width]="100">
+      </ngx-datatable-column>
+      <ngx-datatable-column name="Current Status" [sortable]='false' prop="booking_status_display_name" [width]="150">
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+  <div *ngIf="appointmentList.length<=0">
+    No data found
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <input type="text" class="col-6 form-control form-control-sm mr-3" [(ngModel)]="remark" placeholder="Remark">
+  <div class="custom-control custom-checkbox custom-control-inline font-weight-500 font-size-dot-8 mr-3">
+    <input type="checkbox" [(ngModel)]="isSendSMS" class="custom-control-input" id="doctor_holiday">
+    <label class="custom-control-label pointer line-height-2" for="doctor_holiday">Doctor has cancelled holiday.</label>
+  </div>
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closeModal()">Close</button>
+  <button class="btn btn-sm btn-outline-primary" (click)="onSendSMS()" type="button"> Ok </button>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

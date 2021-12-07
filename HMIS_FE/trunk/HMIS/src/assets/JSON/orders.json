@@ -1,0 +1,407 @@
+{
+  "priorityList": ["Routine", "SOS", "PRN", "STAT", "IMMEDIATE"],
+  "recurringList": ["Hourly", "Daily", "Monthly"],
+  "actionsList": ["Continue", "Defer", "Mod", "DC"],
+  "labSpecimenList": [{
+      "key": "urine",
+      "value": "Urine"
+    },
+    {
+      "key": "urine",
+      "value": "Plasma"
+    },
+    {
+      "key": "urine",
+      "value": "Serum"
+    },
+    {
+      "key": "urine",
+      "value": "Sputum"
+    },
+    {
+      "key": "urine",
+      "value": "Throat Swabs"
+    },
+    {
+      "key": "urine",
+      "value": "Tissues"
+    },
+    {
+      "key": "urine",
+      "value": "Surgical Drain Fluids"
+    },
+    {
+      "key": "urine",
+      "value": "Amniotic Fluid"
+    },
+    {
+      "key": "urine",
+      "value": "CSF"
+    },
+    {
+      "key": "urine",
+      "value": "Whole Blood"
+    },
+    {
+      "key": "urine",
+      "value": "Semen"
+    },
+    {
+      "key": "urine",
+      "value": "Stool"
+    }
+  ],
+  "diatOrdersList": [{
+    "name": "NPO for Tests",
+    "id": "1",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Clear Liquid Diet",
+    "id": "2",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Full Liquid Diet",
+    "id": "3",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Soft Diet",
+    "id": "4",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Regular Diet",
+    "id": "5",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Cardiac Diet",
+    "id": "6",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Carbohydrate Controlled Diet",
+    "id": "7",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Low Fiber Diet",
+    "id": "8",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Renal Diet",
+    "id": "9",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Dental Soft",
+    "id": "10",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Consistent Carbohydrate Diet",
+    "id": "11",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Low Sodium Diet",
+    "id": "12",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Low Fat Diet",
+    "id": "13",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Low Potassium Diet",
+    "id": "14",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Low Phosphorus Diet",
+    "id": "15",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Neutropenic Diet",
+    "id": "16",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Gluten Free Diet",
+    "id": "17",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Bariatric Diet",
+    "id": "18",
+    "instructions": "",
+    "action": "",
+
+    "is_favourite": "0",
+    "use_count": "7"
+  }],
+  "nursingOrderMasterList": [{
+    "name": "Monitor respirations for signs of fatigue & impending failure.",
+    "id": "1",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Maintain mean arterial pressure > 85 mm Hg for next seven days.",
+    "id": "2",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Monitor heart rate.",
+    "id": "3",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Monitor for orthostatic hypotension.",
+    "id": "4",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Monitor for abdominal distension.",
+    "id": "5",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Maintain bowel elimination.",
+    "id": "6",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Provide frequent range of motion exercises.",
+    "id": "7",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Reposition patient every 2 hours in bed.",
+    "id": "8",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Blood Glucose – Fingerstick",
+    "id": "9",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }, {
+    "name": "Notify Provider if temperature greater than 101 F",
+    "id": "10",
+    "instructions": "",
+    "action": "",
+    "is_favourite": "0",
+    "use_count": "7"
+  }],
+  "allCategoryOrders": [{
+    "orderId": 1,
+    "orderName": "Medicine Order",
+    "display": true,
+    "key": "medicineOrders"
+  },{
+    "orderId": 2,
+    "orderName": "Lab Order",
+    "display": true,
+    "key": "labOrders"
+  },{
+    "orderId": 3,
+    "orderName": "Radiology Order",
+    "display": true,
+    "key": "radiologyOrders"
+  },{
+    "orderId": 4,
+    "orderName": "Diet Order",
+    "display": true,
+    "key": "dietOrders"
+  },{
+    "orderId": 5,
+    "orderName": "Nursing Order",
+    "display": true,
+    "key": "nursingOrders"
+  }],
+  "orderList":{
+    "data": {
+      "medicineOrders": [
+        {
+          "tempId": 1585826884196,
+          "medicineObj": {
+            "name": "INSHULINE 125 MG",
+            "id": 669483,
+            "startDate": "2020-04-02T00:00:00",
+            "endDate": null,
+            "dose": null,
+            "frequency": null,
+            "type": {
+              "id": 2,
+              "shortName": "TAB",
+              "name": "TABLET",
+              "doseUnit": "tablets"
+            },
+            "sig": null,
+            "instruction": null,
+            "duration": null,
+            "route": null,
+            "genricName": null,
+            "frequencySchedule": null,
+            "isValid": true,
+            "isObjGenerated": true,
+            "doseUnit": null
+          },
+          "priority": null,
+          "action": null,
+          "status": "approvelPending",
+          "isDirty": true,
+          "tempstatus": null,
+          "invalidObjectMessage": false,
+          "freqStartTime": null,
+          "id": 669483
+        }
+      ],
+      "dietOrders": [
+      ],
+      "nursingOrders": [
+        {
+          "isValidObject": true,
+          "name": "Reposition patient every 2 hours in bed.",
+          "tempId": 1585827010069,
+          "nursingId": 8,
+          "action": "continue",
+          "id": 1,
+          "status": "Y",
+          "isDirty": "y",
+          "genericFreq": 1,
+          "genericDuration": "4",
+          "startDateTime": "2020-04-02T00:00:00",
+          "is_favourite": 0,
+          "use_count": 0,
+          "invalidObjectMessage": "",
+          "tempstatus": null,
+          "freqStartTime": "04:00 PM"
+        }
+      ],
+      "radiologyOrders": [
+        {
+          "isValidObject": true,
+          "id": 3,
+          "name": "radiology 2",
+          "radioInvestigationObj": {
+            "id": 1,
+            "name": "radiology 2",
+            "label": "radiology 2",
+            "headId": 9,
+            "comment": "tested"
+          },
+          "startDateTime": "2020-04-02T00:00:00",
+          "endDateTime": null,
+          "recurring": null,
+          "action": null,
+          "status": "Y",
+          "reason": null,
+          "signSymptoms": "jj",
+          "patientConsentNeeded": "",
+          "clinicalInfo": null,
+          "radiologyInstruction": null,
+          "patientInstruction": null,
+          "isDirty": "y",
+          "tempId": 1585826994405,
+          "tempstatus": null,
+          "invalidObjectMessage": "",
+          "frequency": 1,
+          "freqStartTime": "07:00 AM"
+        }
+      ],
+      "labOrders": [
+        {
+          "isValidObject": true,
+          "id": 1,
+          "name": "ECG",
+          "labInvestigationObj": {
+            "id": 1,
+            "name": "ECG",
+            "label": "ECG",
+            "headId": 4,
+            "comment": null
+          },
+          "specimen": "",
+          "startDateTime": "2020-04-02T00:00:00",
+          "endDateTime": null,
+          "priority": null,
+          "action": null,
+          "status": "Y",
+          "patientConsentNeeded": null,
+          "labInstruction": null,
+          "patientInstruction": null,
+          "reason": null,
+          "isDirty": "Y",
+          "tempstatus": null,
+          "componentList": "",
+          "selectedComponentCount": 0,
+          "invalidObjectMessage": "",
+          "tempId": 1585826987680,
+          "frequency": 1,
+          "freqStartTime": "07:00 AM"
+        }
+      ]
+    },
+    "status_code": 200,
+    "status_message": "Success",
+    "message": "Details fetched successfully"
+  }
+}

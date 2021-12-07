@@ -1,0 +1,76 @@
+@import "../../../scss/main.scss";
+.discharge-patient-dashboard-container .discharge {
+    height: calc(100vh - 49px) !important;
+    overflow-y: auto;
+}
+.emr-container-fluid.container-fluid{
+    height: calc(100vh - 50px);
+}
+.discharge-patient-dashboard-container {
+    // height: calc(100vh - 48px) !important;
+    padding-top: 0.5rem;
+    // padding-bottom: 0.5rem;
+    padding-bottom: 0;
+    .admitted-list {
+        .card {
+            @include border-radius(5px);
+            @include custom-box-shadow(0, 0, 5px, rgba(28, 25, 83, 0.12));
+            @include transition(box-shadow 0.5s);
+            &:hover {
+                @include custom-box-shadow(0, 4px, 9px, rgba(165, 165, 165, 0.5));
+            }
+            tbody {
+                tr {
+                    td {
+                        position: relative;
+                        padding: 0.4rem;
+                        border: none;
+                        border-top: 1px solid #dee2e6;
+                        border-bottom: 1px solid #dee2e6;
+                        &:nth-child(1) {
+                            width: 22%;
+                        }
+                        &:nth-child(2) {
+                            width: 28%;
+                        }
+                        &:nth-child(3) {
+                            width: 10%;
+                        }
+                        &:nth-child(4) {
+                            width: 10%;
+                            &:after {
+                                width: 0px !important;
+                            }
+                        }
+                        &:nth-child(5) {
+                            width: 10%;
+                        }
+                        &:nth-child(6) {
+                            width: 14%;
+                        }
+                        &:nth-child(7) {
+                            width: 5%;
+                        }
+                        &:not(:last-child):after {
+                            background: #adb5bd;
+                            width: 1px;
+                            content: "";
+                            display: block;
+                            position: absolute;
+                            top: 10%;
+                            bottom: 0;
+                            right: 0;
+                            max-height: 80%;
+                        }
+                        .top {
+                            font-size: 85%;
+                        }
+                        .bottom {
+                            font-size: 95%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

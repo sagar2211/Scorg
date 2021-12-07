@@ -1,0 +1,334 @@
+<div class="form-row op-patient-details" [ngClass]="{'show-details': isOPPatientVisible, 'hide-details': !isOPPatientVisible}">
+    <div class="col">
+        <div class="card border-0">
+            <div class="card-header border-bottom-0 p-0">
+                <div class="form-row align-items-center mx-0 pt-2">
+                    <div class="col px-0">
+                        <h6 class="font-size-dot-875 mb-0 pl-2">Purchase (GRN) Details</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-2">
+                <div class="form-row">
+                    <div class="col">
+                        <div class="mb-2">
+                            <h6 class="mb-0 text-primary">Against PO</h6>
+                            <div class="table-scroll postion-relative w-100 m-auto overflow-auto" *ngIf="selectedSummary==='division_wise'">
+                                <table class="table custom-table font-size-dot-8">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>GRN No.</th>
+                                            <th>GRN Date</th>
+                                            <th>Supplier Name</th>
+                                            <th class="text-right">GRN Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="4" class="text-right">Total Value</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <h6 class="mb-0 text-primary">Direct Purchase</h6>
+                            <div class="table-scroll postion-relative w-100 m-auto overflow-auto" *ngIf="selectedSummary==='division_wise'">
+                                <table class="table custom-table font-size-dot-8">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>GRN No.</th>
+                                            <th>GRN Date</th>
+                                            <th>Supplier Name</th>
+                                            <th class="text-right">GRN Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="4" class="text-right">Total Value</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <h6 class="mb-0 text-primary">Against Schedule (RC)</h6>
+                            <div class="table-scroll postion-relative w-100 m-auto overflow-auto" *ngIf="selectedSummary==='division_wise'">
+                                <table class="table custom-table font-size-dot-8">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>GRN No.</th>
+                                            <th>GRN Date</th>
+                                            <th>Supplier Name</th>
+                                            <th class="text-right">GRN Value</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>#</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td>---</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="4" class="text-right">Total Value</td>
+                                            <td class="text-right"><span class="small-rupee">9,99,999.00</span>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col">
+                                <h6 class="mb-0 text-primary">Item Group wise Purchase </h6>
+                                <div class="table-scroll postion-relative w-100 m-auto overflow-auto" *ngIf="selectedSummary==='division_wise'">
+                                    <table class="table custom-table font-size-dot-8">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Item Group</th>
+                                                <th class="text-right">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>#</td>
+                                                <td>Electric</td>
+                                                <td class="text-right"><span class="small-rupee">99,99,999.00</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>#</td>
+                                                <td>House Keeping</td>
+                                                <td class="text-right"><span class="small-rupee">99,99,999.00</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>#</td>
+                                                <td>Stationary</td>
+                                                <td class="text-right"><span class="small-rupee">99,99,999.00</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>#</td>
+                                                <td>Print Stationary</td>
+                                                <td class="text-right"><span class="small-rupee">99,99,999.00</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>#</td>
+                                                <td>Engineering</td>
+                                                <td class="text-right"><span class="small-rupee">99,99,999.00</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>#</td>
+                                                <td>Accessory</td>
+                                                <td class="text-right"><span class="small-rupee">99,99,999.00</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="2" class="text-right">Item Group wise Purchase</td>
+                                                <td class="text-right"><span class="small-rupee">99,99,999.00</span>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <h6 class="mb-0 text-primary">Supplier wise Purchase</h6>
+                                <div class="table-scroll postion-relative w-100 m-auto overflow-auto" *ngIf="selectedSummary==='division_wise'">
+                                    <table class="table custom-table font-size-dot-8">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Supplier</th>
+                                                <th class="text-right">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>#</td>
+                                                <td>A</td>
+                                                <td class="text-right"><span class="small-rupee">99,99,999.00</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>#</td>
+                                                <td>B</td>
+                                                <td class="text-right"><span class="small-rupee">99,99,999.00</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>#</td>
+                                                <td>C</td>
+                                                <td class="text-right"><span class="small-rupee">99,99,999.00</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>#</td>
+                                                <td>E</td>
+                                                <td class="text-right"><span class="small-rupee">99,99,999.00</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>#</td>
+                                                <td>F</td>
+                                                <td class="text-right"><span class="small-rupee">99,99,999.00</span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>#</td>
+                                                <td>G</td>
+                                                <td class="text-right"><span class="small-rupee">99,99,999.00</span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="2" class="text-right">Supplier wise Purchase</td>
+                                                <td class="text-right"><span class="small-rupee">99,99,999.00</span>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

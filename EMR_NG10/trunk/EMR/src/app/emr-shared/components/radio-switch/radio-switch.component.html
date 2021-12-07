@@ -1,0 +1,15 @@
+<!-- <form [formGroup]="dpFrm">
+  <label class="switch">
+    <input type="checkbox" (change)="onRadioChanges(dpFrm.value.radioCheck)" formControlName="radioCheck">
+    <span class="slider" [ngClass]="{'round': displayType == 'round'}"></span>
+  </label>
+</form> -->
+<form [formGroup]="dpFrm">
+<div class="custom-control custom-switch">
+  <input type="checkbox" formControlName="radioCheck" class="custom-control-input" id="customSwitch1">
+  <label class="custom-control-label cursor" [class.active]="dpFrm.value.radioCheck"
+    for="customSwitch1"></label>
+  <span class="text-uppercase"
+    [class.active]="dpFrm.value.radioCheck">{{dpFrm.value.radioCheck ? 'Department' : 'Personal'}}</span>
+</div>
+</form>

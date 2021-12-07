@@ -1,0 +1,103 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">Item List</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-1 audit-logs-modal-body">
+    <div class="custom-container-fluid">
+        <div class="p-2">
+            <div class="form-row form-group">
+                <div class="col-3">
+                    <label>&nbsp;</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm pl-2rem" [(ngModel)]="searchString" (ngModelChange)="this.subject.next();" placeholder="Search">
+                        <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+                    </div>
+                </div>
+                <div class="col text-right">
+                    <label class="d-block">&nbsp;</label>
+                    <select class="form-control form-control-sm float-right select-w mt-2" (change)="onPageSizeChanged($event.currentTarget.value)">
+                  <option value="15" selected="">15</option>
+                  <option value="30">30</option>
+                  <option value="45">45</option>
+                  <option value="100">100</option>
+                </select>
+                </div>
+            </div>
+            <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25" [footerHeight]="70" [rowHeight]="30" [rows]="patientIssueList" [externalSorting]="true" (sort)="onSortChanged($event)" [externalPaging]="externalPaging"
+                [count]="page.totalElements" [scrollbarH]="true" (page)='onSetPage($event)'>
+                <ngx-datatable-column name="Issue No." prop="consumptionNo" [frozenLeft]="true" [width]="200">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        {{row.consumptionNo}}
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Issue Date" prop="consumptionDate" [width]="200">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.consumptionDate | customDate: '': 'DD-MM-YYYY'}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Store" prop="storeName" [width]="200">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.storeName}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Item" [sortable]="false" [width]="200">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.itemCode}}/{{row.itemName}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Expiry Date" prop="expiryDate" [width]="200">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.expiryDate | customDate: '': 'DD-MM-YYYY'}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Quantity" prop="qty" [width]="200">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.qty}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Unit Rate" prop="unitRate" [width]="200" cellClass="text-right">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.unitRate | number:'1.2-2'}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Total Amount" prop="amount" [width]="200" cellClass="text-right">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.amount | number:'1.2-2'}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Remark" prop="remark" [width]="200" cellClass="text-right">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.remark}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Created By" prop="createdByUser" [width]="200">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.createdByUser}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Created Date" prop="createdDate" [width]="120">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.createdDate | customDate: '':'DD-MM-YYYY'}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Last Updated By" prop="lastUpdatedByUser" [width]="200">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.lastUpdatedByUser}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="Last Updated Date" prop="lastUpdatedDate" [width]="160">
+                    <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                        <span>{{row.lastUpdatedDate | customDate: '':'DD-MM-YYYY'}} </span>
+                    </ng-template>
+                </ngx-datatable-column>
+            </ngx-datatable>
+        </div>
+    </div>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closePopup()">CLOSE</button>
+</div>
+
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

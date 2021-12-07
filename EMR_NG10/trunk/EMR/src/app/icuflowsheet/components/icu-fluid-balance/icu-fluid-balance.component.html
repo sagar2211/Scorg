@@ -1,0 +1,44 @@
+<div class="card border-0 mb-1 icu">
+    <div class="card-header cus-head py-1 border-dash-bottom">
+        <div class="form-row align-items-center">
+            <div class="col-9">
+                <p class="mb-0 font-weight-500">Fluid Balance </p>
+            </div>
+            <div class="col-3 text-right">
+                <button type="button" class="btn btn-xs btn-outline-success">MOTION</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-1">
+        <table class="table table-bordered mb-0">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Total</th>
+                    <th scope="col">Drain</th>
+                    <th scope="col">UF</th>
+                    <th scope="col">RT</th>
+                    <th scope="col">P/NP</th>
+                </tr>
+            </thead>
+            <tbody class="text-left">
+                <tr>
+                    <th scope="row">I</th>
+                    <td>{{intakeTotal}}</td>
+                    <td>{{intakeDrainTotal}}</td>
+                    <td>{{intakeUFTotal}}</td>
+                    <td>{{intakeRTTotal}}</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <th scope="row">O</th>
+                    <td>{{outputTotal}}</td>
+                    <td>{{outputDrainTotal}}</td>
+                    <td>{{outputUFTotal}}</td>
+                    <td>{{outputRTTotal}}</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

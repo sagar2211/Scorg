@@ -1,0 +1,22 @@
+.custom-container-fluid {
+  height: calc(100vh - 50px);
+}
+
+:host ::ng-deep {
+  .ngx-datatable.fixed-row {
+    .datatable-header-inner {
+      .datatable-row-center {
+        .datatable-header-cell {
+
+          &[title="Indent To"] {
+            text-align: right;
+          }
+        }
+      }
+    }
+
+    .datatable-body {
+      height: calc(100vh - 190px) !important;
+    }
+  }
+}

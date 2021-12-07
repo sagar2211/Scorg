@@ -1,0 +1,446 @@
+/*==========================================================================================
+******************       Custom outline icons - Font Style For The Application      *****************
+============================================================================================*/
+@font-face {
+  font-family: 'scorg-font';
+  src: url('../assets/img/icons/fonts/scorg-font.eot?dwfj77');
+  src: url('../assets/img/icons/fonts/scorg-font.eot?#iefix') format('embedded-opentype'),
+    url('../assets/img/icons/fonts/scorg-font.ttf?dwfj77') format('truetype'),
+    url('../assets/img/icons/fonts/scorg-font.woff?dwfj77') format('woff'),
+    url('../assets/img/icons/fonts/scorg-font.svg?dwfj77#scorg-font') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+
+[class^="icon-"],
+[class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'scorg-font' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  display: inline-block;
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-address-card:before {
+  content: "\e900";
+}
+.icon-admin:before {
+  content: "\e901";
+}
+.icon-application-settings:before {
+  content: "\e902";
+}
+.icon-appointment-status:before {
+  content: "\e903";
+}
+.icon-apt-status:before {
+  content: "\e904";
+}
+.icon-arrow:before {
+  content: "\e905";
+}
+.icon-ban:before {
+  content: "\e906";
+}
+.icon-bell:before {
+  content: "\e907";
+}
+.icon-billing:before {
+  content: "\e908";
+}
+.icon-briefcase:before {
+  content: "\e909";
+}
+.icon-bring-forward:before {
+  content: "\e90a";
+}
+.icon-calendar-alt:before {
+  content: "\e90b";
+}
+.icon-calendar-day:before {
+  content: "\e90c";
+}
+.icon-calendar-minus:before {
+  content: "\e90d";
+}
+.icon-calling:before {
+  content: "\e90e";
+}
+.icon-camera:before {
+  content: "\e90f";
+}
+.icon-change-password:before {
+  content: "\e910";
+}
+.icon-chart-pie-alt:before {
+  content: "\e911";
+}
+.icon-chat:before {
+  content: "\e912";
+}
+.icon-check:before {
+  content: "\e913";
+}
+.icon-chevron-double-right:before {
+  content: "\e914";
+}
+.icon-clipboard-list:before {
+  content: "\e915";
+}
+.icon-clipboard-list-check:before {
+  content: "\e916";
+}
+.icon-clock:before {
+  content: "\e917";
+}
+.icon-cogs:before {
+  content: "\e918";
+}
+.icon-connect:before {
+  content: "\e919";
+}
+.icon-consultation:before {
+  content: "\e91a";
+}
+.icon-copy:before {
+  content: "\e91b";
+}
+.icon-dashboard:before {
+  content: "\e91c";
+}
+.icon-desktop:before {
+  content: "\e91d";
+}
+.icon-discharge:before {
+  content: "\e91e";
+}
+.icon-display-status-settings:before {
+  content: "\e91f";
+}
+.icon-edit:before {
+  content: "\e920";
+}
+.icon-ellipse:before {
+  content: "\e921";
+}
+.icon-emergency:before {
+  content: "\e922";
+}
+.icon-emr-care-team:before {
+  content: "\e923";
+}
+.icon-emr-diagnosis:before {
+  content: "\e924";
+}
+.icon-emr-history:before {
+  content: "\e925";
+}
+.icon-emr-icu-flow-sheet:before {
+  content: "\e926";
+}
+.icon-emr-icu-vital-sheet:before {
+  content: "\e927";
+}
+.icon-emr-intake-output:before {
+  content: "\e928";
+}
+.icon-emr-mar:before {
+  content: "\e929";
+}
+.icon-emr-orders:before {
+  content: "\e92a";
+}
+.icon-emr-pacs:before {
+  content: "\e92b";
+}
+.icon-emr-progress-notes:before {
+  content: "\e92c";
+}
+.icon-emr-setting:before {
+  content: "\e92d";
+}
+.icon-encounter:before {
+  content: "\e92e";
+}
+.icon-enquiry:before {
+  content: "\e92f";
+}
+.icon-entity-room-map:before {
+  content: "\e930";
+}
+.icon-envelope:before {
+  content: "\e931";
+}
+.icon-eraser:before {
+  content: "\e932";
+}
+.icon-event-communication:before {
+  content: "\e933";
+}
+.icon-expand:before {
+  content: "\e934";
+}
+.icon-extend:before {
+  content: "\e935";
+}
+.icon-eye:before {
+  content: "\e936";
+}
+.icon-eye-slash:before {
+  content: "\e937";
+}
+.icon-file:before {
+  content: "\e938";
+}
+.icon-file-done:before {
+  content: "\e939";
+}
+.icon-filter:before {
+  content: "\e93a";
+}
+.icon-front-desk:before {
+  content: "\e93b";
+}
+.icon-front-desk-dashboard:before {
+  content: "\e93c";
+}
+.icon-front-desk-mapping:before {
+  content: "\e93d";
+}
+.icon-history:before {
+  content: "\e93e";
+}
+.icon-holiday:before {
+  content: "\e93f";
+}
+.icon-home:before {
+  content: "\e940";
+}
+.icon-hospital:before {
+  content: "\e941";
+}
+.icon-info:before {
+  content: "\e942";
+}
+.icon-info-circle:before {
+  content: "\e943";
+}
+.icon-Insurance:before {
+  content: "\e944";
+}
+.icon-ipd:before {
+  content: "\e945";
+}
+.icon-level-down:before {
+  content: "\e946";
+}
+.icon-link:before {
+  content: "\e947";
+}
+.icon-list:before {
+  content: "\e948";
+}
+.icon-lock:before {
+  content: "\e949";
+}
+.icon-login:before {
+  content: "\e94a";
+}
+.icon-manage-all-appointment:before {
+  content: "\e94b";
+}
+.icon-manage-appointment:before {
+  content: "\e94c";
+}
+.icon-manage-calender:before {
+  content: "\e94d";
+}
+.icon-masters:before {
+  content: "\e94e";
+}
+.icon-notes-medical:before {
+  content: "\e94f";
+}
+.icon-nurse:before {
+  content: "\e950";
+}
+.icon-opd:before {
+  content: "\e951";
+}
+.icon-paper-plane:before {
+  content: "\e952";
+}
+.icon-patient-feedback:before {
+  content: "\e953";
+}
+.icon-patients:before {
+  content: "\e954";
+}
+.icon-pause-notify:before {
+  content: "\e955";
+}
+.icon-pdf:before {
+  content: "\e956";
+}
+.icon-plus-circle:before {
+  content: "\e957";
+}
+.icon-popover:before {
+  content: "\e958";
+}
+.icon-print:before {
+  content: "\e959";
+}
+.icon-privilege:before {
+  content: "\e95a";
+}
+.icon-question-circle:before {
+  content: "\e95b";
+}
+.icon-queue:before {
+  content: "\e95c";
+}
+.icon-queue-list:before {
+  content: "\e95d";
+}
+.icon-queue-setting:before {
+  content: "\e95e";
+}
+.icon-queue-summary:before {
+  content: "\e95f";
+}
+.icon-quick:before {
+  content: "\e960";
+}
+.icon-recheck:before {
+  content: "\e961";
+}
+.icon-rectangle:before {
+  content: "\e962";
+}
+.icon-redo:before {
+  content: "\e963";
+}
+.icon-refer:before {
+  content: "\e964";
+}
+.icon-registration:before {
+  content: "\e965";
+}
+.icon-reminder-settings:before {
+  content: "\e966";
+}
+.icon-reply:before {
+  content: "\e967";
+}
+.icon-reports:before {
+  content: "\e968";
+}
+.icon-reset-password:before {
+  content: "\e969";
+}
+.icon-right-arrow:before {
+  content: "\e96a";
+}
+.icon-room:before {
+  content: "\e96b";
+}
+.icon-room-section-map:before {
+  content: "\e96c";
+}
+.icon-rx:before {
+  content: "\e96d";
+}
+.icon-save:before {
+  content: "\e96e";
+}
+.icon-search:before {
+  content: "\e96f";
+}
+.icon-set-feedback:before {
+  content: "\e970";
+}
+.icon-sign-in-alt:before {
+  content: "\e971";
+}
+.icon-sign-out-alt:before {
+  content: "\e972";
+}
+.icon-slot-color:before {
+  content: "\e973";
+}
+.icon-sms-reports:before {
+  content: "\e974";
+}
+.icon-star:before {
+  content: "\e975";
+}
+.icon-stethoscope:before {
+  content: "\e976";
+}
+.icon-switch-down:before {
+  content: "\e977";
+}
+.icon-switch-up:before {
+  content: "\e978";
+}
+.icon-templates:before {
+  content: "\e979";
+}
+.icon-templates-mapping:before {
+  content: "\e97a";
+}
+.icon-th:before {
+  content: "\e97b";
+}
+.icon-times:before {
+  content: "\e97c";
+}
+.icon-times-circle:before {
+  content: "\e97d";
+}
+.icon-tools:before {
+  content: "\e97e";
+}
+.icon-trash:before {
+  content: "\e97f";
+}
+.icon-tv:before {
+  content: "\e980";
+}
+.icon-usd:before {
+  content: "\e981";
+}
+.icon-user:before {
+  content: "\e982";
+}
+.icon-user-headset:before {
+  content: "\e983";
+}
+.icon-user-md:before {
+  content: "\e984";
+}
+.icon-user-plus:before {
+  content: "\e985";
+}
+.icon-users:before {
+  content: "\e986";
+}
+.icon-visit-type:before {
+  content: "\e987";
+}
+.icon-walking:before {
+  content: "\e988";
+}
+.icon-x-ray:before {
+  content: "\e989";
+}

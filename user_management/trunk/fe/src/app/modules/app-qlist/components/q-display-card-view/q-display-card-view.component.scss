@@ -1,0 +1,28 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+.status-card-btn {
+  color: $white;
+  display: inline-block;
+  padding: 0.25rem 0.35rem;
+  font-size: $word-font-size;
+  @include border-radius(3px);
+  vertical-align: middle;
+  @include no-select;
+
+  &.bg-complete {
+    background-color: #259e92;
+  }
+}
+
+.custom-card-height {
+  height: calc(100vh - 160px);
+  overflow-y: auto;
+  &.bg-img {
+    background: url("../../../../../assets/img/no-records.png") center top no-repeat;
+  }
+}
+
+.slider-history-log {
+  right: 0;
+  height: calc(100vh - 124px);
+}

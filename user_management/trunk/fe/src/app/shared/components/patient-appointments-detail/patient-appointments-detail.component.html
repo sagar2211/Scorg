@@ -1,0 +1,95 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">Appointment Info</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="dismissModel()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body appointment-info pb-2">
+  <div class="profile-info bg-light">
+    <div class="form-row pb-2 border-light-bottom">
+      <div class="col">
+        <p class="mb-1 font-weight-500">{{patientData?.pat_uhid}}</p>
+        <h6 class="mb-0">{{patientData?.pat_name}}</h6>
+      </div>
+      <div class="col-2">
+        <p class="text-muted mb-1"><span class="text-uppercase">{{patientData?.pat_gender}}, </span>
+          <span *ngIf="patientData?.pat_dob; else ageElse;" [innerHTML]="patientData?.pat_dob | calucalteAge"></span>
+          <ng-template #ageElse>
+            <span
+              *ngIf="(patientData?.pat_age || patientData?.pat_Age)">{{(patientData?.pat_age) ? patientData?.pat_age : patientData?.pat_Age }}
+              {{(patientData?.pat_age_unit) ? (patientData?.pat_age_unit ) : ''}}</span>
+          </ng-template>
+        </p>
+        <p class="text-muted mb-0"><i class="fas fa-fw fa-phone-alt"></i> {{patientData?.pat_mobileno}}</p>
+      </div>
+      <div class="col-2 text-right">
+        <p class="mb-1 text-muted">Token ID</p>
+        <p class="mb-0 font-weight-500 font-size-1">{{bookingData?.tokenNo}}</p>
+      </div>
+    </div>
+    <div class="form-row mt-2">
+      <div class="col mr-1 border-right">
+        <label class="mb-0 font-size-dot-8 text-muted">Provider Type</label>
+        <p class="mb-2 font-weight-500 font-size-dot-9">{{selectedAppointementData?.entity_name}}</p>
+        <label class="mb-0 font-size-dot-8 text-muted">Provider Name</label>
+        <p class="mb-2 font-weight-500 font-size-dot-9">{{selectedAppointementData?.entity_value_name}}</p>
+      </div>
+      <div class="col mr-1 border-right">
+        <label class="mb-0 font-size-dot-8 text-muted">Patient Type</label>
+        <p class="mb-2 font-weight-500 font-size-dot-9">{{patientAppoitmentInfo?.patientTypeDisplayname}}</p>
+        <label class="mb-0 font-size-dot-8 text-muted">Appointment Type</label>
+        <p class="mb-2 font-weight-500 font-size-dot-9">{{appEntityData.appointment_type}}</p>
+        <label class="mb-0 font-size-dot-8 text-muted">Visit Type</label>
+        <p class="mb-2 font-weight-500 font-size-dot-9">{{bookingData?.visitTypeName}}</p>
+      </div>
+      <div class="col">
+        <label class="mb-0 font-size-dot-8 text-muted">Appointment Date</label>
+        <p class="mb-2 font-weight-500 font-size-dot-9"> {{appEntityData?.date}}</p>
+        <label class="mb-0 font-size-dot-8 text-muted">Appointment Time</label>
+        <p class="mb-2 font-weight-500 font-size-dot-9">{{appEntityData?.start_time + ' - ' + appEntityData?.end_time}}
+        </p>
+        <label class="mb-0 font-size-dot-8 text-muted">Slot Time</label>
+        <p class="mb-2 font-weight-500 font-size-dot-9">
+          {{((bookingData?.appointmentTime) ? bookingData.appointmentTime : bookingData.slotTime)}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="apt-scroll-div mt-3">
+    <div class="form-row pb-2 border-light-bottom">
+      <div class="col-3">
+        <span class="text-muted">Services : </span>
+      </div>
+      <div class="col" *ngIf="servicesName.length!=0">
+        <span *ngFor="let service of servicesName let i = index">
+          <span class="font-size-dot-875 service-list mb-1">{{service}}</span> <span *ngIf="servicesName.length-1 > i">,
+          </span>
+        </span>
+      </div>
+      <div class="col" *ngIf="servicesName.length==0"><span class="font-size-dot-875">N/A</span></div>
+    </div>
+
+    <div class="form-row pb-2 border-light-bottom mt-2">
+      <div class="col-3">
+        <span class="text-muted">Notes : </span>
+      </div>
+      <div class="col">
+        <span class="font-size-dot-875">{{patientAppoitmentInfo?.notes ? patientAppoitmentInfo?.notes : 'N/A'}}</span>
+      </div>
+    </div>
+
+    <div class="form-row mt-2 mb-1">
+      <div class="col-3">
+        <span class="text-muted">Comments : </span>
+      </div>
+      <div class="col">
+        <span
+          class="font-size-dot-875">{{patientAppoitmentInfo?.remarks ? patientAppoitmentInfo?.remarks :'N/A' }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="dismissModel()">CLOSE</button>
+</div>

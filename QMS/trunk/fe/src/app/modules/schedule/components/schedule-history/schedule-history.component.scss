@@ -1,0 +1,117 @@
+@import "../../../../../scss/main";
+
+// $container-shadow: 0.5rem 0.5rem 2rem 0 rgba(black, 0.2);
+
+// $gutter: 30px;
+// $border-width: 4px;
+// $dot-diameter: 30px;
+
+// .history-modal {
+//   height: calc(100vh - 240px);
+//   overflow-y: auto;
+// }
+// .entry {
+//   clear: both;
+//   text-align: left;
+//   position: relative;
+//   .title {
+//     margin-bottom: 0.5em;
+//     margin-top: 0.1em;
+//     float: left;
+//     width: 33%;
+//     padding-right: $gutter;
+//     text-align: right;
+//     position: relative;
+//     &:before {
+//       content: "";
+//       position: absolute;
+//       width: $dot-diameter;
+//       height: $dot-diameter;
+//       border: $border-width solid salmon;
+//       background-color: #fff;
+//       border-radius: 100%;
+//       top: 15%;
+//       right: -$dot-diameter;
+//       z-index: 99;
+//     }
+//     h3 {
+//       margin: 0;
+//       font-size: 100%;
+//       background-color: #646464;
+//       padding: 5px;
+//       width: auto;
+//       display: inline-block;
+//       border-radius: 25px;
+//       color: #fff;
+//     }
+//     p {
+//       margin: 0;
+//       font-size: 60%;
+//     }
+//   }
+//   .body {
+//     margin: 5px 0 3em;
+//     float: right;
+//     width: 66%;
+//     padding-left: $gutter;
+//     p {
+//       line-height: 0.4em;
+//       &:first-child {
+//         margin-top: 0;
+//         font-weight: 500;
+//       }
+//     }
+//     ul {
+//       color: rgb(116, 116, 116);
+//       padding-left: 0;
+//       list-style-type: none;
+//       li:before {
+//         content: "–";
+//         margin-right: 0.5em;
+//       }
+//     }
+//   }
+// }
+// .timeline {
+//   padding: 20px 10px;
+//   position: relative;
+//   &:before {
+//     content: "";
+//     position: absolute;
+//     top: 0px;
+//     left: calc(33% + 16px); //$gutter/2
+//     bottom: 0px;
+//     width: $border-width;
+//     background: #ddd;
+//   }
+//   &:after {
+//     content: "";
+//     display: table;
+//     clear: both;
+//   }
+// }
+
+.history-data {
+
+}
+.history {
+  &:not(:last-child) {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+}
+.history-date {
+  position: relative;
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 0 20px 20px 0;
+  color: #0c5460;
+  background-color: #d1ecf1;  //#e5f2f5
+  border: 1px solid #bee5eb;
+}
+.history-deatails {
+  padding: 20px 10px;
+
+  &:not(:last-child) {
+    border-bottom: 1px dashed #ccc;
+  }
+}

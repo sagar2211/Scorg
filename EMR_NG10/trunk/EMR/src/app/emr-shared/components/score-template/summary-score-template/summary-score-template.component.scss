@@ -1,0 +1,11 @@
+.summary-table {
+    height: calc(100vh - 338px);
+    overflow-y: auto;
+}
+.note-table {
+    height: calc(100vh - 506px);
+    overflow-y: auto;
+    background-color: #efefef;
+    border: 1px solid #e6e6e6;
+    border-top: none;
+}

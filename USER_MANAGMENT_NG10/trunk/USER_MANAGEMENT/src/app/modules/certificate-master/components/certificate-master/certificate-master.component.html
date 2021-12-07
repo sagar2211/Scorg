@@ -1,0 +1,62 @@
+<div class="custom-container-fluid certificate-container-fluid mx-2">
+    <div class="card-header p-1">
+        <div class="form-row form-group mx-0 mb-2">
+            <div class="col">
+                <label>Type</label>
+                <ng-select [items]="typeListArray" bindLabel="name" (change)="onTypeChange($event)" [(ngModel)]="certificateData.formType" placeholder="Select Type">
+                </ng-select>
+            </div>
+            <div class="col">
+                <label> Name</label>
+                <ng-select *ngIf="!certificateData.isAddNew" [disabled]="!certificateData.formType" [items]="templateList" bindLabel="templateName" (change)="onTemplateChange($event)" [(ngModel)]="certificateData.template" placeholder="Select Type">
+                </ng-select>
+                <input *ngIf="certificateData.isAddNew" type="text" class="form-control form-control-sm" [(ngModel)]="certificateData.templateName" (change)="onNewTemplateNameChange()">
+            </div>
+            <div class="col-2 text-right">
+                <label class="d-block">&nbsp;</label>
+                <button type="button" class="btn btn-sm mt-2 mr-1" [ngClass]="{'btn-primary': !certificateData.isAddNew, 'btn-outline-secondary': certificateData.isAddNew}" (click)="addNewTemplate()">
+                    <i class="fa" aria-hidden="true"
+                        [ngClass]="{'fa-fw fa-plus': !certificateData.isAddNew, ' ': certificateData.isAddNew}"></i>
+                    {{certificateData.isAddNew ? 'CANCLE' :
+                    'ADD'}}</button>
+                <button type="button" class="btn btn-sm btn-mbd mt-2" (click)="copyTemplateFrom()"><i class="icon fa-fw icon-copy" aria-hidden="true"></i>COPY
+                    FROM</button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-1 certificate-card-body">
+        <div class="form-row form-group mx-0 main-form-row">
+            <div class="col-9">
+                <angular-editor [disabled]="!certificateData.templateName" [placeholder]="'Email Details'" id="emailtemplateDetails" #angularEditor [(ngModel)]="certificateData.templateContent" [config]='config' (onFocus)="this.certificateData.templateDetailFlag=true;"></angular-editor>
+            </div>
+            <div class="col-3 tag-list-col">
+                <div class="form-row">
+                    <div class="col-6 align-self-end">
+                        <h6 class="mb-1 font-size-dot-875">Tag List </h6>
+                    </div>
+                    <div class="col-6">
+                        <span class="float-right">
+                            <i class="fas fa-fw font-18 fa-question-circle text-info ml-1" placement="left"
+                                ngbTooltip="Double click on tags to use in template"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="tag-list w-100 border px-0">
+                    <ul class="list-unstyled m-0" *ngIf="tagMasterList.length > 0">
+                        <li class="pointer position-relative p-1" *ngFor="let tag of tagMasterList" (dblclick)="toAddTag(tag.name)">
+                            <a class="text-capitalize px-2 word-break-all">{{tag.name}}</a>
+                        </li>
+                    </ul>
+                    <p class="font-size-sm text-pink mb-0" *ngIf="tagMasterList.length === 0">Please select template category
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer text-right py-1">
+        <button (click)="updateTemplate()" type="button" class="btn btn-sm btn-primary"><i class="fas fa-fw fa-sync-alt"
+                aria-hidden="true"></i> UPDATE
+        </button>
+    </div>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

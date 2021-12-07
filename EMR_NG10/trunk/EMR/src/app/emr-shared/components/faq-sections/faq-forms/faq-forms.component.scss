@@ -1,0 +1,78 @@
+.category {
+  height: calc(100vh - 115px);
+  overflow-y: auto;
+
+  .sub-section:not(:first-child) {
+    margin-top: 26px;
+  }
+
+  .content-body {
+    .form-group .controls {
+      position: relative;
+
+      .checkbox,
+      .radio {
+        position: relative;
+        display: inline-block;
+      }
+
+      label:not([data-name]),
+      label.custom-control-label {
+        font-weight: 400 !important;
+      }
+    }
+  }
+}
+
+@media (min-width: 992px) {
+
+  .col-md-1,
+  .col-md-10,
+  .col-md-11,
+  .col-md-12,
+  .col-md-2,
+  .col-md-3,
+  .col-md-4,
+  .col-md-5,
+  .col-md-6,
+  .col-md-7,
+  .col-md-8,
+  .col-md-9 {
+    float: left;
+  }
+}
+
+.first-table tbody tr td.first-td {
+  padding: 0 !important;
+}
+
+.custom-table thead tr th {
+  padding: 0.1rem !important;
+}
+
+.custom-table thead tr td {
+  padding: 0.1rem !important;
+}
+
+table {
+
+  .custom-control,
+  .checkbox {
+    line-height: 0;
+    height: 20px;
+  }
+}
+
+
+.tabular-format {
+  .form-control {
+    border: none;
+    border-bottom: 1px solid #ddd;
+    border-radius: 0;
+
+    &:focus {
+      border-bottom: 1px solid #3F51B5;
+      border-radius: 0;
+    }
+  }
+}

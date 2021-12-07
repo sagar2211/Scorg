@@ -1,0 +1,104 @@
+<router-outlet></router-outlet>
+<!-- commented code is for future reference -->
+<!-- <div class="container-fluid">
+  <div class="card my-1">
+    <div class="row">
+      <div class="Left col-4">
+        <p class="head-class">Status : {{userData.status}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2 mb-0"> <span class="text-muted">UserName/Uhid : </span>
+          {{userData.full_name}} / {{userData.uhid}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2 mb-0"><span class="text-muted">Q-date :
+          </span>{{userData.queue_date}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2 mb-0"><span class="text-muted">Start Time :
+          </span>{{userData.start_time}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2 mb-0"><span class="text-muted">End Time :
+          </span>{{userData.end_time}}</p>
+      </div>
+      <div class="middle col-4">
+        <p class="head-class">{{userData.entity_tag}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2 mb-0"><span class="text-muted">EntityId :
+          </span>{{userData.entity_id}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2 mb-0"><span class="text-muted">Entity Value :
+          </span>{{userData.entity_value}}Entity Value</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2 mb-0"><span class="text-muted">EntityValueId :
+          </span>{{userData.entity_value_id}} </p>
+        <p></p>
+      </div>
+      <div class="right col-4">
+        <p class="head-class">token-no : {{userData.token_no}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2 mb-0"><span class="text-muted">Room Section :
+          </span>{{userData.room_Section}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2 mb-0"><span class="text-muted">Room MappedId :
+          </span>{{userData.room_mapped_id}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="card my-1">
+    <div class="row">
+      <div class="Left col-4">
+        <p class="head-class">Status : {{userData.status}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"> <span class="text-muted">UserName/Uhid : </span>
+          {{userData.full_name}} / {{userData.uhid}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"><span class="text-muted">Q-date :
+          </span>{{userData.queue_date}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"><span class="text-muted">Start Time :
+          </span>{{userData.start_time}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"><span class="text-muted">End Time :
+          </span>{{userData.end_time}}</p>
+      </div>
+      <div class="middle col-4">
+        <p class="head-class">{{userData.entity_tag}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"><span class="text-muted">EntityId :
+          </span>{{userData.entity_id}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"><span class="text-muted">Entity Value :
+          </span>{{userData.entity_value}}Entity Value</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"><span class="text-muted">EntityValueId :
+          </span>{{userData.entity_value_id}} </p>
+        <p></p>
+      </div>
+      <div class="right col-4">
+        <p class="head-class">token-no : {{userData.token_no}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"><span class="text-muted">Room Section :
+          </span>{{userData.room_Section}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"><span class="text-muted">Room MappedId :
+          </span>{{userData.room_mapped_id}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid">
+  <div class="card my-1">
+    <div class="row">
+      <div class="Left col-4">
+        <p class="head-class">Status : {{userData.status}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"> <span class="text-muted">UserName/Uhid : </span>
+          {{userData.full_name}} / {{userData.uhid}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"><span class="text-muted">Q-date :
+          </span>{{userData.queue_date}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"><span class="text-muted">Start Time :
+          </span>{{userData.start_time}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"><span class="text-muted">End Time :
+          </span>{{userData.end_time}}</p>
+      </div>
+      <div class="middle col-4">
+        <p class="head-class">{{userData.entity_tag}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"><span class="text-muted">EntityId :
+          </span>{{userData.entity_id}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"><span class="text-muted">Entity Value :
+          </span>{{userData.entity_value}}Entity Value</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"><span class="text-muted">EntityValueId :
+          </span>{{userData.entity_value_id}} </p>
+        <p></p>
+      </div>
+      <div class="right col-4">
+        <p class="head-class">token-no : {{userData.token_no}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"><span class="text-muted">Room Section :
+          </span>{{userData.room_Section}}</p>
+        <p class="ml-3 font-weight-500 font-size-1-dot-2"><span class="text-muted">Room MappedId :
+          </span>{{userData.room_mapped_id}}</p>
+      </div>
+    </div>
+  </div>
+</div> -->

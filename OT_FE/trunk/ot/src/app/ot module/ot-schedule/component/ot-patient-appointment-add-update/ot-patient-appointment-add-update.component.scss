@@ -1,0 +1,75 @@
+.ot-patient-appointment-add-update-modal-body {
+  min-height: calc(100vh - 130px);
+  overflow-y: auto;
+
+  .profile-img {
+    img {
+      height: 80px;
+      width: 80px;
+      max-width: 80px;
+      border-radius: 50%;
+      background-color: #fff;
+      border: 1px solid #e6e6e6;
+    }
+  }
+
+  .gender-blood {
+    background-color: #ebeff3 !important;
+
+  }
+
+  .card-body-custom-height {
+    height: calc(100vh - 339px) !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .custom-bg-light-1 {
+      background-color: #f3f3f3;
+      margin-bottom: 0 !important;
+    }
+
+    .custom-bg-light-2 {
+      background-color: #f9f9f9;
+      margin-bottom: 0 !important;
+    }
+  }
+
+  .custom-col-size {
+    flex: 0 0 94px;
+    max-width: 94px;
+
+    label {
+      font-size: 0.92rem !important;
+    }
+  }
+
+  .custom-mb-dot-2 {
+    margin-bottom: 0.2rem;
+  }
+  .form-group-mb-0 {
+    margin-bottom: 0 !important;
+  }
+  .left-side{
+    border-right:1px solid rgba(0, 0, 0, 0.125);
+  }
+}
+
+:host ::ng-deep {
+  .autocomplete-container {
+    .not-found,
+    .suggestions-container{
+      width: 150% !important;
+    }
+    .input-container {
+      input {
+        min-width: 315px;
+        border: 1px solid #ced4da !important;
+        // border-right: none !important;
+      }
+
+      .placeholder-icon {
+        top: 11px;
+      }
+    }
+  }
+}

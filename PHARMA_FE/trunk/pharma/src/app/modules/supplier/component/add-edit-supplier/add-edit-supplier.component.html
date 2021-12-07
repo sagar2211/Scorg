@@ -1,0 +1,114 @@
+<div class="modal-header">
+    <p class="modal-title">{{this.supplierData.supplierData ? 'UPDATE' : 'ADD'}} SUPPLIER</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body custom-modal-body p-2">
+    <form [formGroup]="supplierForm" (ngSubmit)="saveSupplierMasterData()" *ngIf="loadForm">
+        <div class="form-row form-group">
+            <div class="col-6">
+                <label>Supplier Name<sup>*</sup></label>
+                <input class="form-control form-control-sm" formControlName="name" type="text" placeholder="Type Name" [class.error]="supplierFrmCntrols['phone']?.errors?.incorrect" trim>
+                <small class="text-danger" *ngIf="supplierFrmCntrols['name'].errors?.required && submitted">
+                    Please Enter Valid Name!</small>
+            </div>
+            <div class="col-6">
+                <label>Phone No.</label>
+                <input class="form-control form-control-sm" formControlName="phone" type="text" maxlength="10" placeholder="Type Phone No." [class.error]="supplierFrmCntrols['phone'].errors?.minlength || supplierFrmCntrols['phone'].errors?.pattern || supplierFrmCntrols['phone']?.errors?.incorrect"
+                    trim>
+                <small class="text-danger" *ngIf="supplierFrmCntrols['phone'].errors?.minlength">
+                    Number should be 10 Digits!</small>
+                <small class="text-danger" *ngIf="supplierFrmCntrols['phone'].errors?.pattern">
+                    Invalid Number!</small>
+            </div>
+            <div class="col-6">
+                <label>Email Address</label>
+                <input class="form-control form-control-sm" formControlName="email" type="email" placeholder="Type Email Address" appUpperCase [(ngModel)]="supplierForm.value.email" [class.error]="submitted || supplierFrmCntrols['email'].errors?.email || supplierFrmCntrols['email']?.errors?.incorrect">
+                <small class="text-danger" *ngIf="supplierFrmCntrols['email'].errors?.email">
+                Email must be a valid email address!</small>
+            </div>
+        </div>
+        <div class="form-row form-group">
+            <div class="col-6">
+                <label>Address</label>
+                <textarea rows="3" type="text" class="form-control vresize" formControlName="address" placeholder="Type Address"></textarea>
+            </div>
+            <div class="col-6">
+                <label>City</label>
+                <ng-select [items]="cityList$ | async" bindLabel="name" (change)="onCityChange($event)" formControlName="city" placeholder="Select City" [typeahead]="cityListInput$">
+                </ng-select>
+                <label>Pin Code</label>
+                <input class="form-control form-control-sm" formControlName="pinCode" type="text" placeholder="Type Pin Code" appUpperCase appOnlyNumbers [(ngModel)]="supplierForm.value.pinCode" [class.error]="submitted || supplierFrmCntrols['pinCode'].errors?.pinCode || supplierFrmCntrols['pinCode']?.errors?.incorrect">
+                <small class="text-danger" *ngIf="supplierFrmCntrols['pinCode'].errors?.pinCode">
+           Must be a valid Pin Code!
+          </small>
+            </div>
+            <div class="col-6">
+                <label>Country<sup>*</sup></label>
+                <ng-select [items]="countryList$ | async" bindLabel="name" (change)="onCountryChange($event)" formControlName="country" placeholder="Select Cuntry" [typeahead]="countryListInput$">
+                </ng-select>
+                <small class="text-danger" *ngIf="supplierFrmCntrols['country'].errors?.required && submitted">
+                  Please Select Value!</small>
+            </div>
+            <div class="col-6">
+                <label>State<sup>*</sup></label>
+                <ng-select [items]="stateList$ | async" bindLabel="name" (change)="onStateChange($event)" formControlName="state" placeholder="Select State" [typeahead]="stateListInput$">
+                </ng-select>
+                <small class="text-danger" *ngIf="supplierFrmCntrols['state'].errors?.required && submitted">
+                      Please Select Value!</small>
+            </div>
+        </div>
+        <div class="form-row form-group">
+            <div class="col-6">
+                <label>Contact Person</label>
+                <input type="text" class="form-control form-control-sm" formControlName="contactPerson" placeholder="Type Contact Person Name">
+            </div>
+            <div class="col-6">
+                <label>Contact Person Phone</label>
+                <input type="text" class="form-control form-control-sm" formControlName="contactPersonPhone" placeholder="Contact Person Phone">
+            </div>
+        </div>
+        <div class="form-row form-group">
+            <div class="col-6">
+                <label>GST Code<sup>*</sup></label>
+                <ng-select [items]="gstCodeList" bindLabel="description" formControlName="gstCode" placeholder="Type GST Code">
+                </ng-select>
+                <small class="text-danger" *ngIf="supplierFrmCntrols['gstCode'].errors?.required && submitted">
+                    Please Select Value!</small>
+            </div>
+            <div class="col-6">
+                <label>GST Reg. No.</label>
+                <input type="text" class="form-control form-control-sm" formControlName="gstRegNo" placeholder="Type GST Reg. No.">
+            </div>
+            <div class="col-6">
+                <label>as Registration No./Drug License No.</label>
+                <input type="text" class="form-control form-control-sm" formControlName="registrationNo" placeholder="Type Registration No.">
+            </div>
+            <div class="col-3">
+                <label>Status</label>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" formControlName="isActive" class="custom-control-input" id="customSwitch1">
+                    <label class="custom-control-label pointer" [class.active]="supplierForm.value.isActive" for="customSwitch1"></label>
+                    <span class="text-uppercase" [class.active]="supplierForm.value.isActive">{{supplierForm.value.isActive ? 'Active' : 'InActive'}}</span>
+                </div>
+            </div>
+            <div class="col-3">
+                <label>show Mapped Items Only</label>
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" formControlName="showMappedItems" class="custom-control-input" id="showMappedItems">
+                    <label class="custom-control-label pointer" [class.active]="supplierForm.value.showMappedItems" for="showMappedItems"></label>
+                    <span class="text-uppercase" [class.active]="supplierForm.value.showMappedItems">{{supplierForm.value.showMappedItems ? 'Yes' : 'No'}}</span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss('no')">CANCEL</button>
+    <button type="button" class="btn btn-sm" [ngClass]="[this.supplierData?.supplierData ? 'btn-outline-primary-light':'btn-outline-primary']" (click)="saveSupplierMasterData()"><i class="fa fa-fw"
+            [ngClass]="[this.supplierData?.supplierData ? 'fa-sync-alt':'fa-plus']" aria-hidden="true"></i>
+        {{this.supplierData.supplierData ? 'UPDATE' : 'ADD'}}
+      </button>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

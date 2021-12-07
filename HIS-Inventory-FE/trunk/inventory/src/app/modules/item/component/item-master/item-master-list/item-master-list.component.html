@@ -1,0 +1,126 @@
+<div class="custom-container-fluid">
+    <div class="p-2">
+        <div class="form-row form-group align-items-center">
+            <div class="col-4">
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-sm pl-2rem" placeholder="Search" [(ngModel)]="searchString" (ngModelChange)="this.subject.next()">
+                    <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear">
+                            <i class="fa fa-fw fa-eraser" aria-hidden="true"
+                                (click)="clearSearchString();"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-2">
+                <div class="custom-control custom-switch pb-1">
+                    <input type="checkbox" [(ngModel)]="isActive" class="custom-control-input" id="customSwitch1" (change)="updateDataTable()">
+                    <label class="custom-control-label pointer" [class.active]="isActive" for="customSwitch1"></label>
+                    <span class="text-uppercase" [class.active]="isActive">{{isActive ? 'Active' : 'InActive'}}</span>
+                </div>
+            </div>
+            <div class="col text-right">
+                <select class="form-control form-control-sm float-right select-w" (change)="onPageSizeChanged($event.currentTarget.value)" [(ngModel)]="pageSize" id="page-size">
+                    <option value="15" selected="">15</option>
+                    <option value="30">30</option>
+                    <option value="45">45</option>
+                    <option value="200">200</option>
+                </select>
+            </div>
+        </div>
+        <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25" [footerHeight]="70" [rowHeight]="30" [rows]="itemList" [externalSorting]="true" (sort)="onSortChanged($event)" [externalPaging]="externalPaging" [count]="page.totalElements"
+            [scrollbarH]="true" (page)='onSetPage($event)'>
+            <ngx-datatable-column name="Primary Group" [frozenLeft]="true" prop="mainGroup" [width]="130">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.mainGroup.name}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Sub Group" [frozenLeft]="true" prop="subGroup" [width]="130">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.subGroup.name}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Item Code" prop="code" [width]="100">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.code}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Item Desc" prop="description" [width]="120">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.description}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Conversion Factor" cellClass="text-right" prop="conversionFactor" [width]="145">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.conversionFactor}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Purchase Unit" cellClass="text-right" prop="unitPurchase" [width]="120">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.unitPurchase?.name}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Issue Unit" cellClass="text-right" prop="unitIssue" [width]="120">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.unitIssue?.name}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Re-Order Level" cellClass="text-right" prop="reorderLevel" [width]="120">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.reorderLevel}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="GST on Purchase" cellClass="text-right" prop="vatPurchaseRate" [width]="135">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.vatPurchaseRate}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Manufacturer" prop="manufacturer" [width]="115">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.manufacturer?.name}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Is Asset" prop="isAsset" [sortable]="false" [width]="75">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.isAsset ? 'yes' : 'no'}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Active" prop="isActive" [sortable]="false" [width]="75">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span class="font-size-dot-8" [ngClass]="{'active': row.isActive, 'inactive': !row.isActive}">{{row.isActive ? 'Active' : 'InActive'}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Action" [frozenRight]="true" cellClass="text-center" [sortable]="false" [width]="75">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value" let-isSelected="isSelected">
+                    <button class="bg-transparent border-0" placement="left-bottom" [autoClose]="true" [ngbPopover]="popContent" container="body" #p="ngbPopover">
+                        <i class="fa fa-fw fa-bars" aria-hidden="true"></i> <i class="fa fa-xs fa-caret-down"
+                            aria-hidden="true"></i>
+                    </button>
+                    <ng-template #popContent>
+                        <ul class="list-unstyled popover-content mb-0">
+                            <li *ngxPermissionsOnly="PermissionConstantList.DELETE_ITEM_MASTER">
+                                <button class="btn btn-sm btn-block text-left del" (click)="deleteItem(row)"><i
+                                        class="icon fa-fw icon-trash mr-1" aria-hidden="true"></i> Delete</button>
+                            </li>
+                            <li *ngxPermissionsOnly="PermissionConstantList.UPDATE_ITEM_MASTER"><button class="btn btn-sm btn-block text-left edit" (click)="editItemMaster(row)"><i
+                                        class="icon fa-fw icon-edit mr-1" aria-hidden="true"></i> Edit
+                                </button></li>
+                        </ul>
+                    </ng-template>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-footer *ngIf="itemList.length > 0">
+                <ng-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset" let-isVisible="isVisible" ngx-datatable-footer-template>
+                    <div class="mx-3">
+                        Showing {{ ((page.pageNumber - 1) * page.size) + 1}} to {{ ((page.pageNumber - 1) * page.size) + itemList.length}} of {{rowCount}} entries
+                    </div>
+                    <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="page.pageNumber" [size]="page.size" [count]="page.totalElements"
+                        [hidden]="!((page.totalElements / page.size) > 1)" (change)="onFooterPage($event)">
+                    </datatable-pager>
+                </ng-template>
+            </ngx-datatable-footer>
+        </ngx-datatable>
+    </div>
+</div>
+<!-- <app-alert-message [alertMessage]="alertMsg"></app-alert-message> -->

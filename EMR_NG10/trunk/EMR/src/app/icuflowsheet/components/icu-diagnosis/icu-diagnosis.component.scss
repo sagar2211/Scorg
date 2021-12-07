@@ -1,0 +1,22 @@
+.diagnosis-custom-height {
+  height: 195px;
+  overflow-y: auto;
+
+  .diagnosis-border {
+    border-top: 1px solid #dee2e6;
+    margin-top: 5px;
+    padding-top: 5px;
+
+    &:nth-child(1) {
+      border-top: 0 !important;
+      margin-top: 0px;
+      padding-top: 0px;
+    }
+  }
+}
+@media screen and (max-width: 1300px) {
+  .diagnosis-custom-height {
+    height: 128px;
+    overflow-y: auto;
+  }
+}

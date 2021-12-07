@@ -1,0 +1,40 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">{{manufacturerData.type === 'edit' ? 'Edit' : 'Add'}} Manufacturer</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-2">
+  <div class="form-row form-group">
+    <div class="col-6">
+      <label for="range">Manufacturer Name</label>
+      <input class="col form-control form-control-sm" [(ngModel)]="addEditManufacturerObject.name" type="text"
+        placeholder="Manufacturer Name">
+    </div>
+    <div class="col-6">
+      <label for="range">Short Name</label>
+      <input class="col form-control form-control-sm" [(ngModel)]="addEditManufacturerObject.shortName" type="text"
+        placeholder="Short Name">
+    </div>
+  </div>
+  <div class="form-row form-group">
+    <div class="col-12">
+      <label>Status</label>
+      <div class="custom-control custom-switch pb-1">
+        <input type="checkbox" [(ngModel)]="addEditManufacturerObject.isActive" class="custom-control-input"
+          id="isActive">
+        <label class="custom-control-label pointer" [class.active]="addEditManufacturerObject.isActive"
+          for="isActive"></label>
+        <span class="text-uppercase"
+          [class.active]="addEditManufacturerObject.isActive">{{addEditManufacturerObject.isActive ? 'Active' : 'InActive'}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closePopup()">CANCEL</button>
+  <button type="button" class="btn btn-sm" [ngClass]="manufacturerData.type === 'edit' ? 'btn-outline-primary-light':'btn-outline-primary'" (click)="selectValueConfirm('Ok');">
+    <i class="fa fa-fw" [ngClass]="manufacturerData.type === 'edit' ? 'fa-sync-alt':'fa-plus'" aria-hidden="true"></i>
+    {{manufacturerData.type === 'edit' ? 'UPDATE' : 'ADD'}}</button>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

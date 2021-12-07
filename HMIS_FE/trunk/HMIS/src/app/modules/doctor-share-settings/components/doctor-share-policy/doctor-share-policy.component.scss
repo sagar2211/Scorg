@@ -1,0 +1,8 @@
+.global-setting {
+  height: calc(100vh - 50px);
+  overflow-y: auto;
+  .card-body {
+    height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+}

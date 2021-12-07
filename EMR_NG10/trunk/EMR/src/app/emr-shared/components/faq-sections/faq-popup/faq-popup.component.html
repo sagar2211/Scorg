@@ -1,0 +1,64 @@
+<div class="modal-header p-1">
+  <h4 class="col m-0 p-0">
+    <div *ngIf="faqSection.patientFaqSectionList != undefined" class="btn-group mr-2 pointer" uib-dropdown
+      dropdown-append-to-body title="Templates">
+      <button type="button" class="btn btn-sm btn-primary text-left"
+        (click)="faqSection.popupSetting.showFaqQuestions=true" style="min-width: 200px;">
+        <span class="text-uppercase-imp text-strong" [innerHTML]="faqSection.sectionName"></span>
+      </button>
+      <button type="button" class="btn btn-sm btn-primary dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true"
+        aria-expanded="false">
+        <span class="sr-only">Split button!</span>
+      </button>
+      <ul class="custom dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-single-button">
+        <li role="menuitem"
+          *ngFor="let section of faqSection.faqTemplateList; let sectionIndex = index;trackBy: trackByFunction;">
+          <a class="pointer" (click)="faqSection.changeFaqSectionFromPopup(section)">
+            <i class="fa fa-check text-primary" *ngIf="section.template_id == faqSection.sectionId"></i>
+            <span class="text-uppercase-imp" [innerHTML]="section.template_name"></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <button class="btn btn-sm btn-primary" title="Summary" (click)="faqSection.showFaqSummary()">Summary</button>
+    <!-- <i class="fa fa-info-circle pull-right text-info font-20 m-1 pointer" title="Help"
+      (click)="faqSection.helpFlag = !faqSection.helpFlag" *ngIf="faqSection.popupSetting.showFaqQuestions"></i> -->
+    <i (click)="faqSection.closeFaqPopup(); activeModal.close();" class="float-right pointer mr-2" title="Close">
+      <i class="fa fa-times font-20"></i></i>
+  </h4>
+</div>
+<div class="modal-body build-template-modal-body p-0">
+  <div class="form-row mx-0 h-100" *ngIf="faqSection.popupSetting.showFaqQuestions">
+    <div class="col-3 pt-2 faq-left-col">
+      <div id="main-menu-wrapper" wheel-propagation="true" suppress-scroll-x="true" min-scrollbar-length="12">
+        <div data-toggle="buttons">
+          <button class="btn btn-sm btn-block text-left"
+            *ngFor="let category of faqSection.faqCurrentSectionCategoryList | filterArray:'sectionId':faqSection.sectionId;  let categoryIndex = index;trackBy: trackByFunction;"
+            (click)="faqSection.changeFaqSectionCategory(category)"
+            [ngClass]="faqSection.categoryId == category.categoryId ? 'btn-primary-light' : 'btn-outline-primary-light'"
+            title="{{category.categoryName}}">
+            <input type="radio" hidden="" name="dr_app_location" autocomplete="off" [value]="category.categoryId"
+              [(ngModel)]="faqSection.categoryId">
+            <span>
+              {{category.categoryName == '-' ? 'Unnamed Section' : category.categoryName}}</span>
+          </button>
+        </div>
+        <hr class="my-2">
+        <ul du-scroll-container="faq_popup_container" class="list-unstyled pb-0 align-top wraplist">
+          <li
+            *ngFor="let secGroup of faqSection.faqCurrentSectionQueGroup; let secGroupIndex= index;trackBy: trackByFunction;"
+            du-smooth-scroll offset="30" (click)="faqSection.popupSetting.activeSecGroup=secGroup.sectionGroupId;"
+            [ngClass]="{'active':(secGroup.sectionGroupId==faqSection.popupSetting.activeSecGroup)}">
+            <a  (click)="scrollToSection('questionGroup_' + secGroup.sectionGroupId)" class="text-decoration-none d-block pl-2">
+              <span>{{secGroup.sectionGroupName=='-'?'Unnamed Section':secGroup.sectionGroupName}}</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-9 px-0" scroll id="faq_popup_container" du-scroll-container>
+      <app-faq-forms [isPreview]="true" [source]="'faqPopup'" [faqSection]="faqSection"></app-faq-forms>
+    </div>
+  </div>
+  <app-faq-summary [source]="faqSection.faqSectionDisplaySetting" [faqSection]="faqSection"></app-faq-summary>
+</div>

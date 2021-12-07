@@ -1,0 +1,14 @@
+:host ::ng-deep {
+    .ngx-datatable.fixed-row {
+      .datatable-header-inner {
+        .datatable-row-center {
+          .datatable-header-cell {
+  
+            &[title="Status"] {
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+  }

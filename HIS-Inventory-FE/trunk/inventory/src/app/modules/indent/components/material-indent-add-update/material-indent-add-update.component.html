@@ -1,0 +1,131 @@
+<div class="custom-container-fluid container-material-indent-add-apdate">
+    <form *ngIf="loadForm" [formGroup]="materialIndentForm" (ngSubmit)="savematerialIndentForm()" [ngClass]="{'no-select': isEditModeEnable && editIndentData?.status !== constants.inventoryStatusCreated}">
+        <div class="card-body p-1">
+            <div class="form-row form-group mx-0 mb-0">
+                <div class="col-3">
+                    <label>Indent Type<sup>*</sup></label>
+                    <ng-select [items]="indentTypesList" bindLabel="description" formControlName="indentTypeId" bindValue="indentType" placeholder="Select Indent Type" (change)="updateDeptStore($event)">
+                    </ng-select>
+                    <small class="text-danger" *ngIf="materialIndentFormControl['indentTypeId'].errors?.required && submitted">
+                        Please Select Value!</small>
+                    <div>
+                        <p *ngIf="showDeptStrType === 'dept'" class="font-size-dot-8 mb-0"><span class="text-muted">User
+                                Dept: </span> <label class="d-inline">{{materialIndentForm.value.deptName}}</label>
+                        </p>
+                        <p *ngIf="showDeptStrType === 'store'" class="font-size-dot-8 mb-0"><span class="text-muted">Store: </span> <label class="d-inline">{{materialIndentForm.value.storeName}}</label>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <label>To Store<sup>*</sup></label>
+                    <ng-select [items]="toStoreList$ | async" bindLabel="name" (change)="onStoreChange($event)" bindValue="id" [loading]="formLoading" formControlName="toStoreId" placeholder="Select Store" [typeahead]="toStoreListInput$"></ng-select>
+                    <small class="text-danger" *ngIf="materialIndentFormControl['toStoreId'].errors?.required && submitted">
+                        Please Select Value!</small>
+                </div>
+                <div class="col-6">
+                    <label>Remark<sup>*</sup></label>
+                    <input type="text" class="form-control form-control-sm" formControlName="remark" placeholder="Remark">
+                    <small class="text-danger" *ngIf="materialIndentFormControl['remark'].errors?.required && submitted">
+                        Please Select Value!</small>
+                </div>
+            </div>
+            <div class="form-row form-group mx-0" *ngIf="materialIndentForm.value.indentTypeValue?.indentType">
+                <div class="col-4">
+                    <label>Item</label>
+                    <ng-select [items]="itemList$ | async" bindLabel="itemDescription" (change)="onItemChange($event)" bindValue="itemId" [loading]="formLoading" formControlName="itemId" placeholder="Select Item" [typeahead]="itemListInput$">
+                        <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                            {{item.itemDescription}} ({{item.itemCode}})
+                        </ng-template>
+                    </ng-select>
+                </div>
+                <div class="col-2">
+                    <label>Quantity</label>
+                    <input type="number" class="form-control form-control-sm" formControlName="qty" placeholder="Type Quantity">
+                </div>
+                <div class="col-4">
+                    <label class="d-block mb-2">&nbsp;</label>
+                    <button type="button" class="btn btn-sm btn-primary" (click)="addItemValue()"><i
+                            class="fa icon fa-fw"
+                            [ngClass]="[materialIndentForm.value?.itemTabelId ? 'fa-sync-alt':'fa-plus']"
+                            aria-hidden="true"></i>{{materialIndentForm.value.itemTabelId ? 'UPDATE' : 'ADD'}}</button>
+                </div>
+            </div>
+            <div class="form-row mx-0">
+                <div class="col-12">
+                    <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25" [footerHeight]="0" [rowHeight]="30" [rows]="itemArray" [externalSorting]="true" [externalPaging]="true" [count]="itemArray.length" [scrollbarH]="true">
+                        <ngx-datatable-column [frozenLeft]="true" name="Item" [sortable]="false" [width]="200">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span> {{row.item.itemDescription}} ({{row.item.itemCode}}) </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Unit" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span> {{row.item.unitName}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Quality" cellClass="text-right" [sortable]="false" [width]="140">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.indentQty}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Action" [frozenRight]="true" cellClass="text-center" [sortable]="false" [width]="75">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value" let-isSelected="isSelected">
+                                <ng-container *ngIf="isEditModeEnable && editIndentData.status === constants.inventoryStatusCreated">
+                                    <button type="button" class="btn btn-sm btn-link" (click)="editItem(row)"><i class="icon fa-fw icon-edit"
+                              aria-hidden="true"></i>
+                      </button>
+                                    <button class="btn btn-sm btn-link" (click)="confirmDelete(row, rowIndex)" type="button">
+                          <i class="icon fa-fw icon-trash text-danger"></i></button>
+                                </ng-container>
+                                <ng-container *ngIf="!isEditModeEnable">
+                                    <button type="button" class="btn btn-sm btn-link" (click)="editItem(row)"><i class="icon fa-fw icon-edit"
+                            aria-hidden="true"></i>
+                    </button>
+                                    <button class="btn btn-sm btn-link" (click)="confirmDelete(row, i)" type="button">
+                        <i class="icon fa-fw icon-trash text-danger"></i></button>
+                                </ng-container>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer py-1 border-top">
+            <div class="float-right">
+                <ng-container *ngIf="!isEditModeEnable">
+                    <div class="is-approved form-group" *ngxPermissionsOnly="constpermissionList.APPROVE_MATERIAL_INDENT">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Is Approved</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isApproved" class="custom-control-input" id="isApproved1">
+                            <label class="custom-control-label pointer" [class.active]="materialIndentForm.value.isApproved" for="isApproved1"></label>
+                            <span class="text-uppercase" [class.active]="materialIndentForm.value.isApproved">{{materialIndentForm.value.isApproved ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <button *ngxPermissionsOnly="constpermissionList.ADD_MATERIAL_INDENT" type="submit" class="btn btn-sm btn-success ml-1"><i class="icon fa-fw icon-save" aria-hidden="true"></i>
+                        SAVE</button>
+                </ng-container>
+                <!-- edit -->
+                <ng-container *ngIf="isEditModeEnable && editIndentData.status === constants.inventoryStatusCreated">
+                    <div class="is-approved form-group" *ngxPermissionsOnly="constpermissionList.APPROVE_MATERIAL_INDENT">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Is Approved</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isApproved" class="custom-control-input" id="isApproved2">
+                            <label class="custom-control-label pointer" [class.active]="materialIndentForm.value.isApproved" for="isApproved2"></label>
+                            <span class="text-uppercase" [class.active]="materialIndentForm.value.isApproved">{{materialIndentForm.value.isApproved ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <button *ngxPermissionsOnly="constpermissionList.CANCEL_MATERIAL_INDEND" type="button" class="btn btn-sm btn-outline-secondary" (click)="updateStatus('Cancel')">CANCEL</button>
+                    <button *ngxPermissionsOnly="constpermissionList.UPDATE_MATERIAL_INDEND" type="submit" class="btn btn-sm btn-primary-light ml-1"><i class="fas fa-fw fa-sync-alt"></i>
+                        UPDATE</button>
+                    <button *ngxPermissionsOnly="constpermissionList.REJECT_MATERIAL_INDEND" type="button" class="btn btn-sm btn-danger ml-1" (click)="updateStatus('Rejected')"><i
+                            class="icon fa-fw icon-times" aria-hidden="true"></i> REJECTED</button>
+                    <ng-container *ngIf="editIndentData.createdBy === userId">
+                        <button *ngxPermissionsOnly="constpermissionList.DELETE_MATERIAL_INDEND" type="button" class="btn btn-sm btn-outline-danger ml-1" (click)="updateStatus('Delete')">
+                            <i class="icon fa-fw icon-trash" aria-hidden="true"></i> DELETE</button>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </form>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

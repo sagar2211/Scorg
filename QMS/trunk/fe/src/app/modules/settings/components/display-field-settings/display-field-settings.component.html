@@ -1,0 +1,25 @@
+<div class="card border-top-0 border-bottom-0 border-right-0">
+  <div class="card-header border-dash-bottom py-2">
+    <h6 class="mb-0">Display Field</h6>
+  </div>
+  <div class="card-body display-slots-body">
+    <div class="form-row mx-0">
+      <div class="col-12 card mb-3 px-0">
+        <div class="card-header py-1">
+          <h6 class="text-uppercase my-1">Patient Field Setting</h6>
+        </div>
+        <div class="card-body">
+          <app-field-settings [permissionDetails]="PermissionsConstantsList"></app-field-settings>
+        </div>
+      </div>
+      <div class="col-12 card mb-3 px-0">
+        <div class="card-header py-1">
+          <h6 class="text-uppercase my-1">Doctor Field Setting</h6>
+        </div>
+        <div class="card-body">
+          <app-doctor-field-settings [permissionDetails]="PermissionsConstantsList"></app-doctor-field-settings>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

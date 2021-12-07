@@ -1,0 +1,62 @@
+<div *ngIf="faqSectionDisplaySetting == 'clubbed'">
+  <app-faq-categories [allSectionList]="faqSectionList" [faqSectionDisplaySetting]="faqSectionDisplaySetting"
+    [patientFaqSectionList]="patientFaqSectionList" [componentInfo]="componentInfo"></app-faq-categories>
+</div>
+<div *ngIf="faqSectionDisplaySetting =='unClubbed'">
+  <div *ngFor="let section of faqSectionList; let i = index;">
+    <div *ngIf="section.is_Active" [id]="section.template_key" #${section.template_name}>
+      <app-faq-categories [faqSectionDisplaySetting]="faqSectionDisplaySetting"
+        [patientFaqSectionList]="patientFaqSectionList" [sectionData]="section" [componentInfo]="componentInfo">
+      </app-faq-categories>
+    </div>
+  </div>
+</div>
+<div *ngIf="faqSectionDisplaySetting =='openForm'">
+  <div *ngFor="let section of faqSectionList; let i = index"
+    (click)="menuClicked(section);localSectionData[i].activeTabName = 'form'">
+    <div *ngIf="section.is_Active" [id]="section.template_key" class="examination-label" #${section.template_name}>
+      <ngb-accordion *ngIf="faqSectionDisplaySetting == 'openForm'" [closeOthers]="false"
+        activeIds="{{'faq_' + section.template_id}}">
+        <ngb-panel id="{{'faq_' + section.template_id}}">
+          <ng-template ngbPanelTitle>
+            <div class="form-row align-items-center mx-0">
+              <div class="col-8">
+                <p class="mb-0 font-size-dot-875 d-inline-block mr-2">{{section.template_name}}</p>
+                <button *ngIf="!showOnlySummary && localSectionData[i].activeTabName === 'form'"
+                  (click)="activeSectionId = section.template_id; $event.stopPropagation(); showSummary(section, i); localSectionData[i].activeTabName = 'summary';"
+                  class="btn btn-white btn-sm text-uppercase custom-btn-w">SUMMARY</button>
+                <button *ngIf="!showOnlySummary && localSectionData[i].activeTabName === 'summary'"
+                  (click)="$event.stopPropagation(); localSectionData[i].activeTabName = 'form';"
+                  class="btn btn-white btn-sm text-uppercase custom-btn-w">FORM</button>
+              </div>
+              <div class="col-4">
+                <button class="btn btn-sm btn-link text-white text-right" type="button">
+                  <i [ngClass]="isPanelOpen ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'"
+                    aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <div class="row m-0">
+            </div>
+            <div class="row m-0">
+              <div class="col-12 mb-2 px-0" *ngFor="let category of section.form_data;">
+                <app-faq-categories [hidden]="!!(localSectionData[i].activeTabName === 'summary')"
+                  #getFaqCategoryInstance [faqSectionDisplaySetting]="faqSectionDisplaySetting"
+                  [patientFaqSectionList]="patientFaqSectionList"
+                  [sectionData]="getSectionDataForOpenForm(section, category)" [componentInfo]="componentInfo">
+                </app-faq-categories>
+              </div>
+              <div class="col-12 mb-2 px-0">
+                <app-faq-summary [hidden]="!!(localSectionData[i].activeTabName == 'form')" [source]="'openForm'"
+                  [faqSummaryData]="localSectionData[i].summaryData" [test]="section"
+                  [patientFaqSectionList]="patientFaqSectionList"></app-faq-summary>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+    </div>
+  </div>
+</div>

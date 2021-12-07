@@ -1,0 +1,359 @@
+<!-- <form [formGroup]="applicationSettingForm" (ngSubmit)="saveAppicationSettings()"> -->
+<div class="card border-top-0 border-bottom-0 border-right-0">
+  <div class="card-header border-dash-bottom py-2">
+    <h6 class="mb-0">Application Settings</h6>
+  </div>
+  <!-- formGroupName="QMS_BE_SETTINGS" -->
+  <div class="card-body application-setting-height">
+    <div class="card shadow-xs setting-height border-0">
+      <div class="card-body pb-2" *ngFor="let object of applicationSettingArray; let i = index">
+        <div class="form-row form-group" *ngIf="object.tag_question === 'defaultUserPassword'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted"> DEFAULT USER PASSWORD</label>
+          </div>
+          <div class="col-4">
+            <input class="form-control form-control-sm" maxlength="20" [(ngModel)]="object.tag_value" type="text">
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'parellelBookingSufix'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">PARALLEL BOOKING SUFFIX</label>
+          </div>
+          <div class="col-4">
+            <input class="form-control form-control-sm" maxlength="1" [(ngModel)]="object.tag_value" type="text">
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'autoappointmentConfirm'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">AUTO APPOINTMENT CONFIRM</label>
+          </div>
+          <div class="col-4">
+            <select class="form-control form-control-sm switch-w" [(ngModel)]="object.tag_value"
+              id="autoappointmentConfirm_{{i}}">
+              <option value="1">Yes</option>
+              <option value="0" selected="">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'opdTvDisplayBeforeMinutes'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">OPD TV DISPLAY BEFORE MINUTES</label>
+          </div>
+          <div class="col-2">
+            <input class="form-control form-control-sm" minlength="1" maxlength="3" [(ngModel)]="object.tag_value"
+              appNumbersOnly type="text">
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'opdnotstartedStatusText'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">OPD TV DISPLAY AFTER MINUTES</label>
+          </div>
+          <div class="col-2">
+            <input class="form-control form-control-sm" minlength="1" maxlength="3" [(ngModel)]="object.tag_value"
+              appNumbersOnly type="text">
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'stopsmsService'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">STOP SMS SERVICE</label>
+          </div>
+          <div class="col-4">
+            <select class="form-control form-control-sm switch-w" [(ngModel)]="object.tag_value"
+              id="stopsmsService_{{i}}">
+              <option value="1">Yes</option>
+              <option value="0" selected="">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'stopsmsOtpService'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">STOP SMS OTP SERVICE</label>
+          </div>
+          <div class="col-4">
+            <select class="form-control form-control-sm switch-w" [(ngModel)]="object.tag_value"
+              id="stopsmsOtpService_{{i}}">
+              <option value="1">Yes</option>
+              <option value="0" selected="">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'entitySummarySmsMorning'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">ENTITY SUMMARY SMS MORNING</label>
+          </div>
+          <div class="col-2">
+            <app-time-drop-down [timeFormat]="'24_hour'" [minuteValue]="'false'" [hoursList]="temphoursArray"
+              [selectedValue]="object.tag_value" (selectedItem)="object.tag_value">
+            </app-time-drop-down>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'entitySummarySmsEvening'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">ENTITY SUMMARY SMS EVENING</label>
+          </div>
+          <div class="col-2">
+            <app-time-drop-down [timeFormat]="'24_hour'" [minuteValue]="'false'" [hoursList]="temphoursArray"
+              [selectedValue]="object.tag_value" (selectedItem)="object.tag_value">
+            </app-time-drop-down>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'opddisplayrefreshSecond'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">OPD TV DISPLAY REFRESH SECOND</label>
+          </div>
+          <div class="col-4">
+            <input class="form-control form-control-sm" type="text" appNumbersOnly [(ngModel)]="object.tag_value">
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'patientAbsentmarketime'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">PATIENT ABSENT MARKED TIME</label>
+          </div>
+          <div class="col-2">
+            <app-time-drop-down [timeFormat]="'24_hour'" [minuteValue]="'false'" [hoursList]="temphoursArray"
+              [selectedValue]="object.tag_value" (selectedItem)="object.tag_value">
+            </app-time-drop-down>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'defaultidletimecheckoutEntity'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">DEFAULT IDLETIME CHECKOUT ENTITY</label>
+          </div>
+          <div class="col-4">
+            <input class="form-control form-control-sm" appNumbersOnly type="text" [(ngModel)]="object.tag_value">
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'defaultidleminutechat'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">DAFAULT IDLE MINUTES CHAT</label>
+          </div>
+          <div class="col-4">
+            <input class="form-control form-control-sm" appNumbersOnly type="text" [(ngModel)]="object.tag_value">
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'forgotpasswordlinkActive'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">FORGOT PASSWORD LINK ACTIVE</label>
+          </div>
+          <div class="col-4">
+            <input class="form-control form-control-sm" appNumbersOnly type="text" [(ngModel)]="object.tag_value">
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'logerRequiredMongoDb'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">LOGGER REQUIRED MONGO DB</label>
+          </div>
+          <div class="col-4">
+            <select class="form-control form-control-sm switch-w" [(ngModel)]="object.tag_value"
+              id="logerRequiredMongoDb_{{i}}">
+              <option value="1">Yes</option>
+              <option value="0" selected="">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'smsOnlyConfirmAppointment'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">SMS ONLY CONFIRMED APPOINTMENT</label>
+          </div>
+          <div class="col-4">
+            <select class="form-control form-control-sm switch-w" [(ngModel)]="object.tag_value"
+              id="smsOnlyConfirmAppointment_{{i}}">
+              <option value="1">Yes</option>
+              <option value="0" selected="">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'smsHospitalName'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">SMS HOSPITAL NAME</label>
+          </div>
+          <div class="col-4">
+            <input class="form-control form-control-sm" type="text" [(ngModel)]="object.tag_value">
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'smsHospitalLocation'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">SMS HOSPITAL LOCATION</label>
+          </div>
+          <div class="col-4">
+            <input class="form-control form-control-sm" type="text" [(ngModel)]="object.tag_value">
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'opdservicestartbufferMinute'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">OPD SERVICESTATS BUFFER MINUTES</label>
+          </div>
+          <div class="col-4">
+            <input class="form-control form-control-sm" type="text" [(ngModel)]="object.tag_value" appNumbersOnly>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'appoinmentFollowUpDay'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">APPOINTMENT FOLLOWUP DAYS</label>
+          </div>
+          <div class="col-4">
+            <input class="form-control form-control-sm" type="text" [(ngModel)]="object.tag_value" appNumbersOnly>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'autocheckinAllowed'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">AUTO CHECKIN ALLOWED</label>
+          </div>
+          <div class="col-4">
+            <select class="form-control form-control-sm switch-w" [(ngModel)]="object.tag_value"
+              id="autocheckinAllowed_{{i}}">
+              <option value="1">Yes</option>
+              <option value="0" selected="">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'pageFooterShowEmailPhone'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">PAGEFOOTER SHOW EMAILPHONE</label>
+          </div>
+          <div class="col-4">
+            <select class="form-control form-control-sm switch-w" [(ngModel)]="object.tag_value"
+              id="pageFooterShowEmailPhone_{{i}}">
+              <option value="1">Yes</option>
+              <option value="0" selected="">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'pageFootershowAddressName'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">PAGE FOOTER SHOW ADDRESS NAME</label>
+          </div>
+          <div class="col-4">
+            <select class="form-control form-control-sm switch-w" [(ngModel)]="object.tag_value"
+              id="pageFootershowAddressName_{{i}}">
+              <option value="1">Yes</option>
+              <option value="0" selected="">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'pageFootershowBranchName'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">PAGE FOOTER SHOW BRANCH NAME</label>
+          </div>
+          <div class="col-4">
+            <select class="form-control form-control-sm switch-w" [(ngModel)]="object.tag_value"
+              id="pageFootershowBranchName_{{i}}">
+              <option value="1">Yes</option>
+              <option value="0" selected="">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'pageFootershowName'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">PAGE FOOTER SHOW NAME</label>
+          </div>
+          <div class="col-4">
+            <select class="form-control form-control-sm switch-w" [(ngModel)]="object.tag_value"
+              id="pageFootershowName_{{i}}">
+              <option value="1">Yes</option>
+              <option value="0" selected="">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'headershowEmailPhone'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">HEADER SHOW EMAIL PHONE</label>
+          </div>
+          <div class="col-4">
+            <select class="form-control form-control-sm switch-w" [(ngModel)]="object.tag_value"
+              id="headershowEmailPhone_{{i}}">
+              <option value="1">Yes</option>
+              <option value="0" selected="">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'headershowAddressName'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">HEADER SHOW ADDRESS NAME</label>
+          </div>
+          <div class="col-4">
+            <select class="form-control form-control-sm switch-w" [(ngModel)]="object.tag_value"
+              id="headershowAddressName_{{i}}">
+              <option value="1">Yes</option>
+              <option value="0" selected="">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'headerBranchName'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">HEADER SHOW BRANCH NAME</label>
+          </div>
+          <div class="col-4">
+            <select class="form-control form-control-sm switch-w" [(ngModel)]="object.tag_value"
+              id="headerBranchName_{{i}}">
+              <option value="1">Yes</option>
+              <option value="0" selected="">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'headerShowName'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">HEADER SHOW NAME</label>
+          </div>
+          <div class="col-4">
+            <select class="form-control form-control-sm switch-w" [(ngModel)]="object.tag_value"
+              id="headerShowName_{{i}}">
+              <option value="1">Yes</option>
+              <option value="0" selected="">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row form-group" *ngIf="object.tag_question === 'headerShowLog'">
+          <div class="col-4 align-self-center">
+            <label class="text-muted">HEADER SHOW LOGO</label>
+          </div>
+          <div class="col-4">
+            <select class="form-control form-control-sm switch-w" [(ngModel)]="object.tag_value"
+              id="headerShowLog_{{i}}">
+              <option value="1">Yes</option>
+              <option value="0" selected="">No</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer text-right py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase mr-2">
+      Cancel</button>
+    <button type="button" *ngxPermissionsOnly="PermissionsConstantsList.Application_Settings_Update" (click)="saveAppicationSettings()" class="btn btn-sm btn-success text-uppercase"><i
+        class="icon fa-fw icon-save"></i> SAVE
+    </button>
+  </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<!-- </form> -->

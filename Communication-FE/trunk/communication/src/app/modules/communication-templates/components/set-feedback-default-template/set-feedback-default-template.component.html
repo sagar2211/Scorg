@@ -1,0 +1,139 @@
+<div class="card border-top-0 border-bottom-0 border-right-0 emr-container-fluid container-fluid px-0">
+    <div class="card-header border-dash-bottom py-2">
+        <h6 class="mb-0">Feedback Template</h6>
+    </div>
+    <div class="card-body set-feedback" *ngIf="feedbackTemplateForList.length > 0">
+        <div class="form-row form-group form-gender">
+            <div class="col-12">
+                <label class="d-block" for="slot">Select Type<sup>*</sup></label>
+                <div class="custom-control custom-radio custom-control-inline" *ngFor="let item of feedbackTemplateForList">
+                    <input type="radio" class="custom-control-input" id="{{item.key}}" [(ngModel)]="feedbackTemplateFor" value="{{item.key}}" (change)="getSelectedTypeValues()">
+                    <label class="custom-control-label pointer" for="{{item.key}}">{{item.name}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-9">
+                <div class="form-row custom-margin-top">
+                    <div class="col-3" [hidden]="feedbackTemplateFor !== 'hospital'">
+                        <!-- Hospital View -->
+                        <app-ng-select-typeahead [inputValue]="saveObjForDefaultTemplate.hospital.templateVal?.id" [selectedValue]="saveObjForDefaultTemplate.hospital.templateVal?.name" [displayList]="templatesList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Template'"
+                            (recievedVal)="selectTemplate($event, 0, 'hospital')" [returnDataType]="'obj'" [isDisabled]="false">
+                        </app-ng-select-typeahead>
+                    </div>
+                    <div class="col-12" [hidden]="feedbackTemplateFor !== 'entity'">
+                        <!-- Entity View -->
+                        <div class="form-row">
+                            <div class="col-3">
+                                <label class="font-weight-500 font-size-dot-8 mb-0" for="entity_type">Provider Type</label>
+                            </div>
+                            <div class="col-3">
+                                <label class="font-weight-500 font-size-dot-8 mb-0" for="provider">Provider</label>
+                            </div>
+                            <div class="col-3">
+                                <label class="font-weight-500 font-size-dot-8 mb-0" for="template">Template </label>
+                            </div>
+                        </div>
+                        <div class="form-row form-group" *ngFor="let item of saveObjForDefaultTemplate.entity; let i= index; last as last;">
+                            <div class="col-3">
+                                <app-entity [disableEntity]="item.editId" (selectedEntityObj)="getEntityData($event, i)" [setEntity]="item.entity">
+                                </app-entity>
+                            </div>
+                            <div class="col-3">
+                                <app-entity-value [disableEntity]="!item.entity || item.editId" [selectedEntity]="item.entity" [selectedSpeciality]="null" [searchStringEdit]="" (selectedEntityValueObj)="getEntityValue($event, i)" [setValue]="item.entityVal">
+                                </app-entity-value>
+                            </div>
+                            <div class="col-3">
+                                <app-ng-select-typeahead [inputValue]="item.templateVal?.id" [selectedValue]="item.templateVal?.name" [displayList]="templatesList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Template'" (recievedVal)="selectTemplate($event, i, 'entity')"
+                                    [returnDataType]="'obj'" [isDisabled]="">
+                                </app-ng-select-typeahead>
+                            </div>
+                            <div class="col-3 align-self-center">
+                                <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}" (click)="addNewSection('entity', i);" type="button"> <i class="fas fa-fw fa-plus"></i></button>
+                                <button class="btn btn-sm btn-danger text-uppercase" (click)="deleteSection('entity', i, item);" type="button">
+                  <i class="icon fa-fw icon-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12" [hidden]="feedbackTemplateFor !== 'department'">
+                        <!-- Deapartment View -->
+                        <div class="form-row">
+                            <div class="col-3">
+                                <label class="font-weight-500 font-size-dot-8 mb-0" for="entity_type">Department</label>
+                            </div>
+                            <div class="col-3">
+                                <label class="font-weight-500 font-size-dot-8 mb-0" for="template">Template </label>
+                            </div>
+                        </div>
+                        <div class="form-row form-group" *ngFor="let item of saveObjForDefaultTemplate.department; let i= index; last as last;">
+                            <div class="col-3">
+                                <app-ng-select-typeahead [inputValue]="item.department?.id" [selectedValue]="item.department?.name" [displayList]="departmentmasteList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Department'" (recievedVal)="selectDepartment($event , i)"
+                                    [returnDataType]="'obj'" [isDisabled]="item.editId">
+                                </app-ng-select-typeahead>
+                            </div>
+                            <div class="col-3">
+                                <app-ng-select-typeahead [inputValue]="item.templateVal?.id" [selectedValue]="item.templateVal?.name" [displayList]="templatesList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Template'" (recievedVal)="selectTemplate($event, i, 'department')"
+                                    [returnDataType]="'obj'" [isDisabled]="false">
+                                </app-ng-select-typeahead>
+                            </div>
+                            <div class="col-3 align-self-center">
+                                <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}" (click)="addNewSection('department', i);" type="button"> <i class="fas fa-fw fa-plus"></i></button>
+                                <button class="btn btn-sm btn-danger text-uppercase" (click)="deleteSection('department', i, item);" type="button">
+                  <i class="icon fa-fw icon-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12" [hidden]="feedbackTemplateFor !== 'appointment_type'">
+                        <!-- Appointment View -->
+                        <div class="form-row">
+                            <div class="col-3">
+                                <label class="font-weight-500 font-size-dot-8 mb-0" for="entity_type">Appointment Type</label>
+                            </div>
+                            <div class="col-3">
+                                <label class="font-weight-500 font-size-dot-8 mb-0" for="template">Template </label>
+                            </div>
+                        </div>
+                        <div class="form-row form-group" *ngFor="let item of saveObjForDefaultTemplate.appoitmentType; let i= index; last as last;">
+                            <div class="col-3">
+                                <app-ng-select-typeahead [inputValue]="item.appoitmentType?.id" [displayList]="appointmentTypeList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Appointment Type'" (recievedVal)="selectAppointmentType($event , i)" [returnDataType]="'obj'"
+                                    [isDisabled]="item.editId">
+                                </app-ng-select-typeahead>
+                            </div>
+                            <div class="col-3">
+                                <app-ng-select-typeahead [inputValue]="item.templateVal?.id" [selectedValue]="item.templateVal?.name" [displayList]="templatesList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Template'" (recievedVal)="selectTemplate($event,
+                    i, 'appointment_type')" [returnDataType]="'obj'" [isDisabled]="false">
+                                </app-ng-select-typeahead>
+                            </div>
+                            <div class="col-3 align-self-center">
+                                <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}" (click)="addNewSection('appointment_type', i);" type="button"> <i
+                    class="fas fa-fw fa-plus"></i></button>
+                                <button class="btn btn-sm btn-danger text-uppercase" (click)="deleteSection('appointment_type', i, item);" type="button">
+                  <i class="icon fa-fw icon-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="form-group">
+                    <label class="d-block">Template Preview</label>
+                </div>
+                <ul class="list-unstyled tag-list border m-0">
+                    <li class="pointer p-1" *ngFor="let item of templatesList">
+                        <a class="px-2 d-block text-capitalize font-size-dot-875" (click)="redirectPreviewTemplate(item)">{{item.name}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="feedbackTemplateForList.length == 0 && isFormLoaded">
+        NO FEEDBACK TEMPLATE FOUND
+    </div>
+    <div class="card-footer text-right py-1" *ngIf="feedbackTemplateForList.length > 0 && isFormLoaded">
+        <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase mr-2">
+      Cancel</button>
+        <button type="button" [disabled]="editPermission" (click)="saveDafaultTemplateData()" class="btn btn-sm btn-success text-uppercase">
+      <i class="icon fa-fw icon-save"></i> SAVE</button>
+    </div>
+    <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</div>

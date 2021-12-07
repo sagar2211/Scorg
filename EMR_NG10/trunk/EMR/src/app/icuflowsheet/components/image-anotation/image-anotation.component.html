@@ -1,0 +1,11 @@
+<div class="emr-custom-container-fluid">
+  <div class="card-header p-1 border-dash-bottom">
+    <button title="Back to Map List" (click)="navigate()" class="btn btn-sm border-0 back-arrow-btn" type="button">
+      <i class="icon fa-fw icon-arrow" aria-hidden="true"></i>
+    </button>
+    <h6 class="mb-0 d-inline-block align-middle"> Image Annotation</h6>
+  </div>
+  <div class="card-body anotation-height" *ngIf="isHide">
+    <iframe class="w-100 h-100 border-0" [src]="iframeUrl"></iframe>
+  </div>
+</div>

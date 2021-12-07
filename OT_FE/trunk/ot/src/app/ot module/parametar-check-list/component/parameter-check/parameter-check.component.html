@@ -1,0 +1,266 @@
+<div class="emr-container-fluid container-fluid p-0">
+    <div class="card border-0 card-parameter-check">
+        <form [formGroup]="checkListForm" (ngSubmit)="saveValue()" *ngIf="loadForm">
+            <div class="card-header py-1 card-header-parameter-check">
+                <div class="form-inline">
+                    <div class="form-group mr-2">
+                        <label>Date:</label>
+                        <app-date-picker class="ml-2" [inputDate]="checkListForm.value.date" placeholder="yyyy-mm-dd" (dateChange)="updateDate($event)" [(makeDisabled)]="mainDateDisable">
+                        </app-date-picker>
+                    </div>
+                    <div class="form-group mr-2 otsection">
+                        <label>Patient:</label>
+                        <ng-select class="min-width-300 ml-2" [items]="patientList$ | async" bindLabel="patientInfo.patientName" (change)="onPatientChange($event)" bindValue="patientInfo.patientId" formControlName="patientId" placeholder="Select Patient" [typeahead]="patientInput$">
+                          <ng-template ng-option-tmp let-item="item" let i="index" let-search="searchTerm">
+                            <div class="row m-0 border border-bottom-0 detail-row">
+                              <div class="col-3 px-1 border-right border-bottom font-weight-500">
+                                <p class="m-0">{{item.patientInfo.patientName}}</p>
+                              </div>
+                              <div class="col-3 px-1 border-right border-bottom">
+                                <p class="m-0">{{item.roomName}} </p>
+                              </div>
+                              <div class="col-2 px-1 border-right border-bottom">
+                                <p class="m-0">{{item.startTime}}</p>
+                              </div>
+                              <div class="col-2 px-1 border-right border-bottom">
+                                <p class="m-0">{{item.endTime}}</p>
+                              </div>
+                              <div class="col-2 px-1 border-right border-bottom">
+                                <p class="m-0">{{item.status}}</p>
+                              </div>
+                            </div>
+                          </ng-template>
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="card-body p-1">
+            <ng-container *ngIf="checkListForm?.getRawValue()?.patientId !== null">
+                <div class="row m-0">
+                    <div class="col-3 px-0">
+                        <!-- <ng-container *ngIf="checkListForm.getRawValue().patientData"> -->
+                        <div class="card mb-1">
+                            <div class="card-header px-2 py-1">
+                                <p class="font-size-dot-9 font-weight-500 mb-0">OT ROOM : <span class="text-primary">{{checkListForm.getRawValue().patientData?.roomName}}</span>
+                                </p>
+                            </div>
+                            <div class="card-body p-0">
+                                <ul class="list-group">
+                                    <li class="list-group-item border-top-0 border-right-0 border-left-0 py-1 px-2">
+                                        <p class="mb-0 small"><span class="text-muted">Speciality:
+                                            </span>{{checkListForm.getRawValue().patientData?.specialityName}}</p>
+                                    </li>
+                                    <li class="list-group-item border-right-0 border-bottom-0 border-left-0 py-1 px-2">
+                                        <p class="mb-0 small"><span class="text-muted">Procedure:
+                                            </span>{{checkListForm.getRawValue().patientData?.procedureName}}</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body p-0">
+                                <div class="bg-light py-1">
+                                    <div class="profile-img text-center">
+                                        <img alt="profile-image-male" *ngIf="checkListForm.getRawValue().patientData?.patientInfo?.patImage" src="{{imgBaseUrl+'/images/patient/profile/'+checkListForm.getRawValue().patientData?.patientInfo?.patImage}}">
+                                        <img alt="profile-image-male" *ngIf="!checkListForm.getRawValue().patientData?.patientInfo?.patImage && (checkListForm.getRawValue().patientData?.patientInfo?.gender) === 'Male'" src="./assets/img/male.svg">
+                                        <img alt="profile-image-female" *ngIf="!checkListForm.getRawValue().patientData?.patientInfo?.patImage && (checkListForm.getRawValue().patientData?.patientInfo?.gender) === 'Female'" src="./assets/img/female.svg">
+                                        <img *ngIf="!checkListForm.getRawValue().patientData?.patientInfo?.patImage && (checkListForm.getRawValue().patientData?.patientInfo?.gender) !== 'Male' && (checkListForm.getRawValue().patientData?.patientInfo?.gender) !== 'Female'" src="./assets/img/profile.svg" alt="profile-image-male">
+                                    </div>
+                                    <div class="mt-1 text-center">
+                                        <h6 class="text-primary mb-0">
+                                            {{checkListForm.getRawValue().patientData?.patientInfo?.patientName}}
+                                        </h6>
+                                        <p class="text-muted mb-0 small">
+                                            {{checkListForm.getRawValue().patientData?.patientInfo?.patientId}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="form-row mx-0 gender-blood">
+                                    <div class="col border-right px-2 py-1">
+                                        <p class="mb-0 font-size-dot-8"><small class="text-muted">Gender:
+                                            </small>{{checkListForm.getRawValue().patientData?.patientInfo?.gender}}
+                                        </p>
+                                    </div>
+                                    <div class="col px-2 py-1">
+                                        <p class="mb-0 font-size-dot-8"><small class="text-muted">Age:
+                                            </small>{{checkListForm.getRawValue().patientData?.patientInfo?.age}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <ul class="list-group">
+                                    <li class="list-group-item border-top-0 border-left-0 border-right-0 py-1 px-2">
+                                        <p class="mb-0"><small class="text-muted">Email:
+                                            </small>{{checkListForm.getRawValue().patientData?.patientInfo?.emailId}}
+                                        </p>
+                                    </li>
+                                    <li class="list-group-item border-left-0 border-right-0 py-1 px-2">
+                                        <p class="mb-0"><small class="text-muted">Phone No:
+                                            </small>{{checkListForm.getRawValue().patientData?.patientInfo?.mobileNo}}
+                                        </p>
+                                    </li>
+                                    <li class="list-group-item border-left-0 border-right-0 border-bottom-0 py-1 px-2">
+                                        <p class="mb-0 font-size-dot-875"><small class="text-muted">Address:
+                                            </small> {{checkListForm.getRawValue().patientData?.patientInfo?.patientAddress}}
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- </ng-container> -->
+                    </div>
+                    <div class="col-9 px-0 pl-1">
+                        <div class="form-row pb-1">
+                            <div class="col text-right">
+                                <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" (click)="openPopup()"><i class="fa fa-fw fa-plus"
+                                        aria-hidden="true"></i>Add</button>
+                            </div>
+                        </div>
+                        <div class="scroll-table-section">
+                        <!-- prescription / medicine section -->
+                        <table class="table custom-table font-size-dot-875 border mb-1">
+                            <thead>
+                                <tr>
+                                    <th width="05%"></th>
+                                    <th>Medicine</th>
+                                    <th width="20%">Dose</th>
+                                    <th width="15%">Date</th>
+                                    <th width="20%">Time</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of parameterDrug; let rowIndex = index;">
+                                    <td>
+                                        <div class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1">
+                                            <input type="checkbox" class="custom-control-input" id="medicine{{rowIndex}}" name="medicine{{rowIndex}}" [(ngModel)]="row.isSelected">
+                                            <label class="custom-control-label pointer" for="medicine{{rowIndex}}"><span></span></label>
+                                        </div>
+                                    </td>
+                                    <td>{{row.name}}</td>
+                                    <td>{{row.qty}} {{row.unitName}}</td>
+                                    <td>
+                                        <app-date-picker [inputDate]="row.date" placeholder="yyyy-mm-dd" (dateChange)="row.date = $event">
+                                        </app-date-picker>
+                                    </td>
+                                    <td>
+                                        <div class="form-row mx-0">
+                                            <div class="col px-0">
+                                                <ng-select class="w-100 first" [items]="hrTime" (change)="onTimeChange('hr', $event, rowIndex)" placeholder="Hour" [(ngModel)]="row.hrTime"></ng-select>
+                                            </div>
+                                            <div class="col px-0">
+                                                <ng-select class="w-100 second" [ngClass]="{'if-third': timeFormateKey === '12_hour'}" [items]="minTime" (change)="onTimeChange('min', $event, rowIndex)" placeholder="Min." [(ngModel)]="row.minTime"></ng-select>
+                                            </div>
+                                            <ng-container *ngIf="timeFormateKey === '12_hour'">
+                                                <div class="col px-0">
+                                                    <ng-select class="w-100 third" [items]="amPmAry" (change)="onTimeChange('ampm', $event, rowIndex)" placeholder="AM/PM" [(ngModel)]="row.ampmTime"></ng-select>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- prescription / medicine section -->
+                        <!-- blood section -->
+                        <table class="table custom-table font-size-dot-875 border mb-1">
+                            <thead>
+                                <tr>
+                                    <th width="05%"></th>
+                                    <th>Blood</th>
+                                    <th width="10%">Qty</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of parameterBlood; let rowIndex = index;">
+                                    <td>
+                                        <div class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                                            <input type="checkbox" class="custom-control-input" id="blood{{rowIndex}}" name="blood{{rowIndex}}" [(ngModel)]="row.isSelected">
+                                            <label class="custom-control-label pointer" for="blood{{rowIndex}}"><span></span></label>
+                                        </div>
+                                    </td>
+                                    <td>{{row.name}}</td>
+                                    <td>{{row.qty}} {{row.unitName}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- blood section -->
+                        <!-- implants section -->
+                        <table class="table custom-table font-size-dot-875 border mb-1">
+                            <thead>
+                                <tr>
+                                    <th width="05%"></th>
+                                    <th>Implants</th>
+                                    <th width="10%">QTY</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of parameterImplants; let rowIndex = index;">
+                                    <td>
+                                        <div class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                                            <input type="checkbox" class="custom-control-input" id="Implants{{rowIndex}}" name="Implants{{rowIndex}}" [(ngModel)]="row.isSelected">
+                                            <label class="custom-control-label pointer" for="Implants{{rowIndex}}"><span></span></label>
+                                        </div>
+                                    </td>
+                                    <td>{{row.name}}</td>
+                                    <td>{{row.qty}} {{row.unitName}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- implants section -->
+                        <!-- CSSD Eqipment section -->
+                        <table class="table custom-table font-size-dot-875 border">
+                            <thead>
+                                <tr>
+                                    <th width="05%"></th>
+                                    <th>CSSD Eqipment</th>
+                                    <th width="10%">QTY</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of parameterCSSDEqipment; let rowIndex = index;">
+                                    <td>
+                                        <div class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                                            <input type="checkbox" class="custom-control-input" id="CSSD{{rowIndex}}" name="CSSD{{rowIndex}}" [(ngModel)]="row.isSelected">
+                                            <label class="custom-control-label pointer" for="CSSD{{rowIndex}}"><span></span></label>
+                                        </div>
+                                    </td>
+                                    <td>{{row.name}}</td>
+                                    <td>{{row.qty}} {{row.unitName}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- CSSD Eqipment section -->
+                        <!-- General Eqipment section -->
+                        <table class="table custom-table font-size-dot-875 border">
+                            <thead>
+                                <tr>
+                                    <th width="05%"></th>
+                                    <th>General</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let row of parameterGeneralEqipment; let rowIndex = index;">
+                                    <td>
+                                        <div class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                                            <input type="checkbox" class="custom-control-input" id="General{{rowIndex}}" name="General{{rowIndex}}" [(ngModel)]="row.isSelected">
+                                            <label class="custom-control-label pointer" for="General{{rowIndex}}"><span></span></label>
+                                        </div>
+                                    </td>
+                                    <td>{{row.name}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- General Eqipment section -->
+                      </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="card-footer text-right py-1">
+            <button class="btn btn-sm btn-success" type="button" (click)="saveValue()">
+                <i class="icon fa-fw icon-save"></i> SAVE
+            </button>
+        </div>
+    </div>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

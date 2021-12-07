@@ -1,0 +1,145 @@
+<div class="form-row mx-0">
+  <div class="col-6 border-dash-right pr-0">
+    <div class="card-section">
+      <div class="form-row align-content-center align-items-center my-1 mx-0">
+        <div class="col-4 px-0">
+          <form class="form-inline">
+            <div class="form-group mb-2">
+              <label>Filter By:&nbsp;&nbsp;</label>
+              <select name="sectionFilter" class="form-control pointer" [(ngModel)]="activeSection"
+                (change)="getOrderSetService()">
+                <option *ngFor="let section of filterSectionArray;" [value]="section">{{section}}
+                </option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="col-8">
+          <div class="form-group position-relative">
+            <input type="text" class="form-control pl-2rem" name="SearchByOrderName" [(ngModel)]="searchTxt"
+              placeholder="Search By Order Set Name">
+            <div class="placeholder-icon">
+              <i class="icon fa-fw icon-search text-muted" aria-hidden="true"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngFor="let orderSet of orderSetList | globalSearchDat : searchTxt: ['OredrSetName']"
+        class="card mb-1 mr-1 mt-1 pointer order-card">
+        <div class="card-heading border-bottom">
+          <div class="form-row mx-0 align-items-center">
+            <div class="col-9 py-1">
+              <h6 class="mb-0 font-weight-500">
+                {{orderSet.OredrSetName}}
+              </h6>
+            </div>
+            <div class="col-3 text-right pr-0">
+              <button (click)="loadConfirmationPopup(orderSet, 'apply_order_set')" class="btn btn-success btn-sm mr-1"
+                type="button">Apply</button>
+              <button (click)="loadConfirmationPopup(orderSet, 'edit_order_set')"
+                class="btn btn-outline-info btn-sm mr-1" type="button"><i class="icon fa-fw icon-edit"></i></button>
+              <button (click)="loadConfirmationPopup(orderSet, 'delete')" class="btn btn-outline-danger btn-sm"><i
+                  class="icon fa-fw icon-trash"></i></button>
+            </div>
+          </div>
+        </div>
+        <div (click)="getSetOrderSetDetails(orderSet, 'show_order_set_details')" class="card-body px-1 py-2">
+          <p *ngIf="orderSet.OrderSetDesc !== '' && orderSet.OrderSetDesc != null && orderSet.OrderSetDesc !== undefined; else noDescBlock"
+            class="mb-0 font-size-dot-8">
+            {{orderSet.OrderSetDesc}}
+          </p>
+          <ng-template #noDescBlock class="mb-0">
+            <p class="mb-0 font-size-dot-8 text-muted">No Description!</p>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-6 pl-0 pr-0 col-suggesstion">
+    <div class="card bg-transparent border-0">
+      <div class="card-header border-0 p-0">
+        <!-- <ul class="nav nav-tabs custom-nav-tabs m-0">
+          <li class="nav-item">
+            <a class="nav-link current-section"
+              [ngClass]="{ 'current-section': (currentSection === 'section1'), 'py-2 px-2 pointer': true }"
+              (click)="scrollTo('section1')">Medicine</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link pointer" [ngClass]="{ 'current-section': currentSection === 'section2' }"
+              (click)="scrollTo('section2')">Lab</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link pointer"
+              [ngClass]="{ 'current-section': (currentSection === 'section3'), 'py-2 px-2 pointer': true }"
+              (click)="scrollTo('section3')">Radiology</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link pointer"
+              [ngClass]="{ 'current-section': (currentSection === 'section4'), 'py-2 px-2 pointer': true }"
+              (click)="scrollTo('section3')">Diet</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link pointer"
+              [ngClass]="{ 'current-section': !!(currentSection === 'section5'), 'py-2 px-2 pointer': true }"
+              (click)="scrollTo('section3')">Nursing</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link pointer"
+              [ngClass]="{ 'current-section': !!(currentSection === 'section6'), 'py-2 px-2 pointer': true }"
+              (click)="scrollTo('section3')">Doctor Instruction</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link pointer"
+              [ngClass]="{ 'current-section': !!(currentSection === 'section7'), 'py-2 px-2 pointer': true }"
+              (click)="scrollTo('section3')">Services with Notes</a>
+          </li>
+        </ul> -->
+      </div>
+      <div *ngIf="activeOrderSetDetails" class="card-body p-0">
+        <div id="parentDiv" scrollSpy [spiedTags]="['DIV']" (sectionChange)="onSectionChange($event);"
+          class="master-height px-1 pb-4">
+          <div *ngFor="let category of masterCategories; let i=index;" id="section{{i+1}}" class="mb-5">
+            <div *ngIf="category.orderKey !== 'otherOrders'">
+              <h6 class="border-dash-bottom pb-1 mb-3">
+                <i class="icon fa-fw icon-info-circle align-bottom"></i>
+                {{category.orderName}}</h6>
+              <div class="card mb-1 mr-1 mt-1 pointer order-card ng-star-inserted"
+                *ngFor="let orderDisp of activeOrderSetDetails?.OrderData[category.orderKey]">
+                <app-orders-display [isShowActions]="false" [isEdit]="false" [item]="orderDisp"
+                  [source]="category.orderKey" [isDelete]="false">
+                </app-orders-display>
+              </div>
+            </div>
+            <div *ngIf="category.orderKey === 'otherOrders' && activeOrderSetDetails?.OrderData['instructionOrders'].length">
+              <h6 class="border-dash-bottom pb-1 mb-3">
+                <i class="icon fa-fw icon-info-circle align-bottom"></i>
+                Doctor Instruction</h6>
+              <div class="card mb-1 mr-1 mt-1 pointer order-card ng-star-inserted"
+                *ngFor="let orderDisp of activeOrderSetDetails?.OrderData['instructionOrders']">
+                <app-orders-display [isShowActions]="false" [isEdit]="false" [item]="orderDisp"
+                [source]="'Doctor Instruction'" [isDelete]="false">
+                </app-orders-display>
+              </div>
+            </div>
+            <div *ngIf="category.orderKey === 'otherOrders' && activeOrderSetDetails?.OrderData['serviceOrders'].length">
+              <h6 class="border-dash-bottom pb-1 mb-3"><i class="icon fa-fw icon-info-circle align-bottom"></i>Services with Notes</h6>
+              <div class="card mb-1 mr-1 mt-1 pointer order-card ng-star-inserted"
+                *ngFor="let orderDisp of activeOrderSetDetails?.OrderData['serviceOrders']">
+                <app-orders-display [isShowActions]="false" [isEdit]="false" [item]="orderDisp"
+                [source]="'Services with Notes'" [isDelete]="false">
+                </app-orders-display>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="alert alert-warning" *ngIf="!activeOrderSetDetails">
+        <p class="mb-0"><i class="far fa-lightbulb text-warning" aria-hidden="true"></i>&nbsp;Please select
+          Order Set to view details&nbsp;<i class="icon icon-clipboard-list text-warning"
+            aria-hidden="true"></i>&nbsp;or Add Order Set
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

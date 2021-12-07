@@ -1,0 +1,88 @@
+<div class="suggestion" [ngClass]="(suggestionPanelSettings?.suggestionIsShow) && (!suggestionPanelSettings?.suggestionPin) ? 'unpin' : 'pin'">
+    <div *ngIf="suggestionPanelSettings?.suggestionIsShow">
+        <div class="patient-history-area">
+            <div *ngIf="(ordersOrderSetId === null && !showCombinedList) && showHeading" class="rightnavheader d-flex justify-content-between px-2 py-1">
+                <p *ngIf="!showInputSearchBox" class="detailsname mb-0 d-flex"><span class="mr-2"> Suggestions</span>
+                    <app-radio-switch></app-radio-switch>
+                </p>
+                <div class="row" *ngIf="showInputSearchBox">
+                    <div class="col-12" [ngClass]="(suggestionPanelSettings?.suggestionIsShow) && (!suggestionPanelSettings?.suggestionPin) ? 'search-unpin-w' :'search-w'">
+                        <div *ngIf="!isFaq" class="input-group add-on m-0">
+                            <input (ngModelChange)="this.subject.next();" class="form-control search-bar" type="text" [(ngModel)]="searchKeyword" (focus)="hideHistory()" placeholder="Enter to Search {{selectedSectionDetails?.name}}...">
+                        </div>
+                        <div *ngIf="isFaq" class="input-group add-on m-0">
+                            <input class="form-control form-control-sm mb-1 mr-sm-2" name="searchFaqSubSectionText" type="search" [(ngModel)]="searchFaqSubSectionText" placeholder="Search Sub Section" aria-label="Search">
+                        </div>
+                    </div>
+                </div>
+                <span *ngIf="!isOnload" class="pull-right pt-1">
+          <a class="cursor mr-2"><i class="fa fa-search"
+              [ngClass]="(suggestionPanelSettings?.suggestionIsShow) && (!suggestionPanelSettings?.suggestionPin) ? 'px-2' :''"
+              (click)="showHideSearchInputBox()"></i></a>
+          <a *ngIf="(suggestionPanelSettings?.suggestionIsShow) && (!suggestionPanelSettings?.suggestionPin)"
+            (click)="onClickSuggestionPanel('pin')"
+            [ngClass]="(suggestionPanelSettings?.suggestionIsShow) && (!suggestionPanelSettings?.suggestionPin) ? 'px-2' :''"
+            class="fa fa-thumb-tack rotate-pin mr-2" title="pin"></a>
+          <a *ngIf="(suggestionPanelSettings?.suggestionIsShow) && (suggestionPanelSettings?.suggestionPin)"
+            (click)="onClickSuggestionPanel('unpin')" class="fa fa-thumb-tack mr-2" title="unpin"></a>
+          <a (click)="onClickSuggestionPanel('close')"
+            [ngClass]="(suggestionPanelSettings?.suggestionIsShow) && (!suggestionPanelSettings?.suggestionPin) ? 'px-2' :''"
+            class="fa fa-close" title="Close"></a>
+        </span>
+            </div>
+            <div *ngIf="!(ordersOrderSetId == null) && showHeading" class="border-dash-bottom p-1">
+                <p class="mb-0 font-weight-500">{{selectedSectionDetails?.name}} Suggestions
+                    <a (click)="closeOrderSetSuggestion()" class="fa fa-close pull-right" title="Close"></a>
+                </p>
+            </div>
+            <div *ngIf="showCombinedList" class="border-dash-bottom p-1">
+                <p class="mb-0 font-weight-500">{{selectedSectionDetails?.name}} Suggestions
+                    <a (click)="closeOrderSuggestions()" class="fa fa-close pull-right" title="Close"></a>
+                </p>
+            </div>
+            <div id="rightsidenav" class="custom-scroll">
+                <div class="rightsidedetails">
+                    <fieldset>
+                        <div class="suggestion-list">
+                            <div class="mt-0">
+                                <div class="clearfix"></div>
+                                <div class="patient-history-section" [ngClass]="{'class': true}" [ngClass]="{'no-suggestion-data-pin' : rightPanelSetting.suggestionPin}">
+                                    <div class="row m-0">
+                                        <div class="col-12 p-0" *ngIf="showLoader==false">
+                                            <div class=" custome-scroll2 custom-scroll" [ngClass]="{'fav-section' : isUseFav,
+                      'freq-section' : searchKeyword=='' && isFreqUse,
+                      'other-section' : isUseOther}">
+                                                <div class="d-flex flex-column sec-wrapper mt-1" infinite-scroll [infiniteScrollDistance]="5" [infiniteScrollThrottle]="150" [scrollWindow]="false" (scrolled)="loadMoreFavAndOther(false)">
+                                                    <div class="col history-tab-child no-suggetion-data" *ngIf="!isFaq && !lazyLoadingFavList.length && !lazyLoadingOtherList.length && !lazyLoadingFrequentlyUseList.length && !showLoader">
+                                                        <p class="text-danger padding-left-30 mb-0">No {{selectedSectionDetails?.name ? selectedSectionDetails?.name : 'Suggestions'}} Available
+                                                        </p>
+                                                    </div>
+
+                                                    <div *ngIf="(ordersOrderSetId !== null || showCombinedList)">
+                                                        <div id="suggestionFavContainer" class="SuggestionFav mt-0">
+                                                            <ul class="list-unstyled sugg-list-group m-0">
+                                                                <li class="sugg-list-group-item" *ngFor="let suggData of lazyLoadingFavList.concat(lazyLoadingFrequentlyUseList).concat(lazyLoadingOtherList); let i = index">
+                                                                    <div class="position-relative d-inline-block" *ngIf="!suggData.checked">
+                                                                        <i [ngClass]="{'icon-star': !suggData.isFav, 'fa-star': suggData.isFav}" class="text-primary icon fa font-18 position-absolute pointer sugg-star" aria-hidden="true" (click)="savefavSuggesstion(suggData, i)"></i>
+                                                                        <button (click)="onSelectSuggestionList(suggData)" type="button" class="btn btn-outline-primary-light mr-1 mb-1 text-left">
+                                      {{suggData.name}}</button>
+                                                                    </div>
+                                                                    <div class="med-instructions" [innerHTML]="suggData.suggestionInstruction" *ngIf="suggData.suggestionInstruction"></div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

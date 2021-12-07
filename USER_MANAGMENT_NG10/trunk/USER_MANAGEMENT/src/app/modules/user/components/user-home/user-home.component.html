@@ -1,0 +1,15 @@
+<div class="container-fluid p-0">
+  <div class="row m-0">
+    <!-- left-column -->
+    <!-- no-left-side -->
+    <div class="column left-side" [ngClass]="{'no-left-side': isExistPreviousUrl}">
+      <app-user-left-menus></app-user-left-menus>
+    </div>
+    <!-- right-column -->
+    <!-- no-left-side -->
+    <div class="column right-side" [ngClass]="{'no-left-side': isExistPreviousUrl}">
+      <!-- <app-mini-navbar></app-mini-navbar> -->
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

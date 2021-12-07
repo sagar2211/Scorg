@@ -1,0 +1,53 @@
+<div class="card border-0 mb-1 icu">
+  <div class="card-header cus-head p-1 border-dash-bottom">
+    <div class="container-fluid px-0 icu-flow">
+      <div class="form-row align-items-center">
+        <div class="col-10">
+          <p class="mb-0 font-weight-500">Pain Scale </p>
+        </div>
+        <div class="col-2 text-right">
+          <button type="button" class="btn btn-xs btn-primary" (click)="resetPainScale()"><i
+              class="icon fa-fw icon-redo"></i> Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body text-center">
+    <div class="col-12 px-1" style="width: 100%; height: 100px;">
+      <div class="row">
+        <div class="col-12 px-0">
+          <div class="lineScale"></div>
+          <div class="img-background" *ngFor="let item of barValues; let i = index"
+            [ngStyle]="{ 'left.%': (2.9) + (i * 9)}">
+            <div id="bar{{item.val}}" style="width: 3px; height: 10px;position:absolute; top: 11px;"></div>
+            <div [ngSwitch]="item?.val">
+              <label *ngSwitchCase="'0'" class="textOfPainScale" style="margin-left: -15px">No pain</label>
+              <img *ngSwitchCase="'0'" class="iconOfPainScale" (click)="painscaleChange(item.val,item.val,'painScale');"
+                src="{{imgPath}}/painScale/{{item.img}}" />
+
+              <label *ngSwitchCase="'2'" class="textOfPainScale" style="margin-left: -24px">Mild</label>
+              <img *ngSwitchCase="'2'" class="iconOfPainScale" (click)="painscaleChange(item.val,item.val,'painScale');"
+                src="{{imgPath}}/painScale/{{item.img}}" />
+
+              <label *ngSwitchCase="'5'" class="textOfPainScale" style="margin-left: -25px">Moderate</label>
+              <img *ngSwitchCase="'5'" class="iconOfPainScale" (click)="painscaleChange(item.val,item.val,'painScale');"
+                src="{{imgPath}}/painScale/{{item.img}}" />
+
+              <label *ngSwitchCase="'8'" class="textOfPainScale" style="margin-left: -28px">Severe</label>
+              <img *ngSwitchCase="'8'" class="iconOfPainScale" (click)="painscaleChange(item.val,item.val,'painScale');"
+                src="{{imgPath}}/painScale/{{item.img}}" />
+
+              <label *ngSwitchCase="'10'" class="textOfPainScale worst-pain"
+                style="margin-left: -35px; margin-top: -60px;">Worst pain possible</label>
+              <img *ngSwitchCase="'10'" class="iconOfPainScale"
+                (click)="painscaleChange(item.val,item.val,'painScale');" src="{{imgPath}}/painScale/{{item.img}}" />
+            </div>
+            <span class="painScoreDigit" style="top:10px;left:4px; position: absolute;"><a
+                [ngClass]="{'painScoreDigitBold': painScaleInput == item.val ? true : false}"
+                (click)="painscaleChangeIcon(item.val);">{{item.val}}</a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

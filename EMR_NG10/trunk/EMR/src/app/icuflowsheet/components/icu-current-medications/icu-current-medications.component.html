@@ -1,0 +1,30 @@
+<div class="card border-0 icu">
+  <div class="card-header cus-head p-1 border-dash-bottom">
+    <div class="form-row align-items-center">
+      <div class="col-12">
+        <p class="mb-0 font-weight-500">{{(source == 'current_medication') ? 'Current' : 'One Time'}} Medications</p>
+      </div>
+    </div>
+  </div>
+  <div class="card-body" style="height: 135px; overflow-y: auto;">
+    <div class="mb-1 medicine-info" *ngFor="let medication of currentMedicationList; let i= index;">
+      <div class="form-row">
+        <div class="col-9">
+          <h6 class="mb-0 font-size-dot-8">{{i+1 + '. ' + medication.name}}</h6>
+        </div>
+        <div class="col-3 text-right">
+          <span class="font-12 text-right">{{(medication.dose != '' ? medication.dose : '')}}</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-6">
+          <span class="font-12 text-muted">Ordered By Dr. {{docName}}</span>
+        </div>
+        <div class="col-6 text-right duration-time">
+          <span class="font-12 text-right"
+            title="{{(medication.freqString != '' ? medication.freqString : '')}}">{{(medication.freqString != '' ? medication.freqString : '')}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

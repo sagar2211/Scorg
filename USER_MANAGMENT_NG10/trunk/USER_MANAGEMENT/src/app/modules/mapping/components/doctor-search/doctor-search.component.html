@@ -1,0 +1,15 @@
+<div class="form-row form-group mb-3">
+  <div [ngClass]="{'col-4': sourceType == 'select_doctor', 'col-6': sourceType == 'map_doctor'}">
+    <label>Department</label>
+    <ng-select [items]="departmentmasteList" bindLabel="name" placeholder="Select Department"
+      [(ngModel)]="selectedDepartment" (change)="searchDoctor($event)">
+    </ng-select>
+  </div>
+  <div [ngClass]="{'col-4': sourceType == 'select_doctor', 'col-6': sourceType == 'map_doctor'}">
+    <label for="login_id">Select Doctor</label>
+    <ng-select [items]="selectedfilterDoctorList" bindLabel="name" placeholder="Select Doctor"
+      [(ngModel)]="selectedDoctor" (change)="getSelectedDoctorMappingDetails($event)">
+    </ng-select>
+    <small class="text-danger d-block" *ngIf="validator">Please Select Doctor</small>
+  </div>
+</div>

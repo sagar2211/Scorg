@@ -1,0 +1,44 @@
+<div class="contents-wrapper w-100 pb-3">
+  <div class="card-header bg-white">
+    <h6 class="mb-0 w-100">Setting <a class="icon fa-fw icon-times pointer float-right" (click)="closeSetting()"
+        title="Close"></a></h6>
+  </div>
+  <div class="card-body p-0">
+    <div class="ui-theme-settings">
+      <h6 class="themeoptions-heading d-flex align-items-center border-bottom px-3 py-2 bg-default">
+        <span class="text-muted">Options</span>
+        <button type="button" class="btn ml-auto btn-sm btn-outline-primary" data-class="bg-primary header-text-light"
+          (click)="changeTheme('primary')">Restore Default</button>
+      </h6>
+        <ul class="list-group p-3">
+          <li class="list-group-item">
+            <h6 class="mb-2 text-center">CHOOSE COLOR SCHEME</h6>
+            <div class="theme-settings-swatches text-center">
+              <div class="swatch-holder bg-primary" [ngClass]="{'active': activeThemeColor==='primary'}"
+                data-class="bg-primary header-text-light" (click)="changeTheme('primary')"></div>
+              <div class="swatch-holder bg-secondary" data-class="bg-secondary header-text-light"
+              [ngClass]="{'active': activeThemeColor==='secondary'}" (click)="changeTheme('secondary')"></div>
+              <div class="swatch-holder bg-success" data-class="bg-success header-text-dark"
+              [ngClass]="{'active': activeThemeColor==='success'}" (click)="changeTheme('success')">
+              </div>
+              <div class="swatch-holder bg-info" data-class="bg-info header-text-dark"
+              [ngClass]="{'active': activeThemeColor==='info'}" (click)="changeTheme('info')"></div>
+              <div class="swatch-holder bg-warning" data-class="bg-warning header-text-dark"
+              [ngClass]="{'active': activeThemeColor==='warning'}" (click)="changeTheme('warning')">
+              </div>
+              <div class="swatch-holder bg-danger" data-class="bg-danger header-text-light"
+              [ngClass]="{'active': activeThemeColor==='danger'}" (click)="changeTheme('danger')">
+              </div>
+              <div class="swatch-holder bg-light" data-class="bg-light header-text-dark"
+              [ngClass]="{'active': activeThemeColor==='light'}" (click)="changeTheme('light')"></div>
+              <div class="swatch-holder bg-dark" data-class="bg-dark header-text-light"
+              [ngClass]="{'active': activeThemeColor==='dark'}" (click)="changeTheme('dark')"></div>
+              <div class="swatch-holder bg-alternate"
+                [ngClass]="{'active': activeThemeColor==='alternate'}" (click)="changeTheme('alternate')"
+                data-class="bg-alternate header-text-light"></div>
+            </div>
+          </li>
+        </ul>
+    </div>
+  </div>
+</div>

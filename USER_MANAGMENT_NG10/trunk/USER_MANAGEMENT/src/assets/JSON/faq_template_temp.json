@@ -1,0 +1,83 @@
+{
+  "data": [
+    {
+      "service_type_id": 2,
+      "service_type": "OPD",
+      "speciality_name": "ABDOMINAL TRANSPLANT AND HEPATIC SURGERY",
+      "template_id": 3,
+      "template_name": "Sensation Examination",
+      "template_key": "sensation_examination",
+      "is_generic": true,
+      "speciality_id": 1,
+      "is_Active": true,
+      "is_used": false,
+      "form_data": [
+        {
+          "form_id": 4,
+          "form_name": "Sensation Examination for Palpation",
+          "form_summary": "Palpation of Patient",
+          "form_sequence": 0,
+          "form_description": "Antirior Suprior Iliac Spine DDDDDDDDDDD",
+          "que_group_data": [
+            {
+              "question_group_id": 6,
+              "form_id": 4,
+              "question_group_name": "Palpation",
+              "display_format": "horizontal",
+              "question_heading": "",
+              "summary_merge": false,
+              "tabular_headings_data": [
+                {
+                  "id": 9,
+                  "answer_group_key": "grp1",
+                  "answer_group_heading": "0",
+                  "user_section_group_id": 6,
+                  "is_show": null
+                }
+              ],
+              "qus_n_ans": null
+            }
+          ]
+        },
+        {
+          "form_id": 175,
+          "form_name": "Sensation Examination for Tabular Label",
+          "form_summary": "Palpation of Patient",
+          "form_sequence": 0,
+          "form_description": "BBBBBBBBBBBBBBB",
+          "que_group_data": [
+            {
+              "question_group_id": 472,
+              "form_id": 175,
+              "question_group_name": "SubSection Label",
+              "display_format": "tabular",
+              "question_heading": "Question Label",
+              "summary_merge": true,
+              "tabular_headings_data": [
+                {
+                  "id": 475,
+                  "answer_group_key": "grp1",
+                  "answer_group_heading": "Left Side",
+                  "user_section_group_id": 472,
+                  "is_show": null
+                },
+                {
+                  "id": 476,
+                  "answer_group_key": "grp2",
+                  "answer_group_heading": "Right Side",
+                  "user_section_group_id": 472,
+                  "is_show": null
+                }
+              ],
+              "qus_n_ans": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "count": 1,
+  "status_code": 200,
+  "status_message": "Success",
+  "message": "Details fetched successfully"
+}

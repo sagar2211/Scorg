@@ -1,0 +1,21 @@
+.top-card {
+  height: 19.8vh;
+}
+@media screen and (max-width: 1280px) {
+  .top-card {
+    height: 18.8vh;
+  }
+}
+.custom-table {
+
+  thead,
+  tbody {
+    tr {
+
+      th:nth-child(1),
+      td:nth-child(1) {
+        vertical-align: top !important;
+      }
+    }
+  }
+}

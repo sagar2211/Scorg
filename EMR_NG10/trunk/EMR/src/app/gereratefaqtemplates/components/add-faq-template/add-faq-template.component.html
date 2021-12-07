@@ -1,0 +1,45 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">{{templateData.type === 'edit' ? 'Edit' : 'Add'}} Template</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body py-2">
+  <div class="form-row form-group">
+    <div class="col-6">
+      <label for="ward_name">Service Type <sup>*</sup></label>
+      <app-service-type-select [disableServiceType]="false" [setValue]="selectedServicesType"
+        (selectedserviceTypeValueObj)="getSelectedServiceType($event)"></app-service-type-select>
+    </div>
+    <div class="col-6">
+      <label for="deparment_name">Speciality</label>
+      <speciality [disableSpeciality]="false" [setValue]="selectedSpeciality"
+        (selectedSpecilityValueObj)="getSelectedSpeciality($event)"></speciality>
+    </div>
+  </div>
+  <div class="form-row form-group">
+    <div class="col-12">
+      <label for="range">Template Name <sup>*</sup></label>
+      <input class="col form-control form-control-sm" [(ngModel)]="templateName" type="text" placeholder="Name">
+    </div>
+  </div>
+  <div class="form-row form-group">
+    <div class="col-6">
+      <label class="d-block">Active</label>
+      <div class="custom-control custom-switch yes-no-btn mt-1">
+        <input type="checkbox" [(ngModel)]="templateIsActive" class="custom-control-input" id="templateIsActive">
+        <label class="custom-control-label pointer" [class.active]="templateIsActive" for="templateIsActive"></label>
+        <span class="text-uppercase" [class.active]="templateIsActive">{{templateIsActive ? 'Yes' : 'No'}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closePopup()">CANCEL</button>
+  <button type="button" class="btn btn-sm"
+    [ngClass]="[templateData.type === 'edit' ? 'btn-primary-light':'btn-primary']"
+    (click)="selectValueConfirm('Ok');"><i class="fa fa-fw"
+      [ngClass]="[templateData.type === 'edit' ? 'fa-sync-alt':'fa-plus']"></i>{{templateData.type === 'edit' ? 'UPDATE'
+    : 'ADD'}}</button>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

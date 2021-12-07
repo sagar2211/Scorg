@@ -1,0 +1,31 @@
+<ng-template #addNewRadioTestPopup let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">Add New Radio Test</h5>
+        <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="radiologyTestFrm" (ngSubmit)="onSave(modal)" novalidate>
+            <div class="form-group">
+                <input type="text" class="form-control" formControlName="radioTestName" [ngClass]="{ 'is-invalid': (submitted && f.radioTestName.dirty || f.radioTestName.touched ) && f.radioTestName.errors}" placeholder="Radio test Name">
+                <div *ngIf="(submitted && radiologyTestFrm.get('radioTestName').dirty || radiologyTestFrm.get('radioTestName').touched ) && radiologyTestFrm.get('radioTestName').errors" class="invalid-feedback">
+                    <div *ngIf="radiologyTestFrm.get('radioTestName').invalid">Radio Test Name is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" formControlName="default_comment" placeholder="Comment">
+            </div>
+            <p *ngIf="errorMsg">{{errorMsg}}</p>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" formControlName="currentOpd">
+                <label class="form-check-label" for="exampleCheck1">Use for current consultation</label>
+            </div>
+
+        </form>
+    </div>
+    <div class="modal-footer p-1">
+        <button type="submit" [disabled]="radiologyTestFrm.status !== 'VALID'" class="btn btn-sm btn-outline-primary">Save</button>
+        <button type="button" class="btn btn-sm btn-outline-danger" (click)="clear()">Clear</button>
+    </div>
+</ng-template>

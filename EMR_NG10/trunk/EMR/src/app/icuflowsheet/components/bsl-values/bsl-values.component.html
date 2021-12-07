@@ -1,0 +1,30 @@
+<form [formGroup]="bslForm">
+    <div class="card border-0 mb-1 icu">
+        <div class="card-body p-1">
+            <div class="container-fluid px-0">
+                <div class="form-row mx-0 align-items-center">
+                    <div class="col-10">
+                        <span class="font-size-dot-8 font-weight-500">BSL GOAL :</span>
+                    </div>
+                    <div class="col-2">
+                        <input type="text" class="form-control form-control-sm" formControlName="bslValue" (keyup)="updateValues()" placeholder="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card border-0 mb-1 icu">
+        <div class="card-body p-1">
+            <div class="container-fluid px-0">
+                <div class="form-row mx-0 align-items-center">
+                    <div class="col-10">
+                        <span class="font-size-dot-8 font-weight-500">FREQUENCY OF MONITORING :</span>
+                    </div>
+                    <div class="col-2">
+                        <input type="text" class="form-control form-control-sm" formControlName="freqVal" (keyup)="updateValues()" placeholder="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,337 @@
+<div class="custom-container-fluid container-purchase-order-add-update">
+    <form [formGroup]="purchaseForm" (ngSubmit)="saveValue()" *ngIf="loadForm">
+        <div class="card-body p-1" [ngClass]="{'pointereventnone': isEditModeEnable && constants.purchaseOrderStatusCreated !== editSupplierData.status}">
+            <div class="form-row form-group mx-0">
+                <div class="col-2">
+                    <label>PO Number</label>
+                    <p class="mb-0 height-with-line-height">{{purchaseForm.value.poNo}}</p>
+                </div>
+                <div class="col-2">
+                    <label>PO Date</label>
+                    <p class="mb-0 height-with-line-height">{{purchaseForm.value.poDate | date:'dd-MM-yyyy' }}</p>
+                </div>
+                <div class="col-2">
+                    <label>Supplier<sup>*</sup></label>
+                    <ng-container *ngIf="isEditModeEnable">
+                        <p class="mb-0 height-with-line-height">{{purchaseForm.value.supplier?.name}}</p>
+                    </ng-container>
+                    <ng-container *ngIf="!isEditModeEnable">
+                        <ng-select [tabIndex]="1" autofocus [items]="suppListAll$ | async" bindLabel="name" (change)="onsupplierChange($event)" formControlName="supplier" placeholder="Select Supplier" [typeahead]="suppListAllInput$">
+                        </ng-select>
+                        <small class="text-danger" *ngIf="purchaseFormControl['supplier'].errors?.required && submitted">
+                            Please Select Value!</small>
+                    </ng-container>
+                </div>
+                <div class="col-3">
+                    <label>Reference</label>
+                    <input tabindex="2" type="text" (blur)="onBlurReference($event)" formControlName="reference" placeholder="Type Reference" class="form-control form-control-sm">
+                </div>
+                <div class="col-3" *ngIf="purchaseForm.value.supplier">
+                    <div class="form-row mx-0">
+                        <div class="col-6">
+                            <label>State</label>
+                            <p class="mb-0 height-with-line-height">{{purchaseForm.value.supplier?.state?.name}}</p>
+                        </div>
+                        <div class="col-6">
+                            <label>GST No.</label>
+                            <p class="mb-0 height-with-line-height">{{purchaseForm.value.supplier?.gstRegNo}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <dx-data-grid id="gridContainer" keyExpr="tempId" [dataSource]="supplierItemsArray"
+                [showBorders]="true" (onToolbarPreparing)="onToolbarPreparing($event)" (onEditorPrepared)="onEditorPrepared($event)"
+                (onEditorPreparing)="onEditorPreparing($event)" [showRowLines]="true"
+                [allowColumnResizing]="true" [columnAutoWidth]="true">
+                <dxo-sorting mode="none"></dxo-sorting>
+                <dxo-paging [enabled]="false"></dxo-paging>
+                <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="true" [allowDeleting]="allowDeleting" [useIcons]="true">
+                </dxo-editing>
+                <dxi-column dataField="item" calculateDisplayValue="item.itemName" caption="Item Name" [width]="300" [setCellValue]="updateItem"
+                  [editorOptions]="editorOptions" [fixed]="true" [allowEditing]="allowEditing">
+                    <dxo-lookup [dataSource]="itemMasterDataSource" displayExpr="itemName">
+                    </dxo-lookup>
+                    <dxi-validation-rule type="required"></dxi-validation-rule>
+                </dxi-column>
+                <dxi-column dataField="qty" caption="Qty" [allowEditing]="allowEditing" (onValueChanged)="onValueChanged($event)">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="freeQty" caption="Free Qty" [allowEditing]="allowEditing">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="totalQty" caption="Total Qty" [allowEditing]="false">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="mrp" caption="MRP" [allowEditing]="allowEditing">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="rate" caption="Trade Rate" [allowEditing]="allowEditing">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="discountPercent" caption="Discount %" [allowEditing]="allowEditing">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="discountAmount" caption="Discount Amt" [allowEditing]="allowEditing">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="amount" caption="Amount" [allowEditing]="false">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="gstPercent" caption="Gst %" [allowEditing]="false">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="gstAmount" caption="Gst Amt" [allowEditing]="false">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="netAmount" caption="Net Amt" [allowEditing]="false">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="unitRate" caption="Purchase Rate" [allowEditing]="false">
+                  <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="remark" caption="Remark" [allowEditing]="allowEditing" [width]="150"></dxi-column>
+                <dxi-column type="buttons" caption="Action" [visible]="allowEditing" [width]="50" [fixed]="true">
+                  <dxi-button name="delete"></dxi-button>
+                </dxi-column>
+                <dxo-summary [recalculateWhileEditing]="true" [calculateCustomSummary]="calculateSelectedRow">
+                  <dxi-total-item name="subTotalLabel" summaryType="custom" valueFormat="decimal"
+                    displayFormat="Sub Total: " cssClass="totalAmountSummary-skip" showInColumn="item">
+                  </dxi-total-item>
+                  <dxi-total-item column="qty" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                  <dxi-total-item column="freeQty" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                  <dxi-total-item column="totalQty" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                  <dxi-total-item column="rate" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                  <dxi-total-item column="discountAmount" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                  <dxi-total-item column="amount" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                  <dxi-total-item column="gstAmount" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                  <dxi-total-item column="netAmount" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                  <dxi-total-item column="unitRate" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                  <!-- <dxi-total-item name="totalAmountSummar" summaryType="custom" valueFormat="decimal"
+                    displayFormat="Total Amount: {0}" cssClass="totalAmountSummary" showInColumn="item">
+                  </dxi-total-item>
+                  <dxi-total-item name="totalGstAmountSummary" summaryType="custom" valueFormat="decimal"
+                    displayFormat="Total GST Amount: {0}" cssClass="totalGstAmountSummary" showInColumn="item">
+                  </dxi-total-item>
+                  <dxi-total-item name="totalNetAmountSummary" summaryType="custom" valueFormat="decimal"
+                    displayFormat="Total Net Amount: {0}" cssClass="totalNetAmountSummary" showInColumn="item">
+                  </dxi-total-item>
+                  <dxi-total-item name="grandTotalSummary" summaryType="custom" valueFormat="decimal"
+                    displayFormat="Grand Total: {0}" cssClass="grandTotalSummary" showInColumn="item">
+                  </dxi-total-item> -->
+              </dxo-summary>
+              <div *dxTemplate="let item of 'itemTemplate' let i = index">
+                <div *ngIf="item === null" ; else elseBlock>
+                  <span>(All)</span>
+              </div>
+              <div dx-template #elseBlock>
+                  <div class="row m-0 headerTab text-white text-strong bg-primary" *ngIf="i === 0">
+                      <div class="col-3 border-bottom border-left border-right border-top align-center">
+                          Item Name
+                      </div>
+                      <div class="col-2 border-bottom border-left border-right border-top align-center">
+                        Code
+                      </div>
+                      <div class="col-1 border-bottom border-left border-right border-top align-center">
+                          GST
+                      </div>
+                      <div class="col-2 border-bottom border-left border-right border-top align-center">
+                        Last MRP
+                      </div>
+                      <div class="col-2 border-bottom border-left border-right border-top align-center">
+                        Last Pur. Rate
+                      </div>
+                      <div class="col-2 border-bottom border-left border-right border-top align-center">
+                        Last Unit Rate
+                      </div>
+                  </div>
+                  <div [ngOptionHighlight]="search" class="row m-0 table-item" [ngClass]="{'item-first' : i===0}">
+                      <div class="col-3 border-bottom border-left border-right">
+                          {{item.itemName}}
+                      </div>
+                      <div class="col-2 border-bottom border-left border-right">
+                        {{item.itemCode}}
+                      </div>
+                      <div class="col-1 border-bottom border-left border-right text-right">
+                        {{item.gstRate | number:'1.2-2'}}
+                      </div>
+                      <div class="col-2 border-bottom border-left border-right text-right">
+                        {{item.lastMRP | number:'1.2-2'}}
+                      </div>
+                       <div class="col-2 border-bottom border-left border-right text-right">
+                        {{item.lastPurchaseRate | number:'1.2-2'}}
+                      </div>
+                      <div class="col-2 border-bottom border-left border-right text-right">
+                        {{item.lastUnitRate | number:'1.2-2'}}
+                      </div>
+                  </div>
+              </div>
+              </div>
+            </dx-data-grid>
+            <div class="position-fixed bg-white p-2 total-content" *ngIf="purchaseForm.value.showTotal">
+                <!-- <button class="btn btn-xs btn-white position-absolute btn-circle"><i class="fa fa-fw fa-times"
+                        aria-hidden="true"></i></button> -->
+                <div class="form-row form-group mx-0 custom-mb-0">
+                    <div class="col-4">
+                        <div class="form-group custom-mb-0">
+                            <label>Remarks</label>
+                            <textarea type="text" tabindex="20" formControlName="remarks" placeholder="Remarks" rows="5" class="form-control vresize"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group custom-mb-0">
+                            <label>Delivery<sup>*</sup></label>
+                            <ng-select [tabIndex]="'21'" [items]="deliverylist" bindLabel="description" formControlName="delivery" placeholder="Delivery" (change)="onDeliveryChange($event)">
+                            </ng-select>
+                            <small class="text-danger" *ngIf="purchaseFormControl['delivery'].errors?.required && submitted">
+                                Please Select Value!</small>
+                        </div>
+                        <div class="form-group custom-mb-0">
+                            <label>Payment Term<sup>*</sup></label>
+                            <ng-select [tabIndex]="'22'" [items]="payTermlist" bindLabel="description" formControlName="payTerms" placeholder="Payment Term" (change)="onPaymentTermChange($event)">
+                            </ng-select>
+                            <small class="text-danger" *ngIf="purchaseFormControl['payTerms'].errors?.required && submitted">
+                                Please Select Value!</small>
+                        </div>
+                        <div class="form-group custom-mb-0">
+                            <label>Warranty</label>
+                            <input type="text" tabindex="23" formControlName="warranty" placeholder="Warranty" class="form-control form-control-sm">
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <table class="table custom-table font-size-dot-875 mb-0 border-top-0 table-footer mt-4">
+                            <tbody *ngIf="supplierItemsArray.length">
+                                <tr class="text-right">
+                                    <td class="text-right border-right-0 border-top-0">Total Amount:</td>
+                                    <td class="text-right border-left-0 border-top-0">
+                                        {{purchaseForm.value.totalAmount | number:'1.2-2'}}</td>
+                                </tr>
+                                <tr class="text-right">
+                                    <ng-container *ngIf="purchaseForm.value.supplier?.gstCode === 'GST'">
+                                        <td class="text-right border-right-0 border-top-0">CGST/SGST:</td>
+                                        <td class="text-right border-left-0 border-top-0">
+                                            <p class="mb-0">
+                                                {{purchaseForm.value.totalGstAmount / 2 | number:'1.2-2'}} / {{purchaseForm.value.totalGstAmount / 2 | number:'1.2-2'}}</p>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="purchaseForm.value.supplier?.gstCode !== 'GST'">
+                                        <td class="text-right border-right-0 border-top-0">
+                                            {{purchaseForm.value.supplier?.gstCode}}:</td>
+                                        <td class="text-right border-left-0 border-top-0">
+                                            <p class="mb-0">{{purchaseForm.value.totalGstAmount | number:'1.2-2'}}
+                                            </p>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                                <tr class="text-right">
+                                    <td class="text-right border-right-0 border-top-0">GST:</td>
+                                    <td class="text-right border-left-0 border-top-0">
+                                        {{purchaseForm.value.totalGstAmount | number:'1.2-2'}}</td>
+                                </tr>
+                                <tr class="text-right">
+                                    <td class="text-right border-right-0 border-top-0">
+                                        <h6 class="mb-0">Total Net Amount:</h6>
+                                    </td>
+                                    <td class="text-right border-left-0 border-top-0">
+                                        <h6 class="mb-0">{{purchaseForm.value.totalNetAmount | number:'1.2-2'}}</h6>
+                                    </td>
+                                </tr>
+                                <tr class="text-right">
+                                    <td class="text-right border-right-0 border-top-0">Discount Amount / Percent %:
+                                    </td>
+                                    <td class="text-right border-left-0 border-top-0">
+                                        <input type="number" tabindex="24" formControlName="discountAmount" style="min-width: 60%;" (blur)="updateItemCaluLation('discountAmount')" class="form-control form-control-sm"> /
+                                        <input type="number" tabindex="25" formControlName="discountPercent" (blur)="updateItemCaluLation('discountPercent')" class="form-control form-control-sm">
+                                    </td>
+                                </tr>
+                                <!-- <tr class="text-right">
+                                    <td class="text-right border-right-0 border-top-0">
+                                        <h5 class="mb-0">Grand Amount:</h5>
+                                    </td>
+                                    <td class="text-right border-left-0 border-top-0">
+                                        <h5 class="mb-0">{{purchaseForm.value.grandTotal | number:'1.2-2'}}</h5>
+                                    </td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer py-1 border-top">
+            <div class="float-right clearfix">
+                <h5 class="mb-0">Grand Amount: {{purchaseForm.value.grandTotal | number:'1.2-2'}}</h5>
+            </div>
+            <div class="is-approved form-group ml-2 float-right clearfix">
+                <label class="font-size-dot-875 d-inline-block mr-2">Show Total</label>
+                <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                    <input type="checkbox" formControlName="showTotal" class="custom-control-input" id="showTotal">
+                    <label class="custom-control-label pointer" [class.active]="purchaseForm.value.showTotal" for="showTotal"></label>
+                    <span class="text-uppercase" [class.active]="purchaseForm.value.showTotal">{{purchaseForm.value.showTotal ? 'Yes' :
+                      'No'}}</span>
+                </div>
+            </div>
+            <ng-container *ngIf="!isEditModeEnable">
+                <div *ngxPermissionsOnly="constpermissionList.APPROVE_PURCHASE_ORDER" class="is-approved form-group">
+                    <label class="font-size-dot-875 d-inline-block mr-2">Print</label>
+                    <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                        <input type="checkbox" formControlName="isTakePrint" class="custom-control-input" id="isTakePrint">
+                        <label class="custom-control-label pointer" [class.active]="purchaseForm.value.isTakePrint" for="isTakePrint"></label>
+                        <span class="text-uppercase" [class.active]="purchaseForm.value.isTakePrint">{{purchaseForm.value.isTakePrint ? 'Yes'
+                            : 'No'}}</span>
+                    </div>
+                </div>
+                <div *ngxPermissionsOnly="constpermissionList.APPROVE_PURCHASE_ORDER" class="is-approved form-group">
+                    <label class="font-size-dot-875 d-inline-block mr-2">Is Approved</label>
+                    <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                        <input type="checkbox" formControlName="isApproved" class="custom-control-input" id="isApproved1">
+                        <label class="custom-control-label pointer" [class.active]="purchaseForm.value.isApproved" for="isApproved1"></label>
+                        <span class="text-uppercase" [class.active]="purchaseForm.value.isApproved">{{purchaseForm.value.isApproved ? 'Yes' :
+                            'No'}}</span>
+                    </div>
+                </div>
+                <button tabindex="24" type="button" class="btn btn-sm btn-success ml-1" (click)="saveValue()"><i
+                        class="icon fa-fw icon-save" aria-hidden="true"></i> SAVE</button>
+            </ng-container>
+            <ng-container *ngIf="isEditModeEnable && constants.purchaseOrderStatusCreated !== editSupplierData.status">
+                <button type="button" class="btn btn-sm btn-outline-mbd" (click)="getPrintData()">
+                    <i class="icon fa-fw icon-print" aria-hidden="true"></i> PRINT
+                </button>
+            </ng-container>
+            <ng-container *ngIf="isEditModeEnable && constants.purchaseOrderStatusCreated === editSupplierData.status">
+                <div class="is-approved form-group">
+                    <label class="font-size-dot-875 d-inline-block mr-2">Print</label>
+                    <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                        <input type="checkbox" formControlName="isTakePrint" class="custom-control-input" id="isTakePrint">
+                        <label class="custom-control-label pointer" [class.active]="purchaseForm.value.isTakePrint" for="isTakePrint"></label>
+                        <span class="text-uppercase" [class.active]="purchaseForm.value.isTakePrint">{{purchaseForm.value.isTakePrint ? 'Yes'
+                            : 'No'}}</span>
+                    </div>
+                </div>
+                <div class="is-approved form-group">
+                    <label class="font-size-dot-875 d-inline-block mr-2">Is Approved</label>
+                    <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                        <input type="checkbox" formControlName="isApproved" class="custom-control-input" id="isApproved2">
+                        <label class="custom-control-label pointer" [class.active]="purchaseForm.value.isApproved" for="isApproved2"></label>
+                        <span class="text-uppercase" [class.active]="purchaseForm.value.isApproved">{{purchaseForm.value.isApproved ? 'Yes' :
+                            'No'}}</span>
+                    </div>
+                </div>
+                <span *ngIf="purchaseForm.value.createdBy === userId">
+                    <button *ngxPermissionsOnly="constpermissionList.CANCEL_PURCHASE_ORDER" type="button"
+                        class="btn btn-sm btn-outline-secondary" (click)="updateStatus('Cancel')">CANCEL</button>
+                </span>
+                <button *ngxPermissionsOnly="constpermissionList.UPDATE_PURCHASE_ORDER" tabindex="25" type="submit" class="btn btn-sm btn-primary-light ml-1"><i class="fas fa-fw fa-sync-alt"></i>
+                    UPDATE</button>
+                <button *ngxPermissionsOnly="constpermissionList.REJECT_PURCHASE_ORDER" type="button" class="btn btn-sm btn-danger ml-1" (click)="updateStatus('Rejected')"><i
+                        class="icon fa-fw icon-times" aria-hidden="true"></i> REJECT</button>
+                <ng-container *ngIf="editSupplierData.createdBy === userId">
+                    <button *ngxPermissionsOnly="constpermissionList.DELETE_PURCHASE_ORDER" type="button" class="btn btn-sm btn-outline-danger ml-1 btn-info" (click)="updateStatus('Delete')"><i
+                            class="icon fa-fw icon-trash" aria-hidden="true"></i> DELETE</button>
+                </ng-container>
+            </ng-container>
+            <!-- funcationlity remaining -->
+        </div>
+    </form>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<app-print-data [printData]="printData" (printDiaglogClose)="navigateToListPage()"></app-print-data>

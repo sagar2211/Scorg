@@ -1,0 +1,71 @@
+<div class="container-fluid custom-container-fluid pt-2">
+  <div class="form-row form-group">
+    <div class="col-4">
+      <div class="input-group">
+        <input type="text" class="form-control form-control-sm pl-2rem" placeholder="Search By Name" [(ngModel)]="searchString"
+          (ngModelChange)="this.subject.next();">
+          <div class="placeholder-icon"><i aria-hidden="true"
+            class="icon fa-fw icon-search text-muted"></i></div>
+        <div class="input-group-append">
+          <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear" (click)="clearSearchString();">
+            <i class="fa fa-fw fa-eraser" aria-hidden="true" ></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="col-8">
+      <select class="form-control form-control-sm float-right select-w"
+        (change)="onPageSizeChanged($event.currentTarget.value)" [(ngModel)]="pageSize" id="page-size">
+        <option value="15" selected="">15</option>
+        <option value="30">30</option>
+        <option value="45">45</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+  </div>
+  <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force"
+    [headerHeight]="50" [footerHeight]="70" [rowHeight]="'auto'" [rows]="mappingUserList" [externalSorting]="true"
+    (sort)="onSortChanged($event)" [externalPaging]="externalPaging" [count]="page.totalElements"
+    (page)='onSetPage($event)'>
+    <ngx-datatable-column name="Front Desk User" prop="fd_name" [width]="170"></ngx-datatable-column>
+    <ngx-datatable-column name="Provider Type" prop="entityTypeName">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <div class="child" *ngFor="let r of row['userMappingResponseViewModelList']">
+          <span>{{r.entityTypeName}}</span>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Mapping User" prop="entityTypeValueName">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <div class="child" *ngFor="let r of row['userMappingResponseViewModelList']">
+          <span>{{r.entityTypeValueName}}</span>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Action" cellClass="text-center" [sortable]="false" [width]="35">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value"
+        let-isSelected="isSelected">
+        <!-- <div class="child" *ngFor="let r of row['userMappingList']"> -->
+        <!-- [disabled]="showAddEditMapping" -->
+        <button class="btn btn-xs btn-info custom-edit-btn align-top" (click)="editMappingUser(row)"><i
+            class="icon fa-fw icon-edit" aria-hidden="true"></i> EDIT
+        </button>
+        <!-- </div> -->
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-footer *ngIf="mappingUserList.length > 0">
+      <ng-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
+        let-curPage="curPage" let-offset="offset" ngx-datatable-footer-template>
+        <div class="mx-3">
+          Showing {{ ((page.pageNumber - 1) *  page.size) + 1}} to
+          {{ ((page.pageNumber - 1) *  page.size) + mappingUserList.length}} of {{rowCount}} entries
+        </div>
+        <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'"
+          [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="page.pageNumber"
+          [size]="page.size" [count]="page.totalElements" [hidden]="!((page.totalElements / page.size) > 1)"
+          (change)="onFooterPage($event)">
+        </datatable-pager>
+      </ng-template>
+    </ngx-datatable-footer>
+  </ngx-datatable>
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</div>

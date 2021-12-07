@@ -1,0 +1,285 @@
+<!-- &lt;!&ndash; Human Body details &ndash;&gt;-->
+<div class="examination-label">
+    <ng-container
+        *ngIf="displayList.humanbodyPartList.humanbody.length>0 || displayList.humanbodyPartList.humanbodyDetail.length>0">
+        <ngb-accordion [closeOthers]="true" activeIds="static-1">
+            <ngb-panel id="static-1" title="Human Body Parts">
+                <ng-template ngbPanelContent>
+                    <ul class="list-group">
+                        <li class="list-group-item p-1"
+                            *ngFor="let painPart of displayList.humanbodyPartList.humanbody">
+                            <div class="form-row align-items-center justify-content-center mx-0">
+                                <div class="col-8">
+                                    <p class="mb-0" style="display:flex; flex-wrap: nowrap; white-space: nowrap;"><span
+                                            [ngClass]="setColor('HumanBody', painPart.pain_score)"
+                                            style="width: 25px; margin-bottom: 2px;padding: 4px">
+                                            <span [innerHTML]="painPart.pain_score"></span>
+                                        </span>
+                                        <span class="bodypartName font-size-dot-75 ml-1"
+                                            title="{{painPart.body_part | splitValue}}">
+                                            <span [ngStyle]="{'font-weight': painPart.comment ? 'bold' : 'lighter' }"
+                                                [innerHTML]="painPart.body_part.split('_').join(' ')"></span></span>
+                                    </p>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <button type="button" class="btn btn-sm btn-outline-info mr-1"
+                                        (click)="openCommentpopUp(painPart,'Human Body parts','HumanBody')"><i
+                                            class="icon fa-fw icon-edit" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger"
+                                        (click)="removebodyparts(painPart,'singleFlag')"><i
+                                            class="icon fa-fw icon-trash" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="form-row align-items-center justify-content-center mx-0">
+                        <div class="col">
+                            <p class="mb-0" *ngIf="displayList.humanbodyPartList.humanbodyDetail.length">Details Parts
+                            </p>
+                        </div>
+                        <div class="col-6 text-right">
+                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                (click)="removebodyparts(displayList.humanbodyPartList,'multipleFlag')">
+                                <i class="fas fa-fw fa-eraser" aria-hidden="true"></i>Clear All</button>
+                        </div>
+                    </div>
+                    <ul class="list-group">
+                        <li class="list-group-item p-1"
+                            *ngFor="let painPart of displayList.humanbodyPartList.humanbodyDetail | bodyPartDetails">
+                            <div class="form-row align-items-center justify-content-center mx-0">
+                                <div class="col-8">
+                                    <p class="mb-0" style="display:flex; flex-wrap: nowrap; white-space: nowrap;"><span
+                                            [ngClass]="setColor('HumanBody', painPart.pain_score)"
+                                            style="width: 25px; margin-bottom: 2px;padding: 4px">
+                                            <span [innerHTML]="painPart.pain_score"></span>
+                                        </span>
+                                        <span class="bodypartName font-size-dot-75 ml-1"
+                                            title="{{painPart.body_part | splitValue}}">
+                                            <span [ngStyle]="{'font-weight': painPart.comment ? 'bold' : 'lighter' }"
+                                                [innerHTML]="painPart.body_part.split('_').join(' ')"></span></span>
+                                    </p>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <button type="button" class="btn btn-sm btn-outline-info mr-1"
+                                        (click)="openCommentpopUp(painPart,'Human Body parts','HumanBody')"><i
+                                            class="icon fa-fw icon-edit" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger"
+                                        (click)="removebodyparts(painPart,'singleFlag')"><i
+                                            class="icon fa-fw icon-trash" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
+    </ng-container>
+</div>
+
+<!--&lt;!&ndash; Dermatome Details &ndash;&gt;-->
+<!--<section>-->
+<!--<ng-container *ngIf="displayList.Dermatome_lightPartList.length">-->
+<!--<h6>Dermatome(Light Touch):</h6>-->
+<!--&lt;!&ndash; Right part details &ndash;&gt;-->
+<!--<ngb-accordion [closeOthers]="false" *ngIf="(displayList.Dermatome_lightPartList | leftRightPartData: 'Right').length" activeIds="static-1">-->
+<!--<ngb-panel id="static-1" title="Right Part">-->
+<!--<ng-template ngbPanelContent>-->
+<!--<a class="text-danger" style="font-size: 12px;font-weight: 800;cursor: pointer;" (click)="removebodyparts(displayList.Dermatome_lightPartList,'multipleFlag', 'Right')">-->
+<!--Clear All</a>-->
+<!--<div *ngFor="let painPart of displayList.Dermatome_lightPartList | leftRightPartData: 'Right'; trackBy let i = index">-->
+<!--<div class="bodyPartdetails-area1">-->
+<!--<span class="bodyPartdetails-area">-->
+<!--<span [ngClass]="setColor('Dermatome', painPart.pain_score)"-->
+<!--style="width: 25px; margin-bottom: 2px"><span [innerHTML]="painPart.pain_score"></span>-->
+<!--</span>-->
+<!--<span style="margin-bottom: 2px">-->
+<!--<span class="bodypartName" title="{{painPart.body_part | splitValue }}">-->
+<!--<span [ngStyle]="{'font-weight': painPart.comment ? 'bold' : 'lighter' }" [innerHTML]="painPart.body_part | splitValue"></span>-->
+<!--</span>-->
+<!--<span class="pull-right margin-right-5">-->
+<!--<i class="fa fa fa-commenting comment-changed" [ngStyle]="{'color': painPart.comment ? '#59c2e6' : '#8f9091' }" [style.cursor]="'pointer'"(click)="openCommentpopUp(painPart,'Human Body parts','HumanBody')" title="Add Comment"></i>-->
+<!--<i class="bodypart-action-list fa fa-times font-14 text-danger" aria-hidden="true" title="Remove" (click)="removebodyparts(painPart,'singleFlag')"></i>-->
+<!--</span>-->
+<!--</span>-->
+<!--</span>-->
+<!--</div>-->
+<!--</div>-->
+<!--</ng-template>-->
+<!--</ngb-panel>-->
+<!--</ngb-accordion>-->
+<!--&lt;!&ndash; Left Part Details &ndash;&gt;-->
+<!--<ngb-accordion [closeOthers]="false" *ngIf="(displayList.Dermatome_lightPartList | leftRightPartData: 'Left').length" activeIds="static-1">-->
+<!--<ngb-panel id="static-1" title="Left Part">-->
+<!--<ng-template ngbPanelContent>-->
+<!--<a class="text-danger" style="font-size: 12px;font-weight: 800;cursor: pointer;" (click)="removebodyparts(displayList.Dermatome_lightPartList,'multipleFlag', 'Left')">-->
+<!--Clear All</a>-->
+<!--<div *ngFor="let painPart of displayList.Dermatome_lightPartList | leftRightPartData: 'Left'; trackBy let i = index">-->
+<!--<div class="bodyPartdetails-area1">-->
+<!--<span class="bodyPartdetails-area">-->
+<!--<span [ngClass]="setColor('Dermatome', painPart.pain_score)"-->
+<!--style="width: 25px; margin-bottom: 2px"><span [innerHTML]="painPart.pain_score"></span>-->
+<!--</span>-->
+<!--<span style="margin-bottom: 2px">-->
+<!--<span class="bodypartName" title="{{painPart.body_part | splitValue}}">-->
+<!--<span [ngStyle]="{'font-weight': painPart.comment ? 'bold' : 'lighter' }" [innerHTML]="painPart.body_part | splitValue"></span>-->
+<!--</span>-->
+<!--<span class="pull-right margin-right-5">-->
+<!--<i class="fa fa fa-commenting comment-changed" [ngStyle]="{'color': painPart.comment ? '#59c2e6' : '#8f9091' }" [style.cursor]="'pointer'"(click)="openCommentpopUp(painPart,'Human Body parts','HumanBody')" title="Add Comment"></i>-->
+<!--<i class="bodypart-action-list fa fa-times font-14 text-danger" aria-hidden="true" title="Remove" (click)="removebodyparts(painPart,'singleFlag')"></i>-->
+<!--</span>-->
+<!--</span>-->
+<!--</span>-->
+<!--</div>-->
+<!--</div>-->
+<!--</ng-template>-->
+<!--</ngb-panel>-->
+<!--</ngb-accordion>-->
+
+<!--</ng-container>-->
+
+<!--<ng-container *ngIf="displayList.Dermatome_pinPartList.length">-->
+<!--<h6 class="text-left margin-top-10 margin-bottom-5">Dermatome(Pin Prick):</h6>-->
+<!--&lt;!&ndash; Right part details &ndash;&gt;-->
+<!--<ngb-accordion [closeOthers]="false" *ngIf="(displayList.Dermatome_pinPartList | leftRightPartData: 'Right').length" activeIds="static-1">-->
+<!--<ngb-panel id="static-1" title="Right Part">-->
+<!--<ng-template ngbPanelContent>-->
+<!--<a class="text-danger" style="font-size: 12px;font-weight: 800;cursor: pointer;" (click)="removebodyparts(displayList.Dermatome_pinPartList, 'multipleFlag', 'Right')">-->
+<!--Clear All</a>-->
+<!--<div *ngFor="let painPart of displayList.Dermatome_pinPartList | leftRightPartData: 'Right'; trackBy let i = index">-->
+<!--<div class="bodyPartdetails-area1">-->
+<!--<span class="bodyPartdetails-area">-->
+<!--<span [ngClass]="setColor('Dermatome', painPart.pain_score)"-->
+<!--style="width: 25px; margin-bottom: 2px"><span [innerHTML]="painPart.pain_score"></span>-->
+<!--</span>-->
+<!--<span style="margin-bottom: 2px">-->
+<!--<span class="bodypartName" title="{{painPart.body_part | splitValue}}">-->
+<!--<span [ngStyle]="{'font-weight': painPart.comment ? 'bold' : 'lighter' }" [innerHTML]="painPart.body_part | splitValue"></span>-->
+<!--</span>-->
+<!--<span class="pull-right margin-right-5">-->
+<!--<i class="fa fa fa-commenting comment-changed" [ngStyle]="{'color': painPart.comment ? '#59c2e6' : '#8f9091' }" [style.cursor]="'pointer'"(click)="openCommentpopUp(painPart,'Human Body parts','HumanBody')" title="Add Comment"></i>-->
+<!--<i class="bodypart-action-list fa fa-times font-14 text-danger" aria-hidden="true" title="Remove" (click)="removebodyparts(painPart,'singleFlag')"></i>-->
+<!--</span>-->
+<!--</span>-->
+<!--</span>-->
+<!--</div>-->
+<!--</div>-->
+<!--</ng-template>-->
+<!--</ngb-panel>-->
+<!--</ngb-accordion>-->
+<!--&lt;!&ndash; Left Part Details &ndash;&gt;-->
+<!--<ngb-accordion [closeOthers]="false" *ngIf="(displayList.Dermatome_pinPartList | leftRightPartData: 'Left').length" activeIds="static-1">-->
+<!--<ngb-panel id="static-1" title="Left Part">-->
+<!--<ng-template ngbPanelContent>-->
+<!--<a class="text-danger" style="font-size: 12px;font-weight: 800;cursor: pointer;" (click)="removebodyparts(displayList.Dermatome_pinPartList,'multipleFlag', 'Left')">-->
+<!--Clear All</a>-->
+<!--<div *ngFor="let painPart of displayList.Dermatome_pinPartList | leftRightPartData: 'Left'; trackBy let i = index">-->
+<!--<div class="bodyPartdetails-area1">-->
+<!--<span class="bodyPartdetails-area">-->
+<!--<span [ngClass]="setColor('Dermatome', painPart.pain_score)"-->
+<!--style="width: 25px; margin-bottom: 2px"><span [innerHTML]="painPart.pain_score"></span>-->
+<!--</span>-->
+<!--<span style="margin-bottom: 2px">-->
+<!--<span class="bodypartName" title="{{painPart.body_part | splitValue}}">-->
+<!--<span [ngStyle]="{'font-weight': painPart.comment ? 'bold' : 'lighter' }" [innerHTML]="painPart.body_part | splitValue"></span>-->
+<!--</span>-->
+<!--<span class="pull-right margin-right-5">-->
+<!--<i class="fa fa fa-commenting comment-changed" [ngStyle]="{'color': painPart.comment ? '#59c2e6' : '#8f9091' }" [style.cursor]="'pointer'"(click)="openCommentpopUp(painPart,'Human Body parts','HumanBody')" title="Add Comment"></i>-->
+<!--<i class="bodypart-action-list fa fa-times font-14 text-danger" aria-hidden="true" title="Remove" (click)="removebodyparts(painPart,'singleFlag')"></i>-->
+<!--</span>-->
+<!--</span>-->
+<!--</span>-->
+<!--</div>-->
+<!--</div>-->
+<!--</ng-template>-->
+<!--</ngb-panel>-->
+<!--</ngb-accordion>-->
+
+<!--</ng-container>-->
+<!--</section>-->
+
+<!--&lt;!&ndash; Myotome Details &ndash;&gt;-->
+<!--<section>-->
+<!--<ng-container *ngIf="displayList.myotomePartList.length">-->
+<!--<h6>Myotome :</h6>-->
+<!--&lt;!&ndash; Right part details &ndash;&gt;-->
+<!--<ngb-accordion [closeOthers]="false" *ngIf="(displayList.myotomePartList | leftRightPartData: 'Right').length" activeIds="static-1">-->
+<!--<ngb-panel id="static-1" title="Right Part">-->
+<!--<ng-template ngbPanelContent>-->
+<!--<a class="text-danger" style="font-size: 12px;font-weight: 800;cursor: pointer;" (click)="removebodyparts(displayList.myotomePartList,'multipleFlag', 'Right')">-->
+<!--Clear All</a>-->
+<!--<div *ngFor="let painPart of displayList.myotomePartList | leftRightPartData: 'Right'; trackBy let i = index">-->
+<!--<div class="bodyPartdetails-area1">-->
+<!--<span class="bodyPartdetails-area">-->
+<!--<span [ngClass]="setColor('myotome', painPart.pain_score)"-->
+<!--style="width: 25px; margin-bottom: 2px"><span [innerHTML]="painPart.pain_score"></span>-->
+<!--</span>-->
+<!--<span style="margin-bottom: 2px">-->
+<!--<span class="bodypartName" title="{{painPart.body_part | splitValue}}">-->
+<!--<span [ngStyle]="{'font-weight': painPart.comment ? 'bold' : 'lighter' }" [innerHTML]="painPart.body_part | splitValue"></span>-->
+<!--</span>-->
+<!--<span class="pull-right margin-right-5">-->
+<!--<i class="fa fa fa-commenting comment-changed" [ngStyle]="{'color': painPart.comment ? '#59c2e6' : '#8f9091' }" [style.cursor]="'pointer'"(click)="openCommentpopUp(painPart,'Human Body parts','HumanBody')" title="Add Comment"></i>-->
+<!--<i class="bodypart-action-list fa fa-times font-14 text-danger" aria-hidden="true" title="Remove" (click)="removebodyparts(painPart,'singleFlag')"></i>-->
+<!--</span>-->
+<!--</span>-->
+<!--</span>-->
+<!--</div>-->
+<!--</div>-->
+<!--</ng-template>-->
+<!--</ngb-panel>-->
+<!--</ngb-accordion>-->
+<!--&lt;!&ndash; Left Part Details &ndash;&gt;-->
+<!--<ngb-accordion [closeOthers]="false" *ngIf="(displayList.myotomePartList | leftRightPartData: 'Left').length" activeIds="static-1">-->
+<!--<ngb-panel id="static-1" title="Left Part">-->
+<!--<ng-template ngbPanelContent>-->
+<!--<a class="text-danger" style="font-size: 12px;font-weight: 800;cursor: pointer;" (click)="removebodyparts(displayList.myotomePartList,'multipleFlag', 'Left')">-->
+<!--Clear All</a>-->
+<!--<div *ngFor="let painPart of displayList.myotomePartList | leftRightPartData: 'Left'; trackBy let i = index">-->
+<!--<div class="bodyPartdetails-area1">-->
+<!--<span class="bodyPartdetails-area">-->
+<!--<span [ngClass]="setColor('myotome', painPart.pain_score)"-->
+<!--style="width: 25px; margin-bottom: 2px"><span [innerHTML]="painPart.pain_score"></span>-->
+<!--</span>-->
+<!--<span style="margin-bottom: 2px">-->
+<!--<span class="bodypartName" title="{{painPart.body_part | splitValue}}">-->
+<!--<span [ngStyle]="{'font-weight': painPart.comment ? 'bold' : 'lighter' }" [innerHTML]="painPart.body_part.split('_').join(' ')"></span>-->
+<!--</span>-->
+<!--<span class="pull-right margin-right-5">-->
+<!--<i class="fa fa fa-commenting comment-changed" [ngStyle]="{'color': painPart.comment ? '#59c2e6' : '#8f9091' }" [style.cursor]="'pointer'"(click)="openCommentpopUp(painPart,'Human Body parts','HumanBody')" title="Add Comment"></i>-->
+<!--<i class="bodypart-action-list fa fa-times font-14 text-danger" aria-hidden="true" title="Remove" (click)="removebodyparts(painPart,'singleFlag')"></i>-->
+<!--</span>-->
+<!--</span>-->
+<!--</span>-->
+<!--</div>-->
+<!--</div>-->
+<!--</ng-template>-->
+<!--</ngb-panel>-->
+<!--</ngb-accordion>-->
+<!--</ng-container>-->
+<!--</section>-->
+
+<!--&lt;!&ndash; Body part comment popup &ndash;&gt;-->
+<ng-template #bodyPartComment let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="modal-basic-title">Add Comment</h5>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="commentType">{{typeOfBody }} : {{selectedVal.body_part.split('_').join(' ')}}</label>
+            <input type="text" class="form-control" [(ngModel)]="comment_type" aria-describedby="comment_type"
+                placeholder="Enter Comment">
+        </div>
+    </div>
+    <div class="modal-footer padding-5">
+        <button class="btn btn-flat pull-right margin-right-5 text-uppercase" (click)="modal.dismiss()">Cancel</button>
+        <button class="btn btn-flat btn-primary pull-right text-uppercase"
+            (click)="modal.dismiss(); saveComment(comment_type, selectedVal)">Save</button>
+    </div>
+</ng-template>

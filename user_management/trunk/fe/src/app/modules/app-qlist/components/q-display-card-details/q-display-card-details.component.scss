@@ -1,0 +1,52 @@
+@import "../../../../../scss/custom_bootstrap_theme.scss";
+
+.card {
+  cursor: move;
+  @include custom-box-shadow(0, 0, 5px, rgba(28, 25, 83, 0.12));
+  @include transition(box-shadow 0.5s);
+  @include border-radius(5px);
+
+  &:hover {
+    @include border-radius(5px);
+    @include custom-box-shadow(0, 4px, 9px, rgba(165, 165, 165, 0.5));
+    @include transition(box-shadow 0.5s);
+    border: 1px solid $primary;
+  }
+
+  .card-body {
+    .margin-bottom-2 {
+      margin-bottom: 2px;
+    }
+  }
+
+  span {
+    cursor: context-menu;
+  }
+
+  .apt-status {
+    span {
+      padding: 1px 5px;
+      border-radius: 10px;
+
+      &.blink {
+        animation: blinker 2s linear infinite;
+      }
+    }
+  }
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+:host ::ng-deep {
+  .popover {
+    &.bs-popover-left-bottom {
+      .arrow {
+        bottom: 0.3em;
+      }
+    }
+  }
+}

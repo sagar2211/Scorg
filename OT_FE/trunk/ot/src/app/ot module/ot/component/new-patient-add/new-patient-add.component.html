@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">Add Patient</p>
+    <button type="button" *ngIf="isShowCrossIcon" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+    <iframe class="cus-iframe" [src]="urlSafe"></iframe>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss('CANCEL')">CANCEL</button>
+    <button type="button" class="btn btn-sm btn-outline-primary" (click)="modal.close('Ok')">OK</button>
+</div>

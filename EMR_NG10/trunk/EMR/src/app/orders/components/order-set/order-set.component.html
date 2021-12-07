@@ -1,0 +1,99 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="modal-basic-title">Order Set</h5>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body build-height p-2">
+
+ <div class="order-list-btn mr-3">
+    <button *ngIf="(!addEditOrderSetDisplay)" class="btn btn-primary btn-sm border-radius font-12 py-0 pull-right"
+      type="button" (click)="setAddOrderSetDataFromLocalOrders()">
+      Add new order set</button>
+   <button *ngIf="!showAddMoreSection && (addEditOrderSetDisplay || openOnlyPreview)"
+           class="btn btn-primary btn-sm border-radius font-12 py-0 pull-right" type="button"
+           (click)="showAddMoreSection = true;">
+     Add More Details</button>
+     <button *ngIf="addEditOrderSetDisplay || openOnlyPreview"
+      class="btn btn-primary btn-sm border-radius font-12 py-0 pull-right mr-2" type="button"
+      (click)="addEditOrderSetDisplay = false; getOrderSetLocalListData();">
+      Order set list</button>
+  </div>
+
+  <div class="col-md-12 px-0" style="display: flex;">
+    
+    <!--No Order-->
+    <div *ngIf="!orderSetList.length && !addEditOrderSetDisplay && !openOnlyPreview">
+      <span>No Order Set Available. Please Click On <b>Add new order set</b> To Add New Order Set.</span>
+    </div>
+
+    <!--Add order set section-->
+    <div class="col-md-3 px-2" *ngIf="(addEditOrderSetDisplay && !openOnlyPreview && showAddMoreSection)">
+      <div class="Createheader py-1 mb-2">
+        <h5 class="m-0"> Create new order set
+          <a (click)="showAddMoreSection = false" class="fa fa-close closebtn pull-right" title="Hide add more details"></a>
+        </h5>
+      </div>
+      <div class="mb-2" style="color: #757575;"><strong>Add More Details</strong></div>
+      <div id="medicalList">
+        <div class="mb-2" *ngFor="let orderCategory of masterCategories">
+          <div class="form-check form-check-inline icheck icheck-sm pl-3 m-0"
+            (click)="checkedOrderKey = orderCategory.orderKey; openSuggestionPanel(orderCategory.orderKey);">
+
+            <label class="form-check-label icheck icheck-sm pl-3 m-0" for="yes">
+              <input class="form-check-input" type="radio" [checked]="checkedOrderKey == orderCategory.orderKey"
+                [value]="checkedOrderKey">
+              <i _ngcontent-c52=""></i><span _ngcontent-c52=""
+                class="icheck icheck-sm">{{orderCategory.orderName}}</span>
+
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--Suggestion panel section-->
+    <div class="col-md-4 suggestion px-2" *ngIf="(addEditOrderSetDisplay && !openOnlyPreview && showSuggestion)">
+      <app-suggestion-panel (closeOrderSetSuggestionSection) = "closeShowSuggestion($event)" [suggestionPanelSettings]="suggestionPanelSettings"></app-suggestion-panel>
+    </div>
+
+    <!--Order set list section-->
+    <div class="col px-2" *ngIf="!addEditOrderSetDisplay && !openOnlyPreview">
+      <div class="Createheader py-1 mb-2" *ngIf="orderSetList.length">
+        <h5 class="m-0"> Order Set List</h5>
+      </div>
+      <div class="order-expand-list">
+        <div *ngFor="let itemOrder of orderSetList" class="expand-collapse-div" [ngClass]="{
+                          'close-div' : !itemOrder.isExpanded,
+                          'expand' : itemOrder.isExpanded
+                          }">
+          <app-order-set-display (setOrderSetEvent)="setOrderSet($event)" (deleteFromOrderSet)=deleteFromOrderSet($event)
+            (openEditOrderPreviewSection)="openEditOrderSetPreview($event)" [displayType]="'list'"
+            [itemOrder]="itemOrder"></app-order-set-display>
+        </div>
+      </div>
+    </div>
+
+    <!--Order set preview section-->
+    <div class="col px-2" *ngIf="(addEditOrderSetDisplay || openOnlyPreview)">
+      <div class="Createheader py-1">
+        <h5 class="m-0"> Order Set Preview <span *ngIf="orderSetObj.orderSetId != ''"> - {{orderSetObj.ordersetName}}</span></h5>
+      </div>
+      <div class="col-md-8 px-0 py-2"><input *ngIf="orderSetObj.orderSetId == ''" [(ngModel)]="orderSetObj.ordersetName" class="form-control"
+        type="text" placeholder="Enter Order Set Name"></div>
+      <div class="order-display" [ngStyle]="{'height': (orderSetObj.orderSetId == '')  ? 'calc(100vh - 295px)' : 'calc(100vh - 261px)'}">
+        <app-order-set-display (setOrderSetEvent)="setOrderSet($event)" (deleteFromOrderSet)=deleteFromOrderSet($event)
+          (editOrderSet)="editOrderSet($event)" [displayType]="'preview'" [itemOrder]="orderSetObj">
+        </app-order-set-display>
+      </div>
+    </div>
+
+  </div>
+  
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>
+<div class="modal-footer p-1" *ngIf="addEditOrderSetDisplay || openOnlyPreview">
+  <button class="btn btn-sm btn-outline-primary" type="button" (click)="saveOrderSet()">Save Order Set</button>
+  <button class="btn btn-sm btn-outline-danger" type="button" (click)="activeModal.close();">Close</button>
+</div>

@@ -1,0 +1,103 @@
+<div class="contents-wrapper pb-3">
+  <div class="profile-details position-relative">
+    <div class="profile-logo img-fluid rounded-circle text-center d-flex align-items-center justify-content-center">
+      <img [src]="imageUrl" alt="profile-image" />
+    </div>
+    <div class="details-list p-3 pl-5">
+      <h6>{{titleName}} {{userName}}
+        <a class="icon fa-fw icon-times pointer float-right" (click)="closeUserprofile()" title="Close"></a></h6>
+      <p class="font-size-dot-8 mb-1">User Id : {{userObjDetail?.login_id}}</p>
+    </div>
+    <a class="btn btn-info edit-btn pointer" *ngxPermissionsOnly="permissionConstList.Update_My_Profile"
+      (click)="profileEdit()">
+      <i class="icon fa-fw icon-edit" aria-hidden="true">
+      </i> EDIT</a>
+  </div>
+  <div class="text-right my-2" *ngxPermissionsOnly="permissionConstList.My_Profile_Change_Password">
+    <a class="text-primary pr-3 font-size-dot-875" (click)="changePasswordModal()" [routerLink]=""><i
+        class="icon fa-fw icon-change-password" aria-hidden="true"></i> Change Password</a>
+    <a class="text-primary pr-3 font-size-dot-875" *ngIf="storesArray.length > 1" [routerLink]=""
+      (click)="openPopup(storeSelectionContent)">
+      <i class="fa child-icon icon fa-fw mr-2 icon-store" aria-hidden="true"></i>Change Store</a>
+  </div>
+  <div class="content-body px-3 py-1">
+    <p class="font-size-dot-875" *ngIf="userObjDetail?.email_address">
+      <!-- <i class="far fa-fw fa-envelope mr-2"
+        aria-hidden="true"></i>  -->
+        <span class="label">Email ID :</span>
+        {{userObjDetail?.email_address}}</p>
+    <p class="font-size-dot-875" *ngIf="userObjDetail?.mobile_no">
+      <!-- <i class="fas fa-fw fa-phone-square-alt mr-2"
+        aria-hidden="true"></i> -->
+        <span class="label">Mobile No:</span>
+        {{userObjDetail?.mobile_no}}</p>
+        <div class="border-bottom"></div>
+    <p class="font-size-dot-875">
+      <!-- <i class="fas fa-fw fa-user-md mr-2" aria-hidden="true"></i> -->
+      <span class="label">Role Type:</span>
+      {{userObjDetail?.role_type.role_type}}</p>
+    <!-- MS (Ortho), DNB, MNAMS, F.ASIF (Swiss), PGP (ISB) -->
+    <p class="font-size-dot-875" *ngIf="userObjDetail?.education">
+      <!-- <i class="fas fa-fw fa-graduation-cap mr-2"
+        aria-hidden="true"></i> -->
+        <span class="label">Designation:</span>
+        {{userObjDetail?.education}} </p>
+    <p class="font-size-dot-875" *ngIf="userObjDetail?.speciality.name">
+      <!-- <i class="fas fa-fw fa-star mr-2"
+        aria-hidden="true"></i>  -->
+        <span class="label">Speciality:</span>
+        {{userObjDetail?.speciality.name}}
+      </p>
+    <p class="font-size-dot-875">
+      <!-- <i class="far fa-fw fa-hospital mr-2" aria-hidden="true"></i> -->
+      <span class="label">Department:</span>
+      {{userObjDetail?.department.name}}</p>
+    <p class="font-size-dot-875" *ngIf="userObjDetail?.experience"><i class="fas fa-fw fa-stethoscope mr-2"
+        aria-hidden="true"></i> {{userObjDetail?.experience}} year's of Experience</p>
+
+    <p class="font-size-dot-875" *ngIf="userObjDetail?.services_user.length!=0"><i class="far fa-fw fa-id-card mr-2"
+        aria-hidden="true"></i>
+      <span *ngFor="let service of userObjDetail?.services_user">
+        <span class="font-size-dot-875 service-list mb-1">
+          {{service}}
+        </span>
+      </span>
+    </p>
+    <p class="font-size-dot-875" *ngIf="userObjDetail?.aboutUser"><i class="far fa-fw fa-id-card mr-2"
+        aria-hidden="true"></i> {{userObjDetail?.aboutUser}}</p>
+    <p class="font-size-dot-875" *ngIf="currentStore?.storeName">
+      <!-- <i class="far fa-fw fa-id-card mr-2"
+        aria-hidden="true"></i> -->
+        <span class="label">Store:</span>
+          {{currentStore?.storeName}}</p>
+    <!-- <p class="font-size-dot-875"><i class="fas fa-fw fa-map-marker-alt mr-2" aria-hidden="true"></i> Pune</p> -->
+    <div class="border-bottom"></div>
+  </div>
+  <div class="text-center my-3">
+    <button type="button" class="btn btn-outline-danger px-5" (click)="logout()">
+      <i class="icon fa-fw icon-sign-out-alt" aria-hidden="true"></i>
+      LOGOUT</button>
+  </div>
+</div>
+<ng-template #storeSelectionContent let-modal>
+  <div class="modal-header">
+    <p class="modal-title text-uppercase">Select Store</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+      (click)="modal.close('cancel')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group w-50">
+      <label>Change Store:</label>
+      <ng-select bindLabel="storeName" [clearable]="false" (change)="toggleFloatingSection()"
+        [items]="storesArrayFiltered" [(ngModel)]="selectedStore" placeholder="Select Store"></ng-select>
+    </div>
+  </div>
+  <div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-primary" (click)="changeStore();modal.close('changed')"><i
+        class="icon fa-fw icon-recheck"></i> CHANGE</button>
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.close('cancel')">CANCEL</button>
+  </div>
+</ng-template>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

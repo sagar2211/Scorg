@@ -1,0 +1,114 @@
+<div class="modal-header">
+  <h6 class="mb-0 pt-1 text-uppercase">{{messageDetails.modalTitle}}</h6>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+    (click)="selectValueConfirm('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-2 filter">
+  <div class="form-row d-inline-block">
+    <div class="col d-inline-block">
+      <div class="card">
+        <div class="card-header p-1">
+          <p class="font-weight-500 mb-0 pl-1">Filter</p>
+        </div>
+        <div class="card-body px-2 py-0">
+          <!-- <div class="form-group">
+            <label for="exampleInputEmail1" class="font-weight-500 mb-0 pl-1">Admission Date</label>
+            <app-date-picker [inputDate]="admissionDate" placeholder="dd-mm-yyyy" [max]="today" [min]="admissionDate">
+            </app-date-picker>
+          </div> -->
+          <div class="form-group">
+            <label for="exampleInputEmail1" class="font-weight-500 mb-0 pl-1">Order Date</label>
+            <app-date-picker [inputDate]="orderDate" (dateChange)="orderDate = $event;" placeholder="dd-mm-yyyy"
+              [max]="today">
+            </app-date-picker>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1" class="font-weight-500 mb-0 pl-1">Approved Date</label>
+            <app-date-picker [inputDate]="approveOrderDate" placeholder="dd-mm-yyyy" [max]="today"
+              (dateChange)="approveOrderDate = $event;">
+            </app-date-picker>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col d-inline-block">
+      <div class="card">
+        <div class="card-header p-1">
+          <p class="font-weight-500 mb-0 pl-1">Order or Approved</p>
+        </div>
+        <div class="card-body px-2 py-0">
+          <div class="form-group">
+            <label for="exampleInputEmail1" class="font-weight-500 mb-0 pl-1">Order By</label>
+            <!--<select multiple class="form-control form-control-sm" [(ngModel)]="orderBy">-->
+            <!--<option value="" selected="">Select</option>-->
+            <!--<option *ngFor="let ob of messageDetails.orderBy" [value]="ob" selected="">{{ob.userName}}</option>-->
+            <!--</select>-->
+            <ng-select [items]="messageDetails.filters.orderBy" bindLabel="user_name" placeholder="Select Order By"
+              appendTo="body" multiple="true" [(ngModel)]="orderBySelected"></ng-select>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1" class="font-weight-500 mb-0 pl-1">Approved By</label>
+            <ng-select [items]="messageDetails.filters.approvedBy" bindLabel="user_name" placeholder="Select Order By"
+              appendTo="body" multiple="true" [(ngModel)]="approvedBySelected"></ng-select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col d-inline-block">
+      <div class="card">
+        <!-- <div class="card-header p-1">
+          <div class="form-row">
+            <div class="col">
+              <p class="font-weight-500 mb-0 pl-1">Order Status</p>
+            </div>
+            <div class="col text-right">
+              <a href="javascript:void(0)" class="text-decoration-none icon fa-fw icon-search" aria-hidden="true"></a>
+            </div>
+          </div>
+        </div> -->
+        <!-- <div class="card-body p-0">
+          <div class="list-group">
+            <a *ngFor="let orderCategory of orderCategories;"
+              (click)="orderCategory.isSelected = !orderCategory.isSelected" href="javascript:void(0)"
+              class="list-group-item py-1 px-2 font-size-dot-875 border-0">
+              <div class="custom-control custom-checkbox text-uppercase">
+                <input [(ngModel)]="orderCategory.isSelected" type="checkbox" class="custom-control-input"
+                  id="customCheck" name="example1">
+                <label class="custom-control-label" for="customCheck"><span>{{orderCategory.orderName}}</span></label>
+              </div>
+            </a>
+          </div>
+        </div> -->
+        <div class="card-header p-1">
+          <div class="form-row">
+            <div class="col">
+              <p class="font-weight-500 mb-0 pl-1">Order Status</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div class="list-group">
+            <a *ngFor="let status of orderStatusList;" (click)="status.isSelected = !status.isSelected"
+              href="javascript:void(0)" class="list-group-item py-1 px-2 font-size-dot-875 border-0">
+              <div class="custom-control custom-checkbox text-uppercase">
+                <input [(ngModel)]="status.isSelected" type="checkbox" class="custom-control-input" id="customCheck"
+                  name="example1">
+                <label class="custom-control-label" for="customCheck"><span>{{status.status_key}}</span></label>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
+    (click)="selectValueConfirm('cancel');">Cancel</button>
+  <button type="button" class="btn btn-sm btn-outline-warning text-uppercase" (click)="selectValueConfirm('clear');"><i
+      class="fa fa-fw fa-eraser" aria-hidden="true"></i> Clear</button>
+  <button type="button" (click)="selectValueConfirm('apply');" class="btn btn-sm btn-outline-primary text-uppercase"><i
+      class="fa fa-fw fa-check-circle mr-1" aria-hidden="true"></i>Apply</button>
+</div>

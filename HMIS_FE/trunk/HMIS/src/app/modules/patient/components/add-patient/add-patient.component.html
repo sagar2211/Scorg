@@ -1,0 +1,1005 @@
+<!-- <link rel="stylesheet"
+    href="http://hmis.scorgtechnologies.com:192/mmenu/assets/css/site.css?v=ztryJrZg6CjvXadzhgrzT6iw4YCq8ofyIO0Evnbco6o"> -->
+<div class="container-fluid custom-container-fluid px-1 pt-2"
+    [ngClass]="{'partial-view': isPartialLoad || appKey === 'hmis'}">
+    <div class="row m-0" *ngIf="!webcamStart">
+        <div class="col-sm-3 px-0 image-uploader">
+            <!-- <div class="card card-default custom-card mb-0" style="height: calc(100vh - 52px); overflow: auto;"> -->
+            <div class="card card-default custom-card card-left mb-0" style="height: 100%;">
+                <div class="card-header border-0 p-1">
+                    <h6 class="mb-0"><span class="small font-weight-400">Registration Date: </span><input
+                            class="border-0 d-inline-block" id="PatCreateddate" name="PatCreateddate"
+                            readonly="readonly;" style="width: 88px;pointer-events: none;background: transparent;"
+                            type="text"
+                            [value]="patientInfo?.PatCreateddate ? (patientInfo?.PatCreateddate | date: 'dd/MM/yyyy') : (todayDate | date: 'dd/MM/yyyy')"
+                            disabled="disabled" autocomplete="false"></h6>
+                    <h6 class="my-0 name">
+                        <span class="border-0 text-uppercase font-size-16 font-weight-500 text-primary p-0 m-0"
+                            style="pointer-events: none;background: transparent;">{{firstname}} {{middlename}}
+                            {{lastname}}</span>
+                    </h6>
+                    <p class="my-0 border-0 text-uppercase font-size-14 p-0 m-0" *ngIf="uhid && uhid != 0">{{uhid ? uhid
+                        : ''}}</p>
+                </div>
+                <div class="card-body bg-white">
+                    <div class="left-height-section">
+                        <div id="imgPreviewDiv" class="overlay overlay-hover animation-hover d-block w-200 mx-auto ">
+                            <img id="imgPreview" *ngIf="uploadedImg"
+                                class="overlay-figure overlay-scale img-responsive img-bordered mx-auto h-200 w-200"
+                                style="display: block" src="{{imgBaseUrl +'/images/patient/profile/'+uploadedImg}}"
+                                alt="">
+                            <img id="imgPreview" *ngIf="!uploadedImg"
+                                class="overlay-figure overlay-scale img-responsive img-bordered mx-auto h-200 w-200"
+                                style="display: block" src="assets/images/Patient-No-Image.png" alt="">
+                            <!-- : 'assets/images/Patient-No-Image.png' -->
+                            <figcaption
+                                class="overlay-panel overlay-background overlay-fade text-center vertical-align">
+                                <button id="removeUserImg" type="button" class="btn btn-default vertical-align-middle"
+                                    name="patient" [disabled]="!isEditable" (click)="deletePic()">
+                                    <!-- <input type="file" accept="image/x-png,image/jpeg" class="form-control"
+                                    id="customFile" (change)="uploadFile($event)" /> -->
+                                    <i class="fa fa-trash text-danger font-size-20" aria-hidden="true"></i>
+                                </button>
+                            </figcaption>
+                        </div>
+                        <div id="video-fig" class="w-200 mx-auto h-200" style="display: none;">
+                            <video id="video" muted="muted" autoplay="" preload="none"
+                                class="img-responsive img-bordered mx-auto d-block" tabindex="0" width="200"
+                                height="200"></video>
+                        </div>
+                        <canvas id="canvas" class="img-responsive img-bordered mx-auto" style="display: none;"
+                            width="150" height="150"></canvas>
+                        <input id="txtImg" name="PatImage" style="display: none;" type="text" value=""
+                            autocomplete="false" [disabled]="!isEditable">
+                        <div class="text-center my-1">
+                            <div class="text-center w-200 mx-auto my-1" id="normalimage">
+                                <!-- <input type="file" accept="image/x-png,image/jpeg" class="form-control"
+                                    id="customFile"  (change)="uploadFile($event)" />
+                                  <button id="btnImgUpload" class="btn btn-sm btn-primary px-2 mr-1" type="button"
+                                      (change)="uploadFile($event)"><i class="icon wb-folder"></i> Browse
+                                  </button> -->
+                                <div class="upload-section">
+                                    <div style="position: relative;">
+
+                                        <button id="btnImgUpload" class="btn btn-sm btn-primary px-2 mr-1" type="button"
+                                            (change)="uploadFile($event)" [disabled]="!isEditable"><i class="icon wb-folder"></i> Browse
+                                        </button>
+                                        <input type="file" accept="image/x-png,image/jpeg" class="form-control"
+                                            id="customFile" (change)="uploadFile($event)" class="input-upload" [disabled]="!isEditable" />
+                                    </div>
+                                    <input type="file" name="my_file" id="my-file" autocomplete="false" [disabled]="!isEditable">
+                                    <button type="button" class="btn btn-sm btn-warning px-10" id="snap"
+                                        (click)="openPopup();" [disabled]="!isEditable"><i class="fa fa-camera" aria-hidden="true"></i>
+                                        Take</button>
+                                </div>
+                            </div>
+                            <div class="text-center w-200 mx-auto my-1" id="capturediv" style="display:none;">
+                                <button type="button" class="btn btn-sm btn-success w-p50 float-left"
+                                    id="capture"><b>Capture</b></button>
+                                <button type="button" class="btn btn-sm btn-danger w-p50"
+                                    id="cameracancel"><b>Cancel</b></button>
+                            </div>
+                        </div>
+                        <div class="text-center" *ngIf="patientInfo">
+                            <button class="btn edit-add" id="anchorTrfToEncounter" *ngIf="appKey !== 'ot'" data-toggle="tooltip" role="button"
+                                data-placement="bottom" data-original-title="Encounter Active" [disabled]="!isEditable"
+                                (click)="redirectToEncounter()">
+                                <span
+                                    class="form-control-sm border-0 text-uppercase badge-success font-size-14 px-3 py-2"
+                                    id="PatientEncounterStatusId"
+                                    style="text-align: center; color:#ffffff;cursor: pointer;">Add / Edit
+                                    Encounter</span>
+                                </button>
+                        </div>
+                        <div class="card encounter-Details mt-2" id="encounderDetails" *ngIf="encounterInfo">
+                            <div class="card-body m-1 p-0">
+                                <p class="m-0 p-1 clearfix">
+                                    <span class="small">VISIT TYPE : </span><span id="EncounterType"
+                                        class="font-weight-400">{{encounterInfo?.penType}}</span>/<span class="small">VISIT NUMBER : </span><span id="visitNumber"
+                                        class="font-weight-400">{{encounterInfo?.penVisitNo}}</span>
+                                    <!-- <a id="showmodelpopup" href="javascript:void(0)"
+                                        class="btn btn-outline-primary btn-sm btn-xs float-right"><span
+                                            class="icon icon-history" aria-hidden="true"></span></a> -->
+                                </p>
+                                <table class="table table-sm table-responsive m-0" style="font-size: 13px;">
+                                    <tbody>
+                                        <tr *ngIf="encounterInfo?.penType === 'IP'">
+                                            <td class="text-left">
+                                                <span class="fa fa-id-badge pr-1" aria-hidden="true"></span>
+                                                <span id="DOADOE">DOA:</span>
+                                                <span id="penEncDateTime">{{encounterInfo?.admissionDate}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="encounterInfo?.penType !== 'IP'">
+                                            <td class="text-left">
+                                                <span class="fa fa-id-badge pr-1" aria-hidden="true"></span>
+                                                <span id="DOADOE">DOE:</span>
+                                                <span id="penEncDateTime">{{encounterInfo?.patEncDate12}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="encounterInfo?.bedInfo && encounterInfo?.bedInfo !== ''">
+                                            <td class="text-left ">
+                                                <span class="fa fa-bed pr-1" aria-hidden="true"></span>
+                                                <span id="patBedName">{{encounterInfo?.levelName +' /' +encounterInfo?.bedInfo}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr style="display:none;">
+                                            <td class="text-left ">
+                                                <span class="fa fa-street-view pr-1" aria-hidden="true"></span>
+                                                <span>Visit Type</span>
+                                            </td>
+                                        </tr>
+                                        <tr style="display:none;">
+                                            <td class="text-left">
+                                                <input id="actualEncType" type="hidden" value="IP"
+                                                    data-enctypeid="60954" disabled="disabled" autocomplete="false">
+                                                <input id="patEncounterId" type="hidden" value="-1" disabled="disabled"
+                                                    autocomplete="false">
+                                            </td>
+                                        </tr>
+                                        <tr class="blue-grey-500" *ngIf="encounterInfo?.penType === 'IP' && encounterInfo?.penRelFullname && encounterInfo?.penRelFullname !== ''">
+                                            <td class="text-left relative">
+                                                <span class="fa fa-user pr-1" aria-hidden="true"></span>
+                                                <span>Relative</span><span id="relFullname">:
+                                                    {{encounterInfo?.penRelFullname}}</span> (<span
+                                                    id="relContact">{{encounterInfo?.penRelContact}}</span>)
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9 px-0 right-side-section" *ngIf="settings">
+            <ng-container *ngIf="!isEditable">
+                <button type="button" class="btn btn-primary edit-Icon"
+                    *ngxPermissionsOnly="permissionConstant.Update_PatientMaster" (click)="editForm()"><i
+                        class="icon fa-fw icon-edit pr-2 pt-1"></i></button>
+            </ng-container>
+            <div class="custom-card-body pr-2 mt-2 searchDropdown">
+                <div class="form-group row mb-2" id="divIdPatientSearch">
+                    <label class="col-sm-3 form-control-label px-0">Search</label>
+                    <div class="col-sm-7 search">
+                        <div class="form-group m-0 patient-search-top">
+                            <div class="input-search input-search-dark">
+                                <ng-select class="patient-search" [items]="patientList$ | async" [(ngModel)]="searchKeyword" bindLabel="fullName"
+                                    (change)="onPatientChange($event)" bindValue="uhid" placeholder="Search Patient"
+                                    [typeahead]="patientListInput$" #fvBar>
+                                    <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                                        <div class="form-row align-items-center justify-content-center mx-0 p-1">
+                                            <div class="col px-0 col-profile-img">
+                                                <img alt="image" [src]="imgBaseUrl+item.image">
+                                            </div>
+                                            <div class="col px-0">
+                                                <p class="mb-0 font-size-dot-875">{{item.fullName}}</p>
+                                                <p class="mb-0 font-size-dot-75 text-muted">{{item.uhid}} | {{item.dob}}
+                                                    |
+                                                    {{item.gender}} | {{item.mobile}}</p>
+                                            </div>
+                                            <!-- <div class="col px-0 text-right">
+                                                <p class="mb-0 font-size-dot-75 text-muted">Visit No:
+                                                    {{item.penVisitNo}}</p>
+                                                <p class="mb-0 font-size-dot-75 text-muted">Visit Date:
+                                                    {{item.admissionDate| customDate: '' :
+                                                    'DD-MM-YYYY'}}</p>
+                                                <p class="mb-0 font-size-dot-75 text-muted">Visit Type:
+                                                    {{item.penVisitType}}</p>
+                                            </div> -->
+                                        </div>
+                                    </ng-template>
+                                </ng-select>
+                                <button class="input-search-btn" [ngClass]="{'hidden':searchKeyword}"><i class="icon fa-fw icon-search"
+                                        aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form name="form" class="custom-scroll" [formGroup]="registrationForm">
+                  <!-- <div class="form-group row mb-2" *ngIf="patIsUnknown || patIsTemp">
+                      <div class="col-3"></div>
+                      <div class="col-9 m-0 pr-0">
+                        <p class="checkbox-custom address checkbox-default pr-0 m-0">
+                          <input checked type="checkbox" [(ngModel)]="assignUhidCheckbox" [ngModelOptions]="{standalone: true}" (change)="onAssignUhid()" class="mt-1 mr-2">
+                          <label class="m-0" for="PatIssameaddress ">Assign UHID
+                            <span *ngIf="patIsUnknown"> For Unknown Patient</span>
+                            <span *ngIf="patIsTemp"> For Temporary Patient</span>
+                          </label>
+                      </p>
+                      </div>
+                  </div> -->
+                      <div class="form-group row mb-2 input-placeholder"
+                          *ngIf="(formType == 'full' || (formType == 'short' && (settings[0].shortRegField || settings[1].shortRegField || settings[2].shortRegField || settings[3].shortRegField)))">
+                          <label class="col-sm-3 form-control-label px-0">Patient Name</label>
+                          <div class="col-sm-4 pr-0">
+                              <div class="input-group input-group-file">
+                                  <div class="pl-0 pr-2 col-5"
+                                      *ngIf='((settings[0].shortRegField && formType == "short") || formType == "full")'>
+                                      <span class="input-group-btn">
+                                          <ng-select [items]="title" bindLabel="TtlName" bindValue="TtlId"
+                                              formControlName="title" placeholder="Select Title"
+                                              (change)="onTitleChange($event)"></ng-select>
+                                          <span class="star" *ngIf="this.settings[0].isMandatory"> *</span>
+                                          <span
+                                              class="help-block">
+                                              <span class="validate-msg"
+                                                  *ngIf="registrationForm.get('title').errors?.required && submitted">
+                                                  Title is required!
+                                              </span>
+                                              <span class="validate-msg"
+                                                  *ngIf="registrationForm.get('title').hasError('pattern') && submitted">
+                                                 check value Title!
+                                              </span>
+                                          </span>
+                                      </span>
+                                  </div>
+                                  <div class="col-7 p-0 m-0 form-group pr-2 "
+                                      *ngIf='((settings[1].shortRegField && formType == "short") || formType == "full")'>
+                                      <input class="form-control form-control-sm w-full"
+                                          style="text-transform: uppercase;padding-left: 10px;"
+                                          formControlName="firstname" placeholder="First Name" type="text"
+                                          (blur)="setFullname('firstname')">
+                                      <span class="star" *ngIf="this.settings[1].isMandatory"> *</span>
+                                      <span class="help-block">
+                                          <span class="validate-msg"
+                                              *ngIf="registrationForm.get('firstname').errors?.required && submitted">
+                                              First name is required!
+                                          </span>
+                                          <span class="validate-msg"
+                                                  *ngIf="registrationForm.get('firstname').hasError('pattern') && submitted">
+                                                 check value First name!
+                                              </span>
+                                      </span>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-sm-2 p-0 pr-2"
+                              *ngIf='((settings[2].shortRegField && formType == "short") || formType == "full")'>
+                              <input class="form-control form-control-sm text-uppercase" formControlName="middlename"
+                                  (blur)="setFullname('middlename')" placeholder="Middle Name" type="text">
+                              <span class="star" *ngIf="this.settings[2].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg" *ngIf="registrationForm.get('middlename').errors?.required && submitted">
+                                      Middle name is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                                  *ngIf="registrationForm.get('middlename').hasError('pattern') && submitted">
+                                                 check value Middle name!
+                                              </span>
+                              </span>
+                          </div>
+                          <div class="col-sm-3 pl-0 pr-2"
+                              *ngIf='((settings[3].shortRegField && formType == "short") || formType == "full")'>
+                              <div class="row m-0">
+                                <div class="p-0" [ngClass]="{'col-10': !isQms, 'col-12': isQms}">
+                                  <input class="form-control form-control-sm text-uppercase" formControlName="lastname"
+                                  (blur)="setFullname('lastname')" placeholder="Last Name" type="text">
+                              <span class="star" *ngIf="this.settings[3].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg" *ngIf="registrationForm.get('lastname').errors?.required && submitted">
+                                      Last name is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                                  *ngIf="registrationForm.get('lastname').hasError('pattern') && submitted">
+                                                 check value Last name!
+                                              </span>
+                              </span>
+                                </div>
+                                <div class="col-2 p-0" *ngIf="!isQms">
+                                  <input *ngIf="patIsUnknown || patIsTemp" checked type="checkbox" [(ngModel)]="assignUhidCheckbox" [ngModelOptions]="{standalone: true}" (change)="onAssignUhid()">
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="form-group row mb-2 input-placeholder "
+                          *ngIf="(formType == 'full' || (formType == 'short' && (settings[31].shortRegField || settings[32].shortRegField || settings[33].shortRegField)))">
+                          <label class="col-sm-3 form-control-label px-0">Father Name</label>
+                          <div class="col-sm-4 pr-0">
+                              <div class="input-group input-group-file">
+                                  <div class="pl-0 pr-2 col-5"
+                                      *ngIf='((settings[31].shortRegField && formType == "short") || formType == "full")'>
+                                      <span class="input-group-btn">
+                                          <ng-select [items]="title" bindLabel="TtlName" bindValue="TtlId"
+                                              formControlName="father_title" placeholder="Select Title"></ng-select>
+                                          <span class="help-block">
+                                              <span class="validate-msg"
+                                                  *ngIf="registrationForm.get('father_title').errors?.required && submitted">
+                                                  Title is required!
+                                              </span>
+                                              <span class="validate-msg"
+                                              *ngIf="registrationForm.get('father_title').hasError('pattern') && submitted">
+                                             check value Title!
+                                          </span>
+                                          </span>
+                                      </span>
+                                  </div>
+                                  <div class="col-7 p-0 m-0 form-group pr-2 "
+                                      *ngIf='((settings[31].shortRegField && formType == "short") || formType == "full")'>
+                                      <input class="form-control form-control-sm w-full text-uppercase"
+                                          formControlName="fatherfirstname" placeholder="Father First Name" type="text">
+                                      <span class="star" *ngIf="this.settings[31].isMandatory"> *</span>
+                                      <span class="help-block">
+                                          <span class="validate-msg"
+                                              *ngIf="registrationForm.get('fatherfirstname').errors?.required && submitted">
+                                              Father first name is required!
+                                          </span>
+                                          <span class="validate-msg"
+                                              *ngIf="registrationForm.get('fatherfirstname').hasError('pattern') && submitted">
+                                             check value Father first name!
+                                          </span>
+                                      </span>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-sm-2 p-0 pr-2"
+                              *ngIf='((settings[32].shortRegField && formType == "short") || formType == "full")'>
+                              <input class="form-control form-control-sm text-uppercase"
+                                  formControlName="fathermiddlename" placeholder="Father Middle Name" type="text">
+                              <span class="star" *ngIf="this.settings[32].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg"
+                                      *ngIf="registrationForm.get('fathermiddlename').errors?.required && submitted">
+                                      Father middle name is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                              *ngIf="registrationForm.get('fathermiddlename').hasError('pattern') && submitted">
+                                             check value Father middle name!
+                                          </span>
+                              </span>
+                          </div>
+                          <div class="col-sm-3 pl-0 pr-2"
+                              *ngIf='((settings[33].shortRegField && formType == "short") || formType == "full")'>
+                              <input class="form-control form-control-sm text-uppercase" formControlName="fatherlastname"
+                                  placeholder="Father Last Name" type="text">
+                              <span class="star" *ngIf="this.settings[33].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg"
+                                      *ngIf="registrationForm.get('fatherlastname').errors?.required && submitted">
+                                      Father last name is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                  *ngIf="registrationForm.get('fatherlastname').hasError('pattern') && submitted">
+                                 check value Father last name!
+                              </span>
+                              </span>
+                          </div>
+                      </div>
+                      <div class="form-group row mb-2 "
+                          *ngIf='((settings[4].shortRegField && formType == "short") || formType == "full")'>
+                          <label class="col-sm-3 form-control-label px-0"
+                              for="lblName">{{getFieldLabel(["gender","bloodgroup"]).join("")}}</label>
+                          <div class="col-sm-4 pr-0"
+                              *ngIf='((settings[4].shortRegField && formType == "short") || formType == "full")'>
+                              <ng-select [items]="gender" bindLabel="name" formControlName="gender"
+                                  placeholder="Select Gender" labelForId="gender" (change)="onGenderChange($event)">
+                              </ng-select>
+                              <span class="star" *ngIf="this.settings[4].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg" *ngIf="registrationForm.get('gender').errors?.required && submitted">
+                                      Gender is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                  *ngIf="registrationForm.get('gender').hasError('pattern') && submitted">
+                                 check value Gender!
+                              </span>
+                              </span>
+                          </div>
+                          <div class="col-sm-5"
+                              *ngIf='((settings[7].shortRegField && formType == "short") || formType == "full")'>
+                              <ng-select [items]="bloodGroups" bindLabel="BldName" bindValue="BldId"
+                                  formControlName="bloodgroup" placeholder="Select Blood Group" labelForId="blood group">
+                              </ng-select>
+                              <span class="star" *ngIf="this.settings[7].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg" *ngIf="registrationForm.get('bloodgroup').errors?.required && submitted">
+                                      Blood Group is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                  *ngIf="registrationForm.get('bloodgroup').hasError('pattern') && submitted">
+                                 check value Blood Group!
+                              </span>
+                              </span>
+                          </div>
+                      </div>
+                      <div class="form-group row mb-2 "
+                          *ngIf="(formType == 'full' || (formType == 'short' && (settings[5].shortRegField || settings[6].shortRegField)))">
+                          <label class="col-sm-3 form-control-label px-0"
+                              for="lblName">{{getFieldLabel(["dob","age"]).join("")}}</label>
+                          <div class="col-sm-3 pr-0"
+                              *ngIf='((settings[5].shortRegField && formType == "short") || formType == "full")'>
+                              <div class="input-group dob-date">
+                                  <app-date-picker [makeDisabled]="!isEditable" [readOnly]="true" [max]="todayDate" [inputDate]="dob"
+                                      placeholder="DD/MM/YYYY" (dateChange)="ageCalculator($event)">
+                                  </app-date-picker>
+                                  <span class="star" *ngIf="this.settings[5].isMandatory"> *</span>
+                                  <span class="help-block">
+                                      <span class="validate-msg" *ngIf="registrationForm.get('dob').errors?.required && submitted">
+                                          Date of Birth is required!
+                                      </span>
+                                      <span class="validate-msg"
+                                  *ngIf="registrationForm.get('dob').hasError('pattern') && submitted">
+                                 check value Date of Birth!
+                              </span>
+                                  </span>
+                              </div>
+                          </div>
+                          <div class="col-sm-2 pr-0"
+                              *ngIf='((settings[6].shortRegField && formType == "short") || formType == "full")'>
+                              <input class="form-control form-control-sm" [(ngModel)]="showAge"
+                                  (keyup)="onAgeInputChange()" maxlength="5" formControlName="age" min="0" appOnlyNumbers
+                                  placeholder="Age" type="text">
+                              <span class="star" *ngIf="this.settings[6].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg" *ngIf="registrationForm.get('age').errors?.required && submitted">
+                                      Age is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                  *ngIf="registrationForm.get('age').hasError('pattern') && submitted">
+                                 check value Age!
+                              </span>
+                              </span>
+                          </div>
+                          <div class="col-sm-2"
+                              *ngIf='((settings[6].shortRegField && formType == "short") || formType == "full")'>
+                              <ng-select [items]="ageUnit" bindLabel="AguName" bindValue="AguId"
+                                  (change)="onAgeInputChange()" formControlName="age_unit" placeholder="Select Age"
+                                  labelForId="age"></ng-select>
+                              <span class="star" *ngIf="this.settings[6].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg" *ngIf="registrationForm.get('age_unit').errors?.required && submitted">
+                                      Age Unit is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                  *ngIf="registrationForm.get('age_unit').hasError('pattern') && submitted">
+                                 check value Age Unit!
+                              </span>
+                              </span>
+                          </div>
+                      </div>
+                      <div class="form-group row mb-2"
+                          *ngIf="(formType == 'full' || (formType == 'short' && (settings[27].shortRegField || settings[8].shortRegField)))">
+                          <label class="col-sm-3 form-control-label px-0"
+                              for="lblName">{{getFieldLabel(["nationality","marital_status"]).join("")}}</label>
+                          <div class="col-sm-4 pr-0"
+                              *ngIf='((settings[27].shortRegField && formType == "short") || formType == "full")'>
+                              <ng-select [items]="nationality" bindLabel="NnlName" bindValue="NnlId"
+                                  formControlName="nationality" placeholder="Select Nationality" labelForId="nationality">
+                              </ng-select>
+                              <span class="star" *ngIf="this.settings[27].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg" *ngIf="registrationForm.get('nationality').errors?.required && submitted">
+                                      Nationality is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                  *ngIf="registrationForm.get('age_unit').hasError('pattern') && submitted">
+                                 check value Nationality!
+                              </span>
+                              </span>
+                          </div>
+                          <div class="col-sm-5 "
+                              *ngIf='((settings[8].shortRegField && formType == "short") || formType == "full")'>
+                              <ng-select [items]="maritalStatus" bindLabel="name" bindValue="id"
+                                  formControlName="marital_status" placeholder="Select Marital Status"
+                                  labelForId="marital_status"></ng-select>
+                              <span class="star" *ngIf="this.settings[8].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg"
+                                      *ngIf="registrationForm.get('marital_status').errors?.required && submitted">
+                                      Marital Status is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                  *ngIf="registrationForm.get('marital_status').hasError('pattern') && submitted">
+                                 check value Marital Status!
+                              </span>
+                              </span>
+                          </div>
+                      </div>
+                      <div class="form-group row mb-2 staffDropdown"
+                          *ngIf='((settings[13].shortRegField && formType == "short") || formType == "full")'>
+                          <label class="col-sm-3 form-control-label px-0"
+                              for="lblName">{{getFieldLabel(["staff_dependent"])}}</label>
+                          <div class="col-sm-4 row m-0 pr-0">
+                              <span class="checkbox-custom checkbox-default pr-10 pr-2 pt-1">
+                                  <input type="checkbox" formControlName="staff_dependent_checkbox"
+                                      [(ngModel)]="staff_dependent_checkbox" (change)="onStaffChange()"
+                                      id="PatIsempdependant">
+                                  <span class="star" *ngIf="this.settings[13].isMandatory"> *</span>
+                                  <label for="PatIsempdependant"></label>
+                              </span>
+                              <div class="col-sm-10 p-0 staffdiv">
+                                  <div class="input-search input-search-dark">
+                                      <ng-select [items]="staffList$ | async" formControlName="staff_dependent"
+                                          bindLabel="fullName" (change)="onEmployeeChange($event)" bindValue="empcode"
+                                          placeholder="Select Staff" [typeahead]="staffListInput$">
+                                          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                                              <div class="form-row align-items-center justify-content-center mx-0 p-1">
+                                                  <div class="col px-0 col-profile-img">
+                                                      <img alt="image" [src]="imgBaseUrl+item.image">
+                                                  </div>
+                                                  <!-- src="./assets/img/female.svg" -->
+                                                  <div class="col px-0 patient-details">
+                                                      <div class="name-code">
+                                                          <p class="mb-0 font-size-dot-875 name-ellipsis">
+                                                              {{item.fullName}}
+                                                          </p>
+                                                          <p class="mb-0 font-size-dot-875 pl-2">| {{item.empcode}}</p>
+                                                      </div>
+                                                      <div class="gender-mobile">
+                                                          <p class="mb-0 font-size-dot-75 ">{{item.gender}}</p>
+                                                          <p class="mb-0 font-size-dot-75 pl-2">|
+                                                              {{item.mobile}}
+                                                          </p>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </ng-template>
+                                      </ng-select>
+                                      <!-- <div class="display-name col-12 p-0" *ngIf="dependantEmpName">
+                                          <p class=" ">{{dependantEmpName}}</p>
+                                      </div> -->
+                                      <span class="star" *ngIf="this.settings[13].isMandatory"> *</span>
+                                      <span class="validate-msg"
+                                      *ngIf="this.staff_dependent_checkbox && !registrationForm.value.staff_dependent && submitted">
+                                      Staff Dependant Value is required!
+                                  </span>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-sm-5">
+                              <ng-select [items]="relation" bindLabel="RspName" bindValue="RspId"
+                                  formControlName="relation" placeholder="Select Relation" labelForId="relation">
+                              </ng-select>
+                              <span class="star" *ngIf="this.settings[13].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg" *ngIf="registrationForm.get('relation').errors?.required && submitted">
+                                      Relation is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                  *ngIf="registrationForm.get('relation').hasError('pattern') && submitted">
+                                 check value Relation!
+                              </span>
+                              </span>
+                          </div>
+                      </div>
+                      <div class="form-group row mb-2"
+                          *ngIf="(formType == 'full' || (formType == 'short' && (settings[10].shortRegField || settings[11].shortRegField)))">
+                          <label class="col-sm-3 form-control-label px-0"
+                              for="lblName">{{getFieldLabel(["mobile","alternate_number"]).join("")}}</label>
+                          <div class="col-sm-4 pr-0"
+                              *ngIf='((settings[10].shortRegField && formType == "short") || formType == "full")'>
+                              <input class="form-control form-control-sm" placeholder="Mobile" type="text" appOnlyNumbers
+                                  formControlName="mobile">
+                              <span class="star" *ngIf="this.settings[10].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg" *ngIf="registrationForm.get('mobile').errors?.required && submitted">
+                                      Mobile Number is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                  *ngIf="registrationForm.get('mobile').hasError('pattern') && submitted">
+                                 check value Mobile Number!
+                              </span>
+                              </span>
+                          </div>
+                          <div class="col-sm-5"
+                              *ngIf='((settings[11].shortRegField && formType == "short") || formType == "full")'>
+                              <input class="form-control form-control-sm" placeholder="Alternate Mobile" type="text"
+                                  formControlName="alternate_number" appOnlyNumbers>
+                              <span class="star" *ngIf="this.settings[11].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg"
+                                      *ngIf="registrationForm.get('alternate_number').errors?.required && submitted">
+                                      Alternate Number is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                  *ngIf="registrationForm.get('alternate_number').hasError('pattern') && submitted">
+                                 check value Alternate Number!
+                              </span>
+                              </span>
+                          </div>
+                      </div>
+                      <div class="form-group row mb-2"
+                          *ngIf="(formType == 'full' || (formType == 'short' && (settings[9].shortRegField || settings[12].shortRegField)))">
+                          <label class="col-sm-3 form-control-label px-0"
+                              for="lblName">{{getFieldLabel(["email","phone_number"]).join("")}}</label>
+                          <div class="col-sm-4 pr-0"
+                              *ngIf='((settings[9].shortRegField && formType == "short") || formType == "full")'>
+                              <input class="form-control form-control-sm" placeholder="Email" type="email"
+                                  formControlName="email">
+                              <span class="star" *ngIf="this.settings[9].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg" *ngIf="registrationForm.get('email').errors?.required && submitted">
+                                      Email is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                  *ngIf="registrationForm.get('email').hasError('pattern') && submitted">
+                                 check value Email!
+                              </span>
+                              </span>
+                          </div>
+                          <div class="col-sm-5"
+                              *ngIf='((settings[12].shortRegField && formType == "short") || formType == "full")'>
+                              <input class="form-control form-control-sm" placeholder="Phone Number" type="text"
+                                  formControlName="phone_number" appOnlyNumbers>
+                              <span class="star" *ngIf="this.settings[12].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg"
+                                      *ngIf="registrationForm.get('phone_number').errors?.required && submitted">
+                                      Phone Number is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                  *ngIf="registrationForm.get('phone_number').hasError('pattern') && submitted">
+                                 check value Phone Number!
+                              </span>
+                              </span>
+                          </div>
+                      </div>
+                      <div class="form-group row mb-2"
+                      *ngIf='((settings[21].shortRegField && formType == "short") || formType == "full")'>
+                      <label class="col-sm-3 form-control-label px-0"
+                          for="lblName">{{getFieldLabel(["present_address"])}}</label>
+                      <div class="col-sm-9">
+                          <textarea class="form-control form-control-sm" formControlName="present_address"
+                              placeholder="Present Address"></textarea>
+                          <span class="star" *ngIf="this.settings[21].isMandatory"> *</span>
+                          <span class="help-block">
+                            <span class="validate-msg"
+                                *ngIf="registrationForm.get('present_address').errors?.required && submitted">
+                                Address is required!
+                            </span>
+                            <span class="validate-msg"
+                            *ngIf="registrationForm.get('present_address').hasError('pattern') && submitted">
+                           check value Address!
+                        </span>
+                        </span>
+                      </div>
+                  </div>
+                  <div class="form-group row mb-2"
+                      *ngIf='((settings[22].shortRegField && formType == "short") || formType == "full")'>
+                      <label class="col-sm-3 form-control-label px-0"
+                          for="lblName">{{getFieldLabel(["present_country","present_state"]).join("")}}</label>
+                      <div class="col-sm-4 pr-0">
+                          <ng-select [items]="presentCountryList$ | async" bindLabel="countryName"
+                              formControlName="present_country"
+                              (change)="onCountryChange($event,'present_address')" bindValue="countryId"
+                              placeholder="Select Country" [typeahead]="presentCountryListInput$"></ng-select>
+                          <span class="star" *ngIf="this.settings[22].isMandatory"> *</span>
+                          <!-- <ng-select [items]="countries" bindLabel="countryName" bindValue="countryId" formControlName="present_country" placeholder="Select Country" (change)="onCountryChange($event,'present_address')"></ng-select> -->
+                          <span class="help-block">
+                            <span class="validate-msg"
+                                *ngIf="registrationForm.get('present_country').errors?.required && submitted">
+                                Country is required!
+                            </span>
+                            <span class="validate-msg"
+                            *ngIf="registrationForm.get('present_country').hasError('pattern') && submitted">
+                           check value Country!
+                        </span>
+                        </span>
+                      </div>
+                      <div class="col-sm-5"
+                          *ngIf='((settings[23].shortRegField && formType == "short") || formType == "full")'>
+                          <ng-select [items]="presentStateList$ | async" bindLabel="stateName"
+                              formControlName="present_state" (change)="onStateChange($event,'present_address')"
+                              bindValue="stateId" placeholder="Select State" [typeahead]="presentStateListInput$">
+                          </ng-select>
+                          <span class="star" *ngIf="this.settings[23].isMandatory"> *</span>
+                          <!-- <ng-select [items]="states" bindLabel="stateName" bindValue="stateId" formControlName="present_state" placeholder="Select State" (change)="onStateChange($event,'present_address')"></ng-select> -->
+                          <span class="help-block">
+                            <span class="validate-msg"
+                                *ngIf="registrationForm.get('present_state').errors?.required && submitted">
+                                State is required!
+                            </span>
+                            <span class="validate-msg"
+                            *ngIf="registrationForm.get('present_state').hasError('pattern') && submitted">
+                           check value State!
+                        </span>
+                        </span>
+                      </div>
+                  </div>
+                  <div class="form-group row mb-2">
+                      <label class="col-sm-3 form-control-label px-0"
+                          for="lblName">{{getFieldLabel(["present_city","present_pincode"]).join("")}}</label>
+                      <div class="col-sm-4 pr-0"
+                          *ngIf='((settings[24].shortRegField && formType == "short") || formType == "full")'>
+                          <ng-select [items]="presentCityList$ | async" bindLabel="cityName"
+                              formControlName="present_city" (change)="onCityChange($event,'present_address')"
+                              bindValue="cityId" placeholder="Select City" [typeahead]="presentCityListInput$">
+                          </ng-select>
+                          <span class="star" *ngIf="this.settings[24].isMandatory"> *</span>
+                          <!-- <ng-select [items]="cities" bindLabel="cityName" bindValue="cityId" formControlName="present_city" placeholder="Select City"></ng-select> -->
+                          <span class="help-block">
+                              <span class="validate-msg"
+                                  *ngIf="registrationForm.get('present_city').errors?.required && submitted">
+                                  Present City is required!
+                              </span>
+                              <span class="validate-msg"
+                            *ngIf="registrationForm.get('present_city').hasError('pattern') && submitted">
+                           check value Present City!
+                        </span>
+                          </span>
+                      </div>
+                      <div class="col-sm-5"
+                          *ngIf='((settings[25].shortRegField && formType == "short") || formType == "full")'>
+                          <input class="form-control form-control-sm" formControlName="present_pincode"
+                              appOnlyNumbers placeholder="Present Pin Code" type="text">
+                          <span class="star" *ngIf="this.settings[25].isMandatory"> *</span>
+                          <span class="help-block">
+                              <span class="validate-msg"
+                                  *ngIf="registrationForm.get('present_pincode').errors?.required && submitted">
+                                  Present Pincode is required!
+                              </span>
+                              <span class="validate-msg"
+                            *ngIf="registrationForm.get('present_pincode').hasError('pattern') && submitted">
+                           check value Present Pincode!
+                        </span>
+                          </span>
+                      </div>
+                  </div>
+
+                      <div class="form-group row mb-2"
+                          *ngIf='((settings[21].shortRegField && formType == "short") || formType == "full")'>
+                          <label class="col-sm-2 form-control-label px-0"></label>
+                          <div class="col-sm-10 row m-0 pr-0">
+                              <span class="col-sm-11 checkbox-custom address checkbox-default pr-0">
+                                  <input checked type="checkbox" formControlName="present_address_checkbox"
+                                      [(ngModel)]="present_address_checkbox" id="PatIssameaddress" class="mt-1 mr-2">
+                                  <label for="PatIssameaddress"> <span class="font-weight-500">Permanent Address&nbsp;</span>is same as <span class="font-weight-500">&nbsp;Present address?</span></label>
+                              </span>
+                          </div>
+                      </div>
+                      <div class="form-group mb-1 presentDiv m-0" *ngIf="!present_address_checkbox">
+                        <div class="form-group row mb-2"
+                        *ngIf='((settings[16].shortRegField && formType == "short") || formType == "full")'>
+                        <label class="col-sm-3 form-control-label px-0"
+                            for="lblName">{{getFieldLabel(["permanent_address"])}}</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control form-control-sm" name="permanent_address"
+                                formControlName="permanent_address" placeholder="Permanent Address"></textarea>
+                            <span class="star" *ngIf="this.settings[16].isMandatory"> *</span>
+                            <span class="help-block">
+                                <span class="validate-msg"
+                                    *ngIf="registrationForm.get('permanent_address').errors?.required && submitted">
+                                    Permanent Address is required!
+                                </span>
+                                <span class="validate-msg"
+                            *ngIf="registrationForm.get('permanent_address').hasError('pattern') && submitted">
+                           check value Permanent Address!
+                        </span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2 "
+                        *ngIf='((settings[16].shortRegField && formType == "short") || formType == "full")'>
+                        <label class="col-sm-3 form-control-label px-0"
+                            for="lblName">{{getFieldLabel(["country","state"]).join("")}}</label>
+                        <div class="col-sm-4 pr-0"
+                            *ngIf='((settings[17].shortRegField && formType == "short") || formType == "full")'>
+                            <ng-select [items]="countriList$ | async" bindLabel="countryName" formControlName="country"
+                                (change)="onCountryChange($event,'permanent_address')" bindValue="countryId"
+                                placeholder="Select Country" [typeahead]="countriListInput$"></ng-select>
+                            <span class="star" *ngIf="this.settings[17].isMandatory"> *</span>
+                            <span class="help-block">
+                                <span class="validate-msg" *ngIf="registrationForm.get('country').errors?.required && submitted">
+                                    Country is required!
+                                </span>
+                                <span class="validate-msg"
+                                *ngIf="registrationForm.get('country').hasError('pattern') && submitted">
+                               check value Country!
+                            </span>
+                            </span>
+                        </div>
+                        <div class="col-sm-5"
+                            *ngIf='((settings[18].shortRegField && formType == "short") || formType == "full")'>
+                            <ng-select [items]="stateList$ | async" bindLabel="stateName" formControlName="state"
+                                (change)="onStateChange($event,'permanent_address')" bindValue="stateId"
+                                placeholder="Select State" [typeahead]="stateListInput$"></ng-select>
+                            <span class="star" *ngIf="this.settings[18].isMandatory"> *</span>
+                            <span class="help-block">
+                                <span class="validate-msg" *ngIf="registrationForm.get('state').errors?.required && submitted">
+                                    State is required!
+                                </span>
+                                <span class="validate-msg"
+                                *ngIf="registrationForm.get('state').hasError('pattern') && submitted">
+                               check value State!
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-2"
+                        *ngIf='((settings[16].shortRegField && formType == "short") || formType == "full")'>
+                        <label class="col-sm-3 form-control-label px-0"
+                            for="lblName">{{getFieldLabel(["city","pincode"]).join("")}}</label>
+                        <div class="col-sm-4 pr-0"
+                            *ngIf='((settings[19].shortRegField && formType == "short") || formType == "full")'>
+                            <ng-select [items]="cityList$ | async" bindLabel="cityName" formControlName="city"
+                                bindValue="cityId" (change)="onCityChange($event,'permanent_address')"
+                                placeholder="Select City" [typeahead]="cityListInput$"></ng-select>
+                            <span class="star" *ngIf="this.settings[19].isMandatory"> *</span>
+                            <span class="help-block">
+                                <span class="validate-msg" *ngIf="registrationForm.get('city').errors?.required && submitted">
+                                    City is required!
+                                </span>
+                                <span class="validate-msg"
+                                *ngIf="registrationForm.get('city').hasError('pattern') && submitted">
+                               check value City!
+                            </span>
+                            </span>
+                        </div>
+                        <div class="col-sm-5"
+                            *ngIf='((settings[20].shortRegField && formType == "short") || formType == "full")'>
+                            <input class="form-control form-control-sm" formControlName="pincode" placeholder="Pin Code"
+                                appOnlyNumbers type="text">
+                            <span class="star" *ngIf="this.settings[20].isMandatory"> *</span>
+                            <span class="help-block">
+                                <span class="validate-msg" *ngIf="registrationForm.get('pincode').errors?.required && submitted">
+                                    Pincode is required!
+                                </span>
+                                <span class="validate-msg"
+                                *ngIf="registrationForm.get('pincode').hasError('pattern') && submitted">
+                               check value Pincode!
+                            </span>
+                            </span>
+                        </div>
+                    </div>
+                      </div>
+                      <div class="form-group row mb-2"
+                          *ngIf='((settings[26].shortRegField && formType == "short") || formType == "full")'>
+                          <label class="col-sm-3 form-control-label px-0"
+                              for="lblName">{{getFieldLabel(["religion","occupation"]).join("")}}</label>
+                          <div class="col-sm-4 pr-0">
+                              <ng-select [items]="religion" bindLabel="rlgName" bindValue="rlgId"
+                                  formControlName="religion" placeholder="Select Religion" labelForId="religion">
+                              </ng-select>
+                              <span class="star" *ngIf="this.settings[26].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg" *ngIf="registrationForm.get('religion').errors?.required && submitted">
+                                      Religion is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                      *ngIf="registrationForm.get('religion').hasError('pattern') && submitted">
+                                    check value Religion!
+                                  </span>
+                              </span>
+                          </div>
+                          <div class="col-sm-5"
+                              *ngIf='((settings[28].shortRegField && formType == "short") || formType == "full")'>
+                              <ng-select [items]="occupation" bindLabel="ocpName" bindValue="ocpId"
+                                  formControlName="occupation" placeholder="Select Occupation" labelForId="occupation">
+                              </ng-select>
+                              <span class="star" *ngIf="this.settings[28].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg" *ngIf="registrationForm.get('occupation').errors?.required && submitted">
+                                      Occupation is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                      *ngIf="registrationForm.get('occupation').hasError('pattern') && submitted">
+                                    check value Occupation!
+                                  </span>
+                              </span>
+                          </div>
+                      </div>
+                      <div class="form-group row mb-2"
+                          *ngIf='((settings[29].shortRegField && formType == "short") || formType == "full")'>
+                          <label class="col-sm-3 form-control-label px-0"
+                              for="lblName">{{getFieldLabel(["annual_income","language"]).join("")}}</label>
+                          <div class="col-sm-4 pr-0">
+                              <input class="form-control form-control-sm" formControlName="annual_income" appOnlyNumbers
+                                  placeholder="Annual Income" type="text">
+                              <span class="star" *ngIf="this.settings[29].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg"
+                                      *ngIf="registrationForm.get('annual_income').errors?.required && submitted">
+                                      Annual Income is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                      *ngIf="registrationForm.get('annual_income').hasError('pattern') && submitted">
+                                    check value Annual Income!
+                                  </span>
+                              </span>
+                          </div>
+                          <div class="col-sm-5">
+                              <!-- <label class="col-sm-3 form-control-label px-0" for="lblName">LANGUAGE</label> -->
+                              <ng-select [items]="language" bindLabel="lngName" bindValue="lngId"
+                                  formControlName="language" placeholder="Select Language" labelForId="language">
+                              </ng-select>
+                              <span class="star" *ngIf="this.settings[27].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg" *ngIf="registrationForm.get('language').errors?.required && submitted">
+                                      Language is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                      *ngIf="registrationForm.get('language').hasError('pattern') && submitted">
+                                    check value Language!
+                                  </span>
+                              </span>
+                          </div>
+                      </div>
+                      <div class="form-group row mb-2"
+                          *ngIf='((settings[14].shortRegField && formType == "short") || formType == "full")'>
+                          <label class="col-sm-3 form-control-label pl-0 px-0"
+                              for="lblName">{{getFieldLabel(["idententy_1","idententy_2"]).join("")}}</label>
+                          <div class="col-sm-4 pr-0">
+                              <input class="form-control form-control-sm text-uppercase" placeholder=""
+                                  type="text" formControlName="idententy_1">
+                              <span class="star" *ngIf="this.settings[14].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg" *ngIf="registrationForm.get('idententy_1').errors?.required && submitted">
+                                    Identity 1 is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                      *ngIf="registrationForm.get('idententy_1').hasError('pattern') && submitted">
+                                    check value Identity 1!
+                                  </span>
+                              </span>
+                          </div>
+                          <div class="col-sm-5"
+                              *ngIf='((settings[15].shortRegField && formType == "short") || formType == "full")'>
+                              <input class="form-control form-control-sm text-uppercase" placeholder=""
+                                  type="text" formControlName="idententy_2">
+                              <span class="star" *ngIf="this.settings[15].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg" *ngIf="registrationForm.get('idententy_2').errors?.required && submitted">
+                                    Identity 2 is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                      *ngIf="registrationForm.get('idententy_2').hasError('pattern') && submitted">
+                                    check value Identity 2!
+                                  </span>
+                              </span>
+                          </div>
+                      </div>
+                      <div class="form-group row mb-2"
+                          *ngIf='((settings[30].shortRegField && formType == "short") || formType == "full")'>
+                          <label class="col-sm-3 form-control-label pl-0 px-0"
+                              for="lblName">{{getFieldLabel(["remarks"])}}</label>
+                          <div class="col-sm-9">
+                              <input class="form-control form-control-sm" formControlName="remarks" placeholder="Remarks"
+                                  type="text">
+                              <span class="star" *ngIf="this.settings[30].isMandatory"> *</span>
+                              <span class="help-block">
+                                  <span class="validate-msg" *ngIf="registrationForm.get('remarks').errors?.required && submitted">
+                                      Remarks is required!
+                                  </span>
+                                  <span class="validate-msg"
+                                      *ngIf="registrationForm.get('remarks').hasError('pattern') && submitted">
+                                    check value Remarks!
+                                  </span>
+                              </span>
+                          </div>
+                      </div>
+                      <div class="form-group row mb-2">
+                          <label class="col-sm-3 form-control-label px-0"></label>
+                          <div class="col-sm-6 row m-0 pr-0">
+                              <span class="checkbox-custom checkbox-default active pt-1 pr-0 mr-20 mr-2">
+                                  <input checked="checked" formControlName="isActive" type="checkbox" id='PatIsactiveBool'
+                                      class="mt-1 mr-2">
+                                  <label for="PatIsactiveBool">
+                                      Is Active ?
+                                  </label>
+                              </span>
+                              <div id="IsAlive">
+                                  <span class="pr-sm-10 checkbox-custom checkbox-default pt-2 pr-0">
+                                      <input checked="checked" formControlName="isAlive" type="checkbox" class="mr-2">
+                                      <label for="PatIsliveBool">
+                                          Patient Alive ?
+                                      </label>
+                                  </span>
+                              </div>
+
+                          </div>
+                      </div>
+              </form>
+          </div>
+              <div class="custom-card-footer p-1 text-right pt-2">
+                <button type="button" class="btn btn-warning btn-outline mr-2" (click)="clearForm();searchBar.handleClearClick()"><i
+                        class="fas fa-fw fa-eraser"></i>CLEAR</button>
+                <button type="button" class="btn btn-primary" (click)="onSubmit()"
+                    [disabled]="!isEditable"><i
+                        class="icon fa-fw icon-save mr-1"></i>SAVE
+                    REGISTRATION</button>
+              </div>
+        </div>
+    </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

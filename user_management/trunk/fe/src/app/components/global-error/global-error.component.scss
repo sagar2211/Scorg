@@ -1,0 +1,9 @@
+@import "../../../scss/custom_bootstrap_theme";
+
+.something-wrong {
+  .goback-btn {
+    color: $white;
+    background-color: $cyan-100;
+    border-color: $cyan-100;
+  }
+}

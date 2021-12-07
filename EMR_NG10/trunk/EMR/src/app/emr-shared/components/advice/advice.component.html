@@ -1,0 +1,78 @@
+<div class="examination-label">
+    <ngb-accordion [activeIds]="componentInfo?.activeIdsOfPanels" (panelChange)="panelChange($event)" [destroyOnHide]="false">
+        <ngb-panel id="advice">
+            <ng-template ngbPanelTitle>
+                <div class="form-row align-items-center mx-0" (click)="openSuggPanel()">
+                    <div class="col-8">
+                        <p class="d-inline-block mb-0 mr-2 font-size-dot-875">{{componentInfo?.section_name}}</p>
+                        <div class="d-inline-block lang-w">
+                            <ng-select (click)="$event.stopPropagation()" [items]="languageList" bindLabel="name" (change)="onLanguageChange()" placeholder="Select Lanugage" appendTo="body" [(ngModel)]="selectedLanguage"></ng-select>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <button class="btn btn-sm btn-link text-white text-right" type="button">
+              <i [ngClass]="isPanelOpen ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'" aria-hidden="true"></i>
+            </button>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+                <div class="form-row" (click)="openSuggPanel()">
+                    <div class="col-12">
+                        <app-snomedct [textAreaSize]="'large'" [placeHolderName]="'Add Advice'" [selectedLanguage]="selectedLanguage" [inputModelContent]="selectedAdviceTemplate.description" [snowMedUsedKeyWordsArray]="selectedAdviceTemplate.conceptData" [parentTextChanged]="parentTextChanged"
+                            (receivedAction)="processAction($event)"></app-snomedct>
+                        <!--<textarea #tributeDirective="ngx-tribute" [ngxTribute]="options" name="adviceDesc" id="translateAdvice1" (keyup)="templateIds=[];manageSaveTemplateOptions()"-->
+                        <!--(focus)="openSuggestionPanel(componentInfo)" class="form-control noresize" rows="7"-->
+                        <!--[(ngModel)]="selectedAdviceTemplate.description" placeholder="Enter Advice">-->
+                        <!--</textarea>-->
+                        <div class="mt-2 text-right">
+                            <button class="btn btn-sm btn-outline-warning" type="button" *ngIf="selectedAdviceTemplate?.description.length" (click)="clearActions();"><i
+                  class="fas fa-fw fa-eraser" aria-hidden="true"></i>
+                CLEAR</button>
+                            <button class="btn btn-sm btn-outline-primary-light ml-1" type="button" *ngIf="showAddTemplateButton" (click)="openPopup(content)"><i class="fa fa-fw fa-plus" aria-hidden="true"></i> SET AS
+                TEMPLATE</button>
+                            <!--<button type="button" class="btn btn-sm btn-info ml-1" *ngIf="showEditTemplateButton"-->
+                            <!--(click)="openPopup(content)"><i class="icon fa-fw icon-edit" aria-hidden="true"></i>-->
+                            <!--EDIT</button>-->
+                        </div>
+                    </div>
+                </div>
+                <ng-template #content let-modal>
+                    <div class="select-section-popup" (click)="setLanguageTranslationId()">
+                        <div class="modal-header">
+                            <p class="modal-title text-uppercase">Save Template</p>
+                            <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('Close click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                        </div>
+                        <div class="modal-body py-2">
+                            <div class="form-group row mx-0">
+                                <div class="col-12 mb-2">
+                                    <label>Template Name<sup>*</sup></label>
+                                    <input name="templateName" (change)="prepareDataForSave();" [(ngModel)]="selectedAdviceTemplate.name" class="form-control" type="text" placeholder="Enter Template Name">
+                                </div>
+                                <div class="col-12">
+                                    <!--<textarea name="templateName" id="translateAdvice2" (keyup)="manageSaveTemplateOptions()" rows="7"-->
+                                    <!--class="form-control" [(ngModel)]="selectedAdviceTemplate.description"></textarea>-->
+                                    <app-snomedct [textAreaSize]="'large'" [selectedLanguage]="selectedLanguage" [inputModelContent]="selectedAdviceTemplate.description" [snowMedUsedKeyWordsArray]="selectedAdviceTemplate.conceptData" (receivedAction)="processAction($event)"></app-snomedct>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer p-1">
+                            <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss('Close click')">CANCEL
+              </button>
+                            <button type="button" class="btn btn-sm btn-outline-warning" (click)="setDefaultAdviceTemplate();manageSaveTemplateOptions();"><i class="fas fa-fw fa-eraser"></i>
+                CLEAR
+              </button>
+                            <button [disabled]="selectedAdviceTemplate?.description === '' || selectedAdviceTemplate.name === ''" type="button" class="btn btn-sm btn-outline-success" (click)="modal.close('save')"><i
+                  class="icon fa-fw icon-save"></i>
+                {{selectedAdviceTemplate.id === '' ? 'SAVE' : 'EDIT'}}
+              </button>
+                        </div>
+                    </div>
+                </ng-template>
+                <app-alert-message [alertMessage]="alertMessage"></app-alert-message>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+</div>

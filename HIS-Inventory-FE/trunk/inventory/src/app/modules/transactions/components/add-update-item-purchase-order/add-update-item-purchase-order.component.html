@@ -1,0 +1,117 @@
+<div class="modal-header border-bottom-0">
+    <p class="modal-title text-uppercase">{{itemData.type === 'update' ? 'UPDATE' : 'ADD'}} Item Value</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body p-0">
+    <form class="form-group" [formGroup]="purchaseItemForm" (ngSubmit)="addItemValue()" *ngIf="loadForm">
+        <div class="px-2 custom-bg">
+            <div class="form-row pt-1 pb-2">
+                <div class="col-3">
+                    <label>Item Code</label>
+                    <p class="mb-0 height-with-line-height">{{purchaseItemForm.value.item?.itemCode}}</p>
+                </div>
+                <div class="col-3">
+                    <label>Item Name</label>
+                    <p class="mb-0 height-with-line-height">{{purchaseItemForm.value.item?.itemName}}</p>
+                </div>
+                <div class="col-3">
+                    <label>Conversion Factor</label>
+                    <p class="mb-0 height-with-line-height">{{purchaseItemForm.value.item?.conversionFactor}}</p>
+                </div>
+                <div class="col-3">
+                    <label>Unit</label>
+                    <p class="mb-0 height-with-line-height">{{purchaseItemForm.value.item?.purchaseUnitName}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="px-2">
+            <div class="form-row mt-1">
+                <div class="col">
+                    <label>Quantity<sup>*</sup></label>
+                    <input type="number" #quantityValue id="quantityValue" tabindex="10" (blur)="updateFormValueCalculation('qty')" formControlName="qty" placeholder="Type Quantity" class="form-control form-control-sm" autofocus>
+                    <small class="text-danger" *ngIf="purchaseFormControl['qty'].errors?.required && submitted">
+                        Please Add Quantity!</small>
+                </div>
+                <div class="col">
+                    <label>Free Quantity</label>
+                    <input type="number" tabindex="11" (blur)="updateFormValueCalculation('freeQty')" formControlName="freeQty" placeholder="Type Quantity" class="form-control form-control-sm">
+                </div>
+                <div class="col">
+                    <label>Total Quantity</label>
+                    <p class="mb-0 height-with-line-height">{{purchaseItemForm.value.totalQty}}</p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label>Rate<sup>*</sup></label>
+                    <input type="number" tabindex="12" (blur)="updateFormValueCalculation('rate')" formControlName="rate" placeholder="Type Rate" class="form-control form-control-sm">
+                    <small class="text-danger" *ngIf="purchaseFormControl['rate'].errors?.required && submitted">
+                        Please Add RAte!</small>
+                </div>
+                <div class="col">
+                    <div class="form-row">
+                        <div class="col">
+                            <label>Discount Per Unit </label>
+                        </div>
+                        <div class="col text-right">
+                            <label>Percent</label>
+                            <input type="number" tabindex="13" (blur)="updateFormValueCalculation('discountPercent')" formControlName="discountPercent" class="form-control form-control-sm">
+                        </div>
+                        <span class="or">/</span>
+                        <div class="col">
+                            <label>Amount</label>
+                            <input type="number" tabindex="14" (blur)="updateFormValueCalculation('discountAmount')" formControlName="discountAmount" class="form-control form-control-sm">
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <label>Amount</label>
+                    <p class="mb-0 height-with-line-height">{{purchaseItemForm.value.amount}}</p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label>GST Code</label>
+                    <p class="mb-0 height-with-line-height">{{purchaseItemForm.value.gstCode}}</p>
+                </div>
+                <div class="col">
+                    <label>GST Percent</label>
+                    <p class="mb-0 height-with-line-height">{{purchaseItemForm.value.gstPercent}}</p>
+                </div>
+                <div class="col">
+                    <label>GST Amount</label>
+                    <p class="mb-0 height-with-line-height">{{purchaseItemForm.value.gstAmount}}</p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label>Net Amount</label>
+                    <p class="mb-0 height-with-line-height">{{purchaseItemForm.value.netAmount}}</p>
+                </div>
+                <div class="col">
+                    <label>Unit Price</label>
+                    <p class="mb-0 height-with-line-height">{{purchaseItemForm.value.unitRate}}</p>
+                </div>
+                <div class="col">
+                    <label>MRP</label>
+                    <input type="text" formControlName="mrp" placeholder="Type MRP" class="form-control form-control-sm" (blur)="onMrpUpdate()">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <label>Remark</label>
+                    <input type="text" tabindex="15" formControlName="remark" placeholder="Type Remark" class="form-control form-control-sm">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" tabindex="17" (click)="modal.dismiss('Cancel')">CANCEL</button>
+    <button type="button" class="btn btn-sm btn-outline-primary" tabindex="16" (click)="addItemValue()">
+        <i class="fa icon fa-fw" [ngClass]="itemData.data?.detailId ? 'fa-sync-alt':'icon-save'" aria-hidden="true"></i>
+        {{itemData.item?.detailId ? 'UPDATE' : 'SAVE'}}</button>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

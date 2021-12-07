@@ -1,0 +1,48 @@
+<div class="filter" [ngClass]="{'d-none': hideMiniNav}">
+    <div class="form-row mx-0">
+        <div class="col-6 px-0">
+            <app-breadcrumb></app-breadcrumb>
+        </div>
+        <div class="col-6 px-0">
+            <div class="form-row justify-content-end">
+                <div *ngIf="currentConstants?.isAddPopup" class="col text-right ">
+                    <button appShowHideElementOnPermission type="button" [currentActiveUrl]="url" class="btn btn-add btn-sm px-2 border-left" (click)="showHideAddSectionPopOver();" #addSectionPopover="ngbPopover" triggers="manual" [autoClose]="'outside'" placement="auto"
+                        [ngbPopover]="addSectionPopoverContent"><i class="fa fa-fw fa-plus"
+              aria-hidden="true"></i>
+            {{currentConstants?(currentConstants.btntext?currentConstants.btntext:'ADD'):'ADD'}}
+          </button>
+                </div>
+                <div *ngIf="currentConstants?.isFilter" class="col filter-btn">
+                    <button class="btn btn-sm btn-white" type="button" #p="ngbPopover" triggers="manual" [autoClose]="'outside'" placement="auto" [ngbPopover]="popContent" (click)="showfilterPopup()">
+            <i class="icon fa-fw icon-filter" aria-hidden="true"></i>
+          </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<ng-template #otherUrlsection>-->
+<!--<button type="button" appSohwhideElementOnPermission [currentActiveUrl]="url"-->
+<!--class="btn btn-add btn-sm px-2 border-left" (click)="showHideAddSectionPopOver();" #addSectionPopover="ngbPopover"-->
+<!--triggers="manual" [autoClose]="'outside'" placement="auto" [disabled]="commonService.isAddButtonDisable"-->
+<!--[ngbPopover]="addSectionPopoverContent"><i class="fa fa-fw fa-plus" aria-hidden="true"></i>-->
+<!--{{currentConstants?(currentConstants.btntext?currentConstants.btntext:'ADD'):'ADD'}}-->
+<!--</button>-->
+<!--</ng-template>-->
+<ng-template #addSectionPopoverContent>
+    <ng-container [ngSwitch]="url">
+    </ng-container>
+</ng-template>
+<ng-template #popContent>
+    <!-- (click)="showfilterPopup()" #p="ngbPopover"  [autoClose]="false" placement="bottom" [ngbPopover]="popContent" -->
+    <!--<h6 for="filter" class="border-bottom p-2 mb-0"><i class="fa fa-filter" aria-hidden="true"></i>-->
+    <!--Filter by</h6>-->
+    <div class="card-body p-2">
+        <ng-container [ngSwitch]="url">
+        </ng-container>
+    </div>
+    <div class="card-footer text-right p-1">
+        <button class="btn btn-sm btn-outline-secondary" type="button" (click)="ngbPopover.close()">CLOSE</button>
+    </div>
+</ng-template>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

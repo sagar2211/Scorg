@@ -1,0 +1,32 @@
+<ng-template #informationPanel>
+  <!-- <p></p> -->
+</ng-template>
+
+<div class="container-fluid chatting-page px-0" *ngIf="chatWithUserId;else informationPanel">
+  <div class="card border-0">
+    <div class="card-header user-details px-2">
+      <h4 class="text-capitalize mb-1">{{currentActiveChatWithUSer.name}}</h4>
+      <small class="text-muted font-weight-500"><i class="fas fa-circle font-size-dot-7 text-success"></i> Last seen 1h
+        ago</small>
+    </div>
+    <div class="card-body">
+      <div *ngFor="let chat of userCommunication">
+        <app-chat-message [currentLoggedInUser]="currentLoggedInUser" [chatCommunication]="chat"></app-chat-message>
+      </div>
+    </div>
+    <div class="align-items-center card-footer d-flex pl-0 py-0 chat-txtbox">
+      <div class="input-group">
+        <div class="input-group-append">
+          <span class="input-group-text smile-btn pointer"><i class="far fa-fw fa-smile font-20"></i></span>
+        </div>
+        <textarea name="" class="form-control rounded-0 type-msg" [(ngModel)]="message"
+          placeholder="Type your message..."></textarea>
+      </div>
+      <div class="pl-2">
+        <button class="btn btn-primary send-btn" (click)="postMessage()"><i
+            class="far fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

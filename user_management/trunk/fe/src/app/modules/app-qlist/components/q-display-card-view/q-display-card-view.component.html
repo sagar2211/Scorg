@@ -1,0 +1,107 @@
+<div class="form-row mx-0">
+  <div class="col-3">
+    <div class="text-center">
+      <p class="status-card-btn bg-primary mb-2">Queue
+        &nbsp;<span>({{ (qSlotList | globalSearchDat : appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true : ['NEXT', 'CALLING'] : true : !isShowConfirmedOrTentetive).length}})</span>
+      </p>
+    </div>
+    <div
+      [ngClass]="{'bg-img': !((qSlotList | globalSearchDat : appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true : ['NEXT', 'CALLING'] : true : !isShowConfirmedOrTentetive).length) }"
+      class="custom-card-height"
+      [ngStyle]="{'height': isCompLoadFrom === 'doctorDashboard' ? 'calc(100vh - 236px)' : 'calc(100vh - 160px)'}"
+      cdkDropList #queue="cdkDropList" [cdkDropListData]="qSlotList"
+      [cdkDropListConnectedTo]="[inConsultation, skip, complete]" (cdkDropListDropped)="queueDrop($event, 1)">
+      <!-- [cdkDragDisabled]="isDragAndDropHide" -->
+      <div cdkDrag [cdkDragData]="slot"
+        *ngFor="let slot of (qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true : ['NEXT', 'CALLING'] : true : !isShowConfirmedOrTentetive);let slotIndx = index; trackBy: trackByFunction">
+        <app-q-display-card-details (selectedAppointmentId)="getselectedAppointment($event)"
+          (selectedPatUhid)="getSelectedPatUhId($event)" [appointmentSlots]="qSlotList" [slot]="slot"
+          (skip)="onSkip($event)" [source]="'queue'" (cancelAppointment)="cancelAppointment($event)"
+          (updateStatus)="updateAppStatus($event.slot, $event.status, $event.roomId)">
+        </app-q-display-card-details>
+      </div>
+    </div>
+  </div>
+  <div class="col-3">
+    <div class="text-center">
+      <p class="status-card-btn bg-warning mb-2">In Consultation
+        &nbsp;<span>({{ (qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true: ['INCONSULTATION']).length}})</span>
+      </p>
+    </div>
+    <div
+      [ngClass]="{'bg-img': !( (qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true: ['INCONSULTATION']).length ) }"
+      class="custom-card-height"
+      [ngStyle]="{'height': isCompLoadFrom === 'doctorDashboard' ? 'calc(100vh - 236px)' : 'calc(100vh - 160px)'}"
+      cdkDropList #inConsultation="cdkDropList" [cdkDropListData]="qSlotList"
+      [cdkDropListConnectedTo]="[queue, complete, skip]" (cdkDropListDropped)="drop($event, 4)">
+      <!-- [cdkDragDisabled]="isDragAndDropHide" -->
+      <div cdkDrag [cdkDragData]="slot"
+        *ngFor="let slot of qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true: ['INCONSULTATION'];let slotIndx = index; trackBy: trackByFunction">
+        <app-q-display-card-details (selectedAppointmentId)="getselectedAppointment($event)"
+          (selectedPatUhid)="getSelectedPatUhId($event)" [slot]="slot" (cancelAppointment)="cancelAppointment($event)"
+          [source]="'inConsultation'" (updateStatus)="updateAppStatus($event.slot, $event.status)">
+        </app-q-display-card-details>
+      </div>
+    </div>
+  </div>
+  <div class="col-3">
+    <div class="text-center">
+      <p class="status-card-btn bg-danger mb-2">Skipped
+        &nbsp;<span>({{ (qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true: ['SKIP']).length}})</span>
+      </p>
+    </div>
+
+    <div
+      [ngClass]="{'bg-img': !( (qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true: ['SKIP']).length ) }"
+      class="custom-card-height"
+      [ngStyle]="{'height': isCompLoadFrom === 'doctorDashboard' ? 'calc(100vh - 236px)' : 'calc(100vh - 160px)'}"
+      cdkDropList #skip="cdkDropList" [cdkDropListData]="qSlotList" (cdkDropListDropped)="skipDrop($event, 7)"
+      [cdkDropListConnectedTo]="[queue, inConsultation]">
+      <!-- [cdkDragDisabled]="isDragAndDropHide" -->
+      <div cdkDrag [cdkDragData]="slot"
+        *ngFor="let slot of qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true: ['SKIP'];let slotIndx = index; trackBy: trackByFunction">
+        <app-q-display-card-details (selectedAppointmentId)="getselectedAppointment($event)"
+          (selectedPatUhid)="getSelectedPatUhId($event)" [appointmentSlots]="qSlotList" [slot]="slot"
+          (cancelAppointment)="cancelAppointment($event)" [source]="'skipped'"
+          (updateStatus)="updateAppStatus($event.slot, $event.status, $event.roomId)"></app-q-display-card-details>
+      </div>
+    </div>
+  </div>
+  <div class="col-3">
+    <div class="text-center">
+      <p class="status-card-btn bg-complete mb-2">Complete
+        &nbsp;<span>({{(qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true: ['COMPLETE']).length}})</span>
+      </p>
+    </div>
+    <div
+      [ngClass]="{'bg-img': !( (qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true: ['COMPLETE']).length ) }"
+      class="custom-card-height"
+      [ngStyle]="{'height': isCompLoadFrom === 'doctorDashboard' ? 'calc(100vh - 236px)' : 'calc(100vh - 160px)'}"
+      cdkDropList #complete="cdkDropList" [cdkDropListConnectedTo]="[queue]" [cdkDropListData]="qSlotList"
+      (cdkDropListDropped)="completDrop($event, 5)">
+      <!-- [cdkDragDisabled]="isDragAndDropHide" -->
+      <div cdkDrag [cdkDragData]="slot"
+        *ngFor="let slot of qSlotList | globalSearchDat: appointmentSearch: ['patName', 'patUhid'] | displayDataByStatus: true: ['COMPLETE'];let slotIndx = index; trackBy: trackByFunction">
+        <app-q-display-card-details (selectedAppointmentId)="getselectedAppointment($event)"
+          (selectedPatUhid)="getSelectedPatUhId($event)" [slot]="slot"
+          (updateStatus)="updateAppStatus($event.slot, $event.status)" [source]="'complete'">
+        </app-q-display-card-details>
+      </div>
+    </div>
+  </div>
+  <div class="slider-history-log"
+    [ngStyle]="{'height': isCompLoadFrom === 'doctorDashboard' ? 'calc(100vh - 195px)' : 'calc(100vh - 124px)'}"
+    [@slideInOut]="loganimationState"
+    [ngStyle]="{'width': isShowLog ? '30%' : '0px', 'visibility' : isShowLog ? 'visible' : 'hidden'}">
+    <ng-container *ngIf="selectedAppointmentId">
+      <app-appointment-history [appointmentId]="selectedAppointmentId"></app-appointment-history>
+    </ng-container>
+    <ng-container *ngIf="selectedPatientUhid">
+      <!-- <app-slider-patienthistory [selectedPatUhid]="selectedPatientUhid" [selectedProviderDetais]="providerDetails">
+      </app-slider-patienthistory> -->
+      <app-appointment-history [selectedPatUhid]="selectedPatientUhid"></app-appointment-history>
+    </ng-container>
+  </div>
+  <div class="backdrop-log" name="backdrop" *ngIf="isShowLog" (click)="closeLogSlider()">
+  </div>
+</div>

@@ -1,0 +1,380 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">{{addUpdateData?.title}}</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+        (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body p-2 ot-patient-appointment-add-update-modal-body mb-0 ">
+    <form [formGroup]="appointmentForm" (ngSubmit)="saveValue()" *ngIf="loadForm">
+        <div class="form-row form-group">
+            <div class="col-3 left-side">
+                <div class="input-group mb-2 custom-autocomplete-search" *ngIf="!addUpdateData.selectedAppointment">
+                    <app-custom-autocomplete-search [data]="patList" [searchKey]="keyword"
+                        [placeHolder]="'Search by Patient Id / Name / Mobile No.'" (selectEvent)="selectEvent($event)"
+                        (inputChangedEvent)='onChangeSearch($event)' (onScrolledToEnd)="onScroll()"
+                        (closedEvent)="closed($event)">
+                    </app-custom-autocomplete-search>
+                    <!-- <div class="input-group-append">
+                        <button (click)="addNewPatient()" class="btn btn-outline-primary-light border" type="button">
+                            <i class="icon fa fa-fw fa-plus" aria-hidden="true"></i>ADD</button>
+                    </div> -->
+                    <small class="text-danger" *ngIf="getFrmCntrols['patientId'].errors?.required && submitted">Please
+                        Select Patient!</small>
+                </div>
+                <ng-container *ngIf="appointmentForm.value.selectedPatient">
+                    <div class="card mb-1">
+                        <div class="card-header px-2 py-1">
+                            <p class="font-size-dot-9 font-weight-500 mb-0">OT ROOM : <span
+                                    class="text-primary">{{addUpdateData.room?.roomDesc}}</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body p-0">
+                            <div class="bg-light py-1">
+                                
+                                <div class="profile-img text-center">
+                                    <img alt="profile-image-male" 
+                                        *ngIf="appointmentForm.value.selectedPatient?.patImage" 
+                                        src="{{imgBaseUrl+'/images/patient/profile/'+appointmentForm.value.selectedPatient?.patImage}}">
+                                    <img alt="profile-image-male"
+                                        *ngIf="!appointmentForm.value.selectedPatient?.patImage && (appointmentForm.value.selectedPatient?.gender) === 'Male'"
+                                        src="./assets/img/male.svg">
+                                    <img alt="profile-image-female"
+                                        *ngIf="!appointmentForm.value.selectedPatient?.patImage && (appointmentForm.value.selectedPatient?.gender) === 'Female'"
+                                        src="./assets/img/female.svg">
+                                    <img *ngIf="!appointmentForm.value.selectedPatient?.patImage && (appointmentForm.value.selectedPatient?.gender) !== 'Male' && (appointmentForm.value.selectedPatient?.gender) !== 'Female'"
+                                        src="./assets/img/profile.svg" alt="profile-image-male">
+                                </div>
+                                <div class="mt-1 text-center">
+                                    <h6 class="text-primary mb-0">{{appointmentForm.value.selectedPatient?.patientName}}
+                                    </h6>
+                                    <p class="text-muted mb-0 small">
+                                        {{appointmentForm.value.selectedPatient?.patientId}}</p>
+                                </div>
+                            </div>
+                            <div class="form-row mx-0 gender-blood">
+                                <div class="col border-right px-2 py-1">
+                                    <p class="mb-0 font-size-dot-8"><small
+                                            class="text-muted vertical-align-text-top">Gender:
+                                        </small>{{appointmentForm.value.selectedPatient?.gender}}</p>
+                                </div>
+                                <div class="col px-2 py-1">
+                                    <p class="mb-0 font-size-dot-8"><small
+                                            class="text-muted vertical-align-text-top">Age:
+                                        </small>{{appointmentForm.value.selectedPatient?.age}} Yrs</p>
+                                </div>
+                            </div>
+                            <ul class="list-group">
+                                <li class="list-group-item border-top-0 border-left-0 border-right-0 py-1 px-2">
+                                    <p class="mb-0"><small class="text-muted vertical-align-text-top">Email:
+                                        </small>{{appointmentForm.value.selectedPatient?.emailId}}</p>
+                                </li>
+                                <li class="list-group-item border-left-0 border-right-0 py-1 px-2">
+                                    <p class="mb-0"><small class="text-muted vertical-align-text-top">Phone No:
+                                        </small>{{appointmentForm.value.selectedPatient?.mobileNo}}</p>
+                                </li>
+                                <li class="list-group-item border-left-0 border-right-0 border-bottom-0 py-1 px-2">
+                                    <p class="mb-0 font-size-dot-875"><small
+                                            class="text-muted vertical-align-text-top">Address: </small>
+                                            {{appointmentForm.value.selectedPatient.address}}
+                                    </p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            <ng-container *ngIf="appointmentForm.value.selectedPatient">
+                <div class="col-9">
+                    <div class="form-row form-group">
+                        <div class="col-2">
+                            <label>OT Selected Date<sup>*</sup></label>
+                            <app-date-picker [inputDate]="appointmentForm.value.scheduleDateTime"
+                                [(makeDisabled)]="disableDatePicker" (dateChange)="updateSelectedDate($event)">
+                            </app-date-picker>
+                            <small class="text-danger"
+                                *ngIf="getFrmCntrols['scheduleDateTime'].errors?.required && submitted">Please Select
+                                Date!</small>
+                        </div>
+                        <div class="col-2">
+                            <label>Start Time<sup>*</sup></label>
+                            <select class="form-control form-control-sm custom-order-select pointer"
+                                (change)="startTimeValueChange(appointmentForm.value.startTime)"
+                                formControlName="startTime">
+                                <option *ngFor="let item of startTimeArray" [disabled]="item.disabled"
+                                    [value]="item.time">
+                                    {{item.time}}</option>
+                            </select>
+                            <small class="text-danger"
+                                *ngIf="getFrmCntrols['startTime'].errors?.required && submitted">Please Select
+                                Time!</small>
+                        </div>
+                        <div class="col-2">
+                            <label>End Time<sup>*</sup></label>
+                            <select class="form-control form-control-sm custom-order-select pointer"
+                                (change)="endTimeValueChange(appointmentForm.value.endTime)" formControlName="endTime">
+                                <option *ngFor="let item of endTimeArray" [disabled]="item.disabled"
+                                    [value]="item.time">
+                                    {{item.time}}</option>
+                            </select>
+                            <small class="text-danger"
+                                *ngIf="getFrmCntrols['endTime'].errors?.required && submitted">Please
+                                Select Time!</small>
+                        </div>
+                        <div class="col-2">
+                            <label>Status<sup>*</sup></label>
+                            <ng-select [items]="statusArray" bindLabel="status" (change)="statusChange($event)"
+                                bindValue="statusId" formControlName="appStatusId" placeholder="Select">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="form-row form-group">
+                        <div class="col-6">
+                            <label>Speciality<sup>*</sup></label>
+                            <ng-select [items]="specialityList$ | async" bindLabel="name"
+                                (change)="onSpecilityChange($event)" bindValue="id" formControlName="specialityId"
+                                placeholder="Specility Select" [typeahead]="specialityInput$">
+                            </ng-select>
+                            <small class="text-danger"
+                                *ngIf="getFrmCntrols['specialityId'].errors?.required && submitted">Please
+                                Select Speciality</small>
+                        </div>
+                        <div class="col-6">
+                            <label>Surgery / Procedure<sup>*</sup></label>
+                            <ng-select [items]="procedureList$ | async" [disabled]="!appointmentForm.value.specialityId"
+                                bindLabel="name" (change)="onProcedureChange($event)" bindValue="id"
+                                formControlName="procedureId" placeholder="procedure Select"
+                                [typeahead]="procedureInput$">
+                            </ng-select>
+                            <small class="text-danger"
+                                *ngIf="getFrmCntrols['procedureId'].errors?.required && submitted">Please
+                                Select Surgery / Procedure</small>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body p-0 card-body-custom-height">
+                            <div class="form-row form-group border-bottom custom-bg-light-1 mx-0">
+                                <div class="custom-col-size align-self-center">
+                                    <label>Surgeon<sup>*</sup></label>
+                                </div>
+                                <div class="col">
+                                    <div class="form-row form-group custom-mb-0 ">
+                                        <div class="col-4 pl-1">
+                                            <label>Type</label>
+                                        </div>
+                                        <div class="col-6 pl-1">
+                                            <label>Name</label>
+                                        </div>
+                                        <div class="col-2">
+                                            <label>&nbsp;</label>
+                                        </div>
+                                    </div>
+                                    <div formArrayName="surgeon">
+                                        <ng-container
+                                            *ngFor="let sur of appointmentForm.controls.surgeon['controls']; let j=index; last as last;"
+                                            [formGroupName]="j">
+                                            <div class="form-row form-group">
+                                                <div class="col-4">
+                                                    <div *ngIf="j === 0">
+                                                        <ng-select [items]="[lclConstant.otUserGrpType.primary]"
+                                                            (change)="onGrpTypeChange('surgeon', true, $event, j)"
+                                                            formControlName="type" placeholder="Select Type">
+                                                        </ng-select>
+                                                    </div>
+                                                    <div *ngIf="j !== 0">
+                                                        <ng-select [items]="otUsrGrpType"
+                                                            (change)="onGrpTypeChange('surgeon', false, $event, j)"
+                                                            formControlName="type" placeholder="Select Type">
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div
+                                                        *ngIf="sur.value.type === lclConstant.otUserGrpType.primary || sur.value.type === lclConstant.otUserGrpType.additional">
+                                                        <ng-select [items]="surgeonList$ | async"
+                                                            [disabled]="!sur.value.type" bindLabel="userName"
+                                                            (change)="onSurgeonChange($event, j)" bindValue="userId"
+                                                            formControlName="userId" placeholder="Select Surgeon"
+                                                            [typeahead]="surgeonInput$">
+                                                        </ng-select>
+                                                    </div>
+                                                    <div *ngIf="sur.value.type === lclConstant.otUserGrpType.assistant">
+                                                        <ng-select [items]="assSurgeonList$ | async"
+                                                            [disabled]="!sur.value.type" bindLabel="userName"
+                                                            (change)="onAssSurgeonChange($event, j)" bindValue="userId"
+                                                            formControlName="userId" placeholder="Select Surgeon"
+                                                            [typeahead]="assSurgeonInput$">
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-2">
+                                                    <button *ngIf="last" type="button"
+                                                        class="btn btn-sm btn-outline-primary-light mr-1"
+                                                        [disabled]="!sur.value.userId" (click)="addNewRow('surgeon')"><i
+                                                            class="icon fa fa-fw fa-plus"
+                                                            aria-hidden="true"></i></button>
+                                                    <button *ngIf="sur.value.userId && j >0" type="button"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        [disabled]="!sur.value.userId"
+                                                        (click)="deleteRow('surgeon', j)"><i
+                                                            class="icon fa-fw icon-trash"
+                                                            aria-hidden="true"></i></button>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row form-group border-bottom custom-bg-light-2 mx-0">
+                                <div class="custom-col-size align-self-center">
+                                    <label>Anaesthetist</label>
+                                </div>
+                                <div class="col">
+                                    <div class="form-row form-group custom-mb-0">
+                                        <div class="col-4 pl-1">
+                                            <label>Type</label>
+                                        </div>
+                                        <div class="col-6 pl-1">
+                                            <label>Name</label>
+                                        </div>
+                                        <div class="col-2">
+                                            <label>&nbsp;</label>
+                                        </div>
+                                    </div>
+                                    <div formArrayName="anesthetist">
+                                        <ng-container
+                                            *ngFor="let sur of appointmentForm.controls.anesthetist['controls']; let j=index; last as last;"
+                                            [formGroupName]="j">
+                                            <div class="form-row form-group">
+                                                <div class="col-4">
+                                                    <div *ngIf="j === 0">
+                                                        <ng-select [items]="[lclConstant.otUserGrpType.primary]"
+                                                            (change)="onGrpTypeChange('anesthetist', true, $event, j)"
+                                                            formControlName="type" placeholder="Select Type">
+                                                        </ng-select>
+                                                    </div>
+                                                    <div *ngIf="j !== 0">
+                                                        <ng-select [items]="otUsrGrpType"
+                                                            (change)="onGrpTypeChange('anesthetist', false, $event, j)"
+                                                            formControlName="type" placeholder="Select Type">
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <ng-select [items]="anaesthetistList$ | async"
+                                                        [disabled]="!sur.value.type" bindLabel="userName"
+                                                        (change)="onAnaesthetistChange($event, j)" bindValue="userId"
+                                                        formControlName="userId" placeholder="Select Anaesthetist"
+                                                        [typeahead]="anaesthetistInput$">
+                                                    </ng-select>
+                                                </div>
+                                                <div class="col-2">
+                                                    <button *ngIf="last" type="button"
+                                                        class="btn btn-sm btn-outline-primary-light mr-1"
+                                                        [disabled]="!sur.value.userId"
+                                                        (click)="addNewRow('anesthetist')"><i
+                                                            class="icon fa fa-fw fa-plus"
+                                                            aria-hidden="true"></i></button>
+                                                    <button *ngIf="sur.value.userId && j >0" type="button"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        [disabled]="!sur.value.userId"
+                                                        (click)="deleteRow('anesthetist', j)"><i
+                                                            class="icon fa-fw icon-trash"
+                                                            aria-hidden="true"></i></button>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row form-group mx-0">
+                                <div class="custom-col-size align-self-center">
+                                    <label>Scrub Nurse</label>
+                                </div>
+                                <div class="col">
+                                    <div class="form-row form-group custom-mb-0">
+                                        <div class="col-4 pl-1">
+                                            <label>Type</label>
+                                        </div>
+                                        <div class="col-6 pl-1">
+                                            <label>Name</label>
+                                        </div>
+                                        <div class="col-2">
+                                            <label>&nbsp;</label>
+                                        </div>
+                                    </div>
+                                    <div formArrayName="nurse">
+                                        <ng-container
+                                            *ngFor="let sur of appointmentForm.controls.nurse['controls']; let j=index; last as last;"
+                                            [formGroupName]="j">
+                                            <div class="form-row form-group">
+                                                <div class="col-4">
+                                                    <div *ngIf="j === 0">
+                                                        <ng-select [items]="[lclConstant.otUserGrpType.primary]"
+                                                            (change)="onGrpTypeChange('nurse', true, $event, j)"
+                                                            formControlName="type" placeholder="Select">
+                                                        </ng-select>
+                                                    </div>
+                                                    <div *ngIf="j !== 0">
+                                                        <ng-select [items]="otUsrGrpType"
+                                                            (change)="onGrpTypeChange('nurse', false, $event, j)"
+                                                            formControlName="type" placeholder="Select">
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <ng-select [items]="scrubNurseList$ | async"
+                                                        [disabled]="!sur.value.type" bindLabel="userName"
+                                                        (change)="onNurseChange($event, j)" bindValue="userId"
+                                                        formControlName="userId" placeholder="Nurse Select"
+                                                        [typeahead]="scrubNurseInput$">
+                                                    </ng-select>
+                                                </div>
+                                                <div class="col-2">
+                                                    <button *ngIf="last" type="button"
+                                                        class="btn btn-sm btn-outline-primary-light mr-1"
+                                                        [disabled]="!sur.value.userId" (click)="addNewRow('nurse')"><i
+                                                            class="icon fa fa-fw fa-plus"
+                                                            aria-hidden="true"></i></button>
+                                                    <button *ngIf="sur.value.userId && j >0" type="button"
+                                                        class="btn btn-sm btn-outline-danger"
+                                                        [disabled]="!sur.value.userId"
+                                                        (click)="deleteRow('nurse', j)"><i class="icon fa-fw icon-trash"
+                                                            aria-hidden="true"></i></button>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row form-group form-group-mb-0">
+                        <div class="col-12">
+                            <label>Notes</label>
+                            <textarea class="form-control" rows="1" formControlName="note"
+                                placeholder="Notes"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </form>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" [disabled]="!appointmentForm?.valid"
+        (click)="saveValue()">
+        <i class="fa fa-fw"
+            [ngClass]="{'fa-plus': !addUpdateData.selectedAppointment, 'fa-sync-alt': addUpdateData.selectedAppointment}"
+            aria-hidden="true"></i>
+        {{addUpdateData.selectedAppointment ? 'Update' : 'Save'}}
+    </button>
+    <button *ngIf="addUpdateData.selectedAppointment" type="button" class="btn btn-sm btn-outline-danger text-uppercase"
+        (click)="deleteData(appointmentForm.value)">
+        <i class="icon fa-fw icon-trash mr-1" aria-hidden="true"></i>Delete</button>
+    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
+        (click)="closeModal('no')">Cancel</button>
+</div>
+<!-- <app-alert-message [alertMessage]="setAlertMessage"></app-alert-message> -->

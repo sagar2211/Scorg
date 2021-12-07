@@ -1,0 +1,81 @@
+
+<!-- [ngClass]="{'show-patient-menu': showHideMenu, 'left-side': showMenuType === 'slide'" -->
+<!--<div class="emr-column left-side" [ngClass]="{'show-patient-menu': showHideIconLabel, 'nursing-mode' : loadAs === 'nursing'}">-->
+  <div class="emr-column left-side" [ngClass]="{'show-patient-menu': showHideIconLabel}">
+  <select *ngIf="isShowChartGroup" class="form-control form-control-sm pointer chart-select border-top-0 border-right-0 border-left-0" (change)="onChartGroupChange()" [(ngModel)]="ipChartGroup">
+        <option value="IP_NOTES">IP Notes</option>
+        <option value="OPERATIVE_NOTES">OT Notes</option>
+        <option value="DISCHARGE_NOTES">Discharge Notes</option>
+    </select>
+    <ul class="nav flex-column flex-nowrap mb-0" [ngClass]="{'full-height-menu' : !isShowChartGroup}">
+        <ng-container *ngFor="let item of sideBarArray; let i = index;">
+            <!-- <ng-container *ngxPermissionsOnly="item.permission"> -->
+            <ng-container *ngIf="isActiveMenus(item)">
+                <li title="{{item.name}}" *ngIf="item.name !== 'Orders'; else elseBlock" class="item-hover position-relative pointer" [ngClass]="{'active': item.isActive}" (click)="onMenuClick(item, i)">
+                    <a class="text-decoration-none d-flex align-items-center item">
+                        <i class="icon left-icon" [ngClass]="item.cssClass" aria-hidden="true"></i><span class="label">{{item.name}}</span>
+                    </a>
+                </li>
+            </ng-container>
+            <!-- </ng-container> -->
+        </ng-container>
+        <ng-template #elseBlock>
+            <li class="item-hover position-relative pointer">
+                <a (click)="toggleOrderExpandCollapse = !toggleOrderExpandCollapse; onOrderMenuClick('orders_list');" class="text-decoration-none item d-flex align-items-center pointer"><i
+                        class="icon icon-emr-orders left-icon" aria-hidden="true"></i> <span class="label">Order</span>
+                    <i class="fa fa-fw fa-angle-down text-muted position-absolute right-icon"
+                        [ngClass]="{'fa-angle-down': !toggleOrderExpandCollapse, 'fa-angle-up': toggleOrderExpandCollapse}"></i></a>
+                <ul *ngIf="toggleOrderExpandCollapse" class="nav flex-column flex-nowrap mb-0 pointer sub-menu">
+                    <li (click)="onOrderMenuClick('orders_list')" [ngClass]="{'active': getIsActive('orders_list')}" class="item-hover position-relative pointer">
+                        <a class="text-decoration-none item d-flex align-items-center">
+                            <i class="fas fa-fw fa-list left-icon sub-icon" aria-hidden="true"></i>
+                            <span class="label">Order List</span></a>
+                    </li>
+                    <li (click)="onOrderMenuClick('quick_order')" [ngClass]="{'active': getIsActive('quick_order')}" class="item-hover position-relative pointer">
+                        <a class="text-decoration-none item d-flex align-items-center">
+                            <i class="icon fa-fw icon-quick left-icon sub-icon" aria-hidden="true"></i>
+                            <span class="label"> Quick Order</span></a>
+                    </li>
+                    <li class="item-hover position-relative">
+                        <a (click)="onOrderMenuClick('order_medicine');toggleAddOrderExpandCollapse = !toggleAddOrderExpandCollapse;" class="text-decoration-none item d-flex align-items-center pointer">
+                            <i class="fas fa-fw fa-plus left-icon sub-icon" aria-hidden="true"></i>
+                            <span class="label">Add Order</span><i class="fa fa-fw fa-angle-down text-muted position-absolute right-icon" [ngClass]="{'fa-angle-down': !toggleAddOrderExpandCollapse, 'fa-angle-up': toggleAddOrderExpandCollapse}"></i></a>
+                        <ul *ngIf="toggleAddOrderExpandCollapse" class="nav flex-column flex-nowrap mb-0 sub-sub-menu">
+                            <li (click)="onOrderMenuClick('order_medicine')" [ngClass]="{'active': getIsActive('order_medicine')}" class="item-hover position-relative pointer">
+                                <a class="text-decoration-none item d-flex align-items-center">
+                                    <span class="label">Medicine</span></a>
+                            </li>
+                            <li (click)="onOrderMenuClick('order_lab')" class="item-hover position-relative pointer" [ngClass]="{'active': getIsActive('order_lab')}">
+                                <a class="text-decoration-none item d-flex align-items-center">
+                                    <span class="label">Lab</span></a>
+                            </li>
+                            <li (click)="onOrderMenuClick('order_radiology')" class="item-hover position-relative pointer" [ngClass]="{'active': getIsActive('order_radiology')}">
+                                <a class="text-decoration-none item d-flex align-items-center">
+                                    <span class="label">Radiology</span></a>
+                            </li>
+                            <li (click)="onOrderMenuClick('order_diet')" class="item-hover position-relative pointer" [ngClass]="{'active': getIsActive('order_diet')}">
+                                <a class="text-decoration-none item d-flex align-items-center">
+                                    <span class="label">Diet</span></a>
+                            </li>
+                            <li (click)="onOrderMenuClick('order_nursing')" class="item-hover position-relative pointer" [ngClass]="{'active': getIsActive('order_nursing')}">
+                                <a class="text-decoration-none item d-flex align-items-center">
+                                    <span class="label">Nursing</span></a>
+                            </li>
+                            <li (click)="onOrderMenuClick('order_other')" class="item-hover position-relative pointer" [ngClass]="{'active': getIsActive('order_other')}">
+                                <a class="text-decoration-none item d-flex align-items-center">
+                                    <span class="label">Other</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li (click)="onOrderMenuClick('order_order_set')" [ngClass]="{'active': getIsActive('order_order_set')}" class="item-hover position-relative">
+                        <a class="text-decoration-none item d-flex align-items-center pointer">
+                            <i class="fas fa-fw fa-magic left-icon sub-icon" aria-hidden="true"></i>
+                            <span class="label">Order Set</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ng-template>
+    </ul>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

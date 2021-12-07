@@ -1,0 +1,37 @@
+<div class="autocomplete-container" [ngClass]="{ 'active': isOpen}">
+  <div class="input-container form-group">
+    <input class="form-control border-right-0 pl-2rem" #searchInput type="text" placeholder="{{placeHolder}}" [(ngModel)]="query"
+      (input)="onChange($event)" (focus)=handleFocus($event) [disabled]="disabled">
+      <div class="placeholder-icon">
+        <i class="icon fa-fw icon-search text-muted" aria-hidden="true"></i>
+      </div>
+  </div>
+  <div class="suggestions-container" >
+    <ul #filteredListElement>
+      <li *ngFor="let item of filteredList; let idx = index" class="item">
+        <!--string logic-->
+        <ng-container *ngIf='isType(item)'> 
+          <div [class.complete-selected]="idx === selectedIdx" (click)="select(item)">
+            <ng-container *ngTemplateOutlet="itemTemplate;  context: { $implicit: item | highlight: toHighlight }">
+            </ng-container>
+          </div>
+        </ng-container>
+        
+        <!--object logic-->
+        <ng-container *ngIf="!isType(item)">
+          <div [class.complete-selected]="idx === selectedIdx" (click)="select(item)">
+            <ng-container
+              *ngTemplateOutlet="itemTemplate; context: { $implicit: item | highlight: toHighlight : searchKeyword }">
+            </ng-container>
+          </div>
+        </ng-container>
+      </li>
+    </ul>
+  </div>
+  <!--Not found-->
+  <div class="not-found position-absolute w-100" *ngIf="isLoading ? !isLoading && notFound : notFound">
+    <ng-container *ngTemplateOutlet="notFoundTemplate;  context: { $implicit: notFoundText  }">
+    </ng-container>
+  </div>
+</div>
+<div class="overlay" *ngIf="overlay" (click)="handleOverlay()"></div>

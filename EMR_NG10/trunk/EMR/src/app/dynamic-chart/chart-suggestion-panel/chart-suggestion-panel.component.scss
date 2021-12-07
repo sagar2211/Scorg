@@ -1,0 +1,64 @@
+.suggestion {
+  .card-header {
+    height: 33px;
+    max-height: 33px;
+    background-color: #a1a7ca !important;
+
+    .col {
+      .btn {
+        width: 50px;
+        .fa-stack {
+          line-height: 25px;
+
+          .fa-slash {
+            line-height: 23px;
+          }
+
+          .fa-slash,
+          .fa-thumbtack {
+            font-size: 1.2em;
+          }
+        }
+      }
+    }
+  }
+
+  .card-body {
+    // .placeholder-icon {
+    //   top: 11px;
+    // }
+
+    .suggestion-list {
+      height: calc(100vh - 147px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      &.for-medicine {
+        height: calc(100vh - 185px);
+      }
+      .advice-btn {
+        box-sizing: border-box; /* border'ı 100%'ün içerisine kattım. */
+        width: 100%;
+        padding: 5px 5px 5px 34px;
+        overflow: hidden; /* Verilen genişlikten (100%) artanı gizlemesini istiyoruz */
+        white-space: nowrap; /* Yazıyı tek satırla sınırlandırıyoruz */
+        text-overflow: ellipsis; /* Yazının kesildiği yerden üç nokta vermesini sağlıyoruz*/
+      }
+    }
+  }
+
+  .custom-btn {
+    table-layout: fixed;
+    &.block-lavel {
+      display: table !important;
+      width: 100%;
+    }
+    i {
+      top: 9px;
+      left: 8px;
+    }
+
+    button {
+      padding-left: 34px;
+    }
+  }
+}

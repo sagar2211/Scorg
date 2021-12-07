@@ -1,0 +1,64 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">History</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup()">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body p-1">
+  <div class="row bg-light m-0">
+      <ng-container  *ngFor="let item of paymentHistory; let i = index;">
+    <div class="col-4 p-0">
+      <div class="row m-0">
+        <div class="col-12 border bg-white mr-1 mb-1">
+          <div class="row align-items-center mx-0">
+            <div class="col-9 text-left px-0">
+              <h6 class="my-0 font-size-14 pr-0"><span>{{item.paymentVoucherNo}}<i class="far fa-fw fa-calendar-o"
+                    aria-hidden="true"></i>{{item.date | date:'dd/MM/yyyy h:mm a'}}</span></h6>
+            </div>
+            <div class="col-3 text-right px-0">
+              <h6 class="my-0 font-size-14 pr-0"><span>{{item.billAmt}}</span></h6>
+            </div>
+          </div>
+          <div class="row align-items-center mx-0">
+            <div class="col-6 text-left px-0">
+              <h6 class="my-0 font-size-14 pr-0">
+                <span>{{item.mode}}</span>
+              </h6>
+              <p class="m-0" *ngIf="item.mode === 'CHEQUE'">
+                <span>{{item.chequeNo}}</span>
+              </p>
+              <p class="m-0" *ngIf="item.mode === 'CARD'">
+                <span>{{item.cardHolder}}/{{item.cardNo}}</span>
+              </p>
+              <p class="m-0" *ngIf="item.mode === 'NEFT' || item.mode === 'RTGS' || item.mode === 'IMPS'">
+                <span>{{item.accHolderName}}/{{item.onlineTransactionNo}}/{{item.bankName}}/{{item.branch}}/{{item.ifscCode}}</span>
+              </p>
+              <p class="m-0" *ngIf="item.mode === 'UPI'">
+                <span>{{item.upiTransactionNo}}</span>
+              </p>
+            </div>
+            <div class="col-6 text-right px-0">
+              <p class="mb-0 font-size-12 font-weight-500">
+                <span class="text-muted">Amount: </span>
+                <span>{{item.amount}}</span>
+              </p>
+            </div>
+             <div class="col-12 px-0">
+              <p class="mb-0 font-size-12 font-weight-500">
+                <span><i> Remarks </i> : <b>{{item.remarks}}</b><br></span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      </div>
+    </ng-container>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-primary" (click)="closePopup()">OK</button>
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closePopup()">CLOSE</button>
+</div>
+
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

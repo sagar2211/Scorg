@@ -1,0 +1,270 @@
+@import "../../../../scss/custom_bootstrap_theme";
+.admin-dashboard {
+    &.custom-container-fluid {
+        width: unset !important;
+        border: none !important;
+        box-shadow: none !important;
+        height: calc(100vh - 44px);
+        background-color: transparent !important;
+    }
+    .form-row {
+        .card {
+            @include border-radius(5px);
+            @include transition(box-shadow 0.4s);
+            @include custom-box-shadow(0, 0, 3px, rgba(28, 25, 83, 0.15));
+            &:hover {
+                @include transition(box-shadow 0.4s);
+                @include custom-box-shadow(0, 0, 6px, rgba(28, 25, 83, 0.3));
+            }
+            .card-header {
+                @include border-top-left-radius(5px);
+                @include border-top-right-radius(5px);
+                .form-row {
+                    .col-title {
+                        flex: 0 0 calc(100% - 42px);
+                        max-width: calc(100% - 42px);
+                        h6 {
+                            color: var(--bgColor);
+                            &:after {
+                                content: "";
+                                display: inherit;
+                                width: 50px;
+                                margin-top: 2px;
+                                border-bottom: 2px solid var(--bgColor);
+                            }
+                            .vs {
+                                font-size: 70%;
+                            }
+                            .bracket {
+                                opacity: 0.7;
+                                font-size: 70%;
+                                color: var(--bgColor);
+                            }
+                        }
+                    }
+                    .col-extend {
+                        flex: 0 0 42px;
+                        max-width: 42px;
+                        .icon {
+                            width: 42px;
+                            opacity: 0.75;
+                            padding: 10px;
+                            @include transition(opacity 0.4s);
+                            &:hover {
+                                opacity: 1;
+                                @include transition(opacity 0.4s);
+                            }
+                        }
+                    }
+                }
+            }
+            .card-footer {
+                @include border-bottom-left-radius(5px);
+                @include border-bottom-right-radius(5px);
+                * {
+                    line-height: 1.2;
+                }
+                &.bullets {
+                    p::before {
+                        content: "";
+                        width: 10px;
+                        height: 10px;
+                        margin-right: 5px;
+                        display: inline-block;
+                        @include border-radius(5px);
+                    }
+                }
+                h6 {
+                    color: var(--bgColor);
+                }
+            }
+        }
+        .card-appointment {
+            .card-body {
+                .form-row {
+                    h2 {
+                        color: var(--bgColor);
+                        font-size: 3.75rem;
+                        font-weight: 100;
+                    }
+                    @include xl-max {
+                        min-height: 222px;
+                    }
+                    @include medium-max {
+                        min-height: 141px;
+                    }
+                    @include medium-1599-max {
+                        min-height: 177px;
+                    }
+                }
+                // @media screen and (max-width: 1920px) {
+                //   .form-row {
+                //     min-height: 222px;
+                //   }
+                // }
+                // @media screen and (max-width: 1600px) {
+                //   .form-row {
+                //     min-height: 177px;
+                //   }
+                // }
+                // @media screen and (max-width: 1366px) {
+                //   .form-row {
+                //     min-height: 141px;
+                //   }
+                // }
+            }
+        }
+        .card-service-efficiency {
+            .card-footer {
+                .on-time::before {
+                    background-color: $primary;
+                }
+                .skip::before {
+                    background-color: $info;
+                }
+            }
+        }
+        .card-service-stats {
+            .card-footer {
+                .active-points::before {
+                    background-color: $primary;
+                }
+                .empty::before {
+                    background-color: $gray-500;
+                }
+                .on-time::before {
+                    background-color: $info;
+                }
+            }
+        }
+        .card-patients {
+            .card-body {
+                .progress {
+                    height: 0.6rem;
+                    border-radius: 20px;
+                    .progress-bar {
+                        border-radius: 20px;
+                    }
+                }
+            }
+            .card-footer {
+                .today::before {
+                    background-color: $primary;
+                }
+                .weekly::before {
+                    background-color: $info;
+                }
+            }
+        }
+        .card-opd-stats {
+            .card-body-opd {
+                height: calc(100vh - 410px);
+                overflow-y: auto;
+                .opd-list {
+                    .col-opd {
+                        flex: 0 0 15%;
+                        max-width: 15%;
+                        // background-color: var(--bgLight);
+                        @include border-radius(5px);
+                        img {
+                            width: 40px;
+                        }
+                        &.opd-count {
+                            padding: 0.2rem;
+                            @include border-radius(5px);
+                            background-color: var(--bgColor);
+                            span {
+                                font-size: 1.2rem;
+                                color: var(--txtColor);
+                                @include text-shadow(0, 0, 1px, #fff, 0, 0, 2px, #fff);
+                                sup {
+                                    font-weight: 100;
+                                    font-size: 70% !important;
+                                    top: -0.5em !important;
+                                    margin-left: 0;
+                                }
+                            }
+                        }
+                    }
+                    @media screen and (max-width: 1366px) {
+                        .col-opd {
+                            img {
+                                width: 36px;
+                            }
+                            .opd-count {
+                                padding: 0.1rem;
+                                span {
+                                    font-size: 1.5rem;
+                                }
+                            }
+                        }
+                    }
+                    .col-opd-txt {
+                        color: $gray-800;
+                        flex: 0 0 calc(100% - 20%);
+                        max-width: calc(100% - 20%);
+                    }
+                    @media screen and (max-width: 1366px) {
+                        .col-opd-txt h6 {
+                            font-size: 1rem;
+                        }
+                    }
+                }
+            }
+            @media screen and (max-width: 1920px) {
+                .card-body-opd {
+                    height: calc(100vh - 410px);
+                }
+            }
+            @media screen and (max-width: 1600px) {
+                .card-body-opd {
+                    height: calc(100vh - 300px);
+                }
+            }
+            @media screen and (max-width: 1366px) {
+                .card-body-opd {
+                    height: calc(100vh - 240px);
+                }
+            }
+        }
+        .card-patient-turnout {
+            .card-footer {
+                .appointment::before {
+                    background-color: $info;
+                }
+                .completed::before {
+                    background-color: $primary;
+                }
+                .no-shows::before {
+                    background-color: $orange;
+                }
+            }
+        }
+        .card-expected-actual {
+            .card-footer {
+                .completed::before {
+                    background-color: $primary;
+                }
+                .no-shows::before {
+                    background-color: $orange;
+                }
+                .empty::before {
+                    background-color: $gray-500;
+                }
+            }
+        }
+        .card-appointment-type-stats {
+            .card-footer {
+                .previlage::before {
+                    background-color: $primary;
+                }
+                .normal::before {
+                    background-color: $info;
+                }
+                .free::before {
+                    background-color: $success;
+                }
+            }
+        }
+    }
+}

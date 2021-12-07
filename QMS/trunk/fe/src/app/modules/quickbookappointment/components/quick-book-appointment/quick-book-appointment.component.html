@@ -1,0 +1,59 @@
+<div class="container-fluid custom-container-fluid">
+  <div class="row position-relative overflow-hidden">
+    <div class="col-3 p-0">
+      <app-patient-info (patientInfo)="getPatientInfo($event)">
+      </app-patient-info>
+      <app-patient-history (selectedAppointmentId)="getselectedAppointment($event)" [patinetInfo]="patientInfo" (followUpDetails)="recieveFollowUpDetails($event)"
+        (getAppointmentDataByEntity)="receiveAppointmentSearchEntity($event)">
+      </app-patient-history>
+    </div>
+    <div class="col-9 p-0 border-left">
+      <app-search-appointments [getEntityDataFromPatientHistory]="searchDataByPatientHistory"
+        (getAppointmentData)="getAppointmentList($event)" [followUpDetails]="followUpDetails" [isFromFrontDesk]="true">
+      </app-search-appointments>
+      <div class="card-body py-0 px-2">
+        <div class="form-row">
+          <div class="col-6">
+            <ng-select [items]="mappedUserList" bindLabel="displayMapUserName"
+              (change)="getAppointmentDataForSelectedEntity()"
+              placeholder="Search by Doctor/Service Provider/Joint Clinic" [(ngModel)]="selectedEntity">
+            </ng-select>
+          </div>
+          <div class="col text-right" *ngIf="selectedEntity" (click)="isOpenEntityInstructionBar()">
+            <button class="btn btn-sm btn-link text-info text-decoration-none"
+              data-schedule="Info"><i class="icon fa-fw icon-info-circle" aria-hidden="true"></i> Info</button>
+          </div>
+          <div class="col-12 appointment-view">
+            <ng-container *ngIf="isSlotViewFormLoad">
+              <app-slot-view (slotClicked)="slotClick($event)" [appointmentData]="appointmentData"
+                bindLabel="displayMapUserName" (clearQuickBook)='clearSlotData($event)' [isFromFrontDesk]="true"
+                [appointmentDateForSlot]="appontmentSlotDate" [selectedPatient]="patientInfo">
+              </app-slot-view>
+              <!-- [selectedEntityForFDesk]="selectedEntity" -->
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slide-rules-instructions" [@slideInOut]="animationState"
+      [ngStyle]="{'width': isShowInstruction ? '50%' : '0px', 'visibility' : isShowInstruction ? 'visible' : 'hidden'}">
+      <ng-container *ngIf="selectedEntity">
+        <app-service-provider-details [serviceProviderDetailsData]="serviceProviderDetailsData">
+        </app-service-provider-details>
+      </ng-container>
+    </div>
+    <div class="backdrop-log" name="backdrop" *ngIf="isShowInstruction" (click)="closeInstruction()"></div>
+
+    <div class="slider-history-log" [@slideInOut]="loganimationState"
+      [ngStyle]="{'width': isShowLog ? '30%' : '0px', 'visibility' : isShowLog ? 'visible' : 'hidden'}">
+      <ng-container *ngIf="selectedAppointmentDetailsId">
+        <app-appointment-history [appointmentId]="selectedAppointmentDetailsId"></app-appointment-history>
+      </ng-container>
+    </div>
+    <div class="backdrop-log" name="backdrop" *ngIf="isShowLog" (click)="closeLogSlider()">
+    </div>
+  </div>
+</div>
+
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+

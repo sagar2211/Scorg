@@ -1,0 +1,138 @@
+<div class="modal-header">
+  <h6 class="mb-0 pt-1 text-uppercase">Encounter Info. UHID - {{encounterData?.PenUhid}}/{{encounterData?.PenVisitno}}
+  </h6>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('cancel')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body p-0 bg-light">
+  <div class="row mx-0 p-1">
+    <div class="col-5 px-1">
+      <div class="row m-0 border bg-white">
+        <div class="col-3 px-1">
+          <img class="border p-2 my-1 patient-img" src="./assets/images/patient/female-patient.png"
+            id="patimage">
+        </div>
+        <div class="col-9 px-1">
+          <p class="text-primary mt-2 m-0 font-weight-500">{{encounterData?.PatientName}}</p>
+          <p class="m-0">
+            <label id="Gender">{{encounterData?.PatGender}}</label>,&nbsp;
+            <label id="Dob">{{encounterData?.PatDob}}</label>,&nbsp;
+            <label id="bldGroup">{{encounterData?.BloodGroup}}</label>
+          </p>
+        </div>
+        </div>
+        <div class="row m-0 mt-1 border bg-white">
+        <div class="col-12 px-1">
+          <p class="border-bottom mb-1 p-2 font-weight-500">Relative Detail</p>
+          <div class="row m-0">
+            <div class="col-4 px-1 text-muted">
+              Relative Name:
+            </div>
+            <div class="col-8 px-1 text-left font-weight-500">
+              {{encounterData?.PenRelFullname}}
+            </div>
+            <div class="col-4 px-1 text-muted">
+              Relationship:
+            </div>
+            <div class="col-8 px-1 text-left font-weight-500">
+              {{encounterData?.PenRelRelationship}}
+            </div>
+            <div class="col-4 px-1 text-muted">
+              Mobile:
+            </div>
+            <div class="col-8 px-1 text-left font-weight-500">
+              {{encounterData?.PenRelMobile}}
+            </div>
+             <div class="col-4 px-1 text-muted">
+              Email:
+            </div>
+            <div class="col-8 px-1 text-left font-weight-500">
+              {{encounterData?.PenRelEmail}}
+            </div>
+            <div class="col-4 px-1 text-muted">
+              Address:
+            </div>
+            <div class="col-8 px-1 text-left font-weight-500">
+              {{encounterData?.PenRelAddress1}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-7 px-1 border bg-white">
+      <p class="border-bottom mb-1 p-2 font-weight-500">Encounter Details</p>
+      <div class="row m-0">
+        <div class="col-2 px-1 text-muted">
+          Visit No:
+        </div>
+        <div class="col-10 px-1 text-left font-weight-500">
+          {{encounterData?.PenType}}/{{encounterData?.PenVisitno}}
+        </div>
+        <div class="col-2 px-1 text-muted">
+          {{ (encounterData?.PenType == 'IP' ? 'DOA' : 'DOE') }}:
+        </div>
+        <div class="col-10 px-1 text-left font-weight-500">
+          {{encounterData?.PenDatetime}}
+        </div>
+        <div class="col-2 px-1 text-muted">
+          Class:
+        </div>
+        <div class="col-10 px-1 text-left font-weight-500">
+          {{encounterData?.ChargingType}}
+        </div>
+        <div class="col-2 px-1 text-muted">
+          Category:
+        </div>
+        <div class="col-10 px-1 text-left font-weight-500">
+          {{encounterData?.PatientCategory}}
+        </div>
+        <div class="col-2 px-1 text-muted">
+          Reason:
+        </div>
+        <div class="col-10 px-1 text-left font-weight-500">
+          {{encounterData?.AdmitReason}}
+        </div>
+        <div class="col-2 px-1 text-muted">
+          Billing Class:
+        </div>
+        <div class="col-10 px-1 text-left font-weight-500">
+          {{encounterData?.AdmissionPatientClass}}
+        </div>
+        <div class="col-2 px-1 text-muted">
+          Bed Info:
+        </div>
+        <div class="col-10 px-1 text-left font-weight-500" *ngIf="encounterData?.PenType == 'IP'; else noBedInfoForOpEr">
+          {{ encounterData?.PatSubBedInfo?.length ? (encounterData?.PatSubBedInfo[0])
+            : encounterData?.PatBedInfo?.length ? (encounterData?.PatBedInfo[0]) : 'Bed Not Assigned' }}
+        </div>
+        <ng-template #noBedInfoForOpEr>
+          <div class="col-10 px-1 text-left font-weight-500">
+            Not Available for OP/ER
+          </div>
+        </ng-template>
+        <div class="col-2 px-1 text-muted">
+          Doctor:
+        </div>
+        <div class="col-10 px-1 text-left font-weight-500">
+          {{encounterData?.DocName}} (<label class="m-0" id="specialist">{{encounterData?.Specialist}}</label>)
+        </div>
+        <div class="col-2 px-1 text-muted">
+          Care Providers:
+        </div>
+        <div class="col-10 px-1 text-left font-weight-500">
+          {{careProvides}}
+          <!-- {{encounterData?.CareProviders.length !=0 ? encounterData?.CareProviders[encounterData?.CareProviders.length-1] :'NA'}} -->
+        </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="modal-footer py-1">
+  <div class="float-right mt-15 ml-auto">
+
+    <button type="button" class="btn btn-sm btn-warning text-uppercase" (click)="modal.dismiss();">Cancel</button>
+
+  </div>
+</div> -->

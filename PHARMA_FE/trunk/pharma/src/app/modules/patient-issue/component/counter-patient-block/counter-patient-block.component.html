@@ -1,0 +1,130 @@
+<form [formGroup]="allTypeSaleForm" class="">
+  <div class="card patient-info">
+    <div class="card-body p-1 patientsection" *ngIf="allTypeSaleForm.getRawValue().counterType?.id === 1">
+        <div class="form-row mx-0">
+          <div class="col-5 px-0">
+            <dx-autocomplete
+            placeholder="Patient name..."
+            valueExpr="patientId"
+            searchExpr="patientName"
+            [minSearchLength]="3"
+            [searchTimeout]="500"
+            [dataSource]="patientDataSource"
+            [disabled]="formValue.isEditMode"
+            [elementAttr]="{ class: 'dx-autocomplete-custom' }"
+  [(value)]="allTypeSaleForm.value.patientName"
+  (onValueChanged)="onCounterPatientNameChange($event)">
+  <div *dxTemplate="let item of 'item'">
+    <div class="row m-0 border border-bottom-0 detail-row">
+      <div class="col-4 px-1 border-right border-bottom font-weight-500">
+        <p class="m-0">{{item.patientName}}</p>
+      </div>
+      <div class="col-3 px-1 border-right border-bottom">
+        <p class="m-0">{{item.mobileNo}} </p>
+      </div>
+      <div class="col-5 px-1 border-right border-bottom">
+        <p class="m-0">{{item.patientAddress}}</p>
+      </div>
+    </div>
+    <!-- <span>{{item.patientName}}
+      <span *ngIf="item.mobileNo">/{{item.mobileNo}}</span>
+    <span *ngIf="item.patientAddress">/{{item.patientAddress}}</span>
+  </span> -->
+  </div>
+</dx-autocomplete>
+            </div>
+            <div class="col-5 px-0">
+              <input type="text" formControlName="patientMobile1" appOnlyNumbers placeholder="Patient Mobile" class="form-control form-control-sm" [readonly]="allTypeSaleForm.value.patientId" (keyup)="updateFormVal();">
+              </div>
+            <div class="col-2 px-0 pl-1">
+              <button [disabled]="formValue.isEditMode" class="btn btn-sm btn-outline-info" type="button" (click)="clearCounterPatient()" title="Clear">
+                Clear
+            </button>
+            </div>
+        </div>
+        <div class="form-row mx-0">
+          <div class="col-10 px-0">
+            <input type="text" formControlName="patientAddress1" placeholder="Patient Address" class="form-control form-control-sm" [readonly]="allTypeSaleForm.value.patientId" (keyup)="updateFormVal();">
+                        </div>
+            <div class="col-2 px-0 pl-1">
+              <button class="btn btn-sm btn-outline-info" type="button" (click)="getAllVauchers()" title="Vouchers">
+                VOUCHERS
+            </button>
+            </div>
+        </div>
+        </div>
+        <div class="card-body p-1" *ngIf="allTypeSaleForm.getRawValue().counterType?.id === 2">
+          <div class="form-row mx-0">
+            <div class="col-2 px-1">
+              <ng-select [items]="mastersService.accountTypeList" bindLabel="name" (change)="onAccountTypeChange($event)" formControlName="accountType" placeholder="Account Type">
+              </ng-select>
+              </div>
+              <div class="col-4 px-0">
+                <dx-autocomplete
+                #account
+            placeholder="Type Name"
+            searchExpr="accountName"
+            valueExpr="accountId"
+            [(value)]="allTypeSaleForm.value.accountName"
+            [disabled]="formValue.isEditMode"
+            [dataSource]="accountDataSource"
+            [minSearchLength]="3"
+            [searchTimeout]="500"
+            [elementAttr]="{ class: 'dx-autocomplete-custom' }"
+            (onValueChanged)="onDebtorNameChange($event)">
+            <div *dxTemplate="let item of 'item'">
+              <div class="row m-0 border border-bottom-0 detail-row">
+                <div class="col-4 px-1 border-right border-bottom font-weight-500">
+                  <p class="m-0">{{item.accountName}}</p>
+                </div>
+                <div class="col-3 px-1 border-right border-bottom">
+                  <p class="m-0">{{item.contactNo}} </p>
+                </div>
+                <div class="col-5 px-1 border-right border-bottom">
+                  <p class="m-0">{{item.address1}}</p>
+                </div>
+              </div>
+            </div>
+        </dx-autocomplete>
+                </div>
+                <div class="col-4 px-1">
+                  <input type="text" formControlName="accountContact1" appOnlyNumbers placeholder="Mobile" class="form-control form-control-sm" [readonly]="allTypeSaleForm.value.accountId" (keyup)="updateFormVal();">
+                  </div>
+                <div class="col-2 px-1">
+                  <button [disabled]="formValue.isEditMode" class="btn btn-sm btn-outline-info" type="button" (click)="clearDebtorAccount()" title="Clear">
+                    Clear
+                </button>
+                </div>
+              </div>
+              <div class="form-row mx-0 action-btn">
+                <div class="col-6 px-1">
+                  <p class="mb-0">
+                    <span class="text-muted font-size-dot-75">
+                      <button *ngIf="!formValue.isEditMode" type="button" (click)="openAccountPatientList()" class="btn btn-sm p-0" ngbTooltip="Click here to see patient">
+                    <i class="text-primary font-20 icon-info-circle"></i>
+                  </button>  Patient Info - </span>
+                    <span class="font-weight-500">{{allTypeSaleForm.getRawValue().selectedPatient?.patientId}}/{{allTypeSaleForm.getRawValue().selectedPatient?.patientName}}</span>
+                </p>
+                  </div>
+                  <div class="col-5">
+                  <div class="col-3 px-0  ">
+                    <button class="btn btn-sm btn-outline-info" type="button" (click)="attachPatientToDebtor()" title="Vouchers">
+                      Attach
+                  </button>
+                  </div>
+                  <div class="col-3 px-0 pl-1">
+                    <button class="btn btn-sm btn-outline-info" type="button" (click)="addNewaccount()" title="Vouchers">
+                     More
+                  </button>
+                  </div>
+                  <div class="col-2 px-0">
+                    <button class="btn btn-sm btn-outline-info" type="button" (click)="getAllVauchers()" title="Vouchers">
+                      VOUCHERS
+                  </button>
+                  </div>
+                </div>
+              </div>
+        </div>
+        </div>
+    </form>
+    <app-alert-message [alertMessage]="alertMsg"></app-alert-message>

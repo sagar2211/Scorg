@@ -1,0 +1,35 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+.slider-history-log {
+  left: 0;
+  height: calc(100vh - 87px);
+}
+
+:host ::ng-deep {
+  .appointment-search-height {
+    height: 90px !important;
+  }
+
+  .appointment-view .card-body {
+    height: calc(100vh - 227px);
+    overflow-y: auto;
+  }
+
+  .appointment-view .card-body .col-3 {
+    flex: 0 0 16.6666666667%;
+    max-width: 16.6666666667%;
+  }
+
+  .history-data {
+    height: calc(100vh - 123px) !important;
+  }
+}
+.slide-rules-instructions {
+  top: 0;
+  right: 0;
+  z-index: 1001;
+  overflow: hidden;
+  position: absolute;
+  @include border-radius(5px);
+}
+

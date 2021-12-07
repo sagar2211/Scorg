@@ -1,0 +1,292 @@
+<div class="custom-container-fluid container-patient-issue">
+    <form [formGroup]="allTypeSaleForm" (ngSubmit)="saveSaleData()" *ngIf="loadForm">
+        <div class="card-header p-0 position-relative border-bottom-0">
+            <div class="position-absolute patient-search-top" *ngIf="showPatientSearchBox || showDeptSearchBox">
+                <div class="input-group">
+                    <ng-container *ngIf="showPatientSearchBox">
+                        <ng-select class="patient-search" #patientSelection [items]="patientList$ | async" bindLabel="patientName" (change)="onPatientChange($event)" bindValue="patientId" formControlName="patientId" placeholder="Patient Select" [typeahead]="patientListInput$">
+                            <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                                <div class="form-row align-items-center justify-content-center mx-0 p-1">
+                                    <div class="col px-0 col-profile-img">
+                                        <img alt="profile-image-female" src="./assets/img/female.svg">
+                                    </div>
+                                    <div class="col px-0">
+                                        <p class="mb-0 font-size-dot-875">{{item.patientName}}</p>
+                                        <p class="mb-0 font-size-dot-75 text-muted">
+                                            {{item.gender}} / {{item.age}} Year(s)
+                                        </p>
+                                        <p class="mb-0 font-size-dot-75 text-muted">Date: {{item.admissionDate| customDate: '' : 'DD-MM-YYYY'}}</p>
+                                    </div>
+                                    <div class="col px-0 text-right">
+                                        <p class="mb-0 font-size-dot-75 text-muted">Visit No: {{item.visitNo}}</p>
+                                        <p class="mb-0 font-size-dot-75 text-muted">Visit Type: {{item.visitType}}</p>
+                                        <p class="mb-0 font-size-dot-75 text-muted">Bed No: {{item.bedNo}}</p>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ng-select>
+                    </ng-container>
+                    <ng-container *ngIf="showDeptSearchBox">
+                        <ng-select class="patient-search" #deptSelection [items]="deptList$ | async" bindValue="id" bindLabel="name" (change)="onDeptChange($event)" formControlName="deptId" placeholder="Department Select" [typeahead]="deptListInput$">
+                        </ng-select>
+                    </ng-container>
+                    <div class="input-group-append">
+                        <ng-container *ngIf="showPatientSearchBox">
+                            <button class="btn btn-white border text-muted" type="button" title="Close" (click)="enablePatientSearch(false)">
+                        &times;</button>
+                        </ng-container>
+                        <ng-container *ngIf="showDeptSearchBox">
+                            <button class="btn btn-white border text-muted" type="button" title="Close" (click)="enableDeptSearch(false)">
+                        &times;</button>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <div class="custom-backdrop" [ngClass]="{'added': showPatientSearchBox || showDeptSearchBox}"></div>
+            <div class="form-row mx-0">
+              <div class="col-12 mb-1 p-0">
+                <ul ngbNav #nav="ngbNav" [(activeId)]="activeCounterIndex" class="counter-list nav-tabs content-tabset nav bg-light">
+                  <ng-container *ngFor="let counter of counterList; let i = index">
+                    <li [ngbNavItem]="i">
+                      <a ngbNavLink (click)="onChangeCounter(i)">
+                        <span class="badge badge-primary mr-2">{{i + 1}}</span>
+                        <span class="amount">{{ counter.formData.netPayableAmount | number:'1.2-2'}}</span>
+                          </a>
+                      </li>
+                </ng-container>
+                </ul>
+              </div>
+            </div>
+            <div class="form-row mx-0 options">
+                <div class="col-3">
+                    <div class="card patient-info">
+                        <div class="card-body p-1">
+                            <div class="form-row mx-0">
+                                <div class="col-12">
+                                    <ng-select [items]="allSaleList" bindLabel="name" (change)="onAllSaleTypeChange($event);" formControlName="allSaleType" placeholder="Select Sale">
+                                    </ng-select>
+                                </div>
+                                <div class="col-10 mt-1">
+                                  <ng-select [items]="voucherTypeList" bindLabel="name" (change)="onVoucherTypeChange($event);" formControlName="voucherType" placeholder="Select Type">
+                                  </ng-select>
+                                </div>
+                                <div class="col-2 mt-1" *ngIf="allTypeSaleForm?.getRawValue()?.allSaleType?.patientType">
+                                  <button  class="btn btn-sm btn-outline-info" type="button" title="">
+                                    {{allTypeSaleForm?.getRawValue()?.allSaleType?.patientType?.count}}
+                                </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="col-2">
+                        <div class="card patient-info">
+                            <div class="card-body p-1">
+                                <div class="form-row mx-0 mb-4">
+                                    <div class="col-12">
+                                        <ng-container *ngIf="!isVoucherDropDownVisible && allTypeSaleForm?.getRawValue()?.consumptionId">
+                                            {{allTypeSaleForm?.getRawValue()?.consumptionNo}}
+                                        </ng-container>
+                                        <ng-container *ngIf="!isVoucherDropDownVisible && allTypeSaleForm?.getRawValue()?.consumptionId === 0">
+                                            ------/-----/----/---
+                                        </ng-container>
+                                        <ng-container *ngIf="isVoucherDropDownVisible">
+                                            <ng-select [items]="voucherList" bindValue="consumptionId" bindLabel="customName" (change)="getSelectedVoucher($event); isVoucherDropDownVisible = false" formControlName="selectedVoucher" placeholder="Select Voucher">
+                                                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                                                    <p class="mb-0" *ngIf="item.consumptionId">
+                                                        <span>{{item.consumptionNo}}//</span>
+                                                        <span>{{item.consumptionDate| customDate: '' : 'DD-MM-YYYY'}}//</span>
+                                                        <span>{{item.netTotalAmount}}</span>
+                                                    </p>
+                                                    <p class="mb-0" *ngIf="item.consumptionId === 0">
+                                                        <span>{{item.consumptionNo}}</span>
+                                                    </p>
+                                                </ng-template>
+                                            </ng-select>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div class="form-row mx-0">
+                                    <div class="col px-0">
+                                        <p class="mb-0 text-muted font-size-dot-75">Date - {{allTypeSaleForm.getRawValue().consumptionDate| customDate: '' : 'DD-MM-YYYY'}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-container *ngIf="!showCounterPatientSearchBox">
+                      <div class="col-4" *ngIf="(allTypeSaleForm.getRawValue()?.saleType?.id === 2 || allTypeSaleForm.getRawValue()?.patientType?.id === 1 || allTypeSaleForm.getRawValue()?.patientType?.id === 2)">
+                        <div class="card patient-info">
+                            <div class="card-body p-1">
+                                <div class="form-row mx-0">
+                                    <div class="col-10 px-0">
+                                        <p class="mb-0">
+                                            <span class="text-muted font-size-dot-75"> Patient Info - </span>
+                                            <span class="font-weight-500">{{allTypeSaleForm.getRawValue().selectedPatient?.patientId}}</span>
+                                        </p>
+                                        <div class="patient-name">
+                                            <p class="mb-0 font-size-dot-875 font-weight-500">
+                                              <span *ngIf="allTypeSaleForm.getRawValue().selectedPatient?.patientName">
+                                                <i class="fa fa-user text-info"></i>
+                                                {{allTypeSaleForm.getRawValue().selectedPatient?.patientName}}
+                                              </span>
+                                                <ng-container  *ngIf="!allTypeSaleForm.getRawValue().isEditMode">
+                                                  <button *ngIf="(allTypeSaleForm.getRawValue()?.patientType?.id === 1 || allTypeSaleForm.getRawValue()?.patientType?.id === 2) && allTypeSaleForm.getRawValue().selectedPatient?.patientName" type="button" (click)="openPatientPrescriptionPopup()" class="btn btn-sm p-0"
+                                                  ngbTooltip="Click here to see prescriptions">
+                                                <i class="text-primary font-20 icon-info-circle"></i>
+                                              </button>
+                                                </ng-container>
+                                            </p>
+                                            <p class="mb-0 text-muted font-size-dot-75">
+                                                {{allTypeSaleForm.getRawValue().selectedPatient?.gender}}
+                                                <ng-container *ngIf="allTypeSaleForm.getRawValue()?.saleType?.id !== 2">
+                                                  <span *ngIf="allTypeSaleForm.getRawValue().selectedPatient?.age">/ {{allTypeSaleForm.getRawValue().selectedPatient?.age}} Year(s)</span>
+                                                    <span *ngIf="allTypeSaleForm.getRawValue().advanceAccountAmount">
+                                                      / Adv. - {{allTypeSaleForm.getRawValue().advanceAccountAmount}}
+                                                     </span>
+                                                </ng-container>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-2 px-0" *ngIf="(allTypeSaleForm.getRawValue()?.patientType?.id === 2 || allTypeSaleForm.getRawValue()?.patientType?.id === 1)">
+                                      <button [disabled]="allTypeSaleForm.getRawValue().isEditMode" class="btn btn-sm btn-outline-info" type="button" (click)="enablePatientSearch(true)" title="Search New Patient">
+                                    SEARCH
+                                </button>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-4" *ngIf="(allTypeSaleForm.getRawValue()?.patientType?.id === 3)">
+                        <div class="card patient-info">
+                            <div class="card-body p-1">
+                                <div class="form-row mx-0">
+                                    <div class="col px-0">
+                                        <p class="mb-0">
+                                            <span class="text-muted font-size-dot-75"> Dept. Info - </span>
+                                            <span class="font-weight-500">{{allTypeSaleForm.getRawValue().selectedDept?.id}}</span>
+                                        </p>
+                                        <div class="patient-name">
+                                            <p class="mb-0 font-size-dot-875 font-weight-500">
+                                                {{allTypeSaleForm.getRawValue().selectedDept?.name}}
+                                                <ng-container *ngIf="!allTypeSaleForm.getRawValue().isEditMode">
+                                                  <button *ngIf="allTypeSaleForm.getRawValue().selectedDept?.name" type="button" (click)="openIndentItemPopup()" class="btn btn-sm p-0" ngbTooltip="Click here to see prescriptions">
+                                                    <i class="text-primary font-20 icon-info-circle"></i>
+                                                  </button>
+                                                </ng-container>
+                                              </p>
+                                        </div>
+                                    </div>
+                                    <div class="col px-0 text-right col-search-btn">
+                                      <ng-container *ngIf="!allTypeSaleForm.getRawValue().isEditMode">
+                                        <button class="btn btn-sm btn-outline-info" type="button" (click)="enableDeptSearch(true)" title="Search New Patient">
+                                          SEARCH
+                                      </button>
+                                      </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card patient-info">
+                            <div class="card-body p-1">
+                                <div class="form-row mx-0">
+                                    <div class="col px-0">
+                                        <ng-container *ngIf="allTypeSaleForm.getRawValue()?.patientType?.id === 2 || allTypeSaleForm.getRawValue()?.patientType?.id === 1">
+                                            <p class="mb-1">
+                                                <span class="text-muted font-size-dot-75" *ngIf="allTypeSaleForm.getRawValue().selectedPatient?.visitType"> Encounter - </span>
+                                                <span class="font-size-dot-875 font-weight-500" *ngIf="allTypeSaleForm.getRawValue().selectedPatient?.visitType">{{allTypeSaleForm.getRawValue().selectedPatient?.visitType}} {{allTypeSaleForm.getRawValue().selectedPatient?.visitNo}}</span>
+                                            </p>
+                                            <div class="patient-name">
+                                                <p class="mb-1 text-muted font-size-dot-75" *ngIf="allTypeSaleForm.getRawValue().selectedPatient?.admissionDate">
+                                                    <span class="text-muted font-size-dot-75"> DOA -
+                                          </span>
+                                          <span class="font-size-dot-875 font-weight-500">
+                                            {{allTypeSaleForm.getRawValue().selectedPatient?.admissionDate| customDate: '' : 'DD-MM-YYYY'}}
+                                          </span>
+                                                </p>
+                                                <p class="mb-0 text-muted font-size-dot-75" *ngIf="allTypeSaleForm.getRawValue().selectedPatient?.bedNo">
+                                                    <span class="text-muted font-size-dot-75"> Bed No. -
+                                          </span>
+                                          <span class="font-size-dot-875 font-weight-500">
+                                            {{allTypeSaleForm.getRawValue().selectedPatient?.bedNo}}
+                                          </span>
+                                                </p>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                    <div class="col px-0 text-right col-vouchers-btn">
+                                        <button class="btn btn-sm btn-outline-info" type="button" (click)="getAllVauchers()" title="Vouchers">
+                                      VOUCHERS
+                                  </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </ng-container>
+
+                   <ng-container *ngIf="showCounterPatientSearchBox">
+                    <div class="col-7">
+                   <app-counter-patient-block [clearDebtorOrPatient]="clearPatOrDebtor" [formValue]="allTypeSaleForm.getRawValue()" (updateFormValue)="getCounterPatientFormData($event)" (voucherData)="getAllVauchers()"></app-counter-patient-block>
+                  </div>
+                  </ng-container>
+            </div>
+        </div>
+        <div class="card-body p-1 card-body-patient-issue">
+            <div class="form-row mx-0 mb-1">
+                <div class="col-12">
+                    <app-item-data-grid (updatedItemList)="getUpdatedItemList($event)" [itemListOperation]="itemListOperation" [seletcedItemList]="selectedVoucherItemList" [isEditingAllow]="isItemGridEditingAllow" [isBatchSelectSettingApply]="batchSetting"></app-item-data-grid>
+                </div>
+            </div>
+            <ng-container *ngIf="allTypeSaleForm.getRawValue().showTotal">
+                <div class="position-fixed bg-white p-0 total-content">
+                    <div class="form-row form-group mx-0 custom-mb-0">
+                        <div class="col-7">
+                            <ng-container *ngIf="allTypeSaleForm.getRawValue().voucherType?.id === 1">
+                                <app-show-payment [formValue]="allTypeSaleForm.getRawValue()" (updateFormValue)="getFormCalculationPayment($event)"></app-show-payment>
+                            </ng-container>
+                        </div>
+                        <div class="col-5">
+                            <app-show-total-value [formValue]="allTypeSaleForm.getRawValue()" (updateFormValue)="getFormCalculation($event)"></app-show-total-value>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="card-footer py-0 border-top mt-2">
+          <div class="float-right pt-1 pb-0">
+            <button type="button" class="btn btn-primary btn-sm mr-1">
+                <i class="icon fa-fw icon-print" aria-hidden="true"></i>
+                PRINT
+            </button>
+            <button type="submit" class="btn btn-primary btn-sm">
+          <i class="icon fa-fw icon-save" aria-hidden="true"></i>  SAVE
+        </button>
+        
+        </div>
+            <div class="float-right pt-2 pb-0 col-3">
+                <h6 class="m-0 text-strong" *ngIf="allTypeSaleForm.getRawValue().netPayableAmount"> Net Amount : {{allTypeSaleForm.getRawValue().netPayableAmount| number:'1.2-2'}}</h6>
+                <h6 class="m-0 text-strong" *ngIf="!allTypeSaleForm.getRawValue().netPayableAmount"> Net Amount : 0.00</h6>
+            </div>
+            <div class="is-approved is-show-detail form-group ml-2 float-right clearfix pt-1 pb-0">
+                <label class="font-size-dot-875 d-inline-block mr-2">Show Detail</label>
+                <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                    <input type="checkbox" formControlName="showTotal" class="custom-control-input" id="showTotal">
+                    <label class="custom-control-label pointer" [class.active]="allTypeSaleForm.getRawValue().showTotal" for="showTotal"></label>
+                    <span class="text-uppercase" [class.active]="allTypeSaleForm.getRawValue().showTotal">{{allTypeSaleForm.getRawValue().showTotal ? 'Yes' :
+                    'No'}}</span>
+                </div>
+            </div>
+            <div class="float-left py-1">
+              <!-- <button type="button" class="btn btn-primary btn-sm">
+              Print
+          </button> -->
+          </div>
+        </div>
+    </form>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<!-- <app-print-data [printData]="printData" (printDiaglogClose)="navigateToSummery()"></app-print-data> -->

@@ -1,0 +1,24 @@
+<div class="card" *ngIf="!showOnGoingMedicine">
+    <div class="card-header cus-head border-dash-bottom px-2 py-1">
+        <h6 class="mb-0">Medications {{medicationList[0]?.consultation_datetime | date: 'dd-MM-yyyy' }}</h6>
+    </div>
+    <div class="card-body overflow-auto p-2 medications-card-body">
+        <ul class="list-unstyled mb-0" *ngIf="medicationList.length">
+            <li *ngFor="let item of medicationList[0].chart_data?.prescription_detail">
+                <span class="tag-list" [innerHTML]="item.medicine?.medicine_name"></span>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="card" *ngIf="showOnGoingMedicine">
+    <div class="card-header cus-head border-dash-bottom px-2 py-1">
+        <h6 class="mb-0">On Going Medications</h6>
+    </div>
+    <div class="card-body overflow-auto p-2 medications-card-body">
+        <ul class="list-unstyled mb-0" *ngIf="patientOnGoingMedication.length">
+            <li *ngFor="let item of patientOnGoingMedication">
+                <span class="tag-list" [innerHTML]="item.medicineObj?.name"></span>
+            </li>
+        </ul>
+    </div>
+</div>

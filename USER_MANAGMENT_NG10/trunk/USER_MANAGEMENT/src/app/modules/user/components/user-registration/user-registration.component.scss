@@ -1,0 +1,80 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+.user-registration-height {
+  height: calc(100vh - 200px);
+  overflow-y: auto;
+
+  @include medium-max {
+    height: calc(100vh - 198px);
+  }
+
+  h6 {
+    color: $gray-700;
+  }
+
+  .custom-checkbox .custom-control-label {
+    &.error {
+      &:before {
+        border-color: $danger !important;
+      }
+    }
+  }
+
+  .user-image {
+    position: relative;
+
+    img {
+      width: 150px;
+      max-width: 150px;
+      height: 150px;
+      background-color: var(--bgLight);
+    }
+
+    .img-upload {
+      position: relative;
+    }
+
+    .edit-profile-pic {
+      position: absolute;
+      left: auto;
+      right: 5px;
+      top: 35px;
+      padding: 10px;
+      color: var(--txtColor);
+      background-color: var(--bgColor);
+      line-height: 0;
+      height: 30px;
+      width: 30px;
+      align-items: center;
+
+      &:hover {
+        opacity: 0.75;
+      }
+    }
+
+    #imageUpload {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      opacity: 0;
+      z-index: -1;
+    }
+  }
+}
+
+.cdisbaled {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.cdisbaled.custom-checkbox .custom-control-input~.custom-control-label::before {
+  background-color: #e9ecef;
+}
+
+.cdisbaled.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+  background-color: $primary;
+}
+.dummy-btn {
+  width: 70px;
+  margin: 0.25rem;
+}

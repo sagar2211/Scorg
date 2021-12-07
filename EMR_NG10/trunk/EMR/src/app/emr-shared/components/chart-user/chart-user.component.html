@@ -1,0 +1,43 @@
+<div class="examination-label">
+  <ngb-accordion (panelChange)="menuClicked($event)" [closeOthers]="true" [activeIds]="componentInfo?.activeIdsOfPanels">
+    <ngb-panel id="chart_user">
+      <ng-template ngbPanelTitle>
+        <div class="form-row align-items-center mx-0">
+          <div class="col-3">
+            <p class="mb-0 font-size-dot-875">{{componentInfo?.section_name}}</p>
+          </div>
+          <div class="col-9">
+            <button class="btn btn-sm btn-link text-white text-right" type="button">
+              <i [ngClass]="isPanelOpen ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <form [formGroup]="chartUserForm">
+          <div class="col-6">
+            <!-- <label>User: </label> -->
+            <ng-select [items]="doctorList$ | async" bindLabel="user_name" [loading]="doctorLoading" bindValue="user_id" (change)="onUserSelect($event)" formControlName="chart_user_id" placeholder="User"
+              [typeahead]="docListInput$">
+            </ng-select>
+          </div>
+        </form>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>
+<!-- <div class="col-6 float-left clearfix">
+  <div class="form-row form-group align-items-center mx-0">
+    <div class="col-3">
+      <label class="mb-0 font-size-dot-875">{{componentInfo?.section_name}}</label>
+    </div>
+    <div class="col-9">
+      <form [formGroup]="chartUserForm">
+        <ng-select [items]="doctorList$ | async" bindLabel="user_name" [loading]="doctorLoading" autofocus
+          bindValue="user_id" (change)="onUserSelect($event)" formControlName="chart_user_id" placeholder="User"
+          [typeahead]="docListInput$">
+        </ng-select>
+      </form>
+    </div>
+  </div>
+</div> -->

@@ -1,0 +1,35 @@
+<div class="mb-1 container-fluid px-0 schedule-f line-height-1"
+  *ngIf="rulesData.timePerPatient || rulesData.appointmentTimeSlot">
+  <div class="row mx-0">
+    <div class="col px-0">
+      <a class="text-info" (click)="rulesData.panalCollapse= !rulesData.panalCollapse"><i class="fa fa-fw pointer"
+          [ngClass]="{'fa-plus-square': rulesData.panalCollapse,
+                        'fa-minus-square':
+                !rulesData.panalCollapse}" aria-hidden="true"></i></a>
+    </div>
+    <div class="col px-0">
+      <p class="float-left font-weight-500 heading">SCHEDULE RULES</p>
+      <div class="float-right"><button type="button" class="btn btn-xxs btn-info mb-1" *ngIf="showEditButton"
+          (click)="editScheduleData(rulesData, 'rules')"><i class="icon fa-fw icon-edit" aria-hidden="true"></i>
+          EDIT</button>
+      </div>
+    </div>
+  </div>
+  <div class="ml-3 expanded" [ngClass]="{'collapsed': rulesData.panalCollapse}">
+    <p>Default Time Per Patient<small>(min)</small>:
+      <span>{{rulesData.timePerPatient}}</span>
+    </p>
+    <p>Appointment Time Slot<small>(min)</small>: <span>{{rulesData.appointmentTimeSlot}}</span>
+    </p>
+    <div class="ml-3 pt-1" *ngIf="rulesData.serviceForm.length > 0">
+      <div class="ml-2 pt-1" *ngFor="let item of rulesData.serviceForm">
+        <div *ngIf="item.timeSlot || item.maxNum">
+          <p class="font-weight-bolder">{{item.name}}</p>
+          <p *ngIf="item.timeSlot">Time Slot<small>(min)</small>: <span>{{item.timeSlot}}</span></p>
+          <p *ngIf="item.maxNum">Max Appointments<small>(min)</small>: <span>{{item.maxNum}}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

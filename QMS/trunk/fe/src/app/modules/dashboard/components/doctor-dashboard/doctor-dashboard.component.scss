@@ -1,0 +1,228 @@
+@import "../../../../../scss/main";
+
+.dr-dashboard {
+  .card {
+    @include border-radius(5px);
+    @include custom-box-shadow(0, 0, 5px, rgba(28, 25, 83, 0.12));
+    @include transition(box-shadow 0.5s);
+
+    &:hover {
+      @include custom-box-shadow(0, 4px, 9px, rgba(165, 165, 165, 0.5));
+    }
+
+    &.top-left,
+    &.top-right {
+      min-height: 70px;
+    }
+
+    &.top-right {
+      flex-direction: inherit;
+    }
+
+    .user-img {
+      width: 50px;
+      height: 50px;
+      background-color: var(--bgLight);
+      position: relative;
+      top: 8px;
+    }
+
+    &.month-review {
+      height: 330px;
+
+      .stats-month {
+        color: var(--bgColor);
+      }
+    }
+
+    .stats-date {
+      i {
+        color: var(--bgColor);
+      }
+    }
+
+    .analysis-list {
+      height: calc(100vh - 538px);
+      overflow-y: auto;
+
+      .analys-details {
+        p {
+          color: $gray-700;
+        }
+
+        .progress {
+          height: 0.3rem;
+
+          .progress-bar {
+            background-color: var(--bgColor);
+          }
+        }
+      }
+    }
+  }
+
+  .top-counter {
+    .card {
+      .icon-extend {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 42px;
+        opacity: 0.75;
+        padding: 10px;
+        @include transition(opacity 0.4s);
+        z-index: 999;
+
+        &:hover {
+          opacity: 1;
+          @include transition(opacity 0.4s);
+        }
+      }
+
+      hr {
+        border-top: 1px dotted #eaeaea;
+      }
+    }
+
+    // .total-areas {
+    //   height: 25%;
+    //   color: $gray-700;
+
+    //   .total-icon {
+    //     img {
+    //       height: 46px;
+    //       max-width: 100%;
+
+    //       @media screen and (max-width: 1366px) {
+    //         & {
+    //           height: 36px;
+    //         }
+    //       }
+    //     }
+    //   }
+
+    //   @media screen and (max-width: 1366px) {
+    //     .total-content {
+    //       p {
+    //         font-size: 0.7rem !important;
+    //       }
+    //     }
+    //   }
+    // }
+
+    .dr-tabs {      
+
+      tbody {
+        tr {
+          td {
+            position: relative;
+            padding: 0.4rem;
+            border: none;
+            border-top: 1px solid #dee2e6;
+            border-bottom: 1px solid #dee2e6;
+
+            &:first-child {
+              border-left: 1px solid #dee2e6;
+              width: 20%;
+            }
+
+            &:nth-child(2) {
+              width: 30%;
+            }
+
+            &:nth-child(3) {
+              width: 25%;
+            }
+
+            &:nth-child(4) {
+              width: 25%;
+            }
+
+            &:last-child {
+              border-right: 1px solid #dee2e6;
+            }
+
+            &:not(:last-child):after {
+              background: #adb5bd;
+              width: 2px;
+              content: "";
+              display: block;
+              position: absolute;
+              top: 10%;
+              bottom: 0;
+              right: 0;
+              max-height: 80%;
+            }
+
+            .top {
+              font-size: 85%;
+            }
+
+            .bottom {
+              font-size: 95%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+:host ::ng-deep {
+  ngb-tabset {
+    ul {
+      .nav-item {
+        // width: 33.3%;
+        width: 20%;
+        text-align: center;
+
+        .nav-link {
+          &:hover {
+            background-color: var(--bgLight);
+            font-weight: 500;
+            color: var(--bgColor);
+            border-bottom: 3px solid transparent;
+            @include border-radius(0px);
+          }
+
+          &.active {
+            background-color: transparent;
+            font-weight: 500;
+            color: var(--bgColor);
+            border-bottom: 3px solid var(--bgColor);
+            @include transition(border-bottom 0.5s, color 0.5s);
+          }
+        }
+      }
+    }
+  }
+
+
+  .dr-tabs {
+    // .q-list {
+    //   padding: 0 !important;
+    // }
+    .grid-body {
+      height: calc(100vh - 183px) !important;
+    }
+
+    .appointment-history-log {
+      width: 35% !important;
+      height: calc(100vh - 135px) !important;
+
+      .history-data {
+        height: calc(100vh - 171px) !important;
+      }
+    }
+  }
+  // .lib-qms-qlist-lib {
+  //   ngb-tabset {
+  //     ul {
+  //       .nav-item {
+  //         width: 20%;
+  //         text-align: center;
+  //       }
+  //     }
+  //   }
+  // }
+}

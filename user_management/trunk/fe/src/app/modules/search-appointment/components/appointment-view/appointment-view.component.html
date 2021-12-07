@@ -1,0 +1,63 @@
+<div class="card custom-card mx-1">
+  <div class="card-header py-1 px-2">
+    <div class="form-row align-items-center">
+      <div class="col-6">
+        <button title="Back" type="button" (click)="loadComponent()" class="btn btn-sm border-0 back-arrow-btn"><i
+            class="icon fa-fw icon-arrow"></i></button>
+        <p class="mb-0 font-weight-500 text-uppercase text-primary d-inline-block">
+          {{appointmentParams.data?.entity_id == 2 ? 'Dr.' : '' }} {{ appointmentParams.data?.entity_value_name}}</p>
+      </div>
+      <div class="col-6 text-right">
+        <p class="mb-0 font-weight-500"><i class="icon icon-calendar-day fa-fw text-muted" aria-hidden="true"></i>
+          {{ appointmentParams.data?.entity_data?.date | customDateFormat: '' : 'DD-MMM-YYYY'}},
+          <span class="font-size-dot-875 ml-1">{{appointmentParams.data?.entity_data?.appointment_type}}</span>
+          <button type="button" class="btn ml-2 expand-btn" placement="bottom-right" ngbTooltip="Expand"
+            (click)="onExpand(modalPopupSection)"><i class="icon fa-fw icon-expand"></i></button>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="card-body px-2 pb-2 pt-0">
+    <ng-container [ngTemplateOutlet]="appointmentViews"></ng-container>
+  </div>
+</div>
+<!-- appointment views like Calendar or Slot -->
+<ng-template #appointmentViews>
+  <ngb-tabset #tab="ngbTabset" [activeId]="viewType">
+    <ngb-tab id="calenderView" class="custom-nav-tabs">
+      <ng-template ngbTabTitle class="nav-item">Calender View</ng-template>
+      <ng-template ngbTabContent>
+        <app-calendar [loadAsComponent]="true" [isExpand]="isExpand"
+          [entityType]="searchRequestParams.selectedEntity ? searchRequestParams.selectedEntity.name: ''"
+          [entity]="searchRequestParams.selectedEntity ? searchRequestParams.selectedEntity: ''"
+          [componentUserId]="appointmentParams.data?.entity_value_id"
+          [date]="appointmentParams.data?.entity_data?.calDate" [calendarView]="'Day'"
+          [appointmentData]="appointmentParams.data" [showNavigationControls]="true" [selectedPatient]="patientInfo">
+        </app-calendar>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab id="slotView">
+      <ng-template ngbTabTitle>Slot View</ng-template>
+      <ng-template ngbTabContent>
+        <app-slot-view [isExpand]="isExpand" [searchParams]="searchRequestParams"
+          [appointmentData]="appointmentParams.data" [selectedPatient]="patientInfo"></app-slot-view>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</ng-template>
+
+<!-- For open modal -->
+<ng-template #modalPopupSection let-modal>
+  <div class="modal-header bg-primary text-white py-1">
+    <p class="modal-title text-uppercase">Service Schedules</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-2">
+    <ng-container [ngTemplateOutlet]="appointmentViews"></ng-container>
+  </div>
+  <div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss()">Close</button>
+  </div>
+</ng-template>

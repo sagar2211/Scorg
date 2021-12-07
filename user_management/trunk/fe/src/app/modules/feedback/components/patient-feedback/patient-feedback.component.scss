@@ -1,0 +1,117 @@
+@import "../../../../../scss/custom_bootstrap_theme.scss";
+
+.feedback-rating-form {
+  background-color: #f0f3f6;
+
+  .feedback-card {
+    @include custom-box-shadow(0, 0, 5px, rgba(28, 25, 83, 0.12));
+    @include transition(box-shadow 0.5s);
+    @include border-radius(5px);
+    &:hover {
+      @include custom-box-shadow(0, 4px, 9px, rgba(165, 165, 165, 0.5));
+      @include transition(box-shadow 0.5s);
+    }
+
+    .header-feedback {
+      color: #757575;
+
+      label {
+        position: relative;
+        justify-content: center;
+        font-size: 1.25rem;
+
+        &:before {
+          content: "";
+          width: 80px;
+          background: #4fd2ff;
+          height: 2px;
+          position: absolute;
+          bottom: 0;
+        }
+      }
+    }
+
+    .feedback-body {
+      height: calc(100vh - 110px);
+      overflow-y: auto;
+      color: #757575;
+
+      .rating-section-smiley {
+        width: 100%;
+        min-height: 30px;
+        height: auto;
+
+        .smile-rate {
+          width: 60px;
+          height: 35px;
+          float: left;
+          padding-right: 10px;
+
+          .img-area {
+            width: 30px;
+            height: 30px;
+            background-size: 30px 30px;
+            cursor: pointer;
+
+            &.smile-1 {
+              background-image: url(../../../../../assets/img/smily-1.png);
+            }
+
+            &.smile-2 {
+              background-image: url(../../../../../assets/img/smily-2.png);
+            }
+
+            &.smile-3 {
+              background-image: url(../../../../../assets/img/smily-3.png);
+            }
+
+            &.smile-4 {
+              background-image: url(../../../../../assets/img/smily-4.png);
+            }
+
+            &.smile-5 {
+              background-image: url(../../../../../assets/img/smily-5.png);
+            }
+
+            &.smile1-selected {
+              background-image: url(../../../../../assets/img/smily-color-1.png);
+            }
+
+            &.smile2-selected {
+              background-image: url(../../../../../assets/img/smily-color-2.png);
+            }
+
+            &.smile3-selected {
+              background-image: url(../../../../../assets/img/smily-color-3.png);
+            }
+
+            &.smile4-selected {
+              background-image: url(../../../../../assets/img/smily-color-4.png);
+            }
+
+            &.smile5-selected {
+              background-image: url(../../../../../assets/img/smily-color-5.png);
+            }
+          }
+        }
+      }
+
+      .rating-section-star {
+        span {
+          i {
+            margin-right: 18px;
+            font-size: 30px;
+            cursor: pointer;
+          }
+        }
+      }
+
+      textarea {
+        resize: none;
+      }
+      .btn-info {
+        min-width: 200px;
+      }
+    }
+  }
+}

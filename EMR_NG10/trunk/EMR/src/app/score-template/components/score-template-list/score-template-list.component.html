@@ -1,0 +1,120 @@
+<div class="emr-container-fluid container-fluid pt-2">
+    <div class="form-row form-group align-items-center">
+        <div class="col-4">
+            <div class="input-group">
+                <input type="text" class="form-control form-control-sm pl-2rem" [(ngModel)]="searchString" (ngModelChange)="this.subject.next();" placeholder="Search">
+                <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+                <div class="input-group-append">
+                    <!-- <button class="btn btn-sm btn-outline-secondary border" type="button" title="Filter"
+            (click)="isShowSearchFilter = !isShowSearchFilter">
+            <i class="fa fa-fw fa-caret-down" aria-hidden="true"></i></button> -->
+                    <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear" (click)="clearSearch()">
+            <i class="fa fa-fw fa-eraser" aria-hidden="true"></i></button>
+                </div>
+            </div>
+
+            <div class="dropdown custom-dropdown" *ngIf="isShowSearchFilter">
+                <div id="SearchPopup" class="dropdown-menu pb-0 w-100 d-block shadow" role="menu">
+                    <h6 for="filter" class="border-bottom pl-2 pb-2"><i class="fa fa-filter" aria-hidden="true"></i> Filter by
+                    </h6>
+                    <div class="container-fluid">
+                        <div class="card-body p-0">
+                            <ng-template *ngTemplateOutlet="searchFilter"></ng-template>
+                        </div>
+                        <div class="row card-footer px-0 pt-1 pb-1">
+                            <div class="col-12 text-right">
+                                <button class="btn float-left btn-sm btn-outline-secondary" (click)="isShowSearchFilter =! isShowSearchFilter" type="button">CLOSE</button>
+                                <button class="btn btn-sm btn-outline-warning mr-1" (click)="clearSearch()" type="button"><i
+                    class="fas fa-fw fa-eraser" aria-hidden="true"></i> CLEAR</button>
+                                <button class="btn btn-sm btn-outline-info" type="submit"> <i class="icon fa-fw icon-search"></i>
+                  SEARCH</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col text-right">
+            <button (click)="addScoreTemplate()" class="btn btn-add btn-sm px-2 mr-2" type="button"><i aria-hidden="true"
+          class="fa fa-fw fa-plus"></i> ADD</button>
+            <select class="form-control form-control-sm float-right select-w pointer" (change)="onPageSizeChanged($event.currentTarget.value)">
+        <option value="15" selected="">15</option>
+        <option value="30">30</option>
+        <option value="45">45</option>
+        <option value="100">100</option>
+      </select>
+        </div>
+    </div>
+    <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25" [footerHeight]="30" [rowHeight]="30" [rows]="scoreTemplateList" [externalSorting]="true" (sort)="onSortChanged($event)" [externalPaging]="externalPaging"
+        [count]="page.totalElements" [scrollbarH]="true" (page)='onSetPage($event)'>
+        <ngx-datatable-column name="Service Type" prop="service_type" [width]="50">
+            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                <span>{{row.service_type}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Speciality" prop="speciality_name" [width]="200">
+            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                <span>{{row.speciality_name}} </span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Template Name" prop="template_name" [width]="100">
+            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                <span>{{row.template_name}} </span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column name="Active" prop="is_active" [width]="50" cellClass="text-center">
+            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                <span [ngClass]="{'active': row.is_active, 'inactive': !row.is_active}">{{row.is_active ? 'Active' : 'In Active'}}</span>
+            </ng-template>
+        </ngx-datatable-column>
+        <!-- <ngx-datatable-column name="Use For Consultation" prop="use_for_consultation" [width]="50" cellClass="text-center">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <span>{{row.use_for_consultation ? 'Yes' : 'No'}}</span>
+      </ng-template>
+    </ngx-datatable-column> -->
+        <ngx-datatable-column name="Action" [frozenRight]="true" cellClass="text-center" [sortable]="false" [width]="35">
+            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value" let-isSelected="isSelected">
+                <button class="bg-transparent border-0" placement="left-bottom" [autoClose]="true" [ngbPopover]="popContent" container="body" #p="ngbPopover">
+          <i class="fa fa-fw fa-bars" aria-hidden="true"></i> <i class="fa fa-xs fa-caret-down" aria-hidden="true"></i>
+        </button>
+                <ng-template #popContent>
+                    <ul class="list-unstyled popover-content mb-0">
+                        <li *ngIf="!row.is_used"> <button class="btn btn-sm btn-block text-left del" (click)="deleteScoreTemplate(row, rowIndex)"><i
+              class="icon fa-fw icon-trash mr-1" aria-hidden="true"></i> Delete</button></li>
+                        <li><button [disabled]="false" class="btn btn-sm btn-block text-left edit" (click)="previewScoreTemplate(row)"><i
+              class="icon fa-fw icon-eye mr-1" aria-hidden="true"></i> Preview</button></li>
+                        <li><button [disabled]="false" class="btn btn-sm btn-block text-left edit" (click)="editScoreTemplate(row)"><i
+                  class="icon fa-fw icon-edit mr-1" aria-hidden="true"></i> Edit</button></li>
+                    </ul>
+                </ng-template>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-footer *ngIf="scoreTemplateList.length > 0">
+            <ng-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset" ngx-datatable-footer-template>
+                <div class="mx-3">
+                    Showing {{ ((page.pageNumber - 1) * page.size) + 1}} to {{ ((page.pageNumber - 1) * page.size) + scoreTemplateList.length}} of {{rowCount}} entries
+                </div>
+                <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="page.pageNumber" [size]="page.size" [count]="page.totalElements"
+                    [hidden]="!((page.totalElements / page.size) > 1)" (change)="onFooterPageChange($event)">
+                </datatable-pager>
+            </ng-template>
+        </ngx-datatable-footer>
+    </ngx-datatable>
+</div>
+
+<ng-template #searchFilter>
+    <div class="form-row form-group">
+        <div class="col-6">
+            <label for="login_id">Service Type</label>
+            <ng-select [items]="serviceType$ | async" bindLabel="name" autofocus bindValue="id" (change)="getListData()" [(ngModel)]="searchData.serviceType" placeholder="Service Type">
+            </ng-select>
+        </div>
+        <div class="col-6">
+            <label for="login_id">Speciality</label>
+            <ng-select [items]="speciality$ | async" bindLabel="name" autofocus bindValue="id" (change)="getListData()" [(ngModel)]="searchData.speciality" placeholder="Speciality">
+            </ng-select>
+        </div>
+    </div>
+</ng-template>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

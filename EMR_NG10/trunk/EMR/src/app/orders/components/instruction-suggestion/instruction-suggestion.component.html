@@ -1,0 +1,25 @@
+<div class="form-row">
+
+  <div class="col-12">
+    <form [formGroup]="instructionSugnFrm">
+      <textarea name="adviceDesc" id="translateAdvice1" (focus)="openSuggestionPanel()" class="form-control noresize"
+        rows="{{rows}}" formControlName="instructionsTxt" placeholder="{{placeholdertext}}">
+  </textarea>
+    </form>
+  </div>
+  <div class="col-12" *ngIf="showFrequency">
+    <p class="mb-1 text-center label-suggestion">Frequency Suggestion</p>
+    <div *ngIf="isOpendsuggestionPanel">
+      <div infinite-scroll [infiniteScrollUpDistance]="2" [infiniteScrollDistance]="2" [infiniteScrollThrottle]="150"
+        [scrollWindow]="false" id="suggestionFavContainer" class="SuggestionFav mt-0">
+        <!-- *ngIf="!suggData.checked" -->
+        <div class="position-relative d-inline-block" *ngFor="let suggData of suggestionList; let i = index">
+          <!-- <i class="icon fa icon-star font-18" aria-hidden="true"></i> -->
+          <button (click)="onSelectSuggestionList(suggData)" type="button"
+            class="btn btn-outline-primary-light mr-1 mb-1">
+            {{suggData.instruction}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

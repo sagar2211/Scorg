@@ -1,0 +1,64 @@
+<div class="modal-header bg-primary text-white py-1">
+	<p class="modal-title text-uppercase">Neurologic Foot Examination</p>
+	<button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closeModal()">
+		<span aria-hidden="true">&times;</span>
+	</button>
+</div>
+<div class="modal-body p-0 pb-1 foot-examination-modal-body">
+	<div class="form-row mx-0 h-100">
+		<div class="col-9 border-right position-relative">
+			<div class="btn-group btn-group-toggle position-absolute btn-position" data-toggle="buttons">
+				<label class="btn btn-outline-danger" [ngClass]="pain=='Absent'?'active':'pointer'"
+					(click)="onPainScale('Absent')">
+					<input type="radio" name="options" id="option1" autocomplete="off" [checked]="pain=='Absent'"><i
+						class="fa fa-fw fa-circle" aria-hidden="true"></i> Absent
+				</label>
+				<label class="btn btn-outline-warning" [ngClass]="pain=='Reduced'?'active':'pointer'"
+					(click)="onPainScale('Reduced')">
+					<input type="radio" name="options" id="option2" autocomplete="off" [checked]="pain=='Reduced'"><i
+						class="fa fa-fw fa-circle" aria-hidden="true"></i> Reduced
+				</label>
+				<label class="btn btn-outline-success " [ngClass]="pain=='Normal'?'active':'pointer'"
+					(click)="onPainScale('Normal')">
+					<input type="radio" name="options" id="option3" autocomplete="off" [checked]="pain=='Normal'"><i
+						class="fa fa-fw fa-circle" aria-hidden="true"></i> Normal
+				</label>
+			</div>
+			<div class="form-row mx-0">
+				<div class="col-6">
+					<app-single-foot-examination [svgName]="'assetFoot_left'" [bodyPartSide]="'left_footFlag'"
+						[footPainData]="footExaminationData" [painScore]="pain" [chartDetailId]="chartDetailId"></app-single-foot-examination>
+				</div>
+				<div class="col-6">
+					<app-single-foot-examination [svgName]="'assetFoot_right'" [bodyPartSide]="'right_footFlag'"
+						[footPainData]="footExaminationData" [painScore]="pain" [chartDetailId]="chartDetailId"></app-single-foot-examination>
+				</div>
+			</div>
+		</div>
+		<div class="col-3 px-0">
+			<div class="card border-0 px-0">
+				<ngb-tabset [activeId]="currentSection" (tabChange)="currentSection='section2'" type="tabs">
+					<ngb-tab id="section1">
+						<ng-template ngbTabTitle><b>Body Part</b></ng-template>
+						<ng-template ngbTabContent>
+							<app-foot-examination-description [examineData]="examineData">
+							</app-foot-examination-description>
+						</ng-template>
+					</ngb-tab>
+					<ngb-tab id="section2">
+						<ng-template ngbTabTitle><b>Summary</b></ng-template>
+						<ng-template ngbTabContent>
+							<app-foot-examination-summery [examineData]="examineData">
+							</app-foot-examination-summery>
+						</ng-template>
+					</ngb-tab>
+				</ngb-tabset>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal-footer py-1">
+	<button type="button" class="btn btn-sm btn-outline-secondary" (click)="closeModal()">CANCEL</button>
+	<button type="submit" class="btn btn-sm btn-outline-success" (click)="closeModal()"><i class="icon fa-fw icon-save" aria-hidden="true"></i>
+		SAVE</button>
+</div>

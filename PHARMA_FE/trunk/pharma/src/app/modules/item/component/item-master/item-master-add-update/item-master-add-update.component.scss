@@ -1,0 +1,74 @@
+@import "../../../../../../scss/main";
+.custom-modal-body {
+    height: calc(100vh - 175px);
+    overflow-y: auto;
+    input[type="checkbox"]:focus {
+        outline: 1px;
+    }
+    .custom-col {
+        flex: 0 0 8%;
+        max-width: 8%;
+    }
+    .height-31 {
+        height: 31px;
+    }
+    .custom-switch {
+        &.yes-no {
+            .custom-control-label:before {
+                width: 60px !important;
+            }
+            .custom-control-label.active::after {
+                -webkit-transform: translateX(2.23rem) !important;
+                -moz-transform: translateX(2.23rem) !important;
+                -ms-transform: translateX(2.23rem) !important;
+                transform: translateX(2.23rem) !important;
+            }
+        }
+        .custom-control-input {
+            &:checked {
+                .custom-control-label {
+                    &::after {
+                        -webkit-transform: translateX(4.15rem) !important;
+                        -moz-transform: translateX(4.15rem) !important;
+                        -ms-transform: translateX(4.15rem) !important;
+                        transform: translateX(4.15rem) !important;
+                    }
+                }
+            }
+        }
+        .custom-control-label {
+            &:before {
+                width: 90px;
+                top: 0;
+                left: 0;
+                @include border-radius(12px);
+            }
+            &::after {
+                background-color: $white;
+                top: calc(0.14rem + 0px);
+                // left: calc(-1.95rem + 2px);
+                left: 2px;
+                width: calc(1.5rem - 4px);
+                height: calc(1.5rem - 4px);
+                @include border-radius(50%);
+                z-index: 0;
+            }
+            &.active {
+                &::after {
+                    -webkit-transform: translateX(4.15rem) !important;
+                    -moz-transform: translateX(4.15rem) !important;
+                    -ms-transform: translateX(4.15rem) !important;
+                    transform: translateX(4.15rem) !important;
+                }
+            }
+        }
+        span {
+            top: 4px;
+            left: 29px;
+            @include no-select;
+            &.active {
+                left: 10px;
+            }
+        }
+    }
+}

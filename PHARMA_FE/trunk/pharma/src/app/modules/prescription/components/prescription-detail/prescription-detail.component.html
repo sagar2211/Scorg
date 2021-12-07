@@ -1,0 +1,63 @@
+<ng-container>
+    <div class="form-row form-group align-items-center">
+        <div class="col-3">
+            <label>&nbsp;</label>
+            <div class="input-group">
+                <input type="text" class="form-control form-control-sm pl-2rem" [(ngModel)]="searchString" (ngModelChange)="this.subject.next();" placeholder="Search">
+                <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+            </div>
+        </div>
+        <div class="col-4">
+            <form [formGroup]="prescriptionFilterForm" (ngSubmit)="checkFormSubmit()">
+                <div class="form-row">
+                    <div class="col">
+                        <label for="entity_type">Start Date</label>
+                        <app-date-picker [inputDate]="prescriptionFilterForm.value.startDate" (dateChange)="prescriptionFilterForm.patchValue({startDate: $event});">
+                        </app-date-picker>
+                    </div>
+                    <div class="col">
+                        <label for="provider">End Date</label>
+                        <app-date-picker [inputDate]="prescriptionFilterForm.value.endDate" (dateChange)="prescriptionFilterForm.patchValue({endDate: $event});">
+                        </app-date-picker>
+                    </div>
+                    <div class="col">
+                        <label class="d-block">&nbsp;</label>
+                        <button class="btn btn-sm btn-outline-info mt-2" type="submit">
+                            <i class="icon fa-fw icon-search"></i> SEARCH
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="form-row form-group align-items-center">
+        <dx-data-grid #dataGridItem1 id="gridContainerPopup1" [dataSource]="patientDetail" keyExpr="patientId" [showBorders]="true"
+        (onOptionChanged)="handlePropertyChange($event)" (onRowPrepared)="onRowPrepared($event)">
+        <dxo-paging [pageSize]="10"></dxo-paging>
+        <dxo-pager [visible]="true" [allowedPageSizes]="allowedPageSizes" [displayMode]="displayMode"
+        [showPageSizeSelector]="showPageSizeSelector" [showInfo]="showInfo" [showNavigationButtons]="showNavButtons"
+        infoText="Page #{0}. Total: {1} ({2} items)">
+        </dxo-pager>
+        <!-- <dxo-search-panel [visible]="true"></dxo-search-panel> -->
+            <dxo-sorting mode="single"></dxo-sorting>
+            <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="false" [allowDeleting]="false" [useIcons]="false">
+            </dxo-editing>
+            <dxi-column dataField="patientName" caption="Patient Name" [groupIndex]="0" sortOrder="asc" groupCellTemplate="patientGrpTemplate"></dxi-column>
+            <dxi-column dataField="prescriptionId" caption="Prescription Id" [groupIndex]="1" groupCellTemplate="grpTemplate"></dxi-column>
+            <dxi-column dataField="medicineName" caption="medicineName" sortOrder="asc" [calculateSortValue]="sortFunction"></dxi-column>
+            <dxi-column dataField="requiredQty" caption="Required Qty"></dxi-column>
+            <dxi-column dataField="issueQty" caption="Issue Qty"></dxi-column>
+            <dxi-column dataField="saleQty" caption="Sale Qty"></dxi-column>
+            <dxi-column dataField="frequency" caption="Frequency"></dxi-column>
+            <dxi-column dataField="days" caption="Days"></dxi-column>
+
+            <div *dxTemplate="let data of 'patientGrpTemplate'">
+                <p class="m-0">{{getPatientCellData(data)}}</p>
+            </div>
+            <div *dxTemplate="let data of 'grpTemplate'">
+                <p class="m-0">{{getCellData(data)}}</p>
+            </div>
+        </dx-data-grid>
+    </div>
+
+</ng-container>

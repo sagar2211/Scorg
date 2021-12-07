@@ -1,0 +1,38 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">{{taxData.type === 'edit' ? 'Edit' : 'Add'}} Tax</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-row form-group">
+    <div class="col-6">
+      <label for="range">Tax Name</label><sup>*</sup>
+      <input class="col form-control form-control-sm" [(ngModel)]="addEditTaxObject.taxDesc" type="text"
+             placeholder="Type Tax Name">
+    </div>
+    <div class="col-6">
+      <label for="range">Tax Rate</label>
+      <input class="col form-control form-control-sm" [(ngModel)]="addEditTaxObject.taxPercent" type="number"
+        placeholder="Type Tax Rate">
+    </div>
+  </div>
+  <div class="form-row form-group">
+    <div class="col-12">
+      <label>Status</label>
+      <div class="custom-control custom-switch pb-1">
+        <input type="checkbox" [(ngModel)]="addEditTaxObject.isActive" class="custom-control-input" id="isActive">
+        <label class="custom-control-label pointer" [class.active]="addEditTaxObject.isActive" for="isActive"></label>
+        <span class="text-uppercase"
+          [class.active]="addEditTaxObject.isActive">{{addEditTaxObject.isActive ? 'Active' : 'InActive'}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closePopup()">CANCEL</button>
+  <button type="button" [disabled]="!addEditTaxObject?.taxDesc || addEditTaxObject?.taxDesc === '' || addEditTaxObject?.taxPercent <= 0" class="btn btn-sm btn-outline-primary" (click)="selectValueConfirm('Ok');">
+    <i class="fa fa-fw" [ngClass]="taxData.type === 'edit' ? 'fa-sync-alt':'fa-plus'" aria-hidden="true"></i>
+    {{taxData.type === 'edit' ? 'UPDATE' : 'ADD'}}</button>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

@@ -1,0 +1,340 @@
+<div class="custom-container-fluid front-desk position-relative overflow-hidden mx-2">
+  <div id="modelOpenContent" class="container-fluid top-section mb-2">
+    <div class="form-row align-items-center justify-content-between">
+      <div class="col pl-0">
+        <div class="card border-0">
+          <div class="card-header border-bottom-0 p-0">
+            <div class="form-row align-items-center mx-0">
+              <div class="col-title px-0 pt-1">
+                <h6 class="mb-0 pl-2">Occupied Slots</h6>
+              </div>
+              <!-- <div class="col-extend px-0">
+                <a href="javaScript:Void(0);" class="text-decoration-none icon fa-fw icon-extend text-primary"></a>
+              </div> -->
+            </div>
+          </div>
+          <div class="card-body p-2">
+            <div class="form-row align-items-center justify-content-center">
+              <div class="col-10">
+                <h2 class="mb-0">
+                  {{dashboardData?.occupiedPercentage ? dashboardData?.occupiedPercentage : 0 }}<sup>%</sup></h2>
+              </div>
+              <div class="col-2 text-right">
+                <img class="img-fluid" src="./assets/img/front-desk-dashboard/occupied-slots.png" alt="occupied-slots">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card border-0">
+          <div class="card-header border-bottom-0 p-0">
+            <div class="form-row align-items-center mx-0">
+              <div class="col-title px-0 pt-1">
+                <h6 class="mb-0 pl-2">Walk-In Patients</h6>
+              </div>
+              <!-- <div class="col-extend px-0">
+                <a href="javaScript:Void(0);" class="text-decoration-none icon fa-fw icon-extend text-primary"></a>
+              </div> -->
+            </div>
+          </div>
+          <div class="card-body p-2">
+            <div class="form-row align-items-center justify-content-center">
+              <div class="col-10">
+                <h2 class="mb-0">{{dashboardData?.walkinPatientsCount}}</h2>
+              </div>
+              <div class="col-2 text-right">
+                <img class="img-fluid" src="./assets/img/front-desk-dashboard/walkin-patients.png"
+                  alt="walkin-patients.png">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card border-0">
+          <div class="card-header border-bottom-0 p-0">
+            <div class="form-row align-items-center mx-0">
+              <div class="col-title px-0 pt-1">
+                <h6 class="mb-0 pl-2">Skipped Patients</h6>
+              </div>
+              <!-- <div class="col-extend px-0">
+                <a href="javaScript:Void(0);" class="text-decoration-none icon fa-fw icon-extend text-primary"></a>
+              </div> -->
+            </div>
+          </div>
+          <div class="card-body p-2">
+            <div class="form-row align-items-center justify-content-center">
+              <div class="col-10">
+                <h2 class="mb-0">{{dashboardData?.skippedPatientsCount}}</h2>
+              </div>
+              <div class="col-2 text-right">
+                <img class="img-fluid" src="./assets/img/front-desk-dashboard/skipped-patients.png"
+                  alt="skipped-patients.png">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card border-0">
+          <div class="card-header border-bottom-0 p-0">
+            <div class="form-row align-items-center mx-0">
+              <div class="col-title px-0 pt-1">
+                <h6 class="mb-0 pl-2">No Shows</h6>
+              </div>
+              <!-- <div class="col-extend px-0">
+                <a href="javaScript:Void(0);" class="text-decoration-none icon fa-fw icon-extend text-primary"></a>
+              </div> -->
+            </div>
+          </div>
+          <div class="card-body p-2">
+            <div class="form-row align-items-center justify-content-center">
+              <div class="col-10">
+                <h2 class="mb-0">{{dashboardData?.absentPatientsCount}}</h2>
+              </div>
+              <div class="col-2 text-right">
+                <img class="img-fluid" src="./assets/img/front-desk-dashboard/no-show.png" alt="no-show.png">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col pr-0">
+        <div class="card border-0">
+          <div class="card-header border-bottom-0 p-0">
+            <div class="form-row align-items-center mx-0">
+              <div class="col-title px-0 pt-1">
+                <h6 class="mb-0 pl-2">Active Checked-In / Total Services</h6>
+              </div>
+              <!-- <div class="col-extend px-0">
+                <a href="javaScript:Void(0);" class="text-decoration-none icon fa-fw icon-extend text-primary"></a>
+              </div> -->
+            </div>
+          </div>
+          <div class="card-body p-2">
+            <div class="form-row align-items-center justify-content-center">
+              <div class="col-10">
+                <h2 class="mb-0">{{dashboardData?.checkedInCount + '/' + dashboardData?.totalServiceCount}}</h2>
+              </div>
+              <div class="col-2 text-right">
+                <img class="img-fluid" src="./assets/img/front-desk-dashboard/total-services.png"
+                  alt="total-services.png">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card common-container-fluid table-container-height">
+    <div class="form-row mx-0 mt-1">
+      <div class="col-3 mb-1">
+        <div class="input-group">
+          <input type="text" class="form-control form-control-sm pl-2rem" [(ngModel)]="searchText"
+            placeholder="Search By Name/Department" (keyup)="updateFilter($event)">
+          <div class="placeholder-icon">
+            <i class="icon fa-fw icon-search text-muted" aria-hidden="true"></i>
+          </div>
+          <div class="input-group-append">
+            <!--<button class="btn btn-sm btn-outline-secondary border" type="button" title="Filter"-->
+            <!--(click)="showSearchFilter()"><i class="fa fa-fw fa-caret-down" aria-hidden="true"></i></button>-->
+            <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear"
+              (click)="clearSearchFilter();"><i class="fa fa-fw fa-eraser" aria-hidden="true"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <ngx-datatable #table ngx-resize-watcher class="bootstrap d-flex align-items-center" columnMode="force"
+          [headerHeight]="50" [rowHeight]="'auto'" [reorderable]="true" [swapColumns]="true"
+          [rows]="dashboardData?.entityTimeData" (sort)="onSortChanged($event)" (scroll)="onScrollForPopOver()"
+          [count]="page.totalElements">
+          <ngx-datatable-column name="Queue Type" prop="entityName" [width]="120"></ngx-datatable-column>
+          <ngx-datatable-column name="Queue" prop="entityValueName" [width]="200"></ngx-datatable-column>
+          <ngx-datatable-column name="Department" prop="departmentName" [width]="180"></ngx-datatable-column>
+          <ngx-datatable-column name="Current Time slot" [width]="150" [sortable]="false">
+            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+              <span *ngIf="row.startTime && row.endTime">{{row.startTime + ' - ' + row.endTime}}</span>
+              <span *ngIf="!(row.startTime && row.endTime)">N/A</span>
+            </ng-template>
+          </ngx-datatable-column>
+          <!--<ngx-datatable-column name="Remaining" prop="remainingTime" [width]="120" cellClass="text-center"></ngx-datatable-column>-->
+          <!-- <ngx-datatable-column name="Check In" prop="isCheckIn"></ngx-datatable-column> -->
+          <ngx-datatable-column name="Status" [width]="150" cellClass="text-center">
+            <ng-template ngx-datatable-cell-template let-row="row">
+              <span class="text-uppercase" [ngClass]="{'text-danger': row.isOnHoliday}">{{getOpdStatus(row)}}
+              </span>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Booked" prop="bookedSlots" cellClass="text-center" [width]="100">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Pending Count" prop="pendingActionCount" cellClass="text-center" [width]="120">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Available" prop="slotAvailable" cellClass="text-center" [width]="100">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Total" prop="totalSlotCount" cellClass="text-center" [width]="80">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Skipped" prop="skippedPatientsCount" cellClass="text-center" [width]="100">
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Action" cellClass="text-center" [sortable]="false" [width]="80">
+            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value">
+              <button class="bg-transparent border-0" [autoClose]="true" triggers="auto" #p="ngbPopover"
+                (click)="onPopoverClick(p)" placement="left-bottom" [ngbPopover]="popContentForFrontDeskContent"
+                container="body">
+                <i class="fa fa-fw fa-bars" aria-hidden="true"></i> <i class="fa fa-xs fa-caret-down"
+                  aria-hidden="true"></i>
+              </button>
+
+              <ng-template #popContentForFrontDeskContent>
+                <ul class="list-unstyled popover-content mb-0">
+                  <li *ngxPermissionsOnly="PermissionsConstantsList.View_Quick_Book_Appointment">
+                    <button class="btn btn-sm btn-block text-left edit"
+                      (click)="getDetails(row, serviceDetailsTemplate); p.close()">
+                      <i class="fa fa-fw fa-plus mr-1" aria-hidden="true"></i>
+                      Add Appointment</button>
+                  </li>
+                  <li>
+                    <button class="btn btn-sm btn-block text-left skip" (click)="redirectCalendarView(row); p.close()">
+                      <i class="icon fa-fw icon-calendar-alt mr-1" aria-hidden="true"></i>
+                      Calendar View</button>
+                  </li>
+                  <li *ngxPermissionsOnly="PermissionsConstantsList.View_Front_Desk_Queue">
+                    <button class="btn btn-sm btn-block text-left reset"
+                      (click)="onManage(row, walkInTemplateRef); p.close()">
+                      <i class="icon fa-fw icon-queue-list mr-1" aria-hidden="true"></i>
+                      Manage Queue List</button>
+                  </li>
+                  <ng-container *ngIf="row.entityName !== 'SERVICE_PROVIDER' && row.entityName !== 'JOINT_CLINIC'">
+                    <li *ngxPermissionsOnly="PermissionsConstantsList.View_Front_Desk_manageCalendar">
+                      <button class="btn btn-sm btn-block text-left calendar"
+                        (click)="ManageCalendarModal(row, ManageCalendarTemplate); p.close()">
+                        <i class="icon fa-fw icon-manage-calender mr-1" aria-hidden="true"></i>
+                        Manage Calendar</button>
+                    </li>
+                  </ng-container>
+                  <li *ngxPermissionsOnly="PermissionsConstantsList.View_Manage_All_Appointments">
+                    <button class="btn btn-sm btn-block text-left appointment"
+                      (click)="ManageAppointmentModal(row); p.close()">
+                      <i class="icon fa-fw icon-manage-appointment mr-1" aria-hidden="true"></i>
+                      Manage Appointment</button>
+                  </li>
+                  <ng-container *ngxPermissionsOnly="PermissionsConstantsList.Queue_Delay_Notification">
+                    <li *ngIf="!row.isCheckOut">
+                      <button class="btn btn-sm btn-block text-left delay" (click)="delayNotification(row); p.close()">
+                        <i class="icon fa-fw icon-bell mr-1" aria-hidden="true"></i>
+                        Delay Notification</button>
+                    </li>
+                  </ng-container>
+                  <li *ngxPermissionsOnly="PermissionsConstantsList.Queue_Extend_Hour">
+                    <button class="btn btn-sm btn-block text-left schedule" (click)="ModifySchedule(row); p.close()">
+                      <i class="icon fa-fw icon-redo mr-1" aria-hidden="true"></i>
+                      Modify Schedule</button>
+                  </li>
+                  <li>
+                    <button class="btn btn-sm btn-block text-left notes"
+                      (click)="isOpenEntityInstructionBar(row); p.close()">
+                      <i class="icon fa-fw icon-info-circle mr-1" aria-hidden="true"></i>
+                      Info</button>
+                  </li>
+                </ul>
+              </ng-template>
+              <!-- <button class="btn btn-xs btn-info custom-edit-btn align-top mr-1"
+              (click)="getDetails(row, serviceDetailsTemplate)"><i class="fa fa-fw fa-edit" aria-hidden="true"></i>
+              Details
+            </button> -->
+              <!-- <button class="btn btn-xs btn-info custom-edit-btn align-top" (click)="onManage(row, walkInTemplateRef)"><i
+                class="fa fa-fw fa-edit" aria-hidden="true"></i> Manage
+            </button> -->
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-footer></ngx-datatable-footer>
+        </ngx-datatable>
+      </div>
+    </div>
+  </div>
+  <div class="slide-rules-instructions" [@slideInOut]="animationState"
+    [ngStyle]="{'width': isShowInstruction ? '50%' : '0px', 'visibility' : isShowInstruction ? 'visible' : 'hidden'}">
+    <app-service-provider-details [serviceProviderDetailsData]="serviceProviderDetailsData">
+    </app-service-provider-details>
+  </div>
+  <div class="backdrop-log" name="backdrop" *ngIf="isShowInstruction" (click)="closeInstruction()"></div>
+</div>
+
+<ng-template #serviceDetailsTemplate let-modal>
+  <div class="modal-header bg-primary text-white py-1">
+    <p class="modal-title text-uppercase">Service Schedules</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-slot-view (slotClicked)="slotClick($event)" [appointmentData]="appointmentData" [isFromFrontDesk]=true>
+    </app-slot-view>
+  </div>
+  <div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss()">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #walkInTemplateRef let-modal>
+  <div class="modal-header bg-primary text-white py-1">
+    <p class="modal-title text-uppercase">Manage Queue List</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <!-- <app-qlist [frontDeskProviderList] = "frontDeskProviderList" [isCompLoadFrom]="'frontDesk'"
+    [displayTypeValue]="'grid'" [getProviderDetails]="providerDetails"
+      [isShowEmptySlot]="true" [getQSlotList]="qSlotList"></app-qlist> -->
+
+    <lib-qms-qlist-lib #qmsLibTemplateRef [getQSlotList]="qSlotList" [frontDeskProviderList]="frontDeskProviderList"
+      [isCompLoadFrom]="'frontDesk'" [gridType]="'grid'" [permissions]="PermissionsConstantsListforLib" [getProviderDetails]="providerDetails"
+      [isShowEmptySlot]="false" [environment]="environment" [loginUserDetails]="userInfo"></lib-qms-qlist-lib>
+
+    <!-- <app-qlist-search (searchTxtValue)="searchText"></app-qlist-search>
+    <app-q-display-grid-view [isShowEmptySlot]="true" [qSlotList]="qSlotList" [displayTabs]="['queue']"
+      [appointmentSearch]="searchText" [hideActions]="true"></app-q-display-grid-view> -->
+  </div>
+  <div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss()">Close</button>
+  </div>
+</ng-template>
+
+<!-- <ng-template #ManageAppointmentTemplate let-modal>
+  <div class="modal-header bg-primary text-white py-1">
+    <p class="modal-title text-uppercase">Manage Appointment</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-bulk-cancelation [providerDetailsFromFrontDesk]="providerDetails" [isFromFrontDesk]=true>
+    </app-bulk-cancelation>
+  </div>
+  <div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss()">Close</button>
+  </div>
+</ng-template> -->
+
+<ng-template #ManageCalendarTemplate let-modal>
+  <div class="modal-header bg-primary text-white py-1">
+    <p class="modal-title text-uppercase">Manage Calendar ({{entityName}})</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-2 modal-entity-setting-height">
+    <app-entity-settings [selectedUserFromFrontDesk]="UserDetails" [isFromFrontDesk]=true></app-entity-settings>
+    <!-- <app-entity-holiday-list [selectedUserFromFrontDesk]="UserDetails" [isFromFrontDesk] = true></app-entity-holiday-list> -->
+  </div>
+  <div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss()">Close</button>
+  </div>
+</ng-template>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

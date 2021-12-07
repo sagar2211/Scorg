@@ -1,0 +1,174 @@
+<div class="emr-container-fluid container-fluid pt-2">
+    <div class="form-row form-group align-items-center">
+        <!-- [ngClass]="{'col-4' : isShowManageOrder, 'col-4': !isShowManageOrder}" -->
+        <div class="col-4">
+            <ng-container *ngIf="!isShowManageOrder">
+                <div class="input-group">
+                    <input type="text" class="form-control form-control-sm pl-2rem" placeholder="Search By Chart Name" [(ngModel)]="searchText" (ngModelChange)="this.patChartListEvent$.next();">
+                    <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i>
+                    </div>
+                    <div class="input-group-append">
+                        <!-- <button class="btn btn-sm btn-outline-secondary border" type="button" title="Filter"
+                            (click)="isShowSearchFilter = !isShowSearchFilter"><i class="fa fa-fw fa-caret-down"
+                                aria-hidden="true"></i></button> -->
+                        <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear" (click)="clearForm();">
+                            <i class="fa fa-fw fa-eraser" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+                <div class="dropdown custom-dropdown" *ngIf="isShowSearchFilter">
+                    <form [formGroup]="searchForm" novalidate (ngSubmit)="onSearchForm(false)">
+                        <div id="SearchPopup" class="dropdown-menu pb-0 w-100 d-block shadow" role="menu">
+                            <h6 for="filter" class="border-bottom pl-2 pb-2"><i class="fa fa-filter" aria-hidden="true"></i> Filter by
+                            </h6>
+                            <div class="container-fluid">
+                                <div class="card-body p-0">
+                                    <ng-template *ngTemplateOutlet="searchFilter;context:{form:searchForm}">
+                                    </ng-template>
+                                </div>
+                                <div class="row card-footer px-0 pt-1 pb-1">
+                                    <div class="col-12 text-right">
+                                        <button class="btn float-left btn-sm btn-outline-secondary" (click)="isShowSearchFilter =! isShowSearchFilter" type="button">CLOSE</button>
+                                        <button class="btn btn-sm btn-outline-warning mr-1" (click)="clearForm()" type="button"><i class="fas fa-fw fa-eraser" aria-hidden="true"></i>
+                                            CLEAR</button>
+                                        <button class="btn btn-sm btn-outline-info" type="submit"> <i
+                                                class="icon fa-fw icon-search"></i>
+                                            SEARCH</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </ng-container>
+            <!-- for manage orders -->
+            <ng-container *ngIf="isShowManageOrder">
+                <ng-template *ngTemplateOutlet="searchFilter;context:{form:searchForm}"></ng-template>
+            </ng-container>
+        </div>
+        <!-- <div class="align-self-center" [ngClass]="{'col-2' : isShowManageOrder, 'col-4': !isShowManageOrder}">
+      <div class="custom-control custom-switch">
+        <input type="checkbox" [ngModel]="isShowManageOrder" (ngModelChange)="onToggle();" class="custom-control-input"
+          id="customSwitch1">
+        <label class="custom-control-label pointer" [class.active]="isShowManageOrder" for="customSwitch1"></label>
+        <span [class.active]="isShowManageOrder">
+          {{isShowManageOrder ? 'Manage Order' : 'List'}}</span>
+      </div>
+    </div> -->
+        <div class="text-right" [ngClass]="{'col-4' : isShowManageOrder, 'col-8': !isShowManageOrder}">
+            <button (click)="addChart()" class="btn btn-add btn-sm px-2" [ngClass]="{'mr-2' : !isShowManageOrder}"
+                type="button"><i aria-hidden="true" class="fa fa-fw fa-plus"></i> ADD
+            </button>
+            <select *ngIf="!isShowManageOrder" class="form-control form-control-sm float-right select-w pointer" (change)="onPageSizeChanged($event.currentTarget.value)" id="page-size" [(ngModel)]="pageSize">
+                <option value="15" selected="">15</option>
+                <option value="30">30</option>
+                <option value="45">45</option>
+                <option value="100">100</option>
+            </select>
+        </div>
+    </div>
+    <ng-container *ngIf="!isShowManageOrder">
+        <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25" [footerHeight]="30" [rowHeight]="30" [reorderable]="true" [swapColumns]="false" [rows]="patientChartList" [externalSorting]="true" (sort)="onSortChanged($event)"
+            [externalPaging]="true" [count]="page.totalElements" [scrollbarH]="true" [scrollbarH]="true" (page)='onSetPage($event)'>
+            <ngx-datatable-column name="Service Type" prop="service_type" [width]="50"></ngx-datatable-column>
+            <ngx-datatable-column name="Chart Name" prop="chart_name" [width]="200"></ngx-datatable-column>
+            <ngx-datatable-column name="Chart Type" prop="chart_type" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Speciality Name" prop="speciality_name" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Role Type" prop="role_type" [width]="120"></ngx-datatable-column>
+            <ngx-datatable-column name="User Name" prop="user_name" [width]="150"></ngx-datatable-column>
+            <ngx-datatable-column name="Action" [frozenRight]="true" cellClass="text-center" [width]="55" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value" let-isSelected="isSelected">
+                    <button class="bg-transparent border-0" placement="left-bottom" [autoClose]="true" [ngbPopover]="popContent" container="body" #p="ngbPopover">
+                        <i class="fa fa-fw fa-bars" aria-hidden="true"></i> <i class="fa fa-xs fa-caret-down"
+                            aria-hidden="true"></i>
+                    </button>
+                    <ng-template #popContent>
+                        <ul class="list-unstyled popover-content mb-0">
+                            <li *ngIf="!row.is_used"> <button class="btn btn-sm btn-block text-left del" (click)="onDeleteChart(row)"><i class="icon fa-fw icon-trash mr-1"
+                                        aria-hidden="true"></i>
+                                    Delete</button></li>
+                            <li><button [disabled]="false" class="btn btn-sm btn-block text-left edit" (click)="onEditChart(row)"><i class="icon fa-fw icon-edit mr-1"
+                                        aria-hidden="true"></i> Edit</button></li>
+                        </ul>
+                    </ng-template>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-footer *ngIf="patientChartList.length > 0">
+                <ng-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset" ngx-datatable-footer-template>
+                    <div class="mx-3">
+                        Showing {{ ((page.pageNumber - 1) * page.size) + 1}} to {{ ((page.pageNumber - 1) * page.size) + patientChartList.length}} of {{rowCount}} entries
+                    </div>
+                    <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="page.pageNumber" [size]="page.size" [count]="page.totalElements"
+                        [hidden]="!((page.totalElements / page.size) > 1)" (change)="onFooterPage($event)">
+                    </datatable-pager>
+                </ng-template>
+            </ngx-datatable-footer>
+        </ngx-datatable>
+    </ng-container>
+    <ng-container *ngIf="isShowManageOrder">
+        <table class="table border custom-chart-table font-size-dot-875 mb-0">
+            <thead>
+                <tr>
+                    <th class="chart-name">Chart Name</th>
+                    <th class="service-type">Service Type</th>
+                    <th class="spec-name">Speciality Name</th>
+                    <th class="role-type">Role Type</th>
+                    <th class="user-name">User Name</th>
+                </tr>
+            </thead>
+        </table>
+        <div class="chart-height-list">
+            <table class="table border font-size-dot-875 mb-0">
+                <tbody cdkDropList #todoList="cdkDropList" [cdkDropListData]="patientChartListForManageOrder" class="example-list" (cdkDropListDropped)="drop($event)">
+                    <tr class="example-box d-flex" *ngFor="let item of patientChartListForManageOrder" cdkDrag>
+                        <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+                        <td class="chart-name">{{item.chart_name}}</td>
+                        <td class="service-type">{{item.service_type}}</td>
+                        <td class="spec-name">{{item.speciality_name}}</td>
+                        <td class="role-type">{{item.role_type}}</td>
+                        <td class="user-name">{{item.user_name}}</td>
+                    </tr>
+                    <tr *ngIf="!patientChartListForManageOrder.length">
+                        <td>No records found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-container>
+    <div class="text-right py-1" *ngIf="isShowManageOrder">
+        <button type="button" class="btn btn-sm btn-success" (click)="savePatientChartOrder()"><i
+                class="icon fa-fw icon-save"></i> SAVE CHART ORDER</button>
+    </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<!--  -->
+<ng-template #searchFilter let-form="form">
+    <div [formGroup]="form">
+        <div class="form-row form-group">
+            <div [ngClass]="{'col-2' : isShowManageOrder, 'col-6': !isShowManageOrder}">
+                <label for="login_id">Role Type</label>
+                <ng-select [items]="roleList$ | async" bindLabel="roleType" autofocus bindValue="roleTypeId" (change)="onSearchForm(true)" formControlName="role" placeholder="Role">
+                </ng-select>
+            </div>
+            <div [ngClass]="{'col-2' : isShowManageOrder, 'col-6': !isShowManageOrder}">
+                <label for="login_id">Service Type</label>
+                <ng-select [items]="serviceType$ | async" bindLabel="name" autofocus bindValue="id" (change)="onSearchForm(true)" formControlName="serviceType" placeholder="Service Type">
+                </ng-select>
+            </div>
+            <div [ngClass]="{'col-3' : isShowManageOrder, 'col-6': !isShowManageOrder}">
+                <label for="login_id">Speciality</label>
+                <ng-select [items]="speciality$ | async" bindLabel="name" autofocus bindValue="id" (change)="onSearchForm(true)" formControlName="speciality" placeholder="Speciality">
+                </ng-select>
+            </div>
+            <div [ngClass]="{'col-3' : isShowManageOrder, 'col-6': !isShowManageOrder}">
+                <label for="login_id">Doctor</label>
+                <ng-select [items]="doctorList$ | async" bindLabel="user_name" autofocus bindValue="user_id" (change)="onSearchForm(true)" formControlName="doctor" placeholder="Doctor">
+                </ng-select>
+            </div>
+            <div [ngClass]="{'col-2 mt-4' : isShowManageOrder, 'col-6': !isShowManageOrder}">
+                <label>Chart Type: <sup>*</sup></label>
+                <ng-select [items]="chartTypeList" bindLabel="label" autofocus bindValue="key" formControlName="chartType" placeholder="Chart Type">
+                </ng-select>
+            </div>
+        </div>
+    </div>
+</ng-template>

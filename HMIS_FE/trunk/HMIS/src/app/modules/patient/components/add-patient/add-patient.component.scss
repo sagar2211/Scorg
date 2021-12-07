@@ -1,0 +1,555 @@
+:host ::ng-deep {
+  .partial-view {
+    border: 0px solid transparent;
+    box-shadow: none;
+    border-radius: 0;
+    @media screen and (max-width: 1280px) {
+      .ng-select .ng-select-container {
+        min-height: 31px !important;
+        height: 31px !important;
+        border-radius: 3px;
+      }
+    }
+  }
+  .dob-date {
+    .btn {
+      // background: #f3f7f9;
+      width: 60px;
+    }
+  }
+  .ng-select .ng-dropdown-panel {
+    // width: 105px;
+    width: 100%;
+  }
+  .staffDropdown .ng-select .ng-dropdown-panel {
+    width: 125%;
+  }
+  .input-search.input-search-dark {
+    .ng-select .ng-dropdown-panel .ng-dropdown-panel-items {
+      // width: 450%;
+    }
+  }
+}
+.form-control-label {
+  text-transform: uppercase !important;
+}
+:host ::ng-deep {
+  ng-select {
+    &.patient-search {
+      .ng-select-container {
+        border-radius: 50px !important ;
+        .ng-arrow-wrapper {
+          display: none;
+        }
+        .ng-clear-wrapper {
+          padding-right: 25px;
+        }
+      }
+    }
+  }
+}
+
+.ng-select {
+  &.patient-search {
+    .ng-select-container {
+      border-radius: 50px !important ;
+      .ng-arrow-wrapper {
+        display: none;
+      }
+      .ng-clear-wrapper {
+        padding-right: 25px;
+      }
+    }
+  }
+}
+.btn-primary.focus,
+.btn-primary:focus,
+.btn-primary:hover {
+  color: #fff;
+  border-color: #1fcfef;
+  background-color: #1fcfef;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.custom-card-body .form-group {
+  margin: 0 35px;
+}
+
+.custom-card {
+  &.card-left {
+    border-bottom: 0;
+    border-radius: 0;
+    box-shadow: none;
+    border-top: 0;
+    border-left: 0;
+  }
+}
+
+.image-uploader {
+  .custom-card {
+    .card-header {
+      background-color: #f9f9f9 !important ;
+      h6 {
+        span {
+          color: #37474f;
+        }
+        input {
+          font-size: 14px;
+          color: #62a8ec;
+        }
+      }
+      .name {
+        font-size: 14px;
+      }
+      p {
+        font-size: 14px;
+        color: #37474f;
+      }
+    }
+    .card-body {
+      height: 100%;
+      .left-height-section {
+        height: calc(100vh - 147px);
+        overflow: auto;
+        position: relative;
+        &::-webkit-scrollbar {
+          width: 2px;
+        }
+
+        /* Track */
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        /* Handle */
+        &::-webkit-scrollbar-thumb {
+          background: #cacaca;
+        }
+      }
+      #my-file {
+        position: absolute;
+        left: 60px;
+        opacity: 0;
+        width: 72px;
+      }
+
+      #imgPreviewDiv {
+        position: relative;
+        border: 1px solid #e4eaec;
+        &:hover {
+          img {
+            -webkit-transform: scale(1);
+            transform: scale(1.1);
+          }
+        }
+        &.overlay {
+          max-width: 200px !important;
+          height: 200px;
+          position: relative;
+          display: inline-block;
+          width: 100%;
+          max-width: 100%;
+          margin: 0;
+          overflow: hidden;
+          vertical-align: middle;
+          -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+          .img-bordered {
+            padding: 3px;
+            width: 100%;
+            -webkit-transition: all 0.5s linear;
+            transition: all 0.5s linear;
+          }
+        }
+        .overlay-panel {
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          padding: 20px;
+          color: #fff;
+          .btn-default {
+            color: #384652;
+            border-color: #e4eaec;
+            border-color: #e4eaec;
+            background-color: #e4eaec;
+            background-color: #e4eaec;
+            -webkit-box-shadow: inset 0 1px 0 rgb(255 255 255 / 15%),
+              0 1px 1px rgb(0 0 0 / 8%);
+            -webkit-box-shadow: none;
+            box-shadow: inset 0 1px 0 rgb(255 255 255 / 15%),
+              0 1px 1px rgb(0 0 0 / 8%);
+            box-shadow: none;
+            top: 40%;
+            position: absolute;
+            left: 40%;
+            right: 0;
+          }
+        }
+        .overlay-background {
+          background: rgba(0, 0, 0, 0.5);
+        }
+      }
+      .overlay-hover:not(:hover) .overlay-panel:not(.overlay-background-fixed) {
+        opacity: 0;
+      }
+      .encounter-Details {
+        box-shadow: 0 0 2px 2px rgb(119 119 119 / 30%);
+        .card-body {
+          p {
+            .small {
+              font-size: 12px;
+            }
+            #visitNumber {
+              font-weight: 400;
+            }
+            #EncounterType {
+              font-weight: 400;
+            }
+            &.clearfix {
+              // color: #62a8ec;
+              // color: #3f51b5;
+              .float-right {
+                width: 30px;
+              }
+            }
+          }
+          .table {
+            .text-left {
+              // color: #62a8ec;
+              // color: #3f51b5;
+
+              #DOADOE {
+              }
+              #patEncounterId {
+                input {
+                }
+              }
+              &.relative {
+                color: #76838f;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.right-side-section {
+  .custom-card-body {
+    height: calc(100vh - 120px);
+    overflow: auto;
+    // overflow-x: hidden;
+    margin-top: 50px;
+    &::-webkit-scrollbar {
+      width: 2px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: #cacaca;
+    }
+
+    label {
+      text-align: right;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      font-weight: 500 !important;
+      font-size: 13px !important;
+      color: #7a7a7a;
+    }
+    #divIdPatientSearch {
+      .search {
+        .patient-search-top {
+          .input-search {
+            .ng-select-container {
+              border-radius: 50px;
+            }
+          }
+        }
+        .input-search-btn {
+          border: none;
+          background: white;
+          color: #000000;
+          position: absolute;
+          top: 6px;
+          right: 20px;
+          font-size: 12px;
+          i {
+            font-size: 12px;
+            font-weight: 600;
+          }
+          &.hidden {
+            display: none;
+          }
+        }
+      }
+    }
+    .checkbox-custom {
+      height: 31px;
+      display: flex;
+      input[type="checkbox"] {
+        // opacity: 0;
+        z-index: 1;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+      }
+    }
+  }
+  .custom-card-footer {
+    border-top: 1px solid #e4eaec;
+    .btn {
+      font-size: 14px;
+    }
+    .btn-warning {
+      color: #ff5f00;
+      background-color: transparent;
+    }
+  }
+  .edit-Icon {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    z-index: 9;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    box-shadow: 0px 0px 7px 0px rgba(28, 25, 83, 0.12);
+  }
+}
+
+.patient-search-top {
+  // z-index: 9;
+
+  .ng-select {
+    .ng-select-container {
+      height: 38px;
+      min-height: 38px;
+
+      .ng-value-container {
+        font-size: 0.95rem !important;
+
+        &:before {
+          font-family: "scorg-font" !important;
+          content: "\e96c";
+          display: inline-block;
+          padding-right: 3px;
+          vertical-align: middle;
+          font-weight: 900;
+          color: #ccc;
+        }
+
+        .ng-input {
+          top: unset;
+          padding-left: 25px;
+
+          > input {
+            cursor: text !important;
+          }
+        }
+      }
+    }
+  }
+
+  .ng-dropdown-panel .ng-dropdown-panel-items {
+    max-height: 53vh;
+
+    .ng-option {
+      border-bottom: 1px dashed #efefef;
+
+      &:hover {
+        color: #333;
+        background-color: #bdbdbd1a;
+      }
+    }
+  }
+
+  .form-row {
+    .col-profile-img {
+      max-width: 65px;
+
+      img {
+        height: 50px;
+        width: 50px;
+        max-width: 50px;
+        border-radius: 50%;
+
+        &[alt="profile-image-female"] {
+          background-color: #f7e7ea;
+        }
+
+        &[alt="profile-image-male"] {
+          background-color: #eaeaea;
+        }
+      }
+    }
+  }
+
+  p {
+    line-height: 1.3;
+  }
+}
+
+.custom-container-fluid {
+  height: calc(100vh - 52px);
+  overflow: hidden;
+}
+
+.ng-select .ng-dropdown-panel .ng-dropdown-panel-items {
+  // max-height: 260px !important;
+}
+
+@media screen and (max-width: 1280px) {
+  .partial-view {
+    .ng-select .ng-select-container {
+      min-height: 31px !important;
+      height: 31px !important;
+      border-radius: 3px;
+    }
+  }
+}
+.partial-view {
+  width: calc(100vw - 0px) !important;
+  height: calc(100vh - 0px) !important;
+  border: 0px;
+
+  .right-side-section {
+    .custom-card-body {
+      height: calc(100vh - 60px);
+    }
+  }
+}
+.partial-view {
+  .right-side-section {
+    .custom-card-body {
+      height: calc(100vh - 60px) !important;
+    }
+  }
+}
+
+.validate-msg {
+  color: red;
+}
+
+::-webkit-input-placeholder {
+  /* WebKit browsers */
+  text-transform: none;
+}
+
+.form-group {
+  position: relative;
+  .star {
+    position: absolute;
+    top: 0px;
+    right: 11px;
+    color: red;
+  }
+}
+
+.input-search {
+  .display-name {
+    position: absolute;
+    top: 0;
+    left: 128px;
+    border-radius: 4px;
+    width: 124px;
+    background-color: #e4eaec;
+    p {
+      height: 31px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin: 0;
+      padding: 6px 6px;
+      text-align: center;
+      font-size: 12px;
+    }
+  }
+}
+.upload-section {
+  display: flex;
+  justify-content: center;
+  .input-upload {
+    width: 64px;
+    position: absolute;
+    font-size: 0;
+    opacity: 0;
+    right: 4px;
+    height: 31px;
+    top: 0;
+    border: none;
+    z-index: 1;
+    cursor: pointer;
+  }
+}
+:host ::ng-deep {
+  ng-dropdown-panel {
+    // width: 214%;
+  }
+}
+.form-row {
+  display: flex;
+  justify-content: space-between !important;
+  .col-profile-img {
+    flex: 0;
+  }
+  .patient-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    .font-size-dot-875 {
+      font-size: 12px !important;
+      &.name-ellipsis {
+        width: 84px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: right;
+      }
+    }
+    .name-code {
+      display: flex;
+      flex-direction: row;
+    }
+    .gender-mobile {
+      display: flex;
+      flex-direction: row;
+      color: #6c757d !important;
+    }
+    &:hover {
+      .gender-mobile {
+        color: #fff !important;
+      }
+    }
+  }
+}
+.displayFlex {
+  display: flex;
+  justify-content: center;
+  .unknownPatient {
+  }
+}
+
+.custom-scroll {
+  // height: 600px;
+  // overflow: scroll;
+}
+
+.col-profile-img {
+  img {
+    height: 50px;
+    width: 50px;
+    max-width: 50px;
+    border-radius: 50%;
+  }
+}

@@ -1,0 +1,45 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">Section</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup('close');">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body p-1 custom-modal-body">
+    <div class="card">
+        <div class="card-header p-1">
+            <div class="form-row align-items-center">
+                <div class="col-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm pl-2rem" [(ngModel)]="searchString" (keyup)="searchSection()" placeholder="Search">
+                        <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+                        <div class="input-group-append">
+                            <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear">
+                                <i class="fa fa-fw fa-eraser" aria-hidden="true"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 align-self-center">
+                    <div class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                        <input type="checkbox" (change)="selectAndDeselectAll()" class="custom-control-input" id="selectDeselectAll" name="selectDeselectAll" [(ngModel)]="selectDeselectAll">
+                        <label class="custom-control-label pointer no-select" for="selectDeselectAll"><span>{{selectDeselectAll ? 'Uncheck All' : 'Check All'}}</span></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="list-group px-2 pt-1" *ngIf="chartDataArray.length > 0">
+                <ng-container *ngFor="let item of chartDataArray; let i = index">
+                    <div class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                        <input type="checkbox" class="custom-control-input" id="section_{{i}}" name="section_{{i}}" [(ngModel)]="item.isSelected">
+                        <label class="custom-control-label pointer no-select" for="section_{{i}}"><span>{{item.sectionName}}</span></label>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase" (click)="closePopup('close');">Cancel</button>
+    <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" (click)="updateValueFilter();">Ok</button>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

@@ -1,0 +1,11 @@
+
+:host ::ng-deep {
+    .ngx-datatable.fixed-row .datatable-body, .ngx-datatable.fixed-header .datatable-body{
+        height: calc(100vh - 275px) !important;
+    }
+}
+
+.custom-container-fluid{
+    height: calc(100vh - 140px)!important;
+
+  }

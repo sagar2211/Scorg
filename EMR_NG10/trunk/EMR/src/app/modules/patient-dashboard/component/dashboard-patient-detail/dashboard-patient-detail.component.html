@@ -1,0 +1,83 @@
+<div class="form-row mx-0">
+    <div class="col-12 px-0">
+        <div class="card p-2 top-card">
+            <div class="form-row align-items-center">
+                <div class="col-3 text-center">
+                    <img class="user-img rounded-circle" src="./assets/img/profile.svg" alt="user-img" />
+                </div>
+                <div class="col-9">
+                    <div class="pat-info">
+                        <small class="font-size-500">{{patientObj?.patientData.id}}</small>
+                        <p><small  *ngIf="patientObj?.tentativeDischargeDate && patientObj?.tentativeDischargeDate !== 'Invalid date'" class="font-weight-500">Tentative Discharge : {{patientObj?.tentativeDischargeDate }}</small></p>
+                        <h6 class="mb-0" [ngClass]="{'text-danger': patientObj?.dischargeType?.name === 'EXPIRED'}">{{patientObj?.patientData.name}} </h6>
+
+                        <small class="text-muted"><cite title="Age and Gender">
+                          <span *ngIf="patientObj?.patientData.age!=null && patientObj?.patientData.age!=''">{{patientObj?.patientData.age}},
+                          </span>
+                          <span class="text-danger" *ngIf="patientObj?.dischargeType?.name === 'EXPIRED' && patientObj?.dischargeType?.date">
+                            {{patientObj?.dischargeType?.date | date : 'dd-mm-yyyy h:m a'}}
+                          </span>
+                          {{patientObj?.patientData.gender}}
+                        </cite>
+                        </small>
+                        <p><span *ngIf="patientObj?.type == 'ip'" class="font-size-dot-8 text-success text-nowrap">{{patientObj?.status}}</span></p>
+                        <p *ngIf="patientReferObj !== null" class="m-0">Referred By: <span class="font-weight-500">{{patientReferObj?.referByName}}</span></p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="col-6">
+    <div class="card p-2 top-card">
+      <p class="mb-1"><small class="align-middle"> Primary Doctor : </small> <span class="font-weight-500">
+          {{doctorname}} </span></p>
+      <p class="mb-1"><small class="align-middle"> Admitted On : </small> <span class="font-weight-500">
+          {{patientObj?.admissionDate | date:'dd-MM-yyyy'}} </span>
+      </p>
+      <p class="mb-1"><small class="align-middle"> Discharged On : </small> <span class="font-weight-500">
+          {{patientObj?.dischargeDate | date:'dd-MM-yyyy'}} </span>
+      </p>
+      <p class="mb-1"><small class="align-middle"> Bed : </small> <span class="font-weight-500">
+          {{patientObj?.bed}} </span></p>
+      <div class="position-absolute card-btn">
+        <button *ngIf="disableClicks" class="btn btn-xs btn-primary mr-2" (click)="getPatientReferPopup()"
+          type="button"> REFER</button>
+        <button *ngIf="disableClicks && patientObj?.type !== 'op'" class="btn btn-xs btn-secondary" (click)="getPatientTranferPopup()" type="button">
+          TRANSFER</button>
+      </div>
+    </div>
+  </div> -->
+</div>
+<div class="form-row mx-0" *ngIf="patientObj?.isViewOnlyPat == false">
+  <div class="col-12 px-0">
+      <div class="card p-2 top-card">
+          <div class="form-row">
+              <div class="col-12 px-0" *ngIf="allowChangeStatus">
+                <app-patient-action [dischargeStatusList]="dischargeStatusList"></app-patient-action>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-- <div class="col-6">
+  <div class="card p-2 top-card">
+    <p class="mb-1"><small class="align-middle"> Primary Doctor : </small> <span class="font-weight-500">
+        {{doctorname}} </span></p>
+    <p class="mb-1"><small class="align-middle"> Admitted On : </small> <span class="font-weight-500">
+        {{patientObj?.admissionDate | date:'dd-MM-yyyy'}} </span>
+    </p>
+    <p class="mb-1"><small class="align-middle"> Discharged On : </small> <span class="font-weight-500">
+        {{patientObj?.dischargeDate | date:'dd-MM-yyyy'}} </span>
+    </p>
+    <p class="mb-1"><small class="align-middle"> Bed : </small> <span class="font-weight-500">
+        {{patientObj?.bed}} </span></p>
+    <div class="position-absolute card-btn">
+      <button *ngIf="disableClicks" class="btn btn-xs btn-primary mr-2" (click)="getPatientReferPopup()"
+        type="button"> REFER</button>
+      <button *ngIf="disableClicks && patientObj?.type !== 'op'" class="btn btn-xs btn-secondary" (click)="getPatientTranferPopup()" type="button">
+        TRANSFER</button>
+    </div>
+  </div>
+</div> -->
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

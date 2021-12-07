@@ -1,0 +1,11 @@
+<ngb-alert class="bell-notification alert p-0 d-flex position-fixed align-items-center" *ngIf="alertMessage"
+  type={{alertMessage.messageType}} (close)="alertMessage = null">
+  <div class="heart-beat d-flex align-items-center justify-content-center">
+    <span class="draw h-100">
+      <i class="icon fa-fw fa-2x icon-bell" aria-hidden="true"></i>
+      <span class="inner circle"></span>
+      <span class="outer circle"></span>
+    </span>
+  </div>
+  <span class="ml-2 pr-4">{{ alertMessage.message }}</span>
+</ngb-alert>

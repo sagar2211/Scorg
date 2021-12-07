@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">Default Landing</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+    (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+  <div class="modal-body">
+    <div class="row" *ngIf="loadList">
+      <div class="col-12">
+        <ng-select [items]="permissionList" bindLabel="permission_name" placeholder="Landing Page" [(ngModel)]="landingPermission"> </ng-select>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closeModel('CANCEL', null)">CANCEL</button>
+    <button type="button" *ngIf="loadList || selectedPermission" (click)="saveLanding()" class="btn btn-sm btn-outline-success"><i class="icon fa-fw icon-save" aria-hidden="true"></i>
+      SAVE</button>
+  </div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

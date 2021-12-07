@@ -1,0 +1,150 @@
+<div class="emr-container-fluid container-fluid px-0">
+  <div class="card-body vital-height p-2" *ngIf="loadForm">
+    <div class="row mx-0">
+      <div class="col-8 pl-0">
+        <div class="card shadow-xs border-0 mb-4">
+          <div class="card-body pt-1 pb-0">
+            <div class="form-row form-group">
+              <div class="col-3">
+                <label>Display Name</label>
+                <input class="form-control form-control-sm" type="text" [(ngModel)]="vitalDataSelected.displayName">
+              </div>
+              <div class="col-3">
+                <label>Prefix</label>
+                <input class="form-control form-control-sm" type="text" [(ngModel)]="vitalDataSelected.prefix">
+              </div>
+              <div class="col-3">
+                <label>Suffix</label>
+                <input class="form-control form-control-sm" type="text" [(ngModel)]="vitalDataSelected.suffix">
+              </div>
+              <div class="col-3">
+                <label>Vital Unit</label>
+                <input class="form-control form-control-sm" type="text" [(ngModel)]="vitalDataSelected.vitalUnit">
+              </div>
+            </div>
+            <div class="form-row form-group">
+              <div class="col-3">
+                <label>Vital Type</label>
+                <select class="form-control form-control-sm pointer" [(ngModel)]="vitalDataSelected.vitalType">
+                  <option *ngFor="let item of vitalTypeList" value={{item.id}}>{{item.name}}</option>
+                </select>
+              </div>
+              <div class="col col-check align-self-center" *ngIf="vitalDataSelected.vitalType === 'number'">
+                <div class="custom-control custom-checkbox custom-control-inline mt-custom-1-2">
+                  <input type="checkbox" [(ngModel)]="vitalDataSelected.isDecimal" class="custom-control-input"
+                    (change)="updateDecimal(vitalDataSelected.isDecimal);" id="chek_decimal">
+                  <label class="custom-control-label pointer" for="chek_decimal"><span class="ml-1">Allow Decimal
+                    </span></label>
+                </div>
+              </div>
+              <div class="col-3">
+                <label>Club With</label>
+                <app-ng-select-typeahead [inputValue]="vitalDataSelected.clubbedVital?.id"
+                  [selectedValue]="vitalDataSelected.clubbedVital?.name" [thDisplayLabel]="'name'" [thDisplayKey]="'id'"
+                  (recievedVal)="selectClubbedValue($event)" [source]="'Select Vital'" [returnDataType]="'obj'"
+                  [isDisabled]="false" [compInstance]="compInstance" [searchFun]="getAllVitalList"
+                  [isSearchDataFromApi]="true">
+                </app-ng-select-typeahead>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ng-container *ngIf="vitalDataSelected.vitalType === 'number'">
+          <h6 class="border-dash-bottom pb-1 mb-3">Add Ranges</h6>
+          <div class="container-fluid range-height">
+            <div class="form-row form-group mb-3"
+              *ngFor="let vitalRange of vitalDataSelected.rangeData; let i = index; let last = last;">
+              <div class="col-2">
+                <select class="form-control form-control-sm pointer" [(ngModel)]="vitalRange.category"
+                  (change)="vitalRange.categoryId = '0'">
+                  <option value="">Select Category</option>
+                  <option *ngFor="let catg of categoryList" value={{catg.category}}>{{catg.category}}</option>
+                </select>
+                <small *ngIf="vitalRange.errors.category" name="vital_category"
+                  class="text-danger">{{vitalRange.errors.category}}</small>
+              </div>
+              <div class="col">
+                <select class="form-control form-control-sm pointer" [(ngModel)]="vitalRange.firstRange.operator"
+                  (change)="updateRangeFilterSetting(vitalRange, 'first')" title="First Range Operator">
+                  <option *ngFor="let item of rangeFirstFilter" value={{item.id}}>{{item.name}}</option>
+                </select>
+              </div>
+              <div class="col-1">
+                <input class="form-control form-control-sm" type="text" [(ngModel)]="vitalRange.firstRange.value"
+                  (change)="vitalRange.errors.firstRange=''" [disabled]="vitalRange.firstRange.operator=='0'">
+                <small *ngIf="vitalRange.errors.firstRange" class="text-danger">{{vitalRange.errors.firstRange}}</small>
+              </div>
+              <div class="col">
+                <select class="form-control form-control-sm pointer" [(ngModel)]="vitalRange.secondRange.operator"
+                  (change)="updateRangeFilterSetting(vitalRange, 'second')" title="Second Range Operator">
+                  <option *ngFor="let item of rangeSecondFilter" value={{item.id}}>{{item.name}}</option>
+                </select>
+              </div>
+              <div class="col-1">
+                <input class="form-control form-control-sm" type="text" [(ngModel)]="vitalRange.secondRange.value"
+                  title="Second Range" ng-change="vitalRange.errors.secondRange=''"
+                  [disabled]="vitalRange.secondRange.operator=='0'">
+                <small *ngIf="vitalRange.errors.secondRange"
+                  class="text-danger">{{vitalRange.errors.secondRange}}</small>
+              </div>
+              <div class="col-2">
+                <!-- <input type="color" placeholder="Range Color" title="Range Color" [(ngModel)]="vitalRange.color" /> -->
+                <app-custom-color-picker class="input-type-color" [inputSelctedColor]="vitalRange.color"
+                  (chooseColor)="chooseColorFromPalette($event, i)"></app-custom-color-picker>
+
+                <input type="text" class="form-control form-control-sm pl-3-3rem" placeholder="Range Color"
+                  (blur)="onblurConvertColor(vitalRange)" title="Range Color" [(ngModel)]="vitalRange.color" disabled />
+                <small *ngIf="vitalRange.errors.color" class="text-danger">{{vitalRange.errors.color}}</small>
+
+              </div>
+              <div class="col col-btn">
+                <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}"
+                  (click)="addVitalRange(vitalDataSelected.rangeData, i)" type="button"> <i
+                    class="fas fa-fw fa-plus"></i></button>
+                <button class="btn btn-sm btn-danger text-uppercase"
+                  (click)="removeVitalRange(vitalDataSelected.rangeData, i)" type="button">
+                  <i class="icon fa-fw icon-trash"></i></button>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="col-4 pr-0">
+        <h6 class="border-dash-bottom pb-1 mb-3">Vital Formula Section</h6>
+        <input
+          [ngClass]="{'margin-bottom-0': (formulaError || !vitalDataSelected.formulaValue), 'margin-bottom-15': !(formulaError || !vitalDataSelected.formulaValue)}"
+          class="form-control form-control-sm" id="formulaField" [(ngModel)]="vitalDataSelected.formulaValue">
+        <small class="text-danger" *ngIf="formulaError">Please give correct value</small>
+        <small class="text-danger" *ngIf="!formulaError && !vitalDataSelected.formulaValue">Please enter
+          value</small>
+        <div class="container-fluid px-2 pt-3">
+          <div class="mb-3">
+            <label class="text-muted mb-0">Double click to add formula</label>
+            <div class="btn-group mr-2 w-100">
+              <button type="button" class="btn btn-sm btn-outline-secondary"
+                (dblclick)="addDataToFormula(opList, 'operator')"
+                *ngFor="let opList of operatorList">{{opList}}</button>
+            </div>
+          </div>
+          <div class="vital-list pt-1">
+            <p class="mb-2 text-muted border-dash-bottom">Vital List</p>
+            <div class="vital-list-height w-100 px-1">
+              <button type="button" class="btn btn-sm btn-outline-primary px-3 mb-2 mr-2"
+                (dblclick)="addDataToFormula(vital, 'vital')"
+                *ngFor="let vital of vitalValueList">{{vital.name}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer py-1 text-right">
+    <button type="button" class="btn btn-sm btn-outline-secondary mr-2"
+      (click)="selectValueConfirm('cancel');">CANCEL</button>
+    <button type="button" class="btn btn-sm btn-success" (click)="selectValueConfirm('Ok');">
+      <i class="fa-fw" [ngClass]="vitalInputData.type === 'edit' ? 'fas fa-sync-alt' : 'icon icon-save'"></i>
+      {{vitalInputData.type === 'edit' ? 'Update' : 'Save'}}
+    </button>
+  </div>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

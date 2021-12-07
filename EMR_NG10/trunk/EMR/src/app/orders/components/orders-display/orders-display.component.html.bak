@@ -1,0 +1,384 @@
+<!---  Medicine Orders --->
+<div *ngIf="source == 'medicineOrders'">
+    <div class="card-heading border-bottom" *ngIf="!isFromFavSuggestionTemplate">
+        <div class="form-row mx-0 align-items-center">
+            <div [ngClass]="{'col-12 py-1': isFromFavSuggestionTemplate, 'col-9': !isFromFavSuggestionTemplate}" (click)="onEditClick(selectedItem, source);">
+                <h6 class="mb-0 font-weight-500">
+                    {{selectedItem.medicineObj.name}} ({{selectedItem.medicineObj.type.name}})
+                </h6>
+            </div>
+            <div [ngClass]="{'d-none': isFromFavSuggestionTemplate, 'col-3 text-right pr-0': !isFromFavSuggestionTemplate}">
+                <button *ngIf="isShowActions" [disabled]="selectedItem.status === 'APPROVED'" class="btn btn-success btn-sm mr-1" type="button" (click)="saveOrderAction(selectedItem)">{{selectedItem.status === 'APPROVED' ? 'Approved' : 'Approve'}}</button>
+                <button *ngIf="!selectedItem.id && isDelete && selectedItem.status !== 'APPROVED'" class="btn btn-outline-danger btn-sm" title="Delete Prescription" (click)="onDeleteClick(selectedItem)"><i
+            class="icon fa-fw icon-trash"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-1" (click)="onEditClick(selectedItem, source);">
+        <p class="mb-0" *ngIf="selectedItem.medicineObj.freqStartTime">
+            <span class="font-size-dot-8 text-darken">Frequency Start Time: </span><span>
+        {{selectedItem.medicineObj.freqStartTime | uppercase }} </span>
+        </p>
+        <p class="mb-0">
+            <span *ngIf="selectedItem.medicineObj.frequency" class="mr-1"><span class="font-size-dot-8 text-darken">Daily
+          Frequency: </span><span>
+          {{(selectedItem.medicineObj.frequency <= 4)? selectedItem.medicineObj.frequencySchedule: (selectedItem.medicineObj.frequency + ' times a day') | uppercase}}
+        </span></span>
+            <span class="font-size-dot-8 text-darken">Duration: </span><span>{{selectedItem.medicineObj?.duration}}
+        DAY(S)</span>
+        </p>
+        <p class="mb-0">
+            <span class="mr-1" *ngIf="selectedItem.medicineObj?.sig"><span class="font-size-dot-8 text-darken">SIG:
+        </span><span>
+          {{selectedItem.medicineObj?.sig?.name | uppercase}}</span></span>
+            <span class="mr-1" *ngIf="selectedItem.medicineObj.dose"><span class="font-size-dot-8 text-darken">Dose:
+        </span><span>
+          {{selectedItem.medicineObj.dose?.dose | uppercase}}
+          {{selectedItem.medicineObj.type?.doseUnit | uppercase}}</span></span>
+            <span *ngIf="selectedItem.medicineObj.route"><span class="font-size-dot-8 text-darken">Route: </span><span>
+          {{selectedItem.medicineObj.route?.name | uppercase}}</span></span>
+        </p>
+        <p class="mb-0" *ngIf="selectedItem.medicineObj.instruction || selectedItem.medicineObj.mealTypeInstruction">
+            <span class="font-size-dot-8 text-darken">Instruction: </span><span>{{(selectedItem.medicineObj.mealTypeInstruction != '') ? (selectedItem.medicineObj.mealTypeInstruction +'. ' + ((selectedItem.medicineObj.instruction !== null) ? selectedItem.medicineObj.instruction : '')) :
+        (selectedItem.medicineObj.instruction !== null) ? selectedItem.medicineObj.instruction : ''}}</span>
+        </p>
+        <p *ngIf="!isFromFavSuggestionTemplate" class="mb-0 small"><span class="font-size-dot-8 text-darken">Order Date:
+      </span><span>{{selectedItem.medicineObj.startDate | customDate : '' : 'DD-MM-YYYY hh:mm A'}}</span>,
+            <span *ngIf="selectedItem.orderBy?.user_name">
+        <span class="font-size-dot-8 text-darken">By </span><span><span
+            *ngIf=" selectedItem.orderBy?.role_type === 'DOCTOR'">Dr.</span>{{selectedItem.orderBy?.user_name}}</span>
+            </span>
+        </p>
+    </div>
+</div>
+<!---  Medicine Orders --->
+
+<!--Prescription-->
+<div *ngIf="source == 'prescription' && (selectedItem.id === undefined || selectedItem.id === '')" (click)="onEditClick(selectedItem, source);">
+    <div class="card-heading border-bottom" *ngIf="!isFromFavSuggestionTemplate">
+        <div class="form-row mx-0 align-items-center">
+            <div [ngClass]="{'col-12 py-1': isFromFavSuggestionTemplate, 'col-9': !isFromFavSuggestionTemplate}">
+                <h6 class="mb-0 font-weight-500">
+                    {{selectedItem.medicineObj.name}} ({{selectedItem.medicineObj.type.name}})
+                </h6>
+            </div>
+            <div [ngClass]="{'d-none': isFromFavSuggestionTemplate, 'col-3 text-right pr-0': !isFromFavSuggestionTemplate}">
+                <button *ngIf="!selectedItem.id && isDelete" class="btn btn-outline-danger btn-sm" title="Delete Prescription" (click)="onDeleteClick(selectedItem)"><i class="icon fa-fw icon-trash"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-1">
+        <p class="mb-0" *ngIf="selectedItem.medicineObj.startDate && !isFromFavSuggestionTemplate">
+            <span class="font-size-dot-8 text-darken" [innerHTML]="'Start Date' | translate">:</span><span>
+        {{selectedItem.medicineObj.startDate | customDate : '' : 'DD-MM-YYYY' }} </span>
+        </p>
+        <p class="mb-0" *ngIf="selectedItem.medicineObj.freqStartTime">
+            <span class="font-size-dot-8 text-darken" [innerHTML]="'Frequency Start Time' | translate">:</span><span>
+        {{selectedItem.medicineObj.freqStartTime | uppercase }} </span>
+        </p>
+        <p class="mb-0">
+            <span *ngIf="selectedItem.medicineObj.frequency" class="mr-1"><span class="font-size-dot-8 text-darken"
+          [innerHTML]="'Frequency' | translate">:</span><span>
+          {{(selectedItem.medicineObj.frequency <= 4)? selectedItem.medicineObj.frequencySchedule: (selectedItem.medicineObj.frequency + ' times a day') | uppercase}}
+        </span></span>
+            <span class="font-size-dot-8 text-darken" [innerHTML]="'Duration (Days)' | translate">: </span><span [innerHTML]="selectedItem.medicineObj?.duration"></span>
+        </p>
+        <p class="mb-0">
+            <!--<span class="mr-1" *ngIf="selectedItem.medicineObj?.sig"><span class="font-size-dot-8 text-darken">SIG:-->
+            <!--</span><span>-->
+            <!--{{selectedItem.medicineObj?.sig?.name | uppercase}}</span></span>-->
+            <span class="mr-1" *ngIf="selectedItem.medicineObj.dose"><span class="font-size-dot-8 text-darken"
+          [innerHTML]="'Dose' | translate">:
+        </span><span>
+          {{selectedItem.medicineObj.dose?.dose | uppercase}}
+          {{selectedItem.medicineObj.type?.doseUnit | uppercase}}</span></span>
+            <span *ngIf="selectedItem.medicineObj.route"><span class="font-size-dot-8 text-darken"
+          [innerHTML]="'Route' | translate">: </span><span>
+          {{selectedItem.medicineObj.route?.name | uppercase}}</span></span>
+        </p>
+        <p class="mb-0" *ngIf="selectedItem.medicineObj.instruction || selectedItem.medicineObj.mealTypeInstruction">
+            <span class="font-size-dot-8 text-darken" [innerHTML]="'Instruction' | translate">: </span><span>{{(selectedItem.medicineObj.mealTypeInstruction != '') ? (selectedItem.medicineObj.mealTypeInstruction +'. ' + ((selectedItem.medicineObj.instruction !== null) ? selectedItem.medicineObj.instruction : '')) :
+        (selectedItem.medicineObj.instruction !== null) ? selectedItem.medicineObj.instruction : ''}}</span>
+        </p>
+    </div>
+</div>
+<!--Prescription-->
+
+<!---  Lab Orders --->
+<div *ngIf="source == 'labOrders'">
+    <div class="card-heading border-bottom" *ngIf="!isFromFavSuggestionTemplate">
+        <div class="form-row mx-0 align-items-center">
+            <div [ngClass]="{'col-12 py-1': isFromFavSuggestionTemplate, 'col-9': !isFromFavSuggestionTemplate}" (click)="onEditClick(selectedItem, source);">
+                <h6 class="mb-0 font-weight-500">
+                    {{selectedItem.name}}
+                </h6>
+            </div>
+            <div [ngClass]="{'d-none': isFromFavSuggestionTemplate, 'col-3 text-right pr-0': !isFromFavSuggestionTemplate}">
+                <button *ngIf="isShowActions" [disabled]="selectedItem.status === 'APPROVED'" class="btn btn-success btn-sm mr-1" type="button" (click)="saveOrderAction(selectedItem)">{{selectedItem.status === 'APPROVED' ? 'Approved' : 'Approve'}}</button>
+                <button *ngIf="!selectedItem.id && isDelete && selectedItem.status !== 'APPROVED'" class="btn btn-outline-danger btn-sm" title="Delete Prescription" (click)="onDeleteClick(selectedItem)"><i
+            class="icon fa-fw icon-trash"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-1" (click)="onEditClick(selectedItem, source);">
+        <!-- <p class="mb-0"><span class="font-size-dot-8 text-darken">Start Date: </span>
+      <span>{{selectedItem.startDateTime | customDate : '' : 'DD-MM-YYYY hh:mm A'}}</span></p> -->
+        <p class="mb-0">
+            <span class="font-size-dot-8 text-darken" *ngIf="selectedItem.freqStartTime">Frequency Start Time: <span>
+          {{selectedItem.freqStartTime | uppercase}} </span></span>
+            <span class="font-size-dot-8 text-darken" *ngIf="selectedItem.frequency">Frequency: <span>
+          {{(selectedItem.frequency <= 4)? selectedItem.frequencySchedule: (selectedItem.frequency + ' times a day') | uppercase}}
+        </span>
+            </span>
+        </p>
+        <p class="mb-0">
+            <span class="font-size-dot-8 text-darken" *ngIf="selectedItem.specimen">Specimen: </span>
+            <span>{{selectedItem.specimen | uppercase}} </span>
+            <span class="font-size-dot-8 text-darken" *ngIf="selectedItem.recurring?.statement">Recurring: </span><span>
+        {{selectedItem.recurring?.statement | uppercase}} </span>
+            <span class="font-size-dot-8 text-darken" *ngIf="selectedItem.reason">Reason: </span><span>
+        {{selectedItem.reason | uppercase}} </span>
+            <span class="font-size-dot-8 text-darken" *ngIf="selectedItem.patientConsentNeeded">Consent Needed: </span><span>
+        {{selectedItem.patientConsentNeeded | uppercase}}</span>
+        </p>
+        <p class="mb-0" *ngIf="selectedItem.labInstruction">
+            <span class="font-size-dot-8 text-darken">Lab Instruction:
+      </span><span>{{selectedItem.labInstruction | uppercase}}
+      </span>
+        </p>
+        <p class="mb-0" *ngIf="selectedItem.patientInstruction">
+            <span class="font-size-dot-8 text-darken">Patient Instruction: <span>
+          {{ selectedItem.patientInstruction | uppercase}}
+        </span></span>
+        </p>
+        <p class="mb-0" *ngIf="selectedItem.requisition">
+            <span class="font-size-dot-8 text-darken">requisitions: </span>
+            <span>{{selectedItem.requisition | uppercase}}</span>
+        </p>
+        <!-- (click)="onInvestigationComponentClick(selectedItem)" -->
+        <p class="mb-0" *ngIf="selectedItem.selectedComponentCount">
+            <span class="font-size-dot-8 text-darken">Component Selected:
+        <span class="badge badge-secondary badge-pill" title="Click to select/deselect component">
+          {{selectedItem.selectedComponentCount}}
+        </span>
+            </span>
+        </p>
+        <p *ngIf="!isFromFavSuggestionTemplate" class="mb-0 small">
+            <span class="font-size-dot-8 text-darken">Order Date:</span>
+            <span *ngIf="selectedItem.startDateTime">{{selectedItem.startDateTime | customDate : '' : 'DD-MM-YYYY hh:mm A'}}
+        ,</span>
+            <span *ngIf="selectedItem.orderBy?.user_name">
+        <span class="font-size-dot-8 text-darken">By </span><span><span
+            *ngIf=" selectedItem.orderBy?.role_type === 'DOCTOR'">Dr.</span>{{selectedItem.orderBy?.user_name}}</span>
+            </span>
+        </p>
+    </div>
+</div>
+<!---  Lab Orders --->
+
+<!---  Radiology Orders --->
+<div *ngIf="source == 'radiologyOrders'">
+    <div class="card-heading border-bottom" *ngIf="!isFromFavSuggestionTemplate">
+        <div class="form-row mx-0 align-items-center">
+            <div (click)="onEditClick(selectedItem, source);" [ngClass]="{'col-12 py-1': isFromFavSuggestionTemplate, 'col-9': !isFromFavSuggestionTemplate}">
+                <h6 class="mb-0 font-weight-500">
+                    {{selectedItem.name}}
+                </h6>
+            </div>
+            <div [ngClass]="{'d-none': isFromFavSuggestionTemplate, 'col-3 text-right pr-0': !isFromFavSuggestionTemplate}">
+                <button *ngIf="isShowActions" class="btn btn-success btn-sm mr-1" [disabled]="selectedItem.status === 'APPROVED'" type="button" (click)="saveOrderAction(selectedItem)">{{selectedItem.status === 'APPROVED' ? 'Approved' : 'Approve'}}</button>
+                <button *ngIf="!selectedItem.id && isDelete && selectedItem.status !== 'APPROVED'" class="btn btn-outline-danger btn-sm" title="Delete Prescription" (click)="onDeleteClick(selectedItem)"><i
+            class="icon fa-fw icon-trash"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-1" (click)="onEditClick(selectedItem, source);">
+        <!-- <p class="mb-0"><span class="font-size-dot-8 text-darken">Start Date: </span>
+      <span>{{selectedItem.startDateTime | customDate : '' : 'DD-MM-YYYY hh:mm A'}}</span></p> -->
+        <p class="mb-0">
+            <span class="font-size-dot-8 text-darken" *ngIf="selectedItem.recurring?.statement">Recurring: </span>
+            <span>{{selectedItem.recurring?.statement}} </span>
+            <span class="font-size-dot-8 text-darken" *ngIf="selectedItem.patientConsentNeeded">Consent Needed: </span><span>
+        {{selectedItem.patientConsentNeeded}} </span>
+            <span class="font-size-dot-8 text-darken" *ngIf="selectedItem.signSymptoms">Signs And Symptoms: </span><span>
+        {{selectedItem.signSymptoms}} </span>
+            <span class="font-size-dot-8 text-darken" *ngIf="selectedItem.reason && selectedItem.priority == 'STAT'">Reason:
+      </span>
+            <span>
+        {{selectedItem.reason}} </span>
+            <span class="font-size-dot-8 text-darken" *ngIf="selectedItem.clinicalInfo">Clinical Information: </span><span>
+        {{selectedItem.clinicalInfo}}
+      </span>
+        </p>
+        <p class="mb-0">
+            <span class="font-size-dot-8 text-darken" *ngIf="selectedItem.freqStartTime">Frequency Start Time: </span><span>
+        {{selectedItem.freqStartTime}} </span>
+            <span class="font-size-dot-8 text-darken" *ngIf="selectedItem.frequency">Frequency: </span><span>
+        {{(selectedItem.frequency <= 4)? selectedItem.frequencySchedule: (selectedItem.frequency + ' times a day')}}
+      </span>
+        </p>
+        <p class="mb-0" *ngIf="selectedItem.radiologyInstruction">
+            <span class="font-size-dot-8 text-darken">Radiology Instructions: </span>
+            <span>{{selectedItem.radiologyInstruction | uppercase}}</span>
+        </p>
+        <p class="mb-0" *ngIf="selectedItem.patientInstruction">
+            <span class="font-size-dot-8 text-darken">Patient Instructions: </span>
+            <span>{{selectedItem.patientInstruction | uppercase}}</span>
+        </p>
+        <p class="mb-0" *ngIf="selectedItem.requisition">
+            <span class="font-size-dot-8 text-darken">requisitions: </span>
+            <span>{{selectedItem.requisition | uppercase}}</span>
+        </p>
+        <p *ngIf="!isFromFavSuggestionTemplate" class="mb-0 small">
+            <span class="font-size-dot-8 text-darken">Order Date:</span>
+            <span *ngIf="selectedItem.startDateTime">{{selectedItem.startDateTime | customDate : '' : 'DD-MM-YYYY hh:mm A'}}
+        ,</span>
+            <span *ngIf="selectedItem.orderBy?.user_name">
+        <span class="font-size-dot-8 text-darken">By </span><span><span
+            *ngIf=" selectedItem.orderBy?.role_type === 'DOCTOR'">Dr.</span>{{selectedItem.orderBy?.user_name}}</span>
+            </span>
+        </p>
+    </div>
+</div>
+<!---  Radiology Orders --->
+
+<!-- Diet Orders -->
+<div *ngIf="source == 'dietOrders'">
+    <div class="card-heading border-bottom" *ngIf="!isFromFavSuggestionTemplate">
+        <div class="form-row mx-0 align-items-center">
+            <div (click)="onEditClick(selectedItem, source);" [ngClass]="{'col-12 py-1': isFromFavSuggestionTemplate, 'col-9': !isFromFavSuggestionTemplate}">
+                <h6 class="mb-0 font-weight-500">
+                    {{selectedItem.name}}
+                </h6>
+            </div>
+            <div [ngClass]="{'d-none': isFromFavSuggestionTemplate, 'col-3 text-right pr-0': !isFromFavSuggestionTemplate}">
+                <button *ngIf="isShowActions" class="btn btn-success btn-sm mr-1" type="button" [disabled]="selectedItem.status === 'APPROVED'" (click)="saveOrderAction(selectedItem)">{{selectedItem.status === 'APPROVED' ? 'Approved' : 'Approve'}}</button>
+                <button *ngIf="!selectedItem.id && isDelete && selectedItem.status !== 'APPROVED'" class="btn btn-outline-danger btn-sm" title="Delete Prescription" (click)="onDeleteClick(selectedItem)"><i
+            class="icon fa-fw icon-trash"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-1" (click)="onEditClick(selectedItem, source);">
+        <p class="mb-0 mt-1" *ngIf="selectedItem.specInstruction">
+            <span class="font-size-dot-8 text-darken">Instruction: </span>{{selectedItem.specInstruction }}
+        </p>
+        <p *ngIf="!isFromFavSuggestionTemplate" class="mb-0 small">
+            <span class="font-size-dot-8 text-darken">Order Date:</span>
+            <span *ngIf="selectedItem.startDateTime">{{selectedItem.startDateTime | customDate : '' : 'DD-MM-YYYY hh:mm A'}}
+        ,</span>
+            <span *ngIf="selectedItem.orderBy?.user_name">
+        <span class="font-size-dot-8 text-darken">By </span><span><span
+            *ngIf=" selectedItem.orderBy?.role_type === 'DOCTOR'">Dr.</span>{{selectedItem.orderBy?.user_name}}</span>
+            </span>
+        </p>
+    </div>
+</div>
+
+<!-- Nursing Orders -->
+<div *ngIf="source == 'nursingOrders'" class="left-section">
+    <div class="card-heading border-bottom" *ngIf="!isFromFavSuggestionTemplate">
+        <div class="form-row mx-0 align-items-center">
+            <div (click)="onEditClick(selectedItem, source);" [ngClass]="{'col-12 py-1': isFromFavSuggestionTemplate, 'col-9': !isFromFavSuggestionTemplate}">
+                <h6 class="mb-0 font-weight-500">
+                    {{selectedItem.name}}
+                </h6>
+            </div>
+            <div [ngClass]="{'d-none': isFromFavSuggestionTemplate, 'col-3 text-right pr-0': !isFromFavSuggestionTemplate}">
+                <button *ngIf="isShowActions" class="btn btn-success btn-sm mr-1" type="button" [disabled]="selectedItem.status === 'APPROVED'" (click)="saveOrderAction(selectedItem)">{{selectedItem.status === 'APPROVED' ? 'Approved' : 'Approve'}}</button>
+                <button *ngIf="!selectedItem.id && isDelete && selectedItem.status !== 'APPROVED'" class="btn btn-outline-danger btn-sm" title="Delete Prescription" (click)="onDeleteClick(selectedItem)"><i
+            class="icon fa-fw icon-trash"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-1" (click)="onEditClick(selectedItem, source);">
+        <div class="section-detail mt-1">
+            <!-- <p class="mb-0" *ngIf="selectedItem.startDateTime"><span class="font-size-dot-8 text-darken">Start Date: </span>
+        <span>{{selectedItem.startDateTime | customDate : '' : 'DD-MM-YYYY hh:mm A'}}</span>
+      </p> -->
+            <p class="mb-0" *ngIf="selectedItem.genericFreq && selectedItem.genericFreq != ''">
+                <span class="font-size-dot-8 text-darken">Frequency: </span><span>
+          {{(selectedItem.genericFreq <= 4)? selectedItem.FreqSchedule : (selectedItem.genericFreq + ' times a day')}}
+        </span>
+                <span class="font-size-dot-8 text-darken" *ngIf="selectedItem.freqStartTime">Frequency Start Time: </span>
+                <span>
+          {{selectedItem.freqStartTime}} </span>
+                <span class="font-size-dot-8 text-darken" *ngIf="selectedItem.genericDuration">Duration: </span><span>
+          {{selectedItem.genericDuration}} DAY(S)
+        </span>
+            </p>
+            <p *ngIf="!isFromFavSuggestionTemplate" class="mb-0 small">
+                <span class="font-size-dot-8 text-darken">Order Date:</span>
+                <span *ngIf="selectedItem.startDateTime">{{selectedItem.startDateTime | customDate : '' : 'DD-MM-YYYY hh:mm A'}}
+          ,</span>
+                <span *ngIf="selectedItem.orderBy?.user_name">
+          <span class="font-size-dot-8 text-darken">By </span><span><span
+              *ngIf=" selectedItem.orderBy?.role_type === 'DOCTOR'">Dr.</span>{{selectedItem.orderBy?.user_name}}</span>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Other Order Doctor Instruction -->
+<div *ngIf="source == 'Doctor Instruction'">
+    <div class="card-heading border-bottom" *ngIf="!isFromFavSuggestionTemplate">
+        <div class="form-row mx-0 align-items-center">
+            <div (click)="onEditClick(selectedItem, source);" [ngClass]="{'col-12 py-1': isFromFavSuggestionTemplate, 'col-9': !isFromFavSuggestionTemplate}">
+                <h6 class="mb-0 font-weight-500">
+                    {{selectedItem.name}}
+                </h6>
+            </div>
+            <div [ngClass]="{'d-none': isFromFavSuggestionTemplate, 'col-3 text-right pr-0': !isFromFavSuggestionTemplate}">
+                <button *ngIf="isShowActions" class="btn btn-success btn-sm mr-1" type="button" [disabled]="selectedItem.status === 'APPROVED'" (click)="saveOrderAction(selectedItem,'instructionOrders')">{{selectedItem.status === 'APPROVED' ? 'Approved' : 'Approve'}}</button>
+                <button *ngIf="!selectedItem.id && isDelete && selectedItem.status !== 'APPROVED'" class="btn btn-outline-danger btn-sm" title="Delete Prescription" (click)="onDeleteClick(selectedItem)"><i
+            class="icon fa-fw icon-trash"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-1" (click)="onEditClick(selectedItem, source);">
+        <p class="mb-0 mt-1" *ngIf="selectedItem.specInstruction">
+            <span class="font-size-dot-8 text-darken">Instruction: </span>{{selectedItem.specInstruction}}
+        </p>
+        <p *ngIf="!isFromFavSuggestionTemplate" class="mb-0 small">
+            <span class="font-size-dot-8 text-darken">Order Date:</span>
+            <span *ngIf="selectedItem.startDateTime">{{selectedItem.startDateTime | customDate : '' : 'DD-MM-YYYY hh:mm A'}}
+        ,</span>
+            <span *ngIf="selectedItem.orderBy?.user_name">
+        <span class="font-size-dot-8 text-darken">By </span><span><span
+            *ngIf=" selectedItem.orderBy?.role_type === 'DOCTOR'">Dr.</span>{{selectedItem.orderBy?.user_name}}</span>
+            </span>
+        </p>
+    </div>
+</div>
+
+<!-- Other Order Services with Notes -->
+<div *ngIf="source == 'Services with Notes'">
+    <div class="card-heading border-bottom" *ngIf="!isFromFavSuggestionTemplate">
+        <div class="form-row mx-0 align-items-center">
+            <div (click)="onEditClick(selectedItem, source);" [ngClass]="{'col-12 py-1': isFromFavSuggestionTemplate, 'col-9': !isFromFavSuggestionTemplate}">
+                <h6 class="mb-0 font-weight-500">
+                    {{selectedItem.name}}
+                </h6>
+            </div>
+            <div [ngClass]="{'d-none': isFromFavSuggestionTemplate, 'col-3 text-right pr-0': !isFromFavSuggestionTemplate}">
+                <button *ngIf="isShowActions" class="btn btn-success btn-sm mr-1" type="button" [disabled]="selectedItem.status === 'APPROVED'" (click)="saveOrderAction(selectedItem,'serviceOrders')">{{selectedItem.status === 'APPROVED' ? 'Approved' : 'Approve'}}</button>
+                <button *ngIf="!selectedItem.id && isDelete && selectedItem.status !== 'APPROVED'" class="btn btn-outline-danger btn-sm" title="Delete Prescription" (click)="onDeleteClick(selectedItem)"><i
+            class="icon fa-fw icon-trash"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-1" (click)="onEditClick(selectedItem, source);">
+        <p class="mb-0 mt-1" *ngIf="selectedItem.specInstruction">
+            <span class="font-size-dot-8 text-darken">Instruction: </span>{{selectedItem.specInstruction}}
+        </p>
+        <p *ngIf="!isFromFavSuggestionTemplate" class="mb-0 small">
+            <span class="font-size-dot-8 text-darken">Order Date:</span>
+            <span *ngIf="selectedItem.startDateTime">{{selectedItem.startDateTime | customDate : '' : 'DD-MM-YYYY hh:mm A'}}
+        ,</span>
+            <span *ngIf="selectedItem.orderBy?.user_name">
+        <span class="font-size-dot-8 text-darken">By </span><span><span
+            *ngIf="selectedItem.orderBy?.role_type === 'DOCTOR'">Dr.</span>{{selectedItem.orderBy?.user_name}}</span>
+            </span>
+        </p>
+    </div>
+</div>

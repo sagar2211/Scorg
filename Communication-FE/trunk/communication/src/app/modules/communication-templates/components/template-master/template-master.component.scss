@@ -1,0 +1,216 @@
+    @import "../../../../../scss/custom_bootstrap_theme.scss";
+    .add-update-temp-card-body {
+        height: calc(100vh - 128px);
+    }
+
+    :host ::ng-deep {
+        .angular-editor {
+            top: 5px;
+            .angular-editor-toolbar {
+                background-color: transparent;
+                padding: 0;
+                border: 0;
+                .angular-editor-toolbar-set {
+                    @include border-radius(3px);
+                    @media screen and (max-width: 1280px) {
+                        & {
+                            margin-right: 1px !important;
+                        }
+                    }
+                    &:nth-child(1),
+                    &:nth-child(4),
+                    &:nth-child(5),
+                    &:nth-child(10),
+                    &:nth-child(11),
+                    &:nth-child(12),
+                    &:last-child {
+                        display: none !important;
+                    }
+                    &:nth-child(2) {
+                        button:nth-child(4) {
+                            border-right: 1px solid $gray-300 !important;
+                            @include border-right-radius(3px);
+                        }
+                    }
+                    .angular-editor-button {
+                        padding: 0.3rem !important;
+                        &:not(:last-child) {
+                            border-right: 0px !important;
+                        }
+                        &:last-child {
+                            @include border-right-radius(3px);
+                        }
+                        &:first-child {
+                            @include border-left-radius(3px);
+                        }
+                        &.active {
+                            background: $primary !important;
+                            color: $white;
+                        }
+                    }
+                    button[title="Text Color"] {
+                        @include border-left-radius(3px);
+                    }
+                    button[title="Subscript"],
+                    button[title="Superscript"] {
+                        display: none;
+                    }
+                    button[title="Background Color"] {
+                        .background {
+                            font-size: small !important;
+                        }
+                    }
+                    .ae-font .ae-picker-label {
+                        line-height: 23px;
+                        @include border-radius(3px);
+                    }
+                }
+            }
+            .angular-editor-wrapper {
+                .angular-editor-textarea {
+                    height: calc(100vh - 260px) !important;
+                    @include border-radius(3px);
+                    resize: none;
+                    &:after {
+                        background-color: transparent;
+                    }
+                }
+            }
+        }
+        .template-details {
+            .form-row {
+                margin-top: 2.2rem;
+            }
+            textarea {
+                width: 100%;
+                height: calc(100vh - 260px) !important;
+                overflow-y: auto;
+                margin-top: 5px;
+                @include border-radius(3px);
+                border-color: $gray-300;
+                resize: none;
+                &:focus {
+                    outline: 1px auto #95b7ee;
+                }
+            }
+        }
+        .editorTagLabel {
+            font-size: 13px;
+            @include border-radius(5px);
+            padding: 2px 5px 0px 5px;
+        }
+        .editorTagClose {
+            font-size: 16px;
+            margin-left: 5px;
+            margin-top: -4px;
+        }
+    }
+
+    .tag-list-col {
+        .form-row {
+            margin-top: 1.92rem;
+        }
+        .add-update-tag-list {
+            overflow-y: auto;
+            margin-top: 3px;
+            height: calc(100vh - 260px);
+            @include border-radius(3px);
+            ul {
+                li {
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+                    color: $gray-700;
+                    &:hover {
+                        background-color: #eee;
+                    }
+                    &:last-child {
+                        border-bottom: 0px;
+                    }
+                }
+            }
+        }
+    }
+
+    .custom-switch {
+        padding-left: 0 !important;
+        &.yes-no-btn {
+            padding-left: 1.95rem !important;
+            .custom-control-input {
+                &:checked {
+                    .custom-control-label {
+                        &::after {
+                            -webkit-transform: translateX(2.56rem) !important;
+                            -moz-transform: translateX(2.56rem) !important;
+                            -ms-transform: translateX(2.56rem) !important;
+                            transform: translateX(2.56rem) !important;
+                        }
+                    }
+                }
+            }
+            .custom-control-label {
+                &:before {
+                    width: 65px;
+                    @include border-radius(50px);
+                }
+                &.active {
+                    &::after {
+                        -webkit-transform: translateX(2.56rem) !important;
+                        -moz-transform: translateX(2.56rem) !important;
+                        -ms-transform: translateX(2.56rem) !important;
+                        transform: translateX(2.56rem) !important;
+                    }
+                }
+            }
+            span {
+                left: 40px;
+            }
+        }
+        .custom-control-input {
+            &:checked {
+                .custom-control-label {
+                    &:before {
+                        background-color: $green-100 !important;
+                        border-color: $green-100 !important;
+                    }
+                    &::after {
+                        -webkit-transform: translateX(3.8rem) !important;
+                        -moz-transform: translateX(3.8rem) !important;
+                        -ms-transform: translateX(3.8rem) !important;
+                        transform: translateX(3.8rem) !important;
+                    }
+                }
+            }
+        }
+        .custom-control-label {
+            &:before {
+                width: 85px;
+                height: 24px !important;
+                top: 0;
+                left: 0;
+                @include border-radius(20px);
+                background-color: $gray-500 !important;
+                border-color: $gray-500 !important;
+            }
+            &::after {
+                background-color: $white !important;
+                top: calc(0.14rem + 0px);
+                // left: calc(-1.95rem + 2px);
+                left: 2px;
+                width: calc(1.5rem - 4px);
+                height: calc(1.5rem - 4px);
+                @include border-radius(50%);
+                z-index: 0;
+            }
+            &.active {
+                &:before {
+                    background-color: $green-100 !important;
+                    border-color: $green-100 !important;
+                }
+                &::after {
+                    -webkit-transform: translateX(3.8rem) !important;
+                    -moz-transform: translateX(3.8rem) !important;
+                    -ms-transform: translateX(3.8rem) !important;
+                    transform: translateX(3.8rem) !important;
+                }
+            }
+        }
+    }

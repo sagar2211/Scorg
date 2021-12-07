@@ -1,0 +1,59 @@
+<form [formGroup]="entityRuleForm" *ngIf="formLoad">
+  <div class="container-fluid">
+    <div class="form-row form-group">
+      <div class="col-3">
+        <label>Default Time Per Patient <small>(min)</small><sup>*</sup></label>
+        <app-ng-select-typeahead [displayList]="defaultTimePerPatientArray" [inputValue]="this.entityRuleForm.value.timePerPatient"
+          (recievedVal)="saveEntityRulsData($event,'default')">
+        </app-ng-select-typeahead>
+      </div>
+      <div class="col-3">
+        <label>Appointment Time Slot <small>(min)</small><sup>*</sup></label>
+        <app-ng-select-typeahead [displayList]="appointmentTimeSlotArray" [inputValue]="this.entityRuleForm.value.appointmentTimeSlot"
+          (recievedVal)="saveEntityRulsData($event, 'appointment')">
+        </app-ng-select-typeahead>
+      </div>
+    </div>
+    <div class="form-row form-group" *ngIf="serviceList.length > 0">
+      <div class="col-3">
+        <label>Types Of Services</label>
+      </div>
+      <div class="col-3">
+        <label>Time Slot <small>(min)</small></label>
+      </div>
+      <div class="col-3">
+        <label>Max Patients</label>
+      </div>
+    </div>
+    <div class="data-height pb-4">
+      <div class="form-row form-group" *ngFor="let service of serviceList; let i=index; last as last;">
+        <div class="col-3">
+          <app-ng-select-typeahead [inputValue]="service?.id" [selectedValue]="service?.name" [thDisplayLabel]="'name'"
+            [thDisplayKey]="'id'" (recievedVal)="selectService($event, i)" [source]="'Select Service'"
+            [returnDataType]="'obj'" [isDisabled]="false" [compInstance]="compInstance" [searchFun]="getServiceList"
+            [isSearchDataFromApi]="true">
+          </app-ng-select-typeahead>
+        </div>
+        <div class="col-3">
+          <app-number-only-input [inputVal]="service.timeSlot" [disable]="false" [maxLength]="3" [minVal]="1"
+            [placeholder]="'Time Slot (min)'" [maxVal]="999"
+            (numberChange)="service.timeSlot = $event; saveEntityRulsData()">
+          </app-number-only-input>
+        </div>
+        <div class="col-3">
+          <app-number-only-input [inputVal]="service.maxNum" [disable]="false" [maxLength]="3" [minVal]="1"
+            [placeholder]="'Max Appointments'" [maxVal]="999"
+            (numberChange)="service.maxNum = $event; saveEntityRulsData()">
+          </app-number-only-input>
+        </div>
+        <div class="col-3">
+          <button class="btn btn-sm btn-primary mr-2" [ngClass]="{'invisible': !last}"
+            (click)="addDefaulatServiceObject(service, false)" type="button"><i class="fas fa-fw fa-plus"></i></button>
+          <button class="btn btn-sm btn-danger" (click)="deleteService(service, i)"><i
+              class="icon fa-fw icon-trash"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</form>

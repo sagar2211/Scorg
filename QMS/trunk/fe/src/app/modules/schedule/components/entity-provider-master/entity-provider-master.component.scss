@@ -1,0 +1,26 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+.custom-checkbox .custom-control-label {
+  &.error {
+    &:before {
+      border-color: $danger;
+    }
+  }
+}
+
+.custom-card {
+  .master-height {
+    height: calc(100vh - 201px);
+    overflow-y: auto;
+    @include medium-max {
+      height: calc(100vh - 198px);
+    }
+    h6 {
+      color: $gray-700;
+    }
+
+    .icon {
+      font-size: 20px;
+    }
+  }
+}

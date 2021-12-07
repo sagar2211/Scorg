@@ -1,0 +1,17 @@
+@import "../../../../../scss/custom_bootstrap_theme.scss";
+
+.chat-inbox {
+  background-color: $gray-50;
+  width: 350px;
+  z-index: 999;
+  position: fixed;
+  height: calc(100vh - 41px);
+  box-shadow: 1px 0 2px 0 rgba(28, 25, 83, 0.12);
+}
+
+.chat-msg {
+  background-color: $white;
+  margin: 0 0 0 350px;
+  width: calc(100vw - 350px);
+  height: calc(100vh - 41px);
+}

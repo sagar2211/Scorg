@@ -1,0 +1,99 @@
+<div class="modal-header p-1" *ngIf="!isShowAllTemplate">
+  <h4 class="col m-0 p-0">
+    <div class="btn-group mr-2 pointer" uib-dropdown dropdown-append-to-body title="Templates">
+      <button type="button" class="btn btn-sm btn-primary text-left min-w-200">
+        <span class="text-uppercase-imp text-strong" [innerHTML]="selectedTemplate.template_name"></span>
+      </button>
+    </div>
+    <!-- <i *ngIf="!parentComponetInstance.isPreview" (click)="modal.close();this.parentComponetInstance.closePopup()" class="float-right pointer mr-2" title="Close">
+      <i class="fa fa-times font-20"></i></i> -->
+      <i *ngIf="!isShowAllTemplate" (click)="closePopup();" class="float-right pointer mr-2" title="Close">
+        <i class="fa fa-times font-20"></i></i>
+  </h4>
+</div>
+<div class="modal-body build-template-modal-body p-0" *ngIf="!isShowAllTemplate">
+  <div class="form-row mx-0 h-100">
+    <div class="col-3 pt-2 faq-left-col" *ngIf="!parentComponetInstance.isPreview">
+      <div id="main-menu-wrapper" wheel-propagation="true" suppress-scroll-x="true" min-scrollbar-length="12">
+        <div data-toggle="buttons">
+          <button class="btn btn-sm btn-block text-left"
+            *ngFor="let category of parentComponetInstance.scoreTemplateList;"
+            (click)="changTemplateSectionFromPopup(category)"
+            [ngClass]="selectedTemplate.score_template_id == category.score_template_id ? 'btn-primary-light' : 'btn-outline-primary-light'"
+            title="{{category.categoryName}}">
+            <input type="radio" hidden="" name="dr_app_location" autocomplete="off" [value]="category.score_template_id"
+              [(ngModel)]="category.score_template_id">
+            <span>
+              {{category.template_name}}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngTemplateOutlet="previewScoretemplate">
+    </ng-container>
+  </div>
+</div>
+
+<div *ngIf="isShowAllTemplate">
+  <div class="form-row mx-0 h-100">
+      <ng-container *ngTemplateOutlet="previewScoretemplate">
+      </ng-container>
+  </div>
+</div>
+
+<ng-template #previewScoretemplate>
+  <div [ngClass]="!parentComponetInstance.isPreview && !isShowAllTemplate ? 'col-9':'col-12'" class="px-0" id="preview_popup_container">
+    <!-- du-scroll-container scroll -->
+    <div class="text-right py-1" *ngIf="!parentComponetInstance.isPreview" >
+      <button class="btn btn-sm btn-outline-warning mr-1" type="button" (click)="clearAllAnsOptions()"><i
+          class="fas fa-fw fa-eraser" aria-hidden="true"></i>
+        CLEAR</button>
+    </div>
+    <div class="container-fluid px-1">
+      <div class="summary-table pb-1">
+        <table class="table border-bottom custom-table font-size-dot-8 mb-0">
+          <tbody>
+            <tr *ngFor="let questionObject of selectedTemplate.question_list; let sectionIndex = index;">
+              <td width="10%" class="border-left text-center">
+                <p class="mb-0">{{sectionIndex+1}}. </p>
+              </td>
+              <td width="70%">
+                <p class="text-darken mb-1">
+                  {{questionObject.question_name}}</p>
+                <div class="container-float pl-4">
+                  <div *ngIf="!parentComponetInstance.isPreview" class="form-row">
+                    <div class="col-{{ansObject.option_row_size}} custom-control custom-radio custom-control-inline m-0"
+                      *ngFor="let ansObject of questionObject.answer_option_list; let ansOptIndex = index;">
+                      <input type="radio" class="custom-control-input" id="radio_{{ansObject.answer_id}}"
+                        name="radio_{{ansObject.options_value}}_{{ansObject.answer_id}}_{{ansOptIndex}}"
+                        [checked]="ansObject.options_value" [value]="ansObject.options_value"
+                        [(ngModel)]="questionObject.selected_optionValue" title=""
+                        (change)="parentComponetInstance.optionValueOnChange(selectedTemplate);parentComponetInstance.prepareAndSaveLocalTransData();">
+                      <label for="radio_{{ansObject.answer_id}}" class="custom-control-label pointer"><span
+                          class="font-weight-500" [innerHTML]="ansObject.option_label"></span></label>
+                    </div>
+                  </div>
+                  <div *ngIf="parentComponetInstance.isPreview" class="form-row">
+                    <div class="col-{{ansObject.option_row_size}} custom-control custom-radio custom-control-inline m-0"
+                      *ngFor="let ansObject of questionObject.answer_option_list; let ansOptIndex = index;">
+                      <input type="radio" class="custom-control-input" id="radio_{{ansObject.answer_id}}"
+                        name="radio_{{ansObject.options_value}}_{{ansObject.answer_id}}_{{ansOptIndex}}"
+                        [checked]="ansObject.options_value" [value]="ansObject.options_value"
+                        [(ngModel)]="questionObject.selected_optionValue" title=""
+                        (change)="selectOption(selectedTemplate)">
+                      <label for="radio_{{ansObject.answer_id}}" class="custom-control-label pointer"><span
+                          class="font-weight-500" [innerHTML]="ansObject.option_label"></span></label>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td width="20%" class="border-right text-center">
+                <p class="mb-0">{{questionObject.selected_optionValue | number}}</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</ng-template>

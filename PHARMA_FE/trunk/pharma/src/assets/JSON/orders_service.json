@@ -1,0 +1,57 @@
+{
+  "getOrderDetailsByIpdId": {
+    "status": 200,
+    "apistatus": 1,
+    "authenticated": 1,
+    "message": "USER AUTHENTICATED",
+    "data": {
+      "ordersDetails": {
+        "medicineOrders": [],
+        "labOrders": [],
+        "radiologyOrders": [],
+        "dietOrders": [],
+        "nursingOrders": []
+      },
+      "status": 1,
+      "message": ""
+    }
+  },
+  "getOrderCategoriesMaster": {
+    "status": 200,
+    "apistatus": 1,
+    "authenticated": 1,
+    "message": "USER AUTHENTICATED",
+    "data": [
+      {
+        "orderId": "1",
+        "orderName": "Medicine",
+        "display": true,
+        "orderKey": "medicineOrders"
+      },
+      {
+        "orderId": "2",
+        "orderName": "Lab",
+        "display": true,
+        "orderKey": "labOrders"
+      },
+      {
+        "orderId": "3",
+        "orderName": "Radiology",
+        "display": true,
+        "orderKey": "radiologyOrders"
+      },
+      {
+        "orderId": "4",
+        "orderName": "Diet",
+        "display": true,
+        "orderKey": "dietOrders"
+      },
+      {
+        "orderId": "5",
+        "orderName": "Nursing",
+        "display": true,
+        "orderKey": "nursingOrders"
+      }
+    ]
+  }
+}

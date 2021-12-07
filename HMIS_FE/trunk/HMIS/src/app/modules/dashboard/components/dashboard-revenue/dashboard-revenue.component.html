@@ -1,0 +1,69 @@
+<div class="container-fluid admin-dashboard px-2" [ngClass]="{'partial-view': isPartialLoad}">
+    <!-- <div class="form-row align-items-center mt-2 top-form-row">
+        <div class="col">
+            <div class="btn-group text-uppercase mr-2">
+                <button type="button" class="btn btn-sm btn-white dropdown-toggle dropdown-toggle-split custom-border-radius"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                </button>
+                <button type="button" class="btn btn-sm btn-white rounded-0">01/04/2021 - 08/04/2021</button>
+                <button type="button" class="btn btn-sm btn-white dropdown-toggle dropdown-toggle-split custom-padding"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                </button>
+            </div>
+            <div class="btn-group text-uppercase mr-2">
+                <button type="button" class="btn btn-sm btn-white dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    All day
+                </button>
+            </div>
+            <a class="btn-sm"><u>Advanced Options</u></a>
+        </div>
+        <div class="col-2 text-right">
+            <div class="btn-group text-uppercase mr-2">
+                <button type="button" class="btn btn-sm btn-white dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Export
+                </button>
+            </div>
+        </div>
+    </div> -->
+    <ng-container *ngIf="loadDashboard">
+    <div class="form-row pt-2 py-1 top-card-form-row">
+        <div class="col-3">
+          <app-total-revenue [dashboardData]="dashboardData" (isTotalRevenueVisibleSection)="updateOtherEvent('isTotalRevenueVisible', $event)"></app-total-revenue>
+            <app-total-revenue-details *ngIf="isMobile" [dashboardData]="dashboardData" [isTotalRevenueVisible]="isTotalRevenueVisible">
+            </app-total-revenue-details>
+        </div>
+        <div class="col-3">
+          <app-op-patient [dashboardData]="dashboardData" (isOPPatientVisibleSection)="updateOtherEvent('isOPPatientVisible', $event)"></app-op-patient>
+            <app-op-patient-details *ngIf="isMobile" [dashboardData]="dashboardData" [isOPPatientVisible]="isOPPatientVisible"
+                [selectedSummary]="selectedSummary"></app-op-patient-details>
+        </div>
+        <div class="col-3">
+          <app-ip-patient [dashboardData]="dashboardData" (isIPPatientVisibleSection)="updateOtherEvent('isIPPatientVisible', $event)"></app-ip-patient>
+            <app-ip-patient-details [dashboardData]="dashboardData" [dashboardData]="dashboardData" *ngIf="isMobile" [isIPPatientVisible]="isIPPatientVisible"
+                [selectedSummary]="selectedSummary"></app-ip-patient-details>
+        </div>
+        <div class="col-3">
+          <app-other-patient [dashboardData]="dashboardData"></app-other-patient>
+        </div>
+    </div>
+    <app-total-revenue-details *ngIf="!isMobile" [dashboardData]="dashboardData" [isTotalRevenueVisible]="isTotalRevenueVisible">
+    </app-total-revenue-details>
+    <app-op-patient-details *ngIf="!isMobile" [dashboardData]="dashboardData" [isOPPatientVisible]="isOPPatientVisible"
+        [selectedSummary]="selectedSummary"></app-op-patient-details>
+    <app-ip-patient-details *ngIf="!isMobile" [dashboardData]="dashboardData" [isIPPatientVisible]="isIPPatientVisible"
+        [selectedSummary]="selectedSummary"></app-ip-patient-details>
+    <div class="form-row pt-1 pb-2 bottom-card-form-row">
+        <div class="col-4 custom-col-4">
+          <app-revenue-summery [dashboardData]="dashboardData"></app-revenue-summery>
+        </div>
+        <div class="col-4 custom-col-4">
+           <app-collection-summery [dashboardData]="dashboardData"></app-collection-summery>
+        </div>
+        <div class="col-4 custom-col-4">
+           <app-bed-occupancy [dashboardData]="dashboardData"></app-bed-occupancy>
+        </div>
+    </div>
+  </ng-container>
+</div>

@@ -1,0 +1,60 @@
+<!-- <div class="mb-1 container-fluid px-0 schedule-f line-height-1" *ngIf="instructionData.commonInstructionPatient || 
+        instructionData.commonInstructionOperator ||
+        instructionData.serviceForm.length > 0">
+  <div class="row mx-0">
+    <div class="col px-0">
+      <a class="text-info" (click)="instructionData.panalCollapse= !instructionData.panalCollapse"><i
+          class="fa fa-fw pointer" [ngClass]="{'fa-plus-square': instructionData.panalCollapse,
+                        'fa-minus-square':
+                !instructionData.panalCollapse}"></i></a>
+    </div>
+    <div class="col px-0" *ngIf="showEditButton">
+      <p class="float-left font-weight-500 heading">SCHEDULE INSTRUCTIONS</p>
+      <div class="float-right"><button type="button" class="btn btn-xxs btn-info mb-1"
+          (click)="editScheduleData(instructionData, 'instruction')"><i class="fa fa-fw fa-edit" aria-hidden="true"></i>
+          EDIT</button></div>
+    </div>
+  </div>
+  <div class="ml-3 expanded" [ngClass]="{'collapsed': instructionData.panalCollapse}">
+    <div *ngIf="instructionData.commonInstructionPatient">
+      <p>Common Patient Instruction -</p>
+      <p>{{instructionData.commonInstructionPatient}}</p>
+    </div>
+    <div *ngIf="instructionData.commonInstructionOperator">
+      <p>Common Operator Instruction -</p>
+      <p>{{instructionData.commonInstructionOperator}}</p>
+    </div>
+    <div class="pt-1" *ngIf="instructionData.serviceForm.length > 0">
+      <div class="ml-2 pt-1" *ngFor="let item of instructionData.serviceForm; let i= index;">
+        <div class="row mx-0">
+          <div class="col-12 px-0">
+            <p class="float-left font-weight-bolder">{{item.service?.name}}</p>
+            <button type="button" class="float-right btn btn-xxs btn-danger mb-1" *ngIf="showEditButton"
+              (click)="deleteScheduleData(item, i, null , 'instruction_service')"><i class="fa fa-fw fa-trash"
+                aria-hidden="true"></i>
+              DELETE</button>
+          </div>
+        </div>
+        <div *ngIf="item.instructionPatient">
+          <p>Patient Instruction -</p>
+          <p>{{item.instructionPatient}}</p>
+        </div>
+        <div *ngIf="item.instructionOperator">
+          <p>Operator Instruction -</p>
+          <p>{{item.instructionOperator}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div class="form-row align-items-center mx-0 position-relative overflow-hidden"
+  *ngIf="instructionData?.commonInstructionOperator">
+  <div class="col-12">
+    <p class="mb-0 text-muted font-size-sm">Common Instruction for Operator</p>
+    <p class="mb-0 font-weight-500 instruction-txt">
+      {{instructionData?.commonInstructionOperator}}...</p>
+  </div>
+  <div class="expand-txt">
+    <a href="#" class="btn-link text-info">Expand</a>
+  </div>
+</div>

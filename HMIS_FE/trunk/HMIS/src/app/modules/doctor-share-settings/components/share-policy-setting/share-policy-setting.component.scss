@@ -1,0 +1,21 @@
+.global-setting {
+  height: calc(100vh - 50px);
+  overflow-y: auto;
+  .card-body {
+    height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+}
+
+.nav-link.active {
+  border-radius: 5px 5px 0px 0px;
+}
+
+.nav-link {
+  border: 1px solid #dee2e6;
+  border-radius: 5px 5px 0px 0px;
+  margin-bottom: -1px;
+  background: #ffffff;
+  color: #000;
+}
+

@@ -1,0 +1,473 @@
+/*==========================================================================================
+******************       Custom outline icons - Font Style For The Application      *****************
+============================================================================================*/
+
+@font-face {
+    font-family: 'scorg-font';
+    src: url('../assets/img/icons/fonts/scorg-font.eot?rkw29do');
+    src: url('../assets/img/icons/fonts/scorg-font.eot?#iefix') format('embedded-opentype'), url('../assets/img/icons/fonts/scorg-font.ttf?rkw29do') format('truetype'), url('../assets/img/icons/fonts/scorg-font.woff?rkw29do') format('woff'), url('../assets/img/icons/fonts/scorg-font.svg?rkw29do#scorg-font') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'scorg-font' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    display: inline-block;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-address-card:before {
+  content: "\e900";
+}
+.icon-admin:before {
+  content: "\e901";
+}
+.icon-application-settings:before {
+  content: "\e902";
+}
+.icon-appointment-status:before {
+  content: "\e903";
+}
+.icon-apt-status:before {
+  content: "\e904";
+}
+.icon-arrow:before {
+  content: "\e905";
+}
+.icon-ban:before {
+  content: "\e906";
+}
+.icon-bell:before {
+  content: "\e907";
+}
+.icon-billing:before {
+  content: "\e908";
+}
+.icon-briefcase:before {
+  content: "\e909";
+}
+.icon-bring-forward:before {
+  content: "\e90a";
+}
+.icon-calendar-alt:before {
+  content: "\e90b";
+}
+.icon-calendar-day:before {
+  content: "\e90c";
+}
+.icon-calendar-minus:before {
+  content: "\e90d";
+}
+.icon-calling:before {
+  content: "\e90e";
+}
+.icon-camera:before {
+  content: "\e90f";
+}
+.icon-change-password:before {
+  content: "\e910";
+}
+.icon-chart-pie-alt:before {
+  content: "\e911";
+}
+.icon-chat:before {
+  content: "\e912";
+}
+.icon-check:before {
+  content: "\e913";
+}
+.icon-chevron-double-right:before {
+  content: "\e914";
+}
+.icon-clipboard-list:before {
+  content: "\e915";
+}
+.icon-clipboard-list-check:before {
+  content: "\e916";
+}
+.icon-clock:before {
+  content: "\e917";
+}
+.icon-cogs:before {
+  content: "\e918";
+}
+.icon-connect:before {
+  content: "\e919";
+}
+.icon-consultation:before {
+  content: "\e91a";
+}
+.icon-copy:before {
+  content: "\e91b";
+}
+.icon-dashboard:before {
+  content: "\e91c";
+}
+.icon-desktop:before {
+  content: "\e91d";
+}
+.icon-display-status-settings:before {
+  content: "\e91e";
+}
+.icon-edit:before {
+  content: "\e91f";
+}
+.icon-ellipse:before {
+  content: "\e920";
+}
+.icon-emergency:before {
+  content: "\e921";
+}
+.icon-emr-care-team:before {
+  content: "\e922";
+}
+.icon-emr-diagnosis:before {
+  content: "\e923";
+}
+.icon-emr-history:before {
+  content: "\e924";
+}
+.icon-emr-icu-flow-sheet:before {
+  content: "\e925";
+}
+.icon-emr-icu-vital-sheet:before {
+  content: "\e926";
+}
+.icon-emr-intake-output:before {
+  content: "\e927";
+}
+.icon-emr-mar:before {
+  content: "\e928";
+}
+.icon-emr-orders:before {
+  content: "\e929";
+}
+.icon-emr-pacs:before {
+  content: "\e92a";
+}
+.icon-emr-progress-notes:before {
+  content: "\e92b";
+}
+.icon-emr-setting:before {
+  content: "\e92c";
+}
+.icon-enquiry:before {
+  content: "\e92d";
+}
+.icon-entity-room-map:before {
+  content: "\e92e";
+}
+.icon-eraser:before {
+  content: "\e92f";
+}
+.icon-event-communication:before {
+  content: "\e930";
+}
+.icon-expand:before {
+  content: "\e931";
+}
+.icon-extend:before {
+  content: "\e932";
+}
+.icon-eye:before {
+  content: "\e933";
+}
+.icon-eye-slash:before {
+  content: "\e934";
+}
+.icon-filter:before {
+  content: "\e935";
+}
+.icon-front-desk:before {
+  content: "\e936";
+}
+.icon-front-desk-dashboard:before {
+  content: "\e937";
+}
+.icon-front-desk-mapping:before {
+  content: "\e938";
+}
+.icon-gdn:before {
+  content: "\e939";
+}
+.icon-grn:before {
+  content: "\e93a";
+}
+.icon-history:before {
+  content: "\e93b";
+}
+.icon-holiday:before {
+  content: "\e93c";
+}
+.icon-home:before {
+  content: "\e93d";
+}
+.icon-hospital:before {
+  content: "\e93e";
+}
+.icon-indent:before {
+  content: "\e93f";
+}
+.icon-info:before {
+  content: "\e940";
+}
+.icon-info-circle:before {
+  content: "\e941";
+}
+.icon-Insurance:before {
+  content: "\e942";
+}
+.icon-ipd:before {
+  content: "\e943";
+}
+.icon-issue:before {
+  content: "\e944";
+}
+.icon-issue-acceptance-list:before {
+  content: "\e945";
+}
+.icon-level-down:before {
+  content: "\e946";
+}
+.icon-link:before {
+  content: "\e947";
+}
+.icon-list:before {
+  content: "\e948";
+}
+.icon-lock:before {
+  content: "\e949";
+}
+.icon-log:before {
+  content: "\e94a";
+}
+.icon-login:before {
+  content: "\e94b";
+}
+.icon-manage-all-appointment:before {
+  content: "\e94c";
+}
+.icon-manage-appointment:before {
+  content: "\e94d";
+}
+.icon-manage-calender:before {
+  content: "\e94e";
+}
+.icon-manufacturer-master:before {
+  content: "\e94f";
+}
+.icon-masters:before {
+  content: "\e950";
+}
+.icon-material-issue-summary:before {
+  content: "\e951";
+}
+.icon-notes-medical:before {
+  content: "\e952";
+}
+.icon-opd:before {
+  content: "\e953";
+}
+.icon-paper-plane:before {
+  content: "\e954";
+}
+.icon-patient-feedback:before {
+  content: "\e955";
+}
+.icon-patients:before {
+  content: "\e956";
+}
+.icon-pause-notify:before {
+  content: "\e957";
+}
+.icon-pdf:before {
+  content: "\e958";
+}
+.icon-plus-circle:before {
+  content: "\e959";
+}
+.icon-popover:before {
+  content: "\e95a";
+}
+.icon-primary-group:before {
+  content: "\e95b";
+}
+.icon-print:before {
+  content: "\e95c";
+}
+.icon-privilege:before {
+  content: "\e95d";
+}
+.icon-purchase-invoice-list:before {
+  content: "\e95e";
+}
+.icon-purchase-orders:before {
+  content: "\e95f";
+}
+.icon-question-circle:before {
+  content: "\e960";
+}
+.icon-queue:before {
+  content: "\e961";
+}
+.icon-queue-list:before {
+  content: "\e962";
+}
+.icon-queue-setting:before {
+  content: "\e963";
+}
+.icon-queue-summary:before {
+  content: "\e964";
+}
+.icon-quick:before {
+  content: "\e965";
+}
+.icon-recheck:before {
+  content: "\e966";
+}
+.icon-rectangle:before {
+  content: "\e967";
+}
+.icon-redo:before {
+  content: "\e968";
+}
+.icon-refer:before {
+  content: "\e969";
+}
+.icon-registration:before {
+  content: "\e96a";
+}
+.icon-reminder-settings:before {
+  content: "\e96b";
+}
+.icon-reply:before {
+  content: "\e96c";
+}
+.icon-reports:before {
+  content: "\e96d";
+}
+.icon-reset-password:before {
+  content: "\e96e";
+}
+.icon-right-arrow:before {
+  content: "\e96f";
+}
+.icon-room:before {
+  content: "\e970";
+}
+.icon-room-section-map:before {
+  content: "\e971";
+}
+.icon-rx:before {
+  content: "\e972";
+}
+.icon-save:before {
+  content: "\e973";
+}
+.icon-search:before {
+  content: "\e974";
+}
+.icon-set-feedback:before {
+  content: "\e975";
+}
+.icon-sign-in-alt:before {
+  content: "\e976";
+}
+.icon-sign-out-alt:before {
+  content: "\e977";
+}
+.icon-slot-color:before {
+  content: "\e978";
+}
+.icon-sms-reports:before {
+  content: "\e979";
+}
+.icon-star:before {
+  content: "\e97a";
+}
+.icon-stethoscope:before {
+  content: "\e97b";
+}
+.icon-store:before {
+  content: "\e97c";
+}
+.icon-store-consumption-summary:before {
+  content: "\e97d";
+}
+.icon-store-master:before {
+  content: "\e97e";
+}
+.icon-sub-group:before {
+  content: "\e97f";
+}
+.icon-supplier:before {
+  content: "\e980";
+}
+.icon-tax-master:before {
+  content: "\e981";
+}
+.icon-templates:before {
+  content: "\e982";
+}
+.icon-templates-mapping:before {
+  content: "\e983";
+}
+.icon-th:before {
+  content: "\e984";
+}
+.icon-times:before {
+  content: "\e985";
+}
+.icon-times-circle:before {
+  content: "\e986";
+}
+.icon-tools:before {
+  content: "\e987";
+}
+.icon-transactions:before {
+  content: "\e988";
+}
+.icon-trash:before {
+  content: "\e989";
+}
+.icon-tv:before {
+  content: "\e98a";
+}
+.icon-usd:before {
+  content: "\e98b";
+}
+.icon-user:before {
+  content: "\e98c";
+}
+.icon-user-headset:before {
+  content: "\e98d";
+}
+.icon-user-md:before {
+  content: "\e98e";
+}
+.icon-user-plus:before {
+  content: "\e98f";
+}
+.icon-users:before {
+  content: "\e990";
+}
+.icon-visit-type:before {
+  content: "\e991";
+}
+.icon-walking:before {
+  content: "\e992";
+}
+.icon-x-ray:before {
+  content: "\e993";
+}

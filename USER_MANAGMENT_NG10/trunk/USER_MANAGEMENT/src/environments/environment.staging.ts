@@ -1,0 +1,16 @@
+export const environment = {
+  production: true,
+  baseUrl: 'http://172.16.100.203:175/api',
+  dashboardBaseURL: 'http://172.16.100.203:91/api',
+  baseUrlAppointment: 'http://172.16.100.203:176/api',
+  jsonPath: './assets/JSON/',
+  userNotificationUrl: 'http://172.16.100.203:58/userNotificationHub',
+  limitDataToGetFromServer: 100,
+  ALERT_DURATION: 3000,
+  LoginLogoUrl: 'http://172.16.100.203:56/HospitalImage/',
+  SNOWMED_URL: 'http://172.16.100.71:8181/browser/MAIN',
+  SNOWMED_SEMANTIC_TAG_URL: 'http://172.16.100.71:8181/MAIN',
+  SSO_LOGIN_URL: 'http://172.16.100.202:81/user-management/',
+  HIMS_API: 'http://172.16.100.203:191/api',
+  API_FOR_PDF: 'http://172.16.100.203:293/api',
+};

@@ -1,0 +1,26 @@
+<div class="custom-container-fluid mx-2">
+  <div class="card-header py-2">
+    <h6 class="mb-0">Settings</h6>
+  </div>
+  <div class="card-body p-0">
+    <div class="form-row mx-0">
+      <div class="col-2 px-0 bg-light">
+        <ul class="nav flex-column mb-0 custom-nav">
+          <ng-container
+            *ngFor="let child of settingsArray.children | filterBy: 'isVisible' : true  | orderBy: 'name': false">
+            <li class="nav-item" [routerLinkActive]="['active']" *ngxPermissionsOnly="child.permission">
+              <a href="javascript:void(0)" class="nav-link text-dark" [routerLink]="[child.linkKey]"
+                (click)="$event.stopPropagation()">
+                <i class="fa-fw mr-2" [ngClass]="child.cssClass"></i><span
+                  class="link-text font-size-dot-8">{{child.name}}</span>
+              </a>
+            </li>
+          </ng-container>
+        </ul>
+      </div>
+      <div class="col-10 px-0">
+        <app-setting-home></app-setting-home>
+      </div>
+    </div>
+  </div>
+</div>

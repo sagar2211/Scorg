@@ -1,0 +1,69 @@
+@import "../../../scss/main";
+.latest-history-area {
+  min-height: calc(100vh - 105px);
+  height: calc(100vh - 105px);
+  .latest-history {
+    min-height: calc(100vh - 145px);
+    height: calc(100vh - 145px);
+    overflow: hidden;
+    overflow-y: auto;
+    .show-more {
+      // bottom: 0px;
+      // right: 0px;
+      // width: 100%;
+    }
+  }
+}
+
+.suggestion {
+  .card-header {
+    height: 33px;
+    max-height: 33px;
+    background-color: #a1a7ca !important;
+
+    .col {
+      .btn {
+        .fa-plus {
+          line-height: 23px;
+          font-size: 1.2em;
+        }
+      }
+    }
+  }
+}
+
+:host ::ng-deep {
+  .suggestion {
+    .accordion {
+      .card {
+        @include border-radius(0);
+        overflow: inherit;
+
+        .card-header {
+          background-color: #a1a7ca !important;
+          @extend .p-0;
+          @extend .border-dash-bottom;
+
+          .btn-link {
+            width: 100%;
+            padding-top: 1px !important;
+            padding-bottom: 1px !important;
+            @extend .text-decoration-none;
+            text-align: left;
+            .btn-link {
+              width: unset;
+            }
+          }
+
+          p {
+            color: #fff;
+          }
+        }
+
+        .card-body {
+          padding: 0.25rem;
+        }
+      }
+    }
+  }
+}

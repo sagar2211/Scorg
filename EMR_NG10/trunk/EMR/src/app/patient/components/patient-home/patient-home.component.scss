@@ -1,0 +1,299 @@
+@import "./../../../../scss/main";
+
+// emr column left and right start
+:host ::ng-deep {
+  .emr-column {
+    &.left-side {
+      background-color: $white;
+      width: 140px;
+      left: 0px;
+      z-index: 0;
+      position: fixed;
+      top: 67px;
+      height: calc(100vh - 67px);
+      @include border-top-right-radius(3px);
+      @include border-bottom-right-radius(3px);
+      @include custom-box-shadow(1px, 0, 2px, rgba(28, 25, 83, 0.12));
+      @include transition(left 0.3s linear);
+
+      &.sidebar {
+        left: -140px;
+        @include transition(left 0.3s linear);
+
+        ul {
+          li {
+            a.item {
+              i.left-icon {
+                width: 28px;
+                @include transition(width 0.3s linear);
+              }
+            }
+          }
+        }
+      }
+
+      ul.sub-menu,
+      ul {
+        overflow-y: auto;
+        max-height: calc(100vh - 100px);
+
+        li {
+          background-image: linear-gradient(to right, #ccc 40%, rgba(255, 255, 255, 0) 40%);
+          background-position: bottom;
+          background-size: 4px 0.55px;
+          background-repeat: repeat-x;
+
+          a.item {
+            @extend .w-100;
+            padding: 5px 0 5px 5px;
+            min-height: 46px;
+
+            i.left-icon {
+              color: $gray-800;
+              height: 24px;
+              @extend .font-20;
+              width: 24px;
+              margin-left: 0;
+              margin-right: 5px;
+              text-align: center;
+              @include transition(width 0.3s linear);
+
+              &.icon-emr-history {
+                font-size: 21px !important;
+              }
+
+              &.icon-emr-progress-notes,
+              &.icon-emr-icu-flow-sheet,
+              &.icon-emr-mar,
+              &.icon-emr-pacs,
+              &.fa-list {
+                font-size: 18px !important;
+              }
+
+              &.fa-list,
+              &.fa-magic {
+                font-size: 14px !important;
+                padding-top: 4px;
+              }
+
+              &.fa-plus {
+                font-size: 15px !important;
+                padding-top: 4px;
+              }
+
+              &.icon-quick {
+                font-size: 17px !important;
+                padding-top: 3px;
+              }
+            }
+
+            i.right-icon {
+              right: 0;
+            }
+
+            .label {
+              width: 80%;
+              padding: 0 2px;
+              overflow: hidden;
+              color: $gray-800;
+              font-size: 0.75rem;
+              text-overflow: ellipsis;
+
+              &.sidebar-icon-only {
+                display: none;
+              }
+            }
+
+            small,
+            sup {
+              color: $gray-800;
+            }
+
+            sup {
+              font-size: 10px !important;
+              top: -10px !important;
+              left: -4px;
+            }
+
+            &:hover,
+            &:focus {
+              background-color: var(--bgLight);
+              @include transition(background-color 0.4s);
+
+              i,
+              .label {
+                color: $gray-800;
+              }
+
+              .label {
+                @extend .font-weight-500;
+              }
+            }
+          }
+
+          &.active {
+            a.item {
+              background-color: var(--bgColor);
+              @include transition(background-color 0.4s);
+
+              i.left-icon,
+              .label,
+              small,
+              sup {
+                color: var(--txtColor);
+              }
+
+              .label {
+                @extend .font-weight-500;
+              }
+            }
+          }
+
+          ul.sub-menu {
+            margin-left: 15px;
+            border-left-style: solid;
+            border-left-width: thin;
+            border-left-color: #d7dce3;
+
+            li {
+              a.item {
+                i.left-icon {
+                  width: 15px;
+                }
+              }
+            }
+
+            ul.sub-sub-menu {
+              margin-left: 12px;
+              border-left-style: solid;
+              border-left-width: thin;
+              border-left-color: #d7dce3;
+
+              &.sidebar-icon-only {
+                margin-left: 2px;
+
+                li {
+                  a.item {
+                    padding: 5px 0 5px 1px;
+                  }
+                }
+              }
+
+              li {
+                a.item {
+                  padding: 5px 0 5px 10px;
+                }
+              }
+            }
+          }
+
+          &:first-child {
+            @include border-top-right-radius(3px);
+          }
+        }
+      }
+
+      @media screen and (max-width: 1280px) {
+        ul {
+          max-height: calc(100vh - 90px);
+        }
+      }
+    }
+
+    &.right-side {
+      z-index: 0;
+      overflow: auto;
+      //margin: 0 0 0 0px;
+      margin: 0 0 0 140px;
+      //width: calc(100vw - 0px);
+      width: calc(100vw - 140px);
+      height: calc(100vh - 65px);
+
+      .custom-container-fluid {
+        padding: 5px;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        height: calc(100vh - 90px);
+        width: unset;
+        background-color: var(--bgLight) !important;
+      }
+
+      .bell-notification {
+        top: 70px !important;
+      }
+    }
+
+    @media screen and (max-width: 1280px) {
+      &.left-side {
+        left: -140px;
+        top: 40px;
+        z-index: 1000;
+        height: calc(100vh - 40px);
+        @include transition(left 0.4s ease-in-out);
+      }
+
+      &.left-side.show-patient-menu {
+        left: 0px;
+        @include transition(left 0.4s ease-in-out);
+      }
+
+      &.right-side {
+        margin: 0 0 0 0px;
+        width: calc(100vw - 0px);
+        @include transition(width 0.3s linear, margin 0.3s linear);
+
+        .form-control,
+        .custom-form-control,
+        .form-control-sm {
+          height: calc(1.5em + 0.75rem + 2px) !important;
+          padding: 0.375rem 0.75rem !important;
+          font-size: 1rem !important;
+          font-weight: 400 !important;
+          line-height: 1.75 !important;
+          transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+
+          +.placeholder-icon {
+            display: none;
+          }
+        }
+
+        .btn-sm {
+          padding: 0.375rem 0.75rem !important;
+          font-size: 1rem !important;
+          line-height: 1.5 !important;
+          border-radius: 3px !important;
+          height: 38px !important;
+        }
+
+        .input-group {
+          .placeholder-icon {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 1280px) {
+    .patient-backdrop {
+      width: 0%;
+      height: calc(100vh - 40px);
+      bottom: 0;
+      z-index: 3;
+      //z-index: 10000; // Please do not change z-index
+      background-color: rgba(0, 0, 0, 0.4);
+      @include transition(width 0.4s ease-in-out);
+
+      &.active {
+        width: 100%;
+        @include transition(width 0.4s ease-in-out);
+      }
+
+      &.inactive {
+        width: 0%;
+        @include transition(width 0.4s ease-in-out);
+      }
+    }
+  }
+}

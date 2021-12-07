@@ -1,0 +1,91 @@
+<div class="modal-header">
+  <p class="modal-title">Add/Update Return Item</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss(null)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body supplier-modal-body">
+  <form [formGroup]="prItemDetailForm">
+    <div class="form-row form-group">
+      <div class="col-4">
+        <label>GRN No.</label>
+        <app-ng-select-typeahead
+          [inputValue]="prItemDetailForm.value?.grnId"
+          [selectedValue]="prItemDetailForm.value?.grnNo"
+          [thDisplayLabel]="'grnNo'"
+          [thDisplayKey]="'grnId'"
+          (recievedVal)="selectGRNNo($event)"
+          [source]="'Select Grn No'"
+          [returnDataType]="'obj'"
+          [isDisabled]="prData.gdnType === 'DIRECT' || itemEditData.type === 'edit'"
+          [compInstance]="compInstance"
+          [searchFun]="getGRNListBySearchKeyword"
+          [isSearchDataFromApi]="true">
+        </app-ng-select-typeahead>
+      </div>
+      <div class="col-4">
+        <label>Select Item</label><sup>*</sup>
+        <app-ng-select-typeahead
+          [inputValue]="prItemDetailForm.value?.itemId"
+          [selectedValue]="prItemDetailForm.value?.itemDescription"
+          [thDisplayLabel]="'itemDescription'"
+          [thDisplayKey]="'itemId'"
+          (recievedVal)="selectItem($event)"
+          [source]="'Select Item'"
+          [returnDataType]="'obj'"
+          [showBriefInfo]="true"
+          [isDisabled]="(prData.gdnType !== 'DIRECT' && !prItemDetailForm.value?.grnId) || itemEditData.type === 'edit'"
+          [compInstance]="compInstance"
+          [searchFun]="getItemDetailForGDN"
+          [isSearchDataFromApi]="true">
+        </app-ng-select-typeahead>
+      </div>
+      <div class="col-4">
+        <label>Bal. Quantity: </label>
+        <input [disabled]="true" class="form-control form-control-sm" formControlName="qty" type="text" placeholder="Balance Qty.">
+      </div>
+    </div>
+
+    <div class="form-row form-group">
+      <div class="col-4">
+        <label>Batch No: </label>
+        <input class="form-control form-control-sm" formControlName="batchNo" type="text" placeholder="Batch No">
+      </div>
+      <div class="col-4">
+        <label>Expiry Date</label>
+        <app-date-picker [makeDisabled]="true" (dateChange)="prItemDetailForm.patchValue({ expiryDate: $event  })" [inputDate]="prItemDetailForm.value.expiryDate"></app-date-picker>
+      </div>
+    </div>
+    <div class="form-row form-group">
+      <div class="col-4">
+        <label>Unit Rate: </label>
+        <input class="form-control form-control-sm" (change)="calculateAmount()" formControlName="unitRate" type="text" placeholder="Unit Rate">
+      </div>
+      <div class="col-3">
+        <label>Return Quantity: </label>
+        <input class="form-control form-control-sm" (change)="validateReturnQty();" formControlName="totalReturnQty" type="number" placeholder="Rejected Qty">
+        <span class="error" *ngIf="prItemDetailForm.get('totalReturnQty').errors?.isGreater">
+            Return Qty Must Be Less Than Or Equal To Bal. Qty.
+          </span>
+        <span class="error" *ngIf="prItemDetailForm.get('totalReturnQty').errors?.isLessThanZero">
+            Return Qty Cannot Be Less Than 0.
+          </span>
+      </div>
+      <div class="col-3">
+        <label>Amount: </label>
+        <input class="form-control form-control-sm" formControlName="amount" type="text" placeholder="Amount">
+      </div>
+    </div>
+    <div class="form-row form-group">
+      <div class="col-4">
+        <label>Remark: </label>
+        <input class="form-control form-control-sm" formControlName="remark" type="text" placeholder="Remark">
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss(null)">CANCEL</button>
+  <button type="button" [disabled]="prItemDetailForm.invalid" (click)="addItem()" class="btn btn-sm btn-outline-primary"><i class="fa fa-fw fa-plus" aria-hidden="true"></i> {{itemEditData.type === 'edit' ? 'UPDATE' : 'ADD'}}</button>
+</div>
+<!-- <app-alert-message [alertMessage]="alertMsg"></app-alert-message> -->

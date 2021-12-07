@@ -1,0 +1,10 @@
+.clear-card {
+  position: relative;
+  .btn {
+    position: absolute;
+    z-index: 10;
+    top: 29px;
+    left: 185px;
+    width: 77px;
+  }
+}

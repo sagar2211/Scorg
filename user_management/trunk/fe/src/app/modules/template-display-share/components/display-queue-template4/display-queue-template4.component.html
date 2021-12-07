@@ -1,0 +1,85 @@
+<div class="queue template4" [ngStyle]="{'height.%' : braningSectionVisble ? '92' : '100'}">
+  <div class="container-fluid px-0 h-100 queue-container">
+    <div class="row mx-0 h-100">
+      <div class="col-4 px-0 h-100">
+        <div class="dr-info">
+          <div *ngIf="checkUserKeyExist('doctor','profile_image')" class="dr-img"
+            [ngClass]="[activeColor, getHeight('profile_image', 'doctor')]">
+            <img src="https://drrescribe.com/medsonit-be/assets/doc_profile/2883.jpg?time=%2015:48:59" />
+          </div>
+          <div *ngIf="checkUserKeyExist('doctor','name')" [ngClass]="[getHeight('name', 'doctor')]"
+            class="row mx-0 align-items-end dr-name-row">
+            <div class="col-12 px-0">
+              <h2 class="dr-name mb-0">
+                {{displayData.docData.name}}</h2>
+            </div>
+          </div>
+          <div *ngIf="checkUserKeyExist('doctor','speciality')" [ngClass]="[getHeight('speciality', 'doctor')]"
+            class="row mx-0 align-items-start dr-speciality">
+            <div class="col-12 px-0">
+              <p class="speciality mb-0 font-weight-500">
+                {{displayData.docData.specialty}}</p>
+            </div>
+          </div>
+          <div *ngIf="checkUserKeyExist('doctor','room_list')" [ngClass]="[getHeight('room_list', 'doctor')]"
+            class="row align-content-center mx-0 room-number">
+            <div class="col-3 px-0">
+              <p class="room mb-0 font-wight-500">Room</p>
+            </div>
+            <div class="col-9 px-0 text-right">
+              <p class="section mb-0 font-weight-500" [ngClass]="activeColor">
+                {{displayData.docData.room}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-8 px-0 h-100" *ngIf="displayData.queue_list.length > 0">
+        <div class="queue-info">
+          <ng-container *ngFor="let list of getFillteredList(displayData.queue_list,'CALLING')">
+          <div class="row align-items-center mx-0 queue-list position-relative"
+            [ngClass]="{'blink': list.type === 'calling'}">
+            <div class="d-none" [ngClass]="{'d-block': list.type === 'calling'}">
+              <p class="calling-txt mb-0 blink-infinite" [ngClass]="activeColor">CALLING</p>
+            </div>
+            <!-- <div class="d-block">
+              <p class="next-txt mb-0" [ngClass]="activeColor">NEXT</p>
+            </div> -->
+            <div class="col-3 px-0 col-token" [ngClass]="activeColor" *ngIf="checkUserKeyExist('queue','token')">
+              <h2 class="token-no mb-0">{{list.token_no}}</h2>
+            </div>
+            <div class="col-8 px-0 col-pt-name-mobile">
+              <h2 class="pt-name mb-0" *ngIf="checkUserKeyExist('queue','name')">{{list.full_name}}</h2>
+              <p class="mobile-no mb-0" *ngIf="checkUserKeyExist('queue','contact')">{{list.mobile_no}}
+              </p>
+            </div>
+            <div class="col-1 px-0 text-right" *ngIf="checkUserKeyExist('queue','wait_time')">
+              <p class="wait-time mb-0 font-weight-500 text-warning">
+                {{(list.WaitTime>0 && list.WaitTime!=null) ? list.WaitTime + '  mins':''}}</p>
+            </div>
+          </div>
+          </ng-container>
+           <!-- Next QueueList -->
+           <ng-container *ngFor="let list of getFillteredList(displayData.queue_list,'NEXT'); let i = index">
+            <div *ngIf="list.status === 'NEXT'" class="row align-items-center mx-0 queue-list position-relative">
+              <div class="d-none" [ngClass]="{'d-block': list.status === 'NEXT'}" *ngIf="i==0">
+                <p class="next-txt mb-0" [ngClass]="activeColor">NEXT</p>
+              </div>
+              <div *ngIf="checkUserKeyExist('queue','token')" class="col-3 px-0 col-token" [ngClass]="activeColor">
+                <h2 class="token-no mb-0">{{list.token_no}}</h2>
+              </div>
+              <div class="col-8 px-0 col-pt-name-mobile">
+                <h2 *ngIf="checkUserKeyExist('queue','name')" class="pt-name mb-0">{{list.full_name}}</h2>
+                <p *ngIf="checkUserKeyExist('queue','contact')" class="mobile-no mb-0">{{list.mobile_no}}
+                </p>
+              </div>
+              <div class="col-1 px-0 text-right" *ngIf="checkUserKeyExist('queue','wait_time')">
+                <p class="wait-time mb-0 font-weight-500 text-warning">
+                  {{(list.WaitTime>0 && list.WaitTime!=null) ? list.WaitTime + '  mins':''}}</p>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

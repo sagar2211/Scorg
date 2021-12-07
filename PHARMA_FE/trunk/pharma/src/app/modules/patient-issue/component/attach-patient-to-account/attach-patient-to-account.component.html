@@ -1,0 +1,67 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">Patient List</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup()">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body p-1">
+  <div class="row mb-1 border p-1 ml-0 mr-0 bg-light">
+    <div class="col-2" *ngIf="!isAddPatient">
+     <button type="button" class="btn btn-sm btn-outline-info" (click)="isAddPatient = !isAddPatient">Add New Patient</button>
+    </div>
+    <div class="col-3" *ngIf="isAddPatient">
+      <label class="m-0">Name</label>
+      <input class="form-control form-control-sm"  type="text" appUpperCase [(ngModel)]="patientName" placeholder="Name">
+      <small class="text-danger" *ngIf="!patientName && submitted">
+        Please Add!</small>
+    </div>
+    <div class="col-3" appOnlyNumbers *ngIf="isAddPatient">
+      <label class="m-0">Number</label>
+      <input class="form-control form-control-sm" type="text" [(ngModel)]="mobileNo" placeholder="Number">
+    </div>
+    <div class="col-4" *ngIf="isAddPatient">
+      <label class="m-0">Address</label>
+      <input class="form-control form-control-sm" type="text" [(ngModel)]="patientAddress" placeholder="Address">
+    </div>
+    <div class="col-2 mt-3" *ngIf="isAddPatient">
+      <button type="button" class="btn btn-sm btn-info mr-1" (click)="savePatient()">Save</button>
+      <button type="button" class="btn btn-sm btn-outline-danger" (click)="isAddPatient = !isAddPatient">Cancel</button>
+     </div>
+    </div>
+     <div class="row">
+ <div class="col-12">
+  <dx-data-grid id="gridContainerPatient" keyExpr="tempId" [dataSource]="patientList" [showBorders]="true" (onEditorPreparing)="onEditorPreparing($event)" [showRowLines]="true" [allowColumnResizing]="true" [columnAutoWidth]="true">
+    <dxo-sorting mode="none"></dxo-sorting>
+    <dxo-paging [enabled]="false"></dxo-paging>
+    <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="true" [allowDeleting]="allowDeleting" [useIcons]="true">
+    </dxo-editing>
+    <dxi-column dataField="patient" calculateDisplayValue="patient.patientName" caption="Patient Name" [width]="300" [editorOptions]="editorOptions" [fixed]="true" [allowEditing]="allowEditing">
+        <dxo-lookup [dataSource]="patientDataSource" displayExpr="patientName">
+        </dxo-lookup>
+    </dxi-column>
+    <dxi-column dataField="mobileNo" caption="Mobile No" [allowEditing]="false"></dxi-column>
+      <!-- <dxi-column dataField="gender" caption="Gender" [allowEditing]="false"></dxi-column>
+      <dxi-column dataField="doctorName" caption="Doctor Name" [allowEditing]="false"></dxi-column> -->
+
+    <div *dxTemplate="let item of 'itemTemplate' let i = index">
+        <div *ngIf="item === null" ; else elseBlock>
+            <span>(All)</span>
+        </div>
+        <div dx-template #elseBlock>
+            <div [ngOptionHighlight]="search" class="row">
+                <div class="col-12 border-bottom border-left border-right">
+                    {{item.patientName}}
+                </div>
+            </div>
+        </div>
+    </div>
+</dx-data-grid>
+
+</div>
+</div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-primary" (click)="linkPatients()">Save</button>
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closePopup()">CLOSE</button>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

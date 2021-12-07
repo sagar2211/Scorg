@@ -1,0 +1,27 @@
+<div class="card-header border-dash-bottom py-2">
+  <h6 class="mb-0">Appointment Status Display Name</h6>
+</div>
+<div class="card-body">
+  <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="50" [rowHeight]="'auto'"
+    [rows]="appointmentStatusList" [externalSorting]="true">
+
+    <ngx-datatable-column name="Status" prop="Asm_Name" [width]="150">
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Display Name" prop="Asm_DisplayName" [width]="300">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <div class="child">
+          <input type="text" class="form-control form-control-sm" [value]="row.Asm_DisplayName"
+            (change)="storeUpdatedData(row.Asm_Id,$event.target.value)" />FGDFH
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+
+  </ngx-datatable>
+</div>
+<div class="card-footer text-right py-1">
+  <div class="btn btn-sm btn-success" *ngxPermissionsOnly="PermissionsConstantsList.Update_Display_Status_Settings"
+    (click)="updateAppointmentStatusDisplayNameSetting()"><i class="fas fa-fw fa-sync-alt" aria-hidden="true"></i>
+    UPDATE</div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

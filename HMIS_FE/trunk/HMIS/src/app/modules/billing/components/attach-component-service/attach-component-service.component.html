@@ -1,0 +1,95 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">Attach Details</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-2">
+  <div class="form-row form-group">
+      <div class="col-8">
+        <label class="form-control-label-lg mr-2">Service Name : </label>
+        <mark class="mark">{{componentObj.service.serviceName}}</mark>
+      </div>
+      <div class="col-2 text-right">
+        <label class="form-control-label-lg mr-2">Service Grade : </label>
+      </div>
+      <div class="col-2">
+        <ng-select [items]="serviceGradeList" [disabled]="componentObj.isBillFinal" bindValue="rate" bindLabel="customName" [(ngModel)]="componentObj.multiplier" (change)="getSelectedMultiplier($event)" placeholder="Select Multiplier">
+          <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+              <p class="mb-0">
+                  <span>{{item.customName}} </span>
+              </p>
+          </ng-template>
+        </ng-select>
+      </div>
+  </div>
+  <div class="form-row form-group">
+      <div class="col-12">
+        <dx-data-grid id="componentGridContainer" [dataSource]="componentGridData" keyExpr="tempId"
+          [showBorders]="true" (onEditorPreparing)="onEditorPreparing($event)"
+          [showRowLines]="true" [focusedRowEnabled]="true" (onFocusedRowChanged)="onFocusedRowChanged($event)"
+          [allowColumnResizing]="true" [columnAutoWidth]="true"
+          (onEditingStart)="onEditingStart($event)">
+            <dxo-sorting mode="none"></dxo-sorting>
+            <dxo-paging [enabled]="false"></dxo-paging>
+            <dxo-keyboard-navigation [editOnKeyPress]="true"></dxo-keyboard-navigation>
+            <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="false" [allowDeleting]="allowDeleting" [useIcons]="true">
+            </dxo-editing>
+            <dxi-column dataField="isSelected" caption="Select" dataType="boolean" [fixed]="true" [width]="50"></dxi-column>
+            <dxi-column dataField="componentId" calculateDisplayValue="componentName" caption="Components" [width]="300"
+                [fixed]="true">
+                <dxo-lookup [dataSource]="compServiceDataSource" displayExpr="componentName" valueExpr="componentId">
+                </dxo-lookup>
+                <dxi-validation-rule type="required"></dxi-validation-rule>
+            </dxi-column>
+            <dxi-column dataField="serviceCenterId" calculateDisplayValue="serviceCenterName" caption="Service Center" [allowEditing]="false">
+              <!-- <dxo-lookup [dataSource]="serviceCenterDataSource" displayExpr="serviceCenterName" valueExpr="serviceCenterId">
+              </dxo-lookup> -->
+            </dxi-column>
+            <dxi-column dataField="doctorId" calculateDisplayValue="doctorName" caption="Doctor" [width]="150">
+              <dxo-lookup [dataSource]="doctorDataSource" displayExpr="doctorName" valueExpr="doctorId">
+              </dxo-lookup>
+            </dxi-column>
+            <dxi-column dataField="rate" caption="Rate">
+              <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+            </dxi-column>
+            <dxi-column dataField="netRate" caption="New Rate" [allowEditing]="false">
+              <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+            </dxi-column>
+            <dxi-column dataField="orderQty" caption="Unit"></dxi-column>
+            <dxi-column dataField="totalAmount" caption="Total" [allowEditing]="false">
+              <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+            </dxi-column>
+            <dxi-column dataField="remark" caption="Remark" [width]="150"></dxi-column>
+            <dxi-column type="buttons" caption="Action" [width]="80" [fixed]="true">
+              <dxi-button name="add" cssClass="my-class" text="Add" icon="add" [visible]="isAddIconVisible "
+                hint="Add Service" [onClick]="onAddButtonClick"></dxi-button>
+              <dxi-button name="delete" hint="Delete Service" [visible]="isDeleteIconVisible"></dxi-button>
+            </dxi-column>
+            <dxo-summary [recalculateWhileEditing]="true" [calculateCustomSummary]="calculateSelectedRow">
+              <dxi-total-item summaryType="count" displayFormat="Sub Total: " showInColumn="componentId">
+              </dxi-total-item>
+              <dxi-total-item name="rateSummary" showInColumn="rate" summaryType="custom" displayFormat="{0}">
+              </dxi-total-item>
+              <dxi-total-item name="netRateSummary" showInColumn="netRate" summaryType="custom" displayFormat="{0}">
+              </dxi-total-item>
+              <dxi-total-item name="orderQtySummary" showInColumn="orderQty" summaryType="custom" displayFormat="{0}">
+              </dxi-total-item>
+              <dxi-total-item name="totalAmountSummary" showInColumn="totalAmount" summaryType="custom" displayFormat="{0}">
+              </dxi-total-item>
+              <!-- <dxi-total-item column="rate" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+              <dxi-total-item column="netRate" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+              <dxi-total-item column="orderQty" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item>
+              <dxi-total-item column="totalAmount" summaryType="sum" [customizeText]="decimalWithPrecision"></dxi-total-item> -->
+          </dxo-summary>
+        </dx-data-grid>
+      </div>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" [disabled]="componentObj.isBillFinal" class="btn btn-sm" [ngClass]="componentObj ? 'btn-outline-primary-light':'btn-outline-primary'" (click)="saveAttachDetail()">
+    <i class="fa fa-fw" [ngClass]="componentObj ? 'fa-plus':'fa-sync-alt'" aria-hidden="true"></i>
+    {{componentObj ? 'ADD' : 'UPDATE'}}</button>
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.close('Cancel')">CANCEL</button>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

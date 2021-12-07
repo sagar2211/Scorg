@@ -1,0 +1,136 @@
+<form [formGroup]="allOrderFrm">
+    <div class="form-row align-items-center justify-content-center mx-0 add-order-keyboard" formArrayName="orderForm">
+        <div class="col-12 py-1" (click)="onKeypress(order, i)" *ngFor="let order of orderForm.controls; let i = index; last as last" [formGroupName]="i">
+            <div class="form-inline">
+                <div style="width: 250px;">
+                    <ng-select #orderName [items]="allOrdersMasterData$ | async" bindLabel="name" autofocus bindValue="name" formControlName="name" placeholder="Select Value" [typeahead]="allOrdersMasterDataInput$" (change)="selectValue($event, i);onKeypress(order, i)">
+                    </ng-select>
+                </div>
+                <!-- MEDICINEORDERS Type -->
+                <span *ngIf="order.value.type && order.value.type ==='MEDICINEORDERS'">
+          <span formGroupName="medicineForm">
+            <span class="form-group" formGroupName="medicineObj">
+              <input (keyup)="getValueForm(i)" class="form-control form-control-sm rounded-0" type="text" id="medicineDoseComp{{i}}" placeholder="Enter Dose" [size]="7" appAutowidth formControlName="dose" />
+              <span class="aaa" formGroupName="type">
+                <ng-select [items]="doseUnitMaster" bindLabel="dose_unit" formControlName="doseUnitObj" placeholder="Dose Unit" (change)="onMedicineDoseSelect(i)">
+                </ng-select>
+              </span>
+                <!-- order.value?.medicineForm?.frequency?.length ? order.value?.medicineForm?.frequency?.length : 12 -->
+                <input appAutowidth [size]="4" class="form-control form-control-sm rounded-0" list="frequencyList" id="medicineFreq{{i}}" type="text" placeholder="Enter Frequency" formControlName="frequency" (change)="onMedFreqChange(i)" />
+                <datalist id="frequencyList">
+                <option value="Every">
+              </datalist>
+                <span class="font-size-dot-8 font-weight-500 day" *ngIf="order.value.medicineForm.freqIsNumber === true">Time(s)</span>
+                <span class="font-size-dot-8 font-weight-500 day" *ngIf="order.value.medicineForm.freqIsNumber === false">
+                <input (keyup)="getValueForm(i)" [size]="12" appAutowidth class="form-control form-control-sm rounded-0" id="medicineFreqHrTime{{i}}" type="text" placeholder="Enter Frequency"
+                  formControlName="frequencySchedule" />
+                hour(s) for
+              </span>
+                <input (keyup)="getValueForm(i)" appAutowidth [size]="7" class="form-control form-control-sm rounded-0" type="text" placeholder="Enter Days" formControlName="duration" />
+                <span class="font-size-dot-8 font-weight-500 day">day(s)</span>
+                <span *ngIf="isCheck(order.value.name, medicineOrderKey, order.value?.medicineForm?.medicineObj?.route, i)" class="bbb" style="width: 150px;">
+                <ng-select [items]="routeList" bindLabel="name" formControlName="route" placeholder="Route" (change)="onMedicineRoutChange(i)">
+                </ng-select>
+              </span>
+                <input [size]="6" appAutowidth *ngIf="isCheck(order.value.name, medicineOrderKey, order.value?.medicineForm?.medicineObj?.instruction, i)" id="medicineInstruction{{i}}" class="form-control form-control-sm rounded-0" type="text" formControlName="instruction"
+                    (change)="getValueForm(i)" placeholder="Instruction" />
+                    <span class="sign-status">{{toLowerCase(order.value?.medicineForm?.status) === toLowerCase('APPROVED') ? 'Signed' : 'Sign'}}</span>
+                  </span>
+                </span>
+                </span>
+                <!-- MEDICINEORDERS Type -->
+                <!-- LABORDERS Type -->
+                <span *ngIf="order.value.type && order.value.type ==='LABORDERS'">
+          <span class="form-group" formGroupName="labForm">
+            <input list="frequencyList" id="labOrderFreqComp{{i}}" class="form-control form-control-sm rounded-0" type="text" placeholder="Enter Frequency" formControlName="frequency" [size]="7"
+              appAutowidth (change)="onLabFreqChange(i)" />
+            <datalist id="frequencyList">
+              <option value="Every">
+            </datalist>
+            <span class="font-size-dot-8 font-weight-500 day" *ngIf="order.value.labForm.freqIsNumber === true">Time(s)</span>
+                <span class="font-size-dot-8 font-weight-500 day" *ngIf="order.value.labForm.freqIsNumber === false">
+              <input (keyup)="getValueForm(i)" [size]="12" appAutowidth class="form-control form-control-sm rounded-0" id="labFreqHrTime{{i}}" type="text" placeholder="Enter Frequency" formControlName="frequencySchedule" />
+              hour(s) for
+            </span>
+                <input (keyup)="getValueForm(i)" *ngIf="isCheck(order.value.name, labOrderKey, order.value?.labForm?.labInstruction, i) || order.value?.labForm?.labInstruction" class="form-control form-control-sm rounded-0" type="text" formControlName="labInstruction"
+                    placeholder="Instruction" [size]="7" appAutowidth />
+                <input (keyup)="getValueForm(i)" *ngIf="isCheck(order.value.name, labOrderKey, order.value?.labForm?.requisition, i) || order.value?.labForm?.requisition" class="form-control form-control-sm rounded-0 last-box" type="text" formControlName="requisition"
+                    placeholder="Requisition" [size]="7" appAutowidth />
+                    <span class="sign-status">{{toLowerCase(order.value?.labForm?.status) === toLowerCase('APPROVED') ? 'Signed' : 'Sign'}}</span>
+                </span>
+                </span>
+                <!-- LABORDERS Type -->
+                <!-- SERVICEORDERS Type -->
+                <span *ngIf="order.value.type && order.value.type ==='SERVICEORDERS'">
+          <span class="form-group" formGroupName="serviceOrderForm">
+            <input *ngIf="isCheck(order.value.name, serviceOrderKey, order.value?.serviceOrderForm?.specInstruction, i) || order.value?.serviceOrderForm?.specInstruction" id="serviceInstructionComp{{i}}" class="form-control form-control-sm rounded-0 last-box" type="text" (keyup)="getValueForm(i)" formControlName="specInstruction" placeholder="Instruction" [size]="7" appAutowidth />
+            <span class="sign-status">{{toLowerCase(order.value?.serviceOrderForm?.status) === toLowerCase('APPROVED') ? 'Signed' : 'Sign'}}</span>
+          </span>
+                </span>
+                <!-- SERVICEORDERS Type -->
+                <!-- NURSINGORDERS Type -->
+                <span *ngIf="order.value.type && order.value.type ==='NURSINGORDERS'">
+          <span class="form-group" formGroupName="nursingForm">
+            <!-- new code -->
+            <input list="frequencyList" id="nursingFreqComp{{i}}" class="form-control form-control-sm rounded-0" type="text" placeholder="Enter Frequency" formControlName="genericFreq" appAutowidth [size]="7"
+              (change)="onNurFreqChange(i)" />
+            <datalist id="frequencyList">
+              <option value="Every">
+            </datalist>
+            <span class="font-size-dot-8 font-weight-500 day" *ngIf="order.value.nursingForm.freqIsNumber === true">Time(s)</span>
+                <span class="font-size-dot-8 font-weight-500 day" *ngIf="order.value.nursingForm.freqIsNumber === false">
+              <input [size]="12" appAutowidth class="form-control form-control-sm rounded-0" (keyup)="getValueForm(i)" id="nurseFreqHrTime{{i}}" type="text" placeholder="Enter Frequency" formControlName="FreqSchedule" />
+              hour(s) for
+            </span>
+                <input [size]="7" appAutowidth class="form-control form-control-sm rounded-0 last-box" (keyup)="getValueForm(i)" type="text" formControlName="genericDuration" placeholder="Duration" /> Day(s)
+                <span class="sign-status">{{toLowerCase(order.value?.nursingForm?.status) === toLowerCase('APPROVED') ? 'Signed' : 'Sign'}}</span>
+              </span>
+                </span>
+                <!-- NURSINGORDERS Type -->
+                <!-- DIETORDERS Type -->
+                <span *ngIf="order.value.type && order.value.type ==='DIETORDERS'">
+          <span class="form-group" formGroupName="dietForm">
+            <input *ngIf="isCheck(order.value.name, dietOrderKey, order.value?.dietForm?.specInstruction, i) || order.value?.dietForm?.specInstruction" (keyup)="getValueForm(i)" id="dietInstructionComp{{i}}" class="form-control form-control-sm rounded-0 last-box" type="text" formControlName="specInstruction" placeholder="Instruction"
+            [size]="7" appAutowidth />
+          <span class="sign-status">{{toLowerCase(order.value?.dietForm?.status) === toLowerCase('APPROVED') ? 'Signed' : 'Sign'}}</span>
+        </span>
+                </span>
+                <!-- DIETORDERS Type -->
+                <!-- RADIOLOGYORDERS Type -->
+                <span *ngIf="order.value.type && order.value.type ==='RADIOLOGYORDERS'">
+          <span class="form-group" formGroupName="radioForm">
+            <input id="readioLogyFreqComp{{i}}" (keyup)="getValueForm(i)" class="form-control form-control-sm rounded-0" type="text" placeholder="Enter Frequency" formControlName="frequency"
+            [size]="7" appAutowidth />
+            <input *ngIf="isCheck(order.value.name, radioOrderKey, order.value?.radioForm?.signSymptoms, i) || order.value?.radioForm?.signSymptoms" (keyup)="getValueForm(i)" class="form-control form-control-sm rounded-0" type="text" formControlName="signSymptoms"
+              placeholder="Sign & Symptoms" [size]="7" appAutowidth />
+            <input *ngIf="isCheck(order.value.name, radioOrderKey, order.value?.radioForm?.radiologyInstruction, i) || order.value?.radioForm?.radiologyInstruction" (keyup)="getValueForm(i)" class="form-control form-control-sm rounded-0" type="text"
+              placeholder="Instruction" formControlName="radiologyInstruction"
+              [size]="7" appAutowidth />
+            <input *ngIf="isCheck(order.value.name, radioOrderKey, order.value?.radioForm?.patientInstruction, i) || order.value?.radioForm?.patientInstruction" (keyup)="getValueForm(i)" class="form-control form-control-sm rounded-0" type="text"
+              placeholder="Patient Instruction" formControlName="patientInstruction"
+              [size]="7" appAutowidth />
+            <input *ngIf="isCheck(order.value.name, radioOrderKey, order.value?.radioForm?.requisition, i) || order.value?.radioForm?.requisition" (keyup)="getValueForm(i)" class="form-control form-control-sm rounded-0 last-box" type="text"
+              placeholder="Requisition" formControlName="requisition" [size]="7" appAutowidth />
+              <span class="sign-status">{{toLowerCase(order.value?.radioForm?.status) === toLowerCase('APPROVED') ? 'Signed' : 'Sign'}}</span>
+            </span>
+                </span>
+                <!-- RADIOLOGYORDERS Type -->
+                <!-- INSTRUCTIONORDERS Type -->
+                <span *ngIf="order.value.type && order.value.type ==='INSTRUCTIONORDERS'">
+          <span class="form-group" formGroupName="docInsForm">
+            <input id="doctorInstructionComp{{i}}" (keyup)="getValueForm(i)" class="form-control form-control-sm rounded-0 last-box" (keyup)="getValueForm(i)" type="text" formControlName="specInstruction" placeholder="Instruction"
+            [size]="7" appAutowidth />
+            <span class="sign-status">{{toLowerCase(order.value?.docInsForm?.status) === toLowerCase('APPROVED') ? 'Signed' : 'Sign'}}</span>
+          </span>
+                </span>
+                <!-- INSTRUCTIONORDERS Type -->
+                <div class="ml-2 form-group">
+                    <button id="deleteButton" (click)="deleteFormRow(i)" (blur)="show($event, i)" type="button" class="btn btn-sm custom-btn"><i class="icon fa-fw icon-trash" aria-hidden="true"></i></button>
+                </div>
+                <div *ngIf="last" class="invisible ml-2 form-group">
+                    <button (click)="addNewForm()"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

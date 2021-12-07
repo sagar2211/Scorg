@@ -1,0 +1,17 @@
+{
+  "humanbody-view": [{
+    "id": "18714",
+    "doc_id": "2902",
+    "hospital_id": null,
+    "patient_id": null,
+    "opd_id": null,
+    "module_name": null,
+    "label_key": "humanbody-view",
+    "label_value": "normal-view",
+    "created_by": "2902",
+    "creation_date": "2018-12-11 19:04:31",
+    "modified_by": "2902",
+    "last_updation_date": "2018-12-11 20:05:20",
+    "is_deleted": "0"
+  }]
+}

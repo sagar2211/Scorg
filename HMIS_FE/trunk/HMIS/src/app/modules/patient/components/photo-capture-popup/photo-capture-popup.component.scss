@@ -1,0 +1,33 @@
+
+    .modal-content{
+        .modal-body{
+            display: flex;
+            justify-content: space-between;
+            webcam{
+                width: 50%;
+                padding-top: 47px;
+                video{
+                    width: 100%;
+                }
+            }
+        }
+        .clickBtn{
+            position: absolute;
+            top:0;
+            left: 0;
+        }
+    }
+
+.modal-body>div{
+    display: flex;
+    justify-content: space-around;
+}
+.webcam-wrapper{
+    padding-top: 40px;
+}
+.btn-outline-dark{
+    &:hover    {
+        background: white;
+       
+   }
+}

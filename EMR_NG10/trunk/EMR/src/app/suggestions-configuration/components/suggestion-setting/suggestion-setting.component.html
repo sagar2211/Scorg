@@ -1,0 +1,109 @@
+<div class="emr-container-fluid container-fluid px-0">
+    <div class="card-header py-1">
+        <form [formGroup]="suggestionConfigurationForm" novalidate>
+            <div class="form-row form-group align-items-center">
+                <div class="col-2">
+                    <label>Config Page: <sup>*</sup></label>
+                    <ng-select [items]="configPage$ | async" bindLabel="name" autofocus bindValue="id"
+                        [clearable]="false" formControlName="configPage" placeholder="Config Page"
+                        (change)="onConfigPageChange($event)">
+                    </ng-select>
+                    <span class="error"
+                        *ngIf="submitted && suggestionConfigurationForm.get('serviceType').invalid">Required..</span>
+                </div>
+                <div class="col-2">
+                    <label>Service Type: <sup>*</sup></label>
+                    <ng-select [items]="serviceType$ | async" bindLabel="name" autofocus bindValue="id"
+                        [clearable]="false" formControlName="serviceType" placeholder="Service Type"
+                        (change)="onServiceTypeChange($event)">
+                    </ng-select>
+                    <span class="error"
+                        *ngIf="submitted && suggestionConfigurationForm.get('serviceType').invalid">Required..</span>
+                </div>
+                <div class="col-2">
+                    <label>Speciality:</label>
+                    <ng-select [items]="speciality$ | async" bindLabel="name" autofocus bindValue="id"
+                        formControlName="speciality" placeholder="Speciality" (change)="onSpecialityChange($event)">
+                    </ng-select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-body p-2 suggestion-settings-card-body">
+        <table class="table custom-table font-size-dot-875 mb-0 border">
+            <thead class="w-100">
+                <tr>
+                    <th width="20%">Component</th>
+                    <th width="10%">Snomed Enabled</th>
+                    <th width="52%">Symentic Tags</th>
+                    <th width="18%">Restrict Keyoword</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- <tr>
+          <td colspan="4">
+            <div class="alert alert-warning m-1 text-capitalize w-50 mx-auto" role="alert">
+              <p class="mb-0"><i class="far fa-fw fa-lightbulb mr-1" aria-hidden="true"></i>No Data Found</p>
+            </div>
+          </td>
+        </tr> -->
+                <tr *ngFor="let item of suggestionConfigurations; let i = index;">
+                    <td>
+                        {{item.sectionName}}
+                    </td>
+                    <td>
+                        <div class="custom-control custom-switch yes-no-btn">
+                            <input type="checkbox" [(ngModel)]="item.enableSnomedCt" (change)="item.isDirty = true;"
+                                class="custom-control-input" id="enableSnomedCt_{{i}}">
+                            <label class="custom-control-label pointer" [class.active]="item.enableSnomedCt"
+                                for="enableSnomedCt_{{i}}"></label>
+                            <span class="text-uppercase" [class.active]="item.enableSnomedCt">{{item.enableSnomedCt ?
+                                'Yes' : 'No'}}</span>
+                        </div>
+                        <!-- <div class="form-group">
+              <div class="custom-control custom-checkbox text-uppercase">
+                <input [(ngModel)]="item.enableSnomedCt" (change)="item.isDirty = true;" type="checkbox"
+                  class="custom-control-input" id="customCheck_{{i}}" name="{{item.sectionRefId}}">
+                <label class="custom-control-label" for="customCheck_{{i}}"><span>{{item.enableSnomedCt}}</span></label>
+              </div>
+            </div> -->
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <!--<label for="exampleInputEmail1" class="font-weight-500 mb-0 pl-1">Approved By</label>-->
+                            <ng-select [disabled]="!item.enableSnomedCt" (change)="item.isDirty = true;"
+                                [items]="semanticTags" bindLabel="user_name" placeholder="Select Semantic Tags"
+                                appendTo="body" multiple="true" [(ngModel)]="item.semanticTags"></ng-select>
+                        </div>
+                    </td>
+                    <td>
+                        <!--<div class="form-group">-->
+                        <!--&lt;!&ndash;<label for="exampleInputEmail1" class="font-weight-500 mb-0 pl-1">Approved By</label>&ndash;&gt;-->
+                        <!--<ng-select [clearable]="false" (change)="item.isDirty = true;" [items]="suggestionTypes"-->
+                        <!--bindLabel="user_name" placeholder="Select Suggestion Type" appendTo="body"-->
+                        <!--[(ngModel)]="item.suggetionType"></ng-select>-->
+                        <!--</div>-->
+                        <div class="custom-control custom-switch yes-no-btn">
+                            <input type="checkbox" [(ngModel)]="item.editableSuggestion" (change)="item.isDirty = true;"
+                                class="custom-control-input" id="editableSuggestion{{i}}">
+                            <label class="custom-control-label pointer" [class.active]="item.editableSuggestion"
+                                for="editableSuggestion{{i}}"></label>
+                            <span class="text-uppercase"
+                                [class.active]="item.editableSuggestion">{{item.editableSuggestion ? 'Yes' :
+                                'No'}}</span>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer py-1 text-right">
+        <button class="btn btn-sm btn-outline-warning mr-1" type="button" (click)="clearChanges()"><i
+                class="fas fa-fw fa-eraser" aria-hidden="true"></i>
+            CLEAR</button>
+        <button class="btn btn-sm btn-success" type="submit" (click)="submitChanges()"> <i
+                class="icon fa-fw icon-save"></i>
+            SAVE</button>
+    </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

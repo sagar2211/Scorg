@@ -1,0 +1,19 @@
+<div class="emr-custom-container-fluid">
+  <div class="card-header py-2 border-dash-bottom">
+    <h6 class="mb-0"> Nursing Notes</h6>
+  </div>
+  <div class="card-body nursing-height mb-2">
+    <div class="form-row form-group">
+      <div class="col-6">
+        <label for="Nursing">Nursing Care</label>
+        <textarea class="form-control" (focus)="focusNursingTextArea('care')" (blur)="AddnursingData('care')"
+          [(ngModel)]="nursingCare" type="text" placeholder="Nursing Care" rows=3></textarea>
+      </div>
+      <div class="col-6">
+        <label for="Nursing">Nursing Note</label>
+        <textarea class="form-control" (focus)="focusNursingTextArea('note')" (blur)="AddnursingData('note')"
+          [(ngModel)]="nursingNote" type="text" placeholder="Nursing Note" rows=3></textarea>
+      </div>
+    </div>
+  </div>
+</div>

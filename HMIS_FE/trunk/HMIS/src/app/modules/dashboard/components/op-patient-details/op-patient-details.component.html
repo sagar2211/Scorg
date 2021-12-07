@@ -1,0 +1,166 @@
+<div class="form-row op-patient-details"
+        [ngClass]="{'show-details': isOPPatientVisible, 'hide-details': !isOPPatientVisible}">
+        <div class="col">
+            <div class="card border-0">
+                <div class="card-header border-bottom-0 p-0">
+                    <div class="form-row align-items-center mx-0 pt-2">
+                        <div class="col px-0">
+                            <h6 class="font-size-dot-875 mb-0 pl-2">OP Patient Details</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-2">
+                    <div class="form-row">
+                        <div class="col">
+                            <div class="table-scroll postion-relative w-100 m-auto overflow-auto">
+                                <table class="table custom-table font-size-dot-8">
+                                    <thead>
+                                        <tr>
+                                            <th>Total Sale</th>
+                                            <th class="text-right">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Sale Amount</td>
+                                            <td class="text-right"><span class="small-rupee">6,24,285</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Discount Amount</td>
+                                            <td class="text-right"><span class="small-rupee">180</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Net Amount</td>
+                                            <td class="text-right"><span class="small-rupee">6,24,105</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Bill Refund Amount</td>
+                                            <td class="text-right"><span class="small-rupee">42,050</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Service Refund Amount</td>
+                                            <td class="text-right"><span class="small-rupee">25</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td>Total Sale Amount</td>
+                                            <td class="text-right"><span class="small-rupee">5,82,030</span>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="table-scroll postion-relative w-100 m-auto overflow-auto">
+                                <table class="table custom-table font-size-dot-8">
+                                    <thead>
+                                        <tr>
+                                            <th>Total Received</th>
+                                            <th class="text-right">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Advance Adjusted</td>
+                                            <td class="text-right"><span class="small-rupee">5,000</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Net Pending Amount</td>
+                                            <td class="text-right"><span class="small-rupee">82,365</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Settled Amount</td>
+                                            <td class="text-right"><span class="small-rupee">77,666</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td>Net Outstanding</td>
+                                            <td class="text-right"><span class="small-rupee">4,699</span>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="table-scroll postion-relative w-100 m-auto overflow-auto">
+                                <table class="table custom-table font-size-dot-8">
+                                    <thead>
+                                        <tr>
+                                            <th>Doctor Wise OP Count</th>
+                                            <th class="text-right">New</th>
+                                            <th class="text-right">Followup</th>
+                                            <th class="text-right">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Dr. Ramachandraiah R</td>
+                                            <td class="text-right">40</td>
+                                            <td class="text-right">35</td>
+                                            <td class="text-right">05</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dr. Anurag Jaiswal</td>
+                                            <td class="text-right">20</td>
+                                            <td class="text-right">08</td>
+                                            <td class="text-right">15</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dr. Arvind Kulkarni</td>
+                                            <td class="text-right">15</td>
+                                            <td class="text-right">07</td>
+                                            <td class="text-right">08</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dr. Chandrakant Prakash</td>
+                                            <td class="text-right">10</td>
+                                            <td class="text-right">06</td>
+                                            <td class="text-right">04</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dr. Kaushik Patil</td>
+                                            <td class="text-right">15</td>
+                                            <td class="text-right">14</td>
+                                            <td class="text-right">01</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dr. Ishak Khatib</td>
+                                            <td class="text-right">10</td>
+                                            <td class="text-right">05</td>
+                                            <td class="text-right">05</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Dr. Ram Kadam</td>
+                                            <td class="text-right">45</td>
+                                            <td class="text-right">38</td>
+                                            <td class="text-right">07</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td>Total</td>
+                                            <td class="text-right">155</td>
+                                            <td class="text-right">120</td>
+                                            <td class="text-right">35</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

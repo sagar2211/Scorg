@@ -1,0 +1,453 @@
+@import "../../../../../scss/main.scss";
+.patient-dashboard {
+    background-color: var(--bgLight) !important;
+    box-shadow: none;
+    border: 0;
+    height: auto;
+    overflow: hidden;
+}
+
+// :host::ng-deep {
+//   .patient-dashboard {
+//     .card {
+//       @include border-radius(5px);
+//     }
+//     .top-card {
+//       height: 137px;
+//       max-height: 137px;
+//       overflow: hidden;
+//       .user-img {
+//         width: 80px;
+//         height: 80px;
+//         border: 1px dashed #ced4da;
+//         background-color: var(--bgLight);
+//       }
+//       .pat-info {
+//         padding: 0px 5px;
+//         margin: 0;
+//         border-left: 1px dashed #e4e4e4;
+//       }
+//       .card-btn {
+//         bottom: 8px;
+//         right: 8px;
+//       }
+//     }
+//     .tag-list {
+//       display: inline-block;
+//       padding: 0 15px 0 10px;
+//       position: relative;
+//       @extend .font-size-dot-875;
+//       &::before {
+//         background: #efefef;
+//         border-radius: 10px;
+//         box-shadow: inset 1px 1px rgba(0, 0, 0, 0.25);
+//         content: "";
+//         height: 6px;
+//         left: 0px;
+//         position: absolute;
+//         width: 6px;
+//         top: 7px;
+//       }
+//     }
+//     .medication-diagnosis-timeline {
+//       height: calc(100vh - 210px);
+//       .row-height {
+//         height: calc(100vh - 478px);
+//         .pat-medication,
+//         .pat-diagnosis {
+//           height: inherit;
+//           .card {
+//             height: 99.3%;
+//             .card-body {
+//               height: 330px !important;
+//               overflow-y: auto !important;
+//             }
+//             .diagnosis-border {
+//               &:not(:last-child) {
+//                 border-bottom: 1px solid $gray-300;
+//                 margin-bottom: 5px;
+//                 padding-bottom: 5px;
+//               }
+//             }
+//           }
+//         }
+//       }
+//       .zui-wrapper {
+//         position: relative;
+//         height: 235px;
+//         overflow-y: auto;
+//         overflow-x: hidden;
+//         .zui-scroller {
+//           margin-left: 100px;
+//           height: 235px;
+//           overflow-x: scroll;
+//           overflow-y: visible;
+//           // @media screen and (max-width: 1598px) {
+//           //   width: 51.7vw;
+//           // }
+//           .zui-table {
+//             border: none;
+//             border-spacing: 0;
+//             tbody {
+//               tr {
+//                 &:first-child {
+//                   td {
+//                     border-top: 0;
+//                   }
+//                 }
+//                 td {
+//                   color: #333;
+//                   white-space: nowrap;
+//                   &:not(.last) {
+//                     padding: 2px 0px 0px 3px;
+//                   }
+//                   &.bg-current {
+//                     position: relative;
+//                     // background-color: rgba(4, 171, 223, 0.2);
+//                     background-color: rgba($primary, 0.2);
+//                     &:after {
+//                       content: "Current Time";
+//                       padding: 2px;
+//                       display: none;
+//                       position: absolute;
+//                       top: 20px;
+//                       right: 30px;
+//                       width: 80px;
+//                       text-align: center;
+//                       color: #fff;
+//                       font-size: 12px;
+//                       // background-color: #b9d868;
+//                       background-color: #bdbd0a;
+//                       border: 1px solid #fff;
+//                       -moz-border-radius: 2px;
+//                       -webkit-border-radius: 2px;
+//                       -ms-border-radius: 2px;
+//                       border-radius: 2px;
+//                     }
+//                     &:hover:after {
+//                       display: block;
+//                     }
+//                   }
+//                   &.event {
+//                     font-size: 0.67rem;
+//                     padding: 0 5px !important;
+//                     background-color: #fff;
+//                     line-height: 16px;
+//                     border-top: none;
+//                     &.date {
+//                       font-weight: 500;
+//                       background-color: rgba(211, 244, 255, 0.2);
+//                     }
+//                   }
+//                   &.zui-sticky-col {
+//                     left: 0;
+//                     position: absolute;
+//                     top: auto;
+//                     width: 100px;
+//                     font-weight: 500;
+//                     font-size: 0.8rem;
+//                     background-color: #fff;
+//                     border-right: 1px solid #dee2e6;
+//                     padding-top: 12px !important;
+//                     padding-bottom: 27px !important;
+//                   }
+//                   &.last {
+//                     padding-top: 0 !important;
+//                     padding-bottom: 13px !important;
+//                   }
+//                   .file-icon {
+//                     cursor: pointer;
+//                     width: 30px;
+//                     position: relative;
+//                     display: inline-block;
+//                     height: 30px;
+//                     background-color: $primary-light;
+//                     border-radius: 50%;
+//                     .fa {
+//                       position: absolute;
+//                       left: 29%;
+//                       top: 24%;
+//                       color: #fff;
+//                     }
+//                   }
+//                   .dashbaord-icon {
+//                     display: inline-block;
+//                     width: 17px;
+//                     position: absolute;
+//                     top: 2px;
+//                     left: 7px;
+//                     &.diagnosis {
+//                       top: 3px;
+//                       left: 6px;
+//                     }
+//                     &.orders {
+//                       width: 14px;
+//                       top: 2px;
+//                       left: 8px;
+//                     }
+//                     &.notes {
+//                       top: 3px;
+//                       left: 8px;
+//                     }
+//                     &.vital {
+//                       width: 27px;
+//                       top: 3px;
+//                       left: 2px;
+//                     }
+//                   }
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//     .pat-vitals {
+//       height: calc(100vh - 212px);
+//       .patient-table {
+//         height: calc(100vh - 245px);
+//         overflow: auto;
+//         .table {
+//           border-top: none;
+//           border: 1px solid #f3f3f3;
+//           thead {
+//             background-color: rgba(63, 81, 181, 0.06);
+//             th {
+//               border-top: 0;
+//               padding: 1px 0 0 0.4rem;
+//               height: 30px;
+//               vertical-align: middle;
+//               font-weight: 500;
+//               border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+//             }
+//           }
+//           tbody {
+//             tr {
+//               &:nth-of-type(even) {
+//                 background-color: rgba($primary, 0.02);
+//               }
+//               td {
+//                 padding: 1px 0 0 0.4rem;
+//                 height: 30px;
+//                 vertical-align: middle;
+//               }
+//             }
+//           }
+//         }
+//       }
+//       .blinking {
+//         animation: blinkingText 0.8s infinite;
+//       }
+//       @keyframes blinkingText {
+//         0% {
+//           color: #e23c5c;
+//           background-color: rgba(226, 60, 92, 0.08);
+//         }
+//         49% {
+//           color: #333;
+//           background-color: rgba(181, 181, 181, 0.08);
+//         }
+//         50% {
+//           color: #e23c5c;
+//           background-color: rgba(226, 60, 92, 0.08);
+//         }
+//         99% {
+//           color: #e23c5c;
+//           background-color: rgba(226, 60, 92, 0.08);
+//         }
+//         100% {
+//           color: #e23c5c;
+//           background-color: rgba(226, 60, 92, 0.08);
+//         }
+//       }
+//     }
+//   }
+// }
+:host::ng-deep {
+    .patient-dashboard {
+        .card {
+            @include border-radius(5px);
+        }
+        .patinet-card {
+            height: 20.5vh;
+            max-height: 20.5vh;
+            overflow: hidden;
+            .user-img {
+                width: 80px;
+                height: 80px;
+                border: 1px dashed #ced4da;
+                background-color: var(--bgLight);
+            }
+            .pat-info {
+                padding: 0px 5px;
+                margin: 0;
+                border-left: 1px dashed #e4e4e4;
+            }
+            .card-btn {
+                margin: 0px 13%;
+            }
+        }
+        .pat-medication .card-body,
+        .pat-diagnosis .card-body,
+        .pat-diagnosis .card-body {
+            height: calc(100vh - 508px);
+            overflow-y: auto !important;
+        }
+        .zui-wrapper {
+            position: relative;
+            // height: 36.8vh;
+            // overflow-y: auto;
+            // overflow-x: hidden;
+            .zui-scroller {
+                margin-left: 100px;
+                height: 36.8vh;
+                overflow-x: scroll;
+                overflow-y: visible;
+                // @media screen and (max-width: 1598px) {
+                //   width: 51.7vw;
+                // }
+                .zui-table {
+                    border: none;
+                    border-spacing: 0;
+                    table-layout: fixed;
+                    tbody {
+                        tr {
+                            &:first-child {
+                                td {
+                                    border-top: 0;
+                                }
+                            }
+                            td {
+                                color: #333;
+                                white-space: nowrap;
+                                &:not(.last) {
+                                    padding: 2px 2px 0px 2px;
+                                    width: 40px;
+                                }
+                                &.bg-current {
+                                    position: relative;
+                                    // background-color: rgba(4, 171, 223, 0.2);
+                                    background-color: rgba($primary, 0.2);
+                                    &:after {
+                                        content: "Current Time";
+                                        padding: 2px;
+                                        display: none;
+                                        position: absolute;
+                                        top: 20px;
+                                        right: 30px;
+                                        width: 80px;
+                                        text-align: center;
+                                        color: #fff;
+                                        font-size: 12px;
+                                        // background-color: #b9d868;
+                                        background-color: #bdbd0a;
+                                        border: 1px solid #fff;
+                                        -moz-border-radius: 2px;
+                                        -webkit-border-radius: 2px;
+                                        -ms-border-radius: 2px;
+                                        border-radius: 2px;
+                                    }
+                                    &:hover:after {
+                                        display: block;
+                                    }
+                                }
+                                &.event {
+                                    font-size: 0.67rem;
+                                    padding: 0 5px !important;
+                                    background-color: #fff;
+                                    line-height: 16px;
+                                    border-top: none;
+                                    &:nth-child(12n) {
+                                        border-right: 1px solid #dee2e6;
+                                    }
+                                    &.date {
+                                        font-weight: 500;
+                                        background-color: rgba(211, 244, 255, 0.2);
+                                    }
+                                }
+                                &.zui-sticky-col {
+                                    left: 0;
+                                    position: absolute;
+                                    top: auto;
+                                    width: 100px;
+                                    font-weight: 500;
+                                    font-size: 0.8rem;
+                                    background-color: #fff;
+                                    border-right: 1px solid #dee2e6;
+                                    padding-top: 12px !important;
+                                    padding-bottom: 27px !important;
+                                }
+                                &.last {
+                                    padding-top: 0 !important;
+                                    padding-bottom: 13px !important;
+                                }
+                                .file-icon {
+                                    width: 30px;
+                                    position: relative;
+                                    display: inline-block;
+                                    height: 30px;
+                                    border-radius: 50%;
+                                    .file-icon2 {
+                                        top: 2px;
+                                        cursor: pointer;
+                                        width: 30px;
+                                        position: relative;
+                                        display: inline-block;
+                                        height: 30px;
+                                        background-color: $primary-light;
+                                        border-radius: 50%;
+                                    }
+                                    .fa {
+                                        position: absolute;
+                                        left: 29%;
+                                        top: 24%;
+                                        color: #fff;
+                                    }
+                                }
+                                .dashbaord-icon {
+                                    display: inline-block;
+                                    width: 17px;
+                                    position: absolute;
+                                    top: 2px;
+                                    left: 7px;
+                                    &.diagnosis {
+                                        top: 3px;
+                                        left: 6px;
+                                    }
+                                    &.orders {
+                                        width: 14px;
+                                        top: 2px;
+                                        left: 8px;
+                                    }
+                                    &.notes {
+                                        top: 3px;
+                                        left: 8px;
+                                    }
+                                    &.vital {
+                                        width: 27px;
+                                        top: 3px;
+                                        left: 2px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .custom-table {
+        thead,
+        tbody {
+            tr {
+                th:nth-child(1),
+                td:nth-child(1) {
+                    width: 22%;
+                }
+                s td {
+                    @extend .font-size-dot-8;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,17 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+:host ::ng-deep {
+  .input-group {
+    .ng-select .ng-select-container {
+      @include border-right-radius(0);
+    }
+  }
+}
+
+.allow-min-height {
+  min-height: 70px;
+}
+
+.joint-width {
+  width: 90%;
+}

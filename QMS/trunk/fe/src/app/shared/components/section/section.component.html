@@ -1,0 +1,8 @@
+<form [formGroup]="sectionForm" *ngIf="sectionForm">
+  <app-ng-select-typeahead [inputValue]="sectionForm.value.sectionVal?.id"
+    [selectedValue]="sectionForm.value.sectionVal?.name" [thDisplayLabel]="'name'" [thDisplayKey]="'id'"
+    (recievedVal)="selectValue($event)" [source]="'Select Section'" [returnDataType]="'obj'"
+    [isDisabled]="isNgSelectTypeHeadDisabled" [compInstance]="compInstance" [searchFun]="getAllSectionList"
+    [isSearchDataFromApi]="true">
+  </app-ng-select-typeahead>
+</form>

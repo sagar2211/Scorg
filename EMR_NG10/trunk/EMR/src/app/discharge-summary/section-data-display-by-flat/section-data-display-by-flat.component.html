@@ -1,0 +1,88 @@
+<!-- cdkDropList (cdkDropListDropped)="drop($event)" -->
+<div class="card-body p-0 discharge-body">
+    <!-- cdkDrag -->
+    <div *ngFor="let item of discharge?.summery; let i = index;">
+        <ngb-accordion [closeOthers]="false" [destroyOnHide]="false">
+            <ngb-panel id="{{item.label}}">
+                <ng-template ngbPanelTitle>
+                    <div class="form-row align-items-center mx-0">
+                        <div class="col-4">
+                            <div class="form-row align-items-center mx-0">
+                                <div class="col-8">
+                                    <p *ngIf="!item.isShow" class="mb-0 font-size-dot-875">{{item.label}}</p>
+                                    <input class="form-control form-control-xs" *ngIf="item.isShow" type="text" name="label" [(ngModel)]="item.label">
+                                </div>
+                                <div class="col-4">
+                                    <button class="btn btn-xs btn-white edit-update-btn" (click)="onEditUpdateSection($event, item)">
+                    <i class="icon fa fa-fw" [ngClass]="{'icon-edit': !item.isShow, 'fa-sync-alt': item.isShow}" aria-hidden="true"></i>
+                    {{item.isShow ? 'UPDATE' : 'EDIT'}}</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8 text-right">
+                            <div class="form-row align-items-center mx-0">
+                                <div class="col-3 offset-8">
+                                    <select class="form-control form-control-xs pointer" (click)="onDisplayTypeChange(item, $event, true)">
+                    <option>Select Display Type</option>
+                    <option value="bullet">Bullets</option>
+                    <option value="comma">Continue</option>
+                  </select>
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-sm btn-link" type="button" (click)="item.isOpen = !item.isOpen">
+                    <i [ngClass]="item.isOpen ? 'fa fa-fw fa-chevron-up': 'fa fa-fw fa-chevron-down' " aria-hidden="true"></i>
+                  </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template ngbPanelContent>
+                    <ng-container *ngIf="item.sectionKey !== 'custom_template_detail'">
+                        <div class="pb-2 mb-2" *ngFor="let summary of item.visitorData;">
+                            <tag-input class="date-tag" [removable]="!discharge?.chartName" *ngIf="summary.visitor.length" [(ngModel)]="summary.visitor" [inputClass]="'form-control'" [addOnBlur]="true" [editable]="true" [modelAsStrings]="true" [maxItems]="summary.visitor.length"
+                                placeholder="Enter...">
+                            </tag-input>
+                            <tag-input [removable]="!discharge?.chartName" [(ngModel)]="summary.summaryData" (onRemove)="onRemove($event, summary)" [modelAsStrings]="true" [maxItems]="summary.summaryData.length" [addOnBlur]="true" [editable]="true" [modelAsStrings]="true" placeholder="Enter...">
+                            </tag-input>
+                            <textarea *ngIf="!discharge?.chartName" name="visitor" class="form-control mt-1 noresize" placeholder="type here..." [(ngModel)]="summary.summaryDataTemp" (ngModelChange)="updateSummeryData(summary)"></textarea>
+                        </div>
+
+                    </ng-container>
+
+                    <ng-container *ngIf="item.sectionKey === 'custom_template_detail'">
+                        <div class="pb-2 mb-2" *ngFor="let summary of item.visitorData;">
+                            <!-- <tag-input class="date-tag" [removable]="!discharge?.chartName" *ngIf="summary.visitor.length" [(ngModel)]="summary.visitor" [inputClass]="'form-control'" [addOnBlur]="true"
+                [editable]="true" [modelAsStrings]="true" [maxItems]="summary.visitor.length" placeholder="Enter...">
+              </tag-input> -->
+                            <div *ngFor="let data of summary.summaryData">
+                                <h3 class="text-danger">{{data.form_summary_heading}}</h3>...
+                                <div *ngFor="let groupData of data.table_data">
+                                    <h4>{{groupData.que_group_name}}</h4>
+                                    <table class="table border custom-table font-size-dot-875 mb-0 first-table">
+                                        <thead>
+                                            <th [ngStyle]="{'width.%': (100 / (groupData.table_head.length+1)) }"></th>
+                                            <th [ngStyle]="{'width.%': (100 / (groupData.table_head.length+1)) }" *ngFor="let answerHeading of groupData.table_head">
+                                                <span [innerHTML]="answerHeading.ans_group_heading"></span>
+                                            </th>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let question of groupData.que_list">
+                                                <td class="first-td">{{question.question_text}}</td>
+                                                <td *ngFor="let headingData of groupData.table_head">
+                                                    <div *ngFor="let answer of question.answer_list | filterArray:'ans_group_key':headingData.ans_group_key; let answerIndex = index;" class="col-xs-12 p-0">
+                                                        {{answer.answer_text}}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-template>
+            </ngb-panel>
+        </ngb-accordion>
+    </div>
+</div>

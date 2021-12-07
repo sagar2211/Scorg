@@ -1,0 +1,6 @@
+<form [formGroup]="timeDropdownForm" class="type-head-dropdown">
+    <select class="form-control form-control-sm" [ngClass]="{'pointer-event-none': disableSelection}" formControlName="selectedItem" (change)="onSelectItem(timeDropdownForm.value.selectedItem)">
+        <option *ngFor="let val of hoursArray" [ngValue]="val">{{val}}
+        </option>
+    </select>
+</form>

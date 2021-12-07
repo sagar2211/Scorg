@@ -1,0 +1,87 @@
+<div class="emr-custom-container-fluid">
+  <div class="card-header py-2 border-dash-bottom">
+    <h6 class="mb-0"> Care Team</h6>
+  </div>
+  <div class="card-body care-team-height"><!-- *ngIf="loadList" -->
+    <div class="card shadow-xs border-0 mb-3">
+      <div class="card-body py-2">
+        <!-- *ngIf="loadList" -->
+        <form [formGroup]="careTeamForm" novalidate>
+          <div class="form-row form-group align-items-center">
+            <div class="col emr-switch-w align-self-center mt-custom-1-2">
+              <div class="custom-control custom-switch">
+                <input type="checkbox" formControlName="isPrimaryDoctor" (change)="onPrimaryDoctorChange($event)" class="custom-control-input" id="customSwitch1">
+                <label class="custom-control-label pointer" [class.active]="careTeamForm.value.isPrimaryDoctor" for="customSwitch1"></label>
+                <span class="text-uppercase" [class.active]="careTeamForm.value.isPrimaryDoctor">{{careTeamForm.value.isPrimaryDoctor ? 'Primary' : 'Secondary'}}</span>
+              </div>
+            </div>
+            <div class="col-2">
+              <label >Designation: <sup>*</sup></label>
+              <ng-select [items]="desgList$ | async" bindLabel="name" autofocus
+                formControlName="designation" placeholder="Designation" (change)="onDesignationChange($event)">
+              </ng-select>
+              <span class="error" *ngIf="submitted && careTeamForm.get('designation').invalid">Required..</span>
+            </div>
+            <div class="col-2">
+              <label >User: <sup>*</sup></label>
+              <ng-select [items]="doctorList$ | async" bindLabel="name" ngDefaultControl [loading]="doctorLoading" autofocus
+                formControlName="user" placeholder="User" [typeahead]="docListInput$"
+                (change)="onUserChange($event)">
+              </ng-select>
+              <span class="error" *ngIf="submitted && careTeamForm.get('user').invalid">Required..</span>
+            </div>
+            <div class="col-4" [hidden]="isDoctorUser">
+              <label >Department: </label>
+              <ng-select [items]="departmentList" bindLabel="name" ngDefaultControl autofocus formControlName="department" placeholder="Department">
+              </ng-select>
+              <span class="error" *ngIf="submitted && careTeamForm.get('department').invalid">Required..</span>
+            </div>
+            <div class="col-4" [hidden]="!isDoctorUser">
+              <label >Speciality: </label>
+              <ng-select [items]="specialityList" bindLabel="name" ngDefaultControl autofocus formControlName="speciality" placeholder="Speciality">
+              </ng-select>
+            </div>
+            <div class="col-2 align-self-center mt-custom-1-2">
+              <button (click)="saveForm()" class="btn btn-sm btn-primary" type="button"><i
+                  class="fas fa-fw fa-plus"></i></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="" *ngIf="careTeamList.length > 0">
+      <table class="table border custom-table font-size-dot-875 mb-0">
+        <thead>
+          <tr class="text-center">
+            <th>Status</th>
+            <th>Designation</th>
+            <th>User</th>
+            <th>Department</th>
+            <th>Speciality</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of careTeamList; let i = index;">
+            <td>{{ item.isPrimaryDoctor ? "Primary" : "Secondory" }}</td>
+            <td>{{ item.designation }}</td>
+            <td>{{ item.userName }}</td>
+            <td>{{ item.deptName }}</td>
+            <td>{{ item.specialityName }}</td>
+            <td>{{ item.mappingDate | date: 'dd/MM/yyyy hh:mm aa'}}</td>
+            <td>
+              <button *ngIf="!item.isSaved" class="btn btn-sm btn-danger" (click)="deleteCareTeam(i)" type="button"><i
+                  class="icon fa-fw icon-trash"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card-footer text-right py-1">
+    <button class="btn btn-sm btn-success" (click)="saveCareTeamData()" type="button"><i class="icon fa-fw icon-save"></i>
+      SAVE</button>
+  </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

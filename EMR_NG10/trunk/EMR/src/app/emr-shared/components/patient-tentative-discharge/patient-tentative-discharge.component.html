@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">Tentative Discharge</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.close('cancel')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body py-2">
+      <div class="form-row form-group">
+        <div class="col-12">
+          <label class="text-muted font-weight-normal col-5 p-0">Enter tentative days</label>
+            <input type="text" [(ngModel)]="numberOfDays" (keyup)="updateTentativeDate()" placeholder="Enter Tentative Days" appOnlyNumbers>
+        </div>
+      </div>
+      <div class="form-row form-group mb-0" *ngIf="tentativeDate">
+        <div class="col-12">
+          <label class="text-muted font-weight-normal col-5 p-0">Tentative Date :</label>
+          <span>{{tentativeDate}}</span>
+        </div>
+      </div>
+  </div>
+  <div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
+      (click)="modal.close('cancel');">Cancel</button>
+    <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" (click)="saveTentativeDischargeDate();">SAVE</button>
+  </div>
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>

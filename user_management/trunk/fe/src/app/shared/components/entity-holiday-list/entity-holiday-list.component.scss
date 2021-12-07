@@ -1,0 +1,39 @@
+:host ::ng-deep {
+  .bs-popover-bottom-right > .arrow {
+    right: 0.3em;
+  }
+  .ngx-datatable.fixed-row {
+    .datatable-body {
+      overflow-x: hidden !important;
+      .datatable-body-cell {
+        .datatable-body-cell-label {
+          .custom-switch {
+            .active {
+              color: #fff !important;
+              background-color: transparent !important;
+              &.disabled {
+                &:before {
+                  background-color: #7ee194 !important;
+                }
+              }
+            }
+            .inactive {
+              background-color: transparent !important;
+              &:before {
+                background-color: #adb5bd;
+                border-color: #adb5bd;
+              }
+              &:after {
+                transform: translateX(0rem);
+              }
+            }
+            span.active {
+              left: 4px;
+              top: 1px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

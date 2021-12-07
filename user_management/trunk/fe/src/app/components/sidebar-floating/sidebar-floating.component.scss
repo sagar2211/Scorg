@@ -1,0 +1,45 @@
+@import "../../../scss/custom_bootstrap_theme.scss";
+
+// Sidebar Menu
+:host {
+  position: fixed;
+  top: 44px;
+  right: 8px;
+  left: auto;
+  bottom: 0;
+  z-index: 1048;//most top
+  width: 45%;
+  margin-right: 0;
+  @include border-radius(5px);
+  background-color: $white;
+  height: calc(100vh - 50px);
+  @include custom-box-shadow(2px, 5px, 15px, rgba($black, .21));
+  @include medium-max {
+    display: none;
+  }
+}
+
+// Sidebar before icon
+.sidebar-before-icon {
+  position: absolute;
+  bottom: 100%;
+  left: auto;
+  z-index: 1;
+  border: solid transparent;
+  border-width: 10px;
+  border-color: rgba(194, 225, 245, 0);
+  border-bottom-color: $white;
+  pointer-events: none;
+
+  &.profile {
+    right: 9px;
+  }
+
+  &.setting {
+    right: 147px;
+  }
+
+  &.notification {
+    right: 57px;
+  }
+}

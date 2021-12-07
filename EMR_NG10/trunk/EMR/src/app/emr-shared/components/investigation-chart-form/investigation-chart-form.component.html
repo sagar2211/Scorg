@@ -1,0 +1,59 @@
+<div class="examination-label">
+    <ngb-accordion (panelChange)="menuClicked($event)" [closeOthers]="true" [activeIds]="componentInfo?.activeIdsOfPanels">
+        <ngb-panel id="{{componentInfo?.section_key}}">
+            <ng-template ngbPanelTitle>
+                <div class="form-row align-items-center mx-0">
+                    <div class="col-9">
+                        <p class="mb-0 font-size-dot-875">{{componentInfo?.section_name}}</p>
+                    </div>
+                    <div class="col-3">
+                        <button class="btn btn-sm btn-link text-white text-right" type="button">
+                            <i [ngClass]="isPanelOpen ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+                <form [formGroup]="investigationFrm" (click)="menuClicked($event)">
+                    <div formArrayName="investigationListFrm">
+                        <div class="border-bottom" *ngFor="let item of investigationListFrm.controls; let i = index;let last = last,first as first" [formGroupName]="i">
+                            <div class="form-row align-items-center">
+                                <div class="col border-right">
+                                    <div class="form-row form-group">
+                                        <div class="col" [ngClass]="{'no-selection': item.get('investigation').value}" (keyup)="openSuggestionPanelForSearch(item.get('investigationName').value)">
+                                            <label>{{invesigationType}} </label>
+                                            <input readonly type="text" class="form-control form-control-sm" formControlName="investigationName" (click)="openModalPopupSugg(true)">
+                                            <span class="error" *ngIf="isAdd && item.get('investigationName').invalid">Select
+                                                Investigation
+                                            </span>
+                                        </div>
+                                        <div class="col-date">
+                                            <label>Date</label>
+                                            <app-date-picker [inputDate]="item.value.date" (dateChange)="item.value.date = $event; sendAllSelectedListData()">
+                                            </app-date-picker>
+                                        </div>
+                                        <div class="col-12">
+                                            <label>Comment</label>
+                                            <input type="text" class="form-control form-control-sm" formControlName="comment" placeholder="Comment.." (change)="sendAllSelectedListData()" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="plus-minus-col-btn">
+                                    <label [ngClass]="{'mb-0': first, 'd-none': !first}">&nbsp;</label>
+                                    <div>
+                                        <button type="button" [ngStyle]="{'visibility': last ? 'visible' : 'hidden'}" (click)="addInvestigation(item)" class="btn btn-sm btn-outline-primary-light">
+                                            <i class="fa fa-fw fa-plus"></i>
+                                        </button>&nbsp;
+                                        <button type="button" (click)="deleteInvestigation(item, i)" class="btn btn-sm btn-outline-danger">
+                                            <i class="fa fa-fw fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+</div>

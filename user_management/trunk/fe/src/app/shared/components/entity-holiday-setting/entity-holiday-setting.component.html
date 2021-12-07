@@ -1,0 +1,75 @@
+<div class="container-fluid p-2">
+  <form [formGroup]="entityHolidaySettingForm" (ngSubmit)="saveSetting()" *ngIf="loadForm">
+    <div class="card border-0 p-0">
+      <div class="form-row form-group mb-3">
+        <div class="col-2">
+          <label>From Date<sup>*</sup></label>
+          <app-date-picker [min]="todayDate" (dateChange)="setAndValidateDates('fromDate', $event)"
+            [inputDate]="entityHolidaySettingForm.value.fromDate">
+          </app-date-picker>
+        </div>
+        <div class="col">
+          <label>Time<sup>*</sup></label>
+          <app-time-drop-down [timeFormat]="timeFormatkey" [minuteValue]="'true'"
+            [selectedValue]="entityHolidaySettingForm.value.fromTime"
+            (selectedItem)="checkTimeValuesOnChange($event, 'fromTime')" [isEntireDay]="isEntireDay">
+          </app-time-drop-down>
+        </div>
+        <div class="col-2">
+          <label>To Date <sup *ngIf="isRequired">*</sup></label>
+          <app-date-picker [min]="toDateMin" (dateChange)="setAndValidateDates('toDate', $event)"
+            [inputDate]="entityHolidaySettingForm.value.toDate">
+          </app-date-picker>
+        </div>
+        <div class="col">
+          <label>Time<sup *ngIf="isRequired">*</sup></label>
+          <app-time-drop-down [timeFormat]="timeFormatkey" [minuteValue]="'true'"
+            [selectedValue]="entityHolidaySettingForm.value.toTime" [hoursList]="hoursToArray"
+            (selectedItem)="checkTimeValuesOnChange($event, 'toTime')" [isEntireDay]="isEntireDay">
+          </app-time-drop-down>
+        </div>
+        <div class="col-4">
+          <label>Remark</label>
+          <input type="text" class="form-control form-control-sm" formControlName="remark" placeholder="Remark">
+        </div>
+      </div>
+      <div class="form-row form-group align-items-center">
+        <div class="col-2">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" formControlName="isCancelAppointment" class="custom-control-input"
+              id="isCancelAppointment" />
+            <label class="custom-control-label pointer" for="isCancelAppointment">Cancel All Appointment</label>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-row align-items-center">
+            <div class="col-5">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="isSendNotification" type="checkbox"
+                  (change)="onSendNotification($event)">
+                <label class="custom-control-label pointer" for="isSendNotification">Send Notification to</label>
+              </div>
+            </div>
+            <div class="col-7" [attr.disabled]="IsSendNotification">
+              <select class="form-control form-control-sm px-0" formControlName="NotificationDuration"
+                [appAutoFocus]="true" [attr.disabled]="(!IsSendNotification) ? true : null">
+                <option [value]="3" selected="">Patient visited last 3 months</option>
+                <option [value]="6">Patient visited last 6 months</option>
+                <option [value]="12">Patient visited last 1 years</option>
+                <option [value]="120">All Patient</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col text-right align-self-center">
+          <button class="btn btn-sm btn-outline-secondary mr-2" (click)="sendSelectedSetting('holiday')"
+            type="button">CLOSE</button>
+          <button class="btn btn-sm btn-success text-uppercase" [disabled]="entityHolidaySettingForm.invalid"
+            type="submit"><i class="icon fa-fw icon-save"></i> Save</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!--FUTURE HOLIDAY LIST-->
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

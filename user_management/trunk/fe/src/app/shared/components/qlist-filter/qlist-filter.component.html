@@ -1,0 +1,25 @@
+<div class="form-row form-group mb-3">
+  <!-- <div class="col-12 mb-2" *ngIf="userInfo.role_type === 'DOCTOR'">
+    <label for="info">Providers Info</label>
+    <app-provider-details (currentEntity)="currentSelectedEntity($event)"></app-provider-details>
+  </div> -->
+  <!-- <div class="col-6 pl-2">
+    <label>Display Type</label>
+    <div class="custom-control custom-switch mt-1">
+      <input type="checkbox" [ngModel]="isDisplayType" (ngModelChange)="onDisplayType($event)" class="custom-control-input" id="displayType">
+      <label class="custom-control-label pointer" [class.active]="isDisplayType" for="displayType"></label>
+      <span [class.active]="isDisplayType">
+        {{isDisplayType ? 'CARD' : 'GRID'}}</span>
+    </div>
+  </div> -->
+
+  <div class="col-6">
+    <label>Empty Slots</label>
+    <div class="custom-control custom-switch mt-1">
+      <input type="checkbox" [ngModel]="isShowSlot" (ngModelChange)="isShowSlot = !isShowSlot; sendEventToQlist();saveSetting()" class="custom-control-input" id="customSwitch1">
+      <label class="custom-control-label pointer" [class.active]="isShowSlot" for="customSwitch1"></label>
+      <span [class.active]="isShowSlot">
+        {{isShowSlot ? 'SHOW' : 'HIDE'}}</span>
+    </div>
+  </div>
+</div>

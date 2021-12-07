@@ -1,0 +1,23 @@
+.img-click {
+  img {
+    max-height: 150px;
+  }
+}
+
+.svg-map {
+  overflow-x: auto;
+
+  .map-svg {
+    height: 190px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    width: 1390px;
+
+    .custom-col {
+      -webkit-box-flex: 0;
+      flex: 0 0 7%;
+      max-width: 7%;
+      margin: 0 20px;
+    }
+  }
+}

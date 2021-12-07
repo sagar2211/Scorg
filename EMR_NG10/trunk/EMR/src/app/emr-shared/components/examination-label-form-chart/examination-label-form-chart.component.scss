@@ -1,0 +1,238 @@
+@import "./../../../../scss/main";
+
+:host ::ng-deep {
+  .examination-label {
+    .accordion {
+      .card {
+        @extend .border-bottom;
+        @include border-radius(3px);
+        overflow: inherit;
+
+        .card-header {
+          @extend .cus-head;
+          @extend .p-0;
+          //@extend .border-dash-bottom;
+
+          .btn-link {
+            width: 100%;
+            @extend .py-1;
+            @extend .text-decoration-none;
+            text-align: left;
+          }
+        }
+
+        .card-body {
+          // height: calc(100vh - 380px);
+          // overflow-y: auto;
+
+          tag-input {
+            .ng2-tag-input {
+              min-height: 27px;
+              @extend .border-bottom;
+
+              .minor {
+                font-weight: 400;
+                color: #499BCA;
+              }
+
+              .moderate {
+                font-weight: 400;
+                color: #F0D131;
+              }
+
+              .serious {
+                font-weight: 500;
+                color: #FFA83B;
+              }
+
+              .severe {
+                font-weight: 600;
+                color: #FD2D21;
+              }
+
+              .critical {
+                font-weight: 800;
+                color: #990800;
+              }
+
+              tag {
+                flex-wrap: nowrap;
+                display: inline-flex;
+                font-size: 0.8rem;
+                height: 27px;
+                line-height: 24px;
+                max-width: 100%;
+                overflow: unset;
+                @include border-radius(4px);
+                background-color: #fff;
+                z-index: inherit;
+                border: 1px solid #dddddd;
+
+                &>div {
+                  z-index: unset !important;
+                  display: flex !important;
+                  flex-wrap: nowrap !important;
+                }
+
+                &:hover {
+                  background-color: #fff;
+                  color: #333;
+                  box-shadow: 0 2px 3px -1px #d4d1d1;
+
+                  .ddropdown-content {
+                    display: block;
+                    box-shadow: 0px 1px 5px 1px #b1b1b1;
+                    z-index: 10;
+
+                    // &:after {
+                    //   position: absolute;
+                    //   left: 50%;
+                    //   margin-left: -20px;
+                    //   top: -8px;
+                    //   width: 0;
+                    //   height: 0;
+                    //   content: '';
+                    //   border-left: 8px solid transparent;
+                    //   border-right: 8px solid transparent;
+                    //   border-bottom: 8px solid #000000;
+                    // }
+                  }
+                }
+
+                &:focus {
+                  background-color: #fff !important;
+                  color: #333 !important;
+                }
+
+                .tag-name {
+                  width: calc(100vw - 50vw);
+                  display: inline-block;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                }
+
+                .tag-name-1 {
+                  max-width: calc(100vw - 50vw);
+                  display: inline-block;
+                  white-space: nowrap;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                }
+
+                .remove-btn {
+                  margin: 0 0 0 5px;
+                  padding: 0 5px;
+                  border: none;
+                  background: none;
+                  cursor: pointer;
+                  font-size: 21px;
+                  text-decoration: none;
+                  color: #585858;
+                  vertical-align: top;
+                  line-height: 24px;
+                  border-radius: 3px;
+
+                  &:hover {
+                    background-color: #f1f1f1;
+                    color: #fd5454;
+                  }
+                }
+
+                .ddropdown-content {
+                  display: none;
+                  position: absolute;
+                  background-color: #fff;
+                  min-width: 160px;
+                  overflow: auto;
+                  box-shadow: 1px 1px 5px 2px rgb(177, 177, 177);
+                  z-index: 10;
+                  border-radius: 5px;
+                  top: 27px;
+                  //left: 0;
+                  left: 50%;
+                  width: auto;
+                  transform: translateX(-50%);
+
+                  a {
+                    padding: 3px 10px;
+                    text-decoration: none;
+                    display: block;
+                    line-height: 1.5;
+                    font-size: 12px;
+                    margin-bottom: 2px;
+
+                    &:hover {
+                      background: #f1f1f1;
+                    }
+                  }
+                }
+
+                .ddropdown {
+
+                  .add-btn {
+                    padding: 0 3px;
+                    font-size: 14px;
+                    text-decoration: none;
+                    color: #585858;
+                    vertical-align: super;
+                    line-height: 23px;
+                    border-radius: 3px;
+                    display: inline-block;
+                    height: 23px;
+                    top: -2px;
+                    position: relative;
+
+                    &.add-class {
+                      position: relative;
+                      top: -8px;
+                    }
+
+                    &:hover {
+                      background-color: #f1f1f1 !important;
+                      color: #547bfd !important;
+                    }
+                  }
+                }
+
+                tag-ripple {
+                  //width: calc(100% - 40px) !important;
+                  width: 0 !important;
+                }
+
+                .tag-template {
+                  display: inline-flex;
+                }
+              }
+
+              tag-input-form {
+                input {
+                  font-size: 0.875rem;
+                  width: 500px;
+                  height: 30px;
+                }
+              }
+            }
+
+            ::placeholder {
+              color: $gray-600;
+              opacity: 1;
+            }
+
+            :-ms-input-placeholder {
+              color: $gray-600;
+            }
+
+            ::-ms-input-placeholder {
+              color: $gray-600;
+            }
+          }
+
+          tag-input-dropdown {
+            width: 500px;
+          }
+        }
+      }
+    }
+  }
+}

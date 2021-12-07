@@ -1,0 +1,26 @@
+@import "../../../../../scss/main";
+
+:host ::ng-deep {
+  .template {
+    padding: 2px;
+    overflow-y: auto;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    height: calc(100vh - 280px);
+    .editorTagLabel {
+      font-size: 14px;
+      margin-left: 1px;
+      margin-bottom: 2px;
+      display: inline-block;
+      padding: 0px 0px 0px 2px;
+      @include border-radius(3px);
+      background-color: #f3f3f3;
+      border: 1px solid #e4e2e2;
+
+      .editorTagClose {
+        display: none;
+      }
+    }
+  }
+
+}

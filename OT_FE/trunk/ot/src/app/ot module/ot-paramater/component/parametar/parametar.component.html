@@ -1,0 +1,241 @@
+<div class="emr-container-fluid container-fluid p-0">
+    <div class="card border-0 card-parameter">
+        <form [formGroup]="checkListForm" novalidate (ngSubmit)="saveValue()" *ngIf="loadForm">
+            <div class="card-header py-1 card-header-parameter">
+                <div class="form-inline">
+                    <div class="form-group mr-2">
+                        <label>OT Room Type:</label>
+                        <ng-select class="ml-2 width-120" [items]="['Room', 'Speciality']"
+                            (change)="updateValueType('main');" formControlName="type" placeholder="Select Type">
+                        </ng-select>
+                    </div>
+                    <div class="form-group mr-2" *ngIf="checkListForm.value.type === 'Room'">
+                        <label>OT Room Name:</label>
+                        <ng-select class="ml-2 width-120" [items]="roomList$ | async" bindLabel="roomDesc"
+                            (change)="onRoomChange($event)" bindValue="roomId" formControlName="roomId"
+                            placeholder="Select Name" [typeahead]="roomListInput$">
+                        </ng-select>
+                    </div>
+                    <ng-container *ngIf="checkListForm.value.type === 'Speciality'">
+                        <div class="form-group mr-2">
+                            <label>Specility:</label>
+                            <ng-select class="ml-2 width-350" [items]="specialityList$ | async" bindLabel="name"
+                                (change)="onSpecilityChange($event)" bindValue="id" formControlName="specialityId"
+                                placeholder="Select Specility" [typeahead]="specialityInput$">
+                            </ng-select>
+                        </div>
+                        <div class="form-group mr-2">
+                            <label>Surgery / Procedure:</label>
+                            <ng-select class="ml-2 width-200" [items]="procedureList$ | async"
+                                [disabled]="!checkListForm.value.specialityId" bindLabel="name"
+                                (change)="onProcedureChange($event)" bindValue="id" formControlName="procedureId"
+                                placeholder="Select Surgery / Procedure" [typeahead]="procedureInput$">
+                            </ng-select>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </form>
+        <div class="card-body p-1">
+            <div *ngIf="checkListForm.value.roomId || checkListForm.value.specialityId">
+                <div class="form-row mt-1 form-group">
+                    <div class="col-2">
+                        <ng-select [items]="selectedTypeArray" (change)="updateValueType('sub');"
+                            [(ngModel)]="selectedType" placeholder="Select Type">
+                        </ng-select>
+                    </div>
+                    <ng-container *ngIf="selectedType === 'Prescription'">
+                        <div class="col-2">
+                            <ng-select [items]="prescriptionList$ | async" bindLabel="name"
+                                (change)="onPrescrirtionChange($event)" bindValue="id"
+                                [(ngModel)]="prescription.medicineId" placeholder="Select Prescription"
+                                [typeahead]="prescriptionInput$">
+                            </ng-select>
+                        </div>
+                        <div class="col-2">
+                            <input class="form-control form-control-sm font-size-dot-8 height-31"
+                                placeholder="Type Quantity" [(ngModel)]="prescription.qty" />
+                        </div>
+                        <div class="col-2">
+                            <ng-select [items]="doseList" bindLabel="dose_unit"
+                                (change)="onDoseChange($event, 'prescription')" bindValue="id"
+                                [(ngModel)]="prescription.unitId" placeholder="Dose">
+                            </ng-select>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-sm btn-outline-primary text-uppercase"
+                                (click)="addValToArray('medicine');"><i class="fa fa-fw fa-plus"
+                                    aria-hidden="true"></i>Add</button>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="selectedType === 'Blood'">
+                        <div class="col-2">
+                            <ng-select [items]="bloodList$ | async" bindLabel="itemName"
+                                (change)="onItemChange($event, 'blood')" bindValue="itemId" [(ngModel)]="blood.itemId"
+                                placeholder="Select" [typeahead]="bloodnInput$">
+                            </ng-select>
+                        </div>
+                        <div class="col-2">
+                            <input class="form-control form-control-sm font-size-dot-8 height-31"
+                                placeholder="Type Quantity" [(ngModel)]="blood.qty">
+                        </div>
+                        <div class="col-2">
+                            <ng-select [items]="doseList" bindLabel="dose_unit" (change)="onDoseChange($event, 'blood')"
+                                bindValue="id" [(ngModel)]="blood.unitId" placeholder="Dose">
+                            </ng-select>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-sm btn-outline-primary text-uppercase"
+                                (click)="addValToArray('blood');"><i class="fa fa-fw fa-plus"
+                                    aria-hidden="true"></i>Add</button>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="selectedType === 'Implants'">
+                        <div class="col-2">
+                            <ng-select [items]="implantsList$ | async" bindLabel="itemName"
+                                (change)="onItemChange($event, 'implants')" bindValue="itemId"
+                                [(ngModel)]="implants.itemId" placeholder="Select" [typeahead]="implantsInput$">
+                            </ng-select>
+                        </div>
+                        <div class="col-2">
+                            <input class="form-control form-control-sm font-size-dot-8 height-31"
+                                placeholder="Type Quantity" [(ngModel)]="implants.qty">
+                        </div>
+                        <div class="col-2">
+                            <ng-select [items]="doseList" bindLabel="dose_unit"
+                                (change)="onDoseChange($event, 'implants')" bindValue="id" [(ngModel)]="implants.unitId"
+                                placeholder="Dose">
+                            </ng-select>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-sm btn-outline-primary text-uppercase"
+                                (click)="addValToArray('implants');"><i class="fa fa-fw fa-plus"
+                                    aria-hidden="true"></i>Add</button>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="selectedType === 'CSSD Eqipment'">
+                        <div class="col-2">
+                            <ng-select [items]="cssdEqipList$ | async" bindLabel="itemName"
+                                (change)="onItemChange($event, 'CSSDEqipment')" bindValue="itemId"
+                                [(ngModel)]="CSSDEqipment.itemId" placeholder="Select" [typeahead]="cssdEqipInput$">
+                            </ng-select>
+                        </div>
+                        <div class="col-2">
+                            <input class="form-control form-control-sm font-size-dot-8 height-31"
+                                placeholder="Type Quantity" [(ngModel)]="CSSDEqipment.qty">
+                        </div>
+                        <div class="col-2">
+                            <ng-select [items]="doseList" bindLabel="dose_unit"
+                                (change)="onDoseChange($event, 'cssdEqipments')" bindValue="id"
+                                [(ngModel)]="CSSDEqipment.unitId" placeholder="Dose">
+                            </ng-select>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-sm btn-outline-primary text-uppercase"
+                                (click)="addValToArray('cssdEqipments');"><i class="fa fa-fw fa-plus"
+                                    aria-hidden="true"></i>Add</button>
+                        </div>
+                    </ng-container>
+                </div>
+                <table class="table custom-table font-size-dot-875 border mb-1">
+                    <thead>
+                        <tr>
+                            <th>Medicine</th>
+                            <th width="05%">Dose</th>
+                            <th width="10%">Unit</th>
+                            <th width="05%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of parameterDrug; let rowIndex = index;">
+                            <td>{{row.name}}</td>
+                            <td>{{row.qty}} </td>
+                            <td>{{row.unitName}}</td>
+                            <td>
+                                <button title="Delete" type="button" class="btn btn-xs btn-outline-danger"
+                                    (click)="removeValFomArray('medicine', rowIndex);">
+                                    <i class="fa fa-fw fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table custom-table font-size-dot-875 border mb-1">
+                    <thead>
+                        <tr>
+                            <th>Blood</th>
+                            <th width="05%">Qty</th>
+                            <th width="10%">Unit</th>
+                            <th width="05%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of parameterBlood; let rowIndex = index;">
+                            <td>{{row.name}}</td>
+                            <td>{{row.qty}}</td>
+                            <td>{{row.unitName}}</td>
+                            <td>
+                                <button title="Delete" type="button" class="btn btn-xs btn-outline-danger"
+                                    (click)="removeValFomArray('blood', rowIndex);">
+                                    <i class="fa fa-fw fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table custom-table font-size-dot-875 border mb-1">
+                    <thead>
+                        <tr>
+                            <th>Implants</th>
+                            <th width="05%">Qty</th>
+                            <th width="10%">Unit</th>
+                            <th width="05%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of parameterImplants; let rowIndex = index;">
+                            <td>{{row.name}}</td>
+                            <td>{{row.qty}}</td>
+                            <td>{{row.unitName}}</td>
+                            <td>
+                                <button title="Delete" type="button" class="btn btn-xs btn-outline-danger"
+                                    (click)="removeValFomArray('implants', rowIndex);">
+                                    <i class="fa fa-fw fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table class="table custom-table font-size-dot-875 border mb-1">
+                    <thead>
+                        <tr>
+                            <th>CSSD Eqipments</th>
+                            <th width="05%">Qty</th>
+                            <th width="10%">Unit</th>
+                            <th width="05%">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let row of parameterCSSDEqipment; let rowIndex = index;">
+                            <td>{{row.name}}</td>
+                            <td>{{row.qty}}</td>
+                            <td>{{row.unitName}}</td>
+                            <td>
+                                <button title="Delete" type="button" class="btn btn-xs btn-outline-danger"
+                                    (click)="removeValFomArray('cssdEqipments', rowIndex);">
+                                    <i class="fa fa-fw fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer text-right py-1">
+            <button class="btn btn-sm btn-success" type="button" (click)="saveValue()">
+                <i class="icon fa-fw icon-save"></i> SAVE
+            </button>
+        </div>
+    </div>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

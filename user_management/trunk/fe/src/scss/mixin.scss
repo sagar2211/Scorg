@@ -1,0 +1,236 @@
+// Scrollbar
+@mixin scrollbar {
+     ::-webkit-scrollbar,
+     ::-webkit-scrollbar-thumb {
+        overflow: visible;
+    }
+    .custom-scroll::-webkit-scrollbar,
+    .custom-scroll::-webkit-scrollbar-thumb {
+        overflow: visible;
+    }
+    .custom-scroll::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+    .custom-scroll::-moz-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+     ::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+     ::-moz-scrollbar {
+        width: 7px;
+        height: 7px;
+    }
+     ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+        background-color: rgb(244, 244, 244);
+    }
+     ::-moz-scrollbar-track {
+        -moz-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.05);
+        background-color: rgb(244, 244, 244);
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+        @include border-radius(5px);
+        background: rgba(0, 0, 0, 0.2);
+    }
+    .custom-scroll::-moz-scrollbar-thumb {
+        @include border-radius(5px);
+        background: rgba(0, 0, 0, 0.2);
+    }
+     ::-webkit-scrollbar-thumb {
+        @include border-radius(5px);
+        background: rgba(0, 0, 0, 0.2);
+    }
+     ::-moz-scrollbar-thumb {
+        @include border-radius(5px);
+        background: rgba(0, 0, 0, 0.2);
+    }
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 0, 0, 0.4);
+    }
+    .custom-scroll::-moz-scrollbar-thumb:hover {
+        background: rgba(0, 0, 0, 0.4);
+    }
+     ::-webkit-scrollbar-thumb:hover {
+        background: rgba(0, 0, 0, 0.4);
+    }
+     ::-moz-scrollbar-thumb:hover {
+        background: rgba(0, 0, 0, 0.4);
+    }
+}
+
+// Input Placeholder
+@mixin input-placeholder {
+     ::-webkit-input-placeholder {
+        @content;
+    }
+     ::-moz-input-placeholder {
+        @content;
+    }
+     ::-moz-placeholder {
+        @content;
+    }
+     ::placeholder {
+        @content;
+    }
+     :-ms-input-placeholder {
+        @content;
+    }
+     ::-ms-input-placeholder {
+        @content;
+    }
+}
+
+// Media Queries
+@mixin sm-max {
+    @media (max-width: #{$sm-max}) {
+        @content;
+    }
+}
+
+@mixin lg-min {
+    @media (min-width: #{$screen-lg-min}) {
+        @content;
+    }
+}
+
+@mixin lg-max {
+    @media (max-width: #{$screen-lg-max}) {
+        @content;
+    }
+}
+
+@mixin xl-max {
+    @media (max-width: #{$xl-max}) {
+        @content;
+    }
+}
+
+@mixin medium-1599-max {
+    @media (max-width:#{$medium-1599-max}) {
+        @content;
+    }
+}
+
+@mixin medium-max {
+    @media (max-width: #{$medium-max}) {
+        @content;
+    }
+}
+
+@mixin sm-tab-max {
+    @media (max-width: #{$sm-tab-max}) {
+        @content;
+    }
+}
+@mixin sm-min {
+    @media (min-width: #{$sm-min}) {
+        @content;
+    }
+}
+
+// Background Size
+@mixin background-size($background-size) {
+    -webkit-background-size: $background-size;
+    -moz-background-size: $background-size;
+    -o-background-size: $background-size;
+    background-size: $background-size;
+}
+
+// transform
+@mixin transform($transforms) {
+    -webkit-transform: $transforms;
+    -moz-transform: $transforms;
+    -ms-transform: $transforms;
+    transform: $transforms;
+}
+
+// Rotate
+@mixin rotate($deg) {
+    @include transform(rotate(#{$deg}deg));
+}
+
+// Scale
+@mixin scale($scale) {
+    @include transform(scale($scale));
+}
+
+// Translate
+@mixin translate($x, $y) {
+    @include transform(translate($x, $y));
+}
+
+// Translate X axis
+@mixin translateX($x) {
+    @include transform(translateX($x));
+}
+
+// Translate Y axis
+@mixin translateY($y) {
+    @include transform(translateY($y));
+}
+
+@mixin translateZ($z) {
+    @include transform(translateZ($z));
+}
+
+// Skew
+@mixin skew($x, $y) {
+    @include transform(skew(#{$x}deg, #{$y}deg));
+}
+
+// Skew X axis
+@mixin skewX($x) {
+    @include transform(skewX(#{$x}deg));
+}
+
+// Skew Y axis
+@mixin skewY($y) {
+    @include transform(skewY(#{$y}deg));
+}
+
+// Transform Origin
+@mixin transform-origin($origin) {
+    -webkit-transform-origin: $origin;
+    -moz-transform-origin: $origin;
+    -ms-transform-origin: $origin;
+    transform-origin: $origin;
+}
+
+// box-shadow
+@mixin custom-box-shadow($top, $left, $blur, $color) {
+    -webkit-box-shadow: $top $left $blur $color;
+    -moz-box-shadow: $top $left $blur $color;
+    box-shadow: $top $left $blur $color;
+}
+
+@mixin box-shadow-multiple($shadow1, $shadow2: false) {
+    $params: $shadow1;
+    @if $shadow2 {
+        $params: $shadow1, $shadow2;
+    }
+    -webkit-box-shadow: $params;
+    -moz-box-shadow: $params;
+    box-shadow: $params;
+}
+
+@mixin no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+@mixin text-shadow( $x1: 2px, $y1: 2px, $blur1: 10px, $color1: black, $x2: null, $y2: null, $blur2: null, $color2: null) {
+    @if ($x2) {
+        text-shadow: $x1 $y1 $blur1 $color1, $x2 $y2 $blur2 $color2;
+    }
+    @else {
+        text-shadow: $x1 $y1 $blur1 $color1;
+    }
+}

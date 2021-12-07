@@ -1,0 +1,30 @@
+@import "../../../../scss/main.scss";
+
+.bread-crumb {
+  button {
+    &.btn-w {
+      width: 260px;
+      border: 1px solid var(--bgColor);
+    }
+
+    &.dropdown-toggle::after {
+      content: none;
+    }
+  }
+
+  .dropdown-menu {
+    z-index: 4;
+    ul {
+      li {
+        &:hover,
+        &.active {
+          color: $gray-900;
+          @extend .font-weight-500;
+          background-color: var(--bgLight);
+          border-bottom: 1px solid var(--bgColor);
+          @include transition(all 0.5s);
+        }
+      }
+    }
+  }
+}

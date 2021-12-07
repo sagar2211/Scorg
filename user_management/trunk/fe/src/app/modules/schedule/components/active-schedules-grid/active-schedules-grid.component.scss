@@ -1,0 +1,57 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+:host ::ng-deep {
+  .ngx-datatable.fixed-row {
+    .datatable-body {
+      height: calc(100vh - 200px) !important;
+      overflow-x: hidden !important;
+
+      .datatable-body-row {
+        .datatable-body-cell {
+          display: inline-flex;
+          align-items: center;
+
+          &:last-child {
+            .datatable-body-cell-label:last-child {
+              margin: 0 auto !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.slider-history-log {
+  right: 0;
+  top: 0;
+  height: calc(100vh - 87px);
+}
+
+:host ::ng-deep {
+  .history-data {
+    height: calc(100vh - 123px) !important;
+  }
+}
+
+.custom-switch {
+
+  &.yes-no-btn {
+    padding-left: 0 !important;
+  }
+
+  .custom-control-label::after {
+    top: calc(0.14rem + 0px) !important;
+    left: 2px !important;
+    width: calc(1.5rem - 4px) !important;
+    height: calc(1.5rem - 4px) !important;
+  }
+
+  .custom-control-label.active::after {
+    -webkit-transform: translateX(2.55rem) !important;
+    -moz-transform: translateX(2.55rem) !important;
+    -ms-transform: translateX(2.55rem) !important;
+    transform: translateX(2.55rem) !important;
+
+  }
+}

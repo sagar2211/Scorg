@@ -1,0 +1,190 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">Patient Schedule Info</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+        (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body py-2 dashboard-ot-patient-info-modal-body">
+    <div class="form-row form-group">
+        <div class="col-3">
+            <ng-container>
+                <div class="card mb-1">
+                    <div class="card-header px-2 py-1">
+                        <p class="font-size-dot-9 font-weight-500 mb-0">OT ROOM : <span
+                                class="text-primary">{{appointmentInfo.roomName}}</span></p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body p-0">
+                        <div class="bg-light py-1">
+                            <div class="profile-img text-center">
+                                <img alt="profile-image-male" *ngIf="(appointmentInfo.patientInfo.gender) === 'Male'"
+                                    src="./assets/img/male.svg">
+                                <img alt="profile-image-female"
+                                    *ngIf="(appointmentInfo.patientInfo.gender) === 'Female'"
+                                    src="./assets/img/female.svg">
+                                <img *ngIf="(appointmentInfo.patientInfo?.gender) !== 'Male' && (appointmentInfo.patientInfo?.gender) !== 'Female'"
+                                    src="./assets/img/profile.svg" alt="profile-image-male">
+                            </div>
+                            <div class="mt-1 text-center">
+                                <h6 class="text-primary mb-0">{{appointmentInfo.patientInfo.patientName}}
+                                </h6>
+                                <p class="text-muted mb-0 small">
+                                    {{appointmentInfo.patientInfo.patientId}}</p>
+                            </div>
+                        </div>
+                        <div class="form-row mx-0 gender-blood">
+                            <div class="col border-right px-2 py-1">
+                                <p class="mb-0 font-size-dot-8"><small
+                                        class="text-muted vertical-align-text-top">Gender:
+                                    </small>{{appointmentInfo.patientInfo.gender}}</p>
+                            </div>
+                            <div class="col px-2 py-1">
+                                <p class="mb-0 font-size-dot-8"><small class="text-muted vertical-align-text-top">Age:
+                                    </small>{{appointmentInfo.patientInfo.age}} Yrs</p>
+                            </div>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item border-top-0 border-left-0 border-right-0 py-1 px-2">
+                                <p class="mb-0"><small class="text-muted vertical-align-text-top">Email:
+                                    </small>{{appointmentInfo.patientInfo.emailId}}</p>
+                            </li>
+                            <li class="list-group-item border-left-0 border-right-0 py-1 px-2">
+                                <p class="mb-0"><small class="text-muted vertical-align-text-top">Phone No:
+                                    </small>{{appointmentInfo.patientInfo.mobileNo}}</p>
+                            </li>
+                            <li class="list-group-item border-left-0 border-right-0 border-bottom-0 py-1 px-2">
+                                <p class="mb-0 font-size-dot-875"><small
+                                        class="text-muted vertical-align-text-top">Address: </small>
+                                    {{appointmentInfo.patientInfo.resAddresss}}
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <ng-container *ngIf="appointmentInfo.patientInfo">
+            <div class="col-9">
+                <div class="form-row form-group">
+                    <div class="col-3">
+                        <label>Selected Date</label>
+                        <input type="text" [(ngModel)]="appointmentInfo.appointmentDate" disabled="disableForm"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col-3">
+                        <label>Start Time</label>
+                        <input type="text" [(ngModel)]="appointmentInfo.startTime" disabled="disableForm"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col-3">
+                        <label>End Time</label>
+                        <input type="text" [(ngModel)]="appointmentInfo.endTime" disabled="disableForm"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col-3">
+                        <label>Status</label>
+                        <input type="text" [(ngModel)]="appointmentInfo.statusName" disabled="disableForm"
+                            class="form-control form-control-sm">
+                    </div>
+                </div>
+                <div class="form-row form-group">
+                    <div class="col-6">
+                        <label>Speciality</label>
+                        <input type="text" [(ngModel)]="appointmentInfo.specialityName" disabled="disableForm"
+                            class="form-control form-control-sm">
+                    </div>
+                    <div class="col-6">
+                        <label>Surgery / Procedure</label>
+                        <input type="text" [(ngModel)]="appointmentInfo.procedureName" disabled="disableForm"
+                            class="form-control form-control-sm">
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body p-0 card-body-custom-height">
+                        <!-- <div class="form-row form-group">
+                            <div class="col-4">
+                                <label>Surgeon</label>
+                                <div class="form-row form-group">
+                                    <ng-container *ngFor="let item of appointmentInfo.userData">
+                                        <div class="col-12" *ngIf="item.userGroup==='SURGEON'">
+                                            <label>{{item.type}}: Dr. {{item.userName}}</label>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <label>Anaesthetist</label>
+                                <div class="form-row form-group">
+                                    <ng-container *ngFor="let item of appointmentInfo.userData">
+                                        <div class="col-12" *ngIf="item.userGroup==='ANAESTHETIST'">
+                                            <label>{{item.type}}: {{item.userName}}</label>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <label>Scrub Nurse</label>
+                                <div class="form-row form-group">
+                                    <ng-container *ngFor="let item of appointmentInfo.userData">
+                                        <div class="col-12" *ngIf="item.userGroup==='SCRUB_NURSE'">
+                                            <label>{{item.type}}: {{item.userName}}</label>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="form-row form-group border-bottom custom-bg-light-1 mx-0">
+                            <div class="custom-col-size align-self-center">
+                                <label>Surgeon<sup>*</sup></label>
+                            </div>
+                            <div class="col">
+                                <ng-container *ngFor="let item of appointmentInfo.userData">
+                                    <div *ngIf="item.userGroup==='SURGEON'">
+                                        <label>{{item.type}}: Dr. {{item.userName}}</label>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="form-row form-group border-bottom custom-bg-light-2 mx-0">
+                            <div class="custom-col-size align-self-center">
+                                <label>Anaesthetist</label>
+                            </div>
+                            <div class="col">
+                                <ng-container *ngFor="let item of appointmentInfo.userData">
+                                    <div *ngIf="item.userGroup==='ANAESTHETIST'">
+                                        <label>{{item.type}}: {{item.userName}}</label>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="form-row form-group mx-0">
+                            <div class="custom-col-size align-self-center">
+                                <label>Scrub Nurse</label>
+                            </div>
+                            <div class="col">
+                                <ng-container *ngFor="let item of appointmentInfo.userData">
+                                    <div *ngIf="item.userGroup==='SCRUB_NURSE'">
+                                        <label>{{item.type}}: {{item.userName}}</label>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row form-group form-group-mb-0">
+                    <div class="col-12">
+                        <label>Notes</label>
+                        <textarea class="form-control" rows="1" disabled="disableForm"
+                            [(ngModel)]="appointmentInfo.note" placeholder="Notes"></textarea>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
+        (click)="closeModal('no')">Close</button>
+</div>

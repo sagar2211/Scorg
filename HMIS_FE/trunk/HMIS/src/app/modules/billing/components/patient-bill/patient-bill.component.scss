@@ -1,0 +1,459 @@
+@import "../../../../../scss/main";
+.patient-class {
+  .card-body-patient-bill {
+    height: calc(100vh - 238px) !important;
+  }
+  #gridContainer {
+    height: calc(100vh - 242px) !important;
+  }
+  .container-patient-bill {
+    .card-body-patient-bill {
+      height: calc(100vh - 238px) !important;
+    }
+  }
+}
+.container-patient-bill {
+  height: calc(100vh - 50px);
+  .card-header.position-relative {
+    .patient-info,
+    .patient-table {
+      border: 1px solid #eaeaea;
+      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05) !important;
+      @include transition(box-shadow 0.4s);
+
+      > .card-body {
+        min-height: 60px;
+
+        .col-search-btn {
+          max-width: 72px;
+        }
+
+        .col-vouchers-btn {
+          max-width: 85px;
+        }
+
+        .patient-name {
+          line-height: 1.3;
+        }
+      }
+
+      &:hover {
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.09) !important;
+        @include transition(box-shadow 0.4s);
+      }
+    }
+  }
+
+  .card-body-patient-bill {
+    height: calc(100vh - 182px);
+    overflow-y: auto;
+
+    .input-group-prepend {
+      height: 31px;
+      max-height: 31px;
+      padding: 0px;
+    }
+
+    .bottom-inputs {
+      .form-group {
+        margin-bottom: 0px !important;
+      }
+
+      .width-100 {
+        width: 100px;
+      }
+
+      .width-140 {
+        width: 140px;
+      }
+    }
+
+    .table-footer {
+      margin-top: 7px;
+
+      tbody {
+        tr {
+          td {
+            padding: 2px !important;
+            border: 0 !important;
+            line-height: 30px !important;
+            // &:first-child {
+            //   border-right: 1px solid transparent !important;
+            // }
+
+            .form-control {
+              width: 60px;
+              border: none;
+              border-radius: 0;
+              display: inline-block !important;
+              border-bottom: 1px solid #d1d1d1;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .card-footer {
+    .is-approved {
+      display: inline-block;
+      width: 110px;
+      margin-bottom: 0 !important;
+
+      .custom-switch {
+        &.yes-no {
+          .custom-control-label:before {
+            width: 60px !important;
+          }
+
+          .custom-control-label.active::after {
+            -webkit-transform: translateX(2.23rem) !important;
+            -moz-transform: translateX(2.23rem) !important;
+            -ms-transform: translateX(2.23rem) !important;
+            transform: translateX(2.23rem) !important;
+          }
+        }
+
+        .custom-control-input {
+          &:checked {
+            .custom-control-label {
+              &::after {
+                -webkit-transform: translateX(4.15rem) !important;
+                -moz-transform: translateX(4.15rem) !important;
+                -ms-transform: translateX(4.15rem) !important;
+                transform: translateX(4.15rem) !important;
+              }
+            }
+          }
+        }
+
+        .custom-control-label {
+          &:before {
+            width: 90px;
+            top: 0;
+            left: 0;
+            @include border-radius(12px);
+          }
+
+          &::after {
+            background-color: $white;
+            top: calc(0.14rem + 0px);
+            // left: calc(-1.95rem + 2px);
+            left: 2px;
+            width: calc(1.5rem - 4px);
+            height: calc(1.5rem - 4px);
+            @include border-radius(50%);
+            z-index: 0;
+          }
+
+          &.active {
+            &::after {
+              -webkit-transform: translateX(4.15rem) !important;
+              -moz-transform: translateX(4.15rem) !important;
+              -ms-transform: translateX(4.15rem) !important;
+              transform: translateX(4.15rem) !important;
+            }
+          }
+        }
+
+        span {
+          top: 4px;
+          left: 29px;
+          @include no-select;
+
+          &.active {
+            left: 10px;
+          }
+        }
+      }
+    }
+    .is-show-detail {
+      width: 170px !important;
+    }
+    .popover {
+      div.arrow {
+        right: 0px !important;
+      }
+    }
+    .is-discharge {
+      width: 198px !important;
+    }
+  }
+
+  .total-content {
+    bottom: 52px;
+    left: 85px;
+    width: calc(100vw - 96px);
+    /*width: 93.9% !important;*/
+    @include border-radius(3px);
+    @include custom-box-shadow(0, 0, 6px, rgba(208, 208, 208, 0.75));
+
+    .btn-circle {
+      height: 21px;
+      width: 21px;
+      line-height: 14px;
+      right: -1px;
+      top: 0px;
+      line-height: 11px;
+      @include border-radius(6px);
+      color: $danger;
+      border-color: $danger;
+
+      &:focus,
+      &:hover {
+        color: #c31336 !important;
+        border-color: #c31336 !important;
+      }
+    }
+  }
+
+  .position-fixed {
+    z-index: 999;
+  }
+  .alignC {
+    align-items: center;
+  }
+}
+
+:host ::ng-deep {
+  .short-text {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .patient-search-top {
+    z-index: 9;
+
+    .ng-select {
+      width: calc(100vw - 135px);
+
+      .ng-select-container {
+        height: 38px;
+        min-height: 38px;
+
+        .ng-value-container {
+          font-size: 0.95rem !important;
+
+          &:before {
+            font-family: "scorg-font" !important;
+            content: "\e96c";
+            display: inline-block;
+            padding-right: 3px;
+            vertical-align: middle;
+            font-weight: 900;
+            color: #ccc;
+          }
+
+          .ng-input {
+            top: unset;
+            padding-left: 25px;
+
+            > input {
+              cursor: text !important;
+            }
+          }
+        }
+      }
+    }
+
+    .ng-dropdown-panel .ng-dropdown-panel-items {
+      max-height: 53vh;
+
+      .ng-option {
+        border-bottom: 1px dashed #efefef;
+
+        &:hover {
+          color: #333;
+          background-color: #bdbdbd1a;
+        }
+      }
+    }
+
+    .form-row {
+      .col-profile-img {
+        max-width: 65px;
+
+        img {
+          height: 50px;
+          width: 50px;
+          max-width: 50px;
+          border-radius: 50%;
+
+          &[alt="profile-image-female"] {
+            background-color: #f7e7ea;
+          }
+
+          &[alt="profile-image-male"] {
+            background-color: #eaeaea;
+          }
+        }
+      }
+    }
+
+    p {
+      line-height: 1.3;
+    }
+
+    .bed-empty {
+      .icon {
+        font-size: 2rem;
+
+        &.icon-cogs {
+          font-size: 0.7rem;
+        }
+      }
+    }
+  }
+
+  .custom-backdrop {
+    position: absolute;
+    width: 0vw;
+    height: 0vh;
+    z-index: 8;
+    border-radius: 3px;
+    background-color: rgba($gray-500, 0.2);
+    -webkit-transition: width 1s ease;
+    -moz-transition: width 1s ease;
+    -ms-transition: width 1s ease;
+    -o-transition: width 1s ease;
+    transition: width 1s ease;
+    -webkit-transition: height 1s ease;
+    -moz-transition: height 1s ease;
+    -ms-transition: height 1s ease;
+    -o-transition: height 1s ease;
+    transition: height 1s ease;
+
+    &.added {
+      width: 93vw;
+      height: 90.5vh;
+      -webkit-transition: width 1s ease;
+      -moz-transition: width 1s ease;
+      -ms-transition: width 1s ease;
+      -o-transition: width 1s ease;
+      transition: width 1s ease;
+      -webkit-transition: height 1s ease;
+      -moz-transition: height 1s ease;
+      -ms-transition: height 1s ease;
+      -o-transition: height 1s ease;
+      transition: height 1s ease;
+    }
+  }
+
+  .ngx-datatable.fixed-row.item-table {
+    .datatable-body {
+      height: calc(100vh - 509px) !important;
+    }
+  }
+
+  .ngx-datatable.fixed-row.boottom-table {
+    .datatable-body {
+      height: calc(100vh - 442px) !important;
+    }
+  }
+
+  .dx-datagrid {
+    font: 11px verdana;
+
+    .dx-datagrid-header-panel {
+      display: none;
+    }
+
+    .dx-datagrid-total-footer {
+      .dx-datagrid-content {
+        padding-top: 0px;
+        padding-bottom: 0px;
+      }
+      .totalAmountSummary {
+        position: fixed;
+        /*left: 35%;*/
+        z-index: 2;
+      }
+    }
+
+    .inactive-row {
+      // background-color: #ff5f0012;
+      text-decoration: line-through;
+    }
+    .nonservice-row {
+      background-color: #f3fcfc91;
+    }
+    .incomplete-row {
+      background-color: #ffeff1a3;
+    }
+  }
+
+  #gridContainer {
+    height: calc(100vh - 186px);
+  }
+
+  .attach-comp-service-popup {
+    .modal-body {
+      height: calc(100vh - 115px) !important;
+    }
+
+    #componentGridContainer {
+      height: calc(100vh - 215px) !important;
+
+      .dx-datagrid {
+        font: 11px verdana;
+
+        .dx-datagrid-header-panel {
+          display: none;
+        }
+
+        .dx-datagrid-total-footer {
+          .dx-datagrid-content {
+            padding-top: 0px;
+            padding-bottom: 0px;
+          }
+        }
+      }
+    }
+  }
+
+  .partial-view.patient-class {
+    .card-body-patient-bill {
+      height: calc(100vh - 182px) !important;
+    }
+
+    #gridContainer {
+      height: calc(100vh - 182px) !important;
+    }
+  }
+
+  .partial-view {
+    border: none;
+    height: calc(100vh - 0px) !important;
+    border-radius: 0px !important;
+
+    .card-header.position-relative {
+      .ng-select.patient-search {
+        width: calc(100vw - 55px);
+      }
+    }
+
+    .custom-backdrop.added {
+      width: 99vw !important;
+      height: 97.5vh !important;
+    }
+
+    .card-body-patient-bill {
+      height: calc(100vh - 128px) !important;
+    }
+
+    #gridContainer {
+      height: calc(100vh - 130px) !important;
+    }
+
+    .total-content {
+      bottom: 43px !important;
+      left: 0px !important;
+      width: calc(100vw - 0px) !important;
+    }
+  }
+
+  .partial-view.custom-container-fluid {
+    width: calc(100vw - 0px) !important;
+  }
+}

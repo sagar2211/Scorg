@@ -1,0 +1,88 @@
+<div class="emr-container-fluid container-fluid px-0 add-vital-mapping">
+    <div class="card-body p-2">
+        <div class="form-row form-group">
+            <div class="col-3">
+                <label>Service type</label>
+                <app-service-type-select [disableServiceType]="this.vitalMapData.type === 'add' ? false : true"
+                    [setValue]="selectedServicesType" (selectedserviceTypeValueObj)="getSelectedServiceType($event)">
+                </app-service-type-select>
+            </div>
+            <div class="col-4">
+                <label>Speciality Name</label>
+                <speciality [disableSpeciality]="this.vitalMapData.type === 'add' ? false : true"
+                    [setValue]="selectedSpeciality" (selectedSpecilityValueObj)="getSelectedSpeciality($event)">
+                </speciality>
+            </div>
+            <div class="col-4" *ngIf="selectedServicesType && selectedSpeciality">
+                <label>&nbsp;</label>
+                <app-ng-select-typeahead [inputValue]="vitalDataSelected?.id" [selectedValue]="vitalDataSelected?.name"
+                    [thDisplayLabel]="'name'" [thDisplayKey]="'id'" (recievedVal)="selectVitalValue($event)"
+                    [source]="'Select Vital'" [returnDataType]="'obj'" [isDisabled]="false"
+                    [compInstance]="compInstance" [searchFun]="getAllVitalList" [isSearchDataFromApi]="true">
+                </app-ng-select-typeahead>
+                <small class="text-warning">Vitals which is clubbed or added in formula for selected vitals will
+                    also add.</small>
+            </div>
+            <div class="col-1" *ngIf="selectedServicesType && selectedSpeciality">
+                <label class="d-block mt-2">&nbsp;</label>
+                <button type="button" class="btn btn-sm btn-outline-primary" (click)="addVitalToMappedList()"><i
+                        class="fa fa-fw fa-plus" aria-hidden="true"></i>
+                    ADD</button>
+            </div>
+        </div>
+        <table class="table border custom-table" *ngIf="mappedVitalList.length > 0">
+            <thead>
+                <tr>
+                    <th>
+                        Vital
+                    </th>
+                    <th>
+                        Sequence
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let item of mappedVitalList; let i = index; let lst = last">
+                    <tr>
+                        <td>
+                            {{item.vital.name}}
+                        </td>
+                        <td>
+                            <ng-container *ngIf="mappedVitalList.length > 1">
+                                <button type="button" class="btn btn-xs btn-outline-primary mr-1" *ngIf="i !== 0"
+                                    (click)="updateSequence('up', item, i)"><i class="icon fa-fw icon-switch-up"
+                                        aria-hidden="true"></i>Up</button>
+                                <button type="button" class="btn btn-xs btn-outline-primary-light" *ngIf="!lst"
+                                    (click)="updateSequence('down', item, i)"><i class="fa fa-fw icon-switch-down"
+                                        aria-hidden="true"></i>Down</button>
+                            </ng-container>
+                        </td>
+                        <td>
+                            <button type="button" *ngIf="!item.isUsedInFormula" class="btn btn-xs btn-outline-danger"
+                                (click)="deleteVitalToMappedList(item, i)">
+                                <i class="icon fa-fw icon-trash" aria-hidden="true"></i>Delete</button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="item.isClubbed" class="border-0">
+                        <td class="border-top-0">
+                            {{item.clubbedVital.name}}
+                        </td>
+                        <td class="border-0"></td>
+                        <td class="border-0"></td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer text-right py-1">
+        <button type="button" class="btn btn-sm btn-outline-secondary mr-1"
+            (click)="selectValueConfirm('cancel');">CANCEL</button>
+        <button type="button" class="btn btn-sm btn-primary-light" (click)="selectValueConfirm('Ok');">
+            <i class="fa fa-fw fa-sync-alt"></i> UPDATE
+        </button>
+    </div>
+    <app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>
+</div>

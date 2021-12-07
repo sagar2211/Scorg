@@ -1,0 +1,82 @@
+:host ::ng-deep {
+  .partial-view {
+    border: 0px solid transparent;
+    box-shadow: none;
+    border-radius: 0;
+    .datatable-body {
+      height: calc(100vh - 110px) !important;
+    }
+  }
+  .datatable-body {
+    height: calc(100vh - 165px) !important;
+  }
+  .ngx-datatable.fixed-row {
+    .datatable-header {
+      .custom-control {
+        min-height: 1.1rem !important;
+      }
+    }
+    .datatable-body {
+      .datatable-body-row {
+        .datatable-body-cell {
+          &:first-child {
+            padding-left: 0px;
+            padding-right: 0px;
+          }
+        }
+      }
+    }
+  }
+}
+.custom-dropdown.dropdown form .dropdown-menu {
+  z-index: 99;
+}
+
+#SearchPopup {
+  .card-body {
+    height: calc(100vh - 220px);
+    overflow: hidden;
+    overflow-y: scroll;
+  }
+}
+
+.dropdown {
+  &.custom-dropdown {
+    width: 800px;
+  }
+  .checkbox-custom {
+    label {
+      padding-left: 7px;
+    }
+  }
+}
+
+.custom-container-fluid {
+  height: calc(100vh - 52px);
+}
+#gridContainer {
+  height: calc(100vh - 110px);
+}
+
+.partial-view {
+  width: calc(100vw - 0px) !important;
+  height: calc(100vh - 0px) !important;
+  border: 0px;
+
+  #gridContainer {
+    height: calc(100vh - 60px);
+  }
+}
+
+.patientDeceased {
+  color: red;
+}
+
+#SearchPopup{
+.checkbox-default{
+  padding-left:9px !important;
+  &.paddL{
+    padding-left: 0 !important;
+  }
+}
+}

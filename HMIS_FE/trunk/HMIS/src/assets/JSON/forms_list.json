@@ -1,0 +1,659 @@
+[{
+        "formName": "Consultation_vik",
+        "display": true,
+        "formType": "op",
+        "hospital": "1",
+        "department": "",
+        "speciality": "",
+        "role": "2",
+        "user": "",
+        "formId": 1551177330172,
+        "departmentName": "Haematology",
+        "specialityName": "Speciality 2",
+        "roleName": "Doctor",
+        "userName": "Mayur Kulkarni",
+        "hospitalName": "Scorg",
+        "components": [{
+                "data": {
+                    "name": "Allergies",
+                    "key": "allergies",
+                    "templateFormName": "allergiesListFrm"
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Complaints",
+                    "key": "complaints",
+                    "templateFormName": "complaintFrm"
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "PainScale",
+                    "key": "pain_scale",
+                    "templateFormName": ""
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Diagnosis",
+                    "key": "diagnosis",
+                    "templateFormName": "diagnosisFrm",
+                    "display": false
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Exam Label",
+                    "key": "examination_label",
+                    "templateFormName": "examinationLableFrm"
+                },
+                "display": false,
+                "componentInstance": null
+            }
+        ]
+    },
+    {
+        "formName": "form2",
+        "display": true,
+        "formType": "ipd",
+        "hospital": "8",
+        "department": "6",
+        "speciality": "19",
+        "role": "1",
+        "user": "2902",
+        "formId": 1551177572887,
+        "departmentName": "Gynecology",
+        "specialityName": "Speciality 4",
+        "roleName": "Doctor",
+        "userName": "Vikram Bhimannavar",
+        "hospitalName": "Hinduja Hospital",
+        "components": [{
+                "data": {
+                    "name": "Allergies",
+                    "key": "allergies",
+                    "templateFormName": "allergiesListFrm"
+                },
+                "display": false,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Lab Test",
+                    "key": "lab_test",
+                    "templateFormName": "labTestFrm"
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Vitals",
+                    "key": "vitals",
+                    "templateFormName": "vitalFrm"
+                },
+                "display": false,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Exam Label",
+                    "key": "examination_label",
+                    "templateFormName": "examinationLableFrm"
+                },
+                "display": false,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Faq Section",
+                    "key": "faq_section",
+                    "templateFormName": ""
+                },
+                "display": false,
+                "componentInstance": null
+            }
+        ]
+    },
+    {
+        "formName": "Consultation",
+        "display": true,
+        "formType": "ipd",
+        "hospital": "1",
+        "department": "5",
+        "speciality": "9",
+        "role": "2",
+        "user": "",
+        "formId": 1551435151681,
+        "departmentName": "Haematology",
+        "specialityName": "Speciality 2",
+        "roleName": "Doctor",
+        "userName": "",
+        "hospitalName": "Scorg",
+        "sectionId": "12",
+        "faqDisplaySettingValue": "unClubbed",
+        "components": [{
+                "data": {
+                    "name": "Allergies",
+                    "key": "allergies",
+                    "templateFormName": "allergiesListFrm"
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Diagnosis",
+                    "key": "diagnosis",
+                    "templateFormName": "diagnosisFrm"
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Complaints",
+                    "key": "complaints",
+                    "templateFormName": "complaintFrm"
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+              "data": {
+                  "name": "Image Annotation",
+                  "key": "image_annotation",
+                  "templateFormName": ""
+              },
+              "display": true,
+              "componentInstance": null
+            },
+            {
+              "data": {
+                  "name": "File Attachment",
+                  "key": "attachment",
+                  "templateFormName": ""
+              },
+              "display": true,
+              "componentInstance": null
+            },
+          {
+            "data": {
+              "name": "Faq Section",
+              "key": "faq_section",
+              "templateFormName": "",
+              "display": true
+            },
+            "display": true,
+            "componentInstance": null
+          },
+            {
+            "data": {
+                "name": "Pain Scale",
+                "key": "pain_scale",
+                "templateFormName": ""
+            },
+            "display": true,
+            "componentInstance": null
+            },
+            {
+            "data": {
+                "name": "Pain Relief",
+                "key": "pain_relief",
+                "templateFormName": ""
+            },
+            "display": true,
+            "componentInstance": null
+            },
+            {
+              "data": {
+                  "name": "Human Body",
+                  "key": "human_body",
+                  "templateFormName": ""
+              },
+              "display": true,
+              "componentInstance": null
+              },
+              {
+                "data": {
+                    "name": "Foot Examination",
+                    "key": "foot_examination",
+                    "templateFormName": ""
+                },
+                "display": true,
+                "componentInstance": null
+              }
+        ]
+    },
+    {
+        "formName": "Consultation1",
+        "display": false,
+        "formType": "ipd",
+        "hospital": "1",
+        "department": "5",
+        "speciality": "9",
+        "role": "2",
+        "user": "",
+        "formId": 1551435151681,
+        "departmentName": "Haematology",
+        "specialityName": "Speciality 2",
+        "roleName": "Doctor",
+        "userName": "",
+        "hospitalName": "Scorg",
+        "faqDisplaySettingValue": "openForm",
+        "components": [{
+                "data": {
+                    "name": "Allergies",
+                    "key": "allergies",
+                    "templateFormName": "allergiesListFrm"
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Diagnosis",
+                    "key": "diagnosis",
+                    "templateFormName": "diagnosisFrm"
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Complaints",
+                    "key": "complaints",
+                    "templateFormName": "complaintFrm"
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Medical History",
+                    "key": "medical_history",
+                    "templateFormName": "medicalHistoryFrm"
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Radiology Test",
+                    "key": "radiology_test",
+                    "templateFormName": "radiologyFrm"
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Lab Test",
+                    "key": "lab_test",
+                    "templateFormName": "labTestFrm"
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Vitals",
+                    "key": "vitals",
+                    "templateFormName": "vitalFrm"
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Prescription",
+                    "key": "prescription",
+                    "templateFormName": "prescriptionFrm"
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Advice",
+                    "key": "advice",
+                    "templateFormName": "adviceFrm",
+                    "display": true
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Pain Scale",
+                    "key": "pain_scale",
+                    "templateFormName": ""
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Pain Relief",
+                    "key": "pain_relief",
+                    "templateFormName": ""
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+              "data": {
+                  "name": "Human Body",
+                  "key": "human_body",
+                  "templateFormName": ""
+              },
+              "display": true,
+              "componentInstance": null
+              },
+            {
+              "data": {
+                  "name": "Foot Examination",
+                  "key": "foot_examination",
+                  "templateFormName": ""
+              },
+              "display": true,
+              "componentInstance": null
+              },
+            {
+                "data": {
+                    "name": "Exam Label",
+                    "key": "examination_label",
+                    "templateFormName": "examinationLableFrm"
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Faq Section",
+                    "key": "faq_section",
+                    "templateFormName": "",
+                    "display": false
+                },
+                "display": false,
+                "componentInstance": null
+            },
+            {
+              "data": {
+                  "name": "Image Annotation",
+                  "key": "image_annotation",
+                  "templateFormName": ""
+              },
+              "display": true,
+              "componentInstance": null
+            },
+            {
+              "data": {
+                  "name": "File Attachment",
+                  "key": "attachment",
+                  "templateFormName": ""
+              },
+              "display": true,
+              "componentInstance": null
+            }
+        ]
+    },
+    {
+        "formName": "f1_examlabel",
+        "display": false,
+        "formType": "ipd",
+        "hospital": "1",
+        "department": "5",
+        "speciality": "9",
+        "role": "2",
+        "user": "",
+        "formId": 1551442490067,
+        "departmentName": "Haematology",
+        "specialityName": "Speciality 2",
+        "roleName": "Doctor",
+        "userName": "",
+        "hospitalName": "Scorg",
+        "components": [{
+                "data": {
+                    "name": "Allergies",
+                    "key": "allergies",
+                    "templateFormName": "allergiesListFrm",
+                    "display": false
+                },
+                "display": false,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Complaints",
+                    "key": "complaints",
+                    "templateFormName": "complaintFrm",
+                    "display": false
+                },
+                "display": false,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Diagnosis",
+                    "key": "diagnosis",
+                    "templateFormName": "diagnosisFrm",
+                    "display": false
+                },
+                "display": false,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Medical History",
+                    "key": "medical_history",
+                    "templateFormName": "medicalHistoryFrm",
+                    "display": false
+                },
+                "display": false,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Radiology Test",
+                    "key": "radiology_test",
+                    "templateFormName": "radiologyFrm",
+                    "display": false
+                },
+                "display": false,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Lab Test",
+                    "key": "lab_test",
+                    "templateFormName": "labTestFrm",
+                    "display": false
+                },
+                "display": false,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Vitals",
+                    "key": "vitals",
+                    "templateFormName": "vitalFrm",
+                    "display": false
+                },
+                "display": false,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Prescription",
+                    "key": "prescription",
+                    "templateFormName": "prescriptionFrm",
+                    "display": false
+                },
+                "display": false,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Pain Scale",
+                    "key": "pain_scale",
+                    "templateFormName": "",
+                    "display": false
+                },
+                "display": false,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Pain Relief",
+                    "key": "pain_relief",
+                    "templateFormName": "",
+                    "display": false
+                },
+                "display": false,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Exam Label",
+                    "key": "examination_label",
+                    "templateFormName": "examinationLableFrm",
+                    "display": false
+                },
+                "display": true,
+                "componentInstance": null
+            },
+            {
+                "data": {
+                    "name": "Faq Section",
+                    "key": "faq_section",
+                    "templateFormName": "",
+                    "display": false
+                },
+                "display": false,
+                "componentInstance": null
+            }
+        ]
+    },
+    {
+        "formName": "Knee Examination",
+        "display": false,
+        "formType": "ipd",
+        "hospital": "1",
+        "department": "5",
+        "speciality": "9",
+        "role": "2",
+        "user": "",
+        "formId": 1556282195360,
+        "departmentName": "Haematology",
+        "specialityName": "Speciality 2",
+        "roleName": "Doctor",
+        "userName": "",
+        "hospitalName": "Scorg",
+        "faqDisplaySettingValue": "openForm",
+        "sectionId": "382",
+        "components": [{
+            "data": {
+                "name": "Custom Template",
+                "key": "faq_section",
+                "templateFormName": "",
+                "display": true
+            },
+            "display": true,
+            "componentInstance": null
+        }]
+    },
+
+    {
+        "formName": "Solving Scoliosis",
+        "display": false,
+        "formType": "ipd",
+        "hospital": "",
+        "department": "5",
+        "speciality": "9",
+        "role": "2",
+        "user": "",
+        "formId": 1556392023438,
+        "departmentName": "Haematology",
+        "specialityName": "Speciality 2",
+        "roleName": "Doctor",
+        "userName": "",
+        "hospitalName": "Scorg",
+        "faqDisplaySettingValue": "openForm",
+        "sectionId": "375",
+        "components": [{
+            "data": {
+                "name": "Custom Template",
+                "key": "faq_section",
+                "templateFormName": "",
+                "display": true
+            },
+            "display": true,
+            "componentInstance": null
+        }]
+    },
+    {
+        "formName": "Anaesthetic Record",
+        "display": true,
+        "formType": "ipd",
+        "hospital": "",
+        "department": "5",
+        "speciality": "9",
+        "role": "2",
+        "user": "",
+        "formId": 1556392023439,
+        "departmentName": "Haematology",
+        "specialityName": "Speciality 2",
+        "roleName": "Doctor",
+        "userName": "",
+        "hospitalName": "Scorg",
+        "faqDisplaySettingValue": "openForm",
+        "sectionId": "396",
+        "components": [{
+            "data": {
+                "name": "Custom Template",
+                "key": "faq_section",
+                "templateFormName": "",
+                "display": true
+            },
+            "display": true,
+            "componentInstance": null
+        }]
+    },
+    {
+        "formName": "Trauma Case Sheet",
+        "display": true,
+        "formType": "ipd",
+        "hospital": "",
+        "department": "5",
+        "speciality": "9",
+        "role": "2",
+        "user": "",
+        "formId": 1556392023440,
+        "departmentName": "Haematology",
+        "specialityName": "Speciality 2",
+        "roleName": "Doctor",
+        "userName": "",
+        "hospitalName": "Scorg",
+        "faqDisplaySettingValue": "openForm",
+        "sectionId": "397",
+        "components": [{
+            "data": {
+                "name": "Custom Template",
+                "key": "faq_section",
+                "templateFormName": "",
+                "display": true
+            },
+            "display": true,
+            "componentInstance": null
+        }]
+    }
+]

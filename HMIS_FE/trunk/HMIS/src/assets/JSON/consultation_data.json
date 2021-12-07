@@ -1,0 +1,113 @@
+{
+  "status": 200,
+  "apistatus": 1,
+  "authenticated": 1,
+  "message": "USER AUTHENTICATED",
+  "data": {
+    "consultationDate": "2019-02-12 11:49:58",
+    "opd_id": "715921",
+    "opdStatus": "15",
+    "allergies": [],
+    "patient_diagnosis": [],
+    "patient_icd_diagnosis": [],
+    "examinations": {
+      "Opdid": null,
+      "BpMax": null,
+      "BpMin": null,
+      "Weight": null,
+      "height": null,
+      "Opd1": null,
+      "Opd2": null,
+      "Opd3": null,
+      "Opd4": null,
+      "Opd5": null,
+      "Opd6": null,
+      "Opd7": null,
+      "Opd8": null,
+      "Opd9": null,
+      "Opd10": null,
+      "BMI": null,
+      "SRCR": null,
+      "GFR": null,
+      "PREBUN": null,
+      "POSTBUN": null,
+      "UFV": null,
+      "PDWeight": null,
+      "KTV": null,
+      "RBPMax": null,
+      "RBPMin": null
+    },
+    "investigation": [],
+    "radioInvestigationInputs": [],
+    "patient_rx": [],
+    "opd_tags": [],
+    "opd_remark": "",
+    "patient_complaints_by_date": {
+      "compTypeData": "",
+      "compTextData": ""
+    },
+    "deletedProcedure": [],
+    "pain_scale": null,
+    "relief_scale": null,
+    "advice": "",
+    "pain_score": {
+      "pain_body_part": [],
+      "pain_associated_data": {
+        "comment": "",
+        "vacResult": false,
+        "dapResult": false,
+        "aisValue": "",
+        "completeModel": "",
+        "partialSensoryRight": "",
+        "partialSensoryLeft": "",
+        "partialMototRight": "",
+        "partialMototLeft": "",
+        "neurlogicalInjury": "",
+        "motorLeft": "",
+        "motorRight": "",
+        "sensoryRight": "",
+        "sensoryLeft": ""
+      }
+    },
+    "patient_opd_files": [],
+    "patient_annotation_files": [],
+    "medicalHistoryFilesInputs": {
+      "medical_history_note": "",
+      "attachment_data": [
+        {
+          "id": "503",
+          "filename": "65df2d69163d6a68ef02a3994f9374a4.jpeg",
+          "display_name": "dahlia-red-blossom-bloom-60597.jpeg"
+        },
+        {
+          "id": "504",
+          "filename": "0b91e6b36018caf01cf925ef5d18916b.png",
+          "display_name": "testing_investigation_names.png"
+        },
+        {
+          "id": "505",
+          "filename": "fc8196f18503b1256c323d7f14ec7763.png",
+          "display_name": "putty_query_execution.png"
+        },
+        {
+          "id": "506",
+          "filename": "49b388b353333be1476890c40706891b.png",
+          "display_name": "ss.png"
+        }
+      ]
+    },
+    "deletedMedicalHistoryFiles": [],
+    "next_appointment": null,
+    "appointment_data": "",
+    "refer_to_doctor": null,
+    "opd_language": "101",
+    "lens_prescription": [],
+    "opd_duration": "11",
+    "cardiac_investigations": [],
+    "primary_checkup_opd": [],
+    "patient_opd_deleted_files": [],
+    "patient_annotation_deleted_files": [],
+    "opd_follow_up_st;atus": "0",
+    "patPrescriptions": []
+  }
+}

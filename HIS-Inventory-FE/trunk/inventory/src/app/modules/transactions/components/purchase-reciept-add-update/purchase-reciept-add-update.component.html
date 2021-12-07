@@ -1,0 +1,298 @@
+<div class="custom-container-fluid container-grn-add-apdate">
+    <form [formGroup]="purchaseRecieptFrm" (ngSubmit)="savePurchaseReciept()">
+        <div class="card-body p-1">
+            <div class="form-row form-group mx-0">
+                <div class="col-2">
+                    <label>GRN No.</label>
+                    <input class="form-control form-control-sm" formControlName="grnNo" type="text" placeholder="Type Name">
+                </div>
+                <div class="col-2">
+                    <label>GRN Date</label>
+                    <app-date-picker [makeDisabled]="true" (dateChange)="purchaseRecieptFrm.patchValue({ grnDate: $event  })" [inputDate]="purchaseRecieptFrm?.value?.grnDate" [disable]="true"></app-date-picker>
+                </div>
+                <div class="col-2">
+                    <label>Supplier<sup>*</sup> </label>
+                    <ng-select [items]="supplierList$ | async" bindLabel="supplierName" (change)="onSupplierChange($event)" bindValue="supplierId" [loading]="formLoading" formControlName="supplierId" placeholder="Select Supplier" [typeahead]="supplierListInput$">
+                    </ng-select>
+                    <span *ngIf="submitted && purchaseRecieptFrm.get('supplierId').errors?.required">This field
+                        required</span>
+                </div>
+                <div class="col-2">
+                    <label>PO/RC No.</label>
+                    <ng-select [items]="poList" bindLabel="poNo" (change)="onPOSelect($event)" bindValue="poId" formControlName="poId" placeholder="Type P.O. No."></ng-select>
+                </div>
+                <div class="col-2">
+                    <label>PO Date</label>
+                    <app-date-picker [makeDisabled]="true" (dateChange)="purchaseRecieptFrm.patchValue({ poDate: $event  })" [inputDate]="purchaseRecieptFrm?.value?.poDate" [disable]="true"></app-date-picker>
+                </div>
+                <div class="col-2">
+                    <label>Receive Date</label>
+                    <app-date-picker (dateChange)="purchaseRecieptFrm.patchValue({ receivedDate: $event  })" [inputDate]="purchaseRecieptFrm?.value?.receivedDate"></app-date-picker>
+                </div>
+            </div>
+            <div class="form-row form-group mx-0">
+                <div class="col-2">
+                    <label>Supplier Invoice/DC no. :<sup>*</sup> </label>
+                    <input class="form-control form-control-sm" formControlName="billNo" type="text" placeholder="Type Bill No">
+                    <span *ngIf="submitted && purchaseRecieptFrm.get('billNo').errors?.required">This field
+                        required</span>
+                </div>
+                <div class="col-2">
+                    <label>Date</label>
+                    <app-date-picker [makeDisabled]="true" (dateChange)="purchaseRecieptFrm.patchValue({ billDate: $event  })" [inputDate]="purchaseRecieptFrm?.value?.billDate"></app-date-picker>
+                </div>
+                <div class="col-2">
+                    <label>Customer Account No.</label>
+                    <input class="form-control form-control-sm" formControlName="custAcNo" type="number" placeholder="Type Customer Account No.">
+                </div>
+                <div class="col-2">
+                    <div class="custom-control custom-checkbox custom-control-inline mt-4">
+                        <input type="checkbox" formControlName="rateContract" class="custom-control-input" id="rateContract">
+                        <label class="custom-control-label pointer" for="rateContract">Rate Contract</label>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <label>Valid From</label>
+                    <app-date-picker [makeDisabled]="true" (dateChange)="purchaseRecieptFrm.patchValue({ rcValidFrom: $event  })" [inputDate]="purchaseRecieptFrm?.value?.rcValidFrom"></app-date-picker>
+                </div>
+                <div class="col-2">
+                    <label>Valid To</label>
+                    <app-date-picker [makeDisabled]="true" (dateChange)="purchaseRecieptFrm.patchValue({ rcValidTo: $event  })" [inputDate]="purchaseRecieptFrm?.value?.rcValidTo"></app-date-picker>
+                </div>
+            </div>
+            <div class="form-row form-group mx-0">
+                <div class="col-4">
+                    <label>Item Code</label>
+                    <ng-select [items]="itemList" (change)="onItemSelect(-1)" bindLabel="itemCode" formControlName="itemDetails" placeholder="Select Item Code">
+                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                            <div>
+                                <span [ngOptionHighlight]="search">{{item.itemName}}</span>
+                                <small> {{item.itemCode}}  </small>
+                            </div>
+                        </ng-template>
+                    </ng-select>
+                </div>
+
+            </div>
+            <div class="form-row form-group mx-0">
+                <div class="col-12">
+                    <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25" [footerHeight]="0" [rowHeight]="30" [rows]="prItemList" [externalSorting]="true" [externalPaging]="true" [count]="prItemList.length" [scrollbarH]="true">
+                        <ngx-datatable-column [frozenLeft]="true" name="Item" [sortable]="false" [width]="200">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span> {{row.itemName}} ({{row.itemCode}}) </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Batch No." cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span> {{row.batchNo}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Expiry Date" [sortable]="false" [width]="140">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.expiryDate | customDate: '' :'DD-MM-YYYY'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Purchase Rate" cellClass="text-right" [sortable]="false" [width]="120">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.purchaseRate | number:'1.2-2'}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Accepted Qty." cellClass="text-right" [sortable]="false" [width]="120">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.acceptedQty | number:'1.2-2'}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Free Qty." cellClass="text-right" [sortable]="false" [width]="110">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span> {{row.freeQty | number:'1.2-2' }} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Total Qty." cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.totalQty }} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Discount" cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.discountAmount | number:'1.2-2' }}(
+                                    {{ row.discountPercent | number:'1.2-2' }})</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="GST" cellClass="text-right" [sortable]="false" [width]="130">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.gstAmount | number:'1.2-2'}}/{{row.gstPercent | number:'1.2-2'}}%</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ng-container *ngIf="purchaseRecieptFrm.value.gstCode === 'GST'">
+                            <ngx-datatable-column name="CGST" cellClass="text-right" [sortable]="false" [width]="130">
+                                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                    <span *ngIf="row.gstPercent">
+                                        {{calculateGstValue(purchaseRecieptFrm.value.gstCode, row.gstPercent, row.gstAmount, 'cgst').val | number:'1.2-2'}}
+                                        <span>/</span> {{calculateGstValue(purchaseRecieptFrm.value.gstCode, row.gstPercent, row.gstAmount, 'cgst').percent | number:'1.2-2'}}%
+                                    </span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                            <ngx-datatable-column name="SGST" cellClass="text-right" [sortable]="false" [width]="130">
+                                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                    <span *ngIf="row.gstPercent">
+                                        {{calculateGstValue(purchaseRecieptFrm.value.gstCode, row.gstPercent, row.gstAmount, 'sgst').val | number:'1.2-2'}}
+                                        <span>/</span> {{calculateGstValue(purchaseRecieptFrm.value.gstCode, row.gstPercent, row.gstAmount, 'sgst').percent | number:'1.2-2'}}%
+                                    </span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ng-container>
+                        <ng-container *ngIf="purchaseRecieptFrm.value.gstCode !== 'GST'">
+                            <ngx-datatable-column [name]="purchaseRecieptFrm.value.gstCode" [sortable]="false" [width]="100">
+                                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                    <span *ngIf="row.gstPercent">
+                                        {{calculateGstValue(purchaseRecieptFrm.value.gstCode, row.gstPercent, row.gstAmount, 'igst').val | number:'1.2-2'}}
+                                        <span>/</span> {{calculateGstValue(purchaseRecieptFrm.value.gstCode, row.gstPercent, row.gstAmount, 'igst').percent | number:'1.2-2'}}%
+                                    </span>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ng-container>
+                        <ngx-datatable-column name="Unit Rate" cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.unitRate | number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="MRP" cellClass="text-right" [sortable]="false" [width]="70">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.mrp | number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Sale Price" cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.saleUnitPrice | number:'1.2-2' }}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Net Amt." cellClass="text-right" [sortable]="false" [width]="120">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.netTotalAmount | number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Action" [frozenRight]="true" cellClass="text-center" [sortable]="false" [width]="75">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value" let-isSelected="isSelected">
+                                <button type="button" class="bg-transparent border-0" placement="left-bottom" [autoClose]="true" [ngbPopover]="popContent" container="body" #p="ngbPopover">
+                                    <i class="fa fa-fw fa-bars" aria-hidden="true"></i> <i
+                                        class="fa fa-xs fa-caret-down" aria-hidden="true"></i>
+                                </button>
+                                <ng-template #popContent>
+                                    <ul class="list-unstyled popover-content mb-0">
+                                        <li>
+                                            <button class="btn btn-sm btn-block text-left del" (click)="onDelete(row, rowIndex)"> <i class="icon fa-fw icon-trash"
+                                                    aria-hidden="true"></i> Delete </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-sm btn-block text-left" (click)="purchaseRecieptFrm.patchValue({ itemDetails: row }); onItemSelect(rowIndex, 'Edit')">
+                                                <i class="icon fa-fw icon-edit" aria-hidden="true"></i> Edit </button>
+                                        </li>
+                                    </ul>
+                                </ng-template>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+            <div class="form-row form-group mx-0">
+                <div class="col-12">
+                    <table class="table custom-table font-size-dot-875 mb-0 border-top-0 table-footer">
+                        <tbody>
+                            <tr class="text-right">
+                                <td class="text-right border-right-0 border-top-0">Total Purchase Amount (Inclusing Item Discount):
+                                </td>
+                                <td class="text-right border-left-0 border-top-0">
+                                    {{purchaseRecieptFrm.get('purchaseAmount').value | number:'1.2-2' }}</td>
+                            </tr>
+                            <tr class="text-right">
+                                <td class="text-right border-right-0 border-top-0">Total GST:
+                                </td>
+                                <td class="text-right border-left-0 border-top-0">
+                                    <input class="form-control form-control-sm" formControlName="gstAmount" type="number" placeholder="Type GST Amount">
+                                </td>
+                            </tr>
+                            <tr class="text-right">
+                                <td class="text-right border-right-0 border-top-0">Bill Disc in Percent:
+                                </td>
+                                <td class="text-right border-left-0 border-top-0">
+                                    <input class="form-control form-control-sm" (change)="onDiscountPerChange($event)" formControlName="discountPercent" type="number" placeholder="Type Discount Percent">
+                                    <span class="text-danger" *ngIf="purchaseRecieptFrm.get('discountPercent').errors?.isGreater">Should
+                                        be Less then 100</span>
+                                </td>
+                            </tr>
+                            <tr class="text-right">
+                                <td class="text-right border-right-0 border-top-0">Bill Discount Amount:</td>
+                                <td class="text-right border-left-0 border-top-0">
+                                    <input class="form-control form-control-sm" (change)="onDiscountAmount($event)" formControlName="discountAmount" type="number" placeholder="Discount Amount">
+                                </td>
+                            </tr>
+                            <tr class="text-right">
+                                <td class="text-right border-right-0 border-top-0">
+                                    <h5 class="mb-0">Total Net Amount:</h5>
+                                </td>
+                                <td class="text-right border-left-0 border-top-0">
+                                    <h5 class="mb-0">{{purchaseRecieptFrm.get('netAmount').value | number:'1.2-2' }}
+                                    </h5>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer py-1 border-top">
+            <div class="float-right">
+                <ng-container *ngIf="purchaseRecieptId === -1">
+                    <div *ngxPermissionsOnly="constpermissionList.APPROVE_GRN" class="is-approved form-group">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Print</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isTakePrint" class="custom-control-input" id="isTakePrint">
+                            <label class="custom-control-label pointer" [class.active]="purchaseRecieptFrm.value.isTakePrint" for="isTakePrint"></label>
+                            <span class="text-uppercase" [class.active]="purchaseRecieptFrm.value.isTakePrint">{{purchaseRecieptFrm.value.isTakePrint ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <div *ngxPermissionsOnly="constpermissionList.APPROVE_GRN" class="is-approved form-group">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Is Approved</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isApproved" class="custom-control-input" id="isApproved1">
+                            <label class="custom-control-label pointer" [class.active]="purchaseRecieptFrm.value.isApproved" for="isApproved1"></label>
+                            <span class="text-uppercase" [class.active]="purchaseRecieptFrm.value.isApproved">{{purchaseRecieptFrm.value.isApproved ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-success ml-1"><i class="icon fa-fw icon-save"
+                            aria-hidden="true"></i> SAVE</button>
+                </ng-container>
+                <ng-container *ngIf="purchaseRecieptId !== -1 && purchaseRecieptFrm.value.status !== 'Created'">
+                    <button type="button" class="btn btn-sm btn-outline-mbd" (click)="getPrintData()">
+                        <i class="icon fa-fw icon-print" aria-hidden="true"></i> PRINT
+                    </button>
+                </ng-container>
+                <ng-container *ngIf="purchaseRecieptId !== -1 && purchaseRecieptFrm.value.status === 'Created' && purchaseRecieptFrm.value.createdBy === loginUserId">
+                    <div *ngxPermissionsOnly="constpermissionList.APPROVE_GRN" class="is-approved form-group">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Print</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isTakePrint" class="custom-control-input" id="isTakePrint">
+                            <label class="custom-control-label pointer" [class.active]="purchaseRecieptFrm.value.isTakePrint" for="isTakePrint"></label>
+                            <span class="text-uppercase" [class.active]="purchaseRecieptFrm.value.isTakePrint">{{purchaseRecieptFrm.value.isTakePrint ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <div *ngxPermissionsOnly="constpermissionList.APPROVE_GRN" class="is-approved form-group">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Is Approved</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isApproved" class="custom-control-input" id="isApproved2">
+                            <label class="custom-control-label pointer" [class.active]="purchaseRecieptFrm.value.isApproved" for="isApproved2"></label>
+                            <span class="text-uppercase" [class.active]="purchaseRecieptFrm.value.isApproved">{{purchaseRecieptFrm.value.isApproved ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <button *ngxPermissionsOnly="constpermissionList.CANCEL_GRN" type="button" class="btn btn-sm btn-outline-secondary ml-1" (click)="updateStatus('Cancel')">CANCEL</button>
+                    <button *ngxPermissionsOnly="constpermissionList.UPDATE_GRN" type="submit" class="btn btn-sm btn-primary-light ml-1"><i class="fas fa-fw fa-sync-alt"></i>
+                        UPDATE</button>
+                    <button *ngxPermissionsOnly="constpermissionList.REJECT_GRN" type="button" class="btn btn-sm btn-danger ml-1" (click)="updateStatus('Reject')"><i
+                            class="icon fa-fw icon-times" aria-hidden="true"></i> REJECT</button>
+                </ng-container>
+            </div>
+        </div>
+    </form>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<app-print-data [printData]="printData" (printDiaglogClose)="redirectToListPage()"></app-print-data>

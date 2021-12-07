@@ -1,0 +1,72 @@
+<div *ngIf="!skipLoginPage" class="fullscreen-img vh-100 d-flex justify-content-center align-items-center">
+    <div class="user-content bg-white">
+        <div class="top text-center">
+            <img [src]="loginLogUrl">
+            <!-- ./assets/img/hospital-logo.png -->
+            <h6 class="mb-0">EMR</h6>
+            <span class="brand-border d-inline-block"></span>
+        </div>
+        <div class="user-box px-4 py-1">
+            <h4 class="my-3">Login to your account</h4>
+            <form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" class="custom-control-input" id="customRadioLoginEMR"
+                            formControlName="loginFor" [value]="'EMR'">
+                        <label class="custom-control-label pointer" for="customRadioLoginEMR">EMR</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" class="custom-control-input" id="customRadioLoginNursing"
+                            formControlName="loginFor" [value]="'NURSING'">
+                        <label class="custom-control-label pointer" for="customRadioLoginNursing">Nursing</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                      <input type="radio" class="custom-control-input" id="customRadioLoginDischarge"
+                          formControlName="loginFor" [value]="'DISCHARGE'">
+                      <label class="custom-control-label pointer" for="customRadioLoginDischarge">Discharge</label>
+                  </div>
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="customRadioLoginEMRSettings"
+                        formControlName="loginFor" [value]="'emr-settings'">
+                    <label class="custom-control-label pointer" for="customRadioLoginEMRSettings">EMR Settings</label>
+                </div>
+                </div>
+                <div class="form-group view-height position-relative">
+                    <input type="text" class="form-control pl-2rem" formControlName="user_name" placeholder="User Name">
+                    <div class="placeholder-icon">
+                        <i class="icon fa-fw icon-user text-muted" aria-hidden="true"></i>
+                    </div>
+                    <small class="text-danger" *ngIf="submitted && !loginForm.get('user_name').valid">Please enter valid
+                        user name</small>
+                </div>
+                <div class="input-group form-group view-height">
+                    <input type="{{ showPassword ? 'text' : 'password' }}" class="form-control pl-2rem"
+                        formControlName="password" placeholder="Password" autocomplete="false">
+                    <div class="placeholder-icon">
+                        <i class="icon fa-fw icon-lock text-muted" aria-hidden="true"></i>
+                    </div>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary border" type="button"
+                            (click)="showPassword =!showPassword">
+                            <i class="icon fa-fw icon-eye" aria-hidden="true" *ngIf="showPassword"></i>
+                            <i class="icon fa-fw icon-eye-slash" aria-hidden="true" *ngIf="!showPassword"></i>
+                        </button>
+                    </div>
+                    <small class="text-danger enter-password"
+                        *ngIf="submitted && !loginForm.get('password').valid">Please enter
+                        password</small>
+                </div>
+                <div class="form-group text-right">
+                    <!-- <a class="text-decoration-none font-italic pointer" (click)="forgotPasswordRoute()">Forgot Password?</a> -->
+                </div>
+                <div class="form-group view-height">
+                    <button type="submit" class="btn btn-block btn-lg btn-primary">
+                        <i class="icon fa-fw icon-sign-in-alt" aria-hidden="true"></i>
+                        LOGIN</button>
+                </div>
+                <p class="text-danger" *ngIf="submitted && errorMsg"><small>{{errorMsg}}</small></p>
+            </form>
+        </div>
+    </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

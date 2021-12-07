@@ -1,0 +1,49 @@
+<div class="mb-1" *ngIf="basicInfoData.selectedEntity">
+  <h6 class="mb-0"><span class="font-weight-normal">Schedule For: </span><span>
+      {{basicInfoData.selectedEntity.name}}</span></h6>
+  <div class="mb-1 container-fluid px-0 schedule-f line-height-1">
+    <div class="row mx-0">
+      <div class="col px-0">
+        <a class="text-info" (click)="basicInfoData.panalCollapse = !basicInfoData.panalCollapse"><i
+            class="fa fa-fw pointer" [ngClass]="{'fa-plus-square': basicInfoData.panalCollapse, 'fa-minus-square':
+                !basicInfoData.panalCollapse}" aria-hidden="true"></i></a>
+      </div>
+      <div class="col px-0">
+        <p class="float-left font-weight-500 heading">
+          {{basicInfoData.selectedProvider.name}}
+        </p>
+        <div *ngIf="showEditButton" class="float-right"><button type="button" class="btn btn-xxs btn-info mb-1"
+            (click)="editScheduleData(basicInfo, 'basic_info')"><i class="icon fa-fw icon-edit" aria-hidden="true"></i>
+            EDIT</button></div>
+      </div>
+    </div>
+    <div class="ml-3" [ngClass]="{'collapsed': basicInfoData.panalCollapse}">
+      <p *ngIf="basicInfoData.selectedScheduleType">Schedule Type:
+        <span class="font-weight-bolder">{{basicInfoData.selectedScheduleType.name}}</span>
+      </p>
+      <p *ngIf="basicInfoData.selectedAppointmentTypes.length > 0">Appointment Types:
+        <span class="font-weight-bolder">
+          <span *ngFor="let item of basicInfoData.selectedAppointmentTypes; let last=last;">
+            {{item.name}}
+            <span *ngIf="!last">,</span>
+          </span>
+        </span>
+      </p>
+      <p *ngIf="basicInfoData.parallelBookingAllow">
+        Allowed {{basicInfoData.parallelBookingValue}} parallel booking
+      </p>
+      <p *ngIf="basicInfoData.appointmentTimeSlot">
+        Service Time:
+        <span class="font-weight-bolder">{{basicInfoData.appointmentTimeSlot}}</span>
+      </p>
+      <p *ngIf="basicInfoData.timePerPatient">
+        Patient Communication Time:
+        <span class="font-weight-bolder">{{basicInfoData.timePerPatient}}</span>
+      </p>
+      <p *ngIf="basicInfoData.advanceBookingDays">
+        Advance Booking Days:
+        <span class="font-weight-bolder">{{basicInfoData.advanceBookingDays}}</span>
+      </p>
+    </div>
+  </div>
+</div>

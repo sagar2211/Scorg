@@ -1,0 +1,66 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+:host ::ng-deep {
+  .ngx-datatable.fixed-header {
+    .datatable-body {
+      overflow-x: hidden !important;
+
+      .datatable-body-row {
+        .datatable-body-cell {
+          &:not(:nth-child(3)) {
+            display: inline-flex;
+            align-items: center;
+            vertical-align: middle;
+          }
+
+          &:last-child {
+            justify-content: center;
+          }
+        }
+      }
+    }
+  }
+}
+
+.card-room {
+  .tags {
+    padding: 0;
+    margin: 0 0 10px 0;
+    list-style: none;
+
+    li {
+      .tag {
+        color: $gray-750;
+        display: inline-block;
+        line-height: 20px;
+        padding: 0 15px 0 10px;
+        position: relative;
+        font-size: 0.875rem;
+        white-space: normal;
+        text-decoration: none;
+
+        &::before {
+          content: "";
+          top: 7px;
+          left: 0;
+          width: 6px;
+          height: 6px;
+          position: absolute;
+          @include border-radius(10px);
+          background: $gray-200;
+          box-shadow: inset 1px 1px rgba(0, 0, 0, 0.25);
+        }
+
+        .room-no {
+          padding: 1px 3px;
+          @include border-radius(4px);
+          margin-top: 1px;
+          margin-right: 2px;
+          margin-bottom: 1px;
+          background-color: var(--bgLight);
+          border: 0.55px solid #ddd;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+@import "../../../../scss/custom_bootstrap_theme.scss";
+
+.slot-height {
+  height: calc(100vh - 358px);
+  overflow-y: auto;
+}
+.card-body {
+  .form-row {
+    &:last-child {
+      border: none !important;
+      padding-bottom: 0 !important;
+    }
+  }
+  .btn {
+    &:disabled {
+      opacity: 1;
+      color: #fff;
+    }
+    &.bg-light:disabled {
+      color: #000000;
+      background-color: $gray-400 !important;
+    }
+    &.bg-light:disabled:hover {
+      background-color: $gray-400 !important;
+      color: #000000;
+    }
+    &.bg-danger:hover {
+      background-color: $red !important;
+      color: #fff;
+    }
+  }
+}
+
+.expand-height {
+  height: calc(100vh - 200px);
+  overflow-y: auto;
+}

@@ -1,0 +1,5 @@
+<form [formGroup]="ngSelectFrm">
+    <ng-select [ngClass]="{'invalid' : required}" [items]="inputList | async" [bindLabel]="bindLabel" [bindValue]="bindKey" placeholder="{{placeholder}}" (change)="onSelect($event)" [loading]="isLoading" [typeahead]="searchInput$" formControlName="name" [appendTo]="'body'"
+        [searchable]="searchable">
+    </ng-select>
+</form>

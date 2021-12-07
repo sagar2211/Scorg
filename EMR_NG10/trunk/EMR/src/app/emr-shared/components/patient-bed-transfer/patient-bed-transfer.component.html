@@ -1,0 +1,44 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">Bed Transfer Request</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.close('cancel')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body py-2">
+  <form [formGroup]="bedTransferForm">
+    <div class="form-row form-group">
+      <div class="col-5">
+        <label class="text-muted font-weight-normal">Bed Type</label>
+        <app-ng-select-typeahead [isSearchDataFromApi]="true" [inputValue]="bedTransferForm.value.bedType?.id"
+          [selectedValue]="bedTransferForm.value.bedType?.name" [thDisplayLabel]="'name'"
+          [thDisplayKey]="'id'" [source]="'Search..'" [searchFun]="getBedTypeList"
+          [returnDataType]="'obj'" (recievedVal)="selectBedType($event)" [compInstance]="compInstance">
+        </app-ng-select-typeahead>
+      </div>
+    </div>
+    <!-- <div class="form-row form-group">
+      <div class="col-5">
+        <label class="text-muted font-weight-normal">Bed Class</label>
+        <app-ng-select-typeahead [isSearchDataFromApi]="true" [inputValue]="bedTransferForm.value.bedClass?.id"
+          [selectedValue]="bedTransferForm.value.bedClass?.name" [thDisplayLabel]="'name'"
+          [thDisplayKey]="'id'" [source]="'Search..'" [searchFun]="getBedClassList"
+          [returnDataType]="'obj'" (recievedVal)="selectBedClass($event)" [compInstance]="compInstance">
+        </app-ng-select-typeahead>
+      </div>
+    </div> -->
+    <div class="form-row form-group">
+      <div class="col-12">
+        <label for="comment">Comment</label>
+        <textarea formControlName="comment" class="form-control"></textarea>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer py-1">
+  <span *ngIf="!isAccepted" class="font-size-dot-75 mr-auto text-info">
+    Note: Patient bed transfer request already initiated. Waiting for Approval
+  </span>
+  <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
+    (click)="modal.close('cancel');">Cancel</button>
+  <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" [disabled]='!isAccepted' (click)="savePatientBedTransfer();">Raise Request</button>
+</div>

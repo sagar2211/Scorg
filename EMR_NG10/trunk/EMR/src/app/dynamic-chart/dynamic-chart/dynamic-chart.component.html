@@ -1,0 +1,105 @@
+<div class="emr-custom-container-fluid dynamic-chart">
+    <div class="form-row mx-0">
+        <div class="px-0" [ngClass]="{'left-col' : !isTabModeOn,'w-100' : isTabModeOn, 'unpin': !isTabModeOn && suggestionPanelSettings?.isPin, 'pin': !isTabModeOn && !suggestionPanelSettings?.isPin }">
+            <div class="component-card-body">
+                <div class="text-right m-1" *ngIf="!isPartialLoad">
+                  <button type="button" class="btn btn-sm btn-outline-primary-light mr-1" (click)="onClickEvent('history')">
+                    History</button>
+                    <button type="button" class="btn btn-sm btn-outline-primary-light mr-1" (click)="onClickEvent('order')">Order
+                        Set</button>
+                </div>
+                <!-- <ng-container #chartCompRef1></ng-container> -->
+                <ng-container #chartCompRef></ng-container>
+            </div>
+            <div class="component-card-fotter w-100 bg-light border-top text-right py-1">
+                <!-- *ngIf="patientObj?.serviceType?.key === 'op'" -->
+                <div class="form-row align-items-center justify-content-center mx-0">
+                    <div class="col px-0">
+                        <div class="form-check d-inline-flex mr-1 only-checkbox">
+                            <input class="form-check-input position-absolute pointer" type="checkbox" [(ngModel)]="printChartDataFlag">
+                        </div>
+                        <button class="btn btn-sm btn-outline-secondary mr-1" (click)="previewChart();"><i
+                                class="icon fa-fw icon-pdf"></i> Preview</button>
+                        <button class="btn btn-sm btn-primary mr-1" (click)="saveChartData();"><i
+                                class="icon fa-fw icon-save"></i> Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!isTabModeOn" class="right-col px-0 border-left" [ngClass]="{'unpin': suggestionPanelSettings?.isPin, 'pin': !suggestionPanelSettings?.isPin }">
+            <div class="form-row mx-0">
+                <div class="col-suggestion px-0">
+                  <ng-container *ngIf="loadSuggSection">
+                    <div *ngIf="isOpenSuggestionPanel && !suggestionOverlappingInput">
+                      <app-chart-suggestion-panel [suggestionPanelSettings]="suggestionPanelSettings" [suggestionDisplayList]="suggestionList" [selectedSectionDetails]="selectedSectionDetails">
+                      </app-chart-suggestion-panel>
+                  </div>
+                  <div *ngIf="suggestionOverlappingInput">
+                      <app-medicine-inputs #medicineInput [medicineOrder]="prescriptionDetails"></app-medicine-inputs>
+                  </div>
+                  <div *ngIf="popupLoaded" class="bg-white position-absolute overflow-hidden slide-faq-form dynamic-chart" [@slideInOut]="animationState" [ngClass]="{'open': popupLoaded, 'close': !popupLoaded}">
+                      <ng-container *ngIf="faqSectionComponentSection">
+                          <app-faq-popup [faqSection]="faqSectionComponentSection"></app-faq-popup>
+                      </ng-container>
+                      <ng-container *ngIf="scoreTemplateSection">
+                          <app-preview-score-template [parentComponetInstance]="scoreTemplateSection">
+                          </app-preview-score-template>
+                      </ng-container>
+                  </div>
+                  <div class="backdrop-log" name="backdrop" *ngIf="popupLoaded"></div>
+                  <!-- orderset -->
+                  <ng-container *ngIf="isOpenOrderset">
+                      <app-chart-order-set-display (applyOrderToChart)="loadChartComponents()" [chartComponentList]="chartComponentList"></app-chart-order-set-display>
+                  </ng-container>
+                  <ng-container *ngIf="isOpenHistory">
+                    <app-chart-latest-history (applyOrderToChart)="loadChartComponents()"></app-chart-latest-history>
+                </ng-container>
+                  </ng-container>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="isTabModeOn" class="card position-fixed suggestion-card-modal" [ngClass]="{'active': showSuggPanelInModel}">
+            <div class="card-header text-white py-1">
+                <p class="modal-title text-uppercase">Suggestion</p>
+                <button (click)="showSuggPanelInModel = !showSuggPanelInModel" type="button" aria-label="Close" class="close font-weight-normal text-white"><span
+                        aria-hidden="true" >×</span></button>
+            </div>
+            <div class="card-body p-1">
+                <div class="form-row mx-0">
+                    <div class="col-suggestion px-0">
+                        <div *ngIf="isOpenSuggestionPanel && !suggestionOverlappingInput">
+                            <app-chart-suggestion-panel [suggestionPanelSettings]="suggestionPanelSettings" [suggestionDisplayList]="suggestionList" [selectedSectionDetails]="selectedSectionDetails">
+                            </app-chart-suggestion-panel>
+                        </div>
+                        <div *ngIf="suggestionOverlappingInput">
+                            <app-medicine-inputs #medicineInput [medicineOrder]="prescriptionDetails">
+                            </app-medicine-inputs>
+                        </div>
+                        <div *ngIf="popupLoaded" class="bg-white position-absolute overflow-hidden slide-faq-form dynamic-chart" [@slideInOut]="animationState" [ngClass]="{'open': popupLoaded, 'close': !popupLoaded}">
+                            <ng-container *ngIf="faqSectionComponentSection">
+                                <app-faq-popup [faqSection]="faqSectionComponentSection"></app-faq-popup>
+                            </ng-container>
+                            <ng-container *ngIf="scoreTemplateSection">
+                                <app-preview-score-template [parentComponetInstance]="scoreTemplateSection">
+                                </app-preview-score-template>
+                            </ng-container>
+                        </div>
+                        <div class="backdrop-log" name="backdrop" *ngIf="popupLoaded"></div>
+                        <!-- orderset -->
+                        <ng-container *ngIf="isOpenOrderset">
+                            <app-chart-order-set-display (applyOrderToChart)="loadChartComponents()" [chartComponentList]="chartComponentList"></app-chart-order-set-display>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="card-footer text-right py-1">
+                <button type="button" class="btn btn-sm btn-success mr-1" (click)="showSuggPanelInModel = !showSuggPanelInModel"><i class="icon fa-fw icon-save"
+                        aria-hidden="true"></i>
+                    SAVE</button>
+            </div> -->
+        </div>
+    </div>
+    <app-print-reports [printData]="printChartData" [printType]="'chart'"></app-print-reports>
+
+    <app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>
+</div>

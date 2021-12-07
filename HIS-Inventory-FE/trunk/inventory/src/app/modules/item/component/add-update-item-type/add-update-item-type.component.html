@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">{{supplierData && supplierData.supplierData ? 'Update' : 'Add'}} Item Type</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body p-2">
+    <form [formGroup]="itemTypeForm" (ngSubmit)="saveItemTypeMasterData()" *ngIf="loadForm">
+        <div class="form-row form-group">
+            <div class="col-12">
+                <label>Description<sup>*</sup></label>
+                <textarea type="text" class="form-control vresize" formControlName="desc" placeholder="Type Description" rows="2"></textarea>
+                <small class="text-danger" *ngIf="itemFormControl['desc'].errors?.required && submitted">
+                    Please Add Value!</small>
+            </div>
+        </div>
+        <div class="form-row form-group">
+            <div class="col-12">
+                <label>Status</label>
+                <div class="custom-control custom-switch pb-1">
+                    <input type="checkbox" formControlName="isActive" class="custom-control-input" id="customSwitchActive">
+                    <label class="custom-control-label pointer" [class.active]="itemTypeForm.value.isActive" for="customSwitchActive"></label>
+                    <span class="text-uppercase" [class.active]="itemTypeForm.value.isActive">{{itemTypeForm.value.isActive ? 'Active' : 'InActive'}}</span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.close('Cancel')">CANCEL</button>
+    <button type="button" class="btn btn-sm" [ngClass]="supplierData && supplierData.supplierData ? 'btn-outline-primary-light':'btn-outline-primary'" (click)="saveItemTypeMasterData()">
+        <i class="fa fa-fw" [ngClass]="supplierData && supplierData.supplierData ? 'fa-sync-alt':'fa-plus'"
+            aria-hidden="true"></i>
+        {{supplierData && supplierData.supplierData ? 'UPDATE' : 'ADD'}}</button>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

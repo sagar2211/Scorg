@@ -1,0 +1,73 @@
+<div class="custom-container-fluid">
+    <div class="p-2" *ngIf="loadTable">
+            <div class="form-row form-group align-items-center">
+                <div class="col-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control form-control-sm pl-2rem" placeholder="Search" [(ngModel)]="searchString" [ngModelOptions]="{standalone: true}" (ngModelChange)="this.subject.next();">
+                        <div class="placeholder-icon">
+                            <i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i>
+                        </div>
+                        <div class="input-group-append">
+                            <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear">
+                                <i class="fa fa-fw fa-eraser" aria-hidden="true"  (click)="clearSearchString();"></i>
+                             </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <ng-select [items]="storeList" bindLabel="name" [(ngModel)]="selectedStore" (change)="changeStoreType()" placeholder="Select">
+                        <ng-option [value]=""> All</ng-option>
+                    </ng-select>
+                </div>
+                <div class="col">
+                    <select class="form-control form-control-sm float-right select-w" (change)="onPageSizeChanged($event.currentTarget.value)" [(ngModel)]="pageSize" [ngModelOptions]="{standalone: true}" id="page-size">
+                        <option value="15" selected="">15</option>
+                        <option value="30">30</option>
+                        <option value="45">45</option>
+                        <option value="100">100</option>
+                    </select>
+                </div>
+            </div>
+        <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25" [footerHeight]="70" [rowHeight]="30" [rows]="stockList" [externalSorting]="true" (sort)="onSortChanged($event)" [externalPaging]="externalPaging" [count]="page.totalElements"
+            [scrollbarH]="true" (page)='onSetPage($event)'>
+            <ngx-datatable-column name="Item Id" [frozenLeft]="true" prop="itemId" [width]="175">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.itemId}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Item Code" [frozenLeft]="true" prop="itemCode" [width]="175">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.itemCode}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Item Name" prop="itemName" [width]="185">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.itemName}} </span>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="ROL Qty" prop="reorderLevelQty" [width]="100">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <input type="text" autofocus [(ngModel)]="row.reorderLevelQty" (keyup)="updateQty(row,rowIndex)">
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Balance Qty" prop="balanceQty" [width]="200">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.balanceQty}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+            
+            <ngx-datatable-footer *ngIf="stockList.length > 0">
+                <ng-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount" let-curPage="curPage" let-offset="offset" ngx-datatable-footer-template>
+                    <div class="mx-3">
+                        Showing {{ ((page.pageNumber - 1) * page.size) + 1}} to {{ ((page.pageNumber - 1) * page.size) + stockList.length}} of {{rowCount}} entries
+                    </div>
+                    <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'" [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="page.pageNumber" [size]="page.size" [count]="page.totalElements"
+                        [hidden]="!((page.totalElements / page.size) > 1)" (change)="onFooterPage($event)">
+                    </datatable-pager>
+                </ng-template>
+            </ngx-datatable-footer>
+        </ngx-datatable>
+        <button class="btn btn-primary" type="button" (click)="submitQty()">Submit</button>
+    </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

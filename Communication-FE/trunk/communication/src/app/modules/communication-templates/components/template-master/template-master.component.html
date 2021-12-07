@@ -1,0 +1,174 @@
+<div class="emr-container-fluid container-fluid px-0">
+    <form [formGroup]="templateFrm" (ngSubmit)="AddUpdateTempate()">
+        <div class="card-body p-1 add-update-temp-card-body">
+            <div class="form-row form-group mx-0">
+                <div class="col-3">
+                    <label for="templateCategory">Category<sup>*</sup></label>
+                    <app-ng-select-typeahead [inputValue]="templateFrm.value.templateCategory?.id" [displayList]="templateCategoryList" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" (recievedVal)="onSelectTemplateCategory($event)" [source]="'Select Category'" [returnDataType]="'obj'">
+                    </app-ng-select-typeahead>
+                    <small class="text-danger" *ngIf="templateFrmCntrols['templateCategory'].errors?.required && submitted">
+            Please Select Category</small>
+                </div>
+                <div class="col-3">
+                    <label for="templateName">Template Name</label>
+                    <app-ng-select-typeahead [inputValue]="templateFrm.value.templateName?.id" [thDisplayLabel]="'displayname'" [thDisplayKey]="'id'" [source]="'Search..'" (recievedVal)="getTemplateDetails($event)" [returnDataType]="'obj'" [displayList]="templateMasterList">
+                    </app-ng-select-typeahead>
+                    <small class="text-danger" *ngIf="templateFrmCntrols['templateName'].errors && submitted">Template Name
+            Required!</small>
+                </div>
+                <div class="col-6">
+                    <div class="form-row form-group mx-0">
+                        <div class="col-3">
+                            <label for="templateName">Mail Template</label>
+                            <div class="custom-control custom-switch yes-no-btn">
+                                <input type="checkbox" name="isMailTemplateActive" formControlName="isMailTemplateActive" class="custom-control-input" id="isMailTemplateActive" (change)="checkTemplateFlag(templateFrm,'email')">
+                                <label class="custom-control-label pointer" [class.active]="templateFrm.value.isMailTemplateActive" for="isMailTemplateActive"></label>
+                                <span class="text-uppercase" [class.active]="templateFrm.value.isMailTemplateActive">{{templateFrm.value.isMailTemplateActive ? 'Yes' : 'No'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <label for="templateName">SMS Template</label>
+                            <div class="custom-control custom-switch yes-no-btn">
+                                <input type="checkbox" name="isSmsTemplateActive" formControlName="isSmsTemplateActive" class="custom-control-input" id="isSmsTemplateActive" (change)="checkTemplateFlag(templateFrm,'sms')">
+                                <label class="custom-control-label pointer" [class.active]="templateFrm.value.isSmsTemplateActive" for="isSmsTemplateActive"></label>
+                                <span class="text-uppercase" [class.active]="templateFrm.value.isSmsTemplateActive">{{templateFrm.value.isSmsTemplateActive ? 'Yes' : 'No'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <label for="templateName">WhatsApp Template</label>
+                            <div class="custom-control custom-switch yes-no-btn">
+                                <input type="checkbox" name="isSmsTemplateActive" formControlName="isWhatsappTemplateActive" class="custom-control-input" id="isWhatsappTemplateActive" (change)="checkTemplateFlag(templateFrm,'whatsApp')">
+                                <label class="custom-control-label pointer" [class.active]="templateFrm.value.isWhatsappTemplateActive" for="isWhatsappTemplateActive"></label>
+                                <span class="text-uppercase" [class.active]="templateFrm.value.isWhatsappTemplateActive">{{templateFrm.value.isWhatsappTemplateActive ? 'Yes' : 'No'}}</span>
+                            </div>
+                        </div>
+                        <div class="col-3 align-self-center mt-custom-1-2">
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" formControlName="isActive" class="custom-control-input" id="Active">
+                                <label class="custom-control-label pointer" for="Active">Active</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row mb-2 mx-0">
+                <div class="col-6">
+                    <div class="form-row">
+                        <div class="col-12">
+                            <h6 class="mb-0 font-size-dot-875">Email Template</h6>
+                            <!-- <span>Character Count {{emailCharcterCount}}</span> (keyup)="onkeyup()" -->
+                        </div>
+                    </div>
+                    <angular-editor [placeholder]="'Email Details'" id="emailtemplateDetails" #angularEditor formControlName='emailtemplateDetails' [config]='config' (onFocus)="this.templateFrm.value.templateDetailFlag='mail';"></angular-editor>
+                </div>
+                <div class="col-6">
+                    <div class="form-row mb-2 mx-0">
+                        <div class="col-7">
+                            <div class="form-row mb-2 mx-0">
+                                <div class="col-6 template-details">
+                                    <div class="form-row">
+                                        <div class="col-8">
+                                            <h6 class="mb-0 font-size-dot-875">SMS Template</h6>
+                                        </div>
+                                        <div class="col-3">
+                                            <span class="badge badge-secondary font-weight-500 float-right cursor-context mr-1" placement="left" ngbTooltip="Character Count"> {{templateFrm.value.smstemplateDetails.length}}</span>
+                                        </div>
+                                    </div>
+                                    <textarea class="form-control p-2" [readonly]="!templateFrm.value.isSmsTemplateActive" (click)="getSMSCaretPos(smsEditor);templateFrm.value.templateDetailFlag = 'sms'" placeholder="SMS Details" (keyup)="getSMSCaretPos(smsEditor)" #smsEditor formControlName='smstemplateDetails'></textarea>
+                                </div>
+                                <div class="col-6 template-details">
+                                    <div class="form-row">
+                                        <div class="col-10">
+                                            <h6 class="mb-0 font-size-dot-875">WhatsApp Template</h6>
+                                        </div>
+                                        <div class="col-2">
+                                            <span class="badge badge-secondary font-weight-500 float-right cursor-context mr-1" placement="left" ngbTooltip="Character Count"> {{templateFrm.value.whatsApptemplateDetails.length}}</span>
+                                        </div>
+                                    </div>
+                                    <textarea class="form-control p-2" [readonly]="!templateFrm.value.isWhatsappTemplateActive" (click)="getWhatsAppCaretPos(whatsAppEditor);templateFrm.value.templateDetailFlag = 'whatsApp'" placeholder="WhatsApp Details" (keyup)="getWhatsAppCaretPos(whatsAppEditor)"
+                                        #whatsAppEditor formControlName='whatsApptemplateDetails'></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-5 tag-list-col">
+                            <div class="form-row">
+                                <div class="col-6 align-self-end">
+                                    <h6 class="mb-1 font-size-dot-875">Tag List </h6>
+                                </div>
+                                <div class="col-6">
+                                    <span class="float-right">
+                  <i class="fas fa-fw font-18 fa-question-circle text-info ml-1" placement="left"
+                    ngbTooltip="Double click on tags to use in template"></i>
+                </span>
+                                </div>
+                            </div>
+                            <div class="add-update-tag-list border px-0">
+                                <ul class="list-unstyled m-0" *ngIf="tagMasterList.length > 0">
+                                    <li class="pointer p-1" *ngFor="let tag of tagMasterList" (dblclick)="toAddTag(tag.tag_name, templateFrm.value.templateType?.id)">
+                                        <a class="text-capitalize px-2 word-break-all">{{tag.tag_name}}</a>
+                                    </li>
+                                </ul>
+                                <p class="font-size-sm text-pink mb-0" *ngIf="tagMasterList.length === 0">Please select template category
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer p-1 text-right">
+            <button class="btn btn-sm btn-outline-secondary text-uppercase mr-2" (click)="clearForm()" type="button">
+        Cancel </button>
+            <button *ngIf="!templateFrm.value.templateName?.id" [disabled]="!templateFrm.valid" type="submit" class="btn btn-sm btn-success" [attr.title]="templateFrm.value.templateName?.id ? 'Update' : 'Save'">
+         <i class="icon fa-fw icon-save" aria-hidden="true"></i>
+          SAVE
+        </button>
+            <button *ngIf="templateFrm.value.templateName?.id" [disabled]="!templateFrm.valid" type="submit" class="btn btn-sm btn-success" [attr.title]="templateFrm.value.templateName?.id ? 'Update' : 'Save'">
+        <i class="fas fa-fw fa-sync-alt" aria-hidden="true"></i> Update
+      </button>
+        </div>
+    </form>
+</div>
+<!-- newTemplateNamePopUp -->
+<ng-template #newTemplateNamePopUp let-modal>
+    <div class="modal-header">
+        <p class="modal-title text-uppercase">Add New Template</p>
+        <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closeGlobalActivePopup()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <form [formGroup]="newTemplateDetails" (ngSubmit)="AddNewTempate()">
+        <div class="modal-body">
+            <div class="form-row form-group">
+                <div class="col-3">
+                    <label for="templateCategory">Category</label>
+                    <ng-select [items]="templateCategoryList" bindLabel="name" placeholder="Select Category" formControlName="templateCategory" (change)="onSelectNewTemplateCategory($event)">
+                    </ng-select>
+                    <small class="text-danger" *ngIf="templateNewFrmCntrols['templateCategory'].errors && submitted"> Category
+            Required!</small>
+                </div>
+                <div class="col-5">
+                    <label for="templateName">Template Name</label>
+                    <input class="form-control form-control-sm" formControlName="templateName" type="text" placeholder="Template name">
+                    <small class="text-danger" *ngIf="templateNewFrmCntrols['templateName'].errors && submitted">Enter Template
+            Name</small>
+                    <small class="text-danger" *ngIf="duplicateTemplateName">Template Name Already Exist</small>
+                </div>
+                <div class="col-3 align-self-center mt-custom-1-2">
+                    <div class="custom-control custom-checkbox custom-control-inline">
+                        <input type="checkbox" formControlName="isActive" class="custom-control-input" id="newTemplateActive" [disabled]="true">
+                        <label class="custom-control-label pointer">Active</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer py-1">
+            <button class="btn btn-sm btn-outline-secondary text-uppercase" (click)="closeGlobalActivePopup()" type="button">
+        Cancel </button>
+            <button type="submit" [disabled]="!newTemplateDetails.valid" class="btn btn-sm btn-success text-uppercase"><i
+          class="icon fa-fw icon-save"></i>
+        Save</button>
+        </div>
+    </form>
+</ng-template>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

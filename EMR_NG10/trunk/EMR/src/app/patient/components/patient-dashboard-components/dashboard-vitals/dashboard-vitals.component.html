@@ -1,0 +1,31 @@
+<div class="card">
+  <div class="card-header cus-head border-dash-bottom px-2 py-1">
+    <h6 class="mb-0"> Vitals
+      <button class="btn btn-xs btn-outline-info float-right text-uppercase" (click)="navigate()" type="button"><i
+          class="icon fa-fw icon-emr-icu-vital-sheet"></i> Vital
+        Graph</button>
+    </h6>
+  </div>
+  <div class="card-body patient-table p-0">
+    <table class="table table-bordered mb-0">
+      <thead>
+        <tr>
+          <th>Vitals</th>
+          <th>Min</th>
+          <th>Max</th>
+          <th>Current</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white font-size-dot-8">
+        <tr *ngFor="let vital of dasboardVitalsData; let id = index">
+          <td>{{vital.name}}</td>
+          <!-- <td class="blinking">102<sup>&deg;</sup></td> -->
+          <td [ngStyle]="{'color': getColorCode(vital,vital.min)}">{{vital.min}}</td>
+          <td [ngStyle]="{'color': getColorCode(vital,vital.max)}">{{vital.max}}</td>
+          <td [ngStyle]="{'color': getColorCode(vital,vital.current)}">{{vital.current}}</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>

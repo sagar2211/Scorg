@@ -1,0 +1,29 @@
+@import "../../../../../scss/main";
+:host ::ng-deep {
+  .ngx-datatable.fixed-row {
+    .datatable-body {
+      height: calc(100vh - 200px) !important;
+      overflow-x: hidden !important;
+    }
+  }
+  .dx-datagrid-total-footer > .dx-datagrid-content {
+  padding: 0;
+  }
+  #dx-col-27{
+    text-align: right !important;
+  }
+  .dx-texteditor-input-container{
+    input{
+      text-align: right !important;
+    }
+  }
+}
+
+.modal-footer{
+  .col-md-12 {
+    .row{
+      display: flex;
+      align-items: center;
+    }
+  }
+}

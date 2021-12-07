@@ -1,0 +1,69 @@
+<div class="card mt-2"
+  [ngClass]="{'slot-height':!isFromFrontDesk && !isExpand, 'expand-height': !isFromFrontDesk && isExpand}">
+  <!-- <div class="card-header py-1" *ngIf="isFromFrontDesk">
+    <button class="btn btn-sm btn-white float-right" type="button" #p="ngbPopover" triggers="manual"
+      [autoClose]="'outside'" placement="left-top" [ngbPopover]="popContentFrontDeskSlotDetails" (click)="p.open()">
+      <i class="icon fa-fw icon-filter" aria-hidden="true"></i>
+    </button>
+  </div> -->
+  <div class="card-body py-2"
+    *ngIf="slotData?.subTimeSlots.length && !fullDayHoliday">
+    <ng-container *ngFor="let subSlots of slotData.subTimeSlots; let i = index; let last = last;">
+      <div class="form-row pb-2 mb-2" [ngClass]="{'border-dash-bottom':!isFromFrontDesk}">
+        <div *ngIf="isFromFrontDesk" class="col-3 align-self-center"><span
+            *ngIf="slotData.subTimeSlots[i-1]?.appointmentTypeName !== subSlots?.appointmentTypeName">{{subSlots.appointmentTypeName}}</span>
+        </div>
+        <div class="align-self-center col">
+          <p class="mb-0 font-weight-500"><i class="icon fa-fw icon-clock align-middle"></i>
+            {{subSlots.subTimeFrom + ' - '+ subSlots.subTimeTo}}</p>
+        </div>
+         <div [ngClass]="{'col-9':!isFromFrontDesk,'col-7':isFromFrontDesk}">
+          <button type="button" class="btn btn-sm  m-1" *ngFor="let slot of subSlots.slots"
+            [disabled]="((slot.timePassed || slot.isBooked || slot.isBlocked || slot.isOnHoliday) && source != 'blockAppointmentSetting')"
+            (click)="action(slot, slotData?.morningSlots, subSlots);"
+            [ngClass]="getClassValue(slot)"> <span *ngIf="(slot.isOnHoliday || slot.isBlocked ) else elsePart" ><del> {{slot.slotTime}}</del></span> <ng-template #elsePart>{{slot.slotTime}}</ng-template>  </button>
+        </div>
+      </div>
+      <div class="mb-2" *ngIf="isFromFrontDesk && !last"
+        [ngClass]="{'border-dash-bottom':slotData.subTimeSlots[i+1]?.appointmentTypeName !== subSlots?.appointmentTypeName}">
+      </div>
+    </ng-container>
+    <p class="mb-0 p-1" *ngIf="!slotData.subTimeSlots.length">
+      No Slots Available
+    </p>
+  </div>
+  <div class="card-body py-2" *ngIf="!slotData?.subTimeSlots.length && !advancebookingValidateMsg">
+    <div class="no-data w-50 text-center m-auto">
+      <span aria-hidden="true" class="fa-stack fa-2x"><i class="fa fa-clipboard" aria-hidden="true"></i>
+        <i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse" aria-hidden="true"></i></span>
+      <p> No Schedule Found!</p>
+    </div>
+  </div>
+  <div class="card-body py-2" *ngIf="slotData?.subTimeSlots.length && fullDayHoliday && !advancebookingValidateMsg">
+    <div class="no-data w-20 text-center m-auto">
+      <span aria-hidden="true" class="fa-stack fa-2x"><i class="fa fa-clipboard" aria-hidden="true"></i>
+        <i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse" aria-hidden="true"></i></span>
+      <p> Doctor is on holiday!</p>
+    </div>
+  </div>
+  <div class="card-body py-2" *ngIf="advancebookingValidateMsg">
+    <div class="no-data w-30 text-center m-auto">
+      <span aria-hidden="true" class="fa-stack fa-2x"><i class="fa fa-clipboard" aria-hidden="true"></i>
+        <i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse" aria-hidden="true"></i></span>
+      <p> {{advancebookingValidateMsg}}</p>
+    </div>
+  </div>
+</div>
+<!-- <ng-template #popContentFrontDeskSlotDetails>
+  <div class="form-group">
+    <label class="">Appointment Date</label>
+    <app-date-picker [min]="minDate" (dateChange)="onDateChange($event)" [inputDate]="appontmentSlotDate"
+      [isClear]="false">
+    </app-date-picker>
+  </div>
+  <div class="text-right">
+    <button class="btn btn-xs btn-outline-warning" (click)="onDateChange(minDate)" type="button"><i
+        class="fas fa-fw fa-eraser" aria-hidden="true"></i> CLEAR</button>
+  </div>
+</ng-template> -->
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

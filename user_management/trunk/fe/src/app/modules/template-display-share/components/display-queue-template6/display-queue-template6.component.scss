@@ -1,0 +1,206 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+.info {
+  position: absolute;
+  left: 0.5%;
+  top: 0.5%;
+  width: 99%;
+  height: 99%;
+  @include border-radius(15px);
+  border: 2px solid $white;
+  @include custom-box-shadow(0, 0, 4px, rgba($black, 0.15));
+  background: rgb(219, 223, 224);
+  background: linear-gradient(45deg, #f7f7f7 0%, #e4e8e9 150%);
+}
+
+.template6 {
+  .h-40 {
+    height: 40%;
+    max-height: 40%;
+  }
+
+  .h-35 {
+    height: 35%;
+    max-height: 35%;
+  }
+
+  .h-25 {
+    height: 25%;
+    max-height: 25%;
+  }
+
+  .dr-info {
+
+    .dr-name-row {
+
+      .dr-name {
+        font-size: 2.5vw;
+      }
+    }
+
+    .dr-speciality {
+
+      .speciality {
+        font-size: 1.3vw;
+      }
+    }
+
+    .room-number {
+
+      .room {
+        font-size: 2vw;
+      }
+
+      .section {
+        font-size: 2vw;
+      }
+    }
+  }
+
+  .calling-info {
+
+    .calling {
+
+      .token-no {
+        font-size: 5vw;
+      }
+    }
+
+    .pt-name-row {
+
+      .pt-name {
+        font-size: 2.5vw;
+      }
+    }
+
+    .mobile-no-row {
+
+      .mobile-no {
+        font-size: 1.5vw;
+      }
+    }
+
+    .room-number {
+
+      .room {
+        font-size: 2vw;
+        @include transform(translateY(50%));
+      }
+
+      .section {
+        font-size: 2vw;
+      }
+    }
+  }
+
+  .next-info {
+    @extend .info;
+
+    .next {
+      color: $white;
+      height: 40%;
+      max-height: 40%;
+      text-align: center;
+      border-top-left-radius: inherit;
+      border-top-right-radius: inherit;
+      background-color: rgb(219, 223, 224);
+      background-color: rgb(219, 223, 224);
+      background: linear-gradient(45deg, #644c94 0%, #9770b1 150%);
+      @include custom-box-shadow(0, 2px, 10px, rgba($black, 0.15));
+
+      .next-txt {
+        position: absolute;
+        top: 8px;
+        left: 7px;
+        z-index: 1;
+        font-weight: 500;
+        font-size: 1.4vw;
+        padding: 0px 6px;
+        border-radius: 25px;
+        background-color: rgba(0, 0, 0, 0.4);
+        text-shadow: 0 0 6px $white;
+      }
+
+      .token-no {
+        font-size: 5vw;
+        text-shadow: 0 0 3px $white;
+      }
+    }
+
+    .pt-name-row {
+      height: 40%;
+      max-height: 40%;
+      padding: 0 0.5%;
+      color: $gray-900;
+
+      .pt-name {
+        line-height: 0.8;
+        font-size: 2.5vw;
+      }
+    }
+
+    .mobile-no-row {
+      height: 20%;
+      max-height: 20%;
+      padding: 0 0.5%;
+      color: $gray-900;
+
+      .mobile-no {
+        opacity: 0.8;
+        line-height: 1;
+        font-size: 1.5vw;
+      }
+    }
+
+    .room-number {
+      height: 19%;
+      max-height: 19%;
+      padding: 0 0.5%;
+      border-top: 2px solid $white;
+      border-bottom-left-radius: inherit;
+      border-bottom-right-radius: inherit;
+      background: rgb(219, 223, 224);
+      background: linear-gradient(45deg, #f7f7f7 0%, #e4e8e9 150%);
+      @include custom-box-shadow(0, -2px, 5px, rgba($black, 0.15));
+
+      .room {
+        opacity: 0.8;
+        font-size: 2vw;
+        line-height: 0.8;
+        color: $gray-900;
+        transform: translateY(25%);
+      }
+
+      .section {
+        color: $white;
+        font-size: 3vw;
+        padding: 0 0.6%;
+        @include border-radius(10px);
+        display: inline-block;
+        border: 2px solid #fff;
+        background: rgb(219, 223, 224);
+        background: linear-gradient(45deg, #644c94 0%, #9770b1 150%);
+        @include custom-box-shadow(0, 2px, 10px, rgba($black, 0.15));
+      }
+    }
+  }
+
+  .queue-info {
+    .queue-list {
+      .col-token {
+        padding-top: 1%;
+        padding-bottom: 1%;
+      }
+
+      .col-pt-name-mobile {
+        .pt-name {
+          font-size: 1.8vw;
+        }
+
+        .mobile-no {
+          font-size: 1.4vw;
+        }
+      }
+    }
+  }
+}

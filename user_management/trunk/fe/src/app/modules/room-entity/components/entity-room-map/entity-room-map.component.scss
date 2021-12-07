@@ -1,0 +1,25 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+.entity-room-map {
+  height: calc(100vh - 164px);
+  overflow-y: auto;
+
+  .entity-room-details {
+    height: calc(100vh - 243px);
+    overflow-y: auto;
+
+    .card-body {
+      .custom-card {
+        @include custom-box-shadow(0, 0, 5px, rgba(28, 25, 83, 0.12));
+        @include transition(box-shadow 0.5s);
+        @include border-radius(5px);
+
+        &:hover {
+          @include custom-box-shadow(0, 4px, 9px, rgba(165, 165, 165, 0.5));
+          @include transition(box-shadow 0.5s);
+        }
+      }
+    }
+
+  }
+}

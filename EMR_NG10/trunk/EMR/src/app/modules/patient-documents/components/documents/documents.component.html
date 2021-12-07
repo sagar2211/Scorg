@@ -1,0 +1,46 @@
+<div class="emr-custom-container-fluid">
+  <div class="card-header py-2 border-dash-bottom">
+    <h6 class="mb-0"> Documents</h6>
+  </div>
+  <div class="card-body document-height">
+    <form [formGroup]="medicalHistoryFrm">
+      <div class="form-row form-group alignNote">
+        <div class="col-8">
+          <label for="Medical History" class="sr-only">Medical History</label>
+          <!-- <input type="text" class="form-control " formControlName="medicalHistoryNote" placeholder="Enter Note"> -->
+          <textarea style="width: 100%;" placeholder="Enter Note"></textarea>
+        </div>
+        <div class="col-4text-right">
+          <button type="submit" class="btn btn-primary btn-sm" (click)="viewAtcFiles()">
+            <span class="pl-1" *ngIf="filesInputs.length > 0">Add More</span>
+            <span class="pl-1" *ngIf="filesInputs.length == 0">Add Attachments</span>
+          </button>
+        </div>
+      </div>
+      <div id="highlight-12" class="col-md-12 col-sm-12" *ngIf="filesInputs.length > 0">
+        <div class='transparent accordion'>
+          <div class="history-tab">
+            <div class="custom-panel">
+              <div class="col-md-12 no-padding m-0">
+                <section class="nobox box">
+                  <div class="content-body">
+                    <div class="row">
+                      <div class="col-md-12 col-sm-12">
+                        <app-display-images [uploadedFileList]="filesInputs"
+                          (deleteSelectedImg)="deleteDiagnosisFile($event)" [isDelete]="true" [isView]="true">
+                        </app-display-images>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <app-image-slider [imageFilesData]="imageSliderInput" *ngIf="imageSliderInput !== undefined"></app-image-slider> -->
+      <app-file-attachments *ngIf="fileUpload" [uploader]="childUploaderInstance" [filesInputs]="filesInputs"
+        (filesInputsChild)="OnFileUploadResponse($event)"></app-file-attachments>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,90 @@
+<div class="card appointment-search-height border-0">
+  <div class="card-header cus-head py-1 border-dash-bottom">
+    <h6 class="mb-0 ">Search</h6>
+  </div>
+  <div class="card-body py-0 px-2">
+    <form class="mt-1" [formGroup]="searchForm" (ngSubmit)="getSearhData()">
+      <div class="form-row form-group"
+        [ngClass]="{'mb-4': submitted && searchForm.get('startHour')['errors'].startHour|| submitted && searchForm.get('endHour').errors ? true : false}">
+        <div class="col-3">
+          <label>Appointment Date<sup>*</sup></label>
+          <app-date-picker [min]="minDate" [isClear]=false (dateChange)="onDateChange($event)" [inputDate]="searchForm.value.startDate">
+          </app-date-picker>
+        </div>
+        <div class="col-3" *ngIf="!isFromFrontDesk" >
+          <label>Preferred Time</label>
+          <select class="form-control form-control-sm" formControlName="startHour" (change)="updateFormValueOnHourVal()">
+            <option value="">Select Hour</option>
+            <option *ngFor="let item of hoursList" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        <div class="col-6 align-self-center mt-custom-1-2">
+          <button type="button" [class.active]="selectedDateBtn == 'TODAY'"
+            class="btn btn-sm btn-outline-secondary mr-1" (click)="onClickDateBtn('TODAY')">TODAY</button>
+          <button type="button" [class.active]="selectedDateBtn == 'TOMORROW'"
+            class="btn btn-sm btn-outline-secondary mr-1" (click)="onClickDateBtn('TOMORROW')">TOMORROW</button>
+          <button type="button" [class.active]="selectedDateBtn == 'NEXT_WEEK'"
+            class="btn btn-sm btn-outline-secondary mr-1" (click)="onClickDateBtn('NEXT_WEEK')">NEXT
+            WEEK</button>
+          <button type="button" [class.active]="selectedDateBtn == 'NEXT_MONTH'"
+            class="btn btn-sm btn-outline-secondary" (click)="onClickDateBtn('NEXT_MONTH')">NEXT
+            MONTH</button>
+          <button *ngIf="!isFromFrontDesk" class="btn btn-sm btn-warning float-right" type="button" (click)="clearForm()" placement="left"
+            ngbTooltip="CLEAR ALL"><i class="fas fa-fw fa-eraser" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="form-row form-group" *ngIf="!isFromFrontDesk">
+        <div class="col-3">
+          <label>Provider Type<sup>*</sup></label>
+          <app-ng-select-typeahead [inputValue]="searchForm.value.selectedEntity?.id" [thDisplayLabel]="'name'"
+            [thDisplayKey]="'id'" [source]="'Search..'" [returnDataType]="'obj'"
+            (recievedVal)="selectEntity($event, searchForm.get('selectedEntity'))" [displayList]="entityList">
+          </app-ng-select-typeahead>
+        </div>
+        <div class="col-3"
+          *ngIf="searchForm.value.selectedEntity && searchForm.value.selectedEntity.key == 'doctor' && specialityList.length > 0">
+          <label>Speciality</label>
+          <app-ng-select-typeahead [inputValue]="searchForm.value.selectedSpeciality?.id" [thDisplayLabel]="'name'"
+            [thDisplayKey]="'id'" [source]="'Search..'"
+            (recievedVal)="selectSepeciality($event, searchForm.get('selectedSpeciality'))" [returnDataType]="'obj'"
+            [displayList]="specialityList">
+          </app-ng-select-typeahead>
+        </div>
+        <div class="col-3" *ngIf="searchForm.value.selectedEntity && searchForm.value.selectedEntity.key == 'doctor'">
+          <label>Doctor</label>
+          <app-ng-select-typeahead [isSearchDataFromApi]="true" [selectedValue]="searchForm.value.selectedDoctor?.name"
+            [inputValue]="searchForm.value.selectedDoctor?.id" [thDisplayLabel]="'name'" [thDisplayKey]="'id'"
+            [source]="'Search..'" (recievedVal)="selectDoctor($event, searchForm.get('selectedDoctor'))"
+            [returnDataType]="'obj'" [searchFun]="getAllDoctorList" [compInstance]="compInstance">
+          </app-ng-select-typeahead>
+        </div>
+        <div class="col-3"
+          *ngIf="searchForm.value.selectedEntity && searchForm.value.selectedEntity.key == 'joint_clinic'">
+          <label>Joint Clinic</label>
+          <app-ng-select-typeahead [inputValue]="searchForm.value.selectedJointClinic?.id" [thDisplayLabel]="'name'"
+            [thDisplayKey]="'id'" [source]="'Search..'"
+            (recievedVal)="selectJointClinic($event, searchForm.get('selectedJointClinic'))" [returnDataType]="'obj'"
+            [displayList]="jointClinicList">
+          </app-ng-select-typeahead>
+        </div>
+        <div class="col-3"
+          *ngIf="searchForm.value.selectedEntity && searchForm.value.selectedEntity.key == 'service_provider'">
+          <label for="lab-service">Select Provider</label>
+          <app-ng-select-typeahead [inputValue]="searchForm.value.selectedServiceProvider?.id" [thDisplayLabel]="'name'"
+            [thDisplayKey]="'id'" [source]="'Select provider..'"
+            (recievedVal)="selectProvider($event, searchForm.get('selectedServiceProvider'))" [returnDataType]="'obj'"
+            [displayList]="serviceProviderList">
+          </app-ng-select-typeahead>
+        </div>
+        <div class="col-3">
+          <label>Appointment Type</label>
+          <app-ng-select-typeahead [inputValue]="searchForm.value.appointmentType?.id" [thDisplayLabel]="'name'"
+            [thDisplayKey]="'id'" [source]="'Search..'"
+            (recievedVal)="selectAppoitmentType($event,searchForm.get('appointmentType'))" [returnDataType]="'obj'"
+            [displayList]="appointmentTypeList">
+          </app-ng-select-typeahead>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

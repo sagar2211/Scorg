@@ -1,0 +1,145 @@
+<ngb-accordion (panelChange)="menuClicked($event)" [closeOthers]="true" [activeIds]="componentInfo?.activeIdsOfPanels">
+  <ngb-panel id="attachment">
+    <ng-template ngbPanelTitle>
+      <div class="form-row align-items-center mx-0">
+        <div class="col-3">
+          <p class="mb-0 font-size-dot-875">{{componentInfo?.section_name}}</p>
+        </div>
+        <div class="col-9">
+          <button class="btn btn-sm btn-link text-white text-right" type="button">
+            <i [ngClass]="isPanelOpen ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template ngbPanelContent>
+      <div class="form-row">
+        <!-- <div class="col-8">
+          <textarea type="input" class="form-control h-auto" [(ngModel)]="attacmentComment" rows="4" placeholder="Add comments"></textarea>
+        </div> -->
+        <div class="col-4 no-padding">
+          <button type="submit" class="btn btn-sm btn-outline-primary-light" (click)="addAtcFiles = true">
+            <span class="pl-1 pr-2">ADD ATTACHMENT</span>
+          </button>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-2 text-center mt-2" *ngFor="let item of filesInputs">
+          <div class="card text-center" style="cursor: pointer;">
+            <div (click)="viewAttachedFile(item)">
+              <img *ngIf="isImage(item)" class="card-img-top" width="100" height="100" src="{{fileServePath + item.thumbnail_path}}">
+              <img *ngIf="!isImage(item)" class="card-img-top" width="100" height="100" src="{{imgPath + '/pdfview.png'}}">
+             </div>
+            <div class="card-body p-1">
+              <h6 (click)="viewAttachedFile(item)" class="card-title mb-0">{{item.orginal_file_name.split('.')[0]}}</h6>
+            </div>
+            <div class="card-footer">
+              <div class="row">
+                <!-- <div class="col">
+                  <a href="javaScript:Void(0);" class="text-info"><i class="icon fa-fw icon-edit"
+                      aria-hidden="true"></i></a>
+                </div> -->
+                <div class="col">
+                  <a class="text-danger" (click)="deleteConfirmationPopup(item)"><i class="icon fa-fw icon-trash" aria-hidden="true"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card my-1" *ngIf="addAtcFiles">
+        <div class="card-header border-dash-bottom custom-bg">
+          <div class="form-row align-items-center mx-0 my-1">
+            <div class="col-10">
+              <p class="text-primary mb-0 font-weight-500">Upload Queue Length: {{ uploader?.queue?.length }} <span class="text-muted small">Max Size:10 MB, Allowed file
+                  extensions(jpg,png,jpeg,gif,pdf)</span></p>
+            </div>
+            <div class="col-2 text-right">
+              <button class="btn btn-xs btn-outline-danger" (click)="addAtcFilesAcr()"><i class="icon fa-fw icon-times-circle font-size-1" aria-hidden="true"></i></button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="input-group">
+            <input type="hidden" id="filename" name="filename" value="">
+            <input type="file" class="btn btn-sm font-10 inputBtn" ng2FileSelect [uploader]="uploader" multiple />
+          </div>
+          <p [hidden]="!isError" class="text-danger mb-0 small">Invalid file extension</p>
+          <p [hidden]="!isErrorLen" class="text-danger mb-0 small">Upload only 10 files at once!</p>
+          <p [hidden]="!fileSize" class="text-danger mb-0 small">File Size exceeds for
+            <span *ngFor="let item of invalidSizeFilename; let i = index; let last = last;">
+              {{item}}<span *ngIf="!last">,</span>
+            </span></p>
+          <table class="table table-bordered custom-table font-size-dot-875 mb-0 first-table">
+            <thead class="w-100">
+              <tr>
+                <th width="30%">Name</th>
+                <th [hidden]="!uploader.options.isHTML5" width="10%">Size</th>
+                <th [hidden]="!uploader.options.isHTML5" width="18%">Progress</th>
+                <th width="8%">Status</th>
+                <th width="34%">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of uploader.queue; let i = index;">
+                <td width="30%" class="text-left">
+                  <input type="text" class="form-control position-static" trim editable-text="item?.file?.name" editable-theme="bs3" [value]="item.file.name" e-required
+                    (keyup)="renameFile(item, $event.target.value); item.file.name = $event.target.value">
+                  <p class="text-danger mb-0 small" *ngIf="!item.file.name">Please
+                    enter file name</p>
+                </td>
+                <td width="10%" [hidden]="!uploader.options.isHTML5" nowrap>
+                  {{ item?.file?.size/1024/1024 | number:'2.0-2' }} MB
+                </td>
+                <td width="18%" [hidden]="!uploader.options.isHTML5">
+                  <div class="progress mb-0">
+                    <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width.%': item.progress }">
+                    </div>
+                  </div>
+                </td>
+                <td width="8%" class="text-center">
+                  <span [hidden]="!item.isSuccess"><i class="icon fa-fw icon-check text-success"></i></span>
+                  <span [hidden]="!item.isCancel"><i class="fa fa-fw fa-ban text-warning"></i></span>
+                  <span [hidden]="!item.isError"><i class="fa fa-fw fa-trash text-danger"></i></span>
+                </td>
+                <td width="34%" nowrap>
+                  <button type="button" class="btn btn-xs btn-success mr-1" (click)="item.upload()" [disabled]="item.isReady || item.isUploading || item.isSuccess || !item.file.name">
+                    <i class="fa fa-fw fa-upload" aria-hidden="true"></i> UPLOAD
+                  </button>
+                  <button type="button" class="btn btn-xs btn-outline-warning mr-1" (click)="item.cancel()" [disabled]="!item.isUploading">
+                    <i class="fa fa-ban" aria-hidden="true"></i> CANCEL
+                  </button>
+                  <button type="button" class="btn btn-xs btn-outline-danger" (click)="item.remove()" [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                    <i class="fa fa-trash" aria-hidden="true"></i> REMOVE
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer py-0 px-1">
+          <div class="form-row align-items-center mx-0 my-1">
+            <div class="col-4">
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width.%': uploader.progress }">
+                </div>
+              </div>
+            </div>
+            <div class="col-8 text-right">
+              <button type="button" class="btn btn-sm btn-success mr-1" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length || isFileNameError">
+                <i class="fa fa-fw fa-upload" aria-hidden="true"></i> UPLOAD ALL
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-warning mr-1" (click)="uploader.cancelAll()" [disabled]="!uploader.isUploading">
+                <i class="fa fa-ban" aria-hidden="true"></i> CANCEL ALL
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-danger" (click)="uploader.clearQueue()" [disabled]="!uploader.queue.length">
+                <i class="fa fa-trash" aria-hidden="true"></i> REMOVE ALL
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-panel>
+</ngb-accordion>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

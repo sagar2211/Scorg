@@ -1,0 +1,86 @@
+<div class="form-row mt-1 align-items-center">
+    <div class="col-lable">
+        <div class="d-inline-flex mr-2" *ngIf="appliedHistoryFilter && appliedHistoryFilter.chartDateArray.length > 0">
+            <a class="text-decoration-none filter-type">Date:</a>&nbsp;
+            <ng-container *ngFor="let item of appliedHistoryFilter.chartDateArray; let i = index;">
+                <span class="filter">{{item.date}}
+                    <a class="text-muted text-decoration-none" (click)="updateFilterObject(item, 'date', i)">
+                        <span class="font-size-1 align-top" aria-hidden="true">&times;</span>
+                </a>
+                </span>
+            </ng-container>
+        </div>
+        <div class="d-inline-flex mr-2" *ngIf="appliedHistoryFilter && appliedHistoryFilter.careTeamList.length > 0">
+            <a class="text-decoration-none filter-type">Users:</a>&nbsp;
+            <ng-container *ngFor="let item of appliedHistoryFilter.careTeamList; let i = index;">
+                <span class="filter"> <span *ngIf="item.title">{{item.title}}</span>{{item.user_name}}
+                <a class="text-muted text-decoration-none" (click)="updateFilterObject(item, 'careTeam', i)">
+                    <span class="font-size-1 align-top" aria-hidden="true">&times;</span>
+                </a>
+                </span>
+            </ng-container>
+        </div>
+        <div class="d-inline-flex mr-2" *ngIf="appliedHistoryFilter && appliedHistoryFilter.componentList.length > 0">
+            <a class="text-decoration-none filter-type">Section:</a>&nbsp;
+            <ng-container *ngFor="let item of appliedHistoryFilter.componentList; let i = index;">
+                <span class="filter"> {{item.section_name}}
+                    <a class="text-muted text-decoration-none" (click)="updateFilterObject(item, 'section', i)">
+                        <span class="font-size-1 align-top" aria-hidden="true">&times;</span>
+                </a>
+                </span>
+            </ng-container>
+        </div>
+    </div>
+    <div class="col-btn">
+        <div class="form-inline">
+            <button class="btn btn-sm btn-outline-primary-light mr-1" type="button" (click)="openFilterPopup()">
+                <i class="icon fa-fw icon-filter" aria-hidden="true"></i>
+            </button>
+            <div class="input-group mr-2">
+                <select class="form-control form-control-sm custom-order-select pointer" #sort name="project" (click)="orderByHistory(selectedSortkey)" [(ngModel)]="selectedSortkey">
+                    <option value="">Sort by</option>
+                    <option *ngFor="let item of sortKeyList" [value]="item.key">{{item.name}}</option>
+                </select>
+                <div class="input-group-append">
+                    <button class="btn btn-sm btn-outline-primary-light" type="button" title="{{!selectedSortType ? 'ASC' : 'DESC'}}" (click)="selectedSortType=!selectedSortType;orderByHistory(selectedSortkey)"><i class="fas"
+                            [ngClass]="!selectedSortType ? 'fa-sort-amount-up': 'fa-sort-amount-down'"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="p-1 mb-3 visit-history" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="300" (scrolled)="onScroll()" [scrollWindow]="false">
+    <ng-container *ngFor="let history of historyData ; let i = index">
+        <!-- <ng-container *ngFor="let history of historySingle.opd_data ; let i = index"> -->
+        <div class="timeline-centered position-relative mx-auto">
+            <div class="timeline-entry position-relative" [ngStyle]="{'margin-bottom.px': history.isExpand ? '33' : '67'}">
+                <div class="timeline-entry-inner">
+                    <div class="timeline-icon pointer rounded-circle text-center" [ngClass]="{'expand-bar':!history.isExpand}" (click)="onExpand(history, i)">
+                        <i class="entypo-feather"></i></div>
+                    <!-- history.isExpand = !history.isExpand -->
+                    <div class="timeline-label container-fluid">
+                        <time class="form-row pointer" datetime="2014-01-10T03:45" (click)="onExpand(history, i)">
+                            <div class="col-6"> <span class="font-weight-500 dr-name">Dr: {{history.doctor_name}} </span> <span
+                                    [innerHTML]="history.service_type" class="text-muted small"> </span></div>
+                            <div class="col-6 text-right"> <span class="text-muted small"><i class="fa fa-calendar"
+                                        aria-hidden="true"></i> {{history.consultation_datetime | date: "dd-MM-yyyy"}}
+                                </span>
+                                <span class="text-muted small"><i class="fa fa-clock-o" aria-hidden="true"></i>
+                                    {{history.consultation_datetime | date: "HH:mm aa"}}</span></div>
+                        </time>
+                        <ng-container *ngIf="history.isExpand">
+                            <app-all-components-data-display [chartData]="history" [chartComponentList]="chartComponentList"></app-all-components-data-display>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container *ngIf="!historyData.length">
+        <div class="postion-relative text-center custom-alert">
+            <div class="alert alert-warning position-absolute w-50" role="alert">
+                No History Available
+            </div>
+        </div>
+    </ng-container>
+</div>

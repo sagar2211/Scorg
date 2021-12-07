@@ -1,0 +1,7 @@
+.custom-container-fluid.partial-view {
+  height: calc(100vh - 0px);
+  width: calc(100vw - 0px);
+  .datatable-body{
+    height: calc(100vh - 140px)!important;
+  }
+}

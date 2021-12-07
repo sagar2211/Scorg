@@ -1,0 +1,89 @@
+<div *ngIf="formLoad">
+  <div class="card border-top-0 border-bottom-0 border-right-0">
+    <div class="card-header border-dash-bottom py-2">
+      <h6 class="mb-0">Slot Color</h6>
+    </div>
+    <div class="card-body color-height">
+      <div class="form-row mb-4">
+        <div class="col-2">
+          <span class="mr-1">Holiday : </span>
+          <span class="color-box" [ngClass]="slotColorSetting.holiday_color" #p="ngbPopover" triggers="manual"
+            [autoClose]="true" placement="bottom-left" [ngbPopover]="popContentColorPicker"
+            (click)="onPopoverClick(p, 'holiday_color');"></span>
+        </div>
+        <div class="col-2">
+          <span class="mr-1">Available Slot : </span>
+          <span class="color-box" [ngClass]="slotColorSetting.available_color" #q="ngbPopover" triggers="manual"
+            [autoClose]="true" placement="bottom-left" [ngbPopover]="popContentColorPicker"
+            (click)="onPopoverClick(q, 'available_color');"></span>
+        </div>
+        <div class="col-2">
+          <span class="mr-1">Blocked Slot : </span>
+          <span class="color-box" [ngClass]="slotColorSetting.blocked_color" #r="ngbPopover" triggers="manual"
+            [autoClose]="true" placement="bottom-left" [ngbPopover]="popContentColorPicker"
+            (click)="onPopoverClick(r, 'blocked_color');"></span>
+        </div>
+        <div class="col-2">
+          <span class="mr-1">Booked Slot : </span>
+          <span class="color-box" [ngClass]="slotColorSetting.booked_color" #s="ngbPopover" triggers="manual"
+            [autoClose]="true" placement="bottom-left" [ngbPopover]="popContentColorPicker"
+            (click)="onPopoverClick(s, 'booked_color');"></span>
+        </div>
+        <div class="col">
+          <span class="mr-1">Requested Slot date not available : </span>
+          <span class="color-box" [ngClass]="slotColorSetting.differentdateslot_color" #t="ngbPopover" triggers="manual"
+            [autoClose]="true" placement="bottom-right" [ngbPopover]="popContentColorPicker"
+            (click)="onPopoverClick(t, 'differentdateslot_color');"></span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col">
+          <span class="mr-1">Calendar Out Of Hour Color : </span>
+          <span class="color-box" [ngClass]="slotColorSetting.out_of_hour_color" #u="ngbPopover" triggers="manual"
+            [autoClose]="true" placement="bottom-left" [ngbPopover]="popContentColorPicker"
+            (click)="onPopoverClick(u, 'out_of_hour_color');"></span>
+        </div>
+      </div>
+
+      <ng-template #popContentColorPicker>
+        <div class="card-body p-1">
+          <div class="form-row mb-2">
+            <div class="color-picker aqua-clr" (click)="updateClassOnSelectedComponent('aqua-clr')"></div>
+            <div class="color-picker black-clr" (click)="updateClassOnSelectedComponent('black-clr')"></div>
+            <div class="color-picker blue-clr" (click)="updateClassOnSelectedComponent('blue-clr')"></div>
+            <div class="color-picker fuchsia-clr" (click)="updateClassOnSelectedComponent('fuchsia-clr')"></div>
+          </div>
+          <div class="form-row mb-2">
+            <div class="color-picker gray-clr" (click)="updateClassOnSelectedComponent('gray-clr')"></div>
+            <div class="color-picker green-clr" (click)="updateClassOnSelectedComponent('green-clr')"></div>
+            <div class="color-picker lime-clr" (click)="updateClassOnSelectedComponent('lime-clr')"></div>
+            <div class="color-picker maroon-clr" (click)="updateClassOnSelectedComponent('maroon-clr')"></div>
+          </div>
+          <div class="form-row mb-2">
+            <div class="color-picker navy-clr" (click)="updateClassOnSelectedComponent('navy-clr')"></div>
+            <div class="color-picker olive-clr" (click)="updateClassOnSelectedComponent('olive-clr')"></div>
+            <div class="color-picker purple-clr" (click)="updateClassOnSelectedComponent('purple-clr')"></div>
+            <div class="color-picker red-clr" (click)="updateClassOnSelectedComponent('red-clr')"></div>
+          </div>
+          <div class="form-row">
+            <div class="color-picker silver-clr" (click)="updateClassOnSelectedComponent('silver-clr')"></div>
+            <div class="color-picker teal-clr" (click)="updateClassOnSelectedComponent('teal-clr')"></div>
+            <div class="color-picker orange-clr" (click)="updateClassOnSelectedComponent('orange-clr')"></div>
+            <div class="color-picker yellow-clr" (click)="updateClassOnSelectedComponent('yellow-clr')"></div>
+          </div>
+        </div>
+      </ng-template>
+
+    </div>
+    <div class="card-footer text-right py-1">
+      <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase mr-2"
+        (click)="updateDefaultColors();">
+        Cancel</button>
+      <button *ngxPermissionsOnly="userPermission.Update_Slot_Color_Settings" type="button"
+        (click)="updateSlotColorSetting()" class="btn btn-sm btn-success text-uppercase"><i
+          class="icon fa-fw icon-save"></i> SAVE
+      </button>
+    </div>
+  </div>
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</div>

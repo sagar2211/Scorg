@@ -1,0 +1,31 @@
+.action-btn {
+  .col-5 {
+    display: flex;
+    justify-content: flex-end;
+
+    .col-2 {
+      float: left;
+      &.px-0 {
+        &.pl-1 {
+          button {
+            float: right;
+          }
+        }
+      }
+    }
+  }
+}
+.dx-overlay-content.dx-popup-normal.dx-resizable {
+  width: 500px !important;
+  .dx-scrollable-container {
+    .dx-scrollable-content {
+      .dx-scrollview-content {
+        .dx-item {
+          .dx-template-wrapper {
+            padding: 0px 0px !important;
+          }
+        }
+      }
+    }
+  }
+}

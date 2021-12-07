@@ -1,0 +1,1214 @@
+<div class="panel reportChart">
+    <div class="row m-0 custom-scroll" style="height: 68vh; overflow: auto;">
+        <div class="col-md-5">
+            <div class="table-responsive">
+                <table class="table" id="sensory">
+                    <thead>
+                        <tr>
+                            <th>
+                                <h2 class="text-center mb-3 text-uppercase">Right</h2>
+                            </th>
+                            <th class="text-center" style="color: #424242;">
+                                <label class="text-uppercase">Motor</label> <br />
+                                <label class="text-uppercase">key musclues</label>
+                            </th>
+                            <th colspan="2" class="text-center">
+                                <label class="text-uppercase" style="color: #424242;">sensory</label> <br />
+                                <label class=text-uppercase style="color: #424242;">key sensor points</label><br />
+                                <h6 class="pull-left font-12 m-0">Light Touch <br>(LTR)</h6>
+                                <h6 class="pull-right font-12 m-0">Pin Prick <br> (PPR)</h6>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="2" class="text-right">
+                                <label class="pull-right">C2</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.C2">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.C2">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-right">
+                                <label class="pull-right">C3</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.C3">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.C3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-right">
+                                <label class="pull-right">C4</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.C4">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.C4">
+                            </td>
+                        </tr>
+                        <textarea cols="30" rows="50" id="reportComment" limit-max-length="500" maxlength="500"
+                            class="ChartTextarea" [(ngModel)]="painAssociatedData.comment"
+                            placeholder="Comments(Non-key Muscles? Reason for NT? Pain?)">
+                </textarea>
+                        <tr>
+                            <td colspan="2" class="text-right font-12">
+                                Elbow flexors <label class="mr-1">C5</label>
+                                <input [(ngModel)]="painChartData.mytome.upper.right.C5">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.C5">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.C5">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <h4 class="text-uppercase text-center bold m-0" style="font-size: 17px;">uer</h4>
+                            </td>
+                            <td class="text-right font-12">
+                                Wrist extensions <label class="mr-1">C6</label>
+                                <input [(ngModel)]="painChartData.mytome.upper.right.C6">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.C6">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.C6">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center font-12">
+                                (Upper Extremlty Right)
+                            </td>
+                            <td class="text-right font-12">
+                                Elbow extensions <label class="mr-1">C7</label>
+                                <input [(ngModel)]="painChartData.mytome.upper.right.C7">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.C7">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.C7">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-right font-12">
+                                Finger flexors <label class="mr-1">C8</label>
+                                <input [(ngModel)]="painChartData.mytome.upper.right.C8">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.C8">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.C8">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-right font-12">
+                                Finger abductors (little finger)
+                                <label class="mr-1">T1</label>
+                                <input [(ngModel)]="painChartData.mytome.upper.right.T1">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.T1">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.T1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="12">
+                            </td>
+                            <td class="text-center">
+                                <label class="pull-right">T2</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.T2">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.T2">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <label class="pull-right">T3</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.T3">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.T3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <label class="pull-right">T4</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.T4">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.T4">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <label class="pull-right">T5</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.T5">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.T5">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <label class="pull-right">T6</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.T6">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.T6">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <label class="pull-right">T7</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.T7">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.T7">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <label class="pull-right">T8</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.T8">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.T8">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <label class="pull-right">T9</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.T9">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.T9">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <label class="pull-right">T10</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.T10">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.T10">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <label class="pull-right">T11</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.T11">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.T11">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <label class="pull-right">T12</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.T12">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.T12">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <label class="pull-right">L1</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.L1">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.L1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-right font-12">
+                                Hip flexors <label class="mr-1">L2</label>
+                                <input [(ngModel)]="painChartData.mytome.lower.right.L2">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.L2">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.L2">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <h4 class="text-uppercase text-center bold m-0" style="font-size: 17px;">ler</h4>
+                            </td>
+                            <td class="text-right font-12">
+                                Knee extensors <label class="mr-1">L3</label>
+                                <input [(ngModel)]="painChartData.mytome.lower.right.L3">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.L3">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.L3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center font-12">
+                                (Lower Extremlty Right)
+                            </td>
+                            <td class="text-right font-12">
+                                Ankle dorsiflexors <label class="mr-1">L4</label>
+                                <input [(ngModel)]="painChartData.mytome.lower.right.L4">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.L4">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.L4">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-right font-12">
+                                Long toe extensors <label class="mr-1">L5</label>
+                                <input [(ngModel)]="painChartData.mytome.lower.right.L5">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.L5">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.L5">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-right font-12">
+                                Ankle plantar flexors <label class="mr-1">S1</label>
+                                <input [(ngModel)]="painChartData.mytome.lower.right.S1">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.S1">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.S1">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <label class="text-right pull-right">S2</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.S2">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.S2">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <label class="text-right pull-right">S3</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.S3">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.S3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <label class="text-center">
+                                    (VAC) Voluntary Anal Contraction <br>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="customRadioInline1"
+                                            [(ngModel)]="painAssociatedData.vacResult" name="vacResult"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label" for="Yes">Yes</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="customRadioInline2"
+                                            [(ngModel)]="painAssociatedData.vacResult" name="vacResult"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label" for="No">No</label>
+                                    </div>
+                                    <!-- <label class="pull-right text-center" *ngFor="let i of ['Yes', 'No']">
+                    {{i}} <input type="radio" name="vacResult" id="{{i}}" [(ngModel)]="painAssociatedData.vacResult" [value]="i" (click)="radioVacButtonChange(painAssociatedData.vacResult)">
+                  </label> -->
+
+                                </label>
+                                <label class="text-right pull-right">S4-5</label>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.lightTouch.right.S4">
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="painChartData.dermatome.pinPrick.right.S4">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="text-right">
+                                <label class="text-right text-uppercase">
+                                    right totals <br>(maximum)
+                                </label>
+                                <span style="display: table; float: right;">
+                                    <input [(ngModel)]="chartRightCount"> <br>
+                                    <p class="text-center pull-right">(50)</p>
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <span>
+                                    <input [(ngModel)]="lightTouchRightCount"> <br>
+                                    <p class="text-center">(56)</p>
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <input [(ngModel)]="pinprickRightCount"> <br>
+                                <p class="text-center">(56)</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- svg components -->
+        <div class="col-md-2 svgall" style="margin-top: 1%; cursor: not-allowed;pointer-events:none;">
+            <div class="row">
+                <div class="col-sm-6 no-padding vikram_test">
+                    <app-svg-map [source]="'Dermatome'" #svgMapCompRef [dummyData]='dummyData'
+                        [val]="'score' + setClass" [setClass]="setClass" [svg_name]="'light_touchFlag'"
+                        [svg_type]="'dermatome_light'" [svgno]="'light_touch_chart'"></app-svg-map>
+                </div>
+                <div class="col-sm-6 no-padding">
+                    <app-svg-map [source]="'Dermatome'" #svgMapCompRef [dummyData]='dummyData'
+                        [val]="'score' + setClass" [setClass]="setClass" [svg_name]="'light_touch_posteriorFlag'"
+                        [svg_type]="'dermatome_light'" [svgno]="'light_touch_posterior_chart'"></app-svg-map>
+                </div>
+                <div class="col-sm-6 no-padding">
+                    <app-svg-map [source]="'Dermatome'" #svgMapCompRef [dummyData]='dummyData' [setClass]="setClass"
+                        [val]="'score' + setClass" [svg_name]="'pin_prickFlag'" [svg_type]="'pin_prick'"
+                        [svgno]="'pin_prick_chart'"></app-svg-map>
+                </div>
+                <div class="col-sm-6 no-padding">
+                    <app-svg-map [source]="'Dermatome'" #svgMapCompRef [dummyData]='dummyData' [setClass]="setClass"
+                        [val]="'score' + setClass" [svg_name]="'pin_prick_posteriorFlag'" [svg_type]="'pin_prick'"
+                        [svgno]="'pin_prick_posterior_chart'"></app-svg-map>
+                </div>
+                <div class="col-sm-6 no-padding">
+                    <app-svg-map [source]="'myotome'" #svgMapCompRef [dummyData]='dummyData' [val]="'score' + setClass"
+                        [setClass]="setClass" [svg_name]="'myotomeFlag'" [svg_type]="'myotome'"
+                        [svgno]="'myotome_chart'"></app-svg-map>
+                </div>
+                <div class="col-sm-6 no-padding">
+                    <app-svg-map [source]="'myotome'" #svgMapCompRef [dummyData]='dummyData' [val]="'score' + setClass"
+                        [setClass]="setClass" [svg_name]="'myotome_posteriorFlag'" [svg_type]="'myotome'"
+                        [svgno]="'myotome_posterior_chart'"></app-svg-map>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="table-responsive">
+                <table class="table" id="sensory">
+                    <thead>
+                        <tr>
+                            <th colspan="2" class="text-center">
+                                <label class="text-uppercase" style="color: #424242;">sensory</label> <br />
+                                <label class="text-uppercase" style="color: #424242;">key sensor points</label><br />
+                                <h6 class="pull-left font-12 m-0">Light Touch <br>(LTL)</h6>
+                                <h6 class="pull-right font-12 m-0">Pin Prick <br>(PPL)</h6>
+                            </th>
+                            <th class="text-center" style="color: #424242;">
+                                <label class="text-uppercase">Motor</label> <br />
+                                <label class="text-uppercase">key musclues</label>
+                            </th>
+                            <th>
+                                <h2 class="text-center mb-3 text-uppercase">Left</h2>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.C2" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.C2" />
+                            </td>
+                            <td colspan="2" class="text-left">
+                                <label class="pull-left">C2</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.C3" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.C3" />
+                            </td>
+                            <td colspan="2" class="text-left">
+                                <label class="pull-left">C3</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.C4" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.C4" />
+                            </td>
+                            <td colspan="2" class="text-left">
+                                <label class="pull-left">C4</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.C5" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.C5" />
+                            </td>
+                            <td colspan="2" class="text-left font-12">
+                                <input type="text-right" name="" [(ngModel)]="painChartData.mytome.upper.left.C5" />
+                                <label class="ml-1">C5</label> Elbow flexors
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.C6" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.C6" />
+                            </td>
+                            <td class="text-left font-12">
+                                <input type="text-right" name="" [(ngModel)]="painChartData.mytome.upper.left.C6" />
+                                <label class="ml-1">C6</label> Wrist extensions
+                            </td>
+                            <td class="text-center">
+                                <h4 class="text-uppercase text-center bold m-0" style="font-size: 17px;">uel</h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.C7" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.C7" />
+                            </td>
+                            <td class="text-left font-12">
+                                <input type="text-right" name="" [(ngModel)]="painChartData.mytome.upper.left.C7" />
+                                <label class="ml-1">C7</label> Elbow extensions
+                            </td>
+                            <td class="text-center">
+                                (Upper Extremlty Left)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.C8" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.C8" />
+                            </td>
+                            <td colspan="2" class="text-left font-12">
+                                <input type="text-right" name="" [(ngModel)]="painChartData.mytome.upper.left.C8" />
+                                <label class="ml-1">C8</label> Finger flexors
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.T1" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.T1" />
+                            </td>
+                            <td colspan="2" class="text-left font-12">
+                                <input type="text" name="" [(ngModel)]="painChartData.mytome.upper.left.T1" />
+                                <label class="ml-1">T1</label> Finger abductors (little finger)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.T2" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.T2" />
+                            </td>
+                            <td class="text-center">
+                                <label class="pull-left">T2</label>
+                            </td>
+                            <td rowspan="12">
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.T3" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.T3" />
+                            </td>
+                            <td class="text-center">
+                                <label class="pull-left">T3</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.T4" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.T4" />
+                            </td>
+                            <td class="text-center">
+                                <label class="pull-left">T4</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.T5" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.T5" />
+                            </td>
+                            <td class="text-center">
+                                <label class="pull-left">T5</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.T6" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.T6" />
+                            </td>
+                            <td class="text-center">
+                                <label class="pull-left">T6</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.T7" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.T7" />
+                            </td>
+                            <td class="text-center">
+                                <label class="pull-left">T7</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.T8" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.T8" />
+                            </td>
+                            <td class="text-center">
+                                <label class="pull-left">T8</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.T9" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.T9" />
+                            </td>
+                            <td class="text-center">
+                                <label class="pull-left">T9</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.T10" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.T10" />
+                            </td>
+                            <td class="text-center">
+                                <label class="pull-left">T10</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.T11" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.T11" />
+                            </td>
+                            <td class="text-center">
+                                <label class="pull-left">T11</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.T12" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.T12" />
+                            </td>
+                            <td class="text-center">
+                                <label class="pull-left">T12</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.L1" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.L1" />
+                            </td>
+                            <td class="text-center">
+                                <label class="pull-left">L1</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.L2" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.L2" />
+                            </td>
+                            <td colspan="2" class="text-left font-12">
+                                <input type="text" name="" [(ngModel)]="painChartData.mytome.lower.left.L2" />
+                                <label class="ml-1">L2</label> Hip flexors
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.L3" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.L3" />
+                            </td>
+                            <td class="text-left font-12">
+                                <input type="text" name="" [(ngModel)]="painChartData.mytome.lower.left.L3" />
+                                <label class="ml-1">L3</label> Knee extensors
+                            </td>
+                            <td class="text-center">
+                                <h4 class="text-uppercase text-center bold m-0" style="font-size: 17px;">lel</h4>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.L4" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.L4" />
+                            </td>
+                            <td class="text-left font-12">
+                                <input type="text" name="" [(ngModel)]="painChartData.mytome.lower.left.L4" />
+                                <label class="ml-1">L4</label> Ankle dorsiflexors
+                            </td>
+                            <td class="text-center font-12">
+                                (Lower Extremlty Left)
+                            </td>
+                        </tr>
+                        <div class="row">
+                            <div class="col-md-6 motorRow">
+                                <div class="row justify-content-center">
+                                    <h4 class="text-center bold m-0">MOTOR <br />
+                                        <span class="text-center m-0">(SCORING ON REVERSE SIDE)</span>
+                                    </h4>
+                                    <div class="col-md-12 no-padding">
+                                        <ul class="motor m-0 pl-0">
+                                            <li>0 = total paralysis</li>
+                                            <li>1 = palpable or visible contraction</li>
+                                            <li>2 = active movement, gravity alimanated</li>
+                                            <li>3 = active movement, against gravity</li>
+                                            <li>4 = active movement, against some resistence</li>
+                                            <li>5 = active movement, agsinst full resistence</li>
+                                            <li>5*= normal corrected for pain/disuse</li>
+                                            <li>NT= not testable</li>
+                                        </ul>
+                                    </div>
+                                    <h4 class="text-center bold m-0">sensory <br />
+                                        <span class="text-center m-0">(SCORING ON REVERSE SIDE)</span>
+                                    </h4>
+                                    <div class="col-md-12 no-padding">
+                                        <ul class="motor m-0 pl-0" style="column-count: 2">
+                                            <li>0 = absent</li>
+                                            <li>1 = altered</li>
+                                            <li>2 = normal</li>
+                                            <li>NT= Not Testable</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.L5" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.L5" />
+                            </td>
+                            <td colspan="2" class="text-left font-12">
+                                <input type="text" name="" [(ngModel)]="painChartData.mytome.lower.left.L5" />
+                                <label class="ml-1">L5</label> Long toe extensors
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.S1" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.S1" />
+                            </td>
+                            <td colspan="2" class="text-left font-12">
+                                <input type="text" name="" [(ngModel)]="painChartData.mytome.lower.left.S1" />
+                                <label class="ml-1">S1</label> Ankle plantar flexors
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.S2" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.S2" />
+                            </td>
+                            <td colspan="2">
+                                <label class="pull-left">S2</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.S3" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.S3" />
+                            </td>
+                            <td colspan="2">
+                                <label class="pull-left">S3</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.pinPrick.left.S4" />
+                            </td>
+                            <td class="text-center">
+                                <input type="text" name="" [(ngModel)]="painChartData.dermatome.lightTouch.left.S4" />
+                            </td>
+                            <td colspan="2" class="text-right">
+                                <label class="pull-left">S4-5</label>
+                                <label class="text-center">
+                                    (DAP) Deep Anal Pressure <br>
+                                    <!-- <label class="pull-right text-center" ng-repeat="i in radioValue">
+                        {{i}} <input type="radio" name="DapResult" id="{{i}}" [(ngModel)]="painAssociatedData.dapResult" value="{{i}}" ng-click="radioDapButtonChange(painAssociatedData.dapResult)">
+                    </label> -->
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="customRadioInline1"
+                                            [(ngModel)]="painAssociatedData.dapResult" name="DapResult"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label" for="Yes">Yes</label>
+                                    </div>
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id="customRadioInline2"
+                                            [(ngModel)]="painAssociatedData.dapResult" name="DapResult"
+                                            class="custom-control-input">
+                                        <label class="custom-control-label" for="No">No</label>
+                                    </div>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <span>
+                                    <input type="text" name="" [(ngModel)]="lightTouchLeftCount" /><br>
+                                    <p class="text-center">(56)</p>
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <span>
+                                    <input type="text" name="" [(ngModel)]="pinprickLeftCount" /> <br>
+                                    <p class="text-center">(56)</p>
+                                </span>
+                            </td>
+                            <td colspan="2" class="text-left">
+                                <span class="pull-left">
+                                    <input type="text" name="" [(ngModel)]="chartLeftCount"> <br>
+                                    <p class="text-center padding-right-15 pull-left">(50)</p>
+                                </span>
+                                <label class="pull-left text-uppercase ml-1">
+                                    left totals <br>(maximum)
+                                </label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-0" id="neurologicalLevel">
+        <div class="col-md-4 p-0 mt-1">
+            <div class="row m-0">
+                <div class="col-md-5 pr-0 pl-1">
+                    <p class="text-center mb-1" style="font-weight: 700;"> NEUROLOGICAL LEVELS </p>
+                    <p class="text-center"> Steps 1-5 for classification as on reverse </p>
+                </div>
+                <div class="col-md-6 pr-0">
+                    <div class="row">
+                        <div class="col-md-12 pr-0">
+                            <div class="row">
+                                <div class="offset-md-6 col-md-3 text-center">L</div>
+                                <div class="col-md-3 text-center">R</div>
+                            </div>
+                        </div>
+                        <div class="clearfix"> </div>
+                        <div class="col-md-12 pr-0">
+                            <div class="row">
+                                <label class="col-md-6 form-control-label pr-0"
+                                    style="font-weight: 700; font-size: 12px;">1. SENSORY</label>
+                                <div class="col-md-3 text-center pl-0 pr-1">
+                                    <select class="form-control border-radius-none pointer"
+                                        [(ngModel)]="painAssociatedData.sensoryLeft">
+                                        <option value="C2">C2</option>
+                                        <option value="C3">C3</option>
+                                        <option value="C4">C4</option>
+                                        <option value="C5">C5</option>
+                                        <option value="C6">C6</option>
+                                        <option value="C7">C7</option>
+                                        <option value="C8">C8</option>
+                                        <option value="C2">C2</option>
+                                        <option value="T1">T1</option>
+                                        <option value="T2">T2</option>
+                                        <option value="T3">T3</option>
+                                        <option value="T4">T4</option>
+                                        <option value="T5">T5</option>
+                                        <option value="T6">T6</option>
+                                        <option value="T7">T7</option>
+                                        <option value="T8">T8</option>
+                                        <option value="T9">T9</option>
+                                        <option value="T10">T10</option>
+                                        <option value="T11">T11</option>
+                                        <option value="T12">T12</option>
+                                        <option value="L1">L1</option>
+                                        <option value="L2">L2</option>
+                                        <option value="L3">L3</option>
+                                        <option value="L4">L4</option>
+                                        <option value="L5">L5</option>
+                                        <option value="S1">S1</option>
+                                        <option value="S2">S2</option>
+                                        <option value="S3">S3</option>
+                                        <option value="S4-5">S4-5</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 text-center p-0">
+                                    <select class="form-control border-radius-none pointer"
+                                        [(ngModel)]="painAssociatedData.sensoryRight">
+                                        <option value="C2">C2</option>
+                                        <option value="C3">C3</option>
+                                        <option value="C4">C4</option>
+                                        <option value="C5">C5</option>
+                                        <option value="C6">C6</option>
+                                        <option value="C7">C7</option>
+                                        <option value="C8">C8</option>
+                                        <option value="C2">C2</option>
+                                        <option value="T1">T1</option>
+                                        <option value="T2">T2</option>
+                                        <option value="T3">T3</option>
+                                        <option value="T4">T4</option>
+                                        <option value="T5">T5</option>
+                                        <option value="T6">T6</option>
+                                        <option value="T7">T7</option>
+                                        <option value="T8">T8</option>
+                                        <option value="T9">T9</option>
+                                        <option value="T10">T10</option>
+                                        <option value="T11">T11</option>
+                                        <option value="T12">T12</option>
+                                        <option value="L1">L1</option>
+                                        <option value="L2">L2</option>
+                                        <option value="L3">L3</option>
+                                        <option value="L4">L4</option>
+                                        <option value="L5">L5</option>
+                                        <option value="S1">S1</option>
+                                        <option value="S2">S2</option>
+                                        <option value="S3">S3</option>
+                                        <option value="S4-5">S4-5</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"> </div>
+                        <div class="col-md-12 pr-0">
+                            <div class="row">
+                                <label class="col-md-6 form-control-label pr-0"
+                                    style="font-weight: 700; font-size: 12px;">2. MOTOR</label>
+                                <div class="col-md-3 text-center pl-0 pr-1">
+                                    <select class="form-control border-radius-none pointer"
+                                        [(ngModel)]="painAssociatedData.motorLeft">
+                                        <option value="C5">C5</option>
+                                        <option value="C6">C6</option>
+                                        <option value="C7">C7</option>
+                                        <option value="C8">C8</option>
+                                        <option value="C2">C2</option>
+                                        <option value="T1">T1</option>
+
+                                        <option value="L2">L2</option>
+                                        <option value="L3">L3</option>
+                                        <option value="L4">L4</option>
+                                        <option value="L5">L5</option>
+                                        <option value="S1">S1</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 text-center p-0">
+                                    <select class="form-control border-radius-none pointer"
+                                        [(ngModel)]="painAssociatedData.motorRight">
+                                        <option value="C5">C5</option>
+                                        <option value="C6">C6</option>
+                                        <option value="C7">C7</option>
+                                        <option value="C8">C8</option>
+                                        <option value="C2">C2</option>
+                                        <option value="T1">T1</option>
+
+                                        <option value="L2">L2</option>
+                                        <option value="L3">L3</option>
+                                        <option value="L4">L4</option>
+                                        <option value="L5">L5</option>
+                                        <option value="S1">S1</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"> </div>
+                    </div>
+                </div>
+                <div class="clearfix"> </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-8 text-center bold pl-0" style="font-size: 12px; font-weight: 700;">3.
+                            NEUROLOGICAL LEVEL OF INJURY</div>
+                        <div class="col-md-4 text-right pr-3">
+                            <select class="form-control border-radius-none pointer"
+                                [(ngModel)]="painAssociatedData.neurlogicalInjury">
+                                <option value="C2">C2</option>
+                                <option value="C3">C3</option>
+                                <option value="C4">C4</option>
+                                <option value="C5">C5</option>
+                                <option value="C6">C6</option>
+                                <option value="C7">C7</option>
+                                <option value="C8">C8</option>
+                                <option value="C2">C2</option>
+                                <option value="T1">T1</option>
+                                <option value="T2">T2</option>
+                                <option value="T3">T3</option>
+                                <option value="T4">T4</option>
+                                <option value="T5">T5</option>
+                                <option value="T6">T6</option>
+                                <option value="T7">T7</option>
+                                <option value="T8">T8</option>
+                                <option value="T9">T9</option>
+                                <option value="T10">T10</option>
+                                <option value="T11">T11</option>
+                                <option value="T12">T12</option>
+                                <option value="L1">L1</option>
+                                <option value="L2">L2</option>
+                                <option value="L3">L3</option>
+                                <option value="L4">L4</option>
+                                <option value="L5">L5</option>
+                                <option value="S1">S1</option>
+                                <option value="S2">S2</option>
+                                <option value="S3">S3</option>
+                                <option value="S4-5">S4-5</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 pl-0 mt-1">
+            <div class="row m-0">
+                <div class="col-md-6">
+                    <div class="row m-0">
+                        <div class="col-md-9 pr-0 pl-1">
+                            <p class="text-center bold mb-1" style="font-weight: 700;"> 4. COMPLETE OR INCOMPLETE </p>
+                            <p class="text-center mb-1">Incomplete = Any sensory or motor function in S4-5</p>
+                        </div>
+                        <div class="col-md-3 pr-0 pl-1">
+                            <select class="form-control border-radius-none pt-2 pointer"
+                                [(ngModel)]="painAssociatedData.completeModel">
+                                <option value="Complete">Complete</option>
+                                <option value="Incomplete">Incomplete</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row m-0">
+                        <div class="col-md-9 pr-0 pl-1">
+                            <p class="text-center bold" style="font-weight: 700;"> 5. ASIA IMPAIRMENT SCALE (AIS) </p>
+                        </div>
+                        <div class="col-md-3 pr-0 pl-1">
+                            <select class="form-control border-radius-none pointer" [(ngModel)]="painAssociatedData.aisValue">
+                                <option value="A">A</option>
+                                <option value="B">B</option>
+                                <option value="C">C</option>
+                                <option value="D">D</option>
+                                <option value="E">E</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 p-0">
+                    <p class="text-center mb-1">(In complete injuries only)</p>
+                    <p class="text-center bold mb-1" style="font-weight: 700;">ZONE OF PARTIAL PRESERVATION</p>
+                    <p class="text-center">Most caudal level with any innercvation</p>
+                </div>
+                <div class="col-md-3 p-0">
+                    <div class="row m-0">
+                        <div class="col-md-12 pr-0">
+                            <div class="row">
+                                <div class="offset-md-6 col-md-3 text-center pr-0">R</div>
+                                <div class="col-md-3 text-center pr-0">L</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 pr-0 text-right">
+                            <div class="row m-0">
+                                <label class="col-md-6 form-control-label pl-0"
+                                    style="font-weight: 700;">SENSORY</label>
+                                <div class="col-md-3 pl-0 pr-1">
+                                    <select class="form-control border-radius-none pointer"
+                                        [(ngModel)]="painAssociatedData.partialSensoryRight">
+                                        <option value="C2">C2</option>
+                                        <option value="C3">C3</option>
+                                        <option value="C4">C4</option>
+                                        <option value="C5">C5</option>
+                                        <option value="C6">C6</option>
+                                        <option value="C7">C7</option>
+                                        <option value="C8">C8</option>
+                                        <option value="C2">C2</option>
+                                        <option value="T1">T1</option>
+                                        <option value="T2">T2</option>
+                                        <option value="T3">T3</option>
+                                        <option value="T4">T4</option>
+                                        <option value="T5">T5</option>
+                                        <option value="T6">T6</option>
+                                        <option value="T7">T7</option>
+                                        <option value="T8">T8</option>
+                                        <option value="T9">T9</option>
+                                        <option value="T10">T10</option>
+                                        <option value="T11">T11</option>
+                                        <option value="T12">T12</option>
+                                        <option value="L1">L1</option>
+                                        <option value="L2">L2</option>
+                                        <option value="L3">L3</option>
+                                        <option value="L4">L4</option>
+                                        <option value="L5">L5</option>
+                                        <option value="S1">S1</option>
+                                        <option value="S2">S2</option>
+                                        <option value="S3">S3</option>
+                                        <option value="S4-5">S4-5</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 pl-0 pr-1">
+                                    <select class="form-control border-radius-none pointer"
+                                        [(ngModel)]="painAssociatedData.partialSensoryLeft">
+                                        <option value="C2">C2</option>
+                                        <option value="C3">C3</option>
+                                        <option value="C4">C4</option>
+                                        <option value="C5">C5</option>
+                                        <option value="C6">C6</option>
+                                        <option value="C7">C7</option>
+                                        <option value="C8">C8</option>
+                                        <option value="C2">C2</option>
+                                        <option value="T1">T1</option>
+                                        <option value="T2">T2</option>
+                                        <option value="T3">T3</option>
+                                        <option value="T4">T4</option>
+                                        <option value="T5">T5</option>
+                                        <option value="T6">T6</option>
+                                        <option value="T7">T7</option>
+                                        <option value="T8">T8</option>
+                                        <option value="T9">T9</option>
+                                        <option value="T10">T10</option>
+                                        <option value="T11">T11</option>
+                                        <option value="T12">T12</option>
+                                        <option value="L1">L1</option>
+                                        <option value="L2">L2</option>
+                                        <option value="L3">L3</option>
+                                        <option value="L4">L4</option>
+                                        <option value="L5">L5</option>
+                                        <option value="S1">S1</option>
+                                        <option value="S2">S2</option>
+                                        <option value="S3">S3</option>
+                                        <option value="S4-5">S4-5</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 pr-0 text-right">
+                            <div class="row m-0">
+                                <label class="col-md-6 form-control-label pl-0" style="font-weight: 700;"> MOTOR</label>
+                                <div class="col-md-3 pl-0 pr-1">
+                                    <select class="form-control border-radius-none pointer"
+                                        [(ngModel)]="painAssociatedData.partialMototRight">
+                                        <option value="C5">C5</option>
+                                        <option value="C6">C6</option>
+                                        <option value="C7">C7</option>
+                                        <option value="C8">C8</option>
+                                        <option value="C2">C2</option>
+                                        <option value="T1">T1</option>
+
+                                        <option value="L2">L2</option>
+                                        <option value="L3">L3</option>
+                                        <option value="L4">L4</option>
+                                        <option value="L5">L5</option>
+                                        <option value="S1">S1</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 pl-0 pr-1">
+                                    <select class="form-control border-radius-none pointer"
+                                        [(ngModel)]="painAssociatedData.partialMototLeft">
+                                        <option value="C5">C5</option>
+                                        <option value="C6">C6</option>
+                                        <option value="C7">C7</option>
+                                        <option value="C8">C8</option>
+                                        <option value="C2">C2</option>
+                                        <option value="T1">T1</option>
+
+                                        <option value="L2">L2</option>
+                                        <option value="L3">L3</option>
+                                        <option value="L4">L4</option>
+                                        <option value="L5">L5</option>
+                                        <option value="S1">S1</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

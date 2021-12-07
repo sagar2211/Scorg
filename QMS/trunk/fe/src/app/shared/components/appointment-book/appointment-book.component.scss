@@ -1,0 +1,103 @@
+@import "../../../../scss/main";
+
+.modal-body.appointment-type {
+  height: calc(100vh - 280px);
+  overflow-y: auto;
+
+  .custom-line-height {
+    line-height: 20px;
+  }
+
+  .profile-info,
+  .patient-search,
+  .choose-patient {
+    min-height: 80px;
+    @extend .bg-white;
+    padding: 5px 0 5px 15px;
+    @include border-radius(5px);
+    @include transition(box-shadow 0.5s);
+    @include custom-box-shadow(0, 0, 5px, rgba(28, 25, 83, 0.12));
+
+    &:hover {
+      @include transition(box-shadow 0.5s);
+      @include custom-box-shadow(0, 4px, 9px, rgba(165, 165, 165, 0.5));
+    }
+
+    .col-profile-info {
+      flex: 0 0 calc(100% - 40px);
+      max-width: calc(100% - 40px);
+
+      p {
+        font-size: 85%;
+        @extend .line-height-1;
+      }
+
+      h6 {
+        font-size: 0.95rem;
+        color: $primary;
+      }
+    }
+
+    .col-btn {
+      flex: 0 0 40px;
+      max-width: 40px;
+    }
+  }
+
+  .ng-select-w {
+    width: 400px;
+  }
+
+  .slot-time {
+    @include border-radius(4px);
+    background-color: rgba($primary, 0.03);
+    @include custom-box-shadow(0, 0, 10px, rgba(239, 239, 239, 1));
+  }
+
+  :host ::ng-deep {
+    .ng-select.ng-select-multiple {
+      .ng-value-container {
+        width: 100%;
+        height: auto;
+        max-height: 55px;
+        overflow-x: hidden;
+
+        .ng-value .ng-value-label {
+          padding: 1px 20px;
+        }
+      }
+    }
+  }
+}
+
+.bg-token {
+  @include border-radius(4px);
+  background-color: rgba(63, 81, 181, 0.03);
+  box-shadow: 0 0 10px 0 #efefef;
+}
+
+.modal-body.appointment-type .main {
+  height: calc(100vh - 280px);
+}
+
+:host ::ng-deep {
+  .ng-select-multiple {
+    &.ng-dropdown-panel {
+      .ng-dropdown-panel-items {
+        .ng-option {
+          font-size: .9em;
+          padding: 4px;
+          &.ng-option-selected {
+            @extend .d-none;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include medium-max {
+  .modal-body.appointment-type, .modal-body.appointment-type .main {
+    height: calc(100vh - 150px);
+  }
+}

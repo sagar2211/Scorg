@@ -1,0 +1,133 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">{{addUpdateData?.title}}</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="otMasterForm" (ngSubmit)="saveValue()" *ngIf="loadForm">
+        <div class="form-row form-group">
+            <div class="col">
+                <label>OT Room</label>
+                <input type="text" formControlName="roomDesc" placeholder="Type Name" class="form-control form-control-sm">
+                <small class="text-danger" *ngIf="getFrmCntrols['roomDesc'].errors?.required && submitted">
+                    Please Add value!</small>
+            </div>
+            <div class="col">
+                <label>Start Time<sup>*</sup></label>
+                <div class="form-row mx-0">
+                    <div class="col px-0">
+                        <ng-select class="w-100 text-left" [items]="timeArray" (change)="onTimeChange($event, 'start')" placeholder="Hour" formControlName="startTime"></ng-select>
+                        <small class="text-danger" *ngIf="getFrmCntrols['startTime'].errors?.required && submitted">
+                          Please Add value!</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <label>End Time<sup>*</sup></label>
+                <div class="form-row mx-0">
+                    <div class="col px-0">
+                        <ng-select class="w-100 text-left" [items]="timeArray" (change)="onTimeChange($event, 'end')" placeholder="Hour" formControlName="endTime"></ng-select>
+                        <small class="text-danger" *ngIf="getFrmCntrols['endTime'].errors?.required && submitted">
+                          Please Add value!</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <label>Color<sup>*</sup></label>
+                <div class="form-row mx-0">
+                    <div class="col px-0 position-absolute border">
+                        <div style="width:90%; height:20px; margin: 5px 9px;" (click)="showColorDropDown = !showColorDropDown" [ngStyle]="{'background-color': otMasterForm.value.color}"></div>
+                        <div class="row m-0 p-1 bg-light position-relative border color-dropdown" [ngClass]="{'d-none': showColorDropDown}">
+                            <div class="col p-0" *ngFor="let item of colorList">
+                                <div class="flex-column" *ngFor="let clr of item">
+                                    <span class="border" (click)="showColorDropDown = !showColorDropDown; otMasterForm.patchValue({color : clr});" style="width:15px; height:15px; display: inline-block;" [ngStyle]="{'background-color': clr}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div>
+                        <small class="text-danger" *ngIf="getFrmCntrols['color'].errors?.required && submitted">
+                        Please Add value!</small>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="col">
+                <label>Color<sup>*</sup></label>
+                <div class="form-row mx-0">
+                    <div class="col px-0">
+                        <ng-select class="w-100 text-left" [items]="colorArray" placeholder="Color" formControlName="color">
+                            <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                                <span style="width:10px; height:10px; display: inline-block;" [ngStyle]="{'background-color': item}"></span> {{item}}
+                            </ng-template>
+                        </ng-select>
+                        <small class="text-danger" *ngIf="getFrmCntrols['color'].errors?.required && submitted">
+                          Please Add value!</small>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <div class="form-row form-group">
+            <div class="card card-week-off col">
+                <div class="card-body">
+                    <div class="form-row form-group mx-0">
+                        <div class="col-10">
+                            <label class="d-block">Week Off</label>
+                            <div class="form-row mx-0">
+                                <div class="custom-control custom-checkbox custom-control-inline col form-group mb-0 mt-2">
+                                    <input class="custom-control-input" formControlName="monday" type="checkbox" id="monday">
+                                    <label class="custom-control-label pointer" for="monday">Monday</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline col form-group mb-0 mt-2">
+                                    <input class="custom-control-input" formControlName="tuesday" type="checkbox" id="tuesday">
+                                    <label class="custom-control-label pointer" for="tuesday">Tuesday</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline col form-group mb-0 mt-2">
+                                    <input class="custom-control-input" formControlName="wednesday" type="checkbox" id="wednesday">
+                                    <label class="custom-control-label pointer" for="wednesday">Wednesday</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline col form-group mb-0 mt-2">
+                                    <input class="custom-control-input" formControlName="thursday" type="checkbox" id="thursday">
+                                    <label class="custom-control-label pointer" for="thursday">Thursday</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline col form-group mb-0 mt-2">
+                                    <input class="custom-control-input" formControlName="friday" type="checkbox" id="friday">
+                                    <label class="custom-control-label pointer" for="friday">Friday</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline col form-group mb-0 mt-2">
+                                    <input class="custom-control-input" formControlName="saturday" type="checkbox" id="saturday">
+                                    <label class="custom-control-label pointer" for="saturday">Saturday</label>
+                                </div>
+                                <div class="custom-control custom-checkbox custom-control-inline col form-group mb-0 mt-2">
+                                    <input class="custom-control-input" formControlName="sunday" type="checkbox" id="sunday">
+                                    <label class="custom-control-label pointer" for="sunday">Sunday</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2 d-none">
+                            <label class="d-block">Status</label>
+                            <div class="custom-control custom-switch switch-w mt-2">
+                                <input type="checkbox" formControlName="isActive" class="custom-control-input" id="customSwitch">
+                                <label class="custom-control-label pointer" [class.active]="otMasterForm.getRawValue().isActive" for="customSwitch"></label>
+                                <span class="text-uppercase" [class.active]="otMasterForm.getRawValue().isActive">{{otMasterForm.getRawValue().isActive
+                                ?
+                                'Active' :
+                                'InActive'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase" (click)="closeModal('no')">Cancel</button>
+    <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" (click)="saveValue()">
+        <i class="fa fa-fw" [ngClass]="{'fa-plus': !addUpdateData.data, 'fa-sync-alt': addUpdateData.data}"
+            aria-hidden="true"></i>
+        {{addUpdateData.data ? 'Update' : 'Add'}}
+    </button>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

@@ -1,0 +1,187 @@
+<div class="custom-container-fluid container-grn-add-apdate overflow-hidden">
+    <form [formGroup]="purInvoiceFrm" (ngSubmit)="saveInvoice()">
+        <div class="card-body p-1">
+            <div class="form-row form-group">
+                <div class="col">
+                    <label>Supplier</label>
+                    <ng-select [items]="supplierList$ | async" bindLabel="supplierName"
+                        (change)="onSupplierChange($event)" bindValue="supplierId" formControlName="supplierId"
+                        placeholder="Supplier" [typeahead]="supplierListInput$"></ng-select>
+                </div>
+                <div class="col">
+                    <label>From Date</label>
+                    <app-date-picker [makeDisabled]="isEditMode"
+                        (dateChange)="purInvoiceFrm.patchValue({ fromDate: $event  });getGrnForInvoice();"
+                        [inputDate]="purInvoiceFrm?.value?.fromDate"></app-date-picker>
+                </div>
+                <div class="col">
+                    <label>To Date</label>
+                    <app-date-picker [makeDisabled]="isEditMode"
+                        (dateChange)="purInvoiceFrm.patchValue({ toDate: $event  });getGrnForInvoice();"
+                        [inputDate]="purInvoiceFrm?.value?.toDate"></app-date-picker>
+                </div>
+                <div class="col">
+                    <label>Payment Date</label>
+                    <app-date-picker (dateChange)="purInvoiceFrm.patchValue({ paymentPostingDate: $event  })"
+                        [inputDate]="purInvoiceFrm?.value?.paymentPostingDate"></app-date-picker>
+                </div>
+                <div class="col">
+                    <label>Payment Mode<sup>*</sup></label>
+                    <input type="text" class="form-control form-control-sm" formControlName="paymentMode">
+                    <span class="small text-danger"
+                        *ngIf="submitted && purInvoiceFrm.get('paymentMode').errors?.required">Required..</span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-12">
+                    <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25"
+                        [footerHeight]="0" [rowHeight]="30" [rows]="receiptList" [externalSorting]="true"
+                        [externalPaging]="true" [count]="receiptList.length" [scrollbarH]="true">
+                        <ngx-datatable-column [frozenLeft]="true" [sortable]="false" [width]="20">
+                            <ng-template ngx-datatable-header-template let-value="value"
+                                let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+                                <div class="form-check overflow-hidden">
+                                    <input class="form-check-input position-static" type="checkbox"
+                                        [ngModel]="isAllSelected" (ngModelChange)="toggleAll($event)"
+                                        [ngModelOptions]="{standalone: true}" id="selectAlls">
+                                </div>
+                            </ng-template>
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <div class="form-check overflow-hidden">
+                                    <input class="form-check-input position-static" type="checkbox"
+                                        [ngModelOptions]="{standalone: true}"
+                                        (ngModelChange)="optionToggled(row, $event)" [ngModel]="row.selected"
+                                        id="defaultCheck{{rowIndex}}">
+                                </div>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="GRN No." [frozenLeft]="true" [sortable]="false" [width]="80">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span> {{row.grnNo}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="GRN Date" [sortable]="false" [width]="80">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.grnDate | date: 'dd-MM-yyyy'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Party Bill No." [sortable]="false" [width]="80">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span> {{row.billNo}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Party Bill Date" [sortable]="false" [width]="80">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span> {{row.billDate | date: 'dd-MM-yyyy'}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Purchase Order No." [sortable]="false" [width]="80">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span> {{row.poNo}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="GRN Amount" cellClass="text-right" [sortable]="false" [width]="80">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.purchaseAmount | number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Net Amount" [frozenRight]="true" cellClass="text-right"
+                            [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.netAmount | number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+            <div class="form-row form-group">
+                <div class="col-8">
+                    <label>Remark:</label>
+                    <textarea rows="2" class="form-control vresize" formControlName="remark"
+                        placeholder="Remark"></textarea>
+                </div>
+                <div class="col-4">
+                    <table class="table custom-table font-size-dot-875 mb-0 border-top-0 table-footer">
+                        <tbody>
+                            <tr class="text-right">
+                                <td class="text-right border-right-0 border-top-0">Total Amount:</td>
+                                <td class="text-right border-left-0 border-top-0 w-35">
+                                    <input class="form-control form-control-sm" formControlName="totalAmount"
+                                        type="text" placeholder="Total Amount">
+                                </td>
+                            </tr>
+                            <tr class="text-right">
+                                <td class="text-right border-right-0 border-top-0">Adjustment Amount:</td>
+                                <td class="text-right border-left-0 border-top-0 w-35">
+                                    <input class="form-control form-control-sm" formControlName="adjustmentAmount"
+                                    appOnlyNumbersWithDecimal type="number" placeholder="Adjustment Amount">
+                                </td>
+                            </tr>
+                            <tr class="text-right">
+                                <td class="text-right border-right-0 border-top-0">
+                                    <h5 class="mb-0">Total Net Amount:</h5>
+                                </td>
+                                <td class="text-right border-left-0 border-top-0 w-35">
+                                    <h5 class="mb-0"><input class="form-control form-control-sm"
+                                            formControlName="netAmount" type="text" placeholder="Total Net Amount"></h5>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer py-1 border-top card-footer">
+            <div class="float-right">
+                <ng-container *ngIf="invoiceId !== -1 && purInvoiceFrm.value.status !== 'Created'">
+                    <button type="button" class="btn btn-sm btn-outline-mbd" (click)="getPrintData()">
+                        <i class="icon fa-fw icon-print" aria-hidden="true"></i> PRINT
+                    </button>
+                </ng-container>
+                <ng-container *ngIf="invoiceId === -1">
+                    <div class="is-approved form-group">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Print</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isTakePrint" class="custom-control-input"
+                                id="isTakePrint">
+                            <label class="custom-control-label pointer" [class.active]="purInvoiceFrm.value.isTakePrint"
+                                for="isTakePrint"></label>
+                            <span class="text-uppercase"
+                                [class.active]="purInvoiceFrm.value.isTakePrint">{{purInvoiceFrm.value.isTakePrint ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <button *ngxPermissionsOnly="constpermissionList.ADD_PURCHASE_INVOICE" type="submit"
+                        class="btn btn-sm btn-success"><i class="icon fa-fw icon-save" aria-hidden="true"></i>
+                        SAVE</button>
+                </ng-container>
+                <ng-container *ngIf="invoiceId !== -1 && purInvoiceFrm.value.status === 'Created'">
+                    <div class="is-approved form-group">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Print</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isTakePrint" class="custom-control-input"
+                                id="isTakePrint">
+                            <label class="custom-control-label pointer" [class.active]="purInvoiceFrm.value.isTakePrint"
+                                for="isTakePrint"></label>
+                            <span class="text-uppercase"
+                                [class.active]="purInvoiceFrm.value.isTakePrint">{{purInvoiceFrm.value.isTakePrint ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <button *ngxPermissionsOnly="constpermissionList.CANCEL_PURCHASE_INVOICE"
+                        (click)="updateStatus('Cancel')" type="button" class="btn btn-sm btn-outline-secondary">
+                        CANCEL</button>
+                    <button *ngxPermissionsOnly="constpermissionList.UPDATE_PURCHASE_INVOICE" type="submit"
+                        class="btn btn-sm btn-outline-primary-light"><i class="fas fa-fw fa-sync-alt"></i>
+                        UPDATE</button>
+                    <button *ngxPermissionsOnly="constpermissionList.APPROVE_PURCHASE_INVOICE"
+                        (click)="updateStatus('Approve')" type="button" class="btn btn-sm btn-primary"><i
+                            class="icon fa-fw icon-check" aria-hidden="true"></i> APPROVE</button>
+                    <button *ngxPermissionsOnly="constpermissionList.REJECT_PURCHASE_INVOICE"
+                        (click)="updateStatus('Reject')" type="button" class="btn btn-sm btn-danger "><i
+                            class="icon fa-fw icon-times" aria-hidden="true"></i> REJECT</button>
+                </ng-container>
+            </div>
+        </div>
+    </form>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<app-print-data [printData]="printData" (printDiaglogClose)="redirectToList()"></app-print-data>

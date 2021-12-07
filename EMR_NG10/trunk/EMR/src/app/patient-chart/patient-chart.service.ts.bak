@@ -1,0 +1,263 @@
+import { map } from 'rxjs/operators';
+import { environment } from './../../environments/environment';
+import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import * as _ from 'lodash';
+import { ExaminationTags } from './../public/models/examination-tags';
+
+@Injectable()
+export class PatientChartService {
+  consultationPatientChartMenuList = [];
+  faqTemplateList = [];
+  public chartTypeList: Array<any> = [
+    { key: 'CONSULTATION_CHART', label: 'Consultation Chart' },
+    { key: 'FOLLOWUP_CHART', label: 'Followup Chart' },
+    { key: 'DISCHARGE_CHART', label: 'Discharge Chart' }
+  ];
+
+  patientVisitSectionArray = [];
+
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  // getUserRoleTypeList(): Observable<any> {
+  //     const reqUrl = `${environment.dashboardBaseURL}/emr/GetUserRoleTypeList`;
+  //     return this.http.get(reqUrl).pipe(map((res: any) => {
+  //         if (res.status_message === 'Success') {
+  //             const temp = [];
+  //             res.data.forEach(element => {
+  //                 const role = new Role();
+  //                 role.generateObject(element);
+  //                 temp.push({ ...role });
+  //             });
+  //             return temp;
+  //         } else {
+  //             return [];
+  //         }
+  //     }));
+  // }
+
+  // getUsersList(reqParams: { search_keyword: string, dept_id: number, speciality_id: number, role_type_id: number, limit: number }): Observable<any> {
+  //     const reqUrl = `${environment.dashboardBaseURL}/emr/GetUsersBySearchKeyword`;
+  //     return this.http.post(reqUrl, reqParams).pipe(map((res: any) => {
+  //         if (res.status_message === 'Success') {
+  //             return res.data;
+  //         } else {
+  //             return [];
+  //         }
+  //     }));
+  // }
+
+  getPatientChartComponentList(serviceTypeId: number, specialityId: number): Observable<any> {
+    const reqParams = {
+      service_type_id: serviceTypeId,
+      speciality_id: specialityId
+    };
+    const reqUrl = `${environment.dashboardBaseURL}/PatientChart/GetPatientChartComponentList`;
+    return this.http.post(reqUrl, reqParams);
+  }
+
+  savePatientChart(reqParams): Observable<any> {
+    const reqUrl = `${environment.dashboardBaseURL}/PatientChart/SavePatientChart`;
+    return this.http.post(reqUrl, reqParams);
+  }
+
+  getPatientChartList(reqParams): Observable<any> {
+    const reqUrl = `${environment.dashboardBaseURL}/PatientChart/GetPatientChartList`;
+    return this.http.post(reqUrl, reqParams);
+  }
+
+  getPatientChartDetailsById(chartId: number): Observable<any> {
+    const reqUrl = `${environment.dashboardBaseURL}/PatientChart/GetPatientChartDetailsById?chart_id=${chartId}`;
+    return this.http.get(reqUrl);
+  }
+
+  deletePatientChart(chartId: number): Observable<any> {
+    const reqUrl = `${environment.dashboardBaseURL}/PatientChart/DeletePatientChartById?chart_id=${chartId}`;
+    return this.http.delete(reqUrl);
+  }
+
+  getPatientChartListForManageOrder(reqParams): Observable<any> {
+    const reqUrl = `${environment.dashboardBaseURL}/PatientChart/GetPatientChartListForManageOrder`;
+    return this.http.post(reqUrl, reqParams);
+  }
+
+  savePatientChartOrder(reqParams): Observable<any> {
+    const reqUrl = `${environment.dashboardBaseURL}/PatientChart/SavePatientChartOrder`;
+    return this.http.post(reqUrl, reqParams);
+  }
+
+  getConsultationPatientChart(reqParams): Observable<any> {
+    const reqUrl = `${environment.dashboardBaseURL}/PatientChart/GetConsultationPatientChart`;
+    return this.http.post(reqUrl, reqParams).pipe(map((res: any) => {
+      if (res.status_message === 'Success') {
+        return this.consultationPatientChartMenuList = res.data;
+      }
+      return [];
+    }));
+  }
+
+  getChartDetailsByChartId(chartId: number): any {
+    return this.consultationPatientChartMenuList.find((c: any) => c.chart_id === chartId);
+  }
+
+  getFaqSectionTemplateList(reqParams) {
+    const reqUrl = environment.dashboardBaseURL + '/Template/GetTemplateListById';
+    return this.http.post(reqUrl, reqParams).pipe(map((res: any) => {
+      if (res.status_message === 'Success') {
+        return this.faqTemplateList = res.data;
+      }
+      return [];
+    }));
+  }
+
+  getLocalFaqSectionData(templateId): Observable<any> {
+    // return of(this.faqTemplateList);
+    const templateArray = _.filter(this.faqTemplateList, (template) => template.template_id === templateId);
+    if (templateArray.length) {
+      return of(_.cloneDeep(templateArray));
+    }
+    return of([]);
+  }
+
+  GetExaminationSuggestionList(reqParams) {
+    const reqUrl = environment.dashboardBaseURL + '/Examination/GetExaminationSuggestionList';
+    return this.http.post(reqUrl, reqParams).pipe(map((res: any) => {
+      if (res.status_message === 'Success') {
+        const examData = [];
+        _.forEach(res.data, (tag) => {
+          const examType = new ExaminationTags();
+          examType.generateObject(tag);
+          // item = { ...examType };
+          examData.push(examType);
+        });
+        return examData;
+      }
+      return [];
+    }));
+  }
+
+  getPatientChartMapping(reqParams: any): Observable<any> {
+    const reqUrl = `${environment.dashboardBaseURL}/PatientChart/GetPatientChartMapping`;
+    return this.http.post(reqUrl, reqParams);
+  }
+
+  savePatientChartMapping(reqParams): Observable<any> {
+    const reqUrl = `${environment.dashboardBaseURL}/PatientChart/SavePatientChartMapping`;
+    return this.http.post(reqUrl, reqParams);
+  }
+
+  saveAdviceFav(reqParams) {
+    const reqUrl = environment.dashboardBaseURL + '/Advice/SaveAdviceFavoriteData';
+    return this.http.post(reqUrl, reqParams).pipe(map((res: any) => {
+      if (res.status_message === 'Success') {
+        return true;
+      }
+      return false;
+    }));
+  }
+
+  saveComplaintFav(reqParams) {
+    const reqUrl = environment.dashboardBaseURL + '/Complaint/SaveComplaintsFavoriteData';
+    return this.http.post(reqUrl, reqParams).pipe(map((res: any) => {
+      if (res.status_message === 'Success') {
+        return true;
+      }
+      return false;
+    }));
+  }
+
+  saveDiagnosisFav(reqParams) {
+    const reqUrl = environment.dashboardBaseURL + '/DiagnosisMaster/SaveDiagnosisFavoriteData';
+    return this.http.post(reqUrl, reqParams).pipe(map((res: any) => {
+      if (res.status_message === 'Success') {
+        return true;
+      }
+      return false;
+    }));
+  }
+
+  saveExaminationLabelFav(reqParams) {
+    const reqUrl = environment.dashboardBaseURL + '/Examination/SaveExaminationFavoriteData';
+    return this.http.post(reqUrl, reqParams).pipe(map((res: any) => {
+      if (res.status_message === 'Success') {
+        return true;
+      }
+      return false;
+    }));
+  }
+
+  saveInvestigationFav(reqParams) {
+    const reqUrl = environment.dashboardBaseURL + '/InvetigationMaster/SaveInvestigationFavoriteData';
+    return this.http.post(reqUrl, reqParams).pipe(map((res: any) => {
+      if (res.status_message === 'Success') {
+        return true;
+      }
+      return false;
+    }));
+  }
+
+  savePrescriptionFav(reqParams) {
+    const reqUrl = environment.dashboardBaseURL + '/Medicine/SaveMedicineFavoriteData';
+    return this.http.post(reqUrl, reqParams).pipe(map((res: any) => {
+      if (res.status_message === 'Success') {
+        return true;
+      }
+      return false;
+    }));
+  }
+
+  getPatientVisitSections(reqParams: { service_type_id: number, patient_id: string }): Observable<any> {
+    const existsCacheData = this.getPatientVisitSectionsList(reqParams.service_type_id, reqParams.patient_id);
+    if (existsCacheData) {
+      return of(existsCacheData);
+    }
+    const reqUrl = environment.dashboardBaseURL + '/Patient/GetPatientVisitSections';
+    return this.http.post(reqUrl, reqParams).pipe(map((res: any) => {
+      this.updatePatientVisitSections(reqParams.service_type_id, reqParams.patient_id, res);
+      return res;
+    }));
+  }
+
+  updatePatientVisitSections(serviceTypeId, patientId, resData) {
+    const indx = _.findIndex(this.patientVisitSectionArray, dt => {
+      return dt.patientId === patientId && dt.serviceTypeId === serviceTypeId;
+    });
+    if (indx === -1) {
+      const obj = {
+        patientId,
+        serviceTypeId,
+        data: resData
+      };
+      this.patientVisitSectionArray.push(obj);
+    }
+  }
+
+  getPatientVisitSectionsList(serviceTypeId, patientId) {
+    const indx = _.findIndex(this.patientVisitSectionArray, dt => {
+      return dt.patientId === patientId && dt.serviceTypeId === serviceTypeId;
+    });
+    if (indx !== -1) {
+      return this.patientVisitSectionArray[indx].data;
+    } else {
+      return null;
+    }
+  }
+
+  GetSuggestionConfiguration(reqParams): Observable<any> {
+    const reqUrl = `${environment.dashboardBaseURL}/PatientChart/GetSuggestionConfiguration`;
+    return this.http.post(reqUrl, reqParams);
+  }
+
+  SaveSuggestionConfiguration(reqParams): Observable<any> {
+    const reqUrl = `${environment.dashboardBaseURL}/PatientChart/SaveSuggestionConfiguration`;
+    return this.http.post(reqUrl, reqParams);
+  }
+
+  getSymanticTags(): Observable<any> {
+    const reqUrl = `${environment.SNOWMED_URL}/descriptions/semantictags`;
+    return this.http.get(reqUrl);
+  }
+}

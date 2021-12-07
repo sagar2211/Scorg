@@ -1,0 +1,72 @@
+<!-- for appointment(QMS) -->
+<div class="d-none" #printDivHtml>
+    <div *ngIf="isPrintDataLoad" id="content">
+        <table style="width: 100%;">
+            <thead>
+                <tr id="header">
+                    <td colspan="2">
+                        <h1 class="repeat">{{printHeading.heading}}</h1>
+                    </td>
+                </tr>
+                <tr style="line-height: 26px;">
+                    <td style="width: 50%;">
+                        <h3 class="font-weight-600">{{printHeading.userData}}</h3>
+                    </td>
+                    <td style="width: 50%; text-align:right">
+                        <p class="apt-date"> {{printDate | date : "d-MMM-yyyy"}} </p>
+                    </td>
+                </tr>
+            </thead>
+        </table>
+        <div id="list">
+            <table id="print" class="table-bordered">
+                <thead *ngIf="printHeader.length > 0">
+                    <tr>
+                        <th *ngFor="let item of printHeader">
+                            <h5 class="font-weight-600">{{item}}</h5>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="printBody.length > 0">
+                    <tr *ngFor="let item of printBody; let i = index;let last = last;">
+                        <td class="sr-no">
+                            <h5 class="font-weight-500">{{i + 1}}</h5>
+                        </td>
+                        <td class="slot-time">
+                            <h5 class="font-weight-500">{{item.slotTime}}</h5>
+                        </td>
+                        <td class="w-50-px">
+                            <h5 class="font-weight-500">{{item.patType}}</h5>
+                        </td>
+                        <td class="w-50-px text-center">
+                            <h5 class="font-weight-500">{{item.patUhid}}</h5>
+                        </td>
+                        <td class="patient-name">
+                            <h5 class="font-weight-500">{{item.patName}}</h5>
+                        </td>
+                        <td class="sr-no">
+                            <h5 class="font-weight-500">{{item.patGender.charAt(0)}}</h5>
+                        </td>
+                        <td class="w-60-px text-center">
+                            <h5 *ngIf="item.patDob" class="font-weight-500">{{ modifyAge( item?.patDob | calucalteAge )}}</h5>
+                            <h5 *ngIf="!item.patDob" class="font-weight-500">{{modifyAge(item.patAge)}}</h5>
+                        </td>
+                        <td class="w-50-px text-center">
+                            <h5 class="font-weight-500">{{item.patContact}}</h5>
+                        </td>
+                        <td class="w-50-px text-center">
+                            <h5 class="font-weight-500">{{item.visitType}}</h5>
+                        </td>
+                        <td class="taken-by">
+                            <h5 class="font-weight-500">{{item.appTakenBy}}</h5>
+                        </td>
+                        <td class="remark">
+                            <h5 class="font-weight-500">{{item.remark}}</h5>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

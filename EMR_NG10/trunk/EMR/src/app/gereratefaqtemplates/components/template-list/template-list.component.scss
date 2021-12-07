@@ -1,0 +1,33 @@
+@import "../../../../scss/custom_bootstrap_theme";
+
+:host ::ng-deep {
+  .ngx-datatable.fixed-row {
+    .datatable-body {
+      height: calc(100vh - 200px) !important;
+      overflow-x: hidden !important;
+
+      .cust-bottom {
+        bottom: 2px;
+        .btn {
+          height: 20px;
+        }
+      }
+
+      .datatable-row-detail {
+        background-color: $gray-100;
+        border-bottom: 1px solid $gray-500;
+        .emr-container-fluid {
+            height: unset;
+            padding: 0 !important;
+            width: 98%;
+            border: none;
+            overflow: hidden;
+            box-shadow: none;
+            .form-row {
+              display: none;
+            }
+        }
+      }
+    }
+  }
+}

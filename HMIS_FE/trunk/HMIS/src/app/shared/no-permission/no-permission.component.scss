@@ -1,0 +1,26 @@
+.permission {
+  position: relative;
+  top: 40px;
+  height: calc(100vh - 40px);
+  overflow-y: auto;
+
+  .no-permission {
+    width: 50%;
+    height: 350px;
+    padding: 5px;
+    border-radius: 5px;
+
+    .permission-box {
+      padding: 50px 20px 50px 50px;
+
+      h1 {
+        font-size: 3rem;
+        letter-spacing: 1px;
+      }
+    }
+
+    // img {
+    //   height: 348px !important;
+    // }
+  }
+}

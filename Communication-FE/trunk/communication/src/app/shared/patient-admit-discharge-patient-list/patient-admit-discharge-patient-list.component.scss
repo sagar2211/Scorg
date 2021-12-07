@@ -1,0 +1,84 @@
+@import "../../../scss/main.scss";
+
+.discharge-patient-dashboard-container {
+  // height: calc(100vh - 48px) !important;
+  height: calc(100vh - 104px) !important;
+  padding-top: 0.5rem;
+  // padding-bottom: 0.5rem;
+  padding-bottom: 0;
+  overflow-y: auto;
+
+  .admitted-list {
+    .card {
+      @include border-radius(5px);
+      @include custom-box-shadow(0, 0, 5px, rgba(28, 25, 83, 0.12));
+      @include transition(box-shadow 0.5s);
+
+      &:hover {
+        @include custom-box-shadow(0, 4px, 9px, rgba(165, 165, 165, 0.5));
+      }
+
+      tbody {
+        tr {
+          td {
+            position: relative;
+            padding: 0.4rem;
+            border: none;
+            border-top: 1px solid #dee2e6;
+            border-bottom: 1px solid #dee2e6;
+
+            &:first-child {
+              border-left: 1px solid #dee2e6;
+              min-width: 21%;
+            }
+
+            &:nth-child(2) {
+              min-width: 32%;
+            }
+
+            &:nth-child(3) {
+              min-width: 17.75%;
+            }
+
+            &:nth-child(4) {
+              min-width: 8.75%;
+
+              &:after {
+                width: 0px !important;
+              }
+            }
+
+            &:nth-child(5) {
+              min-width: 10.75%;
+            }
+
+            &:last-child {
+              border-right: 1px solid #dee2e6;
+              min-width: 9.75%;
+            }
+
+            &:not(:last-child):after {
+              background: #adb5bd;
+              width: 1px;
+              content: "";
+              display: block;
+              position: absolute;
+              top: 10%;
+              bottom: 0;
+              right: 0;
+              max-height: 80%;
+            }
+
+            .top {
+              font-size: 85%;
+            }
+
+            .bottom {
+              font-size: 95%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

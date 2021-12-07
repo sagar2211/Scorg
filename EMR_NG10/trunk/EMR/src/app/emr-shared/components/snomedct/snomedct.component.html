@@ -1,0 +1,5 @@
+<div contenteditable="true" (focus)="emitChanges('focus')" (input)="emitChanges('model_changes', $event)" #tributeDirective="ngx-tribute"
+     [ngxTribute]="options" #snoMed id="{{this.idName}}" (mentionItemSelected)="itemSelected($event)"
+     [ngClass]="textAreaSize === 'small' ? 'small-textarea' : 'large-textarea'"
+     class="custom-form-control">
+</div>

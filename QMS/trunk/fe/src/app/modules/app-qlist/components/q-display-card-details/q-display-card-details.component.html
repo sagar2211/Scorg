@@ -1,0 +1,132 @@
+<div class="card px-2 pt-1 mb-2 mx-2">
+  <div class="card-header p-0">
+    <p class="mb-1 font-size-dot-8 font-weight-500 d-inline-block">{{slot.tokenNo}}</p>
+    <span class="d-inline-block ml-2 float-right font-size-dot-8" placement="left" ngbTooltip="{{slot.appointmentType}}"
+      [ngStyle]="{'color': appTypeColor}"><i class="fa fa-fw fa-square"></i></span>
+    <div class="float-right">
+      <i placement="left" ngbTooltip="Appointment" *ngIf="slot.patType == 'NORMAL'"
+        class="icon fa-fw icon-calendar-alt text-info" aria-hidden="true"></i>
+      <i placement="left" ngbTooltip="Priority" *ngIf="slot.patType == 'PRIORITY'"
+        class="icon fa-fw icon-usd text-warning" aria-hidden="true"></i>
+      <i placement="left" ngbTooltip="Walkin" *ngIf="slot.patType == 'WALKIN'"
+        class="icon fa-fw icon-walking text-success" aria-hidden="true"></i>
+    </div>
+  </div>
+  <div class="card-body px-1 py-2">
+    <p class="font-size-dot-8 margin-bottom-2">{{slot.patUhid}}
+      <span class="float-right font-size-1 font-weight-500 text-pink" *ngIf="slot.isFollowUp" placement="left"
+        ngbTooltip="Follow Up Patient">F</span>
+      <span class="float-right font-size-1 font-weight-500 text-primary" *ngIf="!slot.isFollowUp" placement="left"
+        ngbTooltip="New Patient">N</span>
+    </p>
+    <p class="font-weight-500 margin-bottom-2">{{slot.patTitle}}. {{slot.patName}}</p>
+    <p class="text-muted font-size-dot-7 mb-0"><span class="text-uppercase">{{slot.patGender}}, </span>
+      {{slot.patAge}} </p>
+  </div>
+  <div class="card-footer d-flex justify-content-between p-0">
+    <div class="apt-status align-self-center">
+      <span class="text-success font-size-dot-875 blink" *ngIf="slot.queueStatus === 'CALLING'">Calling</span>
+      <ng-container *ngIf="slot.queueStatus !== 'CALLING'">
+        <ng-container [ngSwitch]="slot.queueStatus">
+          <span *ngSwitchCase="'NEXT'" class="status_queue font-size-dot-875">In Queue</span>
+          <span *ngSwitchCase="'INCONSULTATION'" class="status_inconsultation font-size-dot-875">In Consultation</span>
+          <span *ngSwitchCase="'COMPLETE'" class="status_complete font-size-dot-875">Complete</span>
+          <span *ngSwitchCase="'SKIP'" class="status_skip font-size-dot-875">Skip</span>
+          <span *ngSwitchCase="'ABSENT'" class="status_absent font-size-dot-875">Absent</span>
+          <span *ngSwitchCase="'ONHOLD'" class="status_onhold font-size-dot-875">On Hold</span>
+        </ng-container>
+      </ng-container>
+    </div>
+    <div class="text-right">
+      <!-- <button class="btn btn-sm btn-link text-primary" *ngIf="queueStatusCheck(1)"
+        (click)="updateAppointentStatus(slot, 1)" placement="left" ngbTooltip="Move To Queue"><i
+          class="far fa-fw fa-arrow-alt-circle-left"></i></button> -->
+      <!-- <button class="btn btn-sm btn-link text-secondary" (click)="onSkip(slot)" placement="left" ngbTooltip="Skip"
+        *ngIf="queueStatusCheck(7)"><i class="icon fa-fw icon-level-down" aria-hidden="true"></i></button> -->
+      <ng-container *ngxPermissionsOnly="permissions.Queue_call">
+        <button class="btn btn-sm btn-link border-right text-info" *ngIf="queueStatusCheck(2)" #roomPopRef="ngbPopover"
+          placement="left" container="body" triggers="manual" (click)="onRoomPopover(2, roomPopRef)"
+          [autoClose]="'outside'" [ngbPopover]="roomContent" title="Calling"><i class="icon fa-fw icon-calling"
+            aria-hidden="true"></i></button>
+      </ng-container>
+
+      <!-- <button (click)="updateAppointentStatus(slot,3)" *ngIf="queueStatusCheck(3)"
+        class="btn btn-sm btn-link border-left text-danger" placement="left" ngbTooltip="Not present"><i
+          class="icon fa-fw icon-times" aria-hidden="true"></i></button> -->
+      <!-- (click)="updateAppointentStatus(slot,4)" -->
+      <ng-container *ngxPermissionsOnly="permissions.Queue_In_Consultation">
+        <button class="btn btn-sm btn-link text-warning border-right" *ngIf="queueStatusCheck(4)" #p="ngbPopover"
+          placement="left" container="body" triggers="manual" [autoClose]="'outside'" (click)="onRoomPopover(4, p)"
+          [ngbPopover]="roomContent" title="In Consultation"><i class="icon-stethoscope"></i></button>
+      </ng-container>
+
+      <button class="btn btn-sm btn-link border-right text-success" *ngIf="queueStatusCheck(5)"
+        (click)="updateAppointentStatus(slot,5)" placement="left" ngbTooltip="Complete"><i class="far fa-check-circle"
+          aria-hidden="true"></i></button>
+      <!-- <button class="btn btn-sm btn-link border-right text-primary" (click)="updateAppointentStatus(slot,5)" placement="left"
+        ngbTooltip="Confirm"><i class="fas fa-fw font-size-1 fa-clipboard-check"></i></button> -->
+
+      <!-- <button class="btn btn-sm btn-link border-right notes" *ngIf="slot.queueStatus !== 'COMPLETE'" (click)="onNotesRemarksClick()" placement="left"
+        ngbTooltip="Edit appointment"><i class="fa-fw icon-edit"></i></button> -->
+
+      <!-- <button class="btn btn-sm btn-link text-teal" placement="left"
+        ngbTooltip="Appointment history" (click)="showAppointmentHistory(slot.appointmentId)">
+        <i class="fa fa-history" aria-hidden="true"></i></button> -->
+
+      <button class="bg-transparent px-1 border-0" #actionPop="ngbPopover" triggers="manual" [autoClose]="true"
+        placement="left-bottom" [ngbPopover]="popContentQueueStatus" (click)="onActionPop(actionPop)">
+        <!-- <i class="icon fa-fw icon-popover" aria-hidden="true"></i> -->
+        <i aria-hidden="true" class="fa fa-fw fa-bars"></i>
+        <i aria-hidden="true" class="fa fa-xs fa-caret-down"></i>
+      </button>
+
+    </div>
+  </div>
+</div>
+<!-- <ng-template #popContent>
+  <ul class="list-unstyled popover-content mb-0">
+    <li *ngFor="let item of qStatusList">
+      <button class="btn btn-sm btn-block text-left edit" (click)="item.id == 2 ? onRoomPopover() : updateAppointentStatus(slot, item.id)">
+        {{item.name}}</button></li>
+  </ul>
+</ng-template> -->
+<ng-template #roomContent>
+  <ul class="list-unstyled popover-content mb-0">
+    <li *ngFor="let room of slot.roomDetails">
+      <button class="btn btn-sm btn-block text-left edit" (click)="onRoomSelect(room.roomId)">
+        {{room.roomName}}</button></li>
+  </ul>
+</ng-template>
+<ng-template #popContentQueueStatus>
+  <ul class="list-unstyled popover-content mb-0">
+    <li *ngxPermissionsOnly="permissions.Queue_skip">
+      <button class="btn btn-sm btn-block text-left skip" *ngIf="queueStatusCheck(7)" (click)="onSkip(slot)"><i
+          class="icon fa-fw icon-level-down mr-1" aria-hidden="true"></i>
+        Skip</button>
+    </li>
+    <li>
+      <button class="btn btn-sm btn-block text-left queue" *ngIf="queueStatusCheck(1)"
+        (click)="updateAppointentStatus(slot, 1)"><i class="far fa-fw fa-arrow-alt-circle-left mr-1"
+          aria-hidden="true"></i> Move To Queue</button>
+    </li>
+    <li *ngxPermissionsOnly="permissions.Queue_Edit_Appointment">
+      <button class="btn btn-sm btn-block text-left notes" *ngIf="slot.queueStatus !== 'COMPLETE'"
+        (click)="onNotesRemarksClick()">
+        <i class="icon fa-fw icon-edit mr-1" aria-hidden="true"></i> Edit Appointment</button>
+    </li>
+    <li *ngxPermissionsOnly="permissions.Queue_Appointment_History">
+      <button class="btn btn-sm btn-block text-left apt-history" (click)="showAppointmentHistory(slot,'appointmenthistory')"><i
+          class="icon fa-fw icon-history mr-1" aria-hidden="true"></i> Appointment History</button>
+    </li>
+    <li *ngxPermissionsOnly="permissions.Queue_Appointment_History">
+      <button class="btn btn-sm btn-block text-left apt-history" (click)="showAppointmentHistory(slot,'patietnHistory')"><i
+          class="icon fa-fw icon-history mr-1" aria-hidden="true"></i> Patient History</button>
+    </li>
+    <li *ngxPermissionsOnly="permissions.Queue_Not_Present">
+      <button class="btn btn-sm btn-block text-left del" (click)="updateAppointentStatus(slot,3)"
+        *ngIf="queueStatusCheck(3)">
+        <i class="icon fa-fw icon-times mr-1" aria-hidden="true"></i> Not Present</button>
+    </li>
+  </ul>
+</ng-template>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

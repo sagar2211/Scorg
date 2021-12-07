@@ -1,0 +1,33 @@
+@import "../../../../scss/custom_bootstrap_theme";
+
+:host ::ng-deep {
+  .order-card {
+    &.btn-outline-primary-light {
+      &.text-left {
+        padding: 5px 10px 5px 28px;
+      }
+
+      color: #7d8bd8;
+
+      .text-darken {
+        color: #7d8bd8 !important;
+      }
+
+      &.favorite-btn {
+        font-size: calc(0.775em - -0.25 * (100vw - 30em) / 100);
+      }
+
+      &:hover,
+      &:not(:disabled):not(.disabled):active,
+      &.active {
+        color: $white !important;
+        background-color: #7d8bd8;
+        border-color: #7d8bd8;
+
+        .text-darken {
+          color: $white !important;
+        }
+      }
+    }
+  }
+}

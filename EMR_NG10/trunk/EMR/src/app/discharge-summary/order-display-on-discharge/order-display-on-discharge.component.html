@@ -1,0 +1,58 @@
+<div class="card-body p-0 order-data-body">
+    <ngb-accordion [closeOthers]="false" [destroyOnHide]="false">
+        <ngb-panel id="{{orderData.type}}">
+            <ng-template ngbPanelTitle>
+                <div class="form-row align-items-center mx-0">
+                    <div class="col-4">
+                        <div class="form-row align-items-center mx-0">
+                            <div class="col-8">
+                                <p *ngIf="!orderData.isShow" class="mb-0 font-size-dot-875">{{orderData.name}}</p>
+                                <input class="form-control form-control-xs" *ngIf="orderData.isShow" type="text"
+                                    name="label" [(ngModel)]="orderData.name">
+                            </div>
+                            <div class="col-4">
+                                <button class="btn btn-xs btn-white edit-update-btn"
+                                    (click)="onEditUpdateSection($event, orderData)">
+                                    <i class="icon fa fa-fw"
+                                        [ngClass]="{'icon-edit': !orderData.isShow, 'fa-sync-alt': orderData.isShow}"
+                                        aria-hidden="true"></i>
+                                    {{orderData.isShow ? 'UPDATE' : 'EDIT'}}</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-8 text-right">
+                        <div class="form-row align-items-center mx-0">
+                            <div class="col-3 offset-8">
+                                <select class="form-control form-control-xs pointer"
+                                    (click)="onDisplayTypeChange(orderData, $event, true)">
+                                    <option>Select Display Type</option>
+                                    <option value="bullet">Bullets</option>
+                                    <option value="comma">Continue</option>
+                                </select>
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-sm btn-link" type="button"
+                                    (click)="orderData.isOpen = !orderData.isOpen">
+                                    <i [ngClass]="orderData.isOpen ? 'fa fa-fw fa-chevron-up': 'fa fa-fw fa-chevron-down' "
+                                        aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+                <ng-container>
+                    <!-- <div class="pb-2 mb-2" *ngFor="let summary of orderData.data;">
+                        </div> -->
+                    <tag-input [removable]="true" [(ngModel)]="orderData.data"
+                        (onRemove)="onRemove($event, orderData.data)" [modelAsStrings]="true" [addOnBlur]="true"
+                        [editable]="true" [modelAsStrings]="true" placeholder="Enter...">
+                    </tag-input>
+                    <textarea name="" class="form-control mt-1 noresize" placeholder="type here..."
+                        [(ngModel)]="dataName" (ngModelChange)="updateSummeryData(dataName, orderData)"></textarea>
+                </ng-container>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+</div>

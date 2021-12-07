@@ -1,0 +1,22 @@
+<div class="emr-container-fluid container-fluid p-1">
+  <div class="card-body p-0 settings-card-body">
+    <div class="row m-0">
+      <div class="col-2 px-0 text-right">
+        <label class="m-0">Status Setting: <sup>*</sup></label>
+      </div>
+      <div class="col-4 px-0 pl-1">
+        <select class="form-control form-control-sm" [(ngModel)]="statusSetting">
+          <option value="">NONE</option>
+          <option value="INITIATED">INITIATED</option>
+          <option value="APPROVED">APPROVED</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer py-1 text-right">
+    <button type="button" class="btn btn-sm btn-success" (click)="updateParamValue()">
+      <i class="icon fa-fw icon-save"></i> SAVE
+    </button>
+  </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Review Orders</h5>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="activeModal.close('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body review-orders-modal-body p-2">
+    <!-- <ng-container #unsavedOrderReviewList>
+    </ng-container> -->
+    <div *ngFor="let category of masterCategories; let i = index;" class="pb-4">
+        <div *ngIf="category.orderKey !== 'otherOrders' && allOrdersListWithKey[category.orderKey].length">
+            <h6 class="border-dash-bottom pb-1 mb-3">
+                <i class="icon fa-fw icon-info-circle align-bottom"></i> {{category.orderName}}
+            </h6>
+            <div *ngFor="let orderDisp of allOrdersListWithKey[category.orderKey]" class="card p-1">
+                <app-orders-display [isShowActions]="false" [isEdit]="false" [item]="orderDisp" [source]="category.orderKey" [isDelete]="false">
+                </app-orders-display>
+            </div>
+        </div>
+        <div *ngIf="category.orderKey === 'otherOrders' && allOrdersListWithKey['Doctor Instruction'].length">
+            <h6 class="border-dash-bottom pb-1 mb-3">
+                <i class="icon fa-fw icon-info-circle align-bottom"></i>Doctor Instruction</h6>
+            <div *ngFor="let orderord of allOrdersListWithKey['Doctor Instruction']" class="card p-1">
+                <app-orders-display [isShowActions]="false" [isEdit]="false" [item]="orderord" [source]="'Doctor Instruction'" [isDelete]="false">
+                </app-orders-display>
+            </div>
+        </div>
+        <div *ngIf="category.orderKey === 'otherOrders' && allOrdersListWithKey['Services with Notes'].length">
+            <h6 class="border-dash-bottom pb-1 mb-3">
+                <i class="icon fa-fw icon-info-circle align-bottom"></i>Services with Notes</h6>
+            <div *ngFor="let orderord of allOrdersListWithKey['Services with Notes']" class="card p-1">
+                <app-orders-display [isShowActions]="false" [isEdit]="false" [item]="orderord" [source]="'Services with Notes'" [isDelete]="false">
+                </app-orders-display>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer p-1">
+    <button type="button" class="btn btn-sm btn-outline-success" (click)="activeModal.close('save');"><i
+      class="icon fa-fw icon-save" aria-hidden="true"></i> SAVE</button>
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="activeModal.close('cancle');">CANCEL</button>
+</div>

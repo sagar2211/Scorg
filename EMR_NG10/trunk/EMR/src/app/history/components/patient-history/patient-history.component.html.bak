@@ -1,0 +1,12 @@
+<div class="form-row m-0 overflow-hidden">
+    <div class="col-3 px-0">
+        <div class="card border-top-0 border-bottom-0 border-left-0">
+            <app-left-tree (secSelected)="selectedSec = $event" (selectedFilter)="selectedFilterData = $event">
+            </app-left-tree>
+        </div>
+    </div>
+    <div class="col-9 px-0">
+        <app-history-right-section [selectedFilter]="selectedFilterData" [slectedSec]="selectedSec">
+        </app-history-right-section>
+    </div>
+</div>

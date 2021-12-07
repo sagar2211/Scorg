@@ -1,0 +1,44 @@
+
+<form [formGroup]="unknownRegistration" (ngSubmit)="onSave()">
+  <div class="custom-container-fluid global-setting" [ngClass]="{'partial-view': isPartialLoad}">
+    <div class="card-body py-1 px-0">
+      <div class="row m-0">
+        <div class="col-12 px-1">
+          <p class="mb-1 pb-1 border-bottom font-weight-500">Unknown Patient Registration</p>
+        </div>
+        <div class="col-12 mb-2 d-flex" *ngIf="uhid">
+          <div class="col-2">
+            <p class="mb-1 font-weight-500">UHID </p>
+          </div>
+          <div class="col-8">
+            {{uhid}}
+          </div>
+        </div>
+        <div class="col-12 mb-2 d-flex">
+          <div class="col-2">
+            <p class="mb-1 font-weight-500">Select Gender </p>
+          </div>
+          <div class="col-8">
+            <ng-select [items]="gender" bindLabel="name" formControlName="gender" placeholder="Select Gender"
+              labelForId="gender">
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-12 mb-2 d-flex">
+          <div class="col-2">
+            <p class="mb-1 font-weight-500">Patient Identification Mark </p>
+          </div>
+          <div class="col-8">
+            <textarea name="" rows="2" class="form-control" formControlName="identificationMark"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer py-0 border-top text-right p-1">
+      <button class="btn btn-outline-success btn-sm mr-2" type="button" (click)="clearForm()">Clear</button>
+      <button class="btn btn-primary btn-sm" type="submit" [disabled]="!isEditable">Save</button>
+    </div>
+  </div>
+</form>
+
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

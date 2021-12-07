@@ -1,0 +1,205 @@
+<div class="form-row mx-0">
+  <div [ngClass]="{'col-6 border-dash-right': source !== 'prescription', 'col-12': source === 'prescription'}"
+    class="px-0"
+    *ngIf="( orderDisplayType === 'all' || (medicineOrdersList | displaySavedUnsaved: orderDisplayType).length)">
+    <div class="card-section">
+      <div *ngIf="!(medicineOrdersList | orderListFilter : false : false : 'unSaved').length"
+        class="bg-img mt-2 text-center" (click)="openSuggestion()">
+        <img src="./assets/img/no-orders.png" class="img-fluid" alt="no orders" />
+      </div>
+      <div class="card mb-1 mr-1 mt-1 pointer order-card"
+        *ngFor="let medicines of medicineOrdersList | orderListFilter : false : false : 'unSaved'; let i = index;"
+        id="medicineOrders{{i}}" [ngClass]="{'active': (selectedItemIndx == i)}">
+        <app-orders-display (checkAllPendingValue)="findPendingObject()" [isShowActions]="true"
+          (deleteData)="removeMedicineOrders($event)" (editData)="activeIndex = i; onEditMedicineOrder($event, i)"
+          (approveOrder)="approveOrders($event,i)" [isEdit]="isEdit" [item]="medicines" [source]="source"
+          [isDelete]="isDelete">
+        </app-orders-display>
+      </div>
+      <ng-container *ngIf="!(medicineOrdersList | orderListFilter : false : false : 'unSaved').length"
+        [ngTemplateOutlet]="emptyOrdersTemplate">
+      </ng-container>
+    </div>
+  </div>
+  <!--SUGGESTION CODE-->
+  <div class="col-6 pl-0 pr-0 col-suggesstion" *ngIf="loadSuggestion && source !== 'prescription'">
+    <div class="position-relative" *ngIf="showInputSearchBox">
+      <input (ngModelChange)="onSearch($event);" class="form-control form-control-sm pl-2rem" type="text"
+        [(ngModel)]="searchKeyword" (focus)="hideHistory()" placeholder="Search By Name">
+      <div class="placeholder-icon">
+        <i class="icon fa-fw icon-search text-muted" aria-hidden="true"></i>
+      </div>
+    </div>
+    <app-suggestion-panel #suggestionPanel [showHeading]="false" [showInputSearchBox]="showInputSearchBox"
+      [suggestionPanelSettings]="suggestionPanelSettings" [isOnload]="isOnload" [showCombinedList]=true
+      [isFrom]="isFrom">
+    </app-suggestion-panel>
+  </div>
+  <!--SUGGESTION CODE END-->
+  <div class="col-6 pl-0 pr-0 col-suggesstion" *ngIf="showAddSection && source !== 'prescription'">
+    <!--MEDICINE INPUTS-->
+    <!--<fieldset>-->
+    <!--<form [formGroup]="medicineOrderFrm" *ngIf="showAddSection">-->
+    <!--<ngb-tabset (tabChange)="configureAction($event)" [destroyOnHide]="false">-->
+    <!--<ngb-tab id="Templates" title="Templates">-->
+    <!--<ng-template ngbTabContent>-->
+    <!--<div class="all-suggestion my-1">-->
+    <!--<p class="mb-1 text-center label-suggestion">-->
+    <!--Favorite Template Suggestion</p>-->
+    <!--<div class="btn btn-outline-primary-light d-block p-0 text-left m-1 pointer order-card favorite-btn"-->
+    <!--*ngFor="let medicines of medicineOrdersFavSuggestionTemplateList; let i = index;"-->
+    <!--id="medicineSuggestionTemlate{{i}}" [ngClass]="{'active': (activeIndex == i)}">-->
+    <!--<app-orders-display (checkAllPendingValue)="findPendingObject()" [isFromFavSuggestionTemplate]="true"-->
+    <!--[inputIndex]="selectedItemIndx" [isShowActions]="true" (deleteData)="removeMedicineOrders($event)"-->
+    <!--(editData)="activeIndex = i; onEditMedicineOrder($event, i)" [isEdit]="isEdit" [item]="medicines"-->
+    <!--[source]="source" [isDelete]="isDelete">-->
+    <!--</app-orders-display>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</ng-template>-->
+    <!--</ngb-tab>-->
+    <!--<ngb-tab id="Dose" title="Dose">-->
+    <!--<ng-template ngbTabContent>-->
+    <!--<ng-container formGroupName="medicineObj">-->
+    <!--<div class="form-group form-row mx-0">-->
+    <!--<div class="col-6">-->
+    <!--<label class="text-muted">Enter Dose</label>-->
+    <!--<input [value]="mediceObjectControls.value.dose?.dose" (change)="setDose($event)" type="number"-->
+    <!--class="form-control" placeholder="Enter Dose" />-->
+    <!--</div>-->
+    <!--<div class="col-6" formGroupName="type">-->
+    <!--<label class="text-muted">Enter Unit</label>-->
+    <!--<input formControlName="doseUnit" type="text" class="form-control" placeholder="Enter Unit" />-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="all-suggestion px-2">-->
+    <!--<div class="mb-1">-->
+    <!--<p class="mb-1 text-center label-suggestion">Dose Suggestion</p>-->
+    <!--<button *ngFor="let dose of doseMaster; let i = index;"-->
+    <!--(click)="mediceObjectControls.patchValue({ dose : dose });" type="button"-->
+    <!--class="btn btn-outline-primary-light mr-1 mb-1"-->
+    <!--[ngClass]="{'active': (mediceObjectControls.value.dose?.dose == dose.dose)}">{{dose.dose}}</button>-->
+    <!--</div>-->
+    <!--<div class="mb-1">-->
+    <!--<p class="mb-1 text-center label-suggestion">Unit Suggestion</p>-->
+    <!--<button *ngFor="let doseUnit of doseUnitMaster; let i = index;" (click)="onDoseUnit(doseUnit)"-->
+    <!--type="button" class="btn btn-outline-primary-light mr-1 mb-1"-->
+    <!--[ngClass]="{'active': (mediceTypeControls.value.doseUnit == doseUnit.dose_unit)}">{{doseUnit.dose_unit}}</button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</ng-container>-->
+    <!--</ng-template>-->
+    <!--</ngb-tab>-->
+    <!--<ngb-tab id="Frequency" title="Frequency">-->
+    <!--<ng-template ngbTabContent>-->
+    <!--<ng-container formGroupName="medicineObj">-->
+    <!--<div class="form-group form-row mx-0">-->
+    <!--<div class="col-6">-->
+    <!--<label class="text-muted">Enter Frequency</label>-->
+    <!--<input formControlName="frequency"-->
+    <!--(change)="setMedicineFreqSchedule(mediceObjectControls.value, false);" type="text"-->
+    <!--class="form-control" placeholder="Enter Frequency" />-->
+    <!--</div>-->
+    <!--<div class="col-6">-->
+    <!--<label class="text-muted">No. Of Days</label>-->
+    <!--<input formControlName="duration" type="number" class="form-control" placeholder="No. Of Days" />-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="all-suggestion px-2">-->
+    <!--<div class="mb-1">-->
+    <!--<span-->
+    <!--*ngIf="mediceObjectControls.value.frequency <= 4">{{mediceObjectControls.value.frequencySchedule}}</span>-->
+    <!--<span-->
+    <!--*ngIf="mediceObjectControls.value.frequency > 4">{{mediceObjectControls.value.frequency + ' times a day'}}</span>-->
+    <!--<a class="text-primary font-size-dot-8"-->
+    <!--*ngIf="mediceObjectControls.value.frequencySchedule && (mediceObjectControls.value.frequency < 3)"-->
+    <!--(click)="setMedicineFreqSchedule(mediceObjectControls.value);">&nbsp;Change</a>-->
+    <!--<span *ngIf="mediceObjectControls.get('frequency').errors">-->
+    <!--<span class="text-danger" *ngIf="!!(mediceObjectControls.get('frequency').errors?.pattern)">Only-->
+    <!--numbers allowed..</span>-->
+    <!--<span class="text-danger" *ngIf="!!(mediceObjectControls.get('frequency').errors?.max)">Number-->
+    <!--should be less then 24..</span>-->
+    <!--</span>-->
+    <!--</div>-->
+    <!--<div class="mb-1">-->
+    <!--<p class="mb-1 text-center label-suggestion">Frequency Suggestion</p>-->
+    <!--<button *ngFor="let freqNo of frequencyNumbers;"-->
+    <!--(click)="mediceObjectControls.patchValue({ frequency : freqNo }); setMedicineFreqSchedule(mediceObjectControls.value, false);"-->
+    <!--type="button" class="btn btn-outline-primary-light mr-1 mb-1"-->
+    <!--[ngClass]="{'active': (mediceObjectControls.value.frequency == freqNo)}">{{freqNo}}</button>-->
+    <!--</div>-->
+    <!--<div class="mb-1">-->
+    <!--<p class="mb-1 text-center label-suggestion">Start Time Suggestions</p>-->
+    <!--<div class="form-group form-row px-1">-->
+    <!--<div class="col-3 pr-0">-->
+    <!--<label class="text-muted">Start Time</label>-->
+    <!--<app-time-drop-down [timeFormat]="'12_hour'" [minuteValue]="'false'"-->
+    <!--[selectedValue]="mediceObjectControls.value.freqStartTime"-->
+    <!--(selectedItem)="onFreqStartTimeSelect($event);">-->
+    <!--</app-time-drop-down>-->
+    <!--</div>-->
+    <!--<div class="col-9">-->
+    <!--<label>&nbsp;</label>-->
+    <!--<div>-->
+    <!--<button *ngFor="let hrs of hoursList" (click)="onFreqStartTimeSelect(hrs.time)" type="button"-->
+    <!--class="btn btn-outline-primary-light mr-1 mb-1"-->
+    <!--[ngClass]="{'active': (hrs.isActive === true)}">{{hrs.time}}</button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</ng-container>-->
+    <!--</ng-template>-->
+    <!--</ngb-tab>-->
+    <!--<ngb-tab id="Route" title="Route">-->
+    <!--<ng-template ngbTabContent>-->
+    <!--<ng-container formGroupName="medicineObj">-->
+    <!--<div class="route-suggestion px-2 mt-1">-->
+    <!--<button *ngFor="let route of routeList; let i = index;" (click)="onRouteSelect(route)" type="button"-->
+    <!--class="btn btn-outline-primary-light mr-1 mb-1"-->
+    <!--[ngClass]="{'active': (mediceObjectControls.value.route?.name == route.name)}">{{route.name}}</button>-->
+    <!--</div>-->
+    <!--</ng-container>-->
+    <!--</ng-template>-->
+    <!--</ngb-tab>-->
+    <!--<ngb-tab id="Instructions" title="Instructions">-->
+    <!--<ng-template ngbTabContent>-->
+    <!--<ng-container formGroupName="medicineObj">-->
+    <!--<div class="form-group form-row mx-0">-->
+    <!--<div class="col-4">-->
+    <!--<label class="text-muted">{{source === 'prescription' ? 'Start' : 'Order'}} Date</label>-->
+    <!--<app-date-picker [inputDate]="mediceObjectControls.value.startDate" placeholder="dd-mm-yyyy"-->
+    <!--[min]="mediceObjectControls.value.startDate" (dateChange)="mediceObjectControls.patchValue({ startDate : $event });">-->
+    <!--</app-date-picker>-->
+    <!--</div>-->
+    <!--<div class="col-6">-->
+    <!--<label>&nbsp;</label>-->
+    <!--<div>-->
+    <!--<button *ngFor="let instr of defaultInstructions" type="button"-->
+    <!--(click)="mediceObjectControls.patchValue({ mealTypeInstruction : instr });"-->
+    <!--[ngClass]="{'active': (mediceObjectControls.value.mealTypeInstruction == instr)}"-->
+    <!--class="btn btn-outline-primary-light mr-1 mb-1">{{instr}}</button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-12">-->
+    <!--<label class="text-muted">Instructions</label>-->
+    <!--<input (click)="click$.next($event.target.value)" id="transTextRemarks1" type="text"-->
+    <!--class="form-control" formControlName="instruction" [ngbTypeahead]="searchInstructionList" [inputFormatter]="searchInstructionFormattter"-->
+    <!--placeholder="Enter Instruction .." #instance="ngbTypeahead">-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</ng-container>-->
+    <!--</ng-template>-->
+    <!--</ngb-tab>-->
+    <!--</ngb-tabset>-->
+    <!--</form>-->
+    <!--</fieldset>-->
+    <!--MEDICINE INPUTS  END-->
+    <app-medicine-inputs #medicineInput [medicineOrder]="this"></app-medicine-inputs>
+  </div>
+</div>
+<ng-template #emptyOrdersTemplate>
+  <div class="bg-img"></div>
+</ng-template>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

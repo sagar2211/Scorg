@@ -1,0 +1,11 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+.qms-queue-card-body {
+  height: calc(100vh - 198px);
+  overflow-y: auto;
+  color: $gray-700;
+
+  hr {
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  }
+}

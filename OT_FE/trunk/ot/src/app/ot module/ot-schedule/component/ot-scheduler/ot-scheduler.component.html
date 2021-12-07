@@ -1,0 +1,115 @@
+<div class="emr-container-fluid container-fluid p-0" *ngIf="loadCalendar">
+  <div class="card-body p-1">
+    <div class="position-relative ot-dropdown">
+        <ng-select [items]="allTheaterId" *ngIf="currentView === 'day'" bindLabel="text" bindValue="id" [multiple]="true" placeholder="Select Operation Theatre" [(ngModel)]="selectedTheatreIdsDay" (change)="getOTRooms($event, 'day')">
+        </ng-select>
+        <ng-select [items]="allTheaterId" *ngIf="currentView === 'week'" bindLabel="text" bindValue="id" placeholder="Select Operation Theatre" [(ngModel)]="selectedTheatreIdsWeek" (change)="getOTRooms($event,'week')">
+        </ng-select>
+    </div>
+    <div class="row m-0">
+        <div class="col-12 p-0" style="margin-top: -30px;">
+            <ng-container>
+                <dx-scheduler timeZone="Asia/Kolkata" id="scheduler" [showCurrentTimeIndicator]="true" [shadeUntilCurrentTime]="true" [dataSource]="data" [views]="['day', 'week']" currentView="day" [firstDayOfWeek]="0" [startDayHour]="otStartTime" [endDayHour]="otEndTime"
+                    [showAllDayPanel]="false" [groups]="['theatreId']" [currentDate]="currentDate" [crossScrollingEnabled]="true" [cellDuration]="30" [height]="'calc(100vh - 60px)'" appointmentTemplate="appointment-template" dataCellTemplate="dataCellTemplate" resourceCellTemplate="headerTemplate"
+                    appointmentTooltipTemplate="tooltip-template" (onContentReady)='onContentReady($event)' (onAppointmentAdding)="onAppointmentAdding($event)" (onAppointmentClick)="onAppointmentClick($event)" (onAppointmentUpdating)="onAppointmentUpdating($event)"
+                    (onOptionChanged)="onOptionChange($event)" (onCellClick)="onCellClick($event)" (onAppointmentRendered)="onAppointmentRendered($event)">
+
+                    <dxo-editing #editingOptions [allowAdding]="false" [allowDeleting]="false" [allowUpdating]="true" [allowResizing]="false" [allowDragging]="isdDragable">
+                    </dxo-editing>
+                    <dxi-resource fieldExpr="patientId" [useColorAsDefault]="true" [dataSource]="patientsData">
+                    </dxi-resource>
+                    <dxi-resource fieldExpr="theatreId" [dataSource]="theatreData">
+                    </dxi-resource>
+                    <div *dxTemplate="let data of 'headerTemplate'" class="header-cell" [ngStyle]="{'background-color':data.data.colorCode}">
+                        {{data.text}}
+                    </div>
+                    <dxi-resource fieldExpr="id" [dataSource]="weekOffArray">
+                    </dxi-resource>
+                    <div *dxTemplate="let model of 'appointment-template'" [ngStyle]="{'background-color':model.appointmentData.colorCode}" [ngClass]="{'disabled-appointment': model.appointmentData.disabledDrag}">
+                        <div class='showtime-preview' [disabled]="model.appointmentData.disabledDrag">
+                            <div>
+                                <strong>{{model.appointmentData?.patientInfo?.patientName}}</strong>
+                                <br>{{model.appointmentData.procedureName}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *dxTemplate="let model of 'tooltip-template'">
+                        <div class="sch-tooltip-inner" [ngStyle]="{'border-color': model.appointmentData.colorCode}">
+                            <!-- {{event | json}} -->
+                            <div class="calender-info px-2 pt-1 border-bottom">
+                                <div class="form-row pb-1 border-light-bottom">
+                                    <div class="col-8">
+                                        <p class="mb-0 font-weight-500 font-size-dot-75">{{model.appointmentData.patientId}}</p>
+                                        <h6 class="mb-0">{{model.appointmentData.patientInfo.patientName}}</h6>
+                                        <p class="mb-0 text-muted font-size-dot-7">
+                                            <span>{{model.appointmentData.patientInfo.gender}}, <i class="fas fa-phone-alt"></i>
+                                                    {{model.appointmentData.patientInfo.mobileNo}},</span>
+                                            <span>&nbsp;{{model.appointmentData.patientInfo.age}}</span>
+                                            <!-- <span>&nbsp;{{event.meta.patientInfo?.age}}</span> -->
+                                        </p>
+                                        <p class="mb-0 text-muted font-size-dot-7">
+                                            {{model.appointmentData.patientInfo.emailId}}
+                                        </p>
+                                    </div>
+                                    <div class="col-4 text-right">
+                                        <p class="mb-0 font-weight-500 sm-line-height">{{model.appointmentData.statusName}}</p>
+                                        <p class="mb-0 font-weight-500 font-size-1">{{model.appointmentData.startDate | date: 'dd/MM/yyyy'}}</p>
+                                        <p class="mb-0 text-muted sm-line-height">{{model.appointmentData.startDate | date: 'hh:mm aa'}} to {{model.appointmentData.endDate | date: 'hh:mm aa'}}</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="mb-0 text-muted font-size-dot-7">{{model.appointmentData.patientInfo.resAddress}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-row pro-padding">
+                                    <div class="col">
+                                        <p class="mb-0 font-weight-500">
+                                            <span class="text-muted sm-line-height vertical-align-text-top font-size-dot-75">Procedure
+                                                    Name: </span>
+                                            <span class="font-size-dot-9 text-primary">{{model.appointmentData.procedureName}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container-fluid tooltip-height px-2 pt-1">
+                                <div class="form-row align-items-center pb-1 border-light-bottom">
+                                    <div class="col">
+                                        <p class="mb-0 font-weight-500">
+                                            <span class="text-muted sm-line-height font-size-dot-75">Surgeon:
+                                                </span><span class="font-size-dot-9 text-primary">{{model.appointmentData.primarySergeon}}</span>
+                                        </p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="mb-0 font-weight-500">
+                                            <span class="text-muted sm-line-height font-size-dot-75">Anaesthetist: </span>
+                                            <span class="font-size-dot-9">{{model.appointmentData.primaryAnaesthetist}}</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="form-row align-items-center pb-1">
+                                    <div class="col">
+                                        <p class="mb-0 font-size-dot-7">
+                                            <span class="text-muted sm-line-height">Notes:
+                                                </span> {{model.appointmentData.note}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="cal-tooltip">
+                            <div class="cal-tooltip-arrow"></div>-->
+
+                        <!-- </div> -->
+                    </div>
+
+                    <div *dxTemplate="let cellData of 'dataCellTemplate'" class="cellBox" [ngClass]="{'weekOff' : checkHaveWeekOff(cellData?.groups?.theatreId,cellData), 'outOfTimeCell' : checkOtTiming(cellData)}">
+                        <div class='day-cell'></div>
+                    </div>
+                </dx-scheduler>
+            </ng-container>
+        </div>
+    </div>
+  </div>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>
+

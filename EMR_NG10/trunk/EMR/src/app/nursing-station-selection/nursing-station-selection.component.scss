@@ -1,0 +1,17 @@
+.user-box {
+    h4{
+        font-size: 16px;
+    }
+}
+
+:host::ng-deep {
+.ng-select.ng-select-single{
+    &:focus{
+        outline: none !important;
+    } 
+ .ng-select-container {
+    height: 36px !important;
+    
+}
+}
+}

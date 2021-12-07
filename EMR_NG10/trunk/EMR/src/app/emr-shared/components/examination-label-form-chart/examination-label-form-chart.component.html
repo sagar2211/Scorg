@@ -1,0 +1,76 @@
+<div class="examination-label">
+    <ngb-accordion [closeOthers]="false" [activeIds]="componentInfo?.activeIdsOfPanels" (panelChange)="panelChange($event)">
+        <ngb-panel id="{{componentInfo?.section_key}}">
+            <ng-template ngbPanelTitle>
+                <div class="form-row align-items-center mx-0">
+                    <div class="col-9">
+                        <p class="mb-0 font-size-dot-875">{{componentInfo?.section_name}}</p>
+                    </div>
+                    <div class="col-3">
+                        <button class="btn btn-sm btn-link text-white text-right" type="button">
+                            <i [ngClass]="isPanelOpen ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <span (click)="openSuggPanel()">
+                <div *ngIf="selectedExaminationType === 3 || selectedExaminationType === 4">
+                  <div *ngIf="!strictKeywordEnabled; else input_content">
+                      <app-snomedct [textAreaSize]="'large'" [placeHolderName]="'Add ' + componentInfo?.section_name" [inputModelContent]="examinationSuggesstionOrFreeText.value" [idName]="'examlabelSnomed_' + componentInfo?.section_name + '_' + selectedExaminationType" [snowMedUsedKeyWordsArray]="examinationSuggesstionOrFreeText.conceptData"
+                          (receivedAction)="processAction($event)"></app-snomedct>
+                  </div>
+              </div>
+              <ng-template #input_content>
+                  <div *ngIf="selectedExaminationType === 3" (click)="openModalPopupSugg(true); openSuggestionPanel();">
+                      <textarea rows="8" class="w-100 form-control" [(ngModel)]="examinationSuggesstionOrFreeText.value" (click)="openSuggestionPanel()" (change)="updateSuggesstionTextVal()"></textarea>
+                  </div>
+                  <div *ngIf="selectedExaminationType === 4" (click)="openModalPopupSugg(true); openSuggestionPanel()">
+                      <textarea rows="8" class="w-100 form-control" [(ngModel)]="examinationSuggesstionOrFreeText.value" (change)="updateFreeTextVal()"></textarea>
+                  </div>
+              </ng-template>
+              <div *ngIf="selectedExaminationType === 2 || selectedExaminationType === 1">
+                  <tag-input [addOnBlur]="true" [separatorKeyCodes]="[9, 13]" (onFocus)="openModalPopupSugg(true); openSuggestionPanel()" [(ngModel)]="examinationTagInput" [displayBy]="'tagName'" [identifyBy]="'tagKey'" [addOnPaste]="true" #input (onAdd)="onTagAdded($event)"
+                      (onRemove)="onTagRemoved($event)" [editable]="false" [theme]="'foundation-theme'" placeholder="Select / Enter {{selectedExaminationData?.labelName}}" id="{{selectedExaminationData.key}}">
+                      <tag-input-dropdown [autocompleteObservable]="requestAutocompleteItems">
+                          <ng-template let-item="item" let-index="index">
+                              {{ item.display }}
+                          </ng-template>
+                      </tag-input-dropdown>
+                      <ng-template item-template let-item="item" let-index="index">
+                          <span class="tag-name-1" title="{{item?.tagName}}" [ngClass]="[item?.tagPriority != undefined ? item?.tagPriority: '', item.tagName.length > 150 ? 'tag-name' : '']">{{ item?.tagName }}</span>
+                          <!-- [ngStyle]="{'vertical-align': item.tagName.length > 150 ? 'super' : 'middle'}" -->
+                          <a (click)="input.removeItem(item, index)" class="remove-btn pointer" [ngClass]="{'add-class':item.tagName.length > 150}">&times;</a>
+                          <span appCustomTagInputMenu [appTempVal]="item?.tagName" (tagPrioritySelected)="updateTagPriority(item, $event)" (manuallySaveSelected)="updateIsSaveMaster(item, $event)" (manuallyEditedTagSelected)="updateTagText(item, $event, index)" id="tag-template"
+                              class="tag-template">
+                              <span class="ddropdown">
+                                  <!-- <a class="dropbtn" [ngStyle]="{'vertical-align': item.tagName.length > 150 ? 'super' : 'middle'}"> <i
+                                  class="fa fa-ellipsis-v"></i></a> -->
+                                  <a *ngIf="(!item?.masterSave === true) && !item?.id && saveMasterSetting === 'manually_master_save'"
+                                      class="add-btn pointer" title="Add Map List"
+                                      [ngClass]="{'add-class':item.tagName.length > 150}"><i id="saveinmastermanually"
+                                          class="fa fa-fw fa-plus"></i></a>
+                                  <div class="ddropdown-content">
+                                      <a id="editTag"
+                                          class="text-secondary font-weight-500 edit-tag py-1 border-bottom pointer"
+                                          title="Edit Tag">EDIT</a>
+                                      <ng-container *ngIf="selectedExaminationType === 1">
+                                          <a id="minor" class="minor pointer">MINOR</a>
+                                          <a id="moderate" class="moderate pointer">MODERATE</a>
+                                          <a id="serious" class="serious pointer">SERIOUS</a>
+                                          <a id="severe" class="severe pointer">SEVERE</a>
+                                          <a id="critical" class="critical pointer">CRITICAL</a>
+                                      </ng-container>
+                                  </div>
+                              </span>
+                          </span>
+                      </ng-template>
+                      <!-- <tag-input-dropdown [displayBy]="'tagName'" [showDropdownIfEmpty]="true" [identifyBy]="'tagKey'" [autocompleteItems]="examinationTagInputSuggessgtionList">
+                      </tag-input-dropdown> -->
+                  </tag-input>
+              </div>
+              </span>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+</div>

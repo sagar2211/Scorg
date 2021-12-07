@@ -1,0 +1,12 @@
+.container-material-indent-add-apdate {
+  .form-row {
+    &.custom-margin-bottom-0 {
+      margin-bottom: 4px !important;
+    }
+  }
+
+  .card-body {
+    height: calc(100vh - 128px);
+    overflow: auto;
+  }
+}

@@ -1,0 +1,13 @@
+:host ::ng-deep {
+  .service-orders-modal-body {
+    height: calc(100vh - 140px);
+    overflow-y: auto;
+
+    .parent-iframe {
+      width: 100%;
+      margin: auto;
+      height: calc(100vh - 140px);
+      overflow-y: hidden;
+    }
+  }
+}

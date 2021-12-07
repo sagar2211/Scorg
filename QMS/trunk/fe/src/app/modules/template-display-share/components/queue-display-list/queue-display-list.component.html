@@ -1,0 +1,159 @@
+<div class="container-fluid px-0">
+  <!-- For Blank devide -->
+  <div class="row mx-0" *ngIf="displayGridTemplate == 'grid_template_1'">
+    <div class="blank-devide devide-{{displayDoctorPatData.length}}"
+      *ngFor="let item of displayDoctorPatData; let i = index;">
+      <div *ngIf="i == 0">
+        <div *ngIf="displayUserTemplate == 'display_template_1'">
+          <app-display-queue-template1 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+            [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+            [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+          </app-display-queue-template1>
+        </div>
+        <div *ngIf="displayUserTemplate == 'display_template_2'">
+          <app-display-queue-template2 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+            [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+            [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+          </app-display-queue-template2>
+        </div>
+        <div *ngIf="displayUserTemplate == 'display_template_3'">
+          <app-display-queue-template3 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+            [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+            [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+          </app-display-queue-template3>
+        </div>
+        <div *ngIf="displayUserTemplate == 'display_template_4'">
+          <app-display-queue-template4 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+            [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+            [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+          </app-display-queue-template4>
+        </div>
+        <div *ngIf="displayUserTemplate == 'display_template_5'">
+          <app-display-queue-template5 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+            [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+            [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+          </app-display-queue-template5>
+        </div>
+        <div *ngIf="displayUserTemplate == 'display_template_6'">
+          <app-display-queue-template6 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+            [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+            [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+          </app-display-queue-template6>
+        </div>
+        <div *ngIf="displayUserTemplate == 'display_template_7'">
+          <app-display-queue-template7 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+            [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+            [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+          </app-display-queue-template7>
+        </div>
+        <div *ngIf="displayUserTemplate == 'display_template_8'">
+          <app-display-queue-template8 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+            [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+            [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+          </app-display-queue-template8>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- For template 9 -->
+  <div class="row mx-0" *ngIf="displayGridTemplate == 'grid_template_1' && displayUserTemplate === 'display_template_9'">
+    <div class="blank-devide devide-{{displayDoctorPatData.length}}">
+        <div *ngIf="displayUserTemplate == 'display_template_9'">
+          <app-display-queue-template9 [displayData]="displayDoctorPatData" [doctorFieldShow]="doctorFieldShow"
+            [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+            [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow" [source]="source">
+          </app-display-queue-template9>
+        </div>
+    </div>
+  </div>
+
+  <!-- For Blank devide -->
+  <!-- For Horizontal devide -->
+  <div class="row mx-0 vh-h" *ngIf="displayGridTemplate == 'grid_template_2'">
+    <div class="horizontal-devide devide-{{displayDoctorPatData.length}}"
+      *ngFor="let item of displayDoctorPatData; let i = index;">
+      <div>
+
+        <div *ngIf="displayUserTemplate == 'display_template_7'">
+          <app-display-queue-template7 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+            [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+            [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+          </app-display-queue-template7>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- For Horizontal devide -->
+  <div class="row mx-0 h-100" *ngIf="displayGridTemplate == 'grid_template_3'">
+    <div class="vertical-devide devide-{{displayDoctorPatData.length}}" *ngFor="let item of displayDoctorPatData">
+      <div *ngIf="displayUserTemplate == 'display_template_1'">
+        <app-display-queue-template1 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+          [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+          [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+        </app-display-queue-template1>
+      </div>
+      <div *ngIf="displayUserTemplate == 'display_template_2'">
+        <app-display-queue-template2 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+          [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+          [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+        </app-display-queue-template2>
+      </div>
+      <div *ngIf="displayUserTemplate == 'display_template_3'">
+        <app-display-queue-template3 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+          [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+          [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+        </app-display-queue-template3>
+      </div>
+      <div *ngIf="displayUserTemplate == 'display_template_4'">
+        <app-display-queue-template4 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+          [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+          [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+        </app-display-queue-template4>
+      </div>
+      <div *ngIf="displayUserTemplate == 'display_template_5'">
+        <app-display-queue-template5 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+          [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+          [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+        </app-display-queue-template5>
+      </div>
+      <div *ngIf="displayUserTemplate == 'display_template_7'">
+        <app-display-queue-template7 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+          [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+          [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+        </app-display-queue-template7>
+      </div>
+      <div *ngIf="displayUserTemplate == 'display_template_8'">
+        <app-display-queue-template8 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+          [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+          [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+        </app-display-queue-template8>
+      </div>
+    </div>
+  </div>
+  <!-- For Vertical devide -->
+  <!-- For Squre devide -->
+  <div class="row mx-0 square-height" *ngIf="displayGridTemplate == 'grid_template_4'">
+    <div class="square-devide devide-{{displayDoctorPatData.length}}" *ngFor="let item of displayDoctorPatData">
+      <div *ngIf="displayUserTemplate == 'display_template_7'">
+        <app-display-queue-template7 [displayData]="item" [doctorFieldShow]="doctorFieldShow"
+          [braningSectionVisble]="braningSectionVisble" [queueFieldShow]="queueFieldShow"
+          [nextFieldShow]="nextFieldShow" [callingFieldShow]="callingFieldShow">
+        </app-display-queue-template7>
+      </div>
+    </div>
+  </div>
+  <!-- For Squre devide -->
+</div>
+<div class="branding" *ngIf="braningSectionVisble">
+  <div class="container-fluid px-0 h-100 border-top">
+    <div class="row h-100 mx-0 align-items-center justify-content-center">
+      <div class="col-6">
+        <img class="img-fluid" src="./assets/img/branding/hospital-logo.png" />
+      </div>
+      <div class="col-6 text-right">
+        <img class="img-fluid" src="./assets/img/branding/scorg-logo.png" />
+      </div>
+    </div>
+  </div>
+</div>

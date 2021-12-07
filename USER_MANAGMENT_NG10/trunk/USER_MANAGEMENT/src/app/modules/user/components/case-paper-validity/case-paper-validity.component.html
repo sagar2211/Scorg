@@ -1,0 +1,45 @@
+<div class="custom-container-fluid">
+    <div class="p-2">
+        <ng-container>
+            <dx-data-grid id="gridContainer" [dataSource]="casePaperList" [height]="'663px'" keyExpr="doctorId" [showBorders]="true"
+            (onEditorPreparing)="onEditorPreparing($event)" [showRowLines]="true" [focusedRowEnabled]="true">
+            <dxo-header-filter [visible]="true"></dxo-header-filter>
+            <dxo-filter-row [visible]="true"></dxo-filter-row>
+              <dxo-scrolling mode="virtual"></dxo-scrolling>
+              <dxo-sorting mode="none"></dxo-sorting>
+              <dxo-paging [enabled]="false"></dxo-paging>
+              <dxo-keyboard-navigation [editOnKeyPress]="true"></dxo-keyboard-navigation>
+              <dxo-editing mode="cell" [allowUpdating]="true"
+                [useIcons]="true">
+              </dxo-editing>
+              <!-- <dxi-column caption="SrNo" cellTemplate="SerialNoTemplate" [fixed]="true" [width]="'80px'" alignment="center">
+                <div *dxTemplate="let data of 'SerialNoTemplate'">
+                  {{data.row.rowIndex + 1}}
+                </div>
+              </dxi-column> -->
+              <dxi-column caption="Sr No" cellTemplate="SerialNoTemplate" [fixed]="true" alignment="center">
+                <div *dxTemplate="let data of 'SerialNoTemplate'">
+                  <!-- {{data.row.rowIndex + 1}} -->
+                  {{getRowNumber(dataGrid, data)}}
+                </div>
+              </dxi-column>
+              <dxi-column dataField="doctorName" caption="Doctor Name" [allowEditing]="false">
+                <dxo-header-filter [allowSearch]="true"></dxo-header-filter>
+              </dxi-column>
+              <dxi-column dataField="designationName" caption="Designation" [allowEditing]="false"></dxi-column>
+              <dxi-column dataField="department" caption="Department" [allowEditing]="false"></dxi-column>
+              <dxi-column dataField="specility" caption="Specility" [allowEditing]="false"></dxi-column>
+              <dxi-column dataField="casePaperValidity" caption="Case Paper Validity" [allowEditing]="true" [tabIndex]="1"></dxi-column>
+              <dxi-column dataField="followupDays" caption="Followup Days" [allowEditing]="true" [tabIndex]="2"></dxi-column>
+              <dxo-summary [recalculateWhileEditing]="true">
+                <dxi-total-item summaryType="count" displayFormat="Count: {0}" showInColumn="doctorName">
+                </dxi-total-item>
+              </dxo-summary>
+            </dx-data-grid>
+            <button type="button" class="btn btn-add btn-sm px-2 border-left float-right" (click)="saveCasepaper();">Save
+            </button>
+        </ng-container>
+
+    </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

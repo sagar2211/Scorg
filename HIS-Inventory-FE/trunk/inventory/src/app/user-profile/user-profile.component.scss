@@ -1,0 +1,75 @@
+@import "../../scss/main";
+
+.contents-wrapper {
+  .profile-details {
+    height: 98px;
+    @extend .d-flex;
+    @extend .rounded-3;
+    @extend .border-bottom;
+
+    .profile-logo {
+      @extend .ml-2;
+      @extend .mt-2;
+      position: relative;
+
+      img {
+        height: 80px;
+        width: 80px;
+        max-width: 80px;
+        @include border-radius(50%);
+        background-color: var(--bgLight);
+      }
+    }
+
+    .edit-btn {
+      position: absolute;
+      right: 15px;
+      bottom: 10px;
+      font-size: 0.7rem;
+      line-height: 1.2;
+      padding: 0.25rem 0.25rem;
+    }
+
+    .details-list {
+      width: 81%;
+
+      a {
+        position: absolute;
+        right: 16px;
+        top: 12px;
+      }
+    }
+  }
+
+  .content-body {
+    max-height: calc(100vh - 270px);
+    overflow-y: auto;
+    padding-left: 40px !important;
+    padding-top: 15px !important;
+    p{
+      display: flex;
+      align-items: center;
+      .label{
+        font-weight: 500;
+        width: 135px;
+        padding-left: 8px;
+        color: #b6b6b6;
+      }
+    }
+    .border-bottom{
+      border-bottom:1px solid #dee2e6 !important;
+      margin: 20px 0;
+    }
+  }
+}
+
+.service-list {
+  display: inline-block;
+  padding: 1px 3px;
+  @include border-radius(4px);
+  margin-top: 1px;
+  margin-right: 2px;
+  margin-bottom: 3px;
+  background-color: var(--bgLight);
+  border: 0.55px solid #ddd;
+}

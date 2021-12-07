@@ -1,0 +1,71 @@
+<nav class="navbar p-0">
+  <a class="navbar-brand mr-3" [routerLink]="[selectedModule.navLink]" (click)="highlightedSelectedMenu('Grid')">
+    <span><img src="./assets/img/logo.png" alt="logo"></span>
+    <h6 class="mb-0 ml-2 text-uppercase">{{selectedModule.displayValue}}</h6>
+  </a>
+
+  <div class="collapse navbar-collapse d-inline-flex justify-content-end" id="navbarSupportedContent">
+    <ul class="info-menu list-unstyled m-0" [ngClass]="{'active':isHelpMenuSelected}">
+      <li ngbDropdown #myDrop="ngbDropdown" class="nav-item" placement="bottom"
+        [ngClass]="{'active':isGridMenuSelected}">
+        <a ngbDropdownToggle class="nav-link" ngbTooltip="Application Menu" [routerLink]=""
+          (click)="onMenuIconClick($event); highlightedSelectedMenu('Grid')" id="dropdownBasic1">
+          <i class="icon fa-fw font-18 icon-th" aria-hidden="true"></i>
+        </a>
+        <!--Show Dropdown Menu-->
+        <ul (click)="myDrop.close();" ngbDropdownMenu
+          class="dropdown-menu menu-collapse-details mt-1 shadow rounded-3 border-0 bg-white"
+          aria-labelledby="dropdownBasic1">
+          <ng-container *ngFor="let app of appList">
+            <li class="text-center p-0 d-inline-block">
+              <a [routerLinkActiveOptions]="{exact: true}" [ngClass]="{'active': this.selectedModule.app_key === app.app_key}"
+                [routerLinkActive]="['active']" (click)="getdefultLandingPageOnUserLogin(app)"
+                class="m-1 d-block pointer text-decoration-none">
+                <i class="icon fa-fw fa-2x" aria-hidden="true" [innerHTML]="app.svgDomsanitize">
+                </i>
+                <p class="m-1 font-weight-500">{{app.app_name}}</p>
+              </a>
+            </li>
+          </ng-container>
+        </ul>
+      </li>
+      <!-- <li class="nav-item cursor-not-allowed" [ngClass]="{'active':isSettingMenuSelected}" placement="bottom"
+        ngbTooltip="Setting">
+        <a class="nav-link disabledanchor" [routerLink]="" (click)="onMenuIconClick($event,'Settings')">
+          <i class="icon fa-fw font-18 icon-tools" aria-hidden="true"></i>
+        </a>
+      </li> -->
+      <li class="nav-item" [ngClass]="{'active':isNotificationMenuSelected}" placement="bottom"
+        ngbTooltip="Notifications">
+        <a class="nav-link position-relative" [routerLink]="" (click)="onMenuIconClick($event,'Notification')">
+          <i class="icon fa-fw font-20 icon-bell" aria-hidden="true"></i>
+          <span class="badge badge-pill badge-blink">{{notificationCount}}</span>
+        </a>
+      </li>
+      <!-- <li class="nav-item cursor-not-allowed" placement="bottom" ngbTooltip="Chat" [ngClass]="{'active':isChatMenuSelected}">
+        <a class="nav-link disabledanchor" [routerLink]="['chat']" (click)="highlightedSelectedMenu('Chat')">
+          <i class="icon fa-fw font-20 icon-chat" aria-hidden="true"></i>
+        </a>
+      </li> -->
+      <!-- <li class="nav-item" *ngIf="moduleName ==='emr'" [ngClass]="{'active':isNotificationMenuSelected}" placement="bottom" ngbTooltip="Notifications">
+        <a class="nav-link position-relative" [routerLink]="" (click)="onMenuIconClick($event,'Notification')">
+          <i class="icon fa-fw font-20 icon-bell" aria-hidden="true"></i>
+          <span class="badge badge-pill badge-blink">{{notificationCount}}</span>
+        </a>
+      </li> -->
+      <li class="nav-item mr-1" [ngClass]="{'active':isProfileMenuSelected}" placement="bottom-right"
+        ngbTooltip="User Profile">
+        <a class="nav-link" [routerLink]="" (click)="onMenuIconClick($event,'Profile')">
+          <i class="icon fa-fw font-20 icon-user user" aria-hidden="true"></i>
+        </a>
+      </li>
+      <li class="nav-item" [ngClass]="{'active':isLogoutMenuSelected}" placement="bottom"
+      ngbTooltip="{{loginUserName}}, Logout" placement="auto">
+        <a class="nav-link" [routerLink]="" (click)="onMenuIconClick($event,'Logout')">
+          <i class="icon fa-fw icon-sign-out-alt font-18" aria-hidden="true"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</nav>

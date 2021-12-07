@@ -1,0 +1,45 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+.template7 {
+  .calling-info {
+
+    .calling {
+
+      .calling-txt {
+        top: 10px;
+        left: 60px;
+        font-size: 2vw;
+      }
+
+      .token-no {
+        font-size: 13vw;
+      }
+    }
+
+    .pt-name-row {
+
+      .pt-name {
+        font-size: 5vw;
+      }
+    }
+
+    .mobile-no-row {
+
+      .mobile-no {
+        font-size: 3vw;
+      }
+    }
+
+    .room-number {
+
+      .room {
+        font-size: 5vw;
+        transform: translateY(50%);
+      }
+
+      .section {
+        font-size: 5vw;
+      }
+    }
+  }
+}

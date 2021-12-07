@@ -1,0 +1,14 @@
+<div class="chat-typing-msg my-2">
+  <div class="send-msg"
+    [ngClass]="{'float-right': currentLoggedInUser.id == chatCommunication.fromUser.id, 'float-left' : currentLoggedInUser.id != chatCommunication.fromUser.id}">
+    <small class="d-flex text-muted"
+      [ngClass]="{'justify-content-end': currentLoggedInUser.id == chatCommunication.fromUser.id, 'justify-content-start' : currentLoggedInUser.id != chatCommunication.fromUser.id}">
+      <span class="font-size-dot-7 mr-1" *ngIf="currentLoggedInUser.id != chatCommunication.fromUser.id">SarojK, </span>
+      {{chatCommunication.time | date:'shortTime'}}</small>
+    <p class="px-3 py-2 mb-0"
+      [ngClass]="{'mine' : currentLoggedInUser.id == chatCommunication.fromUser.id, 'other' : currentLoggedInUser.id != chatCommunication.fromUser.id}">
+      {{chatCommunication.message}}
+    </p>
+    <!-- {{chatCommunication.isRead}} -->
+  </div>
+</div>

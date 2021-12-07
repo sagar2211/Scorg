@@ -1,0 +1,131 @@
+<div class="emr-container-fluid container-fluid discharge-patient-dashboard-container">
+    <div class="form-row form-group">
+        <!-- <div class="col-2">
+          <label for="floor_list"> Select Floor </label>
+          <select class="form-control form-control-sm pointer" (change)="filterDischargePatientData()"
+              [(ngModel)]="dischargePatFloorNo">
+              <option value="All">All</option>
+              <option [value]="floor" (change)="filterDischargePatientData()"
+                  *ngFor="let floor of floorNoListDischarge">{{floor}}</option>
+          </select>
+      </div> -->
+        <div class="col-2">
+            <label>Select Ward</label>
+            <ng-select [items]="wardList$ | async" bindLabel="name" (change)="getPatientData()" bindValue="id"
+                [(ngModel)]="patWardNo" placeholder="Select Ward" [typeahead]="wardListInput$">
+            </ng-select>
+        </div>
+        <div class="col-2" *ngIf="loadType === 'discharge'">
+            <label>Discharge Date</label>
+            <app-date-picker [inputDate]="dischargeDate" placeholder="yyyy-mm-dd"
+                (dateChange)="updateDischargeDate($event)"></app-date-picker>
+        </div>
+        <div class="col-4 text-right" [ngClass]="loadType === 'discharge' ? 'offset-4' : 'offset-6'">
+            <label>&nbsp;</label>
+            <div class="input-group">
+                <input type="text" class="form-control form-control-sm pl-2rem" [(ngModel)]="searchString"
+                    (keyup)="this.getPatientData();" placeholder="Search">
+                <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+                <div class="input-group-append">
+                    <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear"
+                        (click)="clearSearch()">
+                        <i class="fa fa-fw fa-eraser" aria-hidden="true"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-12 admitted-list">
+            <div class="card p-0 border-0 mb-2" *ngFor="let patient of patients">
+                <div class="table-responsive" (click)="navigateToPatient(patient)">
+                    <table class="table mb-0">
+                        <tbody *ngIf="loadType !== 'admit'">
+                            <tr class="pointer">
+                                <td class="align-middle text-center font-weight-500 border-right-0 border-left-0">
+                                    {{patient.patientData.id}}
+                                </td>
+                                <td class="align-middle border-right-0 border-left-0">
+                                    <p class="mb-0"> {{patient.patientData.name}}
+                                    </p>
+                                    <small class="text-muted">
+                                        <span
+                                            class="pr-2 border-right text-uppercase">{{patient.patientData.gender}}</span>
+                                        <span class="pl-2">{{patient.patientData.age}}</span>
+                                    </small>
+                                </td>
+                                <td class="border-right-0 border-left-0">
+                                    <p class="mb-0 text-muted font-size-sm">Admitted Date
+                                    </p>
+                                    <p class="mb-1 font-weight-500 font-size-dot-875">
+                                        {{patient.admissionDate | date: 'yyyy-MM-dd'}}
+                                    </p>
+                                </td>
+                                <td class="border-right-0 border-left-0">
+                                    <p class="mb-0 text-muted font-size-sm">Bed No.
+                                    </p>
+                                    <p class="mb-1 font-weight-500 font-size-dot-875">
+                                        {{patient.bed}}</p>
+                                </td>
+                                <td class="border-right-0 border-left-0">
+                                    <p class="mb-0 text-muted font-size-sm">Floor No.
+                                    </p>
+                                    <p class="mb-1 font-weight-500 font-size-dot-875">
+                                        {{patient.floor}}</p>
+                                </td>
+                                <td class="border-right-0 border-left-0">
+                                    <p class="mb-0 text-muted font-size-sm">Ward No.
+                                    </p>
+                                    <p class="mb-1 font-weight-500 font-size-dot-875">
+                                        {{patient.ward}}
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="loadType === 'admit'">
+                            <tr class="pointer">
+                                <td class="align-middle text-center font-weight-500 border-right-0 border-left-0">
+                                    {{patient.patientData.id}}
+                                </td>
+                                <td class="align-middle border-right-0 border-left-0">
+                                    <p class="mb-0"> {{patient.patientData.name}}
+                                    </p>
+                                    <small class="text-muted">
+                                        <span
+                                            class="pr-2 border-right text-uppercase">{{patient.patientData.gender}}</span>
+                                        <span class="pl-2">{{patient.patientData.age}}</span>
+                                    </small>
+                                </td>
+                                <td class="border-right-0 border-left-0">
+                                    <p class="mb-0 text-muted font-size-sm">Admitted Date
+                                    </p>
+                                    <p class="mb-1 font-weight-500 font-size-dot-875">
+                                        {{patient.admissionDate | date: 'yyyy-MM-dd'}}
+                                    </p>
+                                </td>
+                                <td class="border-right-0 border-left-0">
+                                    <p class="mb-0 text-muted font-size-sm">Bed No.
+                                    </p>
+                                    <p class="mb-1 font-weight-500 font-size-dot-875">
+                                        {{patient.bed}}</p>
+                                </td>
+                                <td class="border-right-0 border-left-0">
+                                    <p class="mb-0 text-muted font-size-sm">Floor No.
+                                    </p>
+                                    <p class="mb-1 font-weight-500 font-size-dot-875">
+                                        {{patient.floor}}</p>
+                                </td>
+                                <td class="border-right-0 border-left-0">
+                                    <p class="mb-0 text-muted font-size-sm">Ward No.
+                                    </p>
+                                    <p class="mb-1 font-weight-500 font-size-dot-875">
+                                        {{patient.ward}}
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

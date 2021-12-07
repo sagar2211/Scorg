@@ -1,0 +1,156 @@
+<ng-template #humanBodyPainDetails let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Pain Location</h5>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-1 human-body-summery-model-popup">
+    <!-- Human body details -->
+    <div class="section"
+      *ngIf="partDetails.humanbodyPartList.humanbody.length > 0 || partDetails.humanbodyPartList.humanbodyDetail.length > 0">
+      <ngb-accordion [closeOthers]="false" activeIds="static-1">
+        <ngb-panel let i id="static-1">
+          <ng-template ngbPanelTitle>
+            <span>Human Body parts</span>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            <div *ngFor="let painPart of partDetails.humanbodyPartList.humanbody">
+              <span [ngClass]="setColor('HumanBody', painPart.pain_score)" class="pl-1 mb-1 d-inline-block"><span
+                  [innerHTML]="painPart.pain_score"></span>
+              </span>
+              <span class="pl-1 mb-1 d-inline-block">
+                <span [innerHTML]="painPart.body_part.split('_').join(' ')"></span></span>
+            </div>
+            <hr class="my-1"
+              *ngIf="partDetails.humanbodyPartList.humanbody.length > 0 && partDetails.humanbodyPartList.humanbodyDetail.length > 0">
+            <h6 class="mb-1" *ngIf="partDetails.humanbodyPartList.humanbodyDetail.length>0">Details Parts</h6>
+            <div *ngFor="let painPart of partDetails.humanbodyPartList.humanbodyDetail;">
+              <span class="setColor('HumanBody', painPart.pain_score)" class="pl-1 mb-1 d-inline-block"><span
+                  [innerHTML]="painPart.pain_score"></span>
+              </span>
+              <span class="pl-1 mb-1 d-inline-block">
+                <span [innerHTML]="painPart.body_part.split('_').join(' ')"></span>
+              </span>
+            </div>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+    </div>
+    <!-- Dermatome light touch Details -->
+    <div class="section"
+      *ngIf="partDetails.Dermatome_lightPartList != '' && partDetails.Dermatome_lightPartList != null">
+      <p class="mb-1">Dermatome(Light Touch):</p>
+      <ngb-accordion [closeOthers]="false"
+        *ngIf="(partDetails.Dermatome_lightPartList | leftRightPartData: 'Right').length" activeIds="static-1">
+        <ngb-panel let i id="static-1">
+          <ng-template ngbPanelTitle><span>Right Part</span></ng-template>
+          <ng-template ngbPanelContent>
+            <div *ngFor="let painPart of partDetails.Dermatome_lightPartList | leftRightPartData: 'Right';">
+              <span [ngClass]="setColor('Dermatome', painPart.pain_score)" class="pl-1 mb-1 d-inline-block"><span
+                  [innerHTML]="painPart.pain_score"></span>
+              </span>
+              <span class="pl-1 mb-1 d-inline-block">
+                <span [innerHTML]="painPart.body_part.split('_').join(' ')"></span>
+              </span>
+            </div>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+      <div class="mt-1">
+        <ngb-accordion [closeOthers]="false"
+          *ngIf="(partDetails.Dermatome_lightPartList | leftRightPartData: 'Left').length" activeIds="static-1">
+          <ngb-panel let i id="static-1">
+            <ng-template ngbPanelTitle> <span>Left Part</span></ng-template>
+            <ng-template ngbPanelContent>
+              <div *ngFor="let painPart of partDetails.Dermatome_lightPartList | leftRightPartData : 'Left';">
+                <span class="setColor('Dermatome', painPart.pain_score)" class="pl-1 mb-1 d-inline-block"><span
+                    [innerHTML]="painPart.pain_score"></span>
+                </span>
+                <span class="pl-1 mb-1 d-inline-block">
+                  <span [innerHTML]="painPart.body_part.split('_').join(' ')"></span>
+                </span>
+              </div>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+      </div>
+    </div>
+    <!-- Dermatome pin prick touch Details -->
+    <div class="section" *ngIf="partDetails.Dermatome_pinPartList.length">
+      <p class="mb-1">Dermatome(Pin Prick):</p>
+      <ngb-accordion [closeOthers]="false"
+        *ngIf="(partDetails.Dermatome_pinPartList | leftRightPartData: 'Right').length" activeIds="static-1">
+        <ngb-panel id="static-1">
+          <ng-template ngbPanelTitle><span>Right Part</span></ng-template>
+          <ng-template ngbPanelContent>
+            <div *ngFor="let painPart of partDetails.Dermatome_pinPartList | leftRightPartData : 'Right';">
+              <span [ngClass]="setColor('Dermatome', painPart.pain_score)" class="pl-1 mb-1 d-inline-block"><span
+                  [innerHTML]="painPart.pain_score"></span>
+              </span>
+              <span class="pl-1 mb-1 d-inline-block">
+                <span [innerHTML]="painPart.body_part | splitValue"></span>
+              </span>
+            </div>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+      <div class="mt-1">
+        <ngb-accordion [closeOthers]="false"
+          *ngIf="(partDetails.Dermatome_pinPartList | leftRightPartData: 'Left').length" activeIds="static-1">
+          <ngb-panel id="static-1">
+            <ng-template ngbPanelTitle><span>Left Part</span></ng-template>
+            <ng-template ngbPanelContent>
+              <div *ngFor="let painPart of partDetails.Dermatome_pinPartList | leftRightPartData : 'Left';">
+                <span [ngClass]="setColor('Dermatome', painPart.pain_score)" class="pl-1 mb-1 d-inline-block"><span
+                    [innerHTML]="painPart.pain_score"></span>
+                </span>
+                <span class="pl-1 mb-1 d-inline-block">
+                  <span [innerHTML]="painPart.body_part| splitValue"></span>
+                </span>
+              </div>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+      </div>
+    </div>
+    <!-- Mytome Details -->
+    <div class="section" *ngIf="partDetails.myotomePartList.length">
+      <p class="mb-1">Myotome:</p>
+      <ngb-accordion [closeOthers]="false" *ngIf="(partDetails.myotomePartList | leftRightPartData: 'Right').length"
+        activeIds="static-1">
+        <ngb-panel id="static-1">
+          <ng-template ngbPanelTitle><span>Right Part</span></ng-template>
+          <ng-template ngbPanelContent>
+            <div *ngFor="let painPart of partDetails.myotomePartList | leftRightPartData: 'Right';">
+              <span [ngClass]="setColor('myotome', painPart.pain_score)" class="pl-1 mb-1 d-inline-block"><span
+                  [innerHTML]="painPart.pain_score"></span>
+              </span>
+              <span class="pl-1 mb-1 d-inline-block">
+                <span [innerHTML]="painPart.body_part| splitValue"></span>
+              </span>
+            </div>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+      <div class="mt-1">
+        <ngb-accordion [closeOthers]="false" *ngIf="(partDetails.myotomePartList | leftRightPartData: 'Left').length"
+          activeIds="static-1">
+          <ngb-panel id="static-1">
+            <ng-template ngbPanelTitle><span>Left Part</span></ng-template>
+            <ng-template ngbPanelContent>
+              <div *ngFor="let painPart of partDetails.myotomePartList | leftRightPartData: 'Left';">
+                <span [ngClass]="setColor('myotome', painPart.pain_score)" class="pl-1 mb-1 d-inline-block"><span
+                    [innerHTML]="painPart.pain_score"></span>
+                </span>
+                <span class="pl-1 mb-1 d-inline-block">
+                  <span [innerHTML]="painPart.body_part| splitValue"></span>
+                </span>
+              </div>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+      </div>
+    </div>
+  </div>
+</ng-template>

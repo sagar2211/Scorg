@@ -1,0 +1,53 @@
+<form class="typehead-form" *ngIf="!showBriefInfo" [formGroup]="ngSelectFrm">
+  <ng-select [ngClass]="{'invalid' : required}" [items]="inputList | async" [bindLabel]="bindLabel"
+    [bindValue]="bindKey" placeholder="{{placeholder}}" (change)="onSelect($event)" [loading]="isLoading"
+    formControlName="name" [typeahead]="searchInput$" [multiple]="multiSelect">
+  </ng-select>
+</form>
+<!-- -- With Brief information only for patient history -->
+<form class="patients-list position-sticky" *ngIf="showBriefInfo == true" [formGroup]="ngSelectFrm">
+  <ng-select [ngClass]="{'invalid' : required}" [items]="inputList | async" [bindLabel]="bindLabel"
+    [bindValue]="bindKey" placeholder="{{placeholder}}" (change)="onSelect($event)" [loading]="isLoading"
+    formControlName="name" [typeahead]="searchInput$" [multiple]="multiSelect">
+    <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+      <div class="clearfix">
+        <p *ngIf="!item.isAddNew, else addnewpatient"  class="mb-0"><span>{{item.pat_name}}</span> <span class="float-right">ID : &nbsp;{{item.pat_uhid}}
+          </span></p>
+        <small *ngIf="!item.isAddNew" class="text-muted font-size-dot-7"><i class="fas fa-fw fa-phone-alt"></i> {{item.pat_mobileno}} <span
+            class="float-right"> <span class="text-uppercase mr-1"> {{item?.pat_gender}} </span>
+            <span *ngIf="item.pat_dob">{{ item?.pat_dob | calucalteAge }}</span>
+            <span *ngIf="!item.pat_dob">{{ item?.pat_age }} {{ item?.pat_age_unit }}</span>
+          </span></small>
+      </div>
+    </ng-template>
+    <ng-template #addnewpatient>
+      <p class="mb-0"><span><i class="fas fa-fw fa-plus"></i> Add New Patient</span></p>
+    </ng-template>
+  </ng-select>
+</form>
+
+<!-- <form class="patients-list position-sticky" *ngIf="showBriefInfo == true" [formGroup]="ngSelectFrm">
+  <ng-select [ngClass]="{'invalid' : required}" [items]="inputList | async" [bindLabel]="bindLabel"
+    [bindValue]="bindKey" placeholder="{{placeholder}}" (change)="onSelect($event)" [loading]="isLoading"
+    formControlName="name" [typeahead]="searchInput$" [multiple]="multiSelect">
+    <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+      <div class="clearfix">
+        <p *ngIf="item.isAddNew" class="mb-0"><span><i class="fas fa-fw fa-plus"></i> Add New Patient</span></p>
+        <p *ngIf="!item.isAddNew" class="mb-0"><span>{{item.pat_name}}</span>
+          <span class="float-right">ID : &nbsp;{{item.pat_uhid}}</span>
+        </p>
+        <small *ngIf="!item.isAddNew" class="text-muted font-size-dot-7"><i class="fas fa-fw fa-phone-alt"></i>
+          {{item.pat_mobileno}}
+          <span class="float-right">
+            <span class="text-uppercase mr-1"> {{item?.pat_gender}}</span>
+            <span *ngIf="item.pat_dob">{{ item?.pat_dob | calucalteAge }}</span>
+            <span *ngIf="!item.pat_dob">{{ item?.pat_age }} {{ item?.pat_age_unit }}</span>
+          </span>
+        </small>
+      </div>
+    </ng-template>
+    <ng-template #addnewpatient>
+      <p class="mb-0"><span><i class="fas fa-fw fa-plus"></i> Add New Patient</span></p>
+    </ng-template>
+  </ng-select>
+</form> -->

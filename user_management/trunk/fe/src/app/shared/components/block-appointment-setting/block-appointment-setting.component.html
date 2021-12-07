@@ -1,0 +1,45 @@
+<form [formGroup]="blockAppoitmentSettingForm" (ngSubmit)="saveSetting()">
+  <div class="container-fluid p-2">
+    <div class="form-row form-group align-items-center">
+      <div class="col-2">
+        <label>From Date<sup>*</sup></label>
+        <app-date-picker [min]="minDate" (dateChange)="setAndValidateDates($event)"
+          [inputDate]="blockAppoitmentSettingForm.value.fromDate">
+        </app-date-picker>
+      </div>
+      <div class="col">
+        <label>From Time<sup>*</sup></label>
+        <app-time-drop-down [timeFormat]="timeFormatkey" [minuteValue]="'true'"
+          [selectedValue]="blockAppoitmentSettingForm.value.blockFromTime" (selectedItem)="startHourValidator($event)"
+          [isCurrentTime]="isCurrentTimeFlag">
+        </app-time-drop-down>
+      </div>
+      <div class="col">
+        <label>To Time<sup>*</sup></label>
+        <app-time-drop-down [timeFormat]="timeFormatkey" [minuteValue]="'true'"
+          [selectedValue]="blockAppoitmentSettingForm.value.blockToTime" [hoursList]="hoursToArray"
+          (selectedItem)="endHourValidator($event)">
+        </app-time-drop-down>
+      </div>
+      <div class="col-3">
+        <label>Remark</label>
+        <input type="text" class="form-control form-control-sm" formControlName="remark" placeholder="Remark">
+      </div>
+      <div class="col-2">
+        <div class="custom-control custom-checkbox mt-custom-1-2">
+          <input type="checkbox" formControlName="isCancelAppointment" class="custom-control-input"
+            id="isCancelAppointment" />
+          <label class="custom-control-label pointer" for="isCancelAppointment">Cancel All Appointment</label>
+        </div>
+      </div>
+      <div class="col text-right mt-custom-1-2">
+        <button class="btn btn-sm btn-outline-secondary mr-2" (click)="sendSelectedSetting('block')"
+          type="button">CLOSE</button>
+        <button class="btn btn-sm btn-success text-uppercase" [disabled]="blockAppoitmentSettingForm.invalid"
+          type="submit"><i class="icon fa-fw icon-save"></i> Save
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

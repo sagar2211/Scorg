@@ -1,0 +1,84 @@
+:host ::ng-deep {
+  .card {
+    border: none;
+  }
+
+  .modal-dialog.modal-xl {
+    height: calc(100vh - 60px) !important;
+  }
+
+  .dx-datagrid-table.dx-datagrid-table-fixed {
+    tr {
+      td {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+    }
+    .dx-row.dx-data-row.dx-row-lines.dx-column-lines {
+      // height: auto !important;
+      td {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+      .dx-row.dx-data-row.dx-row-lines.dx-column-lines {
+        height: auto;
+      }
+    }
+    .dx-datagrid-total-footer {
+      .dx-datagrid-content {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+  .dx-datagrid-text-content {
+    font-weight: 600;
+    color: black;
+  }
+  .dx-datagrid-table.dx-pointer-events-none.dx-datagrid-table-fixed {
+    .dx-row.dx-data-row.dx-row-lines.dx-column-lines {
+      td {
+        padding-top: 0;
+        padding-bottom: 0;
+        &:before {
+          padding-top: 0;
+          padding-bottom: 0;
+        }
+      }
+    }
+  }
+  .dx-data-grid#advancePaymentGridContainer {
+    // height: calc(100vh - 390px);
+  }
+}
+.modal-body {
+  height: calc(100vh - 160px) !important;
+}
+.nav-link.active {
+  border-radius: 5px 5px 0px 0px;
+}
+
+.nav-link {
+  border: 1px solid #dee2e6;
+  border-radius: 5px 5px 0px 0px;
+  margin-bottom: -1px;
+  background: #ffffff;
+  color: #000;
+}
+
+.modal-dialog.modal-xl {
+  height: calc(100vh - 60px);
+}
+.modal-footer {
+  .minus {
+    position: absolute;
+    right: -35px;
+  }
+  .equal {
+    position: absolute;
+    right: 12px;
+  }
+}
+::ng-deep #gridContainer {
+  height: 440px;
+}

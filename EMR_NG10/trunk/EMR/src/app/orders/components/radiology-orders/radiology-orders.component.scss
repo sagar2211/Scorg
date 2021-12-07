@@ -1,0 +1,11 @@
+:host ::ng-deep {
+  .col-suggesstion {
+    .nav-item {
+      flex: 0 0 20%;
+      max-width: 20%;
+      .nav-link {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}

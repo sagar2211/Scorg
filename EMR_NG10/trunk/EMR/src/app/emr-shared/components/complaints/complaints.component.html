@@ -1,0 +1,73 @@
+<div class="examination-label">
+    <ngb-accordion (panelChange)="menuClicked($event)" [closeOthers]="true" [activeIds]="componentInfo?.activeIdsOfPanels">
+        <ngb-panel id="complaints">
+            <ng-template ngbPanelTitle>
+                <div class="form-row align-items-center mx-0">
+                    <div class="col-9">
+                        <p class="mb-0 font-size-dot-875">{{componentInfo?.section_name}}</p>
+                    </div>
+                    <div class="col-3">
+                        <button class="btn btn-sm btn-link text-white text-right" type="button">
+                            <i [ngClass]="isPanelOpen ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+                <form [formGroup]="complaintFrm" (click)="menuClicked($event)">
+                    <div formArrayName="complaints">
+                        <div class="form-row form-group" *ngFor="let item of complaints.controls; first as first; last as last; let i = index" [formGroupName]="i">
+                            <div class="col">
+                                <div class="form-row align-content-center align-items-center">
+                                    <div class="col" [ngClass]="{'no-selection': strictKeywordEnabled && item.get('complaintObj').value}" (keyup)="openSuggestionPanelForSearch(item.get('complaint_name').value)">
+                                        <label *ngIf="i == 0">Complaints</label>
+                                        <div *ngIf="!strictKeywordEnabled; else input_content">
+                                            <app-snomedct [textAreaSize]="'small'" [placeHolderName]="'Add Complaints'" [semanticTags]="componentInfo?.semantic_tags" [inputModelContent]="item.get('complaint_name').value" [idName]="'complaintSnomed_' + i" [snowMedUsedKeyWordsArray]="item.get('conceptData').value"
+                                                (receivedAction)="processAction($event, item)"></app-snomedct>
+                                        </div>
+                                        <ng-template #input_content>
+                                            <input type="text" class="form-control" formControlName="complaint_name">
+                                        </ng-template>
+                                        <span class="text-danger small" *ngIf="isAdd && item.get('complaint_id').invalid">Select complaints</span>
+                                    </div>
+                                    <div class="col-day">
+                                        <label *ngIf="i == 0">Days</label>
+                                        <input type="text" class="form-control form-control-sm" formControlName="day" maxlength="2" placeholder="Day">
+                                        <span class="text-danger small" *ngIf="item.get('day').errors">
+                                            <span *ngIf="item.get('day')['errors'].pattern">Only digits..</span>
+                                        </span>
+                                    </div>
+                                    <div class="col-month">
+                                        <label for="month" *ngIf="i == 0">Month</label>
+                                        <input type="text" class="form-control form-control-sm" formControlName="month" maxlength="2" placeholder="Month">
+                                        <span class="text-danger small" *ngIf="item.get('month').errors">
+                                            <span *ngIf="item.get('month')['errors'].pattern">Only digits..</span>
+                                        </span>
+                                    </div>
+                                    <div class="col-year">
+                                        <label for="year" *ngIf="i == 0">Year</label>
+                                        <input type="text" class="form-control form-control-sm" formControlName="year" maxlength="4" placeholder="Year">
+                                        <span class="text-danger small" *ngIf="item.get('year').errors">
+                                            <span *ngIf="item.get('year')['errors'].pattern">Only digits..</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="plus-minus-col-btn">
+                                <label [ngClass]="{'mb-0': first, 'd-none': !first}">&nbsp;</label>
+                                <div>
+                                    <button type="button" [ngStyle]="{'visibility': last ? 'visible' : 'hidden'}" (click)="addComplaints(item);" class="btn btn-sm btn-outline-primary-light">
+                                        <i class="fa fa-fw fa-plus"></i>
+                                    </button>&nbsp;
+                                    <button type="button" (click)="removeComplaints(item, i)" class="btn btn-sm btn-outline-danger">
+                                        <i class="fa fa-fw fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+</div>

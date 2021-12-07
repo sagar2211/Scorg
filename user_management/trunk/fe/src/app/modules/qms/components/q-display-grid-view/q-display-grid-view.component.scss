@@ -1,0 +1,90 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+// .filters {
+//   .d-flex {
+//     min-height: 35px;
+//     @include no-select;
+//   }
+// }
+
+.cur-effect {
+  opacity: 0.9;
+  min-width: 35px;
+  min-height: 35px;
+  font-size: $word-font-size;
+
+  &::before {
+    content: "";
+    display: block;
+    opacity: 0;
+    position: absolute;
+    transition-duration: 0.15s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    bottom: -10px;
+    left: -10px;
+    right: -10px;
+    top: -10px;
+    background: none;
+    @include border-radius(50%);
+    @include scale(0);
+    transition-property: transform, opacity;
+  }
+
+  &:hover::before {
+    background-color: rgba(32, 33, 36, 0.06);
+    opacity: 1;
+    @include scale(0.8);
+  }
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.cursor-move {
+  cursor: move;
+}
+
+.grid-body {
+  height: calc(100vh - 166px);
+  overflow-y: auto;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+:host ::ng-deep {
+  ngb-tabset {
+    ul {
+      background-color: $white;
+      @include border-top-left-radius(3px);
+      @include border-top-right-radius(3px);
+      .nav-item {
+        width: 20%;
+        text-align: center;
+
+        .nav-link {
+          &:hover {
+            background-color: var(--bgLight);
+            font-weight: 500;
+            color: var(--bgColor);
+            border-bottom: 3px solid transparent;
+            @include border-radius(0);
+          }
+
+          &.active {
+            background-color: transparent;
+            font-weight: 500;
+            color: var(--bgColor);
+            border-bottom: 3px solid var(--bgColor);
+            @include transition(border-bottom 0.5s, color 0.5s);
+          }
+        }
+      }
+    }
+  }
+}
+
+.slider-history-log {
+  right: 0;
+  top: 0;
+  height: calc(100vh - 124px);
+}

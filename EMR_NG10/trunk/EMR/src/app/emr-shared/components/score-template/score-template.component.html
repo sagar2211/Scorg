@@ -1,0 +1,68 @@
+<div class="examination-label">
+  <ngb-accordion [activeIds]="componentInfo?.activeIdsOfPanels" [closeOthers]="false" (click)="$event.stopPropagation()"
+    (panelChange)="panelChange($event)">
+    <ngb-panel id="{{componentInfo?.section_key}}">
+      <ng-template ngbPanelTitle>
+        <div class="form-row align-items-center mx-0">
+          <div class="col-8">
+            <p class="d-inline-block mb-0 mr-2 font-size-dot-875">{{componentInfo?.section_name}}</p>
+            <!-- <button *ngIf="activeTabName === 'form'" (click)="activeTabName = 'summary';$event.stopPropagation(); "
+              class="btn btn-white btn-sm text-uppercase custom-btn-w">SUMMARY</button>
+            <button *ngIf="activeTabName === 'summary'" (click)="activeTabName = 'form';$event.stopPropagation(); "
+              class="btn btn-white btn-sm text-uppercase custom-btn-w">TEMPLATE</button> -->
+          </div>
+          <div class="col-4">
+            <button class="btn btn-sm btn-link text-white text-right" type="button">
+              <i [ngClass]="isPanelOpen ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div class="form-row m-0">
+          <div class="col-12 px-0" *ngIf="activeTabName === 'form'">
+            <div *ngFor="let stemplate of scoreTemplateList; let i = index;">
+              <!-- <span><strong>{{stemplate.template_name}}</strong></span> -->
+              <app-preview-score-template [parentComponetInstance]="this" [selectTemplate]="stemplate"
+                [isShowAllTemplate]="true">
+              </app-preview-score-template>
+            </div>
+          </div>
+        </div>
+        <!-- <div *ngIf="activeTabName === 'summary'">
+          <app-summary-score-template [templateList]="scoreTemplateList"></app-summary-score-template>
+        </div> -->
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>
+
+<!-- <div class="examination-label">
+  <ngb-accordion [activeIds]="componentInfo?.activeIdsOfPanels"
+    (panelChange)="panelChange($event)">
+    <ngb-panel id="custom_template">
+      <ng-template ngbPanelTitle>
+        <div class="form-row align-items-center mx-0">
+          <div class="col-8">
+            <p class="d-inline-block mb-0 mr-2 font-size-dot-875">{{componentInfo?.section_name}}</p>
+          </div>
+          <div class="col-4">
+            <button class="btn btn-sm btn-link text-white text-right" type="button">
+              <i [ngClass]="isPanelOpen ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div class="form-row m-0">
+          <div class="col-4" *ngFor="let stemplate of scoreTemplateList; let i = index;">
+            <button type="button" (click)="loadScoreTemplate(stemplate)"
+              class="btn btn-sm btn-outline-primary-light mb-1" title="{{stemplate.template_name}}"><span
+                [innerHTML]="stemplate.template_name"></span></button>
+          </div>
+        </div>
+          <app-summary-score-template [templateList]="scoreTemplateList"></app-summary-score-template>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div> -->

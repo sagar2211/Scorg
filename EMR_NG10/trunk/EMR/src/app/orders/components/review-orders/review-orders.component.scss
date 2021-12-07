@@ -1,0 +1,201 @@
+:host ::ng-deep {
+  .added-order-section {
+    .section-name {
+      margin: 0px;
+      font-size: 14px;
+      font-weight: 500;
+      background-color: #ebf6f8;
+      border-bottom: 1px dashed #e2e2e2;
+      background: #ffffff;
+      color: #292929;
+      padding: 5px;
+
+      @media screen and (max-width: 1280px) {
+        & {
+          font-size: 16px;
+        }
+
+        .start-date {
+          float: right;
+          font-size: 13px;
+        }
+      }
+
+      .custom-checkbox {
+        i {
+          width: 16px;
+          height: 16px;
+
+          &::before {
+            top: 1px;
+            left: 1px;
+            font-size: 12px;
+          }
+        }
+      }
+
+      .section-table {
+        margin-bottom: 5px;
+        border: 0px;
+
+        &.height-min {
+          height: 0px;
+          overflow: hidden;
+        }
+
+        &.height-auto {
+          height: auto;
+        }
+
+        tbody {
+          width: 100%;
+          display: table;
+
+          tr {
+            td {
+              padding: 5px;
+              height: 100px;
+              padding: 0px;
+              border-bottom: 0px;
+              padding-bottom: 5px;
+
+              &:first-child {
+                width: 70%;
+              }
+
+              &:last-child {
+                width: 30%;
+              }
+
+              &.left-section {
+                .name-heading {
+                  text-transform: capitalize;
+
+                  @media screen and (max-width: 1280px) {
+                    & {
+                      font-size: 14px;
+                    }
+
+                    i {
+                      font-size: 14px;
+                      cursor: pointer;
+
+
+                      @media screen and (max-width: 1280px) {
+                        & {
+                          font-size: 18px !important;
+                        }
+                      }
+
+                      .start-date {
+                        font-weight: 400;
+                        float: right;
+                      }
+                    }
+
+                    .left-content {
+                      width: 70%;
+                      float: left;
+
+                      .section-detail {
+                        font-size: 13px;
+
+                        span.pl-1 {
+                          &:first-child {
+                            padding-left: 0px !important;
+                          }
+                        }
+                      }
+                    }
+
+                    .right-content {
+                      width: 30%;
+                      float: left;
+                      text-align: center;
+
+                      span {
+                        color: red;
+                        font-weight: bold;
+                      }
+                    }
+                  }
+
+                  &.right-section {
+                    position: relative;
+
+                    .status {
+                      margin-bottom: 0px;
+                      font-size: 12px;
+                      font-weight: 600;
+                      text-align: right;
+                    }
+
+                    .bg-td {
+                      background-color: #ebf6f8;
+                    }
+
+                    .priority {
+                      margin-top: 5px;
+                      font-size: 13px;
+                      text-align: right;
+                      padding-right: 5px;
+                    }
+
+                    .icheck>i {
+                      width: 16px;
+                      height: 16px;
+                    }
+
+                    .action {
+                      position: absolute;
+                      bottom: 5px;
+                      right: 0px;
+
+                      .section-btn {
+                        padding: 0px 5px;
+                        font-size: 13px;
+                        border-radius: 0px;
+                      }
+                    }
+
+                  }
+
+                  p {
+                    padding-left: 5px;
+                    font-size: 12px;
+
+                    @media screen and (max-width: 1280px) {
+                      & {
+                        font-size: 14px;
+                      }
+
+                      &:first-child {
+                        padding: 3px 5px;
+
+                      }
+                    }
+                  }
+
+                  &:nth-last-child(2) {
+                    border-bottom: 2px solid #dee2e6;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .modal-footer {
+        .btn-outline-danger {
+          color: #dc3545 !important;
+        }
+      }
+    }
+  }
+}
+
+.review-orders-modal-body {
+  height: calc(100vh - 230px);
+  overflow-y: auto;
+}

@@ -1,0 +1,225 @@
+<div class="modal-header">
+  <h6 class="mb-0 pt-1 text-uppercase">{{patientData?.uhid}} <span *ngIf="patientData?.visitNo">/{{patientData?.visitNo}}</span>
+  </h6>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="activeModal.dismiss('cancel')">
+  <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-0">
+  <div class="row mx-0 p-1">
+     <div class="col-12 px-1">
+        <div class="row m-0 border bg-white">
+           <div class="col-2 px-1 patinent-img-section">
+              <img class="border p-2 my-1 patient-img"  [src]="imgBaseUrl+patientData?.image"
+                 id="patimage">
+           </div>
+           <div class="col-10 px-1 patName">
+              <p class="text-primary mt-2 m-0 font-weight-500">{{patientData?.fullName}}</p>
+              <div class="m-0 patDetails">
+                <div class="details">
+                  <label class="text-muted pr-3" *ngIf="patientData?.gender && patientData?.gender !==''">Gender: <label id="Gender" class="input-text">{{patientData?.gender}}</label></label>
+                  <label class="text-muted" *ngIf="patientData?.dob && patientData?.dob !==''">DOB:  <span  class="input-text">{{patientData?.dob}}</span></label>
+                </div>
+                <!-- <label>DOB:  <span *ngIf="patientData?.gender && patientData?.dob">,&nbsp;</span></label><br/>
+                 <label id="Dob">{{patientData?.dob}}</label> -->
+                 <div class="details">
+                   <label class="text-muted pr-3" *ngIf="patientData?.uhid && patientData?.uhid !==''">UHID: <span  class="input-text">{{patientData?.uhid}}</span></label>
+                 </div>
+                 <div class="details">
+                   <label class="text-muted pr-3" *ngIf="patientData?.visitNo && patientData?.mobile !==''"> Mobile No: <span  class="input-text">{{patientData.mobile}}</span></label>
+                   <label class="text-muted" *ngIf="patientData?.registrationDate && patientData?.registrationDate !==''">Registration Date: <span  class="input-text">{{patientData.registrationDate}}</span></label>
+                 </div>
+                 <div class="details">
+                  <label class="text-muted" *ngIf="patientData?.address && patientData?.address !==''">Address: <span  class="input-text">{{patientData?.address}}</span></label>
+                </div>
+                </div>
+           </div>
+        </div>
+        <div class="row m-0 mt-1 border bg-white">
+           <div class="col-12 px-1">
+              <p class="border-bottom mb-1 p-2 font-weight-500">Other Detail</p>
+              <div class="row m-0">
+               <div class="col-6 p-0 displayF">
+                  <div class="col-6 px-1 text-muted">
+                     Patient ID
+                  </div>
+                  <div class="col-6 px-1 text-left font-weight-500">
+                   {{patientData?.patId}}
+                  </div>
+               </div>
+               <div class="col-6 p-0 displayF" *ngIf="patientData?.bedId">
+                  <div class="col-6 px-1 text-muted">
+                     Bed ID
+                  </div>
+                  <div class="col-6 px-1 text-left font-weight-500">
+                   {{patientData?.bedId}}
+                  </div>
+               </div>
+               <div class="col-6 p-0 displayF" *ngIf="patientData?.bedDetails && patientData?.bedDetails !==''">
+                  <div class="col-6 px-1 text-muted">
+                     Bed Details
+                  </div>
+                  <div class="col-6 px-1 text-left font-weight-500">
+                   {{patientData?.bedDetails}}
+                  </div>
+               </div>
+               <div class="col-6 p-0 displayF" *ngIf="patientData?.dor && patientData?.dor !==''">
+                  <div class="col-6 px-1 text-muted">
+                     DOR
+                  </div>
+                  <div class="col-6 px-1 text-left font-weight-500">
+                   {{patientData?.dor}}
+                  </div>
+               </div>
+               <div class="col-6 p-0 displayF" *ngIf="patientData?.aadharNo && patientData?.aadharNo !==''">
+                    <div class="col-6 px-1 text-muted">
+                       Aadhar No
+                    </div>
+                    <div class="col-6 px-1 text-left font-weight-500 text-uppercase">
+                       {{patientData?.aadharNo}}
+                    </div>
+                 </div>
+                 <div class="col-6 p-0 displayF" *ngIf="patientData?.panNo && patientData?.panNo !==''">
+                  <div class="col-6 px-1 text-muted">
+                     PAN No :
+                  </div>
+                  <div class="col-6 px-1 text-left font-weight-500 text-uppercase">
+                     {{patientData?.panNo}}
+                  </div>
+               </div>
+               <div class="col-6 p-0 displayF" *ngIf="patientData?.isTempUhid && patientData?.isTempUhid !==''">
+                  <div class="col-6 px-1 text-muted">
+                     Is Temporary
+                  </div>
+                  <div class="col-6 px-1 text-left font-weight-500">
+                   {{patientData?.isTempUhid}}
+                  </div>
+               </div>
+               <div class="col-6 p-0 displayF" *ngIf="patientData?.isUnknownUhid && patientData?.isUnknownUhid !==''">
+                  <div class="col-6 px-1 text-muted">
+                     Is Unknown
+                  </div>
+                  <div class="col-6 px-1 text-left font-weight-500">
+                   {{patientData?.isUnknownUhid}}
+                  </div>
+               </div>
+               <div class="col-6 p-0 displayF" *ngIf="patientData?.isActive && patientData?.isActive !==''">
+                  <div class="col-6 px-1 text-muted">
+                     Is Active
+                  </div>
+                  <div class="col-6 px-1 text-left font-weight-500">
+                   {{patientData?.isActive}}
+                  </div>
+               </div>
+               <div class="col-6 p-0 displayF" *ngIf="patientData?.isLive && patientData?.isLive !==''">
+                  <div class="col-6 px-1 text-muted">
+                     Is Live
+                  </div>
+                  <div class="col-6 px-1 text-left font-weight-500">
+                   {{patientData?.isLive}}
+                  </div>
+               </div>
+               <div class="col-6 p-0 displayF" *ngIf="patientData?.age && patientData?.age !==''">
+                  <div class="col-6 px-1 text-muted">
+                     Age
+                  </div>
+                  <div class="col-6 px-1 text-left font-weight-500">
+                   {{patientData?.age}}
+                  </div>
+               </div>
+                 <div class="col-6 p-0 displayF" *ngIf="patientData?.address && patientData?.address !==''">
+                    <div class="col-6 px-1 text-muted">
+                       Address
+                    </div>
+                    <div class="col-6 px-1 text-left font-weight-500">
+                     {{patientData?.address}}
+                    </div>
+                 </div>
+                 <div class="col-6 p-0 displayF" *ngIf="patientData?.country && patientData?.country !==''">
+                    <div class="col-6 px-1 text-muted">
+                       Country
+                    </div>
+                    <div class="col-6 px-1 text-left font-weight-500">
+                       {{patientData?.country}}
+                    </div>
+                 </div>
+                 <div class="col-6 p-0 displayF" *ngIf="patientData?.state && patientData?.state !==''">
+                  <div class="col-6 px-1 text-muted">
+                     State:
+                  </div>
+                  <div class="col-6 px-1 text-left font-weight-500">
+                     {{patientData?.state}}
+                  </div>
+               </div>
+                 <div class="col-6 p-0 displayF" *ngIf="patientData?.city && patientData?.city !==''">
+                  <div class="col-6 px-1 text-muted">
+                     City:
+                  </div>
+                  <div class="col-6 px-1 text-left font-weight-500">
+                     {{patientData?.city}}
+                  </div>
+               </div>
+                 <div class="col-6 p-0 displayF" *ngIf="patientData?.patLocalName && patientData?.patLocalName !==''">
+                    <div class="col-6 px-1 text-muted">
+                       Patient Local Name
+                    </div>
+                    <div class="col-6 px-1 text-left font-weight-500">
+                     {{patientData?.patLocalName}}
+                    </div>
+                 </div>
+                 <div class="col-6 p-0 displayF" *ngIf="patientData?.penRelFullname && patientData?.penRelFullname !==''">
+                    <div class="col-6 px-1 text-muted">
+                       Patient Relative Name
+                    </div>
+                    <div class="col-6 px-1 text-left font-weight-500">
+                     {{patientData?.penRelFullname}}
+                    </div>
+                 </div>
+                 <div class="col-6 p-0 displayF" *ngIf="patientData?.PenRelMobile && patientData?.PenRelMobile !==''">
+                    <div class="col-6 px-1 text-muted">
+                       Patient Relative Mobile
+                    </div>
+                    <div class="col-6 px-1 text-left font-weight-500">
+                     {{patientData?.PenRelMobile}}
+                    </div>
+                 </div>
+                 <div class="col-6 p-0 displayF" *ngIf="patientData?.visitNo && patientData?.visitNo !==''">
+                    <div class="col-6 px-1 text-muted">
+                       Visit No
+                    </div>
+                    <div class="col-6 px-1 text-left font-weight-500">
+                     {{patientData?.visitNo}}
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+        <!-- <div class="row m-0 mt-1 border bg-white" *ngIf="patientData?.PenRelFullname">
+           <div class="col-12 px-1">
+              <p class="border-bottom mb-1 p-2 font-weight-500">Relative Detail</p>
+              <div class="row m-0">
+                 <div class="col-4 px-1 text-muted">
+                    Name :
+                 </div>
+                 <div class="col-8 px-1 text-left font-weight-500">
+                    {{patientData?.PenRelFullname}}
+                 </div>
+                 <div class="col-4 px-1 text-muted">
+                    Mobile :
+                 </div>
+                 <div class="col-8 px-1 text-left font-weight-500">
+                    {{patientData?.PenRelMobile}}
+                 </div>
+              </div>
+           </div>
+        </div> -->
+     </div>
+  </div>
+</div>
+<!-- <div class="modal-footer py-1">
+  <div class="float-right mt-15 ml-auto">
+
+    <button type="button" class="btn btn-sm btn-warning text-uppercase" (click)="modal.dismiss();">Cancel</button>
+
+  </div>
+  </div> -->

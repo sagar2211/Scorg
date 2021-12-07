@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">Appointment Confirmation</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="dismissModel('cancle')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="alert alert-warning" role="alert">
+    Patient already having an appointment for same date & time. Do you want to continue?
+  </div>
+  <div class="form-row align-items-center apt-confirm border-light-bottom pb-2 mb-2" *ngFor="let item of history;">
+    <div class="col-3">
+      <p class="mb-0 font-size-dot-875 font-weight-500">
+        <i aria-hidden="true" class="icon fa-fw icon-calendar-day mr-1"></i>
+        <span [innerHTML]="item.appointmentDate | date : 'dd'"></span>
+        <span [innerHTML]="item.appointmentDate | date : 'MMM'"></span>,
+        <span [innerHTML]="item.appointmentTime"></span>
+      </p>
+    </div>
+    <div class="col-9">
+      <p class="mb-0 font-size-dot-875 font-weight-500 text-primary" *ngFor="let entity of item.entityValue">
+        {{entity.entityValueName}} <small>({{item.entityName}})</small>
+      </p>
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="dismissModel('cancle')">No</button>
+  <button type="button" class="btn btn-sm btn-outline-primary" (click)="dismissModel('Yes')">Yes</button>
+</div>

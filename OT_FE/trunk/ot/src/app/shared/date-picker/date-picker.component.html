@@ -1,0 +1,18 @@
+<!-- Reactive Form -->
+<form [formGroup]="dpFrm">
+    <div class="input-group">
+        <label for="month" class="sr-only">Date</label>
+        <input [ngStyle]="{'background-color' : (!makeDisabled) ? '#fff' : ''}" class="form-control form-control-sm" placeholder="dd/mm/yyyy" [maxDate]="maxDt" [minDate]="minDt" [readOnly]="readOnly" [footerTemplate]="footerTemplate" formControlName="selectedDate"
+            (blur)="onDateInputChange()" (dateSelect)="onDateSelect($event)" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" (navigation)="'select'">
+        <div class="input-group-append">
+            <button class="btn btn-sm btn-outline-secondary border" (click)="d.toggle()" type="button" [disabled]="makeDisabled">
+        <i class="icon icon-calendar-alt fa-fw" aria-hidden="true"></i>
+      </button>
+        </div>
+    </div>
+</form>
+<ng-template #footerTemplate>
+    <hr class="my-0">
+    <button *ngIf="isClear" class="btn btn-primary btn-sm m-2 float-left" (click)="dpFrm.patchValue({ selectedDate: null });onDateSelect(null)">Clear</button>
+    <button class="btn btn-secondary btn-sm m-2 float-right" (click)="d.close()">Close</button>
+</ng-template>

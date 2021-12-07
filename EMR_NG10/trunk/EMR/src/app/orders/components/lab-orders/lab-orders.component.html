@@ -1,0 +1,222 @@
+<div class="form-row mx-0">
+  <div class="col-6 border-dash-right pr-0"
+    *ngIf="(orderDisplayType == 'all' || (labOrderList | displaySavedUnsaved: orderDisplayType).length)">
+    <div #orderDisplaySectionLab>
+      <div class="card-section">
+        <div *ngIf="!(labOrderList | orderListFilter : false : false : 'unSaved').length"
+          class="bg-img mt-2 text-center"><img src="./assets/img/no-orders.png" class="img-fluid"
+            alt="no orders" />
+        </div>
+        <div class="card mb-1 mr-1 mt-1 pointer order-card"
+          *ngFor="let labs of labOrderList | orderListFilter : false : false : 'unSaved'; let i = index;"
+          id="labOrders{{i}}" [ngClass]="{'active': (activeIndex == i)}">
+          <ng-container *ngIf="activeIndex === i && !isTabModeOn">
+            <form [formGroup]="labOrderForm" (ngSubmit)="addLabOrders()">
+              <div class="card-heading border-bottom" *ngIf="!isFromFavSuggestionTemplate">
+                <div class="form-row mx-0 align-items-center">
+                    <div class="col-12 py-1">
+                        <h6 class="mb-0 font-weight-500 ">
+                            {{labs.name}}
+                        </h6>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-1">
+              <div class="row m-0">
+                <div class="col-2 px-1">
+                  <label class="text-muted m-0">Frequency</label>
+                  <input formControlName="frequency" (change)="setMedicineFreqSchedule(labOrderForm.value, false);"
+                  type="text" class="form-control form-control-sm" placeholder="Enter Frequency" />
+                    <div class="mb-1">
+                      <span *ngIf="labOrderForm.value.frequency <= 4">{{labOrderForm.value.frequencySchedule}}</span>
+                      <span *ngIf="labOrderForm.value.frequency > 4">{{labOrderForm.value.frequency + ' times a day'}}
+                      </span>
+                      <a class="text-primary font-size-dot-8"
+                        *ngIf="labOrderForm.value.frequencySchedule && (labOrderForm.value.frequency < 3)"
+                        (click)="setMedicineFreqSchedule(labOrderForm.value);">&nbsp;Change</a>
+                      <span *ngIf="labOrderForm.get('frequency').errors">
+                        <span class="text-danger" *ngIf="!!(labOrderForm.get('frequency').errors?.pattern)">Only numbers
+                          allowed..</span>
+                        <span class="text-danger" *ngIf="!!(labOrderForm.get('frequency').errors?.max)">Number should be
+                          less
+                          then 24..</span>
+                      </span>
+                    </div>
+                </div>
+                <div class="col-3 px-1">
+                  <label class="text-muted m-0">Start Time</label>
+                  <ng-select [items]="hoursList" bindLabel="time" bindValue="time" placeholder="Select Time" (change)="onFreqStartTimeSelect($event);" formControlName="freqStartTime"></ng-select>
+                </div>
+                <div class="col-7 px-1"></div>
+                <div class="col-6 px-0">
+                  <label class="text-muted m-0">Instructions</label>
+                  <app-instruction-suggestion [suggestionList]="orderInstructionList" [rows]="2" [showFrequency]="false"
+                      [placeholdertext]="'Enter Instructions'" [instructions]="labOrderForm.value?.labInstruction"
+                      (changedValue)="labOrderForm.patchValue({labInstruction: $event})">
+                    </app-instruction-suggestion>
+                </div>
+                <div class="col-6 px-0 pl-1">
+                  <label class="text-muted m-0">Requisition</label>
+                  <app-instruction-suggestion [suggestionList]="labOrdersRequisitionList" [rows]="2" [showFrequency]="false"
+                      [placeholdertext]="'Enter Requisition'" [instructions]="labOrderForm.value?.requisition"
+                      (changedValue)="labOrderForm.patchValue({requisition: $event})">
+                    </app-instruction-suggestion>
+                </div>
+                <div class="col-12 px-0">
+                  <button (click)="updateDataToArray()" type="button" class="btn float-right btn-outline-primary-light m-1 p-1" >UPDATE</button>
+                </div>
+              </div>
+            </div>
+            </form>
+          </ng-container>
+          <ng-container *ngIf="activeIndex !== i">
+            <app-orders-display [isShowActions]="isShowActions" (editData)="activeIndex = i; onEditLabOrder($event, i)"
+            (deleteData)="removeLabOrders($event)" (approveOrder)="approveOrders($event,i)" [item]="labs"
+            [source]="'labOrders'" [isEdit]="isEdit" [isDelete]="isDelete" (checkAllPendingValue)="findPendingObject()"
+            (selectInvestigationComponentData)="getselectInvestigationComponentData($event)">
+          </app-orders-display>
+          </ng-container>
+        </div>
+        <ng-container *ngIf="!labOrderList.length" [ngTemplateOutlet]="emptyOrdersTemplate"></ng-container>
+      </div>
+    </div>
+  </div>
+  <!--SUGGESTION CODE-->
+  <div class="col-6 pl-0 pr-0 col-suggesstion" *ngIf="loadSuggestion">
+    <div *ngIf="loadSuggestion">
+      <div class="position-relative" *ngIf="showInputSearchBox">
+        <input (ngModelChange)="onSearch($event);" class="form-control form-control-sm pl-2rem" type="text"
+          [(ngModel)]="searchKeyword" (focus)="hideHistory()" placeholder="Search By Name">
+        <div class="placeholder-icon">
+          <i class="icon fa-fw icon-search text-muted" aria-hidden="true"></i>
+        </div>
+      </div>
+      <app-suggestion-panel #suggestionPanel [showHeading]="false" [showInputSearchBox]="showInputSearchBox"
+        [suggestionPanelSettings]="suggestionPanelSettings" [isOnload]="isOnload" [showCombinedList]=true
+        [isFrom]="isFrom">
+      </app-suggestion-panel>
+    </div>
+  </div>
+  <!--SUGGESTION CODE END-->
+  <div class="col-6 pl-0 pr-0 col-suggesstion" *ngIf="showAddSection">
+    <fieldset>
+      <form [formGroup]="labOrderForm" (ngSubmit)="addLabOrders()">
+        <ngb-tabset [destroyOnHide]="false" [activeId]="compInstance.activeTab">
+          <ngb-tab id="Templates" title="Templates">
+            <ng-template ngbTabContent>
+              <div class="all-suggestion my-1">
+                <p class="mb-1 text-center label-suggestion">
+                  Favorite Template Suggestion</p>
+                <div class="btn btn-outline-primary-light d-block p-0 text-left m-1 pointer order-card favorite-btn"
+                  *ngFor="let labs of labOrdersFavSuggestionTemplateList; let i = index;"
+                  id="labSuggestionTemplate{{i}}" [ngClass]="{'active': (activeIndex == i)}">
+                  <app-orders-display (checkAllPendingValue)="findPendingObject()" [isFromFavSuggestionTemplate]="true"
+                    [inputIndex]="activeIndex" [isShowActions]="true" (deleteData)="removeLabOrders($event)"
+                    (editData)="activeIndex = i; onEditLabOrder($event, i)" [isEdit]="isEdit" [item]="labs"
+                    [source]="'labOrders'" [isDelete]="isDelete">
+                  </app-orders-display>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab id="Frequency" title="Frequency">
+            <ng-template ngbTabContent>
+              <ng-container>
+                <div class="all-suggestion px-2">
+                  <div class="form-group form-row mx-0">
+                    <div class="col-6">
+                      <label class="text-muted">Enter Frequency</label>
+                      <input formControlName="frequency" (change)="setMedicineFreqSchedule(labOrderForm.value, false);"
+                        type="text" class="form-control" placeholder="Enter Frequency" />
+                    </div>
+                  </div>
+                  <div class="mb-1">
+                    <span *ngIf="labOrderForm.value.frequency <= 4">{{labOrderForm.value.frequencySchedule}}</span>
+                    <span *ngIf="labOrderForm.value.frequency > 4">{{labOrderForm.value.frequency + ' times a day'}}
+                    </span>
+                    <a class="text-primary font-size-dot-8"
+                      *ngIf="labOrderForm.value.frequencySchedule && (labOrderForm.value.frequency < 3)"
+                      (click)="setMedicineFreqSchedule(labOrderForm.value);">&nbsp;Change</a>
+                    <span *ngIf="labOrderForm.get('frequency').errors">
+                      <span class="text-danger" *ngIf="!!(labOrderForm.get('frequency').errors?.pattern)">Only numbers
+                        allowed..</span>
+                      <span class="text-danger" *ngIf="!!(labOrderForm.get('frequency').errors?.max)">Number should be
+                        less
+                        then 24..</span>
+                    </span>
+                  </div>
+                  <div class="mb-1">
+                    <p class="mb-1 text-center label-suggestion">Frequency Suggestion</p>
+                    <button *ngFor="let freqNo of frequencyNumbers;"
+                      (click)="labOrderForm.patchValue({ frequency : freqNo }); setMedicineFreqSchedule(labOrderForm.value, false);"
+                      type="button" class="btn btn-outline-primary-light mr-1 mb-1"
+                      [ngClass]="{'active': (labOrderForm.value.frequency == freqNo)}">{{freqNo}}</button>
+                  </div>
+                  <div class="mb-1">
+                    <p class="mb-1 label-suggestion text-center">Start Time Suggestions</p>
+                    <div class="form-group form-row px-1">
+                      <div class="col-3 pr-0">
+                        <label class="text-muted">Enter Time</label>
+                        <app-time-drop-down [timeFormat]="'12_hour'" [minuteValue]="'false'"
+                          [selectedValue]="labOrderForm.value.freqStartTime"
+                          (selectedItem)="onFreqStartTimeSelect($event);">
+                        </app-time-drop-down>
+                      </div>
+                      <div class="col-9">
+                        <label>&nbsp;</label>
+                        <div>
+                          <button *ngFor="let hrs of hoursList" (click)="onFreqStartTimeSelect(hrs.time)" type="button"
+                            class="btn btn-outline-primary-light mr-1 mb-1"
+                            [ngClass]="{'active': (hrs.isActive === true)}">{{hrs.time}}</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab id="Instructions" title="Instructions">
+            <ng-template ngbTabContent>
+              <ng-container>
+                <div class="my-1 px-1">
+                  <div class="form-group mb-2">
+                    <label class="text-muted">Instructions</label>
+                    <!-- <input (click)="click$.next($event.target.value)" id="transTextRemarks1" type="text"
+                      class="form-control" formControlName="labInstruction" [ngbTypeahead]="searchInstructionList"
+                      placeholder="Enter Instruction .." #instance="ngbTypeahead"> -->
+                    <app-instruction-suggestion [suggestionList]="orderInstructionList"
+                      [placeholdertext]="'Enter Instructions'" [instructions]="labOrderForm.value?.labInstruction"
+                      (changedValue)="labOrderForm.patchValue({labInstruction: $event})">
+                    </app-instruction-suggestion>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab id="Requisition" title="Requisition">
+            <ng-template ngbTabContent>
+              <ng-container>
+                <div class="my-1 px-1">
+                  <div class="form-group mb-2">
+                    <label class="text-muted">Requisition</label>
+                      <!-- <textarea name="adviceDesc" id="translateAdvice1" class="form-control noresize" rows="7"
+                      formControlName="requisition" placeholder="Enter Requisition"></textarea> -->
+                      <app-instruction-suggestion [suggestionList]="labOrdersRequisitionList"
+                      [placeholdertext]="'Enter Requisition'" [instructions]="labOrderForm.value?.requisition"
+                      (changedValue)="labOrderForm.patchValue({requisition: $event})">
+                    </app-instruction-suggestion>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </form>
+    </fieldset>
+  </div>
+</div>
+<ng-template #emptyOrdersTemplate>
+  <div class="bg-img"></div>
+</ng-template>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

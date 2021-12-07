@@ -1,0 +1,18 @@
+<div class="queue template8" [ngStyle]="{'height.%' : braningSectionVisble ? '92' : '100'}">
+  <div class="container-fluid px-0 h-100 text-center queue-container">
+    <table class="table mt-2 w-99">
+      <thead>
+        <tr>
+          <th class="font-weight-500 w-50 text-center">Room</th>
+          <th class="font-weight-500 w-50 text-center">Token</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let list of displayData.calling_queue_list">
+          <td class="text-center"> <span class="room-name">{{list.room_name}}</span></td>
+          <td class="text-center"><span class="token-no" [ngClass]="activeColor"> {{list.token_no}} </span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">{{messageDetails.modalTitle}}</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+    (click)="dismissModel('cancle')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p class="mb-2" [innerHtml]="messageDetails.modalBody"></p>
+  <div class="custom-control custom-checkbox custom-control-inline col-4">
+    <input type="checkbox" class="custom-control-input" id="sendsmscheck" name="sendsmscheck" type="checkbox" [(ngModel)]="sendSmsConfirmation">
+    <label class="custom-control-label pointer" for="sendsmscheck">Send sms</label>
+  </div>
+
+  <div class="custom-control custom-checkbox custom-control-inline col-4" title="Complete OPD for In Consultation Patient(s)" *ngIf="messageDetails.isDoneOpdCheck">
+    <input type="checkbox" class="custom-control-input" id="doneopdcheck" name="doneopdcheck" type="checkbox" [(ngModel)]="doneOpdConfirmation">
+    <label class="custom-control-label pointer" for="doneopdcheck">Complete OPD</label>
+  </div>
+
+  <div class="col-11">
+    <textarea class="form-control" rows="2" [(ngModel)]="confirmationMsg" placeholder="{{placeholderText}}"></textarea>
+    <small *ngIf="messageText" class="text-danger">Please Add Message</small>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="dismissModel('cancle')">CANCEL</button>
+  <button type="button" class="btn btn-sm btn-outline-primary" (click)="dismissModel('ok')">OK</button>
+</div>

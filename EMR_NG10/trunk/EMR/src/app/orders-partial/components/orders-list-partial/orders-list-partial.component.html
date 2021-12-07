@@ -1,0 +1,64 @@
+<div class="container-fluid custom-container-fluid pt-2">
+    <div class="form-row form-group align-items-center mx-0">
+        <div class="col-4 pl-0">
+            <div class="input-group">
+                <input type="text" class="form-control form-control-sm pl-2rem"
+                    placeholder="Search By Doctor Name" (keyup)="showSearchFilter()" [(ngModel)]="searchString">
+                <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+                <div class="input-group-append">
+                    <!-- <button class="btn btn-sm btn-outline-secondary border" type="button" title="Filter"
+                        (click)="showSearchFilter()"><i class="fa fa-fw fa-caret-down" aria-hidden="true"></i></button> -->
+                    <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear">
+                        <i class="fa fa-fw fa-eraser" aria-hidden="true" (click)="clearSearchFilter();"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="50"
+            [rowHeight]="'auto'" [rows]="orderList" [externalSorting]="true">
+            <ngx-datatable-column name="Doctor" prop="doctorName" [width]="150" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <span>{{row.doctorName}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Order Type" prop="orderTypeName" [width]="100" [sortable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <div class="child" *ngFor="let r of row.doctorData">
+                        <span>{{r.orderTypeName}}</span>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Order Name" prop="orderName" [sortable]="false" [width]="70">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <div *ngFor="let r of row.doctorData">
+                        <div class="child" *ngFor="let itr of r.orderTypeData">
+                            <span>{{itr.orderName}}</span>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Order Date" prop="orderDate" [sortable]="false" [width]="70">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <div *ngFor="let r of row.doctorData">
+                        <div class="child" *ngFor="let itr of r.orderTypeData">
+                            <span>{{itr.orderDate}}</span>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Action" [width]="30" [sortable]="false" [draggable]="false"
+                [resizeable]="false">
+                <ng-template ngx-datatable-cell-template let-row="row" let-value="value" let-isSelected="isSelected"
+                    let-onCheckboxChangeFn="onCheckboxChangeFn">
+                    <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChange(row)" />
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+        <button class="btn btn-primary float-right" type="button" (click)="onSubmit()">Add</button>
+    </div>
+</div>

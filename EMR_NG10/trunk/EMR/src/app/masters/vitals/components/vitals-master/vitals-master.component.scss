@@ -1,0 +1,29 @@
+@import "../../../../../scss/custom_bootstrap_theme.scss";
+
+.vital-height {
+  height: calc(100vh - 126px);
+  overflow-y: auto;
+
+  .col-check {
+    flex: 0 0 150px;
+    max-width: 150px;
+  }
+
+  .range-height {
+    padding: 0 5px;
+    height: calc(100vh - 346px);
+    overflow-y: overlay;
+
+
+
+    .col-btn {
+      flex: 0 0 85px;
+      max-width: 85px;
+    }
+  }
+
+  .vital-list-height {
+    height: calc(100vh - 369px);
+    overflow-y: overlay;
+  }
+}

@@ -1,0 +1,330 @@
+<div class="modal-header">
+    <h6 class="mb-0 pt-1 text-uppercase">{{messageDetails.modalTitle}}</h6>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+        (click)="selectValueConfirm('cancel')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body p-2 filter">
+    <!--<div class="col-2">-->
+    <!--<label>Select Template:</label>-->
+    <!--<ng-select [items]="specialityList$ | async" bindLabel="name" autofocus bindValue="id"-->
+    <!--[(ngModel)]="speciality" placeholder="Speciality" (change)="onSpecialityChange($event)">-->
+    <!--</ng-select>-->
+    <!--</div>-->
+    <div class="form-row d-inline-block">
+        <!-- Template list -->
+        <div class="col d-inline-block">
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-row">
+                        <div class="col" [ngClass]="{'d-none': showTemplateSearchBox}">
+                            <p class="font-weight-500 mb-0 pl-1">Templates</p>
+                        </div>
+                        <div class="col text-right" *ngIf="!showTemplateSearchBox">
+                            <a class="text-decoration-none icon fa-fw icon-search" aria-hidden="true"
+                                (click)="showHideSearchBox('showTemplateSearchBox')"></a>
+                        </div>
+                        <div class="col position-relative" *ngIf="showTemplateSearchBox">
+                            <input [(ngModel)]="templateSearchBox"
+                                (keyup)="updateList(templateSearchBox, 'dsTemplateList')"
+                                class="form-control form-control-sm pr-4" type="text" placeholder="Search By Templates">
+                            <div class="placeholder-icon right-icon">
+                                <a class="text-danger text-decoration-none"
+                                    (click)="showHideSearchBox('showTemplateSearchBox')"><span
+                                        aria-hidden="true">&times;</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group px-2 pt-1" *ngIf="dsTemplateList.length > 0">
+                        <ng-container *ngFor="let item of dsTemplateList; let i = index">
+                            <div *ngIf="item.isShow"
+                                class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                                <input (click)="applyDsTemplate(item)" type="checkbox" id="template{{i}}"
+                                    name="template{{i}}" class="custom-control-input">
+                                <label class="custom-control-label" for="template{{i}}">
+                                    <span>{{item.templateName}}</span>
+                                </label>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div *ngIf="careTeamList.length === 0">
+                        No Data
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End -->
+        <!-- Date List -->
+        <!-- Hide section By Himanshu -->
+        <div class="col d-inline-block" *ngIf="false">
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-row">
+                        <div class="col" [ngClass]="{'d-none': showDateSearchBox}">
+                            <p class="font-weight-500 mb-0 pl-1">Date</p>
+                        </div>
+                        <div class="col text-right" *ngIf="!showDateSearchBox">
+                            <a class="text-decoration-none icon fa-fw icon-search"
+                                (click)="showHideSearchBox('showDateSearchBox')" aria-hidden="true"></a>
+                        </div>
+                        <div class="col position-relative" *ngIf="showDateSearchBox">
+                            <input [(ngModel)]="dateSearchBox" (keyup)="updateList(dateSearchBox, 'dateArray')"
+                                class="form-control form-control-sm pr-4" type="text" placeholder="Search By Date">
+                            <div class="placeholder-icon right-icon">
+                                <a class="text-danger text-decoration-none"
+                                    (click)="showHideSearchBox('showDateSearchBox')"><span
+                                        aria-hidden="true">&times;</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group px-2 pt-1" *ngIf="dateArray.length > 0">
+                        <ng-container *ngFor="let item of dateArray; let i = index">
+                            <div *ngIf="item.isShow"
+                                class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                                <input type="checkbox" class="custom-control-input" id="date{{i}}" name="date{{i}}"
+                                    [(ngModel)]="item.isChecked">
+                                <label class="custom-control-label" for="date{{i}}"><span>{{item.date | date:
+                                        'dd-MM-yyyy'}}</span></label>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div *ngIf="dateArray.length === 0">
+                        No Data
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End -->
+        <!-- User list -->
+         <!-- Hide section By Himanshu -->
+        <div class="col d-inline-block" *ngIf="false">
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-row">
+                        <div class="col" [ngClass]="{'d-none': showUserSearchBox}">
+                            <p class="font-weight-500 mb-0 pl-1">Users</p>
+                        </div>
+                        <div class="col text-right" *ngIf="!showUserSearchBox">
+                            <a class="text-decoration-none icon fa-fw icon-search"
+                                (click)="showHideSearchBox('showUserSearchBox')" aria-hidden="true"></a>
+                        </div>
+                        <div class="col position-relative" *ngIf="showUserSearchBox">
+                            <input [(ngModel)]="userSearchBox" (keyup)="updateList(userSearchBox, 'careTeamList')"
+                                class="form-control form-control-sm pr-4" type="text" placeholder="Search By Users">
+                            <div class="placeholder-icon right-icon">
+                                <a class="text-danger text-decoration-none"
+                                    (click)="showHideSearchBox('showUserSearchBox')"><span
+                                        aria-hidden="true">&times;</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group px-2 pt-1" *ngIf="careTeamList.length > 0">
+                        <ng-container *ngFor="let item of careTeamList; let i = index">
+                            <div *ngIf="item.isShow"
+                                class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                                <input type="checkbox" id="user{{i}}" name="user{{i}}" class="custom-control-input"
+                                    [(ngModel)]="item.isChecked">
+                                <label class="custom-control-label" for="user{{i}}">
+                                    <span>{{item.user.title ? item.user.title + ' ' + item.user.user_name :
+                                        item.user.user_name}}</span>
+                                </label>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div *ngIf="careTeamList.length === 0">
+                        No Data
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End -->
+        <!-- Chart List Section -->
+        <div class="col d-inline-block">
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-row">
+                        <div class="col" [ngClass]="{'d-none': showChartsSearchBox}">
+                            <p class="font-weight-500 mb-0 pl-1">Charts</p>
+                        </div>
+                        <div class="col text-right" *ngIf="!showChartsSearchBox">
+                            <a class="text-decoration-none icon fa-fw icon-search"
+                                (click)="showHideSearchBox('showChartsSearchBox')" aria-hidden="true"></a>
+                        </div>
+                        <div class="col position-relative" *ngIf="showChartsSearchBox">
+                            <input [(ngModel)]="chartsSearchBox" (keyup)="updateList(chartsSearchBox, 'chartList')"
+                                class="form-control form-control-sm pr-4" type="text" placeholder="Search By Charts">
+                            <div class="placeholder-icon right-icon">
+                                <a class="text-danger text-decoration-none"
+                                    (click)="showHideSearchBox('showChartsSearchBox')"><span
+                                        aria-hidden="true">&times;</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group px-2 pt-1" *ngIf="chartList.length > 0">
+                        <ng-container *ngFor="let item of chartList; let i = index;">
+                            <div *ngIf="item.isShow"
+                                class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                                <input type="checkbox" name="chart{{i}}" id="chart{{i}}" class="custom-control-input"
+                                    [(ngModel)]="item.isChecked">
+                                <label class="custom-control-label" for="chart{{i}}">
+                                    <span>{{item.chart.chart_name}}</span>
+                                </label>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div *ngIf="chartList.length === 0">
+                        No Data
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End -->
+        <!-- Component Lsit -->
+        <div class="col d-inline-block componenet-list">
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-row">
+                        <div class="col" [ngClass]="{'d-none': showComponentsSearchBox}">
+                            <p class="font-weight-500 mb-0 pl-1">Components</p>
+                        </div>
+                        <div class="col text-right" *ngIf="!showComponentsSearchBox">
+                            <a class="text-decoration-none icon fa-fw icon-search"
+                                (click)="showHideSearchBox('showComponentsSearchBox')" aria-hidden="true"></a>
+                        </div>
+                        <div class="col position-relative" *ngIf="showComponentsSearchBox">
+                            <input [(ngModel)]="componentsSearchBox"
+                                (keyup)="updateList(componentsSearchBox, 'sectionListArray')"
+                                class="form-control form-control-sm pr-4" type="text"
+                                placeholder="Search By Components">
+                            <div class="placeholder-icon right-icon">
+                                <a class="text-danger text-decoration-none"
+                                    (click)="showHideSearchBox('showComponentsSearchBox')"><span
+                                        aria-hidden="true">&times;</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group px-2 pt-1" *ngIf="sectionListArray.length > 0">
+                        <ng-container *ngFor="let item of sectionListArray; let i = index;">
+                            <div *ngIf="item.isShow"
+                                class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                                <input type="checkbox" name="section{{i}}" id="section{{i}}"
+                                    class="custom-control-input" [(ngModel)]="item.isChecked">
+                                <label class="custom-control-label" for="section{{i}}">
+                                    <span>{{item.section.section_name}}</span>
+                                </label>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div *ngIf="sectionListArray.length === 0">
+                        No Data
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Orders List -->
+        <div class="col d-inline-block">
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-row">
+                        <div class="col" [ngClass]="{'d-none': showOrdersSearchBox}">
+                            <p class="font-weight-500 mb-0 pl-1">Orders</p>
+                        </div>
+                        <div class="col text-right" *ngIf="!showOrdersSearchBox">
+                            <a class="text-decoration-none icon fa-fw icon-search"
+                                (click)="showHideSearchBox('showOrdersSearchBox')" aria-hidden="true"></a>
+                        </div>
+                        <div class="col position-relative" *ngIf="showOrdersSearchBox">
+                            <input [(ngModel)]="componentsSearchBox"
+                                (keyup)="updateList(componentsSearchBox, 'showOrderList')"
+                                class="form-control form-control-sm pr-4" type="text" placeholder="Search By Orders">
+                            <div class="placeholder-icon right-icon">
+                                <a class="text-danger text-decoration-none"
+                                    (click)="showHideSearchBox('showOrdersSearchBox')"><span
+                                        aria-hidden="true">&times;</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group px-2 pt-1" *ngIf="showOrderList.length > 0">
+                        <ng-container *ngFor="let item of showOrderList; let i = index;">
+                            <div *ngIf="item.isShow"
+                                class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                                <input type="checkbox" name="order{{i}}" id="order{{i}}" class="custom-control-input"
+                                    [(ngModel)]="item.isChecked">
+                                <label class="custom-control-label" for="order{{i}}">
+                                    <span>{{item.label}}</span>
+                                </label>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div *ngIf="showOrderList.length === 0">
+                        No Data
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Show -->
+         <!-- Hide section By Himanshu -->
+        <div class="col d-inline-block" *ngIf="false">
+            <div class="card">
+                <div class="card-header">
+                    <div class="form-row">
+                        <div class="col" [ngClass]="{'d-none': showListSearchBox}">
+                            <p class="font-weight-500 mb-0 pl-1">Show</p>
+                        </div>
+                        <div class="col text-right" *ngIf="!showListSearchBox">
+                            <a class="text-decoration-none icon fa-fw icon-search" aria-hidden="true"
+                                (click)="showHideSearchBox('showListSearchBox')"></a>
+                        </div>
+                        <div class="col position-relative" *ngIf="showListSearchBox">
+                            <input [(ngModel)]="listSearchBox" (keyup)="updateList(listSearchBox, 'showOptionList')"
+                                class="form-control form-control-sm pr-4" type="text" placeholder="Search By Show">
+                            <div class="placeholder-icon right-icon">
+                                <a class="text-danger text-decoration-none"
+                                    (click)="showHideSearchBox('showListSearchBox')"><span
+                                        aria-hidden="true">&times;</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <div class="list-group px-2 pt-1" *ngIf="showOptionList.length > 0">
+                        <ng-container *ngFor="let item of showOptionList; let i = index;">
+                            <div *ngIf="item.isShow"
+                                class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                                <input type="checkbox" name="showOption{{i}}" id="showOption{{i}}"
+                                    class="custom-control-input" [(ngModel)]="item.isChecked">
+                                <label class="custom-control-label" for="showOption{{i}}">
+                                    <span>{{item.label}}</span>
+                                </label>
+                            </div>
+                        </ng-container>
+                    </div>
+                    <div *ngIf="showOptionList.length === 0">
+                        No Data
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
+        (click)="selectValueConfirm('cancel');">Cancel</button>
+    <button type="button" class="btn btn-sm btn-outline-warning text-uppercase" (click)="clearAllSelection(true);"><i
+            class="fa fa-fw fa-eraser" aria-hidden="true"></i> Clear</button>
+    <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" (click)="applyFilterValue();"><i
+            class="fa fa-fw fa-check-circle" aria-hidden="true"></i>Apply</button>
+</div>

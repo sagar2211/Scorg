@@ -1,0 +1,82 @@
+{
+    "hospitalId": "1",
+    "hospitalName": "Scorg",
+    "location": 8,
+    "departments": [
+      {
+        "departmentId": "5",
+        "departmentName": "Haematology"
+      },
+      {
+        "departmentId": "6",
+        "departmentName": "Gynecology"
+      }
+    ],
+    "specialities": [
+      {
+        "departmentId": "5",
+        "specialityId": "7",
+        "specialityName": "Speciality 1"
+      },
+      {
+        "departmentId": "5",
+        "specialityId": "9",
+        "specialityName": "Speciality 2"
+      },
+      {
+        "departmentId": "6",
+        "specialityId": "17",
+        "specialityName": "Speciality 3"
+      },
+      {
+        "departmentId": "6",
+        "specialityId": "19",
+        "specialityName": "Speciality 4"
+      }
+    ],
+    "doctors": [
+      {
+        "doctorId": "123",
+        "doctorName": "Mayur Kulkarni",
+        "roleId": "2",
+        "hospitalId": "1",
+        "departmentId": "5",
+        "specialityId": "9"
+      },
+      {
+        "doctorId": "124",
+        "doctorName": "Vikram Bhimannavar",
+        "roleId": "2",
+        "hospitalId": "1",
+        "departmentId": "5",
+        "specialityId": "19"
+      },
+      {
+        "doctorId": "125",
+        "doctorName": "Nurse",
+        "roleId": "3",
+        "hospitalId": "1",
+        "departmentId": "6",
+        "specialityId": ""
+      }
+    ],
+    "roles": [
+      {
+        "roleId": "1",
+        "roleName": "Admin"
+      },
+      {
+        "roleId": "2",
+        "roleName": "Doctor"
+      },
+      {
+        "roleId": "3",
+        "roleName": "Nurse"
+      }
+    ],
+    "formType": "op",
+    "doctorName": "d1",
+    "speciality": "abcd",
+    "role": "doctor",
+    "department": "d1"
+  }

@@ -1,0 +1,129 @@
+<div class="modal-header">
+  <h6 class="mb-0 pt-1 text-uppercase">{{messageDetails.modalTitle}}</h6>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+    (click)="selectValueConfirm('cancel')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-2 filter">
+  <div class="form-row d-inline-block">
+    <div class="col d-inline-block">
+      <div class="card">
+        <div class="card-header">
+          <div class="form-row">
+            <div class="col">
+              <p class="font-weight-500 mb-0 pl-1">Date</p>
+            </div>
+            <div class="col text-right">
+              <a class="text-decoration-none icon fa-fw icon-search" aria-hidden="true"></a>
+            </div>
+            <div class="col position-relative d-none">
+              <input class="form-control form-control-sm pr-4" type="text" placeholder="Search By Date">
+              <div class="placeholder-icon right-icon">
+                <a class="text-danger text-decoration-none"><span aria-hidden="true">&times;</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div class="list-group px-2 pt-1" *ngIf="dateArray.length > 0">
+            <ng-container *ngFor="let item of dateArray; let i = index">
+              <div
+                class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                <input type="checkbox" class="custom-control-input" id="date{{i}}" name="date{{i}}"
+                  [(ngModel)]="item.isChecked">
+                <label class="custom-control-label" for="date{{i}}"><span>{{item.date | date:
+                    'dd-MM-yyyy'}}</span></label>
+              </div>
+            </ng-container>
+          </div>
+          <div *ngIf="dateArray.length === 0">
+            No Data
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col d-inline-block">
+      <div class="card">
+        <div class="card-header">
+          <div class="form-row">
+            <div class="col">
+              <p class="font-weight-500 mb-0 pl-1">Users</p>
+            </div>
+            <div class="col text-right">
+              <a class="text-decoration-none icon fa-fw icon-search" aria-hidden="true"></a>
+            </div>
+            <div class="col position-relative d-none">
+              <input class="form-control form-control-sm pr-4" type="text" placeholder="Search By Users">
+              <div class="placeholder-icon right-icon">
+                <a class="text-danger text-decoration-none"><span aria-hidden="true">&times;</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div class="list-group px-2 pt-1" *ngIf="careTeamList.length > 0">
+            <ng-container *ngFor="let item of careTeamList; let i = index">
+              <div
+                class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                <input type="checkbox" id="user{{i}}" name="user{{i}}" class="custom-control-input"
+                  [(ngModel)]="item.isChecked">
+                <label class="custom-control-label" for="user{{i}}">
+                  <span>{{item.title ? item.title + ' ' + item.user_name : item.user_name}}</span>
+                </label>
+              </div>
+            </ng-container>
+          </div>
+          <div *ngIf="careTeamList.length === 0">
+            No Data
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col d-inline-block">
+      <div class="card">
+        <div class="card-header">
+          <div class="form-row">
+            <div class="col">
+              <p class="font-weight-500 mb-0 pl-1">Section</p>
+            </div>
+            <div class="col text-right">
+              <a class="text-decoration-none icon fa-fw icon-search" aria-hidden="true"></a>
+            </div>
+            <div class="col position-relative d-none">
+              <input class="form-control form-control-sm pr-4" type="text" placeholder="Search By Section">
+              <div class="placeholder-icon right-icon">
+                <a class="text-danger text-decoration-none"><span aria-hidden="true">&times;</span></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body p-0">
+          <div class="list-group px-2 pt-1" *ngIf="sectionListArray.length > 0">
+            <ng-container *ngFor="let item of sectionListArray; let i = index;">
+              <div
+                class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                <input type="checkbox" name="section{{i}}" id="section{{i}}" class="custom-control-input"
+                  [(ngModel)]="item.isChecked">
+                <label class="custom-control-label" for="section{{i}}">
+                  <span>{{item.section_name}}</span>
+                </label>
+              </div>
+            </ng-container>
+          </div>
+          <div *ngIf="sectionListArray.length === 0">
+            No Data
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
+    (click)="selectValueConfirm('cancel');">Cancel</button>
+  <button type="button" class="btn btn-sm btn-outline-warning text-uppercase" (click)="clearAllSelection();"><i
+      class="fa fa-fw fa-eraser" aria-hidden="true"></i> Clear</button>  
+  <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" (click)="applyFilterValue();"><i
+      class="fa fa-fw fa-check-circle mr-1" aria-hidden="true"></i>Apply</button>
+</div>

@@ -1,0 +1,65 @@
+<div class="examination-label">
+  <ngb-accordion (panelChange)="menuClicked($event)" [closeOthers]="false" [activeIds]="componentInfo?.activeIdsOfPanels">
+    <ngb-panel id="pain_scale">
+      <ng-template ngbPanelTitle>
+        <div class="form-row align-items-center mx-0">
+          <div class="col-9">
+            <p class="mb-0 font-size-dot-875">{{componentInfo?.section_name}}</p>
+          </div>
+          <div class="col-3">
+            <button class="btn btn-sm btn-link text-white text-right" type="button">
+              <i [ngClass]="isPanelOpen ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div class="col-12 px-0" (click)="openCloseSuggPanel()">
+          <button type="button" class="btn btn-outline-danger btn-sm" (click)="resetPainScale()">
+            <i class="fa fa-fw fa-undo-alt" aria-hidden="true"></i>Reset</button>
+        </div>
+        <!-- <div class="form-row mx-0 mt-4">
+              <div class="col-2 pointer" (click)="humanScore()">
+                <img class="img-responsive m-auto" width="45" *ngIf="!bodyDetailsVisibility.bodyExamineVisible"
+                  [src]="imgPath + '/human/human-body.png'" title="Human body">
+                <img class="img-responsive m-auto" width="45" *ngIf="bodyDetailsVisibility.bodyExamineVisible"
+                  [src]="imgPath + '/human/human-body-active.png'" title="Human body">
+              </div>
+            </div> -->
+        <div class="pain-scale" (click)="openCloseSuggPanel()">
+          <div class="col-12 px-0">
+            <div class="lineScale"></div>
+            <div class="img-background" *ngFor="let item of barValues; let i = index"
+              [ngStyle]="{ 'left.%': (2.9) + (i * 9)}">
+              <div id="bar{{item.val}}" style="width: 3px; height: 10px;position:absolute; top: 11px;"></div>
+              <div [ngSwitch]="item?.val">
+                <label *ngSwitchCase="'0'" class="textOfPainScale" style="left: -8px">No pain</label>
+                <img *ngSwitchCase="'0'" class="iconOfPainScale"
+                  (click)="painscaleChange(item.val,item.val,'painScale');" src="{{imgPath}}/painScale/{{item.img}}" />
+
+                <label *ngSwitchCase="'2'" class="textOfPainScale" style="left: -3px">Mild</label>
+                <img *ngSwitchCase="'2'" class="iconOfPainScale"
+                  (click)="painscaleChange(item.val,item.val,'painScale');" src="{{imgPath}}/painScale/{{item.img}}" />
+
+                <label *ngSwitchCase="'5'" class="textOfPainScale" style="left: -15px">Moderate</label>
+                <img *ngSwitchCase="'5'" class="iconOfPainScale"
+                  (click)="painscaleChange(item.val,item.val,'painScale');" src="{{imgPath}}/painScale/{{item.img}}" />
+
+                <label *ngSwitchCase="'8'" class="textOfPainScale" style="left: -11px">Severe</label>
+                <img *ngSwitchCase="'8'" class="iconOfPainScale"
+                  (click)="painscaleChange(item.val,item.val,'painScale');" src="{{imgPath}}/painScale/{{item.img}}" />
+                <label *ngSwitchCase="'10'" class="textOfPainScale worst-pain" style="left: -46px;">Worst pain
+                  possible</label>
+                <img *ngSwitchCase="'10'" class="iconOfPainScale"
+                  (click)="painscaleChange(item.val,item.val,'painScale');" src="{{imgPath}}/painScale/{{item.img}}" />
+              </div>
+              <a style="top: 3px; left: -8px; position: absolute;" type="button" class="btn"
+                [ngClass]="{'font-wight-600 btn-primary-light': painScaleInput == item.val ? true : false,'btn-outline-primary-light': painScaleInput != item.val ? true : false}"
+                (click)="painscaleChangeIcon(item.val);">{{item.val}}</a>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>

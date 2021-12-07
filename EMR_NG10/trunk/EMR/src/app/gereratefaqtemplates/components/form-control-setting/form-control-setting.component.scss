@@ -1,0 +1,91 @@
+.custom-switch {
+  padding-left: 1.95rem !important;
+
+  .custom-control-input {
+    &:checked {
+      .custom-control-label {
+        &:before {
+          background-color: #adb5bd;
+          border-color: #adb5bd;
+        }
+
+        &:after {
+          -webkit-transform: translateX(5.3rem);
+          transform: translateX(5.3rem);
+        }
+      }
+    }
+  }
+
+  .custom-control-label {
+    &:before {
+      width: 110px;
+      height: 25px;
+      top: 0;
+      border-radius: 12px;
+      background-color: #adb5bd;
+      border-color: #adb5bd;
+    }
+
+    &:after {
+      background-color: #fff;
+      top: calc(0.14rem + 0px);
+      left: calc(-1.95rem + 2px);
+      width: calc(1.5rem - 3px);
+      height: calc(1.5rem - 3px);
+      border-radius: 50%;
+    }
+
+    &.active {
+      &:before {
+        background-color: #28a745;
+        border-color: #28a745;
+      }
+
+      &:after {
+        -webkit-transform: translateX(5.3rem);
+        transform: translateX(5.3rem);
+      }
+    }
+  }
+
+  .custom-control-input:focus~.custom-control-label::before {
+    box-shadow: none !important;
+  }
+
+  span {
+    position: absolute;
+    top: 4px;
+    left: 39px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: #333333;
+    pointer-events: none;
+
+    &.active {
+      left: 10px;
+      color: #fff;
+    }
+  }
+}
+
+.custom-mt {
+  margin-top: 1.29rem !important;
+}
+
+.repeat-answer-checkbox {
+  &.custom-control.custom-checkbox {
+    padding-left: 0;
+  }
+
+  label.custom-control-label {
+    position: relative;
+    padding-right: 1.5rem;
+  }
+
+  label.custom-control-label::before,
+  label.custom-control-label::after {
+    right: 0;
+    left: auto;
+  }
+}

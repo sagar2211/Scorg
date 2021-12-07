@@ -1,0 +1,17 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">SAVE CHANGES</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+    (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <p class="my-2">You have unsaved changes, do you want to save?</p>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss('cancel')">CANCEL</button>
+  <button type="button" class="btn btn-sm btn-outline-danger" (click)="modal.close('discard')"><i
+      class="icon fa-fw icon-trash" aria-hidden="true"></i> DISCARD</button>
+  <button type="button" class="btn btn-sm btn-outline-success" (click)="modal.close('saveDraft')"><i
+      class="icon fa-fw icon-save" aria-hidden="true"></i> SAVE DRAFT</button>
+</div>

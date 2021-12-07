@@ -1,0 +1,156 @@
+@import "../../../../scss/custom_bootstrap_theme";
+
+.custom-order-hight {
+  height: calc(100vh - 110px);
+  overflow-y: auto;
+  padding: 0.75em;
+  padding-bottom: 0;
+
+  .custom-dropdown {
+    ul {
+      li {
+        color: #1d1d1d;
+        background-color: #ffffff;
+        @include transition(background-color 0.4s, color 0.4s);
+
+        &.active {
+          cursor: default !important;
+        }
+
+        &.active,
+        &:hover {
+          color: #000;
+          background-color: #efefef;
+          @include transition(background-color 0.4s, color 0.4s);
+        }
+      }
+    }
+  }
+
+  .custom-order-select {
+    width: 110px;
+  }
+
+  .order-table-height {
+    height: calc(100vh - 162px);
+    overflow-y: auto;
+
+    .custom-control-input:disabled~.custom-control-label {
+      color: #1e1e1e;
+    }
+
+    .custom-control-label::before,
+    .custom-control-label::after {
+      top: 1px;
+    }
+
+    .cus-table {
+      tr {
+
+        td.order-checkbox {
+          width: 2%;
+        }
+
+        td.order-category-name {
+          width: 13%;
+        }
+
+        td.order-medicine-name {
+          width: 55%;
+        }
+
+        td.order-frequency {
+          width: 10%;
+        }
+
+        td.order-status {
+          width: 10%;
+        }
+
+        td.order-action-btn {
+          width: 10%;
+        }        
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  td.order-status {
+    width: 9% !important;
+  }
+
+  td.order-action-btn {
+    width: 11% !important;
+  }
+}
+
+.no-selection {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+}
+
+:host::ng-deep {
+  .multiselect-dropdown {
+    height: 31px !important;
+    min-width: 250px;
+
+    .dropdown-btn {
+      border-radius: 3px !important;
+      line-height: 23px !important;
+      padding: 4px 5px 2px 5px !important;
+      border: 1px solid #ced4da !important;
+
+      span:nth-child(1) {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #495057;
+      }
+
+
+      .selected-item {
+        position: relative;
+        top: 1px;
+        min-height: 19px;
+        line-height: 16.55px;
+        font-size: 0.8rem !important;
+      }
+
+      .dropdown-down {
+        height: 8px !important;
+        border-top: 5px solid #adadad !important;
+        border-left: 5px solid transparent !important;
+        border-right: 5px solid transparent !important;
+      }
+
+      .dropdown-up {
+        height: 8px !important;
+        top: -3px;
+        position: relative;
+        border-bottom: 5px solid #adadad !important;
+        border-left: 5px solid transparent !important;
+        border-right: 5px solid transparent !important;
+      }
+    }
+
+    .dropdown-list {
+      .item2 {
+        max-height: 130px !important;
+      }
+    }
+  }
+  @media screen and (max-width: 1280px) {
+    .multiselect-dropdown, .multiselect-dropdown .dropdown-btn {
+      height: 38px !important;
+      max-height: 38px !important;
+      .dropdown-btn {
+        line-height: 28px !important;
+      }
+    }
+  }
+}

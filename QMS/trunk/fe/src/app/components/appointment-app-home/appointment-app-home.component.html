@@ -1,0 +1,14 @@
+<div id="homeComponent" appOutSideClickEvent (clickOutside)="appOutSideClickEvent($event)" [clickInputValue]="true">
+  <app-navbar></app-navbar>
+  <div class="container-fluid">
+    <div class="row">
+        <!-- left-column  [ngClass]="{'collapsed': userMenuToggleValue}" -->
+        <app-appointment-app-side-menu></app-appointment-app-side-menu>
+        <!-- right-column -->
+        <div class="column right-side">
+            <app-mini-navbar></app-mini-navbar>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,404 @@
+<div class="modal-header">
+    <h6 class="mb-0 pt-1 text-uppercase">{{frmControlName}} component</h6>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+        (click)="cancelControlSetting();">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="form-row">
+        <div class="col-6">
+            <div class="form-group no-padding" *ngIf="formControlType === 'queGroup'">
+                <div class="form-group">
+                    <label>Label</label>
+                    <input class="form-control form-control-sm" type="text"
+                        [(ngModel)]="formControl.questionGroupName" />
+                </div>
+                <div class="form-row align-items-center mb-2">
+                    <div class="form-check col-3">
+                        <label class="icheck icheck-sm">
+                            <input type="radio" [checked]="'horizontal'" [value]="'horizontal'"
+                                [(ngModel)]="formControl.displayFormat" value="'horizontal'" title="Horizontal format"
+                                (click)="formControl.tabularHeadingsData=[];">
+                            <i></i> <span class="ml-2">Horizontal</span>
+                        </label>
+                    </div>
+                    <div class="form-check col-3">
+                        <label class="icheck icheck-sm">
+                            <input type="radio" [checked]="'tabular'" [value]="'tabular'"
+                                [(ngModel)]="formControl.displayFormat" value="'tabular'" title="Tabular format">
+                            <i></i> <span class="ml-2">Tabular</span>
+                        </label>
+                    </div>
+                    <div class="form-check col-6" *ngIf="formControl?.displayFormat === 'tabular'">
+                        <label class="icheck icheck-sm">
+                            <input type="checkbox" [(ngModel)]="formControl.summaryMerge" title="">
+                            <i></i> <span class="ml-2">Group Answer</span>
+                        </label>
+                    </div>
+                </div>
+                <div *ngIf="formControl?.displayFormat === 'tabular'">
+                    <div class="form-row form-group">
+                        <div class="col-12">
+                            <label>Question Heading</label>
+                            <input class="form-control form-control-sm" type="text"
+                                [(ngModel)]="formControl.questionHeading" />
+                        </div>
+                    </div>
+                    <div class="form-row"
+                        *ngFor="let ansGroupColumn of formControl.tabularHeadingsData; let loopIndex=index;">
+                        <div class="col-10">
+                            <div class="form-group">
+                                <label *ngIf="loopIndex == 0">Answer column heading</label>
+                                <input class="form-control form-control-sm" type="text"
+                                    [(ngModel)]="ansGroupColumn.answerGroupHeading" />
+                            </div>
+                        </div>
+                        <div class="col-2" [ngClass]="{'custom-mt': loopIndex == 0}">
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-danger text-uppercase"
+                                    (click)="formControl.tabularHeadingsData.splice(loopIndex, 1)" type="button">
+                                    <i class="icon fa-fw icon-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-10">
+                            <div class="form-group">
+                                <label *ngIf="formControl.tabularHeadingsData.length == 0">Answer Heading</label>
+                                <input class="form-control form-control-sm" type="text"
+                                    placeholder="Enter answer group colomn heading"
+                                    [(ngModel)]="ansGroupColumnHeading" />
+                            </div>
+                        </div>
+                        <div class="col-2" [ngClass]="{'custom-mt': formControl.tabularHeadingsData.length == 0}">
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-primary text-uppercase mr-2"
+                                    (click)="addAnsGroupHeading(formControl.tabularHeadingsData)" type="button"> <i
+                                        class="fas fa-fw fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ng-container *ngIf="formControlType === 'qustion'">
+                <div class="form-group">
+                    <label>Question</label>
+                    <input class="form-control form-control-sm" type="text" [(ngModel)]="formControl.questionText" />
+                </div>
+                <div class="form-group">
+                    <label>Select Parent Question</label>
+                    <select class="form-control form-control-sm pointer" [(ngModel)]="formControl.parentQueTempId"
+                        (change)="onParentQueChange(formControl.parentQueTempId)">
+                        <option value="">Select Parent Question</option>
+                        <option *ngFor="let v of parentQueList; let first = first;" [value]="v.questionTempId">
+                            {{v.questionText}} </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Select Parent Answer Group</label>
+                    <select [disabled]="!formControl.parentQueTempId" class="form-control form-control-sm pointer"
+                        [(ngModel)]="formControl.parentAnsGroupKey"
+                        (change)="onParentAnsGroupChange(formControl.parentAnsGroupKey)">
+                        <option value="">Select Parent Answer Group</option>
+                        <option *ngFor="let v of parentAnsGroupList; let first = first; let i = index;"
+                            [value]="v.ansGroupKey"> Answr Group {{i + 1}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Select Parent Group Option</label>
+                    <select [disabled]="!formControl.parentAnsGroupKey" class="form-control form-control-sm pointer"
+                        [(ngModel)]="formControl.parentAnsGroupOption"
+                        (change)="onParentAnsGroupOptionChange(formControl.parentAnsGroupOption)">
+                        <option value="">Select Parent Group Option</option>
+                        <option *ngFor="let v of parentAnsOptionList; let first = first;" [value]="v.answerKey">
+                            {{v.answerText}} </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox repeat-answer-checkbox mb-3">
+                        <input type="checkbox" class="custom-control-input" [(ngModel)]="formControl.repeatAns"
+                        (click)="toggleRepeatAns(formControl)" id="chkRepeatAns" name="chkRepeatAns">
+                        <label class="custom-control-label" for="chkRepeatAns">Repeat Answer Groups</label>
+                    </div>
+                    <!-- <label>Repeat Answer Groups</label>
+                    <label class="cust-check-bx pl-2">
+                        <input type="checkbox" id="chkRepeatAns" [(ngModel)]="formControl.repeatAns"
+                            (click)="toggleRepeatAns(formControl)">
+                        <span class="checkmark"></span>
+                    </label> -->
+                </div>
+                <ng-container *ngIf="formControl.repeatAns">
+                    <div class="form-group">
+                        <label>Order By Answer Group</label>
+                        <select class="form-control form-control-sm pointer" [(ngModel)]="formControl.orderByAnsGroupKey">
+                            <option value="">Order By Answer Group</option>
+                            <option *ngFor="let v of formControl.answerData; let tabIndex= index;"
+                                [value]="v.ansGroupKey" (change)="onOrderByAnsGroupChange(v.ansGroupKey)">Answer Group
+                                {{tabIndex+1}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <div class="custom-control custom-checkbox mb-3">
+                            <input type="checkbox" [(ngModel)]="formControl.orderBy"
+                            (click)="toggleOrderBy(formControl)" class="custom-control-input" id="customCheck2" name="example2">
+                            <label class="custom-control-label" for="customCheck2">{{ formControl.orderBy ? 'Ascending' : 'Descending' }}</label>
+                        </div>
+                        <!-- <label class="cust-check-bx pl-2">
+                            <input type="checkbox" [(ngModel)]="formControl.orderBy"
+                                (click)="toggleOrderBy(formControl)">
+                            <span class="checkmark"></span> {{ formControl.orderBy ? 'Ascending' : 'Descending' }}
+                        </label> -->
+                    </div>
+                </ng-container>
+                <div class="form-group"
+                    *ngIf="formControl.colWidth && formControl.type!='radio' && formControl.type!='checkbox'">
+                    <label>Column Width</label>
+                    <select class="form-control form-control-sm pointer" id="{{formControl.name}}"
+                        [(ngModel)]="formControl.colWidth">
+                        <option *ngFor="let v of columnwidthArray" [value]="v">{{v}} </option>
+                    </select>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="formControlType === 'ansGroup'">
+                <div class="form-group">
+                    <label>Select Parent Answer Group</label>
+                    <select class="form-control form-control-sm pointer"
+                        (change)="onParentAnsGroupChange(formControl.parentAnsGroupKey)"
+                        [(ngModel)]="formControl.parentAnsGroupKey">
+                        <option value="">Select Parent Answer Group</option>
+                        <option *ngFor="let v of parentAnsGroupList; let first = first;" [value]="v.ansGroupKey">
+                            {{v.ansGroup}} </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Select Parent Group Option</label>
+                    <select [disabled]="!formControl.parentAnsGroupKey" class="form-control form-control-sm pointer"
+                        (change)="onParentAnsGroupOptionChange(formControl.parentAnsGroupOption)"
+                        [(ngModel)]="formControl.parentAnsGroupOption">
+                        <option value="">Select Parent Group Option</option>
+                        <option *ngFor="let v of parentAnsOptionList; let first = first;" [value]="v.answerKey">
+                            {{v.answerText}}</option>
+                    </select>
+                </div>
+                <div class="form-group" *ngIf="formControl.type!='radio' && formControl.type!='checkbox'">
+                    <label>Placeholder</label>
+                    <input class="form-control form-control-sm" type="text"
+                        [(ngModel)]="formControl.groupPlaceHolder" />
+                </div>
+                <div class="form-group">
+                    <label>Label</label>
+                    <input class="form-control form-control-sm" type="text" [(ngModel)]="formControl.groupLabel" />
+                </div>
+                <div class="form-group" *ngIf="formControl.type ==='select'">
+                    <label>Dynamic Option</label>
+                    <select class="form-control form-control-sm pointer" [(ngModel)]="formControl.isDynamicOptions">
+                        <option value='false'>No</option>
+                        <option value='true'>Yes</option>
+                    </select>
+                </div>
+                <div class="form-group" *ngIf="formControl.type ==='select' && formControl.isDynamicOptions=='true'">
+                    <label>Query</label>
+                    <textarea class="form-control" [(ngModel)]="formControl.dbQuery"></textarea>
+                    <small>Ex. : select EXAM_ID as id, EXAM_NAME as name from [dbo].[EXAMINATION_MASTER]</small>
+                </div>
+                <div class="form-group" *ngIf="formControl.type ==='select' && formControl.isDynamicOptions=='true'">
+                    <label>Show Result By Search Keyword</label>
+                    <select class="form-control form-control-sm pointer" [(ngModel)]="formControl.isSearchByKeyword">
+                        <option value='false'>No</option>
+                        <option value='true'>Yes</option>
+                    </select>
+                </div>
+                <div class="form-group"
+                    *ngIf="formControl.colWidth && formControl.type!='radio' && formControl.type!='checkbox'">
+                    <label>Column Width</label>
+                    <select class="form-control form-control-sm pointer" id="{{formControl.name}}"
+                        [(ngModel)]="formControl.colWidth">
+                        <option *ngFor="let v of columnwidthArray" [value]="v">{{v}} </option>
+                    </select>
+                </div>
+                <!-- number -->
+                <div *ngIf="formControl.type=='number'" class="form-row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Min</label>
+                            <input class="form-control form-control-sm" type="text" [(ngModel)]="formControl.min" />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label>Max</label>
+                            <input class="form-control form-control-sm" type="text" [(ngModel)]="formControl.max" />
+                        </div>
+                    </div>
+                </div>
+                <!-- radio || checkbox || select -->
+                <div
+                    *ngIf="formControl.type=='radio'|| formControl.type=='checkbox' || (formControl.type =='select' && 'false' === formControl.isDynamicOptions)">
+                    <div class="form-row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label>Label</label>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <!-- <label>Value</label> -->
+                            </div>
+                        </div>
+                        <div class="col-2" *ngIf="formControl.type!='select'">
+                            <div class=" form-group">
+                                <label>Size</label>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <label>Action</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngFor="let i of formControl.optionList; let valueIndex=index;" class="form-row">
+                        <div class="col-8">
+                            <div class="form-group">
+                                <input class="form-control form-control-sm" type="text" [(ngModel)]="i.answerText" />
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <select class="form-control form-control-sm pointer" [(ngModel)]="i.colWidth">
+                                    <option *ngFor="let v of columnwidthArray" [value]="v" (change)="i.colWidth = v">
+                                        {{v}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-danger text-uppercase"
+                                    (click)="formControl.optionList.splice(valueIndex,1)" type="button">
+                                    <i class="icon fa-fw icon-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-8">
+                            <div class="form-group">
+                                <input class="form-control form-control-sm" type="text"
+                                    [(ngModel)]="value.answerText" />
+                            </div>
+                        </div>
+                        <!-- <div class="col-4">
+                            <div class="form-group">
+                            <input class="form-control" type="text" [(ngModel)]="value.value" />
+                            </div>
+                        </div> -->
+                        <div class="col-2">
+                            <div class="form-group">
+                                <select class="form-control form-control-sm pointer" [(ngModel)]="value.colWidth">
+                                    <option *ngFor="let v of columnwidthArray" [value]="v"
+                                        (change)="value.colWidth = v"> {{v}} </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <button class="btn btn-sm btn-primary text-uppercase mr-2"
+                                    (click)="addAnsGroupOption(formControl.optionList)" type="button"> <i
+                                        class="fas fa-fw fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <!--Preview Componet-->
+        <div class="col-6">
+            <div class="card">
+                <div class="card-header p-1 border-dash-bottom">
+                    <h6 class="mb-0 d-inline-block align-middle"> Preview</h6>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="formControlType === 'queGroup'">
+                        <p class="mb-0 font-size-dot-875 font-weight-500">{{formControl.questionGroupName}}</p>
+                    </div>
+                    <div *ngIf="formControlType === 'qustion'">
+                        <label>{{formControl.questionText}}</label>
+                        <div class="field">
+                            <div class="form-row form-group"></div>
+                        </div>
+                    </div>
+                    <div *ngIf="formControl.type === 'text'">
+                        <label>{{formControl.groupLabel}}</label>
+                        <input type="text" class="form-control form-control-sm" id="{{formControl.name}}"
+                            placeholder="{{formControl.groupPlaceHolder}}" [(ngModel)]="formControl.value"
+                            [required]="formControl.required" [ngModelOptions]="{standalone: true}" autocomplete="off">
+                    </div>
+                    <div *ngIf="formControl.type === 'date'">
+                        <label>{{formControl.groupLabel}}</label>
+                        <input type="date" class="form-control form-control-sm" id="{{formControl.name}}"
+                            placeholder="{{formControl.groupPlaceHolder}}" [(ngModel)]="formControl.value"
+                            [ngModelOptions]="{standalone: true}" autocomplete="off">
+                    </div>
+                    <div *ngIf="formControl.type === 'datetime-local'">
+                        <label>{{formControl.groupLabel}}</label>
+                        <input type="datetime-local" class="form-control form-control-sm" id="{{formControl.name}}"
+                            placeholder="{{formControl.groupPlaceHolder}}" [(ngModel)]="formControl.value"
+                            [ngModelOptions]="{standalone: true}" autocomplete="off">
+                    </div>
+                    <div *ngIf="formControl.type === 'textarea'">
+                        <label>{{formControl.groupLabel}}</label>
+                        <textarea class="form-control form-control-sm" id="{{formControl.name}}"
+                            placeholder="{{formControl.groupPlaceHolder}}" [(ngModel)]="formControl.value"
+                            [ngModelOptions]="{standalone: true}" autocomplete="off">
+                        </textarea>
+                    </div>
+                    <div *ngIf="formControl.type === 'select'">
+                        <label>{{formControl.groupLabel}}</label>
+                        <ng-container *ngIf="formControl.isDynamicOptions === 'false'">
+                            <select class="form-control form-control-sm pointer" id="{{formControl.name}}">
+                                <option *ngFor="let v of formControl.optionList" [value]="v.asnwerKey">{{v.answerText}}
+                                </option>
+                            </select>
+                        </ng-container>
+                        <ng-container *ngIf="formControl.isDynamicOptions == 'true'">
+                            <ng-select [items]="selectDynamicTypeHeadList | async" bindLabel="answerText"
+                                bindValue="asnwerKey" placeholder="{{formControl.groupPlaceHolder}}"
+                                [typeahead]="selectDynamicListInput$">
+                            </ng-select>
+                        </ng-container>
+                    </div>
+                    <div *ngIf="formControl.type === 'checkbox'" class="form-row pt-2">
+                        <label>{{formControl.groupLabel}}</label>
+                        <div *ngFor="let v of formControl.optionList" class="{{'inline-form-group col-' + v.colWidth}}">
+                            <label class="cust-check-bx">
+                                <input type="checkbox" [value]="v.asnwerKey" name="{{formControl.name}}"
+                                    (click)="toggleValue(v)">
+                                {{v.answerText}}
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div *ngIf="formControl.type === 'radio'" class="form-row">
+                        <label>{{formControl.groupLabel}}</label>
+                        <div *ngFor="let v of formControl.optionList" class="{{'inline-form-group col-' + v.colWidth}}">
+                            <label class="cust-check-bx">
+                                <input type="radio" [value]="v.asnwerKey" name="{{formControl.name}}"
+                                    [(ngModel)]="formControl.asnwerKey" [ngModelOptions]="{standalone: true}">
+                                {{v.answerText}}
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
+        (click)="cancelControlSetting();">Cancel</button>
+    <button type="button" class="btn btn-sm btn-outline-success text-uppercase"
+        (click)="saveControlSetting(formControl);">
+        <i aria-hidden="true" class="icon fa-fw icon-save"></i> Save</button>
+</div>

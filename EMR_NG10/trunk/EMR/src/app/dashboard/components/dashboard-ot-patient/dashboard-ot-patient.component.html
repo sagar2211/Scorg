@@ -1,0 +1,117 @@
+<div class="container-fluid px-1 pt-3">
+    <div class="form-row consultation">
+        <div class="col-12">
+            <div class="form-row">
+                <div class="col-4">
+                    <div class="form-group position-relative">
+                        <input type="text" class="form-control form-control-sm pl-2rem" [(ngModel)]="searchString" (ngModelChange)="this.subject.next();" placeholder="Search By Name/PatientId">
+                        <div class="placeholder-icon">
+                            <i class="icon fa-fw icon-search text-muted" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                </div>
+                <div class="col-2">
+                    <div class="form-group position-relative text-uppercase">
+                        <ng-select class="ml-2 min-width-200px" [items]="roomList$ | async" bindLabel="roomDesc" (change)="onRoomChange($event)" bindValue="roomId" [(ngModel)]="selectedRoomId" placeholder="Select OT Room" [typeahead]="roomListInput$">
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group position-relative date-picker">
+                        <app-date-picker [inputDate]="filterDate" (dateChange)="updateSelectedDate($event)"></app-date-picker>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 admitted-list">
+            <ng-container *ngIf="patientScheduleList.length > 0;else patientScheduleListElse">
+                <div class="notification-list-details d-block" infinite-scroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="150" [scrollWindow]="false" (scrolled)="getPatientOTScheduleList()">
+                    <div class="card p-0 border-0 mb-2" *ngFor="let item of patientScheduleList; let i = index;">
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td class="align-middle font-weight-500 border-right-0 border-left-0">
+                                            <div class="mb-0 small">
+                                                <p class="mb-0 font-size-dot-875 font-weight-500">
+                                                    <span class="text-uppercase">{{item.procedureName}}</span>
+                                                </p>
+                                                <p class="mb-0 text-muted">
+                                                    <span class="text-uppercase">{{item.surgeonName}}</span>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle border-right-0 border-left-0">
+                                            <div class="mb-0 small">
+                                                <p class="mb-0 font-size-dot-875">
+                                                    <a class="font-size-dot-8 text-primary pointer" title="Go to Patient Dashboard">
+                                                        <span class="text-uppercase" (click)="redirctPatient(item)">{{item.patientInfo.patientName}}
+                              | {{item.patientInfo.patientId}}</span></a>
+                                                </p>
+                                                <p class="mb-0 text-muted">
+                                                    <span *ngIf="item.patientInfo.gender" class="pr-1 border-right text-uppercase">{{item.patientInfo.gender}}</span>
+                                                    <span *ngIf="item.patientInfo.age" class="pl-1 text-uppercase">{{item.patientInfo.age}}</span>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td class="border-right-0 border-left-0">
+                                            <div class="mb-0 small">
+                                                <p class="mb-0 text-muted font-size-sm">OT Room</p>
+                                                <p class="mb-0 font-size-dot-875 text-uppercase">
+                                                    {{item.roomName}}
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td class="border-right-0 border-left-0">
+                                            <div class="mb-0 small">
+                                                <p class="mb-0 text-muted font-size-sm">Schedule Date
+                                                </p>
+                                                <p class="mb-0 font-size-dot-875">
+                                                    {{item.appointmentDate | date: 'dd-MM-yyyy'}}
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td class="border-right-0 border-left-0">
+                                            <div class="mb-0 small">
+                                                <p class="mb-0 text-muted font-size-sm">OT Slot</p>
+                                                <p class="mb-0 font-size-dot-875">
+                                                    {{item.startTime }} to {{ item.endTime }}
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle border-right-0 border-left-0">
+                                            <button (click)="showOTPatientInfo(item)" class="btn btn-xs btn-outline-primary-light" data-placement="bottom" data-toggle="tooltip" title="Expand" type="button"><i aria-hidden="true"
+                          class="icon fa-fw icon-info-circle"></i></button>
+                                        </td>
+                                        <td class="border-right-0 border-left-0 align-middle">
+                                            <button class="bg-transparent border-0" placement="left" [autoClose]="true" [ngbPopover]="popContent" container="body" #p="ngbPopover">
+                          <i class="fa fa-fw fa-bars" aria-hidden="true"></i> <i
+                              class="fa fa-xs fa-caret-down" aria-hidden="true"></i>
+                      </button>
+                                            <ng-template #popContent>
+                                                <ul class="list-unstyled popover-content mb-0">
+                                                    <li> <button class="btn btn-sm btn-block text-left edit" (click)="openPatientConsentPartialView(item)"><i
+                                          class="icon fa-fw icon-emr-orders mr-1" aria-hidden="true"></i>Printable Forms</button>
+                                                    </li>
+                                                </ul>
+                                            </ng-template>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #patientScheduleListElse>
+                <div class="alert alert-warning m-1" role="alert">
+                    <p class="mb-0"><i class="far fa-fw fa-lightbulb mr-1" aria-hidden="true"></i>No Patient OT Schedule available
+                    </p>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</div>

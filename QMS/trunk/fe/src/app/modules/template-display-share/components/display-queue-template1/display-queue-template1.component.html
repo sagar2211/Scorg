@@ -1,0 +1,73 @@
+<div class="queue template1" [ngStyle]="{'height.%' : braningSectionVisble ? '92' : '100'}">
+  <div class="container-fluid px-0 h-100 queue-container">
+    <div class="row mx-0 h-100">
+      <div class="col-12 px-0 h-50">
+        <div class="dr-info">
+          <div *ngIf="checkUserKeyExist('doctor','profile_image')" class="dr-img"
+            [ngClass]="[activeColor, getHeight('profile_image', 'doctor')]">
+            <img src="https://drrescribe.com/medsonit-be/assets/doc_profile/2883.jpg?time=%2015:48:59" />
+          </div>
+          <!-- [ngStyle]="{'height.%': getHeight('profile_image'), 'max-height.%': getHeight('profile_image')}" -->
+          <div *ngIf="checkUserKeyExist('doctor','name')" [ngClass]="[getHeight('name', 'doctor')]"
+            class="row mx-0 align-items-end dr-name-row">
+            <div class="col-12 px-0">
+              <h2 class="dr-name mb-0">
+                {{displayData.docData.name}}</h2>
+            </div>
+          </div>
+          <div *ngIf="checkUserKeyExist('doctor','speciality')" [ngClass]="[getHeight('speciality', 'doctor')]"
+            class="row mx-0 align-items-start dr-speciality">
+            <div class="col-12 px-0">
+              <p class="speciality mb-0 font-weight-500">
+                {{displayData.docData.specialty}}</p>
+            </div>
+          </div>
+          <div *ngIf="checkUserKeyExist('doctor','room_list')" [ngClass]="[getHeight('room_list', 'doctor')]"
+            class="row align-content-center mx-0 room-number">
+            <div class="col-3 px-0">
+              <p class="room mb-0 font-wight-500">Room</p>
+            </div>
+            <div class="col-9 px-0 text-right">
+              <p class="section mb-0 font-weight-500" [ngClass]="activeColor">
+                {{displayData.docData.room}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 px-0 h-50" *ngIf="displayData.calling_queue_patient">
+        <div class="calling-info blink">
+          <div class="row mx-0 align-items-center calling" [ngClass]="[activeColor, getHeight('token', 'calling')]"
+            *ngIf="checkUserKeyExist('calling','token')">
+            <p class="calling-txt mb-0 blink-infinite">CALLING</p>
+            <div class="col-12 px-0">
+              <h2 class="token-no mb-0">{{displayData.calling_queue_patient.token_no}}</h2>
+            </div>
+          </div>
+          <div *ngIf="checkUserKeyExist('calling','name')" [ngClass]="[getHeight('name', 'calling')]"
+            class="row mx-0 align-items-end pt-name-row">
+            <div class="col-12 px-0">
+              <h2 class="pt-name mb-0">{{displayData.calling_queue_patient.full_name}}</h2>
+            </div>
+          </div>
+          <div *ngIf="checkUserKeyExist('calling','contact')" [ngClass]="[getHeight('contact', 'calling')]"
+            class="row mx-0 align-items-start mobile-no-row">
+            <div class="col-12 px-0">
+              <p class="mobile-no mb-0 font-weight-500">
+                {{displayData.calling_queue_patient.mobile_no}}</p>
+            </div>
+          </div>
+          <div class="row align-content-center mx-0 room-number" [ngClass]="[getHeight('room_name', 'calling')]"
+            *ngIf="checkUserKeyExist('calling','room_name')">
+            <div class="col-6 px-0">
+              <p class="room mb-0 font-wight-500">Proceed to Room</p>
+            </div>
+            <div class="col-6 px-0 text-right">
+              <p class="section mb-0 font-weight-500" [ngClass]="activeColor">
+                {{displayData.calling_queue_patient.room_name}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

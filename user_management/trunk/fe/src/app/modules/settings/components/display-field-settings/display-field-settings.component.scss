@@ -1,0 +1,49 @@
+@import "../../../../../scss/main.scss";
+
+.display-slots-body {
+  .card {
+    @include custom-box-shadow(0, 0, 5px, rgba(28, 25, 83, 0.12));
+    @include transition(box-shadow 0.5s);
+    @include border-radius(5px);
+
+    &:hover {
+      @include custom-box-shadow(0, 4px, 9px, rgba(165, 165, 165, 0.5));
+      @include transition(box-shadow 0.5s);
+    }
+
+    .card-header {
+      background-color: rgba($primary, 0.06) !important;
+    }
+  }
+}
+
+.display-slots-body {
+  height: calc(100vh - 158px);
+  overflow-y: auto;
+}
+
+:host ::ng-deep {
+  .custom-table {
+    thead,
+    tbody {
+      th,
+      td {
+        width: 190px;
+
+        .custom-switch {
+          padding-top: 2px;
+
+          span {
+            position: relative;
+            top: 1px;
+            left: 28px;
+
+            &.active {
+              left: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

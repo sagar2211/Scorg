@@ -1,0 +1,4 @@
+<ul class="list-unstyled popover-content mb-0">
+  <li *ngxPermissionsOnly="PermissionsConstantsList.Manage_Calendar_addblockSetting"><button class="btn btn-sm btn-block text-left reset" (click)="sendSelectedSetting('block')"> BLOCK SETTING </button></li>
+  <li *ngxPermissionsOnly="PermissionsConstantsList.Manage_Calendar_addholidaySetting"><button class="btn btn-sm btn-block text-left active" (click)="sendSelectedSetting('holiday')">HOLIDAY SETTING</button></li>
+</ul>

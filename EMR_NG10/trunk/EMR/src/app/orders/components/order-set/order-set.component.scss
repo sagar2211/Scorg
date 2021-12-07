@@ -1,0 +1,130 @@
+.modal-body {
+  .order-list-btn {
+    position: absolute;
+    right: 0;
+    z-index: 1;
+  }
+
+  .Createheader {
+    border-bottom: 1px solid #e5e5e5;
+
+    h5 {
+      font-size: 1rem;
+      line-height: .2;
+      font-weight: 600;
+      color: #505458;
+
+      a {
+        cursor: pointer;
+        color: #59c2e6;
+
+        &:hover,
+        &:focus {
+          color: #222;
+        }
+      }
+    }
+  }
+
+  #medicalList {
+    height: calc(100vh - 280px);
+    overflow-y: scroll;
+  }
+
+  .order-expand-list {
+    height: calc(100vh - 160px);
+    overflow: hidden;
+    overflow-y: auto;
+  }
+
+  .order-display {
+    height: calc(100vh - 135px);
+    overflow: hidden;
+    overflow-y: auto;
+
+    .added-order-section {
+      .expand-collapse-div {
+        margin-bottom: 5px;
+        height: auto;
+        //box-shadow: 0 9px 4px -10px #333;
+
+        &.close-div {
+          height: 23px;
+          overflow: hidden;
+
+          @media screen and (max-width: 1280px) {
+            &.close-div, &.close-div table {
+              height: 60px;
+            }
+          }
+
+          &.height-0 {
+            height: 0px;
+            margin-bottom: 0px;
+          }
+        }
+
+        &.expand {
+          height: auto;
+        }
+      }
+
+      .section-name {
+        margin: 0px;
+        font-size: 14px;
+        font-weight: 600;
+
+        
+
+        i {
+          font-size: 1rem;
+          cursor: pointer;
+
+          // @include tab-max {
+          //   font-size: 20px !important;
+          // }
+
+        }
+      }
+
+      .order-list {
+        p.order-name-heading {
+          font-size: 13px;
+          font-weight: 800;
+          text-transform: capitalize;
+          color: #2d3339;
+        }
+
+        ul {
+          list-style: none;
+
+          .orders-name {
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: capitalize;
+            color: #394047;
+
+            i {
+              font-size: 15px;
+              font-weight: 700;
+            }
+
+            .section-detail {
+              font-size: 12px;
+              font-weight: 500;
+              color: #4f5963;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+//.suggestion .SuggestionFav {
+//  margin: 0 !important;
+//}
+
+.suggestion .suggestion-list-container:first-child {
+  max-height: 100% !important;
+}

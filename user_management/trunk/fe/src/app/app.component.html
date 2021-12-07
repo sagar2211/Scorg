@@ -1,0 +1,14 @@
+<div [ngClass]="{'no-event': loading}">
+  <div *ngIf="loading">
+    <div class="box">
+      <div class="circle"></div>
+      <p class="mb-0 mt-1">Loading</p>
+    </div>
+    <div class="backdrop"></div>
+  </div>
+  <router-outlet></router-outlet>
+  <app-sidebar-floating [@slideInOut]="menuState" [autoLogoutFlag]="isAutoLogout" [logoutFlag]='islogOut'
+    [title]="sideBarTitle"></app-sidebar-floating>
+  <!-- <app-global-error [errorMsgDetails]="errorMsgDetails" *ngIf="globalError"></app-global-error> -->
+  <!-- [logoutFlag]='logOutFlag' -->
+</div>

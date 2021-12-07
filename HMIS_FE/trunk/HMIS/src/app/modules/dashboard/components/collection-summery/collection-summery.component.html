@@ -1,0 +1,80 @@
+<div class="card border-0 card-collection">
+  <div class="card-header border-bottom-0 p-0">
+      <div class="form-row align-items-center mx-0 pt-1">
+          <div class="col px-0">
+              <h6 class="font-size-dot-875 mb-0 pl-2">Collection Summary</h6>
+          </div>
+      </div>
+      <!-- <p class="mb-0 text-muted small pl-2 pt-1 hidden">Data reflected from 01/04/2021 to 08/04/2021</p> -->
+  </div>
+  <div class="card-body p-2">
+      <div class="table-scroll data-table-data postion-relative w-100 m-auto overflow-auto">
+          <table class="table custom-table mb-0 font-size-dot-8">
+              <thead>
+                  <tr>
+                      <th colspan="2" class="text-right">Total</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>Total Amount</td>
+                      <td class="text-right"><span class="small-rupee">{{collectionSummery?.total | number:'1.2-2'}}</span></td>
+                  </tr>
+                  <tr>
+                      <td>Deposit</td>
+                      <td class="text-right"><span class="small-rupee">{{collectionSummery?.deposit | number:'1.2-2'}}</span></td>
+                  </tr>
+                  <tr>
+                      <td>Refund</td>
+                      <td class="text-right"><span class="small-rupee">{{collectionSummery?.refund | number:'1.2-2'}}</span></td>
+                  </tr>
+                  <tr>
+                      <td>Concession</td>
+                      <td class="text-right"><span class="small-rupee">{{collectionSummery?.concession | number:'1.2-2'}}</span></td>
+                  </tr>
+                  <tr>
+                      <th>Net Amount</th>
+                      <th class="text-right"><span class="small-rupee">{{collectionSummery?.netAmount | number:'1.2-2'}}</span></th>
+                  </tr>
+                  <tr>
+                      <th colspan="2">Payment wise Summary</th>
+                  </tr>
+                  <tr>
+                      <td>Cash</td>
+                      <td class="text-right"><span class="small-rupee">{{collectionSummery?.cash | number:'1.2-2'}}</span></td>
+                  </tr>
+                  <tr>
+                      <td>Cheque/DD</td>
+                      <td class="text-right"><span class="small-rupee">{{collectionSummery?.chequeOrDD | number:'1.2-2'}}</span></td>
+                  </tr>
+                  <tr>
+                      <td>Card(Debit/Credit)</td>
+                      <td class="text-right"><span class="small-rupee">{{collectionSummery?.card | number:'1.2-2'}}</span></td>
+                  </tr>
+                  <tr>
+                      <td>Other</td>
+                      <td class="text-right"><span class="small-rupee">{{collectionSummery?.Other | number:'1.2-2'}}</span></td>
+                  </tr>
+                  <tr>
+                      <th>Total</th>
+                      <th class="text-right"><span class="small-rupee">{{collectionSummery?.paymentTotal | number:'1.2-2'}}</span></th>
+                  </tr>
+                  <tr>
+                      <th>Insurance Receivable</th>
+                      <th class="text-right"><span class="small-rupee">{{collectionSummery?.insuranceReceivable | number:'1.2-2'}}</span></th>
+                  </tr>
+                  <tr>
+                      <th>Patient Receivable</th>
+                      <th class="text-right"><span class="small-rupee">{{collectionSummery?.patientReceivable | number:'1.2-2'}}</span></th>
+                  </tr>
+              </tbody>
+              <tfoot class="border-top">
+                  <tr>
+                      <td>Today's Collection</td>
+                      <td class="text-right small-rupee">{{collectionSummery?.todaysCollection | number:'1.2-2'}}</td>
+                  </tr>
+              </tfoot>
+          </table>
+      </div>
+  </div>
+</div>

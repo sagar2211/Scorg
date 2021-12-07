@@ -1,0 +1,94 @@
+<!-- *ngIf="suggestionPanelSettings?.suggestionIsShow" -->
+<div class="card border-0 suggestion">
+    <div class="card-header p-0 border-dash-bottom">
+        <div class="form-row align-items-center justify-content-center mx-0">
+            <div class="col-10">
+                <span class="mb-0 mr-1 text-white">{{selectedSectionDetails?.name}}</span>
+                <!--<button class="btn btn-primary-light btn-sm text-uppercase" type="button">-->
+                <!--<i aria-hidden="true" class="far fa-fw fa-lightbulb"></i>suggestion</button>-->
+            </div>
+            <div class="col text-right px-0">
+                <button (click)="onClickPinUnpin()" class="btn btn-xs btn-white" type="button">
+                    <i class="fa-stack" aria-hidden="true">
+                        <i class="fa fa-slash fa-stack-2x"
+                            [ngClass]="{'invisible': suggestionPanelSettings?.isPin, 'visible': !suggestionPanelSettings?.isPin }"
+                            aria-hidden="true"></i>
+                        <i class="fa fa-thumbtack" aria-hidden="true"></i>
+                    </i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body pt-1 pr-0 pb-1 pl-1">
+        <div class="input-group"
+        [ngClass]="{'mb-1': (selectedSectionDetails?.name === 'Medicine' && searchKeyword !== ''),
+        'mb-2' : ((selectedSectionDetails?.name === 'Medicine' && searchKeyword === '') || selectedSectionDetails?.name !== 'Medicine')}">
+            <input type="text" class="form-control form-control-sm pl-2rem" (ngModelChange)="this.$searchTypeHead.next();" type="text" [(ngModel)]="searchKeyword" placeholder="{{selectedSectionDetails ? 'Search ' + selectedSectionDetails.name + ' here' : 'Search here'}}">
+            <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+            <div class="input-group-append">
+              <button *ngIf="checkKeyForAddMaster(activeSuggestListKey) && searchKeyword && !suggestionDisplayList.length" (click)="addMasterDataFromSuggestion()" class="btn btn-sm btn-outline-primary-light border" type="button" title="{{selectedSectionDetails ? 'Add new' + selectedSectionDetails.name  : 'Add new'}}">
+                <i class="icon fa fa-fw fa-plus" aria-hidden="true"></i>ADD</button>
+                <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear" *ngIf="searchKeyword" (click)="searchKeyword = ''; this.$searchTypeHead.next();">
+                    <i class="icon fa-fw icon-times" aria-hidden="true"></i></button>
+            </div>
+        </div>
+        <div class="row m-0 mb-1 pb-1 border-bottom" *ngIf="selectedSectionDetails?.name === 'Medicine' && searchKeyword">
+          <div class="col-4 p-0" title="Item Type">
+            <ng-select [items]="medicineItemType" placeholder="Item Type" *ngIf="selectedSectionDetails?.name === 'Medicine'" bindLabel="name" [(ngModel)]="selectedMedicineItemType"></ng-select>
+          </div>
+          <div class="col-7 p-0" title="Medicine Type">
+            <ng-select [items]="medicineTypes" placeholder="Medicine Type" *ngIf="selectedSectionDetails?.name === 'Medicine'" bindLabel="name" [(ngModel)]="selectedMedicineType"></ng-select>
+          </div>
+          <div class="col-1 p-0">
+            <button class="btn btn-white btn-sm" *ngIf="selectedSectionDetails?.name === 'Medicine'" (click)="addMedicine()"><i class="icon fa fa-fw fa-plus" aria-hidden="true"></i></button>
+          </div>
+        </div>
+        <!-- <div *ngIf="isFaq" class="input-group add-on m-0">
+                <input class="form-control form-control-sm mb-1 mr-sm-2" name="searchFaqSubSectionText" type="search" [(ngModel)]="searchFaqSubSectionText" placeholder="Search Sub Section"
+                aria-label="Search">
+            </div> -->
+        <div class="suggestion-list" *ngIf="suggestionDisplayList.length" [ngClass]="{'for-medicine': selectedSectionDetails?.name === 'Medicine' && searchKeyword !== ''}">
+            <div *ngIf="checkKeyExist(activeSuggestListKey)">
+                <ng-container *ngFor="let item of suggestionDisplayList; let i = index;">
+                    <div class="position-relative custom-btn d-inline-block" *ngIf="!item.isChecked">
+                        <i [ngClass]="{'icon-star': !item.isFav, 'fa-star': item.isFav}" class="text-primary icon fa font-18 position-absolute pointer" aria-hidden="true" (click)="savefavSuggesstion(item, i)"></i>
+                        <button (click)="onClickSuggestionData(item)" type="button" class="btn btn-outline-primary-light mr-1 mb-1 text-left">
+                            {{item.name}}</button>
+                    </div>
+                </ng-container>
+            </div>
+            <div *ngIf="activeSuggestListKey === 'examination_label'">
+                <ng-container *ngFor="let item of suggestionDisplayList; let i = index;">
+                    <div class="position-relative custom-btn d-inline-block" *ngIf="!item.isChecked">
+                        <i [ngClass]="{'icon-star': !item.isFav, 'fa-star': item.isFav}" class="text-primary icon fa font-18 position-absolute pointer" aria-hidden="true" aria-hidden="true" (click)="savefavSuggesstion(item, i)"></i>
+                        <button (click)="onClickSuggestionData(item)" type="button" class="btn btn-outline-primary-light mr-1 mb-1 text-left">
+                            {{item.tagName}}</button>
+                    </div>
+                </ng-container>
+            </div>
+            <div *ngIf="activeSuggestListKey === 'advice'">
+                <ng-container *ngFor="let adviceTemplate of suggestionDisplayList; let i = index;">
+                    <ng-container *ngIf="!adviceTemplate.isChecked">
+                        <ng-template #toolTipContent>
+                            <textarea class="form-control noresize" rows="4" [disabled]="true">{{adviceTemplate.description}}</textarea>
+                        </ng-template>
+                        <div class="position-relative custom-btn d-inline-block block-lavel">
+                            <i [ngClass]="{'icon-star': !adviceTemplate.isFav, 'fa-star': adviceTemplate.isFav}" class="text-primary icon fa font-18 position-absolute pointer" aria-hidden="true" aria-hidden="true" (click)="savefavSuggesstion(adviceTemplate, i)"></i>
+                            <button placement="bottom" [ngbTooltip]="toolTipContent" (click)="onClickSuggestionData(adviceTemplate)" type="button" class="btn btn-outline-primary-light mr-1 mb-1 text-left advice-btn">
+                            {{adviceTemplate.name + ' - ' }} <span>{{adviceTemplate.description}}</span></button>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+        <div *ngIf="!suggestionDisplayList.length">
+          {{selectedSectionDetails ? 'No ' + selectedSectionDetails.name + ' found!' : 'No data found!'}}
+        </div>
+    </div>
+</div>
+<div class="text-center m-1" *ngIf="!suggestionDisplayList.length">
+    <!-- <p class="mb-0"><i class="far fa-fw fa-lightbulb mr-1" aria-hidden="true"></i>No records found</p> -->
+    <img src="./assets/img/suggestions.png" class="img-fluid" alt="no orders" />
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

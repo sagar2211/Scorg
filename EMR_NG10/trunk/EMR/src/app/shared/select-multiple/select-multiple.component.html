@@ -1,0 +1,8 @@
+<form [formGroup]="selectMultipleListForm" *ngIf="loadForm">
+  <ng-select bindLabel="name" placeholder="Select item" multiple="true" [searchable]="true"
+    [clearable]="true" formControlName="selectedVal" [items]="sourceList" (change)="getSelectedValues()">
+    <ng-option [value]="item.id" *ngFor="let item of sourceList">
+      {{item.name}}
+    </ng-option>
+  </ng-select>
+</form>

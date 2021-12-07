@@ -1,0 +1,104 @@
+<!-- <div class="side-bar position-absolute">
+    <a (click)="showHidePatientMenu()">
+        <svg xmlns="http://www.w3.org/2000/svg " [ngClass]="{'open-btn': showHideIconLabel, 'close-btn': !showHideIconLabel}" viewBox="0 0 512 512">
+            <path
+                d="M213.57,75.34H490.43A11.55,11.55,0,0,1,502,86.87v30.75a11.55,11.55,0,0,1-11.57,11.53H213.57A11.55,11.55,0,0,1,202,117.62V86.87A11.55,11.55,0,0,1,213.57,75.34Z "
+                style="fill:#7a7a7a " />
+            <path
+                d="M490.46,231.17H97.65l65.71-62.53a11.39,11.39,0,0,0,.52-16.09h0l-.3-.31-18.84-18.84a11.52,11.52,0,0,0-16.29,0h0L13.38,248a11.53,11.53,0,0,0,0,16.3h0L128.87,379.43a11.44,11.44,0,0,0,16.18,0h0l.13-.13L164,360.46a11.53,11.53,0,0,0,0-16.3h0l-.12-.13-66.2-62.86H490.46A11.53,11.53,0,0,0,502,269.65h0V242.7a11.53,11.53,0,0,0-11.53-11.53Z "
+                style="fill:var(--bgColor); " />
+            <path
+                d="M213.57,383.64H490.43A11.55,11.55,0,0,1,502,395.17v30.75a11.55,11.55,0,0,1-11.57,11.53H213.57A11.55,11.55,0,0,1,202,425.92V395.17A11.55,11.55,0,0,1,213.57,383.64Z "
+                style="fill:#7a7a7a " />
+        </svg>
+    </a>
+</div> -->
+<!-- [ngClass]="{'nursing-mode' : loadAs === 'nursing'}" -->
+<div class="row patient-info" (click)="toggleExpandPatInfo=! toggleExpandPatInfo;">
+    <div class="col-12 p-0">
+        <div class="container-fluid position-fixed patient-container px-0">
+            <div class="form-row align-items-center position-relative basic-info pointer " [ngClass]="{ 'more' : toggleExpandPatInfo}">
+                <div class="col custom-col-3 pl-3">
+                    <div class="d-flex align-items-center">
+                        <!-- <div class="mx-2">
+                            <img alt="profile-image " src="./assets/img/profile.svg">
+                        </div> -->
+                        <div>
+                            <h6 class="mb-0 d-none more-class text-dark">
+                                <span [ngClass]="{'text-danger': patientObj?.dischargeType?.name === 'EXPIRED'}">
+                                  {{patientObj?.patientData?.name}}
+                                </span>
+                                <span class="font-size-dot-875"> | {{patientObj?.patientData?.id}}</span>
+                                <span *ngIf="patientObj.type !== 'op'" class="font-size-dot-875"> |
+                                    {{patientObj?.visitNo}}
+                                    <span *ngIf="patientObj.isViewOnlyPat">| View Only</span>
+                                </span>
+                            </h6>
+                            <p class="mb-0 font-size-dot-875 font-weight-500 text-dark">
+                                <span *ngIf="!patientObj.isViewOnlyPat" class="text-uppercase font-size-dot-875">{{patientObj.type}} |
+                                </span>
+                                <span *ngIf="patientObj?.patientData?.age!=null && patientObj?.patientData?.age!=''">{{patientObj?.patientData?.age}},
+                                  <span class="text-danger" *ngIf="patientObj?.dischargeType?.name === 'EXPIRED' && patientObj?.dischargeType?.date">
+                                     {{patientObj?.dischargeType?.date | date : 'dd-MM-yyyy hh:mm a'}}
+                                  </span>
+                                </span> | {{patientObj?.patientData?.gender}} | <i class="fa fa-fw fa-phone fa-flip-horizontal " aria-hidden="true"></i>{{patientObj?.patientData?.mobileNo}}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="patientObj.type === 'op' && patientObj?.isViewOnlyPat; then viewOnlyBlock else viewOpdBlock">
+                </div>
+                <ng-template #viewOnlyBlock>
+                    <div class="col-2 doted-border-left">
+                        <!-- <p class="mb-0 d-none more-class font-size-dot-875 text-dark">
+              View Only:</p> -->
+                        <h6 class="mb-0 text-dark font-weight-500">View Only</h6>
+                    </div>
+                </ng-template>
+                <ng-template #viewOpdBlock>
+                    <div *ngIf="patientObj.type === 'op'" class="col-2 doted-border-left">
+                        <p class="mb-0 d-none more-class font-size-dot-875 text-dark">
+                            Appointment Date:</p>
+                        <h6 class="mb-0 text-dark font-weight-500">{{appointmentDate}}</h6>
+                    </div>
+                </ng-template>
+                <div class="col custom-col-2 doted-border-left" *ngIf="patientObj.type !== 'op'">
+                    <p class="mb-0 d-none more-class font-size-dot-875 text-dark">
+                        Primary Doctor:</p>
+                    <h6 class="mb-0 text-dark font-weight-500">Dr. {{patientObj?.doctorName}}</h6>
+                </div>
+                <div class="col custom-col-4 doted-border-left" *ngIf="patientObj.type !== 'op'">
+                    <p class="mb-0 font-size-dot-875 text-dark">Room No: <span class="font-weight-500">{{patientObj?.floor}}</span> | Bed No:
+                        <span class="font-weight-500">{{patientObj?.bed}}</span>
+                    </p>
+                    <!-- Days in Hospital: <span class="font-weight-500">1</span> | -->
+                    <p class="mb-0 font-size-dot-875 text-dark d-none more-class">Admitted on: <span class="font-weight-500">{{patientObj?.admissionDate | date: 'yyyy-MM-dd'}} ({{patientObj?.admitDays}} days)
+                        </span> | Discharged:
+                        <span class="font-weight-500">NA</span>
+                    </p>
+                    <p class="mb-0 font-size-dot-875 text-dark d-none more-class">Reason For Visit: <span class="font-weight-500 d-inline-block reason" [innerHTML]="patientObj?.admissionReason">
+                          </span><span class="font-weight-500"></span></p>
+                </div>
+                <!-- <div class="col custom-col-1 doted-border-left last-class">
+                    <p class="mb-0 font-size-dot-875 text-dark">Monitor Time:
+                        <span class="font-weight-500">Allergy One</span>
+                        <span class="font-weight-500">, </span>
+                        <span class="font-weight-500">Allergy two</span>
+                    </p>
+                </div> -->
+                <div class="col custom-col-1 doted-border-left last-class" *ngIf="patientObj?.patientAllergies.length > 0; let i = index; let last = last; else allergiesTemplate">
+                    <p class="mb-0 font-size-dot-875 text-dark allergey-info">
+                        <span *ngFor="let item of patientObj?.patientAllergies" class="font-weight-500"> {{item.allergyType}} </span>
+                        <span *ngIf="!last">, </span>
+                    </p>
+                </div>
+                <ng-template #allergiesTemplate>
+                    <div class="col custom-col-1 doted-border-left last-class">
+                        <p class="mb-0 font-size-dot-875 text-dark">No allergies present</p>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="position-fixed patient-side-menu-backdrop" [ngClass]=" { 'active': !showHideIconLabel}"></div> -->

@@ -1,0 +1,36 @@
+<div class="column" [ngClass]="{'show-emr-menu': showHideMenu, 'left-side': showMenuType === 'slide', 'fixed-left-side': showMenuType === 'fixed'}">
+    <ul class="list-unstyled mb-0">
+        <ng-container *ngFor="let item of sideBarArray; let i = index;">
+            <li class="item-hover" [ngClass]="{'active': item.isActive==true}" (click)="onMenuClick(item)" *ngxPermissionsOnly="item.permission">
+                <ng-container *ngIf="item.children.length">
+                    <a class="text-decoration-none item d-flex flex-column pointer">
+                        <i class="fa icon fa-fw mx-auto" [ngClass]="item.cssClass" aria-hidden="true"></i><span class="label">{{item.name}}</span>
+                        <i class="icon icon-right-arrow position-absolute item-arrow" aria-hidden="true"></i>
+                    </a>
+                </ng-container>
+                <ng-container *ngIf="!item.children.length">
+                    <a class="text-decoration-none item d-flex flex-column pointer" [routerLink]="[item.linkKey]">
+                        <i class="icon fa-fw mx-auto" [ngClass]="item.cssClass" aria-hidden="true"></i><span class="label">{{item.name}}</span>
+                    </a>
+                </ng-container>
+                <div class="sub-menu">
+                    <ul class="list-unstyled sub-nav mb-0">
+                        <!-- | orderBy: 'name': false -->
+                        <ng-container *ngFor="let child of item.children | filterBy: 'isVisible' : true">
+                            <li class="d-flex" [routerLinkActive]="['active']" *ngxPermissionsOnly="child.permission">
+                                <a class="child-link" [routerLink]="[child.linkKey]" (click)="updateParentActive(i);$event.stopPropagation()">
+                                    <i class="fa child-icon icon fa-fw mr-2" [ngClass]="child.cssClass"></i>
+                                    <span class="link-text">{{child.name}}</span>
+                                </a>
+                                <span class="fav-link pointer p-2" (click)="saveFavourite(item, child, $event)">
+              <i *ngIf="child.isFavourite" class="fa fa-star" aria-hidden="true"></i>
+              <i *ngIf="!child.isFavourite" class="icon icon-star" aria-hidden="true"></i>
+            </span>
+                            </li>
+                        </ng-container>
+                    </ul>
+                </div>
+            </li>
+        </ng-container>
+    </ul>
+</div>

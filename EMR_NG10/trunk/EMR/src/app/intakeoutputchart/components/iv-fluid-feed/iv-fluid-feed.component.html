@@ -1,0 +1,4 @@
+<form [formGroup]="fluidFeedForm" *ngIf="loadForm">
+    <ng-select class="ml-2 min-width-200px" [items]="valueList" bindLabel="name" (change)="selectValue($event)" formControlName="fluidFeedVal" placeholder="Select Value" [multiple]="true">
+    </ng-select>
+</form>

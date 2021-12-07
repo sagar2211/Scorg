@@ -1,0 +1,56 @@
+@import "../../../../../scss/main";
+
+// emr column left and right start
+:host ::ng-deep {
+  .column.fixed-right-side.discharge-list{
+    overflow: auto;
+    margin: 0 0 0 0px;
+    width: calc(100vw - 0px);
+    height: calc(100vh - 40px);
+  }
+  .column {
+
+    &.fixed-side {
+      background-color: $white;
+      width: 75px;
+      z-index: 999;
+      //z-index: 999; // Please do not change z-index
+      position: fixed;
+      height: calc(100vh - 40px);
+      @include custom-box-shadow(2px, 0, 4px, rgba(28, 25, 83, 0.12));
+    }
+
+    &.left-side {
+      left: -75px;
+      z-index: 1000;
+      //z-index: 10001; // Please do not change z-index
+      @include transition(left 0.4s ease-in-out);
+    }
+
+    &.left-side.show-emr-menu {
+      left: 0px;
+      @include transition(left 0.4s ease-in-out);
+    }
+
+    &.right-side {
+      margin: 0 0 0px;
+      width: 100vw;
+      //z-index: 9999; // Please do not change z-index
+    }
+
+    &+.emr-backdrop {
+      width: 0%;
+      height: calc(100vh - 40px);
+      bottom: 0;
+      z-index: 3;
+      //z-index: 10000; // Please do not change z-index
+      background-color: rgba(0, 0, 0, 0.4);
+      @include transition(width 0.4s ease-in-out);
+
+      &.active {
+        width: 100%;
+        @include transition(width 0.4s ease-in-out);
+      }
+    }
+  }
+}

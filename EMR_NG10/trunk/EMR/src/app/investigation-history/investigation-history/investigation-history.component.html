@@ -1,0 +1,64 @@
+<ng-container *ngIf="loadtable">
+    <table class="table custom-table font-size-dot-875 mb-0" *ngIf="visitDatesArray.length > 0">
+        <thead>
+            <tr>
+                <th rowspan="2"></th>
+                <ng-container *ngFor="let item of visitDatesArray">
+                    <th class="font-weight-500">{{ item.date | date: "dd MMM" }}</th>
+                </ng-container>
+            </tr>
+            <tr>
+                <ng-container *ngFor="let item of visitDatesArray">
+                    <th class="font-weight-500">{{ item.date | date: "h:mm a" }}</th>
+                </ng-container>
+            </tr>
+            <tr>
+                <th class="font-weight-500"></th>
+                <ng-container *ngFor="let item of visitDatesArray; let index=index;">
+                    <th class="font-weight-500" *ngIf="index > 0">{{ item.isFinal ? 'Final' : ' - ' }}</th>
+                </ng-container>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let items of dateWiseInvestigationData">
+                <tr>
+                    <td *ngIf="items.serviceTypeData">
+                        <a class="pointer no-select" (click)="items.isExpand = !items.isExpand">
+                            <i class="fa fa-plus mr-1" [ngClass]="{'fa-plus': !items.isExpand,'fa-minus': items.isExpand}"></i>
+                            <span class="font-weight-500">{{ items.serviceName }}</span>
+                        </a>
+                    </td>
+                    <ng-container *ngFor="let item of visitDatesArray">
+                        <td>
+                            {{ item.isCritical ? 'Critical' : ' ' }}
+                            <span *ngIf="items.isQualitative && items.serviceId == item.serviceId" (click)="redirectToService()">
+                              <i class="icon icon-emr-orders"></i>
+                            </span>
+                        </td>
+                    </ng-container>
+                </tr>
+                <ng-container *ngIf="items.isExpand">
+                    <ng-container *ngFor="let sType of items.serviceTypeData">
+                        <!-- {{sType | json}} -->
+                        <tr *ngIf="sType.paramData.length > 0" placement="bottom" ngbTooltip="{{sType.paramData.legth > 0 ? sType.paramData[0].refRange : ''}}">
+                            <td>{{ sType.parameterDesc }}</td>
+                            <ng-container *ngFor="let param of sType.paramData">
+                                <td *ngIf="param" [ngClass]="{'text-danger': !param.isNormal}">
+                                    <span *ngIf="param.result">{{param.result}} {{param.unit}}</span>
+                                    <span *ngIf="!param.result">-</span>
+                                    <!-- <span *ngIf="param.isQualitative" (click)="redirectToService()">
+                                      <i class="icon icon-emr-orders"></i>
+                                    </span> -->
+                                </td>
+                                <td *ngIf="!param">
+                                    -
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </tbody>
+    </table>
+    <div *ngIf="visitDatesArray.length === 0">No Data Found</div>
+</ng-container>

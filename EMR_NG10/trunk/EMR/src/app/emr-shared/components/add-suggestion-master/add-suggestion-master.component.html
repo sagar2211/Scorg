@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">{{masterName}}</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+  (click)="modal.dismiss('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-row form-group">
+    <div class="col-12">
+      <input class="form-control form-control-sm" type="text" placeholder="{{placeHolderName}}" [(ngModel)]= "suggName">
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.dismiss('close');">CANCEL</button>
+  <button type="button" class="btn btn-sm btn-primary" (click)="modal.close('close');AddSuggValue();"><i
+      class="fa fa-fw fa-plus"></i> ADD</button>
+</div>

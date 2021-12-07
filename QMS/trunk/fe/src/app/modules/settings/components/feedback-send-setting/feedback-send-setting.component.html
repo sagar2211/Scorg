@@ -1,0 +1,30 @@
+<form [formGroup]="feedbackSettingForm" (ngSubmit)="updateFeedbackSetting()" *ngIf="formLoad">
+  <div class="card border-top-0 border-bottom-0 border-right-0">
+    <div class="card-header border-dash-bottom py-2">
+      <h6 class="mb-0">Patient Feedback</h6>
+    </div>
+    <div class="card-body feedback-card-body">
+      <div class="form-group form-gender">
+        <label class="d-block" for="slot">Send Feedback<sup>*</sup></label>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" class="custom-control-input" id="customRadio" formControlName="send_feedback" value="YES">
+          <label class="custom-control-label pointer"
+            [class.error]="feedbackSettingFormControls['send_feedback'].errors" for="customRadio">Yes</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" class="custom-control-input" id="customRadio1" formControlName="send_feedback" value="NO">
+          <label class="custom-control-label pointer"
+            [class.error]="feedbackSettingFormControls['send_feedback'].errors" for="customRadio1">No</label>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer text-right py-1">
+      <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase mr-2">
+        Cancel</button>
+      <button type="submit" class="btn btn-sm btn-success text-uppercase"
+        [disabled]="feedbackSettingForm.invalid || editPermission"><i class="icon fa-fw icon-save"></i> SAVE
+      </button>
+    </div>
+  </div>
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</form>

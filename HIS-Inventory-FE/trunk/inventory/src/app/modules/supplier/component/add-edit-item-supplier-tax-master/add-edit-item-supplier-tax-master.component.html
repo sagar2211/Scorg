@@ -1,0 +1,103 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">Map Item To Supplier</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="form-row form-group">
+    <div class="col-6">
+      <label>Supplier</label>
+      <input [disabled]="true" class="form-control form-control-sm" [(ngModel)]="supplierDetails.supplierName"
+        type="text" placeholder="Type Supplier">
+    </div>
+    <div class="col-6">
+      <label>Country</label>
+      <input [disabled]="true" class="form-control form-control-sm" [(ngModel)]="supplierDetails.country.name"
+        type="text" placeholder="Type Country">
+    </div>
+  </div>
+  <div class="form-row form-group">
+    <div class="col-6">
+      <label>State</label>
+      <input [disabled]="true" class="form-control form-control-sm" [(ngModel)]="supplierDetails.state.name" type="text"
+        placeholder="Type State">
+    </div>
+    <div class="col-6">
+      <label>Item Description</label>
+      <app-ng-select-typeahead [inputValue]="itemSupplierTaxData.item?.itemId"
+        [selectedValue]="itemSupplierTaxData.item?.itemDescription" [thDisplayLabel]="'itemDescription'"
+        [thDisplayKey]="'itemId'" (recievedVal)="selectValue($event)" [source]="'Select Type'" [returnDataType]="'obj'"
+        [isDisabled]="inputItemSupplierTax.type === 'edit'" [compInstance]="compInstance" [searchFun]="getItemList" [isSearchDataFromApi]="true">
+      </app-ng-select-typeahead>
+    </div>
+  </div>
+  <div class="form-row form-group">
+    <div class="col-6">
+      <label>HSN/SAC Code</label>
+      <input [disabled]="true" class="form-control form-control-sm" [(ngModel)]="itemSupplierTaxData.item.hsnSacCode" type="text"
+        placeholder="Type HSN/SAC Code">
+    </div>
+    <div class="col-6">
+      <label>GST Code</label>
+      <ng-select [disabled]="true" [clearable]="false" [items]="gstCodeList" bindLabel="description" bindValue="gstCode"
+        [(ngModel)]="itemSupplierTaxData.gstCode" (change)="divideGstCalculations()" placeholder="Gst Code">
+      </ng-select>
+    </div>
+  </div>
+  <div class="form-row form-group">
+    <div class="col-3">
+      <label>GST Percent</label>
+      <input [disabled]="true" class="form-control form-control-sm" [(ngModel)]="itemSupplierTaxData.item.gstPercent"
+        type="text" placeholder="Type GST Percent">
+    </div>
+    <div class="col-3">
+      <label>IGST</label>
+      <div class="position-relative">
+        <input [disabled]="true" class="form-control form-control-sm pr-4" [(ngModel)]="itemSupplierTaxData.igstPercent"
+          type="text" placeholder="Type IGST">
+        <div class="placeholder-icon right-icon"><i aria-hidden="true" class="fas fa-fw fa-percentage text-muted"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <label>SGST</label>
+      <div class="position-relative">
+        <input [disabled]="true" class="form-control form-control-sm pr-4" [(ngModel)]="itemSupplierTaxData.sgstPercent"
+          type="text" placeholder="Type SGST">
+        <div class="placeholder-icon right-icon"><i aria-hidden="true" class="fas fa-fw fa-percentage text-muted"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-3">
+      <label>CGST</label>
+      <div class="position-relative">
+        <input [disabled]="true" class="form-control form-control-sm pr-4" [(ngModel)]="itemSupplierTaxData.cgstPercent"
+          type="text" placeholder="Type CGST">
+        <div class="placeholder-icon right-icon"><i aria-hidden="true" class="fas fa-fw fa-percentage text-muted"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-row form-group">
+    <div class="col-3">
+      <label>Status</label>
+      <div class="custom-control custom-switch pb-1">
+        <input type="checkbox" [(ngModel)]="itemSupplierTaxData.isActive" class="custom-control-input" id="isActive">
+        <label class="custom-control-label pointer" [class.active]="itemSupplierTaxData.isActive"
+          for="isActive"></label>
+        <span class="text-uppercase"
+          [class.active]="itemSupplierTaxData.isActive">{{itemSupplierTaxData.isActive ? 'Active' : 'InActive'}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<!--</div>-->
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closePopup()">CANCEL</button>
+  <button type="button" class="btn btn-sm btn-outline-primary" (click)="selectValueConfirm('Ok');">
+    <i class="fa fa-fw" [ngClass]="inputItemSupplierTax.type === 'edit' ? 'fa-sync-alt':'fa-plus'"
+      aria-hidden="true"></i>
+    {{inputItemSupplierTax.type === 'edit' ? 'UPDATE' : 'ADD'}}</button>
+</div>
+<app-alert-message [alertMessage]="setAlertMessage"></app-alert-message>

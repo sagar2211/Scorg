@@ -1,0 +1,164 @@
+<div class="container-fluid dr-dashboard px-2 pt-2">
+    <div class="form-row">
+        <!-- <div class="col-2" [ngClass]="{'d-none': checkScreenSize}">
+            <div class="card border-0 top-left p-1">
+                <div class="form-row">
+                    <div class="col-3 text-center">
+                        <img [src]="imageUrl" class="img-fluid rounded-circle user-img">
+                    </div>
+                    <div class="col-9">
+                        <small class="text-muted">Welcome,</small>
+                        <p class="font-weight-500 mb-0">DR. {{providerDetails?.providerName}}</p>
+                    </div>
+                </div>
+            </div>
+
+        </div> -->
+        <div class="col-12">
+            <!-- [ngClass]="checkScreenSize ? 'col-12' : 'col-10'" -->
+            <div class="form-row top-counter">
+                <div class="col-12 parent-view-fav-tab">
+                    <div class="card dr-tabs border-0 p-1">
+                        <ngb-tabset class="tab-fav-group" (tabChange)="loadData($event)" [activeId]="activeTab"
+                            #tab="ngbTabset">
+                            <ngb-tab id="admitted"
+                                *ngxPermissionsOnly="permissionConstList.Dashboard_Admitted_Patient_View"
+                                title="Admitted({{admittedPatients.length}})">
+                                <ng-template ngbTabTitle>
+                                    <span class="favorite-admitted-tab ml-1 pointer"
+                                        (click)="setViewFavorite('admitted')"><i class="text-primary"
+                                            [ngClass]="(favoriteTabView =='admitted') ? 'fa fa-fw fa-star' : 'icon fa-fw icon-star'"
+                                            aria-hidden="true"></i></span>
+                                </ng-template>
+                                <ng-template ngbTabContent>
+                                    <div class="container-fluid px-1 pt-3" *ngIf="activeTab === 'admitted'">
+                                        <div class="form-row form-group">
+                                            <div class="col-2">
+                                                <label for="floor_list"> Select Floor </label>
+                                                <select class="form-control form-control-sm pointer"
+                                                    (change)="filterAdmittedPatientData()"
+                                                    [(ngModel)]="admittedPatFloorNo">
+                                                    <option value="All">All</option>
+                                                    <option [value]="floor" (change)="filterAdmittedPatientData()"
+                                                        *ngFor="let floor of floorNoList">{{floor}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-2">
+                                                <label for="ward_list"> Select Ward </label>
+                                                <select class="form-control form-control-sm pointer"
+                                                    (change)="filterAdmittedPatientData()"
+                                                    [(ngModel)]="admittedPatWardNo">
+                                                    <option value="All">All</option>
+                                                    <option [value]="ward" (change)="filterAdmittedPatientData()"
+                                                        *ngFor="let ward of wardNoList">
+                                                        {{ward}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-12 admitted-list">
+                                                <div *ngFor="let patient of admittedPatients"
+                                                    class="card p-0 border-0 mb-2">
+                                                    <div class="table-responsive" (click)="navigateToPatient(patient)">
+                                                        <table class="table mb-0">
+                                                            <tbody>
+                                                                <tr class="pointer">
+                                                                    <td
+                                                                    class="align-middle text-center font-weight-500 border-right-0 border-left-0">
+                                                                        {{patient.patientData.id}}
+                                                                    </td>
+                                                                    <td
+                                                                        class="align-middle border-right-0 border-left-0">
+                                                                        <p class="mb-0"> {{patient.patientData.name}}
+                                                                        </p>
+                                                                        <small class="text-muted">
+                                                                            <span
+                                                                                class="pr-2 border-right text-uppercase">{{patient.patientData.gender}}</span>
+                                                                            <span
+                                                                                class="pl-2">{{patient.patientData.age}}</span>
+                                                                        </small>
+                                                                    </td>
+                                                                    <td class="border-right-0 border-left-0">
+                                                                        <p class="mb-0 text-muted font-size-sm">Admitted
+                                                                            By
+                                                                        </p>
+                                                                        <p
+                                                                            class="mb-1 font-weight-500 font-size-dot-875">
+                                                                            {{patient.admissionDate | date:
+                                                                            'yyyy-MM-dd'}}
+                                                                        </p>
+                                                                    </td>
+                                                                    <td class="border-right-0 border-left-0">
+                                                                        <p class="mb-0 text-muted font-size-sm">Bed No.
+                                                                        </p>
+                                                                        <p
+                                                                            class="mb-1 font-weight-500 font-size-dot-875">
+                                                                            {{patient.bed}}</p>
+                                                                    </td>
+                                                                    <td class="border-right-0 border-left-0">
+                                                                        <p class="mb-0 text-muted font-size-sm">Floor
+                                                                            No.
+                                                                        </p>
+                                                                        <p
+                                                                            class="mb-1 font-weight-500 font-size-dot-875">
+                                                                            {{patient.floor}}</p>
+                                                                    </td>
+                                                                    <td class="border-right-0 border-left-0">
+                                                                        <p class="mb-0 text-muted font-size-sm">Ward No.
+                                                                        </p>
+                                                                        <p
+                                                                            class="mb-1 font-weight-500 font-size-dot-875">
+                                                                            {{patient.ward}}
+                                                                        </p>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngb-tab>
+                            <ngb-tab id="ot_schedule"
+                                *ngxPermissionsOnly="permissionConstList.Dashboard_OT_Schedule_View"
+                                title="OT Schedule">
+                                <ng-template ngbTabTitle>
+                                    <span class="favorite-pending-task-tab ml-1 pointer"
+                                        (click)="setViewFavorite('ot_schedule')">
+                                        <i class="text-primary"
+                                            [ngClass]="(favoriteTabView =='ot_schedule') ? 'fa fa-fw fa-star' : 'icon fa-fw icon-star'"
+                                            aria-hidden="true"></i>
+                                    </span>
+                                </ng-template>
+                                <ng-template ngbTabContent>
+                                    <ng-container *ngIf="activeTab === 'ot_schedule'">
+                                        <app-dashboard-ot-patient></app-dashboard-ot-patient>
+                                    </ng-container>
+                                </ng-template>
+                            </ngb-tab>
+                            <ngb-tab id="pendingtask"
+                                *ngxPermissionsOnly="permissionConstList.Dashboard_Pending_Task_View"
+                                title="Pending Task">
+                                <ng-template ngbTabTitle>
+                                    <span class="favorite-pending-task-tab ml-1 pointer"
+                                        (click)="setViewFavorite('pendingtask')"><i class="text-primary"
+                                            [ngClass]="(favoriteTabView =='pendingtask') ? 'fa fa-fw fa-star' : 'icon fa-fw icon-star'"
+                                            aria-hidden="true"></i></span>
+                                </ng-template>
+                                <ng-template ngbTabContent>
+                                    <ng-container *ngIf="activeTab === 'pendingtask'">
+                                        <app-notification-list [loadSource]="'emr_doctor_dashboard'">
+                                        </app-notification-list>
+                                    </ng-container>
+                                </ng-template>
+                            </ngb-tab>
+                        </ngb-tabset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

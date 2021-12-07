@@ -1,0 +1,14 @@
+<div class="container-fluid" *ngIf="activePatientList.length > 0">
+    <app-patient-sort-info></app-patient-sort-info>
+    <div class="row">
+        <!-- left-column  [ngClass]="{'collapsed': userMenuToggleValue}" -->
+        <app-patient-side-menu></app-patient-side-menu>
+        <!-- right-column -->
+        <div class="emr-column right-side">
+            <!-- <app-mini-navbar></app-mini-navbar> -->
+            <router-outlet></router-outlet>
+        </div>
+        <div class="patient-backdrop position-absolute"
+            [ngClass]="{'active': showHideIconLabel, 'inactive': !showHideIconLabel}"></div>
+    </div>
+</div>

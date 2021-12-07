@@ -1,0 +1,51 @@
+<div class="emr-custom-container-fluid mx-auto" [ngClass]="{'px-3 pt-2': !showPatientDashboard}">
+    <!-- <div class="form-row mb-2" *ngIf="showPatientDashboard">
+    <div class="col-12 text-right">
+      <button class="btn btn-xs btn-primary mr-2 mt-1" type="button" (click)="goToPatientGraph(false)"> Patient List</button>
+      <select class="form-control form-control-sm float-right select-w" title="Chart Diff. in Sec" id="page-size"
+        [(ngModel)]="updateDataInterval" (change)="changeUpdateChartInterval()">
+        <option value="5000">5</option>
+        <option value="10000">10</option>
+        <option value="15000">15</option>
+        <option value="30000">30</option>
+        <option value="45000">45</option>
+        <option value="60000">60</option>
+      </select>
+    </div>
+  </div> -->
+
+    <ng-container *ngIf="showPatientDashboard else showPatientList">
+        <ng-container *ngFor="let patient of dashboardPatientList | filterBy: 'IsSelected' : true">
+            <!-- <app-live-icu-monitor [patient]="patient" [updateDataInterval]="updateDataInterval"></app-live-icu-monitor> -->
+        </ng-container>
+    </ng-container>
+
+    <ng-template #showPatientList>
+        <div class="form-row mb-2">
+            <div class="col-12 text-right">
+                <button class="btn btn-xs btn-primary mr-2 mt-1" type="button" (click)="goToPatientGraph(true)"> ICU
+          Dashboard</button>
+                <select class="form-control form-control-sm float-right select-w pointer" id="page-size" [(ngModel)]="pageSize">
+          <option value="15" selected="">15</option>
+          <option value="30">30</option>
+          <option value="45">45</option>
+          <option value="100">100</option>
+        </select>
+            </div>
+        </div>
+        <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="25" [footerHeight]="30" [rowHeight]="30" [reorderable]="reorderable" [swapColumns]="swapColumns" [rows]="dashboardPatientList" [limit]="pageSize" [scrollbarH]="true">
+            <ngx-datatable-column name="Bed No" prop="Bed" [width]="80"></ngx-datatable-column>
+            <ngx-datatable-column name="Name" prop="PatientName" [width]="200"></ngx-datatable-column>
+            <ngx-datatable-column name="Contact" prop="Contact" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Gender" prop="Sex" [width]="80"></ngx-datatable-column>
+            <ngx-datatable-column name="DateOfBirth" prop="DateOfBirth" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Admitted Date" prop="AdmittedDate" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="ICU Date" prop="ICUDate" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column name="Show on Dashboard" [width]="100" cellClass="text-center">
+                <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                    <input type="checkbox" [(ngModel)]="row.IsSelected" />
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </ng-template>
+</div>

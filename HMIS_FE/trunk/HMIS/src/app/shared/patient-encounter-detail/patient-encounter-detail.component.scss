@@ -1,0 +1,146 @@
+
+.patient-img{
+  width: inherit;
+  border-radius: 50%;
+}
+.cssui-usercard {
+  box-sizing: border-box;
+  display: block;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  flex-direction: column;
+  background-color: #fff;
+  position: relative;
+  z-index: 5;
+  width: 100%;
+}
+
+  .cssui-usercard #tableInfo td, .cssui-usercard #tableInfo th {
+    border: 0;
+    padding: 0 !important;
+  }
+
+.w-15 {
+  width: 15px !important;
+}
+
+@media screen and (min-width: 641px) {
+  .cssui-usercard {
+    width: 70rem;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .cssui-usercard {
+    width: 90%;
+  }
+}
+
+.cssui-usercard__header {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+
+.cssui-usercard__header {
+  background-image: linear-gradient(to bottom, #1f2a63, #0c85a0);
+}
+
+.cssui-usercard__avatar {
+  border-radius: 50%;
+  border: 4px solid #fff;
+  box-sizing: border-box;
+  margin-right: 4%;
+  width: 12rem;
+  height: 12rem;
+  border: 2px solid #3f51b5;
+  margin-left: 10px !important;
+  margin-top: 10px !important;
+}
+
+.cssui-usercard__name {
+  color: #000;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+  .cssui-usercard__name > label {
+    font-family: "Times New Roman", Georgia, Serif;
+    font-weight: 600;
+    font-size: 33px;
+  }
+
+.cssui-usercard__post {
+  vertical-align: top;
+}
+
+.cssui-usercard__footer {
+  padding: 5px;
+  text-align: center;
+  color: #fff;
+}
+
+.cssui-usercard .infoLabel {
+  color: #000;
+  font-weight: 600;
+  margin: 0;
+}
+
+.cssui-usercard a {
+  color: inherit;
+  text-decoration: none;
+}
+
+  .cssui-usercard a:hover, .cssui-usercard a:active {
+    color: #fff;
+  }
+
+.cssui-usercard .fa-pencil:hover {
+  -moz-transform: scale(1.3);
+  -webkit-transform: scale(1.3);
+  transform: scale(1.3);
+}
+
+.cssui-usercard .fa {
+  font-size: 1rem;
+  padding: 0 10px;
+}
+
+.cssui-usercard__body .otherData table tbody tr td {
+  padding: 0 10px !important;
+}
+
+.cssui-usercard__header {
+  padding: 0px 5px 10px !important;
+  display: block !important;
+  align-items: unset !important;
+  color: #37474f !important;
+  background-color: #fff !important;
+  background: white;
+}
+
+.cssui-usercard__header {
+  color: #1f1f1f;
+  font-weight: 400;
+}
+
+.cssui-usercard__body .cssui-usercard__header table:not(.table-borderless) tr td, .cssui-usercard__body .otherData table:not(.table-borderless) tr td,
+.cssui-usercard__body .cssui-usercard__header table:not(.table-borderless) tr th,
+.cssui-usercard__body .otherData table:not(.table-borderless) tr th {
+  padding: 3px !important;
+  font-weight: 400;
+}
+
+.cssui-usercard__body .cssui-usercard__header table:not(.table-borderless) tr th,
+.cssui-usercard__body .otherData table:not(.table-borderless) tr th {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.cssui-usercard__post.text-muted {
+  font-weight: 400 !important;
+  color: #000 !important;
+}
+.cssui-usercard__footer {
+  padding: 0 0 15px;
+}

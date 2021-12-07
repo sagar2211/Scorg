@@ -1,0 +1,18 @@
+<div class="modal-body session-out">
+  <div class="form-row mb-2">
+    <div class="col-3 text-center">
+      <i class="fas fa-fw fa-exclamation-triangle text-warning" aria-hidden="true"></i>
+    </div>
+    <div class="col-9">
+      <h6 class="mb-3">Your session is about to expire!</h6>
+      <p class="mb-0">You will be logged out in <span class="font-size-1 font-weight-500 text-dark">{{timeLeft}}</span>
+        seconds.</p>
+      <p>Do you want to stay signed in?</p>
+    </div>
+  </div>
+  <div class="text-center">
+    <button class="btn btn-sm goback-btn mr-2" (click)="modal.close('No')" type="button"> Yes, Keep me signed in
+    </button>
+    <button class="btn btn-sm btn-danger" (click)="modal.close('Yes')" type="button"> No, sign me out </button>
+  </div>
+</div>

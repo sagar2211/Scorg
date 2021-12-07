@@ -1,0 +1,8 @@
+<form [formGroup]="entityForm" *ngIf="loadForm">
+  <app-ng-select-typeahead [inputValue]="entityForm.value.entityVal?.id"
+    [selectedValue]="entityForm.value.entityVal?.name" [thDisplayLabel]="'name'" [thDisplayKey]="'id'"
+    (recievedVal)="selectValue($event)" [source]="'Select Provider'" [returnDataType]="'obj'"
+    [isDisabled]="isNgSelectTypeHeadDisabled" [compInstance]="compInstance" [searchFun]="getAllEntityValueList"
+    [isSearchDataFromApi]="true">
+  </app-ng-select-typeahead>
+</form>

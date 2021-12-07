@@ -1,0 +1,7 @@
+//@import "../../../../../scss/main";
+
+:host ::ng-deep {
+    .dx-datagrid-rowsview .dx-row{
+        border-bottom:1px solid #ddd;
+    }
+   }

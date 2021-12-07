@@ -1,0 +1,31 @@
+<div class="card top-card mb-1">
+  <div class="card-header cus-head border-dash-bottom px-2 py-1">
+    <h6 class="mb-0">Allergies</h6>
+  </div>
+  <div class="card-body overflow-auto p-0">
+    <table class="table border custom-table font-size-dot-8 mb-0">
+      <tbody>
+        <tr>
+          <th class="border-right">Medicine</th>
+          <td>
+            <ul class="list-unstyled mb-0">
+              <li *ngFor="let item of allergyLists | modifyAllergyListByTypePipe : 'Medicine Allergy'">
+                <span class="tag-list">{{item.medicine_name}}</span>
+              </li>
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <th class="border-right">Food</th>
+          <td>
+            <ul class="list-unstyled mb-0">
+              <li *ngFor="let item of allergyLists | modifyAllergyListByTypePipe : 'Food Allergy'">
+                <span class="tag-list">{{item.remarks}}</span>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<form [formGroup]="serviceTypeForm" *ngIf="loadForm">
+    <app-ng-select-typeahead [inputValue]="serviceTypeForm.value.serviceTypeVal?.id" [selectedValue]="serviceTypeForm.value.serviceTypeVal?.name" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" (recievedVal)="selectValue($event)" [source]="'Select Type'"
+        [returnDataType]="'obj'" [isDisabled]="isNgSelectTypeHeadDisabled" [compInstance]="compInstance" [searchFun]="getAllServiceTypeList" [isSearchDataFromApi]="true">
+    </app-ng-select-typeahead>
+</form>

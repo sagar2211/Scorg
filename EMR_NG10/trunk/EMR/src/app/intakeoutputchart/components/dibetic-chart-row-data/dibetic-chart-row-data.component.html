@@ -1,0 +1,109 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">{{messageDetails.modalTitle}}, &nbsp; Date: {{selectedDate}}</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+        (click)="selectValueConfirm('cancel')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body py-0">
+    <div class="card border-0 mb-3">
+        <div class="card-header p-1 border-dash-bottom mb-2">
+            <p class="mb-0 font-weight-500 font-size-dot-875"><span class="icon fa-fw icon-info-circle"></span>Selected
+                Value
+            </p>
+        </div>
+        <div class="card-body p-0">
+            <div class="form-row form-group">
+                <div class="col-3">
+                    <div class="form-group">
+                        <label>Time: </label>
+                        <div class="input-group">
+                            <div class="input-group-prepend w-100">
+                                <select class="form-control form-control-sm rounded-0 pointer" [(ngModel)]="hourTime"
+                                    (change)="updateTime('hr')">
+                                    <option *ngFor="let hr of hoursArray" [ngValue]="hr">
+                                        {{hr}}
+                                    </option>
+                                </select>
+                                <select class="form-control form-control-sm rounded-0 pointer" [(ngModel)]="minuteTime"
+                                    (change)="updateTime('mnt')">
+                                    <option *ngFor="let mnt of minuteArray" [ngValue]="mnt">
+                                        {{mnt}}
+                                    </option>
+                                </select>
+                                <select class="form-control form-control-sm rounded-0 pointer" [(ngModel)]="timeAmPm"
+                                    (change)="updateTime('ap')" *ngIf="showAmPm">
+                                    <option *ngFor="let ap of timeAry" [ngValue]="ap">
+                                        {{ap}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label>URINE ACETONE: </label>
+                        <input class="form-control form-control-sm" type="number"
+                            [(ngModel)]="reportRowData.urineAcitone" placeholder="Enter Urine Acetone">
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label>GLUCOMETRY BSL (MG/DL): </label>
+                        <input class="form-control form-control-sm" type="number"
+                            [(ngModel)]="reportRowData.glucometryBsl" placeholder="Enter Glucometry Bsl (Mg/dl)">
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="form-group">
+                        <label>INSULIN DOSE: </label>
+                        <input class="form-control form-control-sm" type="number"
+                            [(ngModel)]="reportRowData.insulinDose" placeholder="Enter Insulin Dose">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label>INSULIN TYPE: </label>
+                        <select class="form-control form-control-sm pointer" [(ngModel)]="selectedInsulinType"
+                            (change)="updateInsType()">
+                            <option value="null">Select Insulin Type </option>
+                            <option *ngFor="let ins of insulinTypeList" [ngValue]="ins.id">
+                                {{ins.name}}
+                            </option>
+                        </select>
+                        <!-- <input class="form-control form-control-sm" type="text" [(ngModel)]="reportRowData.insulinType" placeholder="Enter Type"> -->
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label>GLUCOMETRY PRANDIAL STATUS: </label>
+                        <input class="form-control form-control-sm" type="number"
+                            [(ngModel)]="reportRowData.glucometryPrandialStatus"
+                            placeholder="Enter Glucometry Prandial Status">
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label>INSULIN ROUTE: </label>
+                        <input class="form-control form-control-sm" type="text" [(ngModel)]="reportRowData.insulinRoute"
+                            placeholder="Enter Insulin Route">
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-group">
+                        <label>REMARK: </label>
+                        <input class="form-control form-control-sm" type="text" [(ngModel)]="reportRowData.remark"
+                            placeholder="Enter Remark">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer p-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="selectValueConfirm('cancel');">
+        CANCEL</button>
+    <button type="button" class="btn btn-sm btn-outline-success" (click)="selectValueConfirm('Ok');"><i
+            class="fa fa-fw fa-plus" aria-hidden="true"></i> ADD</button>
+</div>

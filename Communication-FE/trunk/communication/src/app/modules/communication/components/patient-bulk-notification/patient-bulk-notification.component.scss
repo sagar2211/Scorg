@@ -1,0 +1,227 @@
+@import "./../../../../../scss/main.scss";
+:host ::ng-deep {
+    .connect-card-body {
+        app-wizard {
+            .card {
+                @extend .border-0;
+                .card-header {
+                    .nav {
+                        font-size: 1rem;
+                        background-color: white;
+                        padding: 0.2em;
+                    }
+                    .nav .nav-item {
+                        height: 42px;
+                        max-height: 42px;
+                        padding: 4px 0;
+                        border-bottom: 0;
+                        position: relative;
+                        display: inline-block;
+                        text-decoration: none;
+                        min-width: 24.75%;
+                        margin-left: 3px;
+                        text-align: center;
+                        font-size: 14px;
+                        color: #d3d3d3;
+                        background-color: #7d8bd8;
+                        text-transform: uppercase;
+                        cursor: pointer;
+                        a {
+                            span {
+                                width: 200px;
+                                overflow: hidden;
+                                display: block;
+                                text-align: center;
+                                text-decoration: none;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                padding: 0;
+                                margin: 0 auto;
+                                line-height: 1rem;
+                                &:nth-child(2) {
+                                    font-size: 0.7rem;
+                                }
+                            }
+                        }
+                        &:first-child {
+                            margin-left: 0;
+                        }
+                    }
+                    .nav .nav-item:before {
+                        width: 0;
+                        height: 0;
+                        border-top: 21px inset transparent;
+                        border-bottom: 21px inset transparent;
+                        border-left: 21px solid $white;
+                        position: absolute;
+                        content: "";
+                        top: 0;
+                        left: 0;
+                    }
+                    .nav .nav-item:after {
+                        width: 0;
+                        height: 0;
+                        border-top: 21px inset transparent;
+                        border-bottom: 21px inset transparent;
+                        border-left: 21px solid #7d8bd8;
+                        position: absolute;
+                        content: "";
+                        top: 0;
+                        right: -21px;
+                        z-index: 2;
+                    }
+                    .nav .nav-item:first-child:before,
+                    .nav .nav-item:last-child:after {
+                        border: none;
+                    }
+                    .nav .nav-item:first-child {
+                        -webkit-border-radius: 4px 0 0 4px;
+                        -moz-border-radius: 4px 0 0 4px;
+                        border-radius: 4px 0 0 4px;
+                    }
+                    .nav .nav-item:last-child {
+                        -webkit-border-radius: 0 4px 4px 0;
+                        -moz-border-radius: 0 4px 4px 0;
+                        border-radius: 0 4px 4px 0;
+                    }
+                    .nav .nav-item.enabled.active {
+                        background-color: #eaeaea;
+                        color: #464646;
+                    }
+                    .nav .nav-item.enabled.active:after {
+                        border-left-color: #eaeaea !important;
+                    }
+                    .nav .nav-item:not(.active).enabled {
+                        background: #3f51b5;
+                        color: #ffffff;
+                    }
+                    .nav .nav-item:not(.active).enabled:hover {
+                        background: #7d8bd8;
+                        color: #ffffff;
+                    }
+                    .nav .nav-item:not(.active).enabled:after {
+                        border-left-color: #3f51b5 !important;
+                    }
+                    .nav .nav-item:not(.active).enabled:hover:after {
+                        border-left-color: #7d8bd8 !important;
+                    }
+                }
+                .card-block {
+                    height: calc(100vh - 175px);
+                    overflow-y: auto;
+                    .min-width-select {
+                        min-width: 200px !important;
+                    }
+                    textarea.type-msg {
+                        width: 100%;
+                        height: calc(100vh - 370px) !important;
+                        overflow-y: auto;
+                        margin-top: 5px;
+                        @include border-radius(3px);
+                        border-color: $gray-300;
+                        resize: none;
+                        &:focus {
+                            outline: 1px auto #95b7ee;
+                        }
+                    }
+                    .send-on {
+                        height: calc(100vh - 175px);
+                        overflow-y: auto;
+                        .card-footer {
+                            min-height: 30px;
+                            border-top: 0 !important;
+                        }
+                    }
+                    .tag-list-col {
+                        .tag-list {
+                            overflow-y: auto;
+                            margin-top: 3px;
+                            height: calc(100vh - 370px);
+                            @include border-radius(3px);
+                            ul {
+                                li {
+                                    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+                                    color: $gray-700;
+                                    &:hover {
+                                        background-color: #eee;
+                                    }
+                                    &:last-child {
+                                        border-bottom: 0px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    app-wizard-step {
+                        .query-card-body {
+                            height: calc(100vh - 215px);
+                            overflow-y: auto;
+                            .query-card-header {
+                                background-color: #cfd6fd !important;
+                            }
+                            .query-card {
+                                @include border-radius(6px);
+                                border: 1px solid #efefef !important;
+                                .card-header,
+                                .card-body {
+                                    @include border-radius(6px);
+                                }
+                                &:nth-child(2) {
+                                    .card,
+                                    .card-header,
+                                    .card-body,
+                                    .form-row {
+                                        background-color: #f8f9fa !important;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                .card-footer {
+                    @extend .py-1;
+                    @extend .border-top;
+                }
+            }
+        }
+        .mobile {
+            background: url("../../../../../assets/img/mobile.png") no-repeat top center;
+            height: 100%;
+            textarea.msg {
+                height: 370px;
+                resize: none;
+                width: 210px;
+                margin: auto;
+                top: 70px;
+                position: relative;
+                border: none;
+                padding: 10px;
+            }
+        }
+    }
+    .card-body {
+        .form-row {
+            .col-12 {
+                app-date-time-picker {
+                    div {
+                        .mt-auto {
+                            display: table;
+                            margin: 0 auto;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.filter-list {
+    display: inline-block;
+    padding: 1px 3px;
+    @include border-radius(4px);
+    margin-top: 1px;
+    margin-right: 2px;
+    margin-bottom: 3px;
+    background-color: var(--bgLight);
+    border: 0.55px solid #ddd;
+}

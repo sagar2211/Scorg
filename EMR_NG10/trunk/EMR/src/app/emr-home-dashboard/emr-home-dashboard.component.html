@@ -1,0 +1,20 @@
+<div class="container-fluid">
+  <!-- <div *ngIf="loading">
+      <div class="box">
+        <div class="circle"></div>
+        <p class="mb-0 mt-1">Loading</p>
+      </div>
+      <div class="backdrop"></div>
+    </div> -->
+  <div class="row" id="homeComponent">
+    <app-navbar></app-navbar>
+    <app-emr-side-menu [showMenuType]="showMenuType"></app-emr-side-menu>
+    <div class="column"
+      [ngClass]="{'right-side': showMenuType === 'slide', 'fixed-right-side': showMenuType === 'fixed'}">
+      <router-outlet></router-outlet>
+      <!-- <app-sidebar-floating [@slideInOut]="menuState" [autoLogoutFlag]="isAutoLogout" [logoutFlag]='islogOut' [title]="sideBarTitle"></app-sidebar-floating> -->
+    </div>
+    <div class="emr-backdrop position-absolute"
+      [ngClass]="{'active': showHideMenu, 'd-none': showMenuType === 'fixed'}"></div>
+  </div>
+</div>

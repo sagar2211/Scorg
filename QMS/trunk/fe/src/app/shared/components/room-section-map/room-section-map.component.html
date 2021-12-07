@@ -1,0 +1,57 @@
+<div [ngClass]="{'custom-container-fluid mx-2': !editMode}" [@fadeInOut]>
+  <div class="card-header p-1 border-dash-bottom" *ngIf="!editMode">
+    <button title="Back" class="btn btn-sm border-0 back-arrow-btn" (click)="redirectTolist();" type="button"><i
+        class="icon fa-fw icon-arrow" aria-hidden="true"></i>
+    </button>
+    <h6 class="mb-0 d-inline-block align-middle"> Add Room Section Map</h6>
+  </div>
+  <div [ngClass]="{'container-fluid pt-3': !editMode}">
+    <form [formGroup]="mapListForm" *ngIf="loadForm">
+      <div formArrayName="roomSecMap" [ngClass]="{'section-mapping': !editMode}">
+        <div class="form-row">
+          <div class="col-3">
+            <label class="font-weight-500 font-size-dot-8 mb-0" for="select_section">Select Section</label>
+          </div>
+          <div class="col-3">
+            <label class="font-weight-500 font-size-dot-8 mb-0" for="room_list">Room List</label>
+          </div>
+        </div>
+        <div class="form-row form-group" *ngFor="let map of roomSecMap.controls; let i=index; last as last"
+          [formGroupName]="i">
+          <div class="col-3">
+            <app-section [setValue]="map.value.section" [disableSection]="" [searchStringEdit]=""
+              (selectedSectionValueObj)="selectSection($event, i)" [isValChanged]="map.value.isChanged"></app-section>
+          </div>
+          <div class="col-6">
+            <app-room-multiple [disableRoom]="false" [setRoomList]="map.value.roomList"
+              (selectedRoomList)="updateSelectedRoomList($event, i)">
+            </app-room-multiple>
+          </div>
+          <div class="col-3 align-self-center" *ngIf="!editMode">
+            <button class="btn btn-sm btn-primary text-uppercase mr-2" [ngClass]="{'invisible': !last}"
+              [disabled]="!map.valid" (click)="addNewSection()" type="button"> <i
+                class="fas fa-fw fa-plus"></i></button>
+            <button class="btn btn-sm btn-danger text-uppercase" (click)="deleteSection(i)" type="button">
+              <i class="icon fa-fw icon-trash"></i></button>
+          </div>
+          <div class="col text-right align-self-center" *ngIf="editMode">
+            <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase mr-2"
+              (click)="redirectTolist();">
+              Cancel</button>
+            <button class="btn btn-sm btn-success text-uppercase" (click)="saveMappingData()" title="Update"><i
+                class="fas fa-fw fa-sync-alt"></i> Update
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-right p-1" *ngIf="!editMode">
+        <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase mr-2" (click)="redirectTolist();">
+          Cancel</button>
+        <button class="btn btn-sm btn-success text-uppercase" (click)="saveMappingData()" title="Save"><i
+            class="icon fa-fw icon-save"></i> Save
+        </button>
+      </div>
+    </form>
+  </div>
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</div>

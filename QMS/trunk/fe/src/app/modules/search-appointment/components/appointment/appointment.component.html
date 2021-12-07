@@ -1,0 +1,44 @@
+<div class="container-fluid custom-container-fluid">
+  <div class="row position-relative overflow-hidden">
+    <div class="col-3 p-0">
+      <app-patient-info (patientInfo)="getPatientInfo($event)">
+      </app-patient-info>
+      <app-patient-history [patinetInfo]="patientInfo" (selectedAppointmentId)="getselectedAppointment($event)" (followUpDetails)="recieveFollowUpDetails($event)"
+        (getAppointmentDataByEntity)="receiveAppointmentSearchEntity($event)">
+      </app-patient-history>
+    </div>
+    <div class="col-9 p-0 border-left">
+      <app-search-appointments [getEntityDataFromPatientHistory]="searchDataByPatientHistory"
+        (getAppointmentData)="getAppointmentList($event)" [followUpDetails]="followUpDetails">
+      </app-search-appointments>
+      <div class="appointment-view pb-1">
+        <ng-container *ngIf="isShowAvailableComp">
+          <app-available-appointment-display (selectedView)="getSelectedViewEvent($event)"
+            (clearAllSection)="clearAllSectionOnBookAppointment($event)"
+            [providerInfoParams]="providerInforequestParams" [displayList]="availableAppointmentSlotsList"
+            [selectedPatient]="patientInfo" [advanceBookingDays]="advanceBookingDays" (providerInfo)="setServiceProviderDetailsData($event)">
+          </app-available-appointment-display>
+        </ng-container>
+        <ng-container *ngIf="isShowAppointmentViewComp">
+          <app-appointment-view (loadComp)="loadComponent()" [appointmentParams]="appointmentParams"
+            [searchRequestParams]="searchRequestParams" [patientInfo]="patientInfo"></app-appointment-view>
+        </ng-container>
+      </div>
+    </div>
+    <div class="slide-rules-instructions" [@slideInOut]="animationState"
+      [ngStyle]="{'width': isShowInstruction ? '50%' : '0px', 'visibility' : isShowInstruction ? 'visible' : 'hidden'}">
+      <app-service-provider-details [serviceProviderDetailsData]="serviceProviderDetailsData">
+      </app-service-provider-details>
+    </div>
+    <div class="backdrop-log" name="backdrop" *ngIf="isShowInstruction" (click)="closeInstruction()">
+    </div>
+    <div  class="slider-history-log" [@slideInOut]="loganimationState"
+        [ngStyle]="{'width': isShowLog ? '30%' : '0px', 'visibility' : isShowLog ? 'visible' : 'hidden'}">
+        <ng-container *ngIf="selectedAppointmentDetailsId">
+         <app-appointment-history [appointmentId]="selectedAppointmentDetailsId"></app-appointment-history>
+        </ng-container>
+      </div>
+    <div class="backdrop-log" name="backdrop" *ngIf="isShowLog" (click)="closeLogSlider()">
+    </div>
+  </div>
+</div>

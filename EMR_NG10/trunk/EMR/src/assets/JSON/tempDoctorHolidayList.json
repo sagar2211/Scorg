@@ -1,0 +1,19 @@
+{
+  "doctor_id": "11",
+  "entity_name": "DR. ABC",
+  "holidays_detail": [
+    {
+      "date_from": "01/10/2019",
+      "date_to": "20/11/2019",
+      "remarks": "test remark 1"
+    },
+    {
+      "date_from": "01/12/2019",
+      "date_to": "20/12/2019",
+      "remarks": "test remark 2"
+    }
+  ],
+  "status_code": "200",
+  "status_message": "Success",
+  "message": "Success"
+}

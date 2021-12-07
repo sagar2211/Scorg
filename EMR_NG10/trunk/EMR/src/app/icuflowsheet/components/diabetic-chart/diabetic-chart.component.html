@@ -1,0 +1,41 @@
+<div class="card border-0 mb-1 icu">
+    <div class="card-header cus-head py-1 border-dash-bottom">
+        <div class="container-fluid px-0 icu-flow">
+            <div class="form-row align-items-center">
+                <div class="col-8">
+                    <p class="mb-0 font-weight-500">Diabetic Chart (24 Hrs)</p>
+                </div>
+                <div class="col-4 text-right">
+                    <button type="button" class="btn btn-xs btn-outline-primary" (click)="navigate();"><i
+                            class="fa fa-fw fa-plus"></i> ADD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-bordered mb-0">
+            <tbody>
+                <tr>
+                    <th scope="row">Total Insulin</th>
+                    <td>{{insValAll.totalInsulin}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">RAPIDACTING</th>
+                    <td>{{insValAll.rapidActing}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">LONG ACTING</th>
+                    <td>{{insValAll.longActing}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">MAX BSL</th>
+                    <td>{{insValAll.maxBSL}}</td>
+                </tr>
+                <tr>
+                    <th scope="row">MIN BSL</th>
+                    <td>{{insValAll.minBSL}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

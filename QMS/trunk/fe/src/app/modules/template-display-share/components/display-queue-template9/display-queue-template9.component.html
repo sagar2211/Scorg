@@ -1,0 +1,98 @@
+<div class="queue template9" [ngStyle]="{'height.%' : braningSectionVisble ? '92' : '100'}">
+  <div class="container-fluid px-0 h-100 text-center queue-container">
+    <table class="table mt-2 w-99 custom-height" appResizeDom>
+      <thead>
+        <tr>
+          <th class="font-weight-500 text-center">Queue</th>
+          <th class="font-weight-500 text-center">Room</th>
+          <th class="font-weight-500 text-center"> Calling</th>
+          <th class="font-weight-500 text-center" *ngIf="!showCallPatName">Next</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let list of templateData; let i = index">
+          <ng-container *ngIf="isPreview ? isPreview : list.isShow ? list.isShow : false">
+            <td class="w-35">
+              <p class="mb-0">
+                <span class="dr-name" [ngStyle]="{'font-size':list.docData.name.length > 6 ? '75%' : '100%' }">
+                  {{list.docData.name}}
+                </span>
+              </p>
+            </td>
+            <td class="w-15 text-center">
+              <span [ngClass]="activeColor"  *ngIf="list.calling_queue_list.length > 0; else noCallingRoomTemplate">
+                {{list.calling_queue_list[0].room_name}}
+                <!-- {{list.docData.room}} -->
+              </span>
+              <ng-template #noCallingRoomTemplate>
+                <span [ngClass]="activeColor">{{list.docData.room}}</span>
+              </ng-template>
+
+            </td>
+            <td [ngClass]="{'w-25 text-center':!showCallPatName, 'w-50 text-left': showCallPatName}">
+              <div *ngIf="!showCallPatName">
+                <span class="c-token-w" [ngClass]="activeColor"
+                  *ngIf="list.calling_queue_list.length > 0; else noCallingTemplate">
+                  {{list.calling_queue_list[0].token_no}}
+                </span>
+                <ng-template #noCallingTemplate>
+                  <div class="dash">----</div>
+                </ng-template>
+              </div>
+              <ng-container *ngIf="(list.calling_queue_list.length > 0) && !list.docData.docOpdPauseStatus && showCallPatName;" [@fadeInOut]>
+                <div class="queue-info position-relative">
+                  <div class="row align-items-center mx-0 queue-list position-relative"
+                    *ngIf="list.calling_queue_list.length > 0;">
+                    <div class="col-4 px-0 col-token" [ngClass]="activeColor">
+                      <div class="token-no mb-0">{{list.calling_queue_list[0].token_no}}</div>
+                    </div>
+                    <div class="col-8 px-0 col-pt-name-mobile">
+                      <div class="pt-name mb-0"
+                        [ngStyle]="{'font-size':list.calling_queue_list[0].full_name.length > 19 ? '60%' : '100%' }">
+                        {{list.calling_queue_list[0].full_name}}</div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="!(list.calling_queue_list.length>0) && showCallPatName;" [@fadeInOut]>
+                <div class="queue-info position-relative">
+                  <div class="row align-items-center mx-0 queue-list no-check-in position-relative">
+                    <div class="col-12 px-0 col-pt-name-mobile">
+                      <div class="pt-name no-check-in mb-0">{{list.docData.doc_queue_status ? list.docData.doc_queue_status:'N/A'}}</div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-container *ngIf="list.calling_queue_list.length>0 && list.docData.docOpdPauseStatus && showCallPatName;" [@fadeInOut]>
+                <div class="queue-info position-relative">
+                  <div class="row align-items-center mx-0 queue-list no-check-in position-relative">
+                    <div class="col-12 px-0 col-pt-name-mobile">
+                      <div class="pt-name no-check-in mb-0">{{list.docData.doc_queue_status ? list.docData.doc_queue_status:'N/A'}}</div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </td>
+            <td class="w-25 text-center" *ngIf="!showCallPatName">
+              <span class="n-token-w" [ngClass]="activeColor"
+                *ngIf="(list.next_queue_list.length>0); else noTokenForNext">
+                {{list.next_queue_list[0].token_no}}
+              </span>
+              <ng-template #noTokenForNext>
+                <div class="dash">----</div>
+              </ng-template>
+            </td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <ngx-datatable [rows]="displayData" [count]="page.totalElements"  [limit]='page.size'
+    (page)='onSetPage($event)'>
+    <ngx-datatable-column name="Queue" prop="docData.name"></ngx-datatable-column>
+    <ngx-datatable-column name="Room" prop="docData.room"></ngx-datatable-column>
+    <ngx-datatable-column  name="Calling" prop="calling_queue_list[0].token_no"></ngx-datatable-column>
+    <ngx-datatable-column  name="Next" prop="next_queue_list[0].token_no" class="font-weight-500 text-center" *ngIf="!showCallPatName">Next</ngx-datatable-column>
+    </ngx-datatable>
+    <ng-template #noTokenForNext><div class="dash">----</div></ng-template> -->
+  </div>
+</div>

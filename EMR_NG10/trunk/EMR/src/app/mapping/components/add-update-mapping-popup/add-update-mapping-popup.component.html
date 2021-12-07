@@ -1,0 +1,39 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">Mapping {{mappingFromObj?.label}} to {{mappingToObj?.label}}</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.close('cancel click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="mapingForm" (ngSubmit)="saveUpdate();">
+    <div class="modal-body">
+        <div class="form-row form-group">
+            <div class="col-6">
+                <label for="mappingFrom_name">{{mappingFromObj?.label}}</label>
+                <ng-select [multiple]="mappingFromObj?.isMultipleSeletion" [items]="fromList$ | async" bindLabel="name" [loading]="formLoading" formControlName="mapFrom" placeholder="{{mappingFromObj?.placeholder}}" [typeahead]="fromListInput$" (change)="selectMappingValue($event,'mapFrom')">
+                </ng-select>
+            </div>
+            <div class="col-6">
+                <label for="mappingTo_name">{{mappingToObj?.label}}</label>
+                <ng-select [multiple]="mappingToObj?.isMultipleSeletion" [items]="toList$ | async" bindLabel="name" [loading]="toLoading" formControlName="mapTo" placeholder="{{mappingToObj?.placeholder}}" [typeahead]="toListInput$" (change)="selectMappingValue($event,'mapTo')">
+                </ng-select>
+            </div>
+        </div>
+        <div class="form-row form-group" *ngIf="isDateRequire">
+            <div class="col-6">
+                <label for="range">Start Date</label>
+                <app-date-picker [inputDate]="mapingForm.value.mapFromDate" placeholder="yyyy-mm-dd" [max]="mapingForm.value.mapToDate" [min]="minFromMinDate" [isClear]="true" (dateChange)="mapingForm.patchValue({mapFromDate : $event});">
+                </app-date-picker>
+            </div>
+            <div class="col-6">
+                <label for="range">End Date</label>
+                <app-date-picker [inputDate]="mapingForm.value.mapToDate" placeholder="dd-mm-yyyy" [isClear]="true" [min]="mapingForm.value.mapFromDate" (dateChange)="mapingForm.patchValue({mapToDate : $event});">
+                </app-date-picker>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer py-1">
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.close('cancel click')">CANCEL</button>
+        <button type="submit" class="btn btn-sm" [ngClass]="[addEditObj?.type === 'add' ? 'btn-primary':'btn-primary-light']" [disabled]="!mapingForm.valid"><i class="fa fa-fw" [ngClass]="[addEditObj?.type === 'add' ? 'fa-plus':'fa-sync-alt']"></i>
+      {{addEditObj?.type === 'add' ? 'ADD' : 'UPDATE'}}</button>
+    </div>
+</form>

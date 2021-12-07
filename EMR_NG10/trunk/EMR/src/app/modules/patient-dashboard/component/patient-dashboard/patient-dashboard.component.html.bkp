@@ -1,0 +1,96 @@
+<!-- <div class="emr-custom-container-fluid patient-dashboard">
+  <div class="form-row mx-0 mb-1">
+    <div class="col-4 px-0">
+      <app-dashboard-patient-detail></app-dashboard-patient-detail>
+    </div>
+    <div class="col-4">
+      <app-dashboard-allergy [patientId]="patientId" [allergyLists]="dashboardDataListByObjects?.allergy_detail">
+      </app-dashboard-allergy>
+    </div>
+    <div class="col-4 px-0">
+      <div class="card top-card">
+        <div class="card-header cus-head border-dash-bottom px-2 py-1">
+          <h6 class="mb-0">Investigation</h6>
+        </div>
+        <div class="card-body overflow-auto p-0">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-row mx-0">
+    <div class="col-12 px-0">
+      <div class="form-row row-height mx-0 mb-1">
+        <div class="col-4 pat-medication px-0">
+          <app-dashboard-complaints [dashboardDataList]="dashboardDataList"></app-dashboard-complaints>
+        </div>
+        <div class="col-4 pat-diagnosis">
+          <app-dashboard-diagnosis [source]="'dashboard'" [dashboardDataList]="dashboardDataList">
+          </app-dashboard-diagnosis>
+        </div>
+        <div class="col-4 pat-diagnosis px-0">
+          <app-dashboard-medicine [medicationList]="dashboardDataList"></app-dashboard-medicine>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-row mx-0">
+    <div class="col-12 px-0">
+      <div class="form-row row-height mx-0 mb-1">
+        <div class="col-6 pl-0" *ngIf="patientObj.serviceType.id === 1">
+          <app-dashboard-time-line></app-dashboard-time-line>
+        </div>
+        <div class="px-0" [ngClass]="(patientObj.serviceType.id === 1)?'col-6':'col-12'">
+          <app-dashboard-vital-graph></app-dashboard-vital-graph>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+<div class="emr-custom-container-fluid patient-dashboard">
+    <div class="form-row mx-0 my-1">
+        <div class="col-4 pl-0 pr-1">
+            <div class="form-row mx-0">
+                <div class="col-12 px-0 mb-1">
+                    <app-dashboard-patient-detail></app-dashboard-patient-detail>
+                </div>
+                <div class="col-12 px-0">
+                    <app-dashboard-allergy [patientId]="patientId" [allergyLists]="dashboardDataListByObjects?.allergy_detail"></app-dashboard-allergy>
+                    <app-dashboard-medicine [patientOnGoingMedication]="onGoingMedication" [medicationList]="dashboardDataList"></app-dashboard-medicine>
+                </div>
+            </div>
+        </div>
+        <div class="col-8 pl-0 pr-1">
+            <!-- <div class="col-4 pl-0 pr-1">
+            <app-dashboard-diagnosis [source]="'dashboard'" [dashboardDataList]="dashboardDataList">
+            </app-dashboard-diagnosis>
+        </div> -->
+            <!-- <div class="col-4 px-0">
+            <div class="form-row mx-0">
+                <div class="col-12 px-0">
+                    <app-dashboard-medicine [patientOnGoingMedication]="onGoingMedication" [medicationList]="dashboardDataList"></app-dashboard-medicine>
+                </div>
+            </div>
+        </div> -->
+        <!-- Temp hide request on request of anirudh sir - by sagar -->
+            <div class="form-row mx-0">
+                <div class="px-0 col-12">
+                    <app-patient-dasgboard-timeline></app-patient-dasgboard-timeline>
+                    <!-- <app-dashboard-vital-graph></app-dashboard-vital-graph> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="form-row mx-0">
+        <div class="col-12 px-0">
+            <div class="form-row row-height mx-0 mb-1">
+                <div class="col-6 pl-0" *ngIf="patientObj.serviceType.id === 1">
+                    <app-dashboard-time-line></app-dashboard-time-line>
+                </div>
+                <div class="px-0" [ngClass]="(patientObj.serviceType.id === 1)?'col-6':'col-12'">
+                    <app-dashboard-vital-graph></app-dashboard-vital-graph>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>

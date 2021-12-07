@@ -1,0 +1,25 @@
+<div class="form-row form-group">
+  <div class="col-12 mb-2" *ngIf="url !== 'fduserappointmentsList'">
+    <label for="info">Providers Info</label>
+    <app-provider-details *ngIf="!isFromFrontDesk" (currentEntity)="currentSelectedEntity($event)">
+    </app-provider-details>
+    <app-provider-details *ngIf="isFromFrontDesk" [selectedUserFromFrontDeskToList]="selectedUserFromFrontDeskToList"
+      [isFromFrontDesk]="isFromFrontDesk" (currentEntity)="currentSelectedEntity($event)"></app-provider-details>
+  </div>
+  <div class="col-12 mb-2">
+    <app-date-picker [min]="minDate" (dateChange)="onDateChange($event)" [isClear]=false [inputDate]="startDate">
+    </app-date-picker>
+  </div>
+  <div class="col-12">
+    <select class="form-control form-control-sm pointer" [(ngModel)]="selectedSchedule" (change)="onSlotChange()">
+      <!-- <option value="">Select Schedule</option> -->
+      <option value="all">All</option>
+      <option *ngFor="let item of scheduleTimeArray" [ngValue]="item">
+        {{item.startTime + ' - ' + item.endTime  }}</option>
+    </select>
+  </div>
+  <div *ngIf="!isFromFrontDesk" class="text-right p-1 clear-card">
+    <button class="btn btn-sm btn-outline-warning" (click)="clearFilterSetting()" type="button"><i
+        class="fas fa-fw fa-eraser" aria-hidden="true"></i> CLEAR</button>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+.card.patient-info {
+  min-height: 72px !important;
+}
+:host ::ng-deep {
+  .billsection {
+    .ng-dropdown-panel {
+      width: 550px !important;
+      .ng-dropdown-panel-items {
+        min-height: 100px;
+        overflow: auto;
+        .ng-option {
+          padding: 0px !important;
+          border-radius: 0px;
+          .detail-row {
+            background-color: #fff !important;
+            &:hover {
+              background-color: #3f51b5 !important;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+}

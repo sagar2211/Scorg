@@ -1,0 +1,19 @@
+.investigation-list {
+  .modal-body {
+    height: auto;
+    min-height: 150px;
+    max-height: calc(100vh - 270px);
+    .disabled-div {
+      pointer-events: none;
+    }
+    .componenet-list {
+      li {
+        width: 50%;
+      }
+    }
+  }
+  .modal-footer {
+    justify-content: space-between;
+
+  }
+}

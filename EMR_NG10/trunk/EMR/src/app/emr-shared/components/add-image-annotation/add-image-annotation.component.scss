@@ -1,0 +1,61 @@
+@import "../../../../scss/main";
+
+.edit-modal-body {
+  height: calc(100vh - 150px);
+  overflow-y: auto;
+
+  .images-list-body {
+    height: calc(100vh - 225px);
+    overflow: auto;
+
+    .images-item {
+      width: 48%;
+      cursor: pointer;
+      -webkit-transition: .5s ease;
+      -webkit-transition: .5s ease;
+      padding: 3px;
+      max-width: 120px;
+      pointer-events: visible;
+      user-select: initial;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+
+    .images-item-upload {
+      width: 80%;
+      cursor: pointer;
+      padding-bottom: 10px;
+      -webkit-transition: .5s ease;
+      -webkit-transition: .5s ease;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+
+  .custom-body {
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  .pattern-body {
+    max-height: 120px;
+    overflow-y: auto;
+
+    div {
+      width: 35px;
+      display: inline-block;
+      float: none;
+      margin: 0;
+      cursor: pointer;
+      border: 2px solid transparent;
+
+      &.active {
+        border-color: #25ccff !important;
+      }
+    }
+  }
+}

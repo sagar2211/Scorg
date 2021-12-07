@@ -1,0 +1,126 @@
+@import "../../../scss/main";
+
+:host::ng-deep {
+  .tree {
+    .toggle-btn {
+      top: 50%;
+      z-index: 3;
+      width: 4px;
+      opacity: 0.75;
+      left: 24.36%;
+      height: 45px;
+      cursor: pointer;
+      position: absolute;
+      text-align: center;
+      border-radius: 10px;
+      padding: 15px 9px 0px 4px;
+      background-color: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.25);
+      box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.05);
+      -webkit-box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.05);
+      -moz-box-shadow: 0px 0px 4px 1px rgba(0, 0, 0, 0.05);
+      @include transition(opacity 0.4s, -webkit-box-shadow 0.4s, -moz-box-shadow 0.4s, left 0.4s ease-in-out);
+
+      &:hover {
+        opacity: 0.8;
+        box-shadow: 0px 0px 3px 1px rgba(63, 81, 181, 0.1);
+        -webkit-box-shadow: 0px 0px 3px 1px rgba(63, 81, 181, 0.1);
+        -moz-box-shadow: 0px 0px 3px 1px rgba(63, 81, 181, 0.1);
+        @include transition(opacity 0.4s, box-shadow 0.4s, -webkit-box-shadow 0.4s, -moz-box-shadow 0.4s, left 0.4s ease-in-out);
+
+        .icon {
+          opacity: 0.75;
+          @include transition(opacity 0.4s);
+        }
+      }
+
+      .icon {
+        opacity: 0.5;
+        transform: rotate(0deg);
+        @include transition(opacity 0.4s, transform 0.4s ease-in-out);
+      }
+    }
+
+    .col-3 {
+      @include transition(flex 0.4s ease-in-out, max-width 0.4s ease-in-out);
+    }
+
+    .col-9 {
+      @include transition(flex 0.4s ease-in-out, max-width 0.4s ease-in-out);
+    }
+
+    &.treeview {
+      .toggle-btn {
+        left: 7.6%;
+        @include transition(left 0.4s ease-in-out);
+
+        i {
+          transform: rotate(180deg);
+          @include transition(transform 0.4s ease-in-out);
+        }
+      }
+
+      .col-1 {
+        @include transition(flex 0.4s ease-in-out, max-width 0.4s ease-in-out);
+      }
+
+      .col-11 {
+        @include transition(flex 0.4s ease-in-out, max-width 0.4s ease-in-out);
+      }
+    }
+
+    .card-tree {
+
+      .tree-height {
+        height: calc(100vh - 175px);
+        overflow-y: auto;
+        tree-root {
+          tree-viewport {
+            width: 300px;
+          }
+        }
+      }
+    }
+
+
+    .custom-pdf-height {
+      height: calc(100vh - 141px);
+      overflow: auto;
+    }
+
+    .cus-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 1rem 1rem;
+
+      .close {
+        line-height: 15px;
+      }
+    }
+
+    .pdf {
+      .row {
+        .col-6 {
+          @include transition(flex 0.4s ease-in-out, max-width 0.4s ease-in-out);
+        }
+
+        .col-12 {
+          @include transition(flex 0.4s ease-in-out, max-width 0.4s ease-in-out);
+        }
+      }
+
+      .zoom-in-out-btns {
+        z-index: 3;
+        right: 50px;
+        bottom: 50px;
+        width: 27px;
+
+        .btn {
+          border-radius: 50%;
+          height: 27px;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+.faq-left-col {
+  background-color: var(--bgLight);
+}
+
+.build-template-modal-body {
+  height: calc(100vh - 110px);
+  overflow-y: auto;
+}
+
+ul.wraplist {
+
+  li a:hover,
+  li a:hover,
+  li a.active,
+  li.active a {
+    background: $gray-30;
+    color: var(--bgColor);
+    border-left: solid 5px var(--bgColor) !important;
+  }
+
+  li a {
+    line-height: 36px;
+    min-height: 36px;
+    height: auto;
+    border-left: solid 5px transparent;
+  }
+}
+
+//.summary-table {
+//  height: calc(100vh - 281px);
+//  overflow-y: auto;
+//}
+
+.note-table {
+  height: calc(100vh - 506px);
+  overflow-y: auto;
+  background-color: #efefef;
+  border: 1px solid #e6e6e6;
+  border-top: none;
+}
+.min-w-200 {
+  min-width: 200px;
+}

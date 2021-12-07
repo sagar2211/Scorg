@@ -1,0 +1,80 @@
+<div class="emr-custom-container-fluid vital-sheet">
+    <div class="form-row mx-0">
+        <div class="col-12 px-0 vital-sheet-col">
+            <table class="table custom-table font-size-dot-75">
+                <thead>
+                    <tr>
+                        <th class="font-size-14" colspan="2">
+                            Time
+                        </th>
+                        <th *ngFor="let item of timeArray">
+                            {{item}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let item of tableArray; let mindx = index;">
+                        <tr *ngIf="item.isParent">
+                            <td colspan="26" class="head-tbl"> {{item.colName}}</td>
+                        </tr>
+                        <tr *ngIf="item.type === 'text' && !item.isParent">
+                            <ng-container *ngIf="item.colSize === 3">
+                                <td [ngClass]="{'text-danger': item.colorType === 'red'}" [colSpan]="item.colSize">
+                                    {{item.colName}}
+                                </td>
+                            </ng-container>
+                            <ng-container *ngIf="item.colSize !== 3">
+                                <td [ngClass]="{'text-danger': item.colorType === 'red'}">
+                                    {{item.colName}}
+                                </td>
+                                <td></td>
+                            </ng-container>
+                            <td *ngFor="let time of item.checkedValue">
+                                <input type="text" class="form-control form-control-sm" [(ngModel)]="time.val" (change)="updateValue(item, time.key, time, mindx);">
+                            </td>
+                        </tr>
+                        <ng-container *ngIf=" item.type==='icon' && !item.isParent">
+                            <tr *ngFor="let itemAry of item.valueArray; let ci=index; let cLast=last;">
+                                <td [ngClass]="{'text-danger': item.colorType==='red'}" *ngIf="ci===0">
+                                    {{item.colName}}
+                                </td>
+                                <td [ngClass]="{'text-danger': item.colorType==='red'}" *ngIf="ci===1">
+                                    <span *ngIf="item.icon==='dot'"><i class="fa fa-fw fa-circle"
+                                            aria-hidden="true"></i></span>
+                                    <span *ngIf="item.icon==='x'"><i class="fa fa-fw fa-times"
+                                            aria-hidden="true"></i></span>
+                                    <span *ngIf="item.icon==='dot_blank'"><i class="fa fa-fw fa-dot-circle"
+                                            aria-hidden="true"></i></span>
+                                    <span *ngIf="item.icon==='box_dot'"><i class="fa fa-fw fa-square"
+                                            aria-hidden="true"></i></span>
+                                    <span *ngIf="item.icon==='dot_normal'"><i class="fa fa-fw fa-circle"
+                                            aria-hidden="true"></i></span>
+                                    <span *ngIf="item.icon==='square'"><i class="fa fa-fw fa-square"
+                                            aria-hidden="true"></i></span>
+                                </td>
+                                <td *ngIf="ci> 1">
+                                    <span></span>
+                                </td>
+                                <td [ngClass]="{'text-danger': item.colorType === 'red'}">{{itemAry}}</td>
+                                <td class="pointer text-center" *ngFor="let time of timeArray" (click)="updateValue(item, itemAry, time, mindx);">
+                                    <span *ngIf="checkIfhaveSelectedValue(mindx, itemAry, time, mindx) === 'dot'"><i
+                                            class="fa fa-fw fa-circle" aria-hidden="true"></i></span>
+                                    <span *ngIf="checkIfhaveSelectedValue(mindx, itemAry, time, mindx) === 'x'"><i
+                                            class="fa fa-fw fa-times" aria-hidden="true"></i></span>
+                                    <span *ngIf="checkIfhaveSelectedValue(mindx, itemAry, time, mindx) === 'dot_blank'"><i
+                                            class="fa fa-fw fa-dot-circle" aria-hidden="true"></i></span>
+                                    <span *ngIf="checkIfhaveSelectedValue(mindx, itemAry, time, mindx) === 'box_dot'"><i
+                                            class="fa fa-fw fa-square" aria-hidden="true"></i></span>
+                                    <span *ngIf="checkIfhaveSelectedValue(mindx, itemAry, time, mindx) === 'dot_normal'"><i
+                                            class="fa fa-fw fa-circle" aria-hidden="true"></i></span>
+                                    <span *ngIf="checkIfhaveSelectedValue(mindx, itemAry, time, mindx) === 'square'"><i
+                                            class="fa fa-fw fa-square" aria-hidden="true"></i></span>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

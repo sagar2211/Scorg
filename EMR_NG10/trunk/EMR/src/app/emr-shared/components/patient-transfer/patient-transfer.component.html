@@ -1,0 +1,44 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">Department Transfer (Hand Over)</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.close('cancel')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body py-2">
+  <form [formGroup]="careTeamFrm">
+    <div formArrayName="doctorListArray">
+      <div *ngFor="let dList of doctorListArray.controls; let i = index;let last = last;first as first"
+        [formGroupName]="i">
+        <div class="form-row form-group">
+          <div class="col-5">
+            <!-- <select class="form-control form-control-sm" formControlName="department">
+              <option value="item" *ngFor="let item of this.depArray">
+                {{item}}
+              </option>
+            </select> -->
+            <label class="text-muted font-weight-normal">Department</label>
+            <app-ng-select-typeahead [isSearchDataFromApi]="true" [inputValue]="dList.value.department?.department_id"
+              [selectedValue]="dList.value.department?.department_name" [thDisplayLabel]="'department_name'"
+              [thDisplayKey]="'department_id'" [source]="'Search..'" [searchFun]="getDepartmentList"
+              [returnDataType]="'obj'" (recievedVal)="selectValue($event, i)" [compInstance]="compInstance">
+            </app-ng-select-typeahead>
+          </div>
+        </div>
+        <div class="form-row form-group">
+          <div class="col-12">
+            <label for="doctor" *ngIf="i == 0">Comment</label>
+            <textarea formControlName="comment" class="form-control"></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer py-1">
+  <span *ngIf="!isAccepted" class="font-size-dot-75 mr-auto text-info">
+    Note: Patient transfer request already initiated. Waiting for Approval
+  </span>
+  <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
+    (click)="modal.close('cancel'); updateValueInService();">Cancel</button>
+  <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" [disabled]='!isAccepted' (click)="updateValueInService();">Ok</button>
+</div>

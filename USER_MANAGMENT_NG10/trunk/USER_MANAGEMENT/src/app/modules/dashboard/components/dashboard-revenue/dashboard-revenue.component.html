@@ -1,0 +1,791 @@
+<div class="container-fluid admin-dashboard px-2">
+    <div class="form-row align-items-center mt-2 top-form-row">
+        <div class="col">
+            <div class="btn-group text-uppercase mr-2">
+                <button type="button" class="btn btn-sm btn-white dropdown-toggle dropdown-toggle-split custom-border-radius"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                </button>
+                <button type="button" class="btn btn-sm btn-white rounded-0">01/04/2021 - 08/04/2021</button>
+                <button type="button" class="btn btn-sm btn-white dropdown-toggle dropdown-toggle-split custom-padding"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                </button>
+            </div>
+            <div class="btn-group text-uppercase mr-2">
+                <button type="button" class="btn btn-sm btn-white dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    All day
+                </button>
+            </div>
+            <a class="btn-sm"><u>Advanced Options</u></a>
+        </div>
+        <div class="col-2 text-right">
+            <div class="btn-group text-uppercase mr-2">
+                <button type="button" class="btn btn-sm btn-white dropdown-toggle" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Export
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="form-row pt-2 py-1 top-card-form-row">
+        <div class="col-3">
+            <div class="card border-0">
+                <div class="card-header border-bottom-0 p-0">
+                    <div class="form-row align-items-center mx-0">
+                        <div class="col px-0">
+                            <h6 class="font-size-dot-875 mb-0 pl-2">Total Revenue</h6>
+                        </div>
+                        <div class="col-accordion px-0" title="Details">
+                            <a (click)="showTotalRevenueDetail()" [ngClass]="{'active': isTotalRevenueVisible}"
+                                class="btn-accordion">
+                            </a>
+                        </div>
+                    </div>
+                    <p class="mb-0 text-muted small pl-2 hidden">Data reflected from 01/04/2021 to 08/04/2021</p>
+                </div>
+                <div class="card-body p-2">
+                    <div class="form-row align-items-center">
+                        <div class="col-10">
+                            <h2 class="mb-0 large-rupee">11,27,476.2
+                            </h2>
+                        </div>
+                        <div class="col-2 text-right">
+                            <img class="img-fluid" src="./assets/img/admin-dashboard/revenue.svg" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer border-top-0 p-2">
+                    <div class="form-row">
+                        <div class="col-4">
+                            <h6 class="mb-0 small-rupee">6,24,285</h6>
+                            <p class="mb-0 text-muted text-nowrap bar primary-light">OP</p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <h6 class="mb-0 small-rupee">3,03,141</h6>
+                            <p class="mb-0 text-muted text-nowrap bar teal">IP</p>
+                        </div>
+                        <div class="col-4 text-right">
+                            <h6 class="mb-0 small-rupee">2,00,050.2</h6>
+                            <p class="mb-0 text-muted text-nowrap bar pink">Other</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <app-total-revenue-details *ngIf="isMobile" [isTotalRevenueVisible]="isTotalRevenueVisible">
+            </app-total-revenue-details>
+        </div>
+        <div class="col-3">
+            <div class="card border-0 card-op">
+                <div class="card-header border-bottom-0 p-0">
+                    <div class="form-row align-items-center mx-0">
+                        <div class="col px-0">
+                            <h6 class="font-size-dot-875 mb-0 pl-2">OP Patient</h6>
+                        </div>
+                        <div class="col-accordion px-0" title="Details">
+                            <a class="btn-accordion" (click)="showOPPatientDetail()"
+                                [ngClass]="{'active': isOPPatientVisible}" class="btn-accordion">
+                                <span class="arrow"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <p class="mb-0 text-muted small pl-2 hidden">Data reflected from 01/04/2021 to 08/04/2021</p>
+                </div>
+                <div class="card-body p-2">
+                    <div class="form-row align-items-center">
+                        <div class="col-10">
+                            <h2 class="mb-0">155
+                            </h2>
+                        </div>
+                        <div class="col-2 text-right">
+                            <img class="img-fluid" src="./assets/img/admin-dashboard/op.svg" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer border-top-0 p-2">
+                    <div class="form-row">
+                        <div class="col-4">
+                            <h6 class="mb-0">120</h6>
+                            <p class="mb-0 text-muted text-nowrap bar primary-light">OP</p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <h6 class="mb-0">35</h6>
+                            <p class="mb-0 text-muted text-nowrap bar teal">Follow-Up</p>
+                        </div>
+                        <div class="col-4 text-right">
+                            <h6 class="mb-0">15%</h6>
+                            <p class="mb-0 text-muted bar">Other</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <app-op-patient-details *ngIf="isMobile" [isOPPatientVisible]="isOPPatientVisible"
+                [selectedSummary]="selectedSummary"></app-op-patient-details>
+        </div>
+        <div class="col-3">
+            <div class="card border-0 card-op">
+                <div class="card-header border-bottom-0 p-0">
+                    <div class="form-row align-items-center mx-0">
+                        <div class="col px-0">
+                            <h6 class="font-size-dot-875 mb-0 pl-2">IP Patient</h6>
+                        </div>
+                        <div class="col-accordion px-0" title="Details">
+                            <a class="btn-accordion" (click)="showIPPatientDetail()"
+                                [ngClass]="{'active': isIPPatientVisible}">
+                                <span class="arrow"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <p class="mb-0 text-muted small pl-2 hidden">Data reflected from 01/04/2021 to 08/04/2021</p>
+                </div>
+                <div class="card-body p-2">
+                    <div class="form-row align-items-center">
+                        <div class="col-10">
+                            <h2 class="mb-0">200<span class="text-danger font-size-dot-8 align-text-top">-5
+                                    [canceled]</span>
+                            </h2>
+                        </div>
+                        <div class="col-2 text-right">
+                            <img class="img-fluid" src="./assets/img/admin-dashboard/ip.svg" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer border-top-0 p-2">
+                    <div class="form-row">
+                        <div class="col-4">
+                            <h6 class="mb-0">65</h6>
+                            <p class="mb-0 text-muted text-nowrap bar teal">New</p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <h6 class="mb-0">80</h6>
+                            <p class="mb-0 text-muted text-nowrap bar primary-light">Existing</p>
+                        </div>
+                        <div class="col-4 text-right">
+                            <h6 class="mb-0">50</h6>
+                            <p class="mb-0 text-muted text-nowrap bar pink">Discharged</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <app-ip-patient-details *ngIf="isMobile" [isIPPatientVisible]="isIPPatientVisible"
+                [selectedSummary]="selectedSummary"></app-ip-patient-details>
+        </div>
+        <div class="col-3">
+            <div class="card border-0 card-op">
+                <div class="card-header border-bottom-0 p-0">
+                    <div class="form-row align-items-center mx-0 pt-1">
+                        <div class="col px-0">
+                            <h6 class="font-size-dot-875 mb-0 pl-2">Other Patient</h6>
+                        </div>
+                        <div class="col-accordion px-0" title="Details">
+                            <!-- <a href="javaScript:Void(0);" class="btn-accordion">
+                                <span class="arrow"></span>
+                            </a> -->
+                        </div>
+                    </div>
+                    <p class="mb-0 text-muted small pl-2 pt-1 hidden">Data reflected from 01/04/2021 to 08/04/2021</p>
+                </div>
+                <div class="card-body p-2">
+                    <div class="form-row align-items-center">
+                        <div class="col-10">
+                            <h2 class="mb-0">175</h2>
+                        </div>
+                        <div class="col-2 text-right">
+                            <img class="img-fluid" src="./assets/img/admin-dashboard/revenue.svg" />
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer border-top-0 p-2">
+                    <div class="form-row">
+                        <div class="col">
+                            <h6 class="mb-0">20</h6>
+                            <p class="mb-0 text-muted text-nowrap bar primary-light">Daycare</p>
+                        </div>
+                        <div class="col text-center">
+                            <h6 class="mb-0">05</h6>
+                            <p class="mb-0 text-muted text-nowrap bar teal">ER</p>
+                        </div>
+                        <div class="col-6 text-right">
+                            <h6 class="mb-0">150</h6>
+                            <p class="mb-0 text-muted text-nowrap bar pink">Direct Investigation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <app-total-revenue-details *ngIf="!isMobile" [isTotalRevenueVisible]="isTotalRevenueVisible">
+    </app-total-revenue-details>
+    <app-op-patient-details *ngIf="!isMobile" [isOPPatientVisible]="isOPPatientVisible"
+        [selectedSummary]="selectedSummary"></app-op-patient-details>
+    <app-ip-patient-details *ngIf="!isMobile" [isIPPatientVisible]="isIPPatientVisible"
+        [selectedSummary]="selectedSummary"></app-ip-patient-details>
+    <div class="form-row pt-1 pb-2 bottom-card-form-row">
+        <div class="col-4 custom-col-4">
+            <div class="card border-0 card-revenue-summary">
+                <div class="card-header border-bottom-0 p-0">
+                    <div class="form-row align-items-center mx-0 pt-1">
+                        <div class="col px-0">
+                            <h6 class="font-size-dot-875 mb-0 pl-2">Revenue Summary</h6>
+                        </div>
+                        <div class="col px-0">
+                            <div class="btn-group text-uppercase">
+                                <select class="form-control form-control-sm pointer"
+                                    (change)="updateRevenueSummary(selectedSummary)" [(ngModel)]="selectedSummary">
+                                    <option value="division_wise">Division Wise</option>
+                                    <option value="department_wise">Department Wise</option>
+                                    <option value="doctor_wise">Doctor Wise</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-switch px-0" title="Details">
+                            <button class="btn btn-xs" (click)="showRevenueSummarySwitch()"
+                                [ngClass]="{'btn-outline-mbd': isRevenueSummarySwitch, 'btn-outline-primary': !isRevenueSummarySwitch}"><i
+                                    class="icon fa-fw icon-eye" aria-hidden="true"></i> <span
+                                    [ngClass]="{'d-inline': isRevenueSummarySwitch, 'd-none': !isRevenueSummarySwitch}">
+                                    GRAPH</span>
+                                <span
+                                    [ngClass]="{'d-none': isRevenueSummarySwitch, 'd-inline': !isRevenueSummarySwitch}">
+                                    TABLE</span>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="mb-0 text-muted small pl-2 hidden">Data reflected from 01/04/2021 to 08/04/2021</p>
+                </div>
+                <div class="card-body p-2">
+                    <div class="table-scroll postion-relative w-100 m-auto overflow-auto"
+                        [ngClass]="{'d-block': isRevenueSummarySwitch, 'd-none': !isRevenueSummarySwitch}"
+                        *ngIf="selectedSummary==='division_wise'">
+                        <table class="table custom-table mb-0 font-size-dot-8">
+                            <thead>
+                                <tr>
+                                    <th colspan="3" class="text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="header pointer" (click)="showRevenueSummary1()"
+                                    [ngClass]="{'active': isRevenueSummary1}">
+                                    <td>Lifecare</td>
+                                    <td class="text-right" colspan="2"><span class="small-rupee">65,000</span>
+                                    </td>
+                                </tr>
+                                <tr class="more" [ngClass]="{'active': isRevenueSummary1, ' ': !isRevenueSummary1}">
+                                    <td>
+                                        <p class="mb-0 small-rupee">30,000</p>
+                                        <p class="mb-0 text-muted">OP</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="mb-0 small-rupee">20,000</p>
+                                        <p class="mb-0 text-muted">IP</p>
+                                    </td>
+                                    <td class="text-right">
+                                        <p class="mb-0 small-rupee">15,000</p>
+                                        <p class="mb-0 text-muted">Other</p>
+                                    </td>
+                                </tr>
+                                <tr class="header pointer" (click)="showRevenueSummary2()"
+                                    [ngClass]="{'active': isRevenueSummary2}">
+                                    <td>Oncology</td>
+                                    <td class="text-right" colspan="2"><span class="small-rupee">1,00,000</span></td>
+                                </tr>
+                                <tr class="more" [ngClass]="{'active': isRevenueSummary2, ' ': !isRevenueSummary2}">
+                                    <td>
+                                        <p class="mb-0 small-rupee">45,000</p>
+                                        <p class="mb-0 text-muted">OP</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="mb-0 small-rupee">35,000</p>
+                                        <p class="mb-0 text-muted">IP</p>
+                                    </td>
+                                    <td class="text-right">
+                                        <p class="mb-0 small-rupee">20,000</p>
+                                        <p class="mb-0 text-muted">Other</p>
+                                    </td>
+                                </tr>
+                                <tr class="header pointer" (click)="showRevenueSummary3()"
+                                    [ngClass]="{'active': isRevenueSummary3}">
+                                    <td>Cardiac</td>
+                                    <td class="text-right" colspan="2"><span class="small-rupee">23,800</span></td>
+                                </tr>
+                                <tr class="more" [ngClass]="{'active': isRevenueSummary3, ' ': !isRevenueSummary3}">
+                                    <td>
+                                        <p class="mb-0 small-rupee">7,000</p>
+                                        <p class="mb-0 text-muted">OP</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="mb-0 small-rupee">7,000</p>
+                                        <p class="mb-0 text-muted">IP</p>
+                                    </td>
+                                    <td class="text-right">
+                                        <p class="mb-0 small-rupee">9,800</p>
+                                        <p class="mb-0 text-muted">Other</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>Total</td>
+                                    <td colspan="2" class="text-right"><span class="small-rupee">1,88,800</span>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="table-scroll postion-relative w-100 m-auto overflow-auto"
+                        *ngIf="selectedSummary==='department_wise'">
+                        <table class="table custom-table mb-0 font-size-dot-8">
+                            <thead>
+                                <tr>
+                                    <th colspan="3" class="text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="header pointer" (click)="showRevenueSummary1()"
+                                    [ngClass]="{'active': isRevenueSummary1}">
+                                    <td>Surgical</td>
+                                    <td class="text-right" colspan="2"><span class="small-rupee">58,600</span></td>
+                                </tr>
+                                <tr class="more" [ngClass]="{'active': isRevenueSummary1, ' ': !isRevenueSummary1}">
+                                    <td>
+                                        <p class="mb-0 small-rupee">7,800</p>
+                                        <p class="mb-0 text-muted">OP</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="mb-0 small-rupee">50,000</p>
+                                        <p class="mb-0 text-muted">IP</p>
+                                    </td>
+                                    <td class="text-right">
+                                        <p class="mb-0 small-rupee">800</p>
+                                        <p class="mb-0 text-muted">Other</p>
+                                    </td>
+                                </tr>
+                                <tr class="header pointer" (click)="showRevenueSummary2()"
+                                    [ngClass]="{'active': isRevenueSummary2}">
+                                    <td>Casualty</td>
+                                    <td class="text-right" colspan="2"><span class="small-rupee">28,030</span></td>
+                                </tr>
+                                <tr class="more" [ngClass]="{'active': isRevenueSummary2, ' ': !isRevenueSummary2}">
+                                    <td>
+                                        <p class="mb-0 small-rupee">24,500</p>
+                                        <p class="mb-0 text-muted">OP</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="mb-0 small-rupee">3,300</p>
+                                        <p class="mb-0 text-muted">IP</p>
+                                    </td>
+                                    <td class="text-right">
+                                        <p class="mb-0 small-rupee">230</p>
+                                        <p class="mb-0 text-muted">Other</p>
+                                    </td>
+                                </tr>
+                                <tr class="header pointer" (click)="showRevenueSummary3()"
+                                    [ngClass]="{'active': isRevenueSummary3}">
+                                    <td>Cardiology</td>
+                                    <td class="text-right" colspan="2"><span class="small-rupee">32,135</span></td>
+                                </tr>
+                                <tr class="more" [ngClass]="{'active': isRevenueSummary3, ' ': !isRevenueSummary3}">
+                                    <td>
+                                        <p class="mb-0 small-rupee">23,763</p>
+                                        <p class="mb-0 text-muted">OP</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="mb-0 small-rupee">7,800</p>
+                                        <p class="mb-0 text-muted">IP</p>
+                                    </td>
+                                    <td class="text-right">
+                                        <p class="mb-0 small-rupee">572</p>
+                                        <p class="mb-0 text-muted">Other</p>
+                                    </td>
+                                </tr>
+                                <tr class="header pointer" (click)="showRevenueSummary3()"
+                                    [ngClass]="{'active': isRevenueSummary3}">
+                                    <td>Dialysis</td>
+                                    <td class="text-right" colspan="2"><span class="small-rupee">18,046</span></td>
+                                </tr>
+                                <tr class="more" [ngClass]="{'active': isRevenueSummary3, ' ': !isRevenueSummary3}">
+                                    <td>
+                                        <p class="mb-0 small-rupee">8,376</p>
+                                        <p class="mb-0 text-muted">OP</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="mb-0 small-rupee">9,000</p>
+                                        <p class="mb-0 text-muted">IP</p>
+                                    </td>
+                                    <td class="text-right">
+                                        <p class="mb-0 small-rupee">670</p>
+                                        <p class="mb-0 text-muted">Other</p>
+                                    </td>
+                                </tr>
+                                <tr class="header pointer" (click)="showRevenueSummary3()"
+                                    [ngClass]="{'active': isRevenueSummary3}">
+                                    <td>Blood Bank</td>
+                                    <td class="text-right" colspan="2"><span class="small-rupee">5,816</span></td>
+                                </tr>
+                                <tr class="more" [ngClass]="{'active': isRevenueSummary3, ' ': !isRevenueSummary3}">
+                                    <td>
+                                        <p class="mb-0 small-rupee">2,786</p>
+                                        <p class="mb-0 text-muted">OP</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="mb-0 small-rupee">2,700</p>
+                                        <p class="mb-0 text-muted">IP</p>
+                                    </td>
+                                    <td class="text-right">
+                                        <p class="mb-0 small-rupee">330</p>
+                                        <p class="mb-0 text-muted">Other</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>Total</td>
+                                    <td colspan="2" class="text-right"><span class="small-rupee">53,20,651</span>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <div class="table-scroll postion-relative w-100 m-auto overflow-auto"
+                        *ngIf="selectedSummary==='doctor_wise'">
+                        <table class="table custom-table mb-0 font-size-dot-8">
+                            <thead>
+                                <tr>
+                                    <th colspan="3" class="text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="header pointer" (click)="showRevenueSummary1()"
+                                    [ngClass]="{'active': isRevenueSummary1}">
+                                    <td>Dr. Ramachandraiah R</td>
+                                    <td class="text-right" colspan="2"><span class="small-rupee">16,770</span></td>
+                                </tr>
+                                <tr class="more" [ngClass]="{'active': isRevenueSummary1, ' ': !isRevenueSummary1}">
+                                    <td>
+                                        <p class="mb-0 small-rupee">780</p>
+                                        <p class="mb-0 text-muted">OP</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="mb-0 small-rupee">15,000</p>
+                                        <p class="mb-0 text-muted">IP</p>
+                                    </td>
+                                    <td class="text-right">
+                                        <p class="mb-0 small-rupee">990</p>
+                                        <p class="mb-0 text-muted">Other</p>
+                                    </td>
+                                </tr>
+                                <tr class="header pointer" (click)="showRevenueSummary2()"
+                                    [ngClass]="{'active': isRevenueSummary2}">
+                                    <td>Dr. Anurag  Jaiswal</td>
+                                    <td class="text-right" colspan="2"><span class="small-rupee">6,057</span></td>
+                                </tr>
+                                <tr class="more" [ngClass]="{'active': isRevenueSummary2, ' ': !isRevenueSummary2}">
+                                    <td>
+                                        <p class="mb-0 small-rupee">560</p>
+                                        <p class="mb-0 text-muted">OP</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="mb-0 small-rupee">4,500</p>
+                                        <p class="mb-0 text-muted">IP</p>
+                                    </td>
+                                    <td class="text-right">
+                                        <p class="mb-0 small-rupee">997</p>
+                                        <p class="mb-0 text-muted">Other</p>
+                                    </td>
+                                </tr>
+                                <tr class="header pointer" (click)="showRevenueSummary3()"
+                                    [ngClass]="{'active': isRevenueSummary3}">
+                                    <td>Dr. Arvind Kulkarni</td>
+                                    <td class="text-right" colspan="2"><span class="small-rupee">7,638</span></td>
+                                </tr>
+                                <tr class="more" [ngClass]="{'active': isRevenueSummary3, ' ': !isRevenueSummary3}">
+                                    <td>
+                                        <p class="mb-0 small-rupee">280</p>
+                                        <p class="mb-0 text-muted">OP</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="mb-0 small-rupee">6,708</p>
+                                        <p class="mb-0 text-muted">IP</p>
+                                    </td>
+                                    <td class="text-right">
+                                        <p class="mb-0 small-rupee">650</p>
+                                        <p class="mb-0 text-muted">Other</p>
+                                    </td>
+                                </tr>
+                                <tr class="header pointer" (click)="showRevenueSummary3()"
+                                    [ngClass]="{'active': isRevenueSummary3}">
+                                    <td>Dr. Chandrakant Prakash</td>
+                                    <td class="text-right" colspan="2"><span class="small-rupee">6,584</span></td>
+                                </tr>
+                                <tr class="more" [ngClass]="{'active': isRevenueSummary3, ' ': !isRevenueSummary3}">
+                                    <td>
+                                        <p class="mb-0 small-rupee">450</p>
+                                        <p class="mb-0 text-muted">OP</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="mb-0 small-rupee">5,678</p>
+                                        <p class="mb-0 text-muted">IP</p>
+                                    </td>
+                                    <td class="text-right">
+                                        <p class="mb-0 small-rupee">456</p>
+                                        <p class="mb-0 text-muted">Other</p>
+                                    </td>
+                                </tr>
+                                <tr class="header pointer" (click)="showRevenueSummary3()"
+                                    [ngClass]="{'active': isRevenueSummary3}">
+                                    <td>Dr. Kaushik Patil</td>
+                                    <td class="text-right" colspan="2"><span class="small-rupee">5,586</span></td>
+                                </tr>
+                                <tr class="more" [ngClass]="{'active': isRevenueSummary3, ' ': !isRevenueSummary3}">
+                                    <td>
+                                        <p class="mb-0 small-rupee">340</p>
+                                        <p class="mb-0 text-muted">OP</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="mb-0 small-rupee">4,568</p>
+                                        <p class="mb-0 text-muted">IP</p>
+                                    </td>
+                                    <td class="text-right">
+                                        <p class="mb-0 small-rupee">678</p>
+                                        <p class="mb-0 text-muted">Other</p>
+                                    </td>
+                                </tr>
+                                <tr class="header pointer" (click)="showRevenueSummary3()"
+                                    [ngClass]="{'active': isRevenueSummary3}">
+                                    <td>Dr. Ishak Khatib</td>
+                                    <td class="text-right" colspan="2"><span class="small-rupee">3,252</span></td>
+                                </tr>
+                                <tr class="more" [ngClass]="{'active': isRevenueSummary3, ' ': !isRevenueSummary3}">
+                                    <td>
+                                        <p class="mb-0 small-rupee">340</p>
+                                        <p class="mb-0 text-muted">OP</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="mb-0 small-rupee">2,456</p>
+                                        <p class="mb-0 text-muted">IP</p>
+                                    </td>
+                                    <td class="text-right">
+                                        <p class="mb-0 small-rupee">456</p>
+                                        <p class="mb-0 text-muted">Other</p>
+                                    </td>
+                                </tr>
+                                <tr class="header pointer" (click)="showRevenueSummary3()"
+                                    [ngClass]="{'active': isRevenueSummary3}">
+                                    <td>Dr. Ram Kadam</td>
+                                    <td class="text-right" colspan="2"><span class="small-rupee">8,555</span></td>
+                                </tr>
+                                <tr class="more" [ngClass]="{'active': isRevenueSummary3, ' ': !isRevenueSummary3}">
+                                    <td>
+                                        <p class="mb-0 small-rupee">320</p>
+                                        <p class="mb-0 text-muted">OP</p>
+                                    </td>
+                                    <td class="text-center">
+                                        <p class="mb-0 small-rupee">7,890</p>
+                                        <p class="mb-0 text-muted">IP</p>
+                                    </td>
+                                    <td class="text-right">
+                                        <p class="mb-0 small-rupee">345</p>
+                                        <p class="mb-0 text-muted">Other</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td>Total</td>
+                                    <td colspan="2" class="text-right"><span class="small-rupee">54,442</span>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <img class="img-fluid" src="./assets/img/admin-dashboard/revenue-summary-division-graph.png"
+                        [ngClass]="{'d-none': isRevenueSummarySwitch, 'd-block': !isRevenueSummarySwitch}" />
+                </div>
+            </div>
+        </div>
+        <div class="col-4 custom-col-4">
+            <div class="card border-0 card-collection">
+                <div class="card-header border-bottom-0 p-0">
+                    <div class="form-row align-items-center mx-0 pt-1">
+                        <div class="col px-0">
+                            <h6 class="font-size-dot-875 mb-0 pl-2">Collection Summary</h6>
+                        </div>
+                    </div>
+                    <p class="mb-0 text-muted small pl-2 pt-1 hidden">Data reflected from 01/04/2021 to 08/04/2021</p>
+                </div>
+                <div class="card-body p-2">
+                    <div class="table-scroll postion-relative w-100 m-auto overflow-auto">
+                        <table class="table custom-table mb-0 font-size-dot-8">
+                            <thead>
+                                <tr>
+                                    <th colspan="2" class="text-right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Total Amount</td>
+                                    <td class="text-right"><span class="small-rupee">2,25,100.9</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Deposit</td>
+                                    <td class="text-right"><span class="small-rupee">47,600</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Refund</td>
+                                    <td class="text-right"><span class="small-rupee">7,600</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Concession</td>
+                                    <td class="text-right"><span class="small-rupee">450</span></td>
+                                </tr>
+                                <tr>
+                                    <th>Net Amount</th>
+                                    <th class="text-right"><span class="small-rupee">2,64,650.9</span></th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">Payment wise Summary</th>
+                                </tr>
+                                <tr>
+                                    <td>Cash</td>
+                                    <td class="text-right"><span class="small-rupee">50,000</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Cheque/DD</td>
+                                    <td class="text-right"><span class="small-rupee">2,000</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Card(Debit/Credit)</td>
+                                    <td class="text-right"><span class="small-rupee">6,700</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Other</td>
+                                    <td class="text-right"><span class="small-rupee">3,500</span></td>
+                                </tr>
+                                <tr>
+                                    <th>Total</th>
+                                    <th class="text-right"><span class="small-rupee">62,200</span></th>
+                                </tr>
+                                <tr>
+                                    <th>Insurance Receivable</th>
+                                    <th class="text-right"><span class="small-rupee">78,000</span></th>
+                                </tr>
+                                <tr>
+                                    <th>Patient Receivable</th>
+                                    <th class="text-right"><span class="small-rupee">50,000</span></th>
+                                </tr>
+                            </tbody>
+                            <tfoot class="border-top">
+                                <tr>
+                                    <td>Today's Collection</td>
+                                    <td class="text-right small-rupee">3,42,650.9</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 custom-col-4">
+            <div class="card border-0 card-bed">
+                <div class="card-header border-bottom-0 p-0">
+                    <div class="form-row align-items-center mx-0 pt-1">
+                        <div class="col px-0">
+                            <h6 class="font-size-dot-875 mb-0 pl-2">Bed Occupancy</h6>
+                        </div>
+                        <div class="col-switch px-0" title="Details">
+                            <button class="btn btn-xs" (click)="showBedOccupancySwitch()"
+                                [ngClass]="{'btn-outline-mbd': isBedOccupancySwitch, 'btn-outline-primary': !isBedOccupancySwitch}"><i
+                                    class="icon fa-fw icon-eye" aria-hidden="true"></i> <span
+                                    [ngClass]="{'d-inline': isBedOccupancySwitch, 'd-none': !isBedOccupancySwitch}">
+                                    GRAPH</span>
+                                <span [ngClass]="{'d-none': isBedOccupancySwitch, 'd-inline': !isBedOccupancySwitch}">
+                                    TABLE</span>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="mb-0 text-muted small pl-2 hidden">Data reflected from 01/04/2021 to 08/04/2021</p>
+                </div>
+                <div class="card-body p-2">
+                    <div class="table-scroll postion-relative w-100 m-auto overflow-auto"
+                        [ngClass]="{'d-block': isBedOccupancySwitch, 'd-none': !isBedOccupancySwitch}">
+                        <table class="table custom-table mb-0 font-size-dot-8">
+                            <thead>
+                                <tr>
+                                    <th>Bed Type</th>
+                                    <th class="text-right">Total</th>
+                                    <th class="text-right">Occupied</th>
+                                    <th class="text-right">Vacant</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>General</td>
+                                    <td class="text-right">30</td>
+                                    <td class="text-right">17</td>
+                                    <td class="text-right"><span
+                                            class="font-size-dot-75 p-1 badge custom-badge-success text-white">13</span></td>
+                                </tr>
+                                <tr>
+                                    <td>ICU</td>
+                                    <td class="text-right">20</td>
+                                    <td class="text-right">15</td>
+                                    <td class="text-right"><span
+                                            class="font-size-dot-75 p-1 badge custom-badge-warning text-white">05</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Semi Private A/C</td>
+                                    <td class="text-right">50</td>
+                                    <td class="text-right">23</td>
+                                    <td class="text-right"><span
+                                            class="font-size-dot-75 p-1 badge custom-badge-success text-white">27</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Semi Private Non A/C</td>
+                                    <td class="text-right">10</td>
+                                    <td class="text-right">10</td>
+                                    <td class="text-right"><span
+                                            class="font-size-dot-75 p-1 badge custom-badge-danger text-white">00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Special Room A/C</td>
+                                    <td class="text-right">08</td>
+                                    <td class="text-right">05</td>
+                                    <td class="text-right"><span
+                                            class="font-size-dot-75 p-1 badge custom-badge-warning text-white">03</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Special Room Non A/C</td>
+                                    <td class="text-right">05</td>
+                                    <td class="text-right">05</td>
+                                    <td class="text-right"><span
+                                            class="font-size-dot-75 p-1 badge custom-badge-danger text-white">00</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Suite Room A/C</td>
+                                    <td class="text-right">05</td>
+                                    <td class="text-right">03</td>
+                                    <td class="text-right"><span
+                                            class="font-size-dot-75 p-1 badge custom-badge-warning text-white">02</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Covid Room</td>
+                                    <td class="text-right">15</td>
+                                    <td class="text-right">12</td>
+                                    <td class="text-right"><span
+                                            class="font-size-dot-75 p-1 badge custom-badge-danger text-white">03</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Ventilator Room</td>
+                                    <td class="text-right">02</td>
+                                    <td class="text-right">01</td>
+                                    <td class="text-right"><span
+                                            class="font-size-dot-75 p-1 badge custom-badge-warning text-white">01</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <img class="img-fluid" src="./assets/img/admin-dashboard/bed.png"
+                        [ngClass]="{'d-none': isBedOccupancySwitch, 'd-block': !isBedOccupancySwitch}" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

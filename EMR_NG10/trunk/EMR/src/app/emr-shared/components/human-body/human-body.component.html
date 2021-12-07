@@ -1,0 +1,349 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase" id="modal-basic-title">Human Body</p>
+  <!-- <button type="button" class="btn btn-sm btn-primary font-12 py-0 mr-2" (click)="onBodyTypeSelect('HumanBody')">Human Body</button> -->
+  <!-- <button type="button" class="btn btn-sm btn-primary font-12 py-0 mr-2" (click)="onBodyTypeSelect('Dermatome')">Dermatome</button>
+      <button type="button" class="btn btn-sm btn-primary font-12 py-0" (click)="onBodyTypeSelect('myotome')">Myotome</button> -->
+
+  <button *ngIf="!chartFlag" type="button" class="close font-weight-normal text-white" aria-label="Close"
+    (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <!-- <div *ngIf="chartFlag">
+    <a class="btn btn-sm btn-primary font-12 py-0 mr-2" (click)="printhtml('print-pain-summery');">
+      <i class="fa fa-print"></i> Print
+    </a>
+    <button class="btn btn-sm btn-primary font-12 py-0" (click)="openChart();">Back</button>
+  </div> -->
+</div>
+<div *ngIf="!chartFlag" class="modal-body build-height p-0">
+  <div class="form-row mx-0">
+    <div class="col-9 humanBodyTab border-right px-0">
+      <ngb-tabset [activeId]="activeBodytype" *ngIf="!chartFlag" type="pills" (tabChange)="LoadPainBody($event.nextId)">
+        <ngb-tab id="HumanBody" #templateRf [disabled]="chartFlag">
+          <!-- <ng-template ngbTabTitle><b>Human Body</b></ng-template> -->
+          <ng-template ngbTabContent>
+            <section *ngIf="humanBodyflag">
+              <div class="row mx-0">
+                <div class="col-12 humanBodySlides px-0">
+                  <!-- ng-init="showSlides(1)" -->
+                  <div [ngClass]="{'myclass': true}">
+                    <div class="scale HumanBodyScale">
+                      <div class="bg-default cursor-pointer" *ngIf="zoom.firstZoom"
+                        [ngClass]="{'bg-eraser-active':eraser,'bg-default':!eraser}" (click)="scaleSet('erase')">
+                        <span class="scaleDigit">
+                          <i class="fa fa-eraser" id="scaleerase"></i>
+                        </span>
+                      </div>
+                      <div *ngFor="let n of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" (click)="scaleSet(n)"
+                      class="pointer" [ngStyle]="{'backgroundColor': scaleColor[n]}"
+                        [ngClass]="{'scaleActive' : n ==  selected }" [attr.id]="'scale' + n">
+                        <span class="scaleDigit">{{n}}</span>
+                      </div>
+                    </div>
+                    <div class="float-right pr-3 mt-1">
+                      <!-- <button *ngIf="zoom.counter == 0" (click)="setDefaultHumanBodyview('normal-view')" type="button"
+                        [ngClass]="{'btn-primary': defaultView == 'normal-view', 'btn btn-outline-secondary': defaultView !== 'normal-view', 'btn btn-sm mr-1': true }">
+                        <i class="fa fa-fw fa-star" aria-hidden="true"></i>
+                      </button>
+                      <button *ngIf="zoom.counter == 1" (click)="setDefaultHumanBodyview('zoom-view')" type="button"
+                        [ngClass]="{'btn-outline-primary': defaultView == 'zoom-view', 'btn-outline-primary-light': defaultView !== 'zoom-view', 'btn btn-sm mr-1': true }">
+                        <i class="fa fa-fw fa-star" aria-hidden="true"></i>
+                      </button> -->
+                      <button *ngIf="zoom.counter == 0" (click)="zoomIn()" type="button"
+                        [ngClass]="{'btn btn-outline-primary':!zoom.counter,'btn btn-outline-primary-light':zoom.counter, 'btn btn-sm mr-1': true }">
+                        <i class="fa fa-fw fa-search-plus"></i>zoom in
+                      </button>
+                      <button *ngIf="zoom.counter == 1" (click)="zoomOut()" type="button"
+                        [ngClass]="{'btn btn-outline-primary':zoom.counter,'btn btn-outline-primary-light': !zoom.counter, 'btn btn-sm mr-1': true }">
+                        <i class="fa fa-fw fa-search-minus"></i>zoom out
+                      </button>
+                    </div>
+                    <div #mySlides class="mySlides" [appOnSlides]="zoom.firstZoom">
+                      <div class="numbertext">1 / 5</div>
+                      <app-svg-map *ngIf="!zoom.firstZoom && activeSlideBody.active == 1" #svgMapCompRef
+                        [val]="'score' + setClass" [svg_name]="'svgFrontFlag'" [svg_type]="'humanBody'" [svgno]="'0'"
+                        [dummyData]='dummyData' [hoverRegion]='hoverRegion' [setClass]='setClass' [chartDetailId]="chartDetailId"
+                        (outPutData)="onClickLoadData()"></app-svg-map>
+                      <app-svg-map-detail #svgMapDetailsComRef *ngIf="zoom.firstZoom && activeSlideBody.active == 1"
+                        [val]="'score' + setClass" [svg_name]="'FrontzoomFlag'" [svgno]="'0_x'" [svg_type]="'humanBody'"
+                        [setClass]='setClass' [chartDetailId]="chartDetailId" (valueChange)="onClickLoadData()"></app-svg-map-detail>
+                    </div>
+                    <div #mySlides class="mySlides" [appOnSlides]="zoom.firstZoom">
+                      <div class="numbertext">2 / 5</div>
+                      <app-svg-map *ngIf="!zoom.firstZoom && activeSlideBody.active == 2" #svgMapCompRef
+                        [val]="'score' + setClass" [svg_name]="'svgBackFlag'" [svg_type]="'humanBody'" [svgno]="'2'"
+                        [dummyData]='dummyData' [hoverRegion]='hoverRegion' [setClass]='setClass' [chartDetailId]="chartDetailId"
+                        (outPutData)="onClickLoadData()"></app-svg-map>
+                      <app-svg-map-detail #svgMapDetailsComRef *ngIf="zoom.firstZoom && activeSlideBody.active == 2"
+                        [val]="'score' + setClass" [svg_name]="'BackzoomFlag'" [svgno]="'2_x'" [svg_type]="'humanBody'"
+                        [setClass]='setClass' [chartDetailId]="chartDetailId" (valueChange)="onClickLoadData()"></app-svg-map-detail>
+                    </div>
+                    <div #mySlides class="mySlides" [appOnSlides]="zoom.firstZoom">
+                      <div class="numbertext">3 / 5</div>
+                      <app-svg-map *ngIf="!zoom.firstZoom && activeSlideBody.active == 3" #svgMapCompRef
+                        [val]="'score' + setClass" [svg_name]="'headFlag'" [svg_type]="'humanBody'" [svgno]="'3'"
+                        [dummyData]='dummyData' [hoverRegion]='hoverRegion' [setClass]='setClass' [chartDetailId]="chartDetailId"
+                        (outPutData)="onClickLoadData()"></app-svg-map>
+                      <app-svg-map-detail #svgMapDetailsComRef *ngIf="zoom.firstZoom && activeSlideBody.active == 3"
+                        [val]="'score' + setClass" [svg_name]="'headzoomFlag'" [svgno]="'3_x'" [svg_type]="'humanBody'"
+                        [setClass]='setClass'  [chartDetailId]="chartDetailId" (valueChange)="onClickLoadData()"></app-svg-map-detail>
+                    </div>
+                    <div #mySlides class="mySlides" [appOnSlides]="zoom.firstZoom">
+                      <div class="numbertext">4 / 5</div>
+                      <app-svg-map *ngIf="!zoom.firstZoom && activeSlideBody.active == 4" #svgMapCompRef
+                        [val]="'score' + setClass" [svg_name]="'leftFlag'" [svg_type]="'humanBody'" [svgno]="'4'"
+                        [dummyData]='dummyData' [hoverRegion]='hoverRegion' [setClass]='setClass' [chartDetailId]="chartDetailId"
+                        (outPutData)="onClickLoadData()"></app-svg-map>
+                      <app-svg-map-detail #svgMapDetailsComRef *ngIf="zoom.firstZoom && activeSlideBody.active == 4"
+                        [val]="'score' + setClass" [svg_name]="'leftzoomFlag'" [svgno]="'4_x'" [svg_type]="'humanBody'"
+                        [setClass]='setClass'  [chartDetailId]="chartDetailId" (valueChange)="onClickLoadData()"></app-svg-map-detail>
+                    </div>
+                    <div #mySlides class="mySlides" [appOnSlides]="zoom.firstZoom">
+                      <div class="numbertext">5 / 5</div>
+                      <app-svg-map #svgMapCompRef *ngIf="!zoom.firstZoom && activeSlideBody.active == 5"
+                        [val]="'score' + setClass" [svg_name]="'rightFlag'" [svg_type]="'humanBody'" [svgno]="'5'"
+                        [dummyData]='dummyData' [hoverRegion]='hoverRegion' [setClass]='setClass' [chartDetailId]="chartDetailId"
+                        (outPutData)="onClickLoadData()"></app-svg-map>
+                      <app-svg-map-detail #svgMapDetailsComRef *ngIf="zoom.firstZoom && activeSlideBody.active == 5"
+                        [val]="'score' + setClass" [svg_name]="'rightzoomFlag'" [svgno]="'5_x'" [svg_type]="'humanBody'"
+                        [dummyData]='dummyData' [setClass]='setClass'  [chartDetailId]="chartDetailId" (valueChange)="onClickLoadData()">
+                      </app-svg-map-detail>
+                    </div>
+                    <a class="prev" (click)="plusSlides( - 1)">&#10094;</a>
+                    <a class="next" (click)="plusSlides(1)">&#10095;</a>
+                    <!-- footer slides -->
+                    <div class="row mx-0">
+                      <div class="col-12 thumbnailDiv px-0">
+                        <div class="column">
+                          <div
+                            *ngIf="!zoom.firstZoom && !isImageExist(partDetails.humanbodyPartList.humanbody,'svgFrontFlag')"
+                            id="human_full_body_small_front" class="demo cursor svg-small-thumbnail col-xs-12"
+                            (click)="currentSlide(1)">
+                            <img class="detailimg-responsive" src="{{imagePath}}/humanBodyImages/Front_SmallBody.png" />
+                          </div>
+                          <div
+                            *ngIf="!zoom.firstZoom && isImageExist(partDetails.humanbodyPartList.humanbody,'svgFrontFlag')"
+                            id="human_full_body_small_front" class="demo cursor svg-small-thumbnail col-xs-12"
+                            (click)="currentSlide(1)">
+                            <img class="detailimg-responsive"
+                              src="{{imagePath}}/humanBodyImages/Front_SmallBody_Active.png" />
+                          </div>
+                          <div
+                            *ngIf="!isImageExist(partDetails.humanbodyPartList.humanbodyDetail,'FrontzoomFlag') && zoom.firstZoom"
+                            class="demo cursor svg-small-thumbnail col-xs-12" (click)="currentSlide(1)">
+                            <img class="detailimg-responsive" src="{{imagePath}}/humanBodyImages/Front-Body.png" />
+                          </div>
+                          <div
+                            *ngIf="isImageExist(partDetails.humanbodyPartList.humanbodyDetail,'FrontzoomFlag') && zoom.firstZoom"
+                            class="demo cursor svg-small-thumbnail col-xs-12 " (click)="currentSlide(1)">
+                            <img class="detailimg-responsive"
+                              src="{{imagePath}}/humanBodyImages/Front-Body_Active.png" />
+                          </div>
+                        </div>
+
+                        <div class="column">
+                          <div
+                            *ngIf="!zoom.firstZoom && !isImageExist(partDetails.humanbodyPartList.humanbody,'svgBackFlag')"
+                            id="human_full_body_small_front" class="demo cursor svg-small-thumbnail col-xs-12"
+                            (click)="currentSlide(2)">
+                            <img class="detailimg-responsive" src="{{imagePath}}/humanBodyImages/Back_SmallBody.png" />
+                          </div>
+                          <div
+                            *ngIf="!zoom.firstZoom && isImageExist(partDetails.humanbodyPartList.humanbody,'svgBackFlag')"
+                            id="human_full_body_small_front" class="demo cursor svg-small-thumbnail col-xs-12"
+                            (click)="currentSlide(2)">
+                            <img class="detailimg-responsive"
+                              src="{{imagePath}}/humanBodyImages/Back_SmallBody_Active.png" />
+                          </div>
+                          <div
+                            *ngIf="!isImageExist(partDetails.humanbodyPartList.humanbodyDetail,'BackzoomFlag') && zoom.firstZoom"
+                            class="demo cursor svg-small-thumbnail col-xs-12" (click)="currentSlide(2)">
+                            <img class="detailimg-responsive" src="{{imagePath}}/humanBodyImages/Back-Body.png" /></div>
+                          <div
+                            *ngIf="isImageExist(partDetails.humanbodyPartList.humanbodyDetail,'BackzoomFlag') && zoom.firstZoom"
+                            class="demo cursor svg-small-thumbnail col-xs-12" (click)="currentSlide(2)">
+                            <img class="detailimg-responsive"
+                              src="{{imagePath}}/humanBodyImages/Back-Body_Active.png" />
+                          </div>
+                        </div>
+
+                        <div class="column">
+                          <div
+                            *ngIf="!zoom.firstZoom && !isImageExist(partDetails.humanbodyPartList.humanbody,'headFlag')"
+                            id="human_full_body_small_front" class="demo cursor svg-small-thumbnail col-xs-12"
+                            (click)="currentSlide(3)">
+                            <img class="detailimg-responsive" src="{{imagePath}}/humanBodyImages/Head_Small.png" />
+                          </div>
+                          <div
+                            *ngIf="!zoom.firstZoom && isImageExist(partDetails.humanbodyPartList.humanbody,'headFlag')"
+                            id="human_full_body_small_front" class="demo cursor svg-small-thumbnail col-xs-12"
+                            (click)="currentSlide(3)">
+                            <img class="detailimg-responsive"
+                              src="{{imagePath}}/humanBodyImages/Head_Small_Active.png" />
+                          </div>
+
+                          <div
+                            *ngIf="!isImageExist(partDetails.humanbodyPartList.humanbodyDetail,'headzoomFlag') && zoom.firstZoom"
+                            class="demo cursor svg-small-thumbnail col-xs-12" (click)="currentSlide(3)">
+                            <img class="detailimg-responsive" src="{{imagePath}}/humanBodyImages/Head.png" /></div>
+                          <div
+                            *ngIf="isImageExist(partDetails.humanbodyPartList.humanbodyDetail,'headzoomFlag') && zoom.firstZoom"
+                            class="demo cursor svg-small-thumbnail col-xs-12" (click)="currentSlide(3)">
+                            <img class="detailimg-responsive" src="{{imagePath}}/humanBodyImages/Head_Active.png" />
+                          </div>
+                        </div>
+
+                        <div class="column">
+                          <div
+                            *ngIf="!zoom.firstZoom && !isImageExist(partDetails.humanbodyPartList.humanbody,'leftFlag')"
+                            id="human_full_body_small_front" class="demo cursor svg-small-thumbnail col-xs-12"
+                            (click)="currentSlide(4)">
+                            <img class="detailimg-responsive" src="{{imagePath}}/humanBodyImages/Left_Side_Small.png" />
+                          </div>
+                          <div
+                            *ngIf="!zoom.firstZoom && isImageExist(partDetails.humanbodyPartList.humanbody,'leftFlag')"
+                            id="human_full_body_small_front" class="demo cursor svg-small-thumbnail col-xs-12"
+                            (click)="currentSlide(4)">
+                            <img class="detailimg-responsive"
+                              src="{{imagePath}}/humanBodyImages/Left_Side_Small_Active.png" />
+                          </div>
+                          <div
+                            *ngIf="!isImageExist(partDetails.humanbodyPartList.humanbodyDetail,'leftzoomFlag') && zoom.firstZoom"
+                            class="demo cursor svg-small-thumbnail col-xs-12" (click)="currentSlide(4)">
+                            <img class="detailimg-responsive" src="{{imagePath}}/humanBodyImages/Left.png" /></div>
+                          <div
+                            *ngIf="isImageExist(partDetails.humanbodyPartList.humanbodyDetail,'leftzoomFlag') && zoom.firstZoom"
+                            class="demo cursor svg-small-thumbnail col-xs-12" (click)="currentSlide(4)">
+                            <img class="detailimg-responsive" src="{{imagePath}}/humanBodyImages/Left_Active.png" />
+                          </div>
+                        </div>
+
+                        <div class="column">
+                          <div
+                            *ngIf="!zoom.firstZoom && !isImageExist(partDetails.humanbodyPartList.humanbody,'rightFlag')"
+                            id="human_full_body_small_front" class="demo cursor svg-small-thumbnail col-xs-12"
+                            (click)="currentSlide(5)">
+                            <img class="detailimg-responsive"
+                              src="{{imagePath}}/humanBodyImages/Right_Small_Side.png" />
+                          </div>
+                          <div
+                            *ngIf="!zoom.firstZoom && isImageExist(partDetails.humanbodyPartList.humanbody,'rightFlag')"
+                            id="human_full_body_small_front" class="demo cursor svg-small-thumbnail col-xs-12"
+                            (click)="currentSlide(5)">
+                            <img class="detailimg-responsive"
+                              src="{{imagePath}}/humanBodyImages/Right_Side_Small_Active.png" />
+                          </div>
+                          <div
+                            *ngIf="!isImageExist(partDetails.humanbodyPartList.humanbodyDetail,'rightzoomFlag') && zoom.firstZoom"
+                            class="demo cursor svg-small-thumbnail col-xs-12" (click)="currentSlide(5)">
+                            <img class="detailimg-responsive" src="{{imagePath}}/humanBodyImages/Right.png" /></div>
+                          <div
+                            *ngIf="isImageExist(partDetails.humanbodyPartList.humanbodyDetail,'rightzoomFlag') && zoom.firstZoom"
+                            class="demo cursor svg-small-thumbnail col-xs-12" (click)="currentSlide(5)">
+                            <img class="detailimg-responsive" src="{{imagePath}}/humanBodyImages/Right_Active.png" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </ng-template>
+        </ngb-tab>
+
+      </ngb-tabset>
+    </div>
+    <!-- right side panel -->
+    <div class="col-3 bodyPartTab" *ngIf="!chartFlag">
+      <ngb-tabset (tabChange)="load_Summary_body_Details()" [activeId]="'bodyPart'" type="pills">
+        <ngb-tab id="bodyPart">
+          <ng-template ngbTabTitle>Body Part</ng-template>
+          <ng-template ngbTabContent>
+            <app-body-part-details (callRemoveMethod)="removebodyparts($event)" (callLoadMethod)="onClickLoadData()"
+              [displayList]="partDetails"></app-body-part-details>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="summery">
+          <ng-template ngbTabTitle>Summary</ng-template>
+          <ng-template ngbTabContent>
+            <!-- <app-human-body-summery [painSummaryData]="painSummaryData"></app-human-body-summery> -->
+            <ngb-accordion [closeOthers]="false" *ngIf="painSummaryData">
+              <ngb-panel>
+                <ng-template ngbPanelTitle>
+                  Body Part Examination Remarks
+                </ng-template>
+                <ng-template ngbPanelContent>
+                  <ul class="list-group">
+                    <li class="list-group-item p-1"
+                      *ngFor="let object of painSummaryData.humanBody.bodyPart | keyvalue">
+                      <div class="form-row align-items-center justify-content-center mx-0">
+                        <div class="col">
+                          <p class="mb-0">Score {{object.key}} &nbsp;-&nbsp;<span
+                              *ngFor="let part of object.value; let i=index">
+                              <span *ngIf="i>0 && i<object.value.length">,&nbsp;</span>
+                              {{part}}</span></p>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </ng-template>
+              </ngb-panel>
+            </ngb-accordion>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
+</div>
+<!-- of Print section -->
+<div *ngIf="chartFlag" class="modal-body p-0">
+  <app-chart [painChartData]="painChartData" [painAssociatedData]="painAssociatedData"
+    [chartRightCount]="chartRightCount" [lightTouchRightCount]="lightTouchRightCount"
+    [pinprickRightCount]="pinprickRightCount" [setClass]="setClass" [dummyData]="dummyData"
+    [lightTouchLeftCount]="lightTouchLeftCount" [pinprickLeftCount]="pinprickLeftCount"
+    [chartLeftCount]="chartLeftCount"></app-chart>
+  <!-- <div style="display: none">
+    <app-print-pain-report #reportDiv [painChartData]="painChartData" [painAssociatedData]="painAssociatedData" [chartRightCount]="chartRightCount" [lightTouchRightCount]="lightTouchRightCount"
+        [pinprickRightCount]="pinprickRightCount" [setClass]="setClass" [dummyData]="dummyData" [lightTouchLeftCount]="lightTouchLeftCount" [pinprickLeftCount]="pinprickLeftCount"
+        [chartLeftCount]="chartLeftCount"></app-print-pain-report>
+  </div> -->
+</div>
+<div class="modal-footer p-0">
+  <footer class="col-12 svgFooter" *ngIf="!humanBodyflag && !footExamineflag && !chartFlag">
+    <div class="panel row mb-0">
+      <div class="col-6 pb-0">
+        <h5 class="text-left text-uppercase bold">SENSORY SUBSCORES</h5>
+        <label><label>LTR </label><span class="footerSpan">{{lightTouchRight}} </span> <br /> <span class="bSpan">Max
+            (56)</span></label>
+        + <label><label>LTL </label> <span class="footerSpan">{{lightTouchLeft}} </span><br /> <span
+            class="bSpan">(56)</span></label>
+        = <label><label>LT TOTAL </label> <span class="footerSpan margin-right-15">{{totalLightTouch}}</span><br />
+          <span class="bSpan">(112)</span></label>
+
+        <label><label> PPR </label><span class="footerSpan">{{pinprickRight}} </span> <br /> <span class="bSpan">Max
+            (56)</span></label>
+        + <label><label>PPL </label> <span class="footerSpan"> {{pinprickLeft}} </span> <br /> <span
+            class="bSpan">(56)</span></label>
+        = <label><label>PP TOTAL </label> <span class="footerSpan"> {{totalPinPrick}}</span> <br /> <span
+            class="bSpan">(112)</span></label>
+      </div>
+      <div class="col-6 pb-0">
+        <h5 class="text-left text-uppercase bold">MOTOR SUBSCORES</h5>
+        <label><label>UER </label><span class="footerSpan">{{UER}} </span> <br /> <span class="bSpan">Max
+            (25)</span></label>
+        + <label><label>UEL </label> <span class="footerSpan">{{UEL}} </span> <br /> <span
+            class="bSpan">(25)</span></label>
+        = <label><label>UEMS TOTAL </label> <span class="footerSpan margin-right-15">{{totalUEMS}}</span>
+          <br /> <span class="bSpan">(50)</span></label>
+
+        <label><label> LER </label><span class="footerSpan">{{LER}} </span><br /> <span class="bSpan">Max
+            (25)</span></label>
+        + <label><label>LEL </label> <span class="footerSpan"> {{LEL}} </span> <br /> <span
+            class="bSpan">(25)</span></label>
+        = <label><label>LEMS TOTAL </label> <span class="footerSpan"> {{totalLEMS}}</span> <br /> <span
+            class="bSpan">(50)</span></label>
+      </div>
+    </div>
+  </footer>
+</div>

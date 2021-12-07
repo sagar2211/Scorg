@@ -1,0 +1,61 @@
+<div class="emr-custom-container-fluid">
+  <form [formGroup]="diabeticForm">
+    <div class="card-header p-1 border-dash-bottom">
+      <button title="Back to Map List" *ngIf="prevPath !=''" (click)="navigate(prevPath)"
+        class="btn btn-sm border-0 back-arrow-btn" type="button">
+        <i class="icon fa-fw icon-arrow" aria-hidden="true"></i>
+      </button>
+      <h6 class="mb-0 d-inline-block align-middle"> Diabetic Chart (24 Hrs)</h6>
+    </div>
+    <div class="card-body chart-form-height" formArrayName="diabeticData">
+      <div class="form-row form-group"
+        *ngFor="let dList of diabeticData.controls; let i = index;let last = last;first as first" [formGroupName]="i">
+        <div class="col-2">
+          <label for="time">Time</label>
+          <select class="form-control form-control-sm pointer" formControlName="time" (change)="updateValueInService()">
+            <option *ngFor="let hrs of hrsList" [ngValue]="hrs">
+              {{hrs}}
+            </option>
+          </select>
+        </div>
+        <div class="col-2">
+          <label for="bsl">BSL</label>
+          <input type="number" class="form-control form-control-sm" formControlName="bsl">
+        </div>
+        <div class="col-2">
+          <label for="insulin_level">Insulin Level</label>
+          <input type="number" class="form-control form-control-sm" formControlName="insLvl"
+            (keyup)="updateValueInService()">
+        </div>
+        <div class="col-2">
+          <label for="insulin_given">Insulin Given</label>
+          <input type="number" class="form-control form-control-sm" formControlName="insGvn"
+            (keyup)="updateValueInService()">
+        </div>
+        <div class="col-2">
+          <label for="insulin_type">Insulin Type</label>
+          <select class="form-control form-control-sm pointer" formControlName="insTyp" (change)="updateValueInService()"
+            (keyup)="updateValueInService()">
+            <option *ngFor="let ins of insulinTypeList" [ngValue]="ins">
+              {{ins.name}}
+            </option>
+          </select>
+        </div>
+        <div class="col-2 align-self-center mt-custom-1-2">
+          <!-- <label [ngClass]="{'w-100 d-block p-2 mb-2': first}"></label> -->
+          <button type="button" [ngClass]="{'invisible': !last}" (click)="addInsulin(dList.value);"
+            class="btn btn-sm btn-primary text-uppercase mr-2">
+            <i class="fa fa-fw fa-plus"></i>
+          </button>
+          <button type="button" (click)="deleteInsulin(i)" class="btn btn-sm btn-danger text-uppercase">
+            <i class="icon fa-fw icon-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer py-1 text-right">
+      <button type="button" class="btn btn-sm btn-success text-uppercase" (click)="goToIcuFlowSheet()"><i
+        class="icon fa-fw icon-save"></i> Save</button>
+    </div>
+  </form>
+</div>

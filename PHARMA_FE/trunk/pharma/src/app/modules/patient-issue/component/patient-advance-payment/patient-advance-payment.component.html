@@ -1,0 +1,117 @@
+<div class="modal-header px-2">
+  <h6 class="mb-0 text-uppercase">Advance Payment History.</h6>
+  <button type="button" class="close font-weight-normal text-white pt-2" aria-label="Close" (click)="modal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body p-0">
+  <div class="panel-body p-0 panel-panel-body">
+    <div class="mx-0 row">
+      <div class="form-row form-group">
+        <div class="col-12">
+          <dx-data-grid id="advancePaymentGridContainer" [dataSource]="advancePaymentData" keyExpr="advanceDetailId"
+            [showBorders]="true" (onEditorPreparing)="onEditorPreparing($event)" [showRowLines]="true"
+            [focusedRowEnabled]="true" (onFocusedRowChanged)="onFocusedRowChanged($event)" [allowColumnResizing]="true"
+            [columnAutoWidth]="true" (onEditingStart)="onEditingStart($event)">
+            <dxo-sorting mode="none"></dxo-sorting>
+            <dxo-paging [enabled]="false"></dxo-paging>
+            <dxo-editing mode="cell" [allowUpdating]="true" [allowAdding]="false" [allowDeleting]="false"
+              [useIcons]="true">
+            </dxo-editing>
+            <dxi-column dataField="paymentmode" caption="Mode" [width]="100" [fixed]="true" [allowEditing]="false">
+            </dxi-column>
+            <dxi-column  dataField="chqCleared" caption="Status" cellTemplate="cellTemplate" [allowEditing]="false">
+              <div *dxTemplate="let cell of 'cellTemplate'">
+                <div *ngIf="cell?.data?.paymentmode === 'CHEQUE'" [ngClass]="{'badge-success': cell.text == 'Y', 'badge-danger': cell.text != 'Y'}">
+                  {{cell.text == 'Y' ? 'Cleared' : 'Not Cleared' }}</div>
+              </div>
+            </dxi-column>
+            <dxi-column dataField="amount" caption="Amount" [allowEditing]="false">
+              <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+            </dxi-column>
+            <dxi-column dataField="usedAmount" caption="UsedAmount"  [width]="100" [allowEditing]="false">
+              <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+            </dxi-column>
+            <dxi-column dataField="balanceAmount" caption="Balance Amount" [width]="130" [allowEditing]="false">
+              <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+            </dxi-column>
+            <!-- <dxi-column dataField="advDate" caption="Date" [allowEditing]="false"></dxi-column> -->
+            <dxi-column dataField="addUser" caption="Rcvd.By" [allowEditing]="false"></dxi-column>
+            <dxi-column dataField="addDate" caption="Rcvd.Date" [allowEditing]="false" [width]="230"></dxi-column>
+            <dxi-column dataField="isAdvanceApply" caption="Apply" dataType="boolean" [width]="50">
+            </dxi-column>
+            <dxi-column dataField="applicableAmount" caption="Applicable Amt" [width]="150" style="text-align: right !important;">
+              <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+            </dxi-column>
+            <dxo-summary [recalculateWhileEditing]="true">
+              <dxi-total-item summaryType="count" displayFormat="Sub Total: " showInColumn="mode" class="text">
+              </dxi-total-item>
+              <dxi-total-item column="amount" summaryType="sum" [customizeText]="decimalWithPrecision">
+              </dxi-total-item>
+              <dxi-total-item column="usedAmount" summaryType="sum" [customizeText]="decimalWithPrecision">
+              </dxi-total-item>
+              <dxi-total-item column="balanceAmount" summaryType="sum" [customizeText]="decimalWithPrecision">
+              </dxi-total-item>
+              <dxi-total-item column="applicableAmount" summaryType="sum" [customizeText]="decimalWithPrecision">
+              </dxi-total-item>
+            </dxo-summary>
+          </dx-data-grid>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1 pt-0 pb-1">
+  <div class="col-md-12 p-0">
+    <div class="row m-0">
+      <div class="m-0 px-10 p-0 col-2 pr-1">
+        <label class="font-weight-600 m-0">Net Payable</label>
+        <input type="number" id="netPayableAmt" [(ngModel)]="netAmount"
+          class="font-weight-600 form-control form-control-sm text-right black" [disabled]="true" />
+      </div>
+      <div class="m-0 pl-0 pr-10 px-10 col-2 pr-1">
+        <label class="font-weight-600 m-0">Total Deposited</label>
+        <input type="text" id="totalDeposited" [(ngModel)]="totalDeposited"
+          class="font-weight-600 form-control form-control-sm text-right black" [disabled]="true" />
+      </div>
+      <!--<div class="m-0 pl-0 pr-10">
+        <span class="fa fa-minus mt-auto font-size-10 mb-5 text-warning"></span>
+        <span class="fa  mt-auto font-size-20 mb-0 ml-5 text-warning"> ( </span>
+      </div>
+       <div class="m-0 px-10">
+        <label class="font-weight-600 m-0">IP/OP/ER Settled</label>
+        <input type="text" id="totalGenbillSettled" [(ngModel)]="totalGenBillSettled"
+          class="font-weight-600 form-control form-control-sm text-right black" [disabled]="true" />
+      </div>
+      <div class="m-0 pl-0 pr-10">
+        <span class="fa fa-plus mt-auto font-size-10 mb-5 text-warning"></span>
+      </div>
+      <div class="m-0 px-10">
+        <label class="font-weight-600 m-0">Spot Bill Settled</label>
+        <input type="text" id="totalSpotbillSettled" [(ngModel)]="totalSpotBillSettled"
+          class="font-weight-600 form-control form-control-sm text-right black" [disabled]="true" />
+      </div>
+       <div class="m-0 pl-0 pr-10">
+        <span class="fa mt-auto font-size-20 mb-0 ml-5 mr-5 text-warning"> ) </span>
+        <span class="fa fa-pause mt-auto font-size-10 mb-5 text-warning"
+          style="transform: rotate(90deg); font-size: 8px !important;"></span>
+      </div> -->
+      <!-- <div class="m-0 px-10">
+        <label class="font-weight-600 m-0">Total Balance</label>
+        <input type="text" id="totalBalance" [(ngModel)]="totalBalance"
+          class="font-weight-600 form-control form-control-sm text-right black" [disabled]="true" />
+      </div> -->
+      <div class="m-0 px-10">
+        <label class="font-weight-600 m-0">Apply Amount</label>
+        <input type="number" id="applyAmt" [(ngModel)]="appliedAmount"
+          class="font-weight-600 form-control form-control-sm text-right black" 
+          [disabled]="true" />
+      </div>
+      <div class="float-right mt-15 ml-auto mt-3">
+        <button type="button" class="btn btn-sm btn-warning text-uppercase mr-1" (click)="modal.dismiss();">Cancel</button>
+        <button type="button" class="btn btn-sm btn-outline-success text-uppercase" (click)="applyAdvancePayment()">
+          <i aria-hidden="true" class="icon fa-fw icon-save"></i> Apply</button>
+      </div>
+    </div>
+    <app-alert-message [alertMessage]="alertMsg"></app-alert-message>

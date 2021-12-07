@@ -1,0 +1,26 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+.role-component {
+  @include border-radius(5px);
+  border: 1px solid $gray-400;
+  @include custom-box-shadow(0, 0, 5px, rgba(28, 25, 83, 0.12));
+
+  .card-header {
+    color: $gray-700;
+  }
+}
+
+:host ::ng-deep {
+  .ngx-datatable.fixed-row {
+    .datatable-header-inner {
+      .datatable-row-center {
+        .datatable-header-cell {
+
+          &[title="Status"] {
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}

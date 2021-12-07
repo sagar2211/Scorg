@@ -1,0 +1,67 @@
+<form [formGroup]="addPatForm" (ngSubmit)="savePatientData()" *ngIf="loadForm">
+    <div class="modal-header">
+        <p class="modal-title text-uppercase">Add Patient</p>
+        <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup()">
+<span aria-hidden="true">&times;</span>
+</button>
+    </div>
+    <div class="modal-body p-1">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-4">
+                    <label>First Name</label>
+                    <input type="text" class="form-control form-control-sm width-140" appUpperCase placeholder="Name" formControlName="patientFirstname">
+                    <small class="text-danger" *ngIf="getFrmCntrols['patientFirstname'].errors?.required && submitted">
+                      Please Select Name!</small>
+                </div>
+                <div class="col-4">
+                    <label>Mid Name</label>
+                    <input type="text" class="form-control form-control-sm width-140" appUpperCase placeholder="Name" formControlName="patientMidname">
+                </div>
+                <div class="col-4">
+                    <label>Last Name</label>
+                    <input type="text" class="form-control form-control-sm width-140" appUpperCase placeholder="Name" formControlName="patientLastname">
+                </div>
+                <div class="col-6">
+                    <label>Number</label>
+                    <input type="text" class="form-control form-control-sm width-140" appUpperCase appOnlyNumbers placeholder="Number" formControlName="mobileNo">
+                </div>
+                <div class="col-6">
+                    <label>Address</label>
+                    <input type="text" class="form-control form-control-sm width-140" appUpperCase placeholder="Address" formControlName="patientAddress1">
+                    <input type="text" class="form-control form-control-sm width-140" appUpperCase placeholder="Address" formControlName="patientAddress2">
+                    <input type="text" class="form-control form-control-sm width-140" appUpperCase placeholder="Address" formControlName="patientAddress3">
+                </div>
+                <div class="col-6">
+                    <label>Gendar</label>
+                    <label>
+                      <input type="radio" value="MALE" formControlName="gender">
+                        <span>Male</span>
+                    </label>
+                    <label>
+                      <input type="radio" value="FEMALE" formControlName="gender">
+                        <span>Female</span>
+                    </label>
+                    <label>
+                      <input type="radio" value="OTHER" formControlName="gender">
+                        <span>Other</span>
+                    </label>
+                </div>
+                <div class="col-6">
+                    <label>Doctor</label>
+                    <app-ng-select-typeahead [inputValue]="addPatForm.value.doctor?.id" [selectedValue]="addPatForm.value.doctor?.name" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" (recievedVal)="selectDoctorValue($event)" [source]="'Select Doctor'" [returnDataType]="'obj'"
+                        [isDisabled]="false" [compInstance]="compInstance" [searchFun]="getDoctorList" [isSearchDataFromApi]="true">
+                    </app-ng-select-typeahead>
+                    <!-- <ng-select class="patient-search" [items]="deptList$ | async" bintValue="id" bindLabel="name" (change)="onDeptChange($event)" formControlName="deptId" placeholder="Department Select" [typeahead]="deptListInput$">
+                    </ng-select> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer py-1">
+        <button type="button" class="btn btn-sm btn-outline-primary" (click)="savePatientData()">Save</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closePopup()">CLOSE</button>
+    </div>
+
+</form>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

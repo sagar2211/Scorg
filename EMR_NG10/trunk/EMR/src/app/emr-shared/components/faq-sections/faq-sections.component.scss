@@ -1,0 +1,12 @@
+:host ::ng-deep {
+  .accordion {
+    .card-body {
+      // height: calc(100vh - 66px);
+      // overflow-y: auto;
+    }
+  }
+}
+
+.custom-btn-w {
+  min-width: 90px;
+}

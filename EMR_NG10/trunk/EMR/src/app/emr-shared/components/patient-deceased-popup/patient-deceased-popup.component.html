@@ -1,0 +1,54 @@
+<form [formGroup]="deceasedPatientForm" (ngSubmit)="saveDeceasedPatient()">
+    <div class="modal-header">
+        <p class="modal-title text-uppercase">Patient Deceased</p>
+        <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+            (click)="modal.close('cancel')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body py-2">
+        <div class="form-row form-group">
+            <div class="col-5">
+                <label class="m-0">Date of Death</label>
+                <app-date-picker [inputDate]="deceasedPatientForm.value.dateOfDeath" [max]='todayDate'
+                    placeholder="yyyy-mm-dd" (dateChange)="deceasedPatientForm.patchValue({dateOfDeath : $event});">
+                </app-date-picker>
+                <span
+                    *ngIf="(deceasedPatientForm.get('dateOfDeath').valid && deceasedPatientForm.get('dateOfDeath').touched) || submitted"
+                    class="help-block">
+                    <span class="validate-msg" *ngIf="deceasedPatientForm.get('dateOfDeath').errors?.required">
+                        Date Of death is required!
+                    </span>
+                </span>
+            </div>
+            <div class="col-7">
+                <label class="m-0">Death Time<sup class="text-danger">*</sup></label>
+                <div class="row m-0">
+                    <div class="col-6 p-0 pr-1">
+                        <ng-select class="w-100 first text-left" [items]="timeArray.hrs" placeholder="Hour"
+                            formControlName="deathTimeHr"></ng-select>
+                    </div>
+                    <div class="col-6 p-0">
+                        <ng-select class="w-100 first text-left" [items]="timeArray.min" placeholder="Min"
+                            formControlName="deathTimeMin"></ng-select>
+                    </div>
+                </div>
+                <span
+                    *ngIf="(((!deceasedPatientForm.get('deathTimeHr').valid && deceasedPatientForm.get('deathTimeHr').touched) || (!deceasedPatientForm.get('deathTimeMin').valid && deceasedPatientForm.get('deathTimeMin').touched)) || submitted)"
+                    class="help-block">
+                    <span class="validate-msg"
+                        *ngIf="(deceasedPatientForm.get('deathTimeHr').errors?.required || deceasedPatientForm.get('deathTimeMin').errors?.required)">
+                        Please Select Value!
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer py-1">
+        <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
+            (click)="modal.close('cancel');">Cancel</button>
+        <button type="submit" class="btn btn-sm btn-outline-primary text-uppercase">SAVE</button>
+    </div>
+</form>
+
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

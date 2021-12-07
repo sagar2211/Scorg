@@ -1,0 +1,218 @@
+{
+  "defaultObj": {
+    "id": "",
+    "label": "",
+    "default_comment": "",
+    "is_favourite": "",
+    "doc_id": "",
+    "default_comment_type": "",
+    "patient_investigation_date_type": "",
+    "patient_investigation_date": "",
+    "investigationName": ""
+  },
+  "resData": [{
+      "id": "62",
+      "label": "New radiology test on dated 06 Aug 2018",
+      "default_comment": "",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "515",
+      "label": "Radio test",
+      "default_comment": "",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "516",
+      "label": "new radio g1",
+      "default_comment": "",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "517",
+      "label": "new radio g2",
+      "default_comment": "",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "518",
+      "label": "new radio test 1",
+      "default_comment": "",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "519",
+      "label": "night test radio",
+      "default_comment": "comment for night test radio",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "520",
+      "label": "Radiology test A1",
+      "default_comment": "comment for Radiology test A1",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "521",
+      "label": "new radio test a1",
+      "default_comment": "comment for new a1",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "522",
+      "label": "new radio test a7",
+      "default_comment": "",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "523",
+      "label": "new radio test a8",
+      "default_comment": "",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "524",
+      "label": "radiology test a2",
+      "default_comment": "comment for radiology test a2",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "525",
+      "label": "night test radio 1",
+      "default_comment": "1",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "526",
+      "label": "TEST SPRINT 14 radio",
+      "default_comment": "comment for TEST SPRINT 14 radio",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "527",
+      "label": "radiology",
+      "default_comment": "new for 5-7-2018",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "528",
+      "label": "new radio test 13",
+      "default_comment": "same as anand gurjar",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "529",
+      "label": "MRI - Arm",
+      "default_comment": "",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "531",
+      "label": "MRI - Face",
+      "default_comment": "",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "533",
+      "label": "MRI - Hand",
+      "default_comment": "",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "536",
+      "label": "MRI - Ankle",
+      "default_comment": "",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    },
+    {
+      "id": "537",
+      "label": "MRI - Brain",
+      "default_comment": "",
+      "is_favourite": "0",
+      "doc_id": "2902",
+      "use_count": "0",
+      "use_count_cardiac": "0",
+      "investigation_head_id": "9"
+    }
+  ],
+  "getInvestigationSuggestionListOnLoad": {
+    "frequently_used": [{"id":"125","label":"MRI SI Joint with screening of whole spine","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"68","label":"tt","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"67","label":"ss","default_comment":"ss","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"93","label":"Add new in est","default_comment":"saas","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"83","label":"RA FACTOR","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"132","label":"MRI THORACIC SPINE WITH SCREENING OF WHOLE SPINE","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"92","label":"Serum protein","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"134","label":"MRI RIGHT SI JOINT WITH SCREENING OF LS SPINE AND PBH","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"146","label":"MRI","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"130","label":"MRI LS spine with screening of Right Hip joint","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"74","label":"sds","default_comment":"dss","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"116","label":"X-RAY HIP JOINT RIGHT AP\/LATERAL","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"107","label":"WHOLE BODY DEXA BONE SCAN","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"99","label":"MRI RIGHT SHOULDER","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"72","label":"TSH","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"122","label":"ARTERIO-VENOUS COLOR DOPPLER BILATERAL LL","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"133","label":"serum protein electrophoresis for multiple myeloma","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"70","label":"IgA","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"71","label":"IgM","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"73","label":"igG","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"104","label":"new invetigation june12","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"2932","label":"test lab 2","default_comment":"1","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"120","label":"Other diagnostic services- Mammography","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"127","label":"Colour Doppler - Limb (Arterial and Venous)","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"101","label":"2D Echo colour doppler","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"81","label":"EMG\/NCV","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"69","label":"ECG","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"80","label":"EMG NCV","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"89","label":"MRI LS spine","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"113","label":"Add new invetsigation  june 14","default_comment":"43s","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"110","label":"X-RAY HEEL LEFT AP\/LATERAL","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"109","label":"new Invetsigation june 14","default_comment":"add comment","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"79","label":"saaaaa","default_comment":"ss","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"77","label":"saas","default_comment":"ss","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"75","label":"dsds","default_comment":"dsds","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"78","label":"dscdc","default_comment":"scscs","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"100","label":"Add new invetigtaion","default_comment":"comment","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"105","label":"new investigtaion june12","default_comment":"add dj","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"76","label":"dssd","default_comment":"ds","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"98","label":"MRI CERVICAL SPINE","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"108","label":"X-Ray LS Spine AP\/Lateral","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"94","label":"CT BRAIN (P+C)","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"82","label":"MRI BRAIN","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"86","label":"USG SCROTUM","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"131","label":"MRI Cervical spine with screening of whole spine","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"103","label":"X-RAY KNEE (AP\/LATERAL)","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"97","label":"USG WHOLE ABDOMEN","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"84","label":"STOOL - R","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"129","label":"arterio-venous color doppler Right Lower limb","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"112","label":"X-ray Dorsal Spine Ap\/Lateral","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"}],"others":[{"id":"67","label":"ss","default_comment":"ss","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"68","label":"tt","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"69","label":"ECG","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"69","label":"ECG","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"70","label":"IgA","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"71","label":"IgM","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"72","label":"TSH","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"73","label":"igG","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"74","label":"sds","default_comment":"dss","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"75","label":"dsds","default_comment":"dsds","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"76","label":"dssd","default_comment":"ds","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"77","label":"saas","default_comment":"ss","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"78","label":"dscdc","default_comment":"scscs","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"79","label":"saaaaa","default_comment":"ss","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"80","label":"EMG NCV","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"80","label":"EMG NCV","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"81","label":"EMG\/NCV","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"81","label":"EMG\/NCV","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"82","label":"MRI BRAIN","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"83","label":"RA FACTOR","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"84","label":"STOOL - R","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"85","label":"X-ray OPG","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"86","label":"USG SCROTUM","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"87","label":"X-RAY CHEST","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"88","label":"MRI DL SPINE","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"89","label":"MRI LS spine","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"89","label":"MRI LS spine","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"90","label":"MRI SI JOINT","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"91","label":"MRI Knee LEFT","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"92","label":"Serum protein","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"93","label":"Add new in est","default_comment":"saas","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"94","label":"CT BRAIN (P+C)","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"95","label":"DEXA BONE SCAN","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"96","label":"MRI Whole spine","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"97","label":"USG WHOLE ABDOMEN","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"98","label":"MRI CERVICAL SPINE","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"99","label":"MRI RIGHT SHOULDER","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"100","label":"Add new invetigtaion","default_comment":"comment","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"101","label":"2D Echo colour doppler","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"101","label":"2D Echo colour doppler","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"102","label":"X-RAY LEFT FOOT AP\/LAT","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"103","label":"X-RAY KNEE (AP\/LATERAL)","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"104","label":"new invetigation june12","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"105","label":"new investigtaion june12","default_comment":"add dj","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"106","label":"MRI WHOLE SPINE SCREENING","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"107","label":"WHOLE BODY DEXA BONE SCAN","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"108","label":"X-Ray LS Spine AP\/Lateral","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"109","label":"new Invetsigation june 14","default_comment":"add comment","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"110","label":"X-RAY HEEL LEFT AP\/LATERAL","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"111","label":"X-ray Right Wrist AP\/Lateral","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"}],"favourites":[{"id":"66","label":"sa","default_comment":"dfcgvhbj","is_favourite":"1","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"}]},
+
+    "getInvestigationDataByLimit" : [{"id":"66","label":"sa","default_comment":"dfcgvhbj","is_favourite":"1","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"70","label":"IgA","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"77","label":"saas","default_comment":"ss","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"79","label":"saaaaa","default_comment":"ss","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"82","label":"MRI BRAIN","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"83","label":"RA FACTOR","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"85","label":"X-ray OPG","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"87","label":"X-RAY CHEST","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"93","label":"Add new in est","default_comment":"saas","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"94","label":"CT BRAIN (P+C)","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"95","label":"DEXA BONE SCAN","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"97","label":"USG WHOLE ABDOMEN","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"98","label":"MRI CERVICAL SPINE","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"100","label":"Add new invetigtaion","default_comment":"comment","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"102","label":"X-RAY LEFT FOOT AP\/LAT","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"103","label":"X-RAY KNEE (AP\/LATERAL)","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"104","label":"new invetigation june12","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"105","label":"new investigtaion june12","default_comment":"add dj","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"107","label":"WHOLE BODY DEXA BONE SCAN","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"108","label":"X-Ray LS Spine AP\/Lateral","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"109","label":"new Invetsigation june 14","default_comment":"add comment","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"110","label":"X-RAY HEEL LEFT AP\/LATERAL","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"111","label":"X-ray Right Wrist AP\/Lateral","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"112","label":"X-ray Dorsal Spine Ap\/Lateral","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"113","label":"Add new invetsigation  june 14","default_comment":"43s","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"114","label":"X-ray Shoulder Left AP\/Lateral","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"115","label":"X-RAY CERVICAL SPINE AP\/LATERAL","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"116","label":"X-RAY HIP JOINT RIGHT AP\/LATERAL","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"117","label":"X-RAY BILATERAL ANKLE AP \/LATERAL","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"119","label":"x-ray LS spine  LAT Flexion extension","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"120","label":"Other diagnostic services- Mammography","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"120","label":"Other diagnostic services- Mammography","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"122","label":"ARTERIO-VENOUS COLOR DOPPLER BILATERAL LL","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"126","label":"X-ray Knee Standing - AP\/LATERAL Both KNEE","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"127","label":"Colour Doppler - Limb (Arterial and Venous)","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"127","label":"Colour Doppler - Limb (Arterial and Venous)","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"128","label":"CT ABDOMINAL AND PELVIS (PLAIN+SOS CONTRAST)","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"129","label":"arterio-venous color doppler Right Lower limb","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"131","label":"MRI Cervical spine with screening of whole spine","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"132","label":"MRI THORACIC SPINE WITH SCREENING OF WHOLE SPINE","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"133","label":"serum protein electrophoresis for multiple myeloma","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"134","label":"MRI RIGHT SI JOINT WITH SCREENING OF LS SPINE AND PBH","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"135","label":"MRI Brain with focus on gasserian ganglion (Vth nerve)","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"2932","label":"test lab 2","default_comment":"1","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"4"},{"id":"3","label":"HBA1C","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"7"},{"id":"8","label":"Blood Group and Rh typing","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"7"},{"id":"10","label":"Blood Grouping and Rh Typing","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"7"},{"id":"11","label":"Erythrocyte Sedimentation Rate (ESR)","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"7"},{"id":"16","label":"S.CALCIUM","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"1"},{"id":"17","label":"Bsl Random","default_comment":"","is_favourite":"0","doc_id":"2902","use_count":"0","use_count_cardiac":"0","investigation_head_id":"1"}]
+}

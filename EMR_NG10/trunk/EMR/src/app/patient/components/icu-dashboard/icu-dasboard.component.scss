@@ -1,0 +1,23 @@
+@import "./../../../../scss/main";
+
+// .icu-dashboard {
+
+//   .icu-dashboard-options {
+//     position: fixed;
+//     display: block;
+//     top: 88px;
+//     z-index: 9;
+//     float: right;
+//     left: auto;
+//     right: 11px;
+//   }
+// }
+
+:host ::ng-deep {
+  .ngx-datatable.fixed-row {
+    .datatable-body {
+      height: calc(100vh - 187px) !important;
+      overflow-x: hidden;
+    }
+  }
+}

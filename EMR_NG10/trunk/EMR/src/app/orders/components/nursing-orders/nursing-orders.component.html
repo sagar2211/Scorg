@@ -1,0 +1,188 @@
+<div class="form-row mx-0">
+  <div class="col-6 border-dash-right pr-0"
+    *ngIf="(!!(orderDisplayType == 'all') || ((nursingOrders | displaySavedUnsaved: orderDisplayType ).length))">
+    <div class="card-section">
+      <div *ngIf="!(nursingOrders | orderListFilter : false : false : 'unSaved').length"
+        class="bg-img mt-2 text-center">
+        <img src="./assets/img/no-orders.png" class="img-fluid" alt="no orders" />
+      </div>
+      <div class="card mb-1 mr-1 mt-1 pointer order-card"
+        *ngFor="let nurs of nursingOrders | orderListFilter : false : false : 'unSaved'; let i = index"
+        id="nursinOrd{{i}}" [ngClass]="{'active': (activeIndex == i)}">
+        <ng-container *ngIf="activeIndex === i && !isTabModeOn">
+          <form [formGroup]="nursingOrderFrm">
+            <div class="card-heading border-bottom" *ngIf="!isFromFavSuggestionTemplate">
+              <div class="form-row mx-0 align-items-center">
+                  <div class="col-12 py-1">
+                      <h6 class="mb-0 font-weight-500 ">
+                          {{nurs.name}}
+                      </h6>
+                  </div>
+              </div>
+          </div>
+          <div class="card-body p-1">
+            <div class="row m-0">
+              <div class="col-3 px-1">
+                <label class="text-muted m-0">Frequency</label>
+                <input formControlName="genericFreq"
+                      (change)="setMedicineFreqSchedule(nursingOrderFrm.value, false);" type="text" class="form-control form-control-sm"
+                      placeholder="Enter Frequency" />
+                  <div class="mb-1">
+                    <span *ngIf="nursingOrderFrm.value.genericFreq <= 4">{{nursingOrderFrm.value.FreqSchedule}}</span>
+                    <span
+                      *ngIf="nursingOrderFrm.value.genericFreq > 4">{{nursingOrderFrm.value.genericFreq + ' times a day' }}</span>
+                    <a class="text-primary font-size-dot-8"
+                      *ngIf="nursingOrderFrm.value.FreqSchedule && (nursingOrderFrm.value.genericFreq < 3)"
+                      (click)="setMedicineFreqSchedule(nursingOrderFrm.value);">&nbsp;Change</a>
+                    <span *ngIf="nursingOrderFrm.get('genericFreq').errors">
+                      <span class="text-danger" *ngIf="!!(nursingOrderFrm.get('genericFreq').errors?.pattern)">Only
+                        numbers
+                        allowed..</span>
+                      <span class="text-danger" *ngIf="!!(nursingOrderFrm.get('genericFreq').errors?.max)">Number should
+                        be less
+                        then 24..</span>
+                    </span>
+                  </div>
+              </div>
+              <div class="col-3 px-1">
+                <label class="text-muted m-0">Start Time</label>
+                <ng-select [items]="hoursList" bindLabel="time" bindValue="time" placeholder="Select Time" (change)="onFreqStartTimeSelect($event);" formControlName="freqStartTime"></ng-select>
+              </div>
+              <div class="col-12 px-0">
+                <button (click)="activeIndex = null; updateDataToArray()" type="button" class="btn float-right btn-outline-primary-light m-1 p-1">UPDATE</button>
+              </div>
+            </div>
+          </div>
+          </form>
+        </ng-container>
+        <ng-container *ngIf="activeIndex !== i">
+          <app-orders-display [isShowActions]="isShowActions" (editData)="activeIndex = i; onEditNursing($event, i)"
+          (deleteData)="removeNurOrders($event)" (approveOrder)="approveOrders($event,i)" [item]="nurs"
+          [source]="'nursingOrders'" [isEdit]="isEdit" [isDelete]="isDelete"
+          (checkAllPendingValue)="findPendingObject()">
+        </app-orders-display>
+        </ng-container>
+      </div>
+      <ng-container *ngIf="!nursingOrders.length" [ngTemplateOutlet]="emptyOrdersTemplate"></ng-container>
+    </div>
+  </div>
+  <!--SUGGESTION CODE-->
+  <div class="col-6 pl-0 pr-0 col-suggesstion" *ngIf="loadSuggestion">
+    <div *ngIf="showInputSearchBox">
+      <div class="input-group">
+        <input (ngModelChange)="onSearch($event);" class="form-control form-control-sm pl-2rem" type="text"
+          [(ngModel)]="searchKeyword" (focus)="hideHistory()" placeholder="Search By Name">
+        <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+        <div class="input-group-append">
+          <button class="btn btn-sm btn-outline-primary-light" type="button" title="Add"
+            (click)="addMasterNursing()"><i class="fa fa-fw fa-plus" aria-hidden="true"></i> ADD</button>
+        </div>
+      </div>
+    </div>
+    <app-suggestion-panel #suggestionPanel [showHeading]="false" [showInputSearchBox]="showInputSearchBox"
+      [suggestionPanelSettings]="suggestionPanelSettings" [isOnload]="isOnload" [showCombinedList]=true
+      [isFrom]="isFrom">
+    </app-suggestion-panel>
+  </div>
+  <!--SUGGESTION CODE END-->
+  <div class="col-6 pl-0 pr-0 col-suggesstion" *ngIf="showAddSection">
+    <form *ngIf="showAddSection" [formGroup]="nursingOrderFrm">
+      <ngb-tabset (tabChange)="configureAction($event)" [destroyOnHide]="false">
+        <ngb-tab id="Templates" title="Templates">
+          <ng-template ngbTabContent>
+            <div class="all-suggestion my-1">
+              <p class="mb-1 text-center label-suggestion">
+                Favorite Template Suggestion</p>
+              <div class="btn btn-outline-primary-light d-block p-0 text-left m-1 pointer order-card favorite-btn"
+                *ngFor="let nurs of nursingtOrdersFavSuggestionTemplateList; let i = index;"
+                id="nursingSugestionTemplate{{i}}" [ngClass]="{'active': (activeIndex == i)}">
+                <app-orders-display (checkAllPendingValue)="findPendingObject()" [isFromFavSuggestionTemplate]="true"
+                  [inputIndex]="selectedItemIndex" [isShowActions]="true" (deleteData)="removeNurOrders($event)"
+                  (editData)="activeIndex = i; onEditNursing($event, i)" [isEdit]="isEdit" [item]="nurs"
+                  [source]="'nursingOrders'" [isDelete]="isDelete">
+                </app-orders-display>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="Frequency" title="Frequency">
+          <ng-template ngbTabContent>
+            <ng-container>
+              <div class="all-suggestion px-2">
+                <div class="form-group form-row mx-0">
+                  <div class="col-6">
+                    <label class="text-muted">Enter Frequency</label>
+                    <input formControlName="genericFreq"
+                      (change)="setMedicineFreqSchedule(nursingOrderFrm.value, false);" type="text" class="form-control"
+                      placeholder="Enter Frequency" />
+                  </div>
+                  <div class="col-6">
+                    <label class="text-muted">No. Of Days</label>
+                    <input formControlName="genericDuration" type="number" class="form-control"
+                      placeholder="No. Of Days" />
+                  </div>
+                </div>
+                <div class="mb-1">
+                  <span *ngIf="nursingOrderFrm.value.genericFreq <= 4">{{nursingOrderFrm.value.FreqSchedule}}</span>
+                  <span
+                    *ngIf="nursingOrderFrm.value.genericFreq > 4">{{nursingOrderFrm.value.genericFreq + ' times a day' }}</span>
+                  <a class="text-primary font-size-dot-8"
+                    *ngIf="nursingOrderFrm.value.FreqSchedule && (nursingOrderFrm.value.genericFreq < 3)"
+                    (click)="setMedicineFreqSchedule(nursingOrderFrm.value);">&nbsp;Change</a>
+                  <span *ngIf="nursingOrderFrm.get('genericFreq').errors">
+                    <span class="text-danger" *ngIf="!!(nursingOrderFrm.get('genericFreq').errors?.pattern)">Only
+                      numbers
+                      allowed..</span>
+                    <span class="text-danger" *ngIf="!!(nursingOrderFrm.get('genericFreq').errors?.max)">Number should
+                      be less
+                      then 24..</span>
+                  </span>
+                </div>
+                <div class="form-group form-row mx-0">
+                  <div class="mb-1 col-12">
+                    <p class="mb-1 label-suggestion text-center">Frequency Suggestion</p>
+                    <button *ngFor="let freqNo of frequencyNumbers;"
+                      (click)="nursingOrderFrm.patchValue({ genericFreq : freqNo }); setMedicineFreqSchedule(nursingOrderFrm.value, false);"
+                      type="button" class="btn btn-outline-primary-light mr-1 mb-1"
+                      [ngClass]="{'active': (nursingOrderFrm.value.genericFreq == freqNo)}">{{freqNo}}</button>
+                  </div>
+                  <div class="mb-1 col-12">
+                    <p class="mb-1 label-suggestion text-center">Day Suggestion</p>
+                    <button *ngFor="let day of daysSuggesion;"
+                      (click)="nursingOrderFrm.patchValue({ genericDuration : day });"
+                      type="button" class="btn btn-outline-primary-light mr-1 mb-1"
+                      [ngClass]="{'active': (nursingOrderFrm.value.genericDuration == day)}">{{day}}</button>
+                  </div>
+                </div>
+                <div class="mb-1">
+                  <p class="mb-1 text-center label-suggestion">Start Time Suggestions</p>
+                  <div class="form-group form-row mx-0">
+                    <div class="col-3">
+                      <label class="text-muted">Enter Time</label>
+                      <app-time-drop-down [timeFormat]="'12_hour'" [minuteValue]="'false'"
+                        [selectedValue]="nursingOrderFrm.value.freqStartTime"
+                        (selectedItem)="onFreqStartTimeSelect($event);">
+                      </app-time-drop-down>
+                    </div>
+                    <div class="col-9">
+                      <label>&nbsp;</label>
+                      <div>
+                        <button *ngFor="let hrs of hoursList" (click)="onFreqStartTimeSelect(hrs.time)" type="button"
+                          class="btn btn-outline-primary-light mr-1 mb-1"
+                          [ngClass]="{'active': (hrs.isActive === true)}">{{hrs.time}}</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </form>
+  </div>
+</div>
+<ng-template #emptyOrdersTemplate>
+  <div class="bg-img"></div>
+</ng-template>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

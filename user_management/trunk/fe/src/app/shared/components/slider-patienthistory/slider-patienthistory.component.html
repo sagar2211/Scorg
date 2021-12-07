@@ -1,0 +1,56 @@
+<div class="card-header p-2 border-dash-bottom">
+  <h6 class="mb-0">Patient History, <span class="text-primary font-weight-500 ml-1 font-size-sm">
+      {{selectedPatUhid.patName}} </span>
+    <a class="icon fa-fw icon-times pointer float-right" title="Close" (click)="onClose()"></a></h6>
+</div>
+<div class="card-body p-0">
+  <div class="history-data py-2" infinite-scroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="50" [scrollWindow]="false"
+  (scrolled)="onScrollDown()" *ngIf="historyListByGroupYear.length; else notFound">
+    <div *ngFor="let history of historyListByGroupYear">
+      <!-- (scrolledUp)="onUp()" -->
+      <!-- <h6 class="mb-1 text-center year"> <span>{{history.year}}</span> </h6> -->
+      <div class="history" *ngFor="let app of history?.apphistory;">
+      <div class="history-date">
+        <p class="mb-0 font-weight-500"><i class="icon fa-fw icon-calendar-day mr-1"></i>
+          {{app.Date}}
+        </p>
+      </div>
+      <div class="history" *ngFor="let item of app?.data;">
+        <div class="container-fluid history-list py-3 px-2">
+          <div class="form-row">
+            <div class="col-2 pt-2 text-center">
+              <img class="img-fluid rounded mb-2" src="./assets/img/notification-history.png" width="60%">
+              <p class="mb-0 text-pink font-size-sm">{{item.appointmentTime}}</p>
+            </div>
+            <div class="col-10">
+              <div class="history-deatails">
+                <p class="mb-1">
+                <!-- <span class="history-status"> {{item.appointmentDisplayStatus}} </span> by <span *ngFor="let entity of item.entityValue"
+                  class="font-weight-500"> {{entity.entityValueName}} </span> -->
+                  <span class="history-status">
+                    {{(item.appointmentStatus === 'TENTATIVE' || item.appointmentStatus === 'CANCELLED') ? item.appointmentStatus
+                  : (item.queueStatus === 'NEXT' ? item.appointmentStatus : item.queueStatus === 'INCONSULTATION' ? 'IN CONSULTATION' : item.queueStatus)}}
+                  </span> by <span *ngFor="let entity of item.entityValue" class="font-weight-500">
+                    {{entity.entityValueName}} </span>
+                </p>
+                <!-- <span class="text-muted font-size-sm">{{item.description?item.description:'Not Available'}}</span> -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+      </div>
+
+  </div>
+  <ng-template #notFound>
+    <div class="no-data w-50 mt-2 text-center mx-auto">
+      <span aria-hidden="true" class="fa-stack fa-2x"><i class="fa fa-clipboard" aria-hidden="true"></i>
+        <i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse" aria-hidden="true"></i></span>
+      <p>No Log Found!</p>
+    </div>
+  </ng-template>
+</div>

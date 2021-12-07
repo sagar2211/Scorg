@@ -1,0 +1,348 @@
+{
+  "examinationHeadsList": [
+
+    {
+      "id": "921",
+      "display_name": "Free text",
+      "head_key": "freetext",
+      "module_name": "op",
+      "form_status": false,
+      "print_settings": "pipe",
+      "display_type": "free_text",
+      "is_used": "1",
+      "billStatus": []
+    },
+    {
+      "id": "920",
+      "display_name": "Multiple Input without severity",
+      "head_key": "multipleinputwithoutseverity",
+      "module_name": "op",
+      "form_status": false,
+      "print_settings": "comma",
+      "display_type": "severity_no",
+      "is_used": "1",
+      "billStatus": []
+    },
+    {
+      "id": "919",
+      "display_name": "Multiple Input with severity",
+      "head_key": "multipleinputwithseverity",
+      "module_name": "op",
+      "form_status": false,
+      "print_settings": "bullet",
+      "display_type": "severity_yes",
+      "is_used": "1",
+      "billStatus": []
+    },
+    {
+      "id": "922",
+      "display_name": "Suggestions box",
+      "head_key": "suggestionsbox",
+      "module_name": "op",
+      "form_status": false,
+      "print_settings": "bullet",
+      "display_type": "master_fav",
+      "is_used": "1",
+      "billStatus": []
+    }
+  ],
+
+  "examinationHeadsListData": [
+    {
+      "formId": 0,
+      "examinationHeadsList": [
+
+        {
+          "id": "921",
+          "display_name": "Free text",
+          "head_key": "freetext",
+          "module_name": "op",
+          "form_status": false,
+          "print_settings": "pipe",
+          "display_type": "free_text",
+          "is_used": "1",
+          "billStatus": []
+        },
+        {
+          "id": "920",
+          "display_name": "Multiple Input without severity",
+          "head_key": "multipleinputwithoutseverity",
+          "module_name": "op",
+          "form_status": false,
+          "print_settings": "comma",
+          "display_type": "severity_no",
+          "is_used": "1",
+          "billStatus": []
+        },
+        {
+          "id": "919",
+          "display_name": "Multiple Input with severity",
+          "head_key": "multipleinputwithseverity",
+          "module_name": "op",
+          "form_status": false,
+          "print_settings": "bullet",
+          "display_type": "severity_yes",
+          "is_used": "1",
+          "billStatus": []
+        },
+        {
+          "id": "922",
+          "display_name": "Suggestions box",
+          "head_key": "suggestionsbox",
+          "module_name": "op",
+          "form_status": false,
+          "print_settings": "bullet",
+          "display_type": "master_fav",
+          "is_used": "1",
+          "billStatus": []
+        }
+      ]
+    }
+  ],
+
+  "tagsHeadByModulesData": [
+    {
+      "formId": 0,
+      "tagsHeadByModules": [
+        {
+          "id": "919",
+          "display_name": "Multiple Input with severity",
+          "head_key": "multipleinputwithseverity",
+          "module_name": "op",
+          "tags": [
+            {
+              "id": "414222",
+              "tag_count": "5",
+              "tag_name": "MIWS1",
+              "name": "MIWS1",
+              "tag_key": "miws1",
+              "is_favourite": "0",
+              "use_count": "0"
+            },
+            {
+              "id": "414223",
+              "tag_count": "5",
+              "tag_name": "MIWS2",
+              "name": "MIWS2",
+              "tag_key": "miws2",
+              "is_favourite": "0",
+              "use_count": "0"
+            },
+            {
+              "id": "414224",
+              "tag_count": "5",
+              "tag_name": "MIWS3",
+              "name": "MIWS3",
+              "tag_key": "miws3",
+              "is_favourite": "0",
+              "use_count": "0"
+            },
+            {
+              "id": "414225",
+              "tag_count": "5",
+              "tag_name": "MIWS4",
+              "name": "MIWS4",
+              "tag_key": "miws4",
+              "is_favourite": "0",
+              "use_count": "0"
+            },
+            {
+              "id": "414226",
+              "tag_count": "5",
+              "tag_name": "MIWS5",
+              "name": "MIWS5",
+              "tag_key": "miws5",
+              "is_favourite": "0",
+              "use_count": "0"
+            }
+          ]
+        },
+        {
+          "id": "920",
+          "display_name": "Multiple Input without severity",
+          "head_key": "multipleinputwithoutseverity",
+          "module_name": "op",
+          "tags": [
+            {
+              "id": "414221",
+              "tag_count": "9",
+              "tag_name": "MIWithout",
+              "name": "MIWithout",
+              "tag_key": "miwithout",
+              "is_favourite": "0",
+              "use_count": "0"
+            }
+          ]
+        },
+        {
+          "id": "921",
+          "display_name": "Free text",
+          "head_key": "freetext",
+          "module_name": "op",
+          "tags": [
+            {
+              "id": "414220",
+              "tag_count": "41",
+              "tag_name": "Free text1, .............................",
+              "name": "Free text1, .............................",
+              "tag_key": "freetext1,.............................",
+              "is_favourite": "0",
+              "use_count": "0"
+            }
+          ]
+        },
+        {
+          "id": "922",
+          "display_name": "Suggestions box",
+          "head_key": "suggestionsbox",
+          "module_name": "op",
+          "tags": [
+            {
+              "id": "414227",
+              "tag_count": "15",
+              "tag_name": "SuggestionText1",
+              "name": "SuggestionText1",
+              "tag_key": "suggestiontext1",
+              "is_favourite": "0",
+              "use_count": "0"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+
+  "opdTagInputsData": [
+    {
+      "formId": 0,
+      "opdTagInputs": {
+        "freetext": [
+          {
+            "print_settings": "pipe",
+            "id": "19482",
+            "opd_tag": "ft",
+            "tag_key": "ft",
+            "tag_name": "ft",
+            "name": "ft",
+            "display_name": "Free text",
+            "module_name": "op",
+            "head_key": "freetext",
+            "tag_priority": "normal",
+            "is_favourite": "0",
+            "sub_module": "freetext"
+          }
+        ],
+        "multipleinputwithoutseverity": [
+          {
+            "print_settings": "comma",
+            "id": "19483",
+            "opd_tag": "MIWithout",
+            "tag_key": "miwithout",
+            "tag_name": "MIWithout",
+            "name": "MIWithout",
+            "display_name": "Multiple Input without severity",
+            "module_name": "op",
+            "head_key": "multipleinputwithoutseverity",
+            "tag_priority": "normal",
+            "is_favourite": "0",
+            "sub_module": "multipleinputwithoutseverity"
+          },
+          {
+            "print_settings": "comma",
+            "id": "19484",
+            "opd_tag": "mi without severity 20 dec",
+            "tag_key": "miwithoutseverity20dec",
+            "tag_name": "mi without severity 20 dec",
+            "name": "mi without severity 20 dec",
+            "display_name": "Multiple Input without severity",
+            "module_name": "op",
+            "head_key": "multipleinputwithoutseverity",
+            "tag_priority": "normal",
+            "is_favourite": "0",
+            "sub_module": "multipleinputwithoutseverity"
+          }
+        ],
+        "multipleinputwithseverity": [
+          {
+            "print_settings": "bullet",
+            "id": "19485",
+            "opd_tag": "dd",
+            "tag_key": "dd",
+            "tag_name": "dd",
+            "name": "dd",
+            "display_name": "Multiple Input with severity",
+            "module_name": "op",
+            "head_key": "multipleinputwithseverity",
+            "tag_priority": "normal",
+            "is_favourite": "0",
+            "sub_module": "multipleinputwithseverity"
+          }
+        ],
+        "suggestionsbox": [
+          {
+            "print_settings": "bullet",
+            "id": "19486",
+            "opd_tag": "SuggestionText1",
+            "tag_key": "suggestiontext1",
+            "tag_name": "SuggestionText1",
+            "name": "SuggestionText1",
+            "display_name": "Suggestions box",
+            "module_name": "op",
+            "head_key": "suggestionsbox",
+            "tag_priority": "normal",
+            "is_favourite": "0",
+            "sub_module": "suggestionsbox"
+          }
+        ]
+      }
+    }
+  ],
+
+  "examinationHeadsListByFormId": [
+
+    {
+      "id": "921",
+      "display_name": "Free text",
+      "head_key": "freetext",
+      "module_name": "op",
+      "form_status": true,
+      "print_settings": "pipe",
+      "display_type": "free_text",
+      "is_used": "1",
+      "billStatus": []
+    },
+    {
+      "id": "920",
+      "display_name": "Multiple Input without severity",
+      "head_key": "multipleinputwithoutseverity",
+      "module_name": "op",
+      "form_status": true,
+      "print_settings": "comma",
+      "display_type": "severity_no",
+      "is_used": "1",
+      "billStatus": []
+    },
+    {
+      "id": "919",
+      "display_name": "Multiple Input with severity",
+      "head_key": "multipleinputwithseverity",
+      "module_name": "op",
+      "form_status": false,
+      "print_settings": "bullet",
+      "display_type": "severity_yes",
+      "is_used": "1",
+      "billStatus": []
+    },
+    {
+      "id": "922",
+      "display_name": "Suggestions box",
+      "head_key": "suggestionsbox",
+      "module_name": "op",
+      "form_status": false,
+      "print_settings": "bullet",
+      "display_type": "master_fav",
+      "is_used": "1",
+      "billStatus": []
+    }
+  ]
+}

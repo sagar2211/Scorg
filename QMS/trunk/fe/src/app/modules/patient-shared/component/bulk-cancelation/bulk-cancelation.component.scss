@@ -1,0 +1,116 @@
+@import "../../../../../scss/main";
+
+.bulk-header {
+  @include border-top-left-radius(3px);
+  @include border-top-right-radius(3px);
+  background-color: rgba(63, 81, 181, 0.06);
+
+  p,
+  .custom-control-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .custom-control-label {
+    line-height: 1.8;
+  }
+}
+
+.col-time-width {
+  flex: 0 0 10%;
+  max-width: 10%;
+}
+
+.all-col-time-width {
+  flex: 0 0 10%;
+  max-width: 10%;
+  @include no-select;
+}
+
+.col-type {
+  flex: 0 0 10%;
+  max-width: 10%;
+}
+
+.col-queue {
+  flex: 0 0 20%;
+  max-width: 20%;
+}
+
+.col-uid,
+.col-num {
+  flex: 0 0 10%;
+  max-width: 10%;
+}
+
+.all-col-uid {
+  flex: 0 0 10%;
+  max-width: 10%;
+}
+.all-col-num {
+  flex: 0 0 10%;
+  max-width: 10%;
+}
+
+.col-cancel-width {
+  flex: 0 0 27%;
+  max-width: 27%;
+}
+
+.all-col-cancel-width {
+  flex: 0 0 12%;
+  max-width: 12%;
+}
+
+.checkbox-remove {
+  &:before {
+    display: none !important;
+  }
+  &:after {
+    display: none !important;
+  }
+}
+
+.body-height {
+  height: calc(100vh - 183px);
+  overflow-y: auto;
+
+  .booking-status {
+    font-size: 85% !important;
+    font-weight: 400;
+  }
+
+  .red {
+    color: $red-100 !important;
+  }
+
+  .tentative {
+    color: $gray-600 !important;
+  }
+
+  .reschedule {
+    color: $primary !important;
+  }
+
+  .confirmed {
+    color: $green-100 !important;
+  }
+}
+
+.slider-history-log {
+  right: 0;
+  top: 0;
+  height: calc(100vh - 87px);
+}
+
+:host ::ng-deep {
+  .filter-btn {
+    .bs-popover-bottom-right > .arrow {
+      right: 0.3em;
+    }
+  }
+
+  .history-data {
+    height: calc(100vh - 123px) !important;
+  }
+}

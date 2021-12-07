@@ -1,0 +1,230 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase" id="modal-basic-title">Image Annotations</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="activeModal.dismiss('close')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-0 edit-modal-body">
+  <div class="form-row mx-0">
+    <div *ngIf="source!=='select'"  class="col-3 px-0">
+      <div class="card rounded-0">
+        <div class="card-header cus-head py-1 border-dash-bottom">
+          <h6 class="mb-0">Add images</h6>
+        </div>
+        <div class="card-body p-1 images-list-body">
+          <img class="images-item" (click)="selectImageForAnnotation(item)" *ngFor="let item of docSpetialityImageList" src="{{fileServePath + item.file_path}}">
+        </div>
+      </div>
+      <!-- <div class="card">
+        <div class="card-header cus-head py-1 border-dash-bottom">
+          <h6 class="mb-0">Upload image</h6>
+        </div>
+        <div class="card-body text-center">
+          <img id="testImage" *ngIf="url" class="images-item-upload" [src]="url" (click)="addImageOnCanvas(url);">
+          <input type="file" (change)="readUrl($event);">
+          <div class="btn-group btn-group-justified" role="group" aria-label="...">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeWhite(url);">
+                <i class="fa fa-times" aria-hidden="true"></i> Remove</button>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <div class="col-6 px-0">
+      <canvas id="canvas"></canvas>
+    </div>
+    <div class="col-3 px-0">
+      <div *ngIf="">
+        <div class="alert alert-info mb-0">Please add any image from the list.</div>
+      </div>
+      <div class="card rounded-0">
+        <div class="card-header cus-head py-1 border-dash-bottom">
+          <h6 class="mb-0">Options</h6>
+        </div>
+        <div class="card-body p-1">
+          <div class="btn-group mb-1" role="group" aria-label="...">
+            <button data-toggle="tooltip" data-placement="bottom" title="Delete element" type="button"
+              class="btn btn-outline-danger" [disabled]="!selected && !isDrawingMode" (click)="removeSelected();">
+              <i class="fa fa-fw fa-trash" aria-hidden="true"></i>
+            </button>
+            <button data-toggle="tooltip" data-placement="bottom"
+              title="Pencil Draw a free-form line with the selected line width." type="button"
+              class="btn btn-outline-primary" (click)="toggleDrawingMode()">
+              <i class="fa fa-fw fa-pencil-alt" aria-hidden="true"></i>
+            </button>
+            <button data-toggle="tooltip" data-placement="bottom" title="Undo" type="button"
+              class="btn btn-outline-primary" (click)="isTextMode = !isTextMode">
+              <i class="fa fa-fw fa-font" aria-hidden="true"></i>
+            </button>
+            <button data-toggle="tooltip" data-placement="bottom" title="Line" type="button"
+              class="btn btn-outline-primary" (click)="addFigure('line')">
+              <i class="fas fa-slash" aria-hidden="true"></i>
+            </button>
+            <button data-toggle="tooltip" data-placement="bottom" title="Circle" type="button"
+              class="btn btn-outline-primary" (click)="addFigure('circle')">
+              <i class="far fa-circle" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="btn-group" role="group" aria-label="...">
+            <button data-toggle="tooltip" data-placement="bottom" title="Ellipse" type="button"
+              class="btn btn-outline-primary" (click)="addFigure('ellipse')">
+              <i class="icon fa-fw icon-ellipse" aria-hidden="true"></i>
+            </button>
+            <button data-toggle="tooltip" data-placement="bottom" title="Rectangle" type="button"
+              class="btn btn-outline-primary" (click)="addFigure('rectangle')">
+              <i class="icon fa-fw icon-rectangle" aria-hidden="true"></i>
+            </button>
+            <button data-toggle="tooltip" data-placement="bottom" title="Undo" type="button"
+              class="btn btn-outline-primary" [disabled]="!selected && !isDrawingMode" (click)="undoAction();">
+              <i class="fa fa-fw fa-undo" aria-hidden="true"></i>
+            </button>
+            <button data-toggle="tooltip" data-placement="bottom" title="Redo" type="button"
+              class="btn btn-outline-primary" [disabled]="!selected && !isDrawingMode" (click)="redoAction();">
+              <i class="fa fa-fw fa-redo" aria-hidden="true"></i>
+            </button>
+            <!-- <button data-toggle="tooltip" data-placement="bottom" title="Clear all" type="button" class="btn btn-danger"
+              (click)="clearAllConfirmationPopup();">
+              <i class="fa fa-fw fa-ban" aria-hidden="true"></i></button> -->
+          </div>
+        </div>
+      </div>
+      <div *ngIf="selected" class="card rounded-0">
+        <div class="card-header cus-head py-1 border-dash-bottom">
+          <h6 class="mb-0">Custom</h6>
+        </div>
+        <div class="card-body p-1 custom-body">
+          <div *ngIf="selected  && selected.type == 'group'">Group Selected</div>
+          <div class="form-group" *ngIf="selected && selected.type != 'group'">
+            <label>ID</label>
+            <input type="text" class="form-control" [(ngModel)]="props.id" (keyup)="setId()">
+          </div>
+          <div class="form-group mt-2" *ngIf="selected && selected.type != 'group'">
+            <label class="d-block mb-1">Opacity</label>
+            <input type="range" [(ngModel)]="props.opacity" (change)="setOpacity()">{{props.opacity}}
+          </div>
+          <div *ngIf="isTextMode">
+            <div class="input-group">
+              <input type="text" class="form-control" [(ngModel)]="textString" placeholder="Add text">
+              <div class="input-group-append">
+                <button id="add-text" class="btn btn-outline-secondary border" type="button" title="Add text"
+                  (click)="addText();">
+                  <i class="fa fa-fw fa-plus" aria-hidden="true"></i></button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group mt-2"
+            *ngIf="selected && textEditor || selected && figureEditor || isDrawingMode ||  selected && lineEditor || selected && selected.type !== 'path' && selected.type !== 'i-text' && selected.type !== 'image'">
+            <label>Fill</label>
+            <input type="text" class="form-control" [cpPosition]="'bottom'" [(colorPicker)]="props.fill"
+              [style.background]="props.fill" [value]="props.fill" (colorPickerChange)="setFill()">
+          </div>
+          <div *ngIf="selected && textEditor" class="form-group mt-2">
+            <label>Font family</label>
+            <select [(ngModel)]="props.fontFamily" class="form-control form-control-sm pointer" (change)="setFontFamily()">
+              <option value="arial">Arial</option>
+              <option value="helvetica" selected>Helvetica</option>
+              <option value="verdana">Verdana</option>
+              <option value="courier">Courier</option>
+              <option value="Roboto">Roboto</option>
+              <option value="Open Sans">Open Sans</option>
+              <option value="Zilla Slab">Zilla Slab</option>
+              <option value="Lato">Lato</option>
+              <option value="Bellefair">Bellefair</option>
+              <option value="Fresca">Fresca</option>
+              <option value="Raleway">Raleway</option>
+              <option value="Open Sans Condensed">Open Sans Condensed</option>
+              <option value="Indie Flower">Indie Flower</option>
+              <option value="Josefin Sans">Josefin Sans</option>
+              <option value="Inconsolata">Inconsolata</option>
+              <option value="Pacifico">Pacifico</option>
+              <option value="Gloria Hallelujah">Gloria Hallelujah</option>
+            </select>
+          </div>
+          <div *ngIf="selected && textEditor" class="form-group mt-2">
+            <label class="d-block mb-1">Text Align</label>
+            <div class="btn-group" role="group" aria-label="...">
+              <button type="button" class="btn btn-outline-secondary" [ngClass]="{'active': props.textAlign == 'left' }"
+                (click)="setTextAlign('left')">
+                <i class="fa fa-fw fa-align-left"></i>
+              </button>
+              <button type="button" class="btn btn-outline-secondary"
+                [ngClass]="{'active': props.textAlign == 'center' }" (click)="setTextAlign('center')">
+                <i class="fa fa-fw fa-align-center"></i>
+              </button>
+              <button type="button" class="btn btn-outline-secondary"
+                [ngClass]="{'active': props.textAlign == 'right' }" (click)="setTextAlign('right')">
+                <i class="fa fa-fw fa-align-right"></i>
+              </button>
+              <button type="button" class="btn btn-outline-secondary"
+                [ngClass]="{'active': props.textAlign == 'justify' }" (click)="setTextAlign('justify')">
+                <i class="fa fa-fw fa-align-justify"></i>
+              </button>
+            </div>
+          </div>
+          <div *ngIf="selected && textEditor" class="form-group mt-2">
+            <label class="d-block mb-1">Style</label>
+            <div class="btn-group" role="group" aria-label="...">
+              <button type="button" class="btn btn-outline-secondary" [ngClass]="{'active': props.fontWeight }"
+                (click)="setBold()">
+                <i class="fa fa-fw fa-bold"></i>
+              </button>
+              <button type="button" class="btn btn-outline-secondary" [ngClass]="{'active': props.fontStyle }"
+                (click)="setFontStyle()">
+                <i class="fa fa-fw fa-italic"></i>
+              </button>
+              <button type="button" class="btn btn-outline-secondary"
+                [ngClass]="{'active': hasTextDecoration('underline') }" (click)="setTextDecoration('underline')">
+                <i class="fa fa-fw fa-underline"></i>
+              </button>
+              <button type="button" class="btn btn-outline-secondary"
+                [ngClass]="{'active': hasTextDecoration('overline') }" (click)="setTextDecoration('overline')">
+                <i class="fa fa-fw fa-underline fa-flip-vertical"></i>
+              </button>
+              <button type="button" class="btn btn-outline-secondary"
+                [ngClass]="{'active': hasTextDecoration('line-through') }" (click)="setTextDecoration('line-through')">
+                <i class="fa fa-fw fa-strikethrough"></i>
+              </button>
+            </div>
+          </div>
+          <div *ngIf="selected && textEditor" class="form-group mt-2">
+            <label class="d-block mb-1">Font Size</label>
+            <input type="range" [(ngModel)]="props.fontSize" (change)="setFontSize()" step="1" min="1"
+              max="120">{{props.fontSize}}
+          </div>
+          <div *ngIf="selected && textEditor" class="form-group mt-2">
+            <label class="d-block mb-1">Line Height</label>
+            <input type="range" [(ngModel)]="props.lineHeight" (change)="setLineHeight()" step="0.1" min="0"
+              max="10">{{props.lineHeight}}
+          </div>
+          <div *ngIf="selected && textEditor" class="form-group mt-2">
+            <label class="d-block mb-1">Char Spacing</label>
+            <input type="range" [(ngModel)]="props.charSpacing" (change)="setCharSpacing()" step="10" min="-200"
+              max="800">{{props.charSpacing}}
+          </div>
+          <div *ngIf="selected && lineEditor || isDrawingMode || selected && selected.type !== 'path' && selected.type !== 'i-text' && selected.type !== 'image'" class="form-group mt-2">
+            <label class="d-block mb-1">Width</label>
+            <input type="range" [(ngModel)]="props.strokeWidth" (change)="setFill()" step="1" min="0"
+              max="10">{{props.strokeWidth}}
+          </div>
+        </div>
+      </div>
+      <div *ngIf="selected && selected.type !== 'path' && selected.type !== 'line' && selected.type !== 'i-text' && selected.type !== 'image'" class="card rounded-0">
+        <div class="card-header cus-head py-1 border-dash-bottom">
+          <h6 class="mb-0">Pattern</h6>
+        </div>
+        <div class="card-body p-1 pattern-body">
+          <div *ngFor="let pattern of patternList" [ngClass]="{'active' : selectedPattern==pattern.pattern_img }">
+            <a (click)="fillPattern(pattern.pattern_img)"> <img class="img-responsive"
+                src="./assets/images/annotation-patterns/Thumbnails/{{pattern.pattern_img}}" /> </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer py-1">
+  <button type="button" class="btn btn-sm btn-outline-secondary" (click)="activeModal.dismiss('close')">CANCEL</button>
+  <button type="button" class="btn btn-sm btn-outline-success" (click)="saveImg()" ><i class="icon fa-fw icon-save" aria-hidden="true"></i>
+    SAVE</button>
+</div>

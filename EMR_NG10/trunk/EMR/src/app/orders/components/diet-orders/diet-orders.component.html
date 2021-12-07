@@ -1,0 +1,128 @@
+<div class="form-row mx-0">
+  <div class="col-6 border-dash-right pr-0"
+    *ngIf="(orderDisplayType == 'all' || (dietOrderList | displaySavedUnsaved: orderDisplayType).length)">
+    <div class="card-section">
+      <div *ngIf="!(dietOrderList | orderListFilter : false : false : 'unSaved').length"
+        class="bg-img mt-2 text-center"><img src="./assets/img/no-orders.png" class="img-fluid"
+          alt="no orders" />
+      </div>
+      <div class="card mb-1 mr-1 mt-1 pointer order-card"
+        *ngFor="let diet of dietOrderList | orderListFilter : false : false : 'unSaved'; let i = index"
+        id="diatOrders{{i}}" [ngClass]="{'active': (activeIndex == i)}">
+        <ng-container *ngIf="activeIndex === i && !isTabModeOn">
+          <form [formGroup]="diatOrdersFrm" (ngSubmit)="addDiats()">
+            <div class="card-heading border-bottom" *ngIf="!isFromFavSuggestionTemplate">
+              <div class="form-row mx-0 align-items-center">
+                  <div class="col-12 py-1">
+                      <h6 class="mb-0 font-weight-500 ">
+                          {{diet.name}}
+                      </h6>
+                  </div>
+              </div>
+          </div>
+          <div class="card-body p-1">
+            <div class="row m-0">
+              <div class="col-12 px-0">
+                <label class="text-muted m-0">Instructions</label>
+                <app-instruction-suggestion [suggestionList]="orderInstructionList" [rows]="2" [showFrequency]="false"
+                  [placeholdertext]="'Enter Instructions'" [instructions]="diatOrdersFrm.value?.specInstruction"
+                  (changedValue)="diatOrdersFrm.patchValue({specInstruction: $event})">
+                </app-instruction-suggestion>
+              </div>
+              <div class="col-12 px-0">
+                <button (click)="updateDataToArray()" type="button" class="btn float-right btn-outline-primary-light m-1 p-1" >UPDATE</button>
+              </div>
+            </div>
+          </div>
+          </form>
+        </ng-container>
+        <ng-container *ngIf="activeIndex !== i">
+          <app-orders-display (checkAllPendingValue)="findPendingObject()"
+          (editData)="activeIndex = i; onEditDiet($event, i)" (deleteData)="removeDiet($event)"
+          (approveOrder)="approveOrders($event,i)" [isShowActions]="isShowActions" [item]="diet" [source]="'dietOrders'"
+          [isEdit]="isEdit" [isDelete]="isDelete">
+        </app-orders-display>
+        </ng-container>
+      </div>
+      <ng-container *ngIf="!dietOrderList.length" [ngTemplateOutlet]="emptyOrdersTemplate"></ng-container>
+    </div>
+  </div>
+  <!--SUGGESTION CODE-->
+  <div class="col-6 pl-0 pr-0 col-suggesstion" *ngIf="loadSuggestion">
+    <div *ngIf="loadSuggestion">
+      <div *ngIf="showInputSearchBox">
+        <div class="input-group">
+          <input (ngModelChange)="onSearch($event);" class="form-control form-control-sm pl-2rem" type="text"
+            [(ngModel)]="searchKeyword" (focus)="hideHistory()" placeholder="Search By Name">
+          <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+          <div class="input-group-append">
+            <button class="btn btn-sm btn-outline-primary-light" type="button" title="Add"
+              (click)="addMasterDiet()"><i class="fa fa-fw fa-plus" aria-hidden="true"></i> ADD</button>
+          </div>
+        </div>
+      </div>
+      <app-suggestion-panel #suggestionPanel [showHeading]="false" [showInputSearchBox]="showInputSearchBox"
+        [suggestionPanelSettings]="suggestionPanelSettings" [isOnload]="isOnload" [showCombinedList]=true
+        [isFrom]="isFrom">
+      </app-suggestion-panel>
+    </div>
+    <!--SUGGESTION CODE END-->
+  </div>
+  <!--SUGGESTION CODE END-->
+  <div class="col-6 pl-0 pr-0 col-suggesstion" *ngIf="showAddSection">
+    <fieldset>
+      <form *ngIf="showAddSection" [formGroup]="diatOrdersFrm" (ngSubmit)="addDiats()">
+        <ngb-tabset (tabChange)="configureAction($event)" [destroyOnHide]="false">
+          <ngb-tab id="Templates" title="Templates">
+            <ng-template ngbTabContent>
+              <div class="all-suggestion my-1">
+                <p class="mb-1 text-center label-suggestion">
+                  Favorite Template Suggestion</p>
+                <div class="btn btn-outline-primary-light d-block p-0 text-left m-1 pointer order-card favorite-btn"
+                  *ngFor="let diet of dietOrdersFavSuggestionTemplateList; let i = index;"
+                  id="dietSuggestionTemplate{{i}}" [ngClass]="{'active': (activeIndex == i)}">
+                  <app-orders-display (checkAllPendingValue)="findPendingObject()" [isFromFavSuggestionTemplate]="true"
+                    [inputIndex]="selectedItemIndx" [isShowActions]="true" (deleteData)="removeDiet($event)"
+                    (editData)="activeIndex = i; onEditDiet($event, i)" [isEdit]="isEdit" [item]="diet"
+                    [source]="'dietOrders'" [isDelete]="isDelete">
+                  </app-orders-display>
+                </div>
+              </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab id="Instruction" title="Instruction">
+            <ng-template ngbTabContent>
+              <ng-container>
+                <div class="my-1 px-1">
+                  <div class="form-group mb-2">
+                    <label class="text-muted">Instruction</label>
+                    <!-- <textarea formControlName="specInstruction" class="form-control" rows="3"
+                      placeholder="Instructions"></textarea> -->
+                    <!-- <input (click)="click$.next($event.target.value)" id="transTextRemarks1" type="text"
+                      class="form-control" formControlName="specInstruction"
+                      [ngbTypeahead]="searchInstructionList" placeholder="Enter Instruction .."
+                      #instance="ngbTypeahead"> -->
+                    <app-instruction-suggestion [suggestionList]="orderInstructionList"
+                      [placeholdertext]="'Enter Instructions'" [instructions]="diatOrdersFrm.value?.specInstruction"
+                      (changedValue)="diatOrdersFrm.patchValue({specInstruction: $event})">
+                    </app-instruction-suggestion>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-template>
+          </ngb-tab>
+        </ngb-tabset>
+      </form>
+    </fieldset>
+  </div>
+</div>
+<ng-template #emptyOrdersTemplate>
+  <!--<div class="card">-->
+  <!--<div class="card-body">-->
+  <!--<p class="mb-0"><i class="far fa-lightbulb text-info" aria-hidden="true"></i>&nbsp;Please add Diet-->
+  <!--orders from&nbsp;<i class="icon icon-clipboard-list text-primary" aria-hidden="true"></i>&nbsp; or Add Order.-->
+  <!--</p>-->
+  <!--</div>-->
+  <!--</div>-->
+</ng-template>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

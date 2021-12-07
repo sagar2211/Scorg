@@ -1,0 +1,117 @@
+<form [formGroup]="entityInstructionForm" (ngSubmit)="saveEntityInstructionData()">
+  <div class="container-fluid instruction-height">
+    <!-- <div class="custom-card p-3 instruction-height"> -->
+    <div class="form-row form-group mb-2">
+      <div class="col-12">
+        <div class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="common_instruction"
+            formControlName="sendCommonInstructionToUsers" (change)="checkFormValidOrInvalid()">
+          <label class="custom-control-label pointer" for="common_instruction">Send Instructions in SMS on
+            appointment booking</label>
+        </div>
+      </div>
+      <div class="col-6">
+        <label>Common Instruction for Patient<sup
+            *ngIf="entityInstructionForm.value.sendCommonInstructionToUsers">*</sup></label>
+        <textarea class="form-control form-control-sm mb-0 vresize" placeholder="Instruction"
+          formControlName="commonInstructionPatient" maxlength="200" (keyup)="checkFormValidOrInvalid()"></textarea>
+        <div class="textarea-count mb-1 w-100 clearfix">
+          <small *ngIf="entityInstructionForm.get('commonInstructionPatient').dirty &&
+                    entityInstructionForm.value.commonInstructionPatient &&
+                entityInstructionForm.value.commonInstructionPatient.length
+                >= 200" class="text-danger float-left">Max Character Allowed 200</small>
+          <small
+            class="float-right">{{entityInstructionForm.value.commonInstructionPatient ? entityInstructionForm.value.commonInstructionPatient.length : 0}}/
+            200</small>
+        </div>
+      </div>
+      <div class="col-6">
+        <label>Common Instruction for Operator</label>
+        <textarea class="form-control form-control-sm mb-0 vresize" placeholder="Instruction"
+          formControlName="commonInstructionOperator" maxlength="200" (keyup)="checkFormValidOrInvalid()"></textarea>
+        <small *ngIf="entityInstructionForm.get('commonInstructionOperator').dirty &&
+                  entityInstructionForm.value.commonInstructionOperator &&
+                  entityInstructionForm.value.commonInstructionOperator.length >= 200"
+          class="text-danger float-left">Max Character
+          Allowed 200</small>
+        <small
+          class="float-right">{{entityInstructionForm.value.commonInstructionOperator ? entityInstructionForm.value.commonInstructionOperator.length : 0}}/
+          200</small>
+      </div>
+    </div>
+
+    <div *ngIf="serviceList.length > 0">
+      <div class="row">
+        <div class="col-12 form-group">
+          <div class="custom-control custom-checkbox">
+            <input type="checkbox" class="custom-control-input" id="service_instruction"
+              formControlName="sendServiceInstructionToUsers" (change)="checkFormValidOrInvalid()">
+            <label class="custom-control-label pointer" for="service_instruction">Send Service Instructions in
+              SMS on
+              appointment booking</label>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid all-service-instruction" formArrayName="serviceForm">
+        <div class="row">
+          <div class="col-12" *ngFor="let service of entityInstructionForm['controls']['serviceForm']['controls']; let i=index; last as
+            last" [formGroupName]="i">
+            <div class="form-row">
+              <div class="col-6 form-group align-self-center">
+                <label>Select Service</label>
+                <app-type-head [displayList]="serviceList" [selectedData]="service.value.service"
+                  [inputValue]="service.value.service?.name" [searchDataFromAPI]="false" [searchKey]="'name'"
+                  [placeHolder]="'Select Service'" (selectedItem)="selectService($event,
+       service.controls.service)"></app-type-head>
+              </div>
+              <div class="col-6 form-group text-right align-self-center mt-4" *ngIf="service.value.service && (service.value.instructionPatient ||
+                                    service.value.instructionOperator)">
+                <button type="button" class="btn btn-outline-primary btn-xs  mr-1"
+                  [ngStyle]="{'visibility': last ? 'visible' : 'hidden' }" (click)="addServiceSection();"><i
+                    class="fa fa-fw fa-plus" aria-hidden="true"></i> ADD SERVICE</button>
+                <button type="button" class="btn btn-xs btn-outline-danger" (click)="removeServiceSection(i);"><i
+                    class="icon fa-fw icon-trash" aria-hidden="true"></i> DELETE</button>
+              </div>
+              <div class="col-12 form-group" *ngIf="service.value.service">
+                <div class="form-row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label>Instruction for Patient</label>
+                      <textarea class="form-control form-control-sm mb-0 vresize" placeholder="Instruction"
+                        formControlName="instructionPatient" maxlength="200"
+                        (keyup)="saveEntityInstructionData();"></textarea>
+                      <div class="textarea-count mb-1 w-100 clearfix">
+                        <small
+                          *ngIf="service.get('instructionPatient').dirty && service.value.instructionPatient && service.value.instructionPatient.length >= 200"
+                          class="text-danger float-left">Max Character Allowed 200</small>
+                        <small
+                          class="float-right">{{service.value.instructionPatient ? service.value.instructionPatient.length : 0}}/
+                          200</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label>Instruction for Operator</label>
+                      <textarea class="form-control form-control-sm mb-0 vresize" (keyup)="saveEntityInstructionData();"
+                        formControlName="instructionOperator" maxlength="200"></textarea>
+                      <div class="textarea-count mb-1 w-100 clearfix">
+                        <small
+                          *ngIf="service.get('instructionOperator').dirty && service.value.instructionOperator && service.value.instructionOperator.length >= 200"
+                          class="text-danger float-left">Max Character Allowed 200</small>
+                        <small
+                          class="float-right">{{service.value.instructionOperator ? service.value.instructionOperator.length : 0}}/
+                          200</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+</form>

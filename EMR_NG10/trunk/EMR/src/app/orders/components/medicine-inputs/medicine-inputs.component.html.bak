@@ -1,0 +1,178 @@
+<fieldset>
+  <form [formGroup]="compInstance.medicineOrderFrm" *ngIf="compInstance.showAddSection">
+    <ngb-tabset (tabChange)="compInstance.configureAction($event)" [activeId]="compInstance.activeTab"
+      [destroyOnHide]="false">
+      <ngb-tab id="Templates" title="Templates">
+        <ng-template ngbTabContent>
+          <div class="all-suggestion my-1">
+            <p class="mb-1 text-center label-suggestion">
+              Favorite Template Suggestion</p>
+            <div class="btn btn-outline-primary-light d-block p-0 text-left m-1 pointer order-card favorite-btn"
+              *ngFor="let medicines of compInstance.medicineOrdersFavSuggestionTemplateList; let i = index;"
+              id="medicineSuggestionTemlate{{i}}" [ngClass]="{'active': (compInstance.activeIndex == i)}">
+              <app-orders-display (checkAllPendingValue)="compInstance.findPendingObject()"
+                [isFromFavSuggestionTemplate]="true" [isShowActions]="true"
+                (deleteData)="compInstance.removeMedicineOrders($event)"
+                (editData)="compInstance.activeIndex = i; compInstance.onEditMedicineOrder($event, i)"
+                [isEdit]="compInstance.isEdit" [item]="medicines" [source]="compInstance.source"
+                [isDelete]="compInstance.isDelete">
+              </app-orders-display>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="Dose" title="Dose">
+        <ng-template ngbTabContent>
+          <ng-container formGroupName="medicineObj">
+            <div class="form-group form-row mx-0">
+              <div class="col-6">
+                <label class="text-muted">Enter Dose</label>
+                <input [value]="compInstance.mediceObjectControls.value.dose?.dose" type="number" class="form-control"
+                  placeholder="Enter Dose" />
+              </div>
+              <div class="col-6" formGroupName="type">
+                <label class="text-muted">Enter Unit</label>
+                <input formControlName="doseUnit" type="text" class="form-control" placeholder="Enter Unit" />
+              </div>
+            </div>
+            <div class="all-suggestion px-2">
+              <div class="mb-1">
+                <p class="mb-1 text-center label-suggestion">Dose Suggestion</p>
+                <button *ngFor="let dose of compInstance.doseMaster; let i = index;"
+                  (click)="compInstance.mediceObjectControls.patchValue({ dose : dose });" type="button"
+                  class="btn btn-outline-primary-light mr-1 mb-1"
+                  [ngClass]="{'active': (compInstance.mediceObjectControls.value.dose?.dose == dose.dose)}">{{dose.dose}}</button>
+              </div>
+              <div class="mb-1">
+                <p class="mb-1 text-center label-suggestion">Unit Suggestion</p>
+                <button *ngFor="let doseUnit of compInstance.doseUnitMaster; let i = index;"
+                  (click)="compInstance.onDoseUnit(doseUnit)" type="button"
+                  class="btn btn-outline-primary-light mr-1 mb-1"
+                  [ngClass]="{'active': (compInstance.mediceTypeControls.value.doseUnit == doseUnit.dose_unit)}">{{doseUnit.dose_unit}}</button>
+              </div>
+            </div>
+          </ng-container>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="Frequency" title="Frequency">
+        <ng-template ngbTabContent>
+          <ng-container formGroupName="medicineObj">
+            <div class="form-group form-row mx-0">
+              <div class="col-6">
+                <label class="text-muted">Enter Frequency</label>
+                <input formControlName="frequency"
+                  (change)="compInstance.setMedicineFreqSchedule(compInstance.mediceObjectControls.value, false);"
+                  type="text" class="form-control" placeholder="Enter Frequency" />
+              </div>
+              <div class="col-6">
+                <label class="text-muted">No. Of Days</label>
+                <input formControlName="duration" type="number" class="form-control" placeholder="No. Of Days" />
+              </div>
+            </div>
+            <div class="all-suggestion px-2">
+              <div class="mb-1">
+                <span
+                  *ngIf="compInstance.mediceObjectControls.value.frequency <= 4">{{compInstance.mediceObjectControls.value.frequencySchedule}}</span>
+                <span
+                  *ngIf="compInstance.mediceObjectControls.value.frequency > 4">{{compInstance.mediceObjectControls.value.frequency + ' times a day'}}</span>
+                <a class="text-primary font-size-dot-8"
+                  *ngIf="compInstance.mediceObjectControls.value.frequencySchedule && (compInstance.mediceObjectControls.value.frequency < 3)"
+                  (click)="compInstance.setMedicineFreqSchedule(compInstance.mediceObjectControls.value);">&nbsp;Change</a>
+                <span *ngIf="compInstance.mediceObjectControls.get('frequency').errors">
+                  <span class="text-danger"
+                    *ngIf="!!(compInstance.mediceObjectControls.get('frequency').errors?.pattern)">Only
+                    numbers allowed..</span>
+                  <span class="text-danger"
+                    *ngIf="!!(compInstance.mediceObjectControls.get('frequency').errors?.max)">Number
+                    should be less then 24..</span>
+                </span>
+              </div>
+              <div class="form-group form-row mx-0">
+                <div class="mb-1 col-12">
+                  <p class="mb-1 label-suggestion text-center">Frequency Suggestion</p>
+                  <button *ngFor="let freqNo of compInstance.frequencyNumbers;"
+                    (click)="compInstance.mediceObjectControls.patchValue({ frequency : freqNo }); compInstance.setMedicineFreqSchedule(compInstance.mediceObjectControls.value, false);"
+                    type="button" class="btn btn-outline-primary-light mr-1 mb-1"
+                    [ngClass]="{'active': (compInstance.mediceObjectControls.value.frequency == freqNo)}">{{freqNo}}</button>
+                </div>
+                <div class="mb-1 col-12">
+                  <p class="mb-1 label-suggestion text-center">Days Suggestion</p>
+                  <button *ngFor="let day of compInstance.daysSuggesion;"
+                    (click)="compInstance.mediceObjectControls.patchValue({ duration : day });" type="button"
+                    class="btn btn-outline-primary-light mr-1 mb-1"
+                    [ngClass]="{'active': (compInstance.mediceObjectControls.value.duration == day)}">{{day}}</button>
+                </div>
+              </div>
+              <div class="mb-1">
+                <p class="mb-1 text-center label-suggestion">Start Time Suggestions</p>
+                <div class="form-group form-row px-1">
+                  <div class="col-3 pr-0">
+                    <label class="text-muted">Start Time</label>
+                    <app-time-drop-down [timeFormat]="'12_hour'" [minuteValue]="'false'"
+                      [selectedValue]="compInstance.mediceObjectControls.value.freqStartTime"
+                      (selectedItem)="compInstance.onFreqStartTimeSelect($event);">
+                    </app-time-drop-down>
+                  </div>
+                  <div class="col-9">
+                    <label>&nbsp;</label>
+                    <div>
+                      <button *ngFor="let hrs of compInstance.hoursList"
+                        (click)="compInstance.onFreqStartTimeSelect(hrs.time)" type="button"
+                        class="btn btn-outline-primary-light mr-1 mb-1"
+                        [ngClass]="(hrs.isActive && (hrs.time == compInstance.mediceObjectControls.value.freqStartTime)) ?'active' : ''">{{hrs.time}}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="Route" title="Route">
+        <ng-template ngbTabContent>
+          <ng-container formGroupName="medicineObj">
+            <div class="route-suggestion px-2 mt-1">
+              <button *ngFor="let route of compInstance.routeList; let i = index;"
+                (click)="compInstance.onRouteSelect(route)" type="button"
+                class="btn btn-outline-primary-light mr-1 mb-1"
+                [ngClass]="{'active': (compInstance.mediceObjectControls.value.route?.name == route.name)}">{{route.name}}</button>
+            </div>
+          </ng-container>
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab id="Instructions" title="Instructions">
+        <ng-template ngbTabContent>
+          <ng-container formGroupName="medicineObj">
+            <div class="form-group form-row mx-0">
+              <div class="col-4">
+                <label class="text-muted">{{compInstance.source === 'prescription' ? 'Start' : 'Order'}} Date</label>
+                <app-date-picker [inputDate]="compInstance.mediceObjectControls.value.startDate"
+                  placeholder="dd-mm-yyyy" [min]="compInstance.mediceObjectControls.value.startDate"
+                  (dateChange)="compInstance.mediceObjectControls.patchValue({ startDate : $event });">
+                </app-date-picker>
+              </div>
+              <div class="col-6">
+                <label>&nbsp;</label>
+                <div>
+                  <button *ngFor="let instr of compInstance.defaultInstructions" type="button"
+                    (click)="compInstance.mediceObjectControls.patchValue({ mealTypeInstruction : instr });"
+                    [ngClass]="{'active': (compInstance.mediceObjectControls.value.mealTypeInstruction == instr)}"
+                    class="btn btn-outline-primary-light mr-1 mb-1">{{instr}}</button>
+                </div>
+              </div>
+              <div class="col-12">
+                <label class="text-muted">Instructions</label>
+                <!-- <input (click)="compInstance.click$.next($event.target.value)" id="transTextRemarks1" type="text"
+                  class="form-control" formControlName="instruction" [ngbTypeahead]="compInstance.searchInstructionList"
+                  [inputFormatter]="compInstance.searchInstructionFormattter" placeholder="Enter Instruction .."
+                  #instance="ngbTypeahead"> -->
+                <app-instruction-suggestion [suggestionList]="compInstance.orderInstructionList" [placeholdertext]="'Enter Instruction'"
+                  [instructions]="compInstance.mediceObjectControls.value?.instruction" (changedValue)="compInstance.mediceObjectControls.patchValue({instruction: $event})"></app-instruction-suggestion>
+              </div>
+            </div>
+          </ng-container>
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </form>
+</fieldset>

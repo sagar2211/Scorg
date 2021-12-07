@@ -1,0 +1,24 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">Stock List</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="closePopup()">
+  <span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body p-1">
+    <dx-data-grid #dataGrid id="gridContainer12" [dataSource]="stockData" keyExpr="stockId" [showBorders]="true" [focusedRowEnabled]="true" (onFocusedRowChanged)="onFocusedRowChanged($event)">
+        <dxo-editing [allowUpdating]="false" [allowDeleting]="false" [selectTextOnEditStart]="true" [useIcons]="false">
+        </dxo-editing>
+        <dxi-column dataField="batchNo" caption="Batch No."></dxi-column>
+        <dxi-column dataField="closingQty" caption="Bal. Qty."></dxi-column>
+        <dxi-column dataField="expiryDate" caption="Exp. Date" format="dd-MM-yyyy" dataType="date"></dxi-column>
+        <dxi-column dataField="unitRate" caption="Unit Rate"></dxi-column>
+        <dxi-column dataField="mrp" caption="mrp"></dxi-column>
+        <dxi-column dataField="netAmount" caption="Net Amt."></dxi-column>
+    </dx-data-grid>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-primary" (click)="closePopup(true)">Select</button>
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="closePopup()">CLOSE</button>
+</div>
+
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

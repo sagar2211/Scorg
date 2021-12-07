@@ -1,0 +1,151 @@
+<div class="container-fluid pt-2 custom-container-fluid">
+  <div class="row form-group">
+    <div class="col-4">
+      <div class="input-group">
+        <input type="text" class="form-control form-control-sm pl-2rem" placeholder="Search By Doctor Name"
+          [(ngModel)]="globalSearchBY" (ngModelChange)="this.subject.next();">
+        <div class="placeholder-icon"><i aria-hidden="true" class="icon fa-fw icon-search text-muted"></i></div>
+        <div class="input-group-append">
+          <button class="btn btn-sm btn-outline-secondary border" type="button" title="Click to Filter"
+            (click)="showSearchFilter()"><i class="fa fa-fw fa-caret-down" aria-hidden="true"></i></button>
+          <button class="btn btn-sm btn-outline-secondary border" type="button" title="Clear"
+            (click)="onClearFilterData()">
+            <i class="fa fa-fw fa-eraser" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="dropdown custom-dropdown" *ngIf="showFilter">
+        <form [formGroup]="doctorMappingFilterForm" (ngSubmit)="onSerchByFilter()">
+          <div id="SearchPopup" class="dropdown-menu pb-0 w-100 d-block shadow" role="menu">
+            <h6 for="filter" class="border-bottom pl-2 pb-2"><i class="fa fa-filter" aria-hidden="true"></i> Filter by
+            </h6>
+            <div class="container-fluid">
+              <div class="card-body p-0">
+                <div class="form-row form-group">
+                  <div class="col-6">
+                    <label for="doctor_name">Select Doctor</label>
+                    <ng-select [items]="doctorList" bindLabel="name" placeholder="Select Doctor"
+                      formControlName="doctorDetails" (click)="onSelectDoctorList()">
+                    </ng-select>
+                  </div>
+                  <div class="col-6">
+                    <label for="map_doctor">Mapped Doctor</label>
+                    <ng-select [items]="mappaedDoctorList" bindLabel="name" placeholder="Select Doctor"
+                      formControlName="mappedDoctorDetails" (click)="onSelectMappedDoctorList()">
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="form-row form-group">
+                  <div class="col-6">
+                    <label for="contain">From Date</label>
+                    <app-date-picker [inputDate]="doctorMappingFilterForm.value.fromDate" placeholder="dd-mm-yyyy"
+                      [max]="doctorMappingFilterForm.value.toDate"
+                      (dateChange)="doctorMappingFilterForm.patchValue({fromDate : $event});">
+                    </app-date-picker>
+                  </div>
+                  <div class="col-6">
+                    <label for="contain">To Date</label>
+                    <app-date-picker [inputDate]="doctorMappingFilterForm.value.toDate" placeholder="dd-mm-yyyy"
+                      [min]="doctorMappingFilterForm.value.fromDate"
+                      (dateChange)="doctorMappingFilterForm.patchValue({toDate : $event});">
+                    </app-date-picker>
+                  </div>
+                </div>
+                <div class="form-row form-group">
+                  <div class="col-6">
+                    <label for="contain" class="">Status</label>
+                    <select class="form-control form-control-sm" formControlName="status">
+                      <option value="">Select Status</option>
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row card-footer px-0 py-1">
+                <div class="col-12 text-right">
+                  <button class="btn float-left btn-sm btn-outline-secondary" (click)="showSearchFilter()"
+                    type="button">CLOSE</button>
+                  <button class="btn btn-sm btn-outline-warning mr-1" type="button" (click)="onClearFilterData()"><i
+                      class="fas fa-fw fa-eraser" aria-hidden="true"></i>
+                    CLEAR</button>
+                  <button class="btn btn-sm btn-outline-info" type="submit"> <i class="icon fa-fw icon-search"></i>
+                    SEARCH</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="col-8">
+      <select class="form-control form-control-sm float-right select-w"
+        (change)="onPageSizeChanged($event.currentTarget.value)" id="page-size">
+        <option value="15" selected="">15</option>
+        <option value="30">30</option>
+        <option value="45">45</option>
+        <option value="100">100</option>
+      </select>
+    </div>
+  </div>
+  <ngx-datatable #table ngx-resize-watcher class="bootstrap" columnMode="force" [headerHeight]="50" [footerHeight]="70"
+    [rowHeight]="'auto'" [reorderable]="true" [swapColumns]="true" [rows]="doctorMappingList" [externalSorting]="true"
+    (sort)="onSortChanged($event)" [externalPaging]="externalPaging" [count]="page.totalElements"
+    (page)='onSetPage($event)'>
+    <ngx-datatable-column name="Doctor" prop="doctorName" [width]="170"></ngx-datatable-column>
+    <ngx-datatable-column name="Map Doctor" prop="mapdoctorName">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <div class="child" *ngFor="let r of row['mappingListDetails']">
+          <span>{{r.mapdoctorName}}</span>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="From Date" prop="fromDate" [sortable]="false">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <div class="child" *ngFor="let r of row['mappingListDetails']">
+          <span *ngIf="r.fromDate">{{r.fromDate | customDateFormat : '' : 'DD/MM/YYYY'}}</span>
+          <span *ngIf="!r.fromDate"> - </span>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="To Date" prop="toDate" [sortable]="false">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <div class="child" *ngFor="let r of row['mappingListDetails']">
+          <span *ngIf="r.toDate">{{r.toDate | customDateFormat : '' : 'DD/MM/YYYY'}}</span>
+          <span *ngIf="!r.toDate"> - </span>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Status" prop="isActive" cellClass="text-center" [sortable]="false">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+        <div class="child" *ngFor="let r of row['mappingListDetails']">
+          <span [ngClass]="'active'" *ngIf="r.isActive">Active</span>
+          <span [ngClass]="'inactive'" *ngIf="!r.isActive">Inactive</span>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Action" cellClass="text-center" [width]="85" [sortable]="false">
+      <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex" let-value="value">
+        <div class="child" *ngFor="let r of row['mappingListDetails']">
+          <button [disabled]="editpermission" class="btn btn-xs btn-info custom-edit-btn align-top" (click)="editDoctorMappingBYID(row,r)"><i
+              class="icon fa-fw icon-edit" aria-hidden="true"></i> EDIT
+          </button>
+        </div>
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-footer *ngIf="doctorMappingList.length > 0">
+      <ng-template let-rowCount="rowCount" let-pageSize="pageSize" let-selectedCount="selectedCount"
+        let-curPage="curPage" let-offset="offset" ngx-datatable-footer-template>
+        <div class="mx-3">
+          Showing {{ ((page.pageNumber - 1) *  page.size) + 1}} to
+          {{ ((page.pageNumber - 1) *  page.size) + doctorMappingList.length}} of {{page.totalElements}}
+          entries
+        </div>
+        <datatable-pager [pagerLeftArrowIcon]="'datatable-icon-left'" [pagerRightArrowIcon]="'datatable-icon-right'"
+          [pagerPreviousIcon]="'datatable-icon-prev'" [pagerNextIcon]="'datatable-icon-skip'" [page]="page.pageNumber"
+          [size]="page.size" [count]="page.totalElements" [hidden]="!((page.totalElements / page.size) > 1)"
+          (change)="onPageChanged($event)">
+        </datatable-pager>
+      </ng-template>
+    </ngx-datatable-footer>
+  </ngx-datatable>
+</div>

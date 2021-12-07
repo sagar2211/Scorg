@@ -1,0 +1,161 @@
+<div [ngClass]="{'container-fluid custom-container-fluid pt-2':!loadAsComponentVal}">
+    <app-calendar-controls *ngIf="showCalendarNavigationControls" [(view)]="view" [(viewDate)]="viewDate" (viewDateChange)="dateChangeEvent($event)" (viewChange)="viewChangedEvent($event)" [calendarViewSetting]="calendarView" (currentEntity)="currentSelectedEntity($event)"
+        (getPrintEvent)="getPrintAppointment()" (getAppointmentByEntity)="getAppointmentListByEntity($event)">
+    </app-calendar-controls>
+    <div class="mt-2" perfectScrollbar mwlDraggableScrollContainer [ngClass]="{'expand-height': loadAsComponentVal && isExpand ,'calendar-height' : loadAsComponentVal && !isExpand, 'main-calender': !loadAsComponentVal}">
+        <div [ngSwitch]="view">
+            <mwl-calendar-month-view class="calendar" *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [tooltipTemplate]="cellTooltipTemplate" [tooltipPlacement]="'auto'" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+                (beforeViewRender)="beforeMonthViewRender($event)" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+            </mwl-calendar-month-view>
+            <ng-container *ngSwitchCase="CalendarView.Week">
+                <mwl-calendar-week-view class="calendar" *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)" (beforeViewRender)="beforeWeekViewRender($event)"
+                    [dayStartHour]="calendarData ? calendarData.dayStartTime : 10" [tooltipTemplate]="cellTooltipTemplate" [tooltipPlacement]="'auto'" [dayStartMinute]="calendarData? calendarData.dayStartMinute : 0" [dayEndHour]="calendarData? calendarData.dayEndTime : 14"
+                    [hourSegments]="calendarData?.hourSplitTime" [dayEndMinute]="calendarData? calendarData.dayEndMinute : 0" (hourSegmentClicked)="calendaerTimeClicked($event)">
+                </mwl-calendar-week-view>
+                <div *ngIf="!scheduleDefined && !isOutOfAdvanceBookingDay && !isDayHoliday">
+                    <div class="no-data w-25 mx-auto"><span class="fa-stack fa-2x" aria-hidden="true"><i class="fa fa-clipboard"
+                aria-hidden="true"></i><i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse"
+                aria-hidden="true"></i></span>
+                        <p>No Schedule Found.</p>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="CalendarView.Day">
+                <mwl-calendar-day-view class="calendar" *ngIf="!isDayHoliday && !isOutOfAdvanceBookingDay && scheduleDefined" [viewDate]="viewDate" [events]="events" [refresh]="refresh" [tooltipTemplate]="cellTooltipTemplate" [tooltipPlacement]="'auto'" (eventClicked)="handleEvent('Clicked', $event.event)"
+                    (eventTimesChanged)="eventTimesChanged($event)" (beforeViewRender)="beforeDayViewRender($event)" (hourSegmentClicked)="calendaerTimeClicked($event)" [dayStartHour]="calendarData ? calendarData.dayStartTime : 10" [dayStartMinute]="calendarData? calendarData.dayStartMinute : 0"
+                    [dayEndHour]="calendarData? calendarData.dayEndTime : 14" [hourSegments]="calendarData ? calendarData?.hourSplitTime:10" [dayEndMinute]="calendarData? calendarData.dayEndMinute : 0">
+                </mwl-calendar-day-view>
+                <div *ngIf="isDayHoliday">
+                    <div class="no-data w-25 mx-auto"><span class="fa-stack fa-2x" aria-hidden="true"><i class="fa fa-clipboard"
+                aria-hidden="true"></i><i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse"
+                aria-hidden="true"></i></span>
+                        <p>USER is on HOLIDAY</p>
+                    </div>
+                </div>
+                <div *ngIf="isOutOfAdvanceBookingDay && !isDayHoliday">
+                    <div class="no-data w-25 mx-auto"><span class="fa-stack fa-2x" aria-hidden="true"><i class="fa fa-clipboard"
+                aria-hidden="true"></i><i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse"
+                aria-hidden="true"></i></span>
+                        <p>Advance booking allowed upto {{advanceBookingDate}}</p>
+                    </div>
+                </div>
+                <div *ngIf="!scheduleDefined && !isOutOfAdvanceBookingDay && !isDayHoliday">
+                    <div class="no-data w-25 mx-auto"><span class="fa-stack fa-2x" aria-hidden="true"><i class="fa fa-clipboard"
+                aria-hidden="true"></i><i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse"
+                aria-hidden="true"></i></span>
+                        <p>No Schedule Found.</p>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+
+
+    </div>
+</div>
+
+<ng-template #noDataTemplate>
+    No Schedule found !
+</ng-template>
+<ng-template #modalContent let-close="close">
+    <div class="modal-header">
+        <p class="modal-title text-uppercase">Event action occurred</p>
+        <button type="button" class="close font-weight-normal text-white" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <div>
+            Action:
+            <pre>{{ modalData?.action }}</pre>
+        </div>
+        <div>
+            Event:
+            <pre>{{ modalData?.event | json }}</pre>
+        </div>
+    </div>
+    <div class="modal-footer py-1">
+        <button type="button" class="btn btn-outline-secondary" (click)="close()">
+      OK
+    </button>
+    </div>
+</ng-template>
+<ng-template #cellTooltipTemplate let-event="event" let-placement="placement">
+    <div class="cal-tooltip" [ngClass]="'cal-tooltip-' + placement">
+        <div class="cal-tooltip-arrow"></div>
+        <div class="cal-tooltip-inner">
+            <div class="calender-info px-2 pt-1 border-bottom">
+                <div class="form-row pb-1 border-light-bottom">
+                    <div class="col">
+                        <p class="mb-0 font-weight-500 font-size-dot-75">{{event.meta.patient_details.uhid}}</p>
+                        <h6 class="mb-0">{{event.title}}</h6>
+                        <p class="mb-0 text-muted font-size-dot-7">
+                            <span class="mr-2"><i class="fas fa-fw fa-phone-alt"></i> {{event.meta.patient_details.mobile_no}},</span>
+                            <span class="text-uppercase"> {{event.meta.patient_details.patgender}},</span>
+                            <span *ngIf="event.meta.patient_details?.dob">&nbsp; {{event.meta.patient_details?.dob | calucalteAge}}</span>
+                            <span *ngIf="!event.meta.patient_details?.dob">&nbsp; {{event.meta.patient_details.patage + (event.meta.patient_details.patageunit)}}</span>
+                        </p>
+                    </div>
+                    <div class="col-2 text-right">
+                        <p class="mb-0 text-muted sm-line-height">Token ID</p>
+                        <p class="mb-0 font-weight-500 font-size-1">{{event.meta.tokenNo}}</p>
+                    </div>
+                </div>
+                <div class="form-row mt-1">
+                    <div class="col border-right mr-1">
+                        <p class="mb-1 font-weight-500 font-size-dot-75">
+                            <i *ngIf="event.meta.patientType == 'NORMAL'" class="icon fa-fw icon-calendar-alt text-info mr-1" aria-hidden="true"></i>
+                            <i *ngIf="event.meta.patientType == 'PRIORITY'" class="fas fa-fw fa-exclamation-triangle text-warning mr-1" aria-hidden="true"></i>
+                            <i *ngIf="event.meta.patientType == 'WALKIN'" class="icon fa-fw icon-walking text-success mr-1" aria-hidden="true"></i> {{event.meta.patientType}}</p>
+                        <p class="mb-1 font-weight-500 font-size-dot-75"><i [ngStyle]="{'color': setColor(event.meta.appointmentTypeId)}" class="icon fa-fw icon-apt-status mr-1"></i> {{event.meta.appointmentType}}
+                        </p>
+                        <!-- <p class="mb-1 font-weight-500 font-size-dot-75"><i
+                class="icon fa-fw icon-appointment-status history-status mr-1"></i>
+              {{event.meta.appointmentStatusDisplayName}}</p> -->
+                        <p class="mb-1 font-weight-500 font-size-dot-75"><i class="icon fa-fw icon-visit-type mr-1" [ngClass]="(event.meta.visitType == 'NEW') ? 'text-primary' : 'text-pink'" aria-hidden="true"></i> {{event.meta.visitType}}
+                        </p>
+                    </div>
+                    <div class="col-5">
+                        <label class="mb-0 font-size-dot-7 sm-line-height text-muted">Appointment Time</label>
+                        <p class="mb-1 font-weight-500 font-size-dot-8">
+                            {{event.meta.communicationStartTime}} - {{event.meta.communicationEndTime}}
+                        </p>
+                        <label class="mb-0 font-size-dot-7 sm-line-height text-muted">Slot Time</label>
+                        <p class="mb-0 font-weight-500 font-size-dot-8">
+                            {{event.meta.bookTime}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid tooltip-height px-2 pt-2">
+                <div class="form-row pb-1 border-light-bottom" *ngIf="event.meta.services.length">
+                    <div class="col col-label">
+                        <span class="text-muted font-size-dot-8">Services : </span>
+                    </div>
+                    <div class="col">
+                        <span *ngFor="let service of event.meta.services; let i = index">
+              <span class="font-size-dot-8 service-list" *ngIf="i === 0 || i === 1">{{service.service_name}}</span>
+                        <span *ngIf="i === 0">, </span> <span *ngIf="i === 2">...</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-row pb-1 border-light-bottom mt-1" *ngIf="event.meta.notes">
+                    <div class="col col-label">
+                        <span class="text-muted font-size-dot-8">Notes : </span>
+                    </div>
+                    <div class="col">
+                        <p class="mb-0 font-size-dot-875">{{event.meta.notes | slice: 0: 90}}<span *ngIf="(event.meta.notes !== '' && event.meta.notes.length >= 90)">...</span></p>
+                    </div>
+                </div>
+                <div class="form-row mt-1 mb-1" *ngIf="event.meta.remarks">
+                    <div class="col col-label">
+                        <span class="text-muted font-size-dot-8">Comments : </span>
+                    </div>
+                    <div class="col">
+                        <p class="mb-0 font-size-dot-875">{{event.meta.remarks | slice: 0: 90}}<span *ngIf="(event.meta.remarks !== '' && event.meta.remarks.length >= 90)">...</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<!-- <app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<app-print-reports [printData]="printData" [printType]="'appointment'"></app-print-reports> -->

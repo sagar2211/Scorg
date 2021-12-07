@@ -1,0 +1,13 @@
+<div class="modal-body pt-2">
+  <!-- <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+    (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button> -->
+  <div class="something-wrong text-center">
+    <img class="img-fluid" src="./assets/img/something-wrong.png">
+    <h5 class="text-secondary font-weight-normal my-3" [innerHtml]="errorMsgDetails.modalBody"></h5>
+    <p class="text-muted font-size-dot-8 mb-0"> An unexpected error has occurred. Please try again later.</p>
+    <p class="text-muted font-size-dot-8"> Contact support if the error persists.</p>
+    <button class="btn btn-sm goback-btn mt-2" (click)="modal.close('Ok');" type="button"> GO BACK </button>
+  </div>
+</div>

@@ -1,0 +1,69 @@
+@import "./../../../../scss/main";
+
+:host ::ng-deep {
+  .custom-table {
+    td {
+      border: 1px solid #ddd;
+
+      &.h-heads,
+      &.header {
+        width: 167px;
+        font-size: 1rem;
+        @extend .font-weight-500;
+        @include border-left-radius(10px);
+      }
+
+      &:not(.h-heads) {
+        @include border-right-radius(10px);
+      }
+    }
+
+    .all-human-body-svg {
+      height: 230px;
+    }
+  }
+
+  .table th,
+  .table td {
+    padding: 0.2rem !important;
+  }
+
+  .critical-care {
+    td.header {
+      min-width: 167px !important;
+    }
+
+    td.left {
+      padding: 0 !important;
+
+      .icu-vital-sheet {
+        width: calc(100vw - 527px);
+
+        .emr-custom-container-fluid {
+          height: unset;
+          width: unset;
+          overflow: auto;
+          border: none;
+          box-shadow: none;
+
+          .vitals-chart {
+            font-size: 0.8rem !important;
+            padding: 0 !important;
+
+            .table-editable {
+              height: unset;
+              overflow: unset;
+            }
+          }
+          &::-webkit-scrollbar {
+            height: 12px !important;
+          }
+        
+          &::-moz-scrollbar {
+            height: 12px !important;
+          }
+        }
+      }
+    }
+  }
+}

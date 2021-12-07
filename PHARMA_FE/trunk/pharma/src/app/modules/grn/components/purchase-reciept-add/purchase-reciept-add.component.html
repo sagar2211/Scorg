@@ -1,0 +1,532 @@
+<div class="custom-container-fluid container-grn-add-apdate">
+    <form [formGroup]="purchaseRecieptFrm" (ngSubmit)="savePurchaseReciept()">
+        <div class="card-body p-1">
+            <div class="form-row form-group mx-0">
+                <div class="col-2">
+                    <label>GRN No.</label>
+                    <input class="form-control form-control-sm" formControlName="grnNo" type="text" placeholder="Type Name">
+                </div>
+                <div class="col-2">
+                    <label>GRN Date</label>
+                    <app-date-picker [makeDisabled]="true" (dateChange)="purchaseRecieptFrm.patchValue({ grnDate: $event  })" [inputDate]="purchaseRecieptFrm?.value?.grnDate" [disable]="true"></app-date-picker>
+                </div>
+                <div class="col-2">
+                    <label>Supplier<sup>*</sup> </label>
+                    <ng-select [tabIndex]="1" [items]="supplierList$ | async" bindLabel="supplierName" (change)="onSupplierChange($event)" bindValue="supplierId" [loading]="formLoading" formControlName="supplierId" placeholder="Select Supplier" [typeahead]="suppListAllInput$"
+                        autofocus>
+                    </ng-select>
+                    <span class="small text-danger" *ngIf="submitted && purchaseRecieptFrm.get('supplierId').errors?.required">This field
+                      required</span>
+                </div>
+                <div class="col-2">
+                    <label>PO/RC No.</label>
+                    <ng-select #polistComp [tabIndex]="2" [searchFn]="customSearchFn" [items]="poList" bindLabel="poNo" (change)="onPOSelect($event)" bindValue="poId" formControlName="poId" placeholder="Type P.O. No." [typeahead]="poListAllInput$">
+                        <ng-template ng-option-tmp let-item="item" let-index="index" let-search="searchTerm">
+                            <div class="row" *ngIf="index === 0">
+                                <div class="col-4 border-bottom border-left border-right border-top">
+                                    No.
+                                </div>
+                                <div class="col-4 border-bottom border-left border-right border-top">
+                                    Date
+                                </div>
+                                <div class="col-4 border-bottom border-left border-right border-top">
+                                    Amt
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div [ngOptionHighlight]="search" class="col-4 border-bottom border-left border-right">
+                                    {{item.poNo}}
+                                </div>
+                                <div [ngOptionHighlight]="search" class="col-4 border-bottom border-left border-right">
+                                    {{item.poDate | customDate: '' : 'DD-MM-YYYY'}}
+                                </div>
+                                <div [ngOptionHighlight]="search" class="col-4 border-bottom border-left border-right">
+                                    Rs. {{item.poAmount}}
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ng-select>
+                </div>
+                <div class="col-2">
+                    <label>PO Date</label>
+                    <app-date-picker [makeDisabled]="true" (dateChange)="purchaseRecieptFrm.patchValue({ poDate: $event  })" [inputDate]="purchaseRecieptFrm?.value?.poDate" [disable]="true"></app-date-picker>
+                </div>
+                <div class="col-2">
+                    <label>Receive Date</label>
+                    <app-date-picker (dateChange)="purchaseRecieptFrm.patchValue({ receivedDate: $event  })" [inputDate]="purchaseRecieptFrm?.value?.receivedDate"></app-date-picker>
+                </div>
+            </div>
+            <div class="form-row form-group mx-0">
+                <div class="col-2">
+                    <label>Supplier Invoice/DC no. :<sup>*</sup> </label>
+                    <input #suppInvoice [tabIndex]="3" (blur)="onBlurSuppInvoice($event)" class="form-control form-control-sm" formControlName="billNo" type="text" placeholder="Type Bill No" required>
+                    <span class="small text-danger" *ngIf="submitted && purchaseRecieptFrm.get('billNo').errors?.required">This field
+                      required</span>
+                </div>
+                <div class="col-2">
+                    <label>Date</label>
+                    <app-date-picker [makeDisabled]="true" (dateChange)="purchaseRecieptFrm.patchValue({ billDate: $event  })" [inputDate]="purchaseRecieptFrm?.value?.billDate"></app-date-picker>
+                </div>
+                <div class="col-2">
+                    <label>Customer Account No.</label>
+                    <input [tabIndex]="4" class="form-control form-control-sm" formControlName="custAcNo" type="number" placeholder="Type Customer Account No.">
+                </div>
+                <div class="col-2">
+                  <label>Generate Barcode.</label>
+                  <input [tabIndex]="5" type="checkbox" formControlName="isGenerateBarCode" class="form-control form-control-sm">
+                </div>
+            </div>
+            <ng-container *ngIf="!purchaseRecieptFrm.value.poId">
+                <h1>{{purchaseRecieptFrm.value.poId}}</h1>
+                <dx-data-grid
+                id="gridContainer"
+                [dataSource]="poItemArray"
+                [showBorders]="true"
+                [showRowLines]="true"
+                [allowColumnResizing]="true"
+                [columnAutoWidth]="true"
+                [allowColumnResizing]="true"
+                (onRowPrepared)="onRowPrepared($event)"
+                (onEditorPreparing)="onEditorPreparing($event)"
+                (onCellClick)="onCellClick($event)"
+                >
+                <dxo-sorting mode="none"></dxo-sorting>
+                <dxo-paging [enabled]="false"></dxo-paging>
+                <dxo-editing mode="row"
+                    [allowUpdating]="true"
+                    [allowDeleting]="true"
+                    [allowAdding]="true"
+                    [useIcons]="true">
+                </dxo-editing>
+
+                <dxi-column dataField="itemName" name="itemName" calculateDisplayValue="itemName"
+                [tabIndex]="5" [width]="300" [editorOptions]="editorOptions" caption="Item Name"
+                [fixed]="true">
+                    <dxo-lookup [dataSource]="itemMasterDataSource" displayExpr="itemName">
+                    </dxo-lookup>
+                </dxi-column>
+                <dxi-column dataField="challanQty" name="challanQty" caption="Challan Qty">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    <dxi-validation-rule type="required" message="Challan quantity is required."></dxi-validation-rule>
+                </dxi-column>
+                <dxi-column dataField="receivedQty" name="receivedQty" caption="Rec Qty">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    <dxi-validation-rule type="custom" [validationCallback]="validateReceivedQty"
+                    message="It should be less or equal to Challan quantity."></dxi-validation-rule>
+                    <dxi-validation-rule type="required" message="Received quantity is required."></dxi-validation-rule>
+                </dxi-column>
+                <dxi-column dataField="acceptedQty" caption="Acc Qty">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    <dxi-validation-rule type="custom" [validationCallback]="validateAcceptedQty"
+                    message="It should be less or equal to Received quantity."></dxi-validation-rule>
+                    <dxi-validation-rule type="required" message="Accepted quantity is required."></dxi-validation-rule>
+                </dxi-column>
+                <dxi-column dataField="freeQty" caption="Free Qty">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="totalQty" caption="Total Qty" [allowEditing]="false">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="batchNo" caption="Batch No.">
+                    <dxi-validation-rule type="required" message="Batch number is required."></dxi-validation-rule>
+                </dxi-column>
+                <dxi-column dataField="expiryDate" [width]="100" caption="Expiry Date" dataType="date" format="dd/MM/yyyy">
+                    <dxi-validation-rule type="required" message="Expiry date is required.(DD/MM/YYYY)"></dxi-validation-rule>
+                </dxi-column>
+                <dxi-column dataField="purchaseRate" dataType="decimal" caption="Trade Rate" [setCellValue]="updateTradeRate">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="mrp" dataType="decimal" caption="MRP"  [allowEditing]="false" [setCellValue]="updateMRP">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    <dxi-validation-rule type="required" message="Mrp is required."></dxi-validation-rule>
+                </dxi-column>
+                <dxi-column dataField="gstPercent" caption="GST Percent" [allowEditing]="false">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="gstAmount" caption="GST Amt" [allowEditing]="false">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="discountPercent" caption="Discount %" [setCellValue]="updateDiscountPercent">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="discountAmount" caption="Discount Amt" [setCellValue]="updateDiscountAmt">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+
+                <dxi-column dataField="unitRate" caption="Purchase Rate" [allowEditing]="false">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+
+                <dxi-column dataField="saleUnitPrice" caption="Sale Price">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    <dxi-validation-rule type="custom" [validationCallback]="validateSalePrice"
+                    message="Sale price is must less than or equal to MRP."></dxi-validation-rule>
+                </dxi-column>
+                <dxi-column dataField="netTotalAmount" caption="Net Amt." [allowEditing]="false">
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                </dxi-column>
+                <dxi-column dataField="scanCode" caption="Scan Code">
+                </dxi-column>
+                <dxi-column dataField="sslCode" caption="SSL Code"></dxi-column>
+                <dxi-column type="buttons" caption="Action" [width]="80" [fixed]="true">
+                    <dxi-button hint="delete" icon="trash" [onClick]="onDelete">
+                    </dxi-button>
+                </dxi-column>
+                <div *dxTemplate="let item of 'itemTemplate' let i = index">
+                    <div *ngIf="item === null"; else elseBlock>
+                        <span>(All)</span>
+                    </div>
+                    <div dx-template #elseBlock>
+                      <div class="row m-0 headerTab text-white text-strong bg-primary" *ngIf="i === 0">
+                          <div class="col-3 border-bottom border-left border-right border-top align-center">
+                              Item Name
+                          </div>
+                          <div class="col-2 border-bottom border-left border-right border-top align-center">
+                            Code
+                          </div>
+                          <div class="col-1 border-bottom border-left border-right border-top align-center">
+                              GST
+                          </div>
+                          <div class="col-2 border-bottom border-left border-right border-top align-center">
+                            Last MRP
+                          </div>
+                          <div class="col-2 border-bottom border-left border-right border-top align-center">
+                            Last Pur. Rate
+                          </div>
+                          <div class="col-2 border-bottom border-left border-right border-top align-center">
+                            Last Unit Rate
+                          </div>
+                      </div>
+                      <div [ngOptionHighlight]="search" class="row m-0 table-item" [ngClass]="{'item-first' : i===0}">
+                          <div class="col-3 border-bottom border-left border-right">
+                              {{item.itemName}}
+                          </div>
+                          <div class="col-2 border-bottom border-left border-right">
+                            {{item.itemCode}}
+                          </div>
+                          <div class="col-1 border-bottom border-left border-right text-right">
+                            {{item.gstRate | number:'1.2-2'}}
+                          </div>
+                          <div class="col-2 border-bottom border-left border-right text-right">
+                            {{item.lastMRP | number:'1.2-2'}}
+                          </div>
+                           <div class="col-2 border-bottom border-left border-right text-right">
+                            {{item.lastPurchaseRate | number:'1.2-2'}}
+                          </div>
+                          <div class="col-2 border-bottom border-left border-right text-right">
+                            {{item.lastUnitRate | number:'1.2-2'}}
+                          </div>
+                      </div>
+                  </div>
+                  </div>
+
+                  <dx-tooltip  [target]="TooltipTarget" [visible]="isVisible">
+                    <div *dxTemplate="let data of 'poItemArray'">
+                    </div>
+                  </dx-tooltip>
+
+                  <dxo-summary [recalculateWhileEditing]="true">
+                    <dxi-total-item summaryType="count" displayFormat="Sub Total: " showInColumn="itemName"></dxi-total-item>
+                    <dxi-total-item summaryType="sum" column="poQty" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                    <dxi-total-item summaryType="sum" column="challanQty" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                    <dxi-total-item summaryType="sum" column="receivedQty" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                    <dxi-total-item summaryType="sum" column="acceptedQty" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                    <dxi-total-item summaryType="sum" column="freeQty" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                    <dxi-total-item summaryType="sum" column="totalQty" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                    <dxi-total-item summaryType="sum" column="mrp" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                    <dxi-total-item summaryType="sum" column="purchaseRate" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                    <dxi-total-item summaryType="sum" column="discountAmount" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                    <dxi-total-item summaryType="sum" column="gstAmount" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                    <dxi-total-item summaryType="sum" column="unitRate" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                    <dxi-total-item summaryType="sum" column="netTotalAmount" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                </dxo-summary>
+            </dx-data-grid>
+            </ng-container>
+
+            <ng-container *ngIf="purchaseRecieptFrm.value.poId">
+                <dx-data-grid
+                    id="gridContainer"
+                    [dataSource]="poItemArray"
+                    [showBorders]="true"
+                    [showRowLines]="true"
+                    [allowColumnResizing]="true"
+                    [columnAutoWidth]="true"
+                    [allowColumnResizing]="true"
+                    (onRowPrepared)="onRowPrepared($event)"
+                    (onCellClick)="onCellClick($event)"
+                    (onEditorPreparing)="onEditorPreparing($event)"
+                    >
+                    <dxo-sorting mode="none"></dxo-sorting>
+                    <dxo-paging [enabled]="false"></dxo-paging>
+                    <dxo-editing mode="row"
+                        [allowUpdating]="true"
+                        [allowDeleting]="true"
+                        [allowAdding]="true"
+                        [useIcons]="true">
+                    </dxo-editing>
+
+                    <dxi-column dataField="itemName" [width]="300" [editorOptions]="editorOptions" caption="Item Name" [fixed]="true" [allowEditing]="false"></dxi-column>
+                    <dxi-column dataField="poQty" caption="P.O. Bal. Qty" [allowEditing]="false">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="challanQty" caption="Challan Qty">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                        <dxi-validation-rule type="custom" [validationCallback]="validateChallanQty"
+                            message="It should be less or equal to PO quantity."></dxi-validation-rule>
+                        <dxi-validation-rule type="required" message="Challan quantity is required."></dxi-validation-rule>
+                    </dxi-column>
+                    <dxi-column dataField="receivedQty" caption="Rec Qty">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                        <dxi-validation-rule type="custom" [validationCallback]="validateReceivedQty"
+                            message="It should be less or equal to Challan quantity."></dxi-validation-rule>
+                    </dxi-column>
+                    <dxi-column dataField="acceptedQty" caption="Acc Qty">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                        <dxi-validation-rule type="custom" [validationCallback]="validateAcceptedQty"
+                            message="It should be less or equal to Received quantity."></dxi-validation-rule>
+                    </dxi-column>
+                    <dxi-column dataField="freeQty" caption="Free Qty">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="totalQty" caption="Total Qty" [allowEditing]="false">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="batchNo" caption="Batch No.">
+                        <dxi-validation-rule type="required" message="Batch number is required."></dxi-validation-rule>
+                    </dxi-column>
+                    <dxi-column dataField="expiryDate" [width]="100" caption="Expiry Date" dataType="date" format="dd/MM/yyyy">
+                        <dxi-validation-rule type="required" message="Expiry date is required.(DD/MM/YYYY)"></dxi-validation-rule>
+                    </dxi-column>
+                    <dxi-column dataField="purchaseRate" caption="Trade Rate" [allowEditing]="false"></dxi-column>
+                    <dxi-column dataField="mrp" caption="MRP">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                        <dxi-validation-rule type="custom" [validationCallback]="validateMRP"
+                            message="MRP is must gretter than or equal to Unit Rate."></dxi-validation-rule>
+                    </dxi-column>
+                    <dxi-column dataField="gstPercent" caption="GST Percent" [allowEditing]="false"></dxi-column>
+                    <dxi-column dataField="gstAmount" caption="GST Amt" [allowEditing]="false">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    <dxi-column dataField="discountPercent" caption="Discount %"></dxi-column>
+                    <dxi-column dataField="discountAmount" caption="Discount Amt">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="unitRate" caption="Purchase Rate" [allowEditing]="false">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column dataField="saleUnitPrice" caption="Sale Price">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                        <dxi-validation-rule type="custom" [validationCallback]="validateSalePrice"
+                            message="Sale price is must less than or equal to MRP."></dxi-validation-rule>
+                    </dxi-column>
+                    <dxi-column dataField="netTotalAmount" caption="Net Amt." [allowEditing]="false">
+                        <dxo-format type="fixedPoint" [precision]="2"></dxo-format>
+                    </dxi-column>
+                    <dxi-column caption="Scan Code" [allowEditing]="false"></dxi-column>
+                    <dxi-column caption="SSL Code" [allowEditing]="false"></dxi-column>
+                    <dxi-column type="buttons" caption="Action" [width]="110" [fixed]="true" *ngIf="poItemArray.length > 0">
+                        <dxi-button name="edit"></dxi-button>
+                        <dxi-button hint="delete" icon="trash" [onClick]="onDelete"></dxi-button>
+                    </dxi-column>
+
+                    <dxo-summary [recalculateWhileEditing]="true">
+                        <dxi-total-item summaryType="count" displayFormat="Sub Total: " showInColumn="itemName"></dxi-total-item>
+                        <dxi-total-item summaryType="sum" column="poQty" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                        <dxi-total-item summaryType="sum" column="challanQty" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                        <dxi-total-item summaryType="sum" column="receivedQty" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                        <dxi-total-item summaryType="sum" column="acceptedQty" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                        <dxi-total-item summaryType="sum" column="freeQty" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                        <dxi-total-item summaryType="sum" column="totalQty" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                        <dxi-total-item summaryType="sum" column="mrp" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                        <dxi-total-item summaryType="sum" column="purchaseRate" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                        <dxi-total-item summaryType="sum" column="discountAmount" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                        <dxi-total-item summaryType="sum" column="gstAmount" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                        <dxi-total-item summaryType="sum" column="unitRate" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                        <dxi-total-item summaryType="sum" column="netTotalAmount" [customizeText]="decimalWithPrecision"></dxi-total-item>
+                    </dxo-summary>
+                </dx-data-grid>
+            </ng-container>
+
+            <div class="card-body p-1 card-body-patient-issue">
+                <div class="form-row align-items-center justify-content-center mx-0">
+                    <div class="col-4">
+                        <label class="mr-1">Total Purchase Amount (Inclusing Item Discount): </label>
+                        <div>{{purchaseRecieptFrm.get('purchaseAmount').value | number:'1.2-2' }}</div>
+                    </div>
+                    <div class="col-8 bottom-inputs">
+                        <div class="clearfix">
+                            <div class="float-right">
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label class="mr-1">Total GST:</label>
+                                        <input type="number" class="form-control form-control-sm width-140" readonly formControlName="gstAmount" appOnlyNumbersWithDecimal placeholder="Type GST Amount">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="mr-1">Total Amount</label>
+                                        <input type="number" class="form-control form-control-sm width-140" value="{{totalNetAmount}}" readonly appUpperCase appOnlyNumbersWithDecimal placeholder="Amount">
+                                    </div>
+                                    <span class="d-inline-block mx-2 font-20">-</span>
+                                    <div class="form-group">
+                                        <label class="mx-1">Disc. in</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text font-size-dot-7 font-weight-500 p-1">Amt.</span>
+                                            </div>
+                                            <input type="number" class="form-control form-control-sm text-right border-right-0 width-100" (change)="onDiscountAmount($event)" formControlName="discountAmount" appUpperCase appOnlyNumbersWithDecimal placeholder="Amount">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text p-1">
+                                                    <span class="font-size-dot-7 font-weight-500 p-1">%</span></span>
+                                            </div>
+                                            <input type="number" class="form-control form-control-sm text-right width-100" (change)="onDiscountPerChange($event)" formControlName="discountPercent" appUpperCase appOnlyNumbersWithDecimal placeholder="Percent">
+                                        </div>
+                                    </div>
+                                    <span class="d-inline-block mx-2 font-20">=</span>
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <label class="font-size-1 mx-1">Net Amount</label>
+                                            <h5>{{purchaseRecieptFrm.get('netAmount').value | number:'1.2-2' }}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="form-row form-group mx-0">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label class="mr-1">Total Purchase Amount (Inclusing Item Discount): </label>
+                        <div>{{purchaseRecieptFrm.get('purchaseAmount').value | number:'1.2-2' }}</div>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label class="mr-1">Total GST: </label>
+                        <input class="form-control form-control-sm width-140" formControlName="gstAmount" type="number" placeholder="Type GST Amount">
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label class="mr-1">Bill Disc in Percent: </label>
+                        <input class="form-control form-control-sm width-140" (change)="onDiscountPerChange($event)" formControlName="discountPercent" type="number" placeholder="Type Discount Percent">
+                        <span class="text-danger" *ngIf="purchaseRecieptFrm.get('discountPercent').errors?.isGreater">Should
+                            be Less then 100</span>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <label class="mr-1">Bill Discount Amount: </label>
+                        <input class="form-control form-control-sm width-140" (change)="onDiscountAmount($event)" formControlName="discountAmount" type="number" placeholder="Discount Amount">
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <h5 class="mr-1">Total Net Amount: </h5>
+                        <h5 class="mb-0">{{purchaseRecieptFrm.get('netAmount').value | number:'1.2-2' }}
+                        </h5>
+                    </div>
+                </div>
+            </div> -->
+                <!-- <div class="col-12">
+                    <table class="table custom-table font-size-dot-875 mb-0 border-top-0 table-footer">
+                        <tbody>
+                            <tr class="text-right">
+                                <td class="text-right border-right-0 border-top-0">Total Purchase Amount (Inclusing Item Discount):
+                                </td>
+                                <td class="text-right border-left-0 border-top-0">
+                                    {{purchaseRecieptFrm.get('purchaseAmount').value | number:'1.2-2' }}</td>
+                            </tr>
+                            <tr class="text-right">
+                                <td class="text-right border-right-0 border-top-0">Total GST:
+                                </td>
+                                <td class="text-right border-left-0 border-top-0">
+                                    <input class="form-control form-control-sm" formControlName="gstAmount" type="number" placeholder="Type GST Amount">
+                                </td>
+                            </tr>
+                            <tr class="text-right">
+                                <td class="text-right border-right-0 border-top-0">Bill Disc in Percent:
+                                </td>
+                                <td class="text-right border-left-0 border-top-0">
+                                    <input class="form-control form-control-sm" (change)="onDiscountPerChange($event)" formControlName="discountPercent" type="number" placeholder="Type Discount Percent">
+                                    <span class="text-danger" *ngIf="purchaseRecieptFrm.get('discountPercent').errors?.isGreater">Should
+                                      be Less then 100</span>
+                                </td>
+                            </tr>
+                            <tr class="text-right">
+                                <td class="text-right border-right-0 border-top-0">Bill Discount Amount:</td>
+                                <td class="text-right border-left-0 border-top-0">
+                                    <input class="form-control form-control-sm" (change)="onDiscountAmount($event)" formControlName="discountAmount" type="number" placeholder="Discount Amount">
+                                </td>
+                            </tr>
+                            <tr class="text-right">
+                                <td class="text-right border-right-0 border-top-0">
+                                    <h5 class="mb-0">Total Net Amount:</h5>
+                                </td>
+                                <td class="text-right border-left-0 border-top-0">
+                                    <h5 class="mb-0">{{purchaseRecieptFrm.get('netAmount').value | number:'1.2-2' }}
+                                    </h5>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> -->
+        </div>
+        <div class="card-footer py-1 border-top">
+            <div class="float-right">
+                <ng-container *ngIf="purchaseRecieptId === -1 || isCopyModeOn">
+                    <div *ngxPermissionsOnly="constpermissionList.APPROVE_GRN" class="is-approved form-group">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Print</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isTakePrint" class="custom-control-input" id="isTakePrint">
+                            <label class="custom-control-label pointer" [class.active]="purchaseRecieptFrm.value.isTakePrint" for="isTakePrint"></label>
+                            <span class="text-uppercase" [class.active]="purchaseRecieptFrm.value.isTakePrint">{{purchaseRecieptFrm.value.isTakePrint ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <div *ngxPermissionsOnly="constpermissionList.APPROVE_GRN" class="is-approved form-group">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Is Approved</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isApproved" class="custom-control-input" id="isApproved1">
+                            <label class="custom-control-label pointer" [class.active]="purchaseRecieptFrm.value.isApproved" for="isApproved1"></label>
+                            <span class="text-uppercase" [class.active]="purchaseRecieptFrm.value.isApproved">{{purchaseRecieptFrm.value.isApproved ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-success ml-1"><i class="icon fa-fw icon-save"
+                          aria-hidden="true"></i> SAVE</button>
+                </ng-container>
+                <ng-container *ngIf="(purchaseRecieptId !== -1 && purchaseRecieptFrm.value.status !== 'Created') && !isCopyModeOn">
+                    <button type="button" class="btn btn-sm btn-outline-mbd" (click)="getPrintData()">
+                      <i class="icon fa-fw icon-print" aria-hidden="true"></i> PRINT
+                  </button>
+                </ng-container>
+                <ng-container *ngIf="(purchaseRecieptId !== -1 && purchaseRecieptFrm.value.status === 'Created' && purchaseRecieptFrm.value.createdBy === loginUserId) && !isCopyModeOn">
+                    <div *ngxPermissionsOnly="constpermissionList.APPROVE_GRN" class="is-approved form-group">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Print</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isTakePrint" class="custom-control-input" id="isTakePrint">
+                            <label class="custom-control-label pointer" [class.active]="purchaseRecieptFrm.value.isTakePrint" for="isTakePrint"></label>
+                            <span class="text-uppercase" [class.active]="purchaseRecieptFrm.value.isTakePrint">{{purchaseRecieptFrm.value.isTakePrint ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <div *ngxPermissionsOnly="constpermissionList.APPROVE_GRN" class="is-approved form-group">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Is Approved</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isApproved" class="custom-control-input" id="isApproved2">
+                            <label class="custom-control-label pointer" [class.active]="purchaseRecieptFrm.value.isApproved" for="isApproved2"></label>
+                            <span class="text-uppercase" [class.active]="purchaseRecieptFrm.value.isApproved">{{purchaseRecieptFrm.value.isApproved ? 'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <button *ngxPermissionsOnly="constpermissionList.CANCEL_GRN" type="button" class="btn btn-sm btn-outline-secondary ml-1" (click)="updateStatus('Cancel')">CANCEL</button>
+                    <button *ngxPermissionsOnly="constpermissionList.UPDATE_GRN" type="submit" class="btn btn-sm btn-primary-light ml-1"><i class="fas fa-fw fa-sync-alt"></i>
+                      UPDATE</button>
+                    <button *ngxPermissionsOnly="constpermissionList.REJECT_GRN" type="button" class="btn btn-sm btn-danger ml-1" (click)="updateStatus('Reject')"><i
+                          class="icon fa-fw icon-times" aria-hidden="true"></i> REJECT</button>
+                </ng-container>
+            </div>
+        </div>
+    </form>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<app-print-data [printData]="printData" (printDiaglogClose)="redirectToListPage()"></app-print-data>

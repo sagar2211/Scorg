@@ -1,0 +1,244 @@
+<div
+  [ngClass]="{'container-fluid custom-container-fluid position-relative pt-2': !isFromFrontDesk, 'p-2': isFromFrontDesk}">
+  <div class="form-row">
+    <div class="col-3">
+      <div class="form-group view-height position-relative">
+        <input type="text" class="form-control form-control-sm pl-2rem"
+          placeholder="Search By Patient UHID/Name/Mobile no" [(ngModel)]="searchTxt">
+        <div class="placeholder-icon">
+          <i class="icon fa-fw icon-search text-muted" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-3" *ngIf="isShowAllAppointment && !viewAccessAllAppointments">
+      <ng-select [items]="mapeduserList" bindLabel="displayMapUserName"
+        placeholder="Search by Doctor/Service Provider/Joint Clinic" [(ngModel)]="selectedAppointmentEntity"
+        (change)="GetQueueAppointmentSlotOnEntityId($event)">
+      </ng-select>
+    </div>
+    <div [ngClass]="isEntityLoad? 'col-7' : 'col-5'" *ngIf="isShowAllAppointment && viewAccessAllAppointments">
+      <div class="form-row">
+        <div class="col-6">
+          <!-- <label>Entity Type</label> -->
+          <app-ng-select-typeahead [inputValue]="entity?.id" [thDisplayLabel]="'name'" [thDisplayKey]="'id'"
+            [source]="'Search..'" [returnDataType]="'obj'" (recievedVal)="selectEntity($event)"
+            [displayList]="entityList">
+          </app-ng-select-typeahead>
+        </div>
+        <div class="col-6" *ngIf="entity && entity.key == 'doctor'">
+          <!-- <label>Doctor</label> -->
+          <app-ng-select-typeahead [isSearchDataFromApi]="true" [selectedValue]="doctor?.name" [inputValue]="doctor?.id"
+            [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Search..'" (recievedVal)="selectValue($event)"
+            [returnDataType]="'obj'" [searchFun]="getAllDoctorList" [compInstance]="compInstance">
+          </app-ng-select-typeahead>
+        </div>
+        <div class="col-6" *ngIf="entity && entity.key == 'joint_clinic'">
+          <!-- <label>Joint Clinic</label> -->
+          <app-ng-select-typeahead [isSearchDataFromApi]="true" [selectedValue]="jointClinic?.name"
+            [inputValue]="jointClinic?.id" [thDisplayLabel]="'name'" [thDisplayKey]="'id'" [source]="'Search..'"
+            (recievedVal)="selectValue($event)" [returnDataType]="'obj'" [searchFun]="getAllJointClinicList"
+            [compInstance]="compInstance">
+          </app-ng-select-typeahead>
+        </div>
+        <div class="col-6" *ngIf="entity && entity.key == 'service_provider'">
+          <!-- <label for="lab-service">Select Provider</label> -->
+          <app-ng-select-typeahead [isSearchDataFromApi]="true" [selectedValue]="serviceProvider?.name"
+            [inputValue]="serviceProvider?.id" [thDisplayLabel]="'name'" [thDisplayKey]="'id'"
+            [source]="'Select provider..'" (recievedVal)="selectValue($event)" [returnDataType]="'obj'"
+            [searchFun]="getAllServiceProviderList" [compInstance]="compInstance">
+          </app-ng-select-typeahead>
+        </div>
+      </div>
+    </div>
+    <div [ngClass]="cssClass">
+      <!-- <span class="edit-input d-inline-block mr-1">{{startDate | customDateFormat : '' : 'DD/MM/YYYY'}}</span> -->
+      <span [ngClass]="isShowAllAppointment ? 'all-col-cancel-width' : 'col-cancel-width'">
+        <ng-container *ngxPermissionsOnly="PermissionsConstantsList.Manage_Appointment_delayNotification">
+          <button type="button" class="btn btn-sm btn-warning mr-1"
+            *ngIf="(slotList.length && (!isShowAllAppointment || selectedAppointmentEntity) && ((!checkqlistStatus.isCheckIn && checkqlistStatus.checkInStatus === '') || (!checkqlistStatus.isCheckIn && !checkqlistStatus.isCheckOut)))"
+            (click)="delayNotification()">
+            <span> <i class="icon fa-fw icon-bell" aria-hidden="true"></i> DELAY NOTIFICATION</span>
+          </button>
+        </ng-container>
+        <ng-container *ngxPermissionsOnly="PermissionsConstantsList.Manage_Appointment_ConfirmAll">
+          <button *ngIf="slotList.length && showBulkButtons" type="button"
+            (click)="loadAppointmentConfirmationPopup('confirmAll')" class="btn btn-sm btn-success mr-1">
+            <span> <i class="icon fa-fw icon-check" aria-hidden="true"></i>CONFIRM ALL</span>
+          </button>
+        </ng-container>
+        <ng-container *ngxPermissionsOnly="PermissionsConstantsList.Manage_Appointment_cancelAll">
+          <button *ngIf="slotList.length && showBulkButtons" type="button" (click)="bulkCancel()"
+            class="btn btn-sm btn-outline-danger mr-1">
+            <span> <i class="icon fa-fw icon-times" aria-hidden="true"></i>CANCEL ALL</span>
+          </button>
+        </ng-container>
+        <ng-container *ngxPermissionsOnly="PermissionsConstantsList.Manage_Appointment_Delete_All">
+          <button *ngIf="slotList.length" type="button" (click)="bulkDeleteConfirmation()"
+            class="btn btn-sm btn-outline-danger mr-1">
+            <span> <i class="icon fa-fw icon-times" aria-hidden="true"></i>DELETE ALL</span>
+          </button>
+        </ng-container>
+      </span>
+      <ng-container *ngxPermissionsOnly="PermissionsConstantsList.Manage_Appointment_print">
+        <span *ngIf="(slotList.length && (!isShowAllAppointment || selectedAppointmentEntity))">
+          <button class="btn btn-sm btn-info" (click)="getPrintAppointment();" type="button"><i
+              class="icon fa-fw icon-print" aria-hidden="true"></i> Print</button></span>
+      </ng-container>
+    </div>
+  </div>
+  <div class="form-row align-items-center bulk-header py-2 border mx-0">
+    <div [ngClass]="isShowAllAppointment ? 'all-col-time-width' : 'col-time-width'">
+      <div class="custom-control custom-checkbox custom-control-inline ml-1 mr-0"
+        [ngClass]="{'pl-0':isShowAllAppointment && !filterAllAppointmentOnEntity}">
+        <input type="checkbox" class="custom-control-input custom-control-input-sm" id="customCheck" name="example1"
+          (change)="onSelectAll()" [(ngModel)]="selectAll">
+        <label [ngClass]="{'checkbox-remove':isShowAllAppointment && !filterAllAppointmentOnEntity}"
+          class="custom-control-label pointer pl-2" for="customCheck">Slot Time</label>
+      </div>
+    </div>
+    <div class="col-type" *ngIf="isShowAllAppointment">
+      <p class="mb-0">Provider</p>
+    </div>
+    <div class="col-queue" *ngIf="isShowAllAppointment">
+      <p class="mb-0">Queue</p>
+    </div>
+    <div [ngClass]="isShowAllAppointment ? 'all-col-uid' : 'col-uid'">
+      <p class="mb-0">UHID</p>
+    </div>
+    <div class="col">
+      <p class="mb-0">Patient name</p>
+    </div>
+    <div [ngClass]="isShowAllAppointment ? 'all-col-num' : 'col-num'">
+      <p class="mb-0">Mobile No</p>
+    </div>
+    <div [ngClass]="isShowAllAppointment ? 'all-col-cancel-width' : 'col-cancel-width'">
+
+    </div>
+  </div>
+  <div class="body-height" [ngStyle]="{'height' : isFromFrontDesk ? 'calc(100vh - 240px)' : 'calc(100vh - 183px)' }">
+    <ng-container *ngIf="slotList.length">
+      <div class="form-row align-items-center border border-top-0 py-2 mx-0"
+        *ngFor="let slot of slotList | globalSearchDat: searchTxt: ['patName','patMobileNo', 'patUhid']; let i = index; trackBy: trackByFunction">
+        <div [ngClass]="isShowAllAppointment ? 'all-col-time-width' : 'col-time-width'">
+          <div class="custom-control custom-checkbox custom-control-inline ml-1 mr-0"
+            [ngClass]="{'pl-0':isShowAllAppointment && !filterAllAppointmentOnEntity}">
+            <input id="checkbox{{i}}" [(ngModel)]="slot.checked" (change)="isAllSelected()" type="checkbox"
+              class="custom-control-input" [disabled]="slot.bookingStatus === 'COMPLETE'">
+            <label [ngClass]="{'checkbox-remove':isShowAllAppointment && !filterAllAppointmentOnEntity}"
+              for="checkbox{{i}}" class="custom-control-label font-size-dot-8 pointer pl-2"> {{slot.slotTime}} </label>
+          </div>
+        </div>
+        <div class="col-type" *ngIf="isShowAllAppointment">
+          <p class="font-size-dot-8 mb-0 font-weight-normal">{{slot.queueType}}</p>
+        </div>
+        <div class="col-queue" *ngIf="isShowAllAppointment">
+          <p class="font-size-dot-8 mb-0 font-weight-normal">{{slot.queueName}}</p>
+        </div>
+        <div [ngClass]="isShowAllAppointment ? 'all-col-uid' : 'col-uid'">
+          <p class="font-size-dot-8 mb-0 font-weight-normal">{{slot.patUhid}}</p>
+        </div>
+        <div class="col">
+          <p class="mb-0 font-weight-500" [ngClass]="isShowAllAppointment ? 'font-size-dot-8' : 'font-size-dot-875'">
+            {{slot.patTitle}}.{{slot.patName}}
+            <!-- <sup class="Booking-status font-size-dot-8 align-baseline" [class.confirmed]="slot.bookingStatus == 'CONFIRMED'" [class.tentative]="slot.bookingStatus == 'TENTATIVE'"
+              [class.reschedule]="slot.bookingStatus == 'reschedule'" [class.red]="slot.bookingStatus == 'cancelled'">({{slot.bookingStatus}})</sup> -->
+            <ng-container *ngIf="slot.bookingStatus == 'TENTATIVE'">
+              <sup class="Booking-status align-baseline tentative">
+                ({{slot.bookingStatusDisplayName}})
+              </sup>
+            </ng-container>
+            <ng-container *ngIf="slot.bookingStatus == 'CONFIRMED'">
+              <sup appSetQStatusColor [qstatusId]="slot.queueStatusId"
+                class="Booking-status font-size-dot-8 align-baseline">
+                ({{slot.queueStatus === 'NEXT' ? slot.bookingStatusDisplayName : slot.queueStatus}})
+              </sup>
+            </ng-container>
+            <ng-container *ngIf="slot.bookingStatus == 'RESCHEDULE'">
+              <sup class="Booking-status align-baseline reschedule">
+                ({{slot.bookingStatusDisplayName}})
+              </sup>
+            </ng-container>
+          </p>
+        </div>
+        <div [ngClass]="isShowAllAppointment ? 'all-col-num' : 'col-num'">
+          <p class="font-size-dot-8 mb-0 font-weight-normal">{{slot.patMobileNo}}</p>
+        </div>
+        <div class="text-right" [ngClass]="isShowAllAppointment ? 'all-col-cancel-width' : 'col-cancel-width'">
+          <!-- <ng-container *ngxPermissionsOnly="PermissionsConstantsList.Manage_Appointment_Reschedule">
+            <button *ngIf="!isShowAllAppointment" class="btn btn-xs btn-primary mr-1" (click)="onReschedule(slot)"><i
+                class="icon fa-fw icon-redo" aria-hidden="true"></i> RESCHEDULE</button>
+          </ng-container> -->
+          <ng-container *ngxPermissionsOnly="PermissionsConstantsList.Manage_Appointment_confirm">
+            <button *ngIf="slot.bookingStatus != 'CONFIRMED' && slot.bookingStatus != 'COMPLETE' && !slot.queueStatus"
+              class="btn btn-xs btn-success mr-1" (click)="onConfirmAppointment(slot)">
+              <i class="icon fa-fw icon-check" aria-hidden="true">
+              </i> CONFIRM</button>
+          </ng-container>
+          <button class="bg-transparent border-0 align-middle" [autoClose]="true" placement="left-bottom"
+            #schedulePopover="ngbPopover" [ngbPopover]="popContent" container="body"
+            (click)="onPopoverClick(schedulePopover)">
+            <i class="fa fa-fw fa-bars" aria-hidden="true"></i> <i class="fa fa-xs fa-caret-down"
+              aria-hidden="true"></i>
+          </button>
+          <ng-template #popContent>
+            <ng-container>
+              <ul class="list-unstyled popover-content mb-0">
+                <li *ngxPermissionsOnly="PermissionsConstantsList.Manage_Appointment_Reschedule">
+                  <button *ngIf="slot.bookingStatus !== 'COMPLETE'"
+                    class="btn btn-sm btn-block text-left reschedule" (click)="onReschedule(slot)"><i
+                      class="icon fa-fw font-size-dot-8 icon-redo mr-1" aria-hidden="true"></i> Edit
+                    Appointment</button>
+                </li>
+                <li *ngxPermissionsOnly="PermissionsConstantsList.Manage_Appointment_cancel"><button
+                  *ngIf="slot.bookingStatus !== 'COMPLETE'"
+                    class="btn btn-sm btn-block text-left del" (click)="cancelAppointment(slot.appointments, slot)"><i
+                      class="icon fa-fw icon-times mr-1" aria-hidden="true"></i> Cancel</button></li>
+                <li *ngxPermissionsOnly="PermissionsConstantsList.Manage_Appointment_history">
+                  <button
+                    class="btn btn-sm btn-block text-left history" title="Appointment history"
+                    (click)="showAppointmentHistory(slot.appointmentId)">
+                    <i class="icon fa-fw icon-history mr-1" aria-hidden="true"></i> History</button></li>
+                <li *ngxPermissionsOnly="PermissionsConstantsList.Manage_Appointment_Delete">
+                  <button *ngIf="slot.bookingStatus !== 'COMPLETE'"
+                    class="btn btn-sm btn-block text-left del" title="Delete Appointment"
+                    (click)="bulkDeleteConfirmation(slot)">
+                    <i class="icon fa-fw icon-trash mr-1" aria-hidden="true"></i> Delete</button></li>
+                <li *ngxPermissionsOnly="PermissionsConstantsList.recheck_book_appointment">
+                  <button *ngIf="slot.bookingStatus === 'COMPLETE'" class="btn btn-sm btn-block text-left del" title="Re Check Appointment"
+                    (click)="recheckAppointment(slot)">
+                    <i class="icon fa-fw icon-recheck mr-1" aria-hidden="true"></i>Re Check</button></li>
+              </ul>
+            </ng-container>
+          </ng-template>
+
+          <!-- <ng-container *ngxPermissionsOnly="PermissionsConstantsList.Manage_Appointment_cancel">
+            <button *ngIf="slot.bookingStatus != 'CONFIRMED' && !isShowAllAppointment"
+              class="btn btn-xs mr-1 btn-outline-danger" (click)="cancelAppointment(slot.appointments, slot)">
+              <i class="icon fa-fw icon-times" aria-hidden="true">
+              </i> CANCEL</button>
+          </ng-container> -->
+          <!-- <ng-container *ngxPermissionsOnly="PermissionsConstantsList.Manage_Appointment_history">
+            <button *ngIf="!isShowAllAppointment" class="btn btn-xs btn-outline-warning text-uppercase"
+              title="Appointment history" (click)="showAppointmentHistory(slot.appointmentId)">
+              <i class="fa fa-history" aria-hidden="true"></i> HISTORY</button>
+          </ng-container> -->
+        </div>
+      </div>
+    </ng-container>
+    <div *ngIf="!slotList.length" class="no-data w-25 mx-auto mt-3"><span aria-hidden="true" class="fa-stack fa-2x"><i
+          class="fa fa-clipboard" aria-hidden="true"></i><i class="fa fa-exclamation-triangle fa-stack-1x fa-inverse"
+          aria-hidden="true"></i></span>
+      <p>No Appointment Found.</p>
+    </div>
+  </div>
+  <div class="slider-history-log" [@slideInOut]="loganimationState"
+    [ngStyle]="{'width': isShowLog ? '30%' : '0px', 'visibility' : isShowLog ? 'visible' : 'hidden'}">
+    <ng-container *ngIf="selectedAppointmentId">
+      <app-appointment-history [appointmentId]="selectedAppointmentId"></app-appointment-history>
+    </ng-container>
+  </div>
+  <div class="backdrop-log" name="backdrop" *ngIf="isShowLog" (click)="closeLogSlider()">
+  </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<app-print-reports [printData]="printData"></app-print-reports>

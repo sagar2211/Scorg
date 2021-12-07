@@ -1,0 +1,18 @@
+<div id="homeComponent" appOutSideClickEvent (clickOutside)="appOutSideClickEvent($event)" [clickInputValue]="true">
+    <app-navbar></app-navbar>
+    <div class="container-fluid p-0">
+        <div class="row m-0">
+            <!-- left-column -->
+            <!-- no-left-side -->
+            <div class="column left-side">
+                <app-left-menu></app-left-menu>
+            </div>
+            <!-- right-column -->
+            <!-- no-left-side -->
+            <div class="column right-side">
+                <!-- <app-mini-navbar></app-mini-navbar> -->
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

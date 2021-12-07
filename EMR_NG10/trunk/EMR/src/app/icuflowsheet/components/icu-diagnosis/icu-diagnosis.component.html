@@ -1,0 +1,21 @@
+<div class="card border-0 icu mb-1" style="height:99%">
+  <div class="card-header cus-head p-1 border-dash-bottom">
+    <div class="container-fluid px-0 icu-flow">
+      <div class="form-row align-items-center">
+        <div class="col-12">
+          <!--<p class="mb-0 font-weight-500">Diagnosis <code *ngIf="source && source == 'dashboard'">{{currentDate}}</code>-->
+          <p class="mb-0 font-weight-500">Diagnosis </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-body diagnosis-custom-height">
+    <div *ngIf="diagnosisData.length">
+      <div class="diagnosis-border" *ngFor="let diagnosis of diagnosisData; let i = index;">
+        <p class="mb-0" *ngIf="diagnosis.name && !source">{{i+1 + '.' + ' ' + diagnosis.name}}</p>
+        <p class="mb-0" *ngIf="diagnosis.name && source && source == 'dashboard'"><i
+            class="fa fa-angle-double-right text-primary mr-1"></i>{{' ' + diagnosis.name}}</p>
+      </div>
+    </div>
+  </div>
+</div>

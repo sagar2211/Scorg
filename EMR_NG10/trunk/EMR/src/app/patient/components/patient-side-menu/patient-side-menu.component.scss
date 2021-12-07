@@ -1,0 +1,18 @@
+@media screen and (max-width: 1280px) {
+    .chart-select {
+        height: 48px;
+    }
+}
+
+.chart-select.form-control.form-control-sm {
+    border-radius: 0;
+    border-top-right-radius: 3px;
+}
+
+.emr-column.left-side.nursing-mode {
+    left: 75px !important;
+}
+
+.emr-column.left-side .full-height-menu {
+  max-height: calc(100vh - 70px) !important;
+}

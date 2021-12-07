@@ -1,0 +1,33 @@
+@import "../../../../../scss/custom_bootstrap_theme.scss";
+
+.chat-typing-msg {
+  overflow: hidden;
+
+  .send-msg {
+    width: auto;
+    max-width: 70%;
+
+    .mine {
+      width: 100%;
+      background-color: var(--bgColor);
+      color: var(--txtColor);
+      @include custom-box-shadow(0, 0, 2px,rgba(28, 25, 83, 0.12));
+      @include transition(box-shadow 0.5s);
+      @include border-top-left-radius(10px);
+      @include border-top-right-radius(10px);
+      @include border-bottom-left-radius(10px);
+      @include border-bottom-right-radius(0px);
+    }
+
+    .other {
+      width: 100%;
+      background-color: var(--bgLight);
+      @include custom-box-shadow(0, 0, 2px,rgba(126, 121, 235, 0.12));
+      @include transition(box-shadow 0.5s);
+      @include border-top-left-radius(0px);
+      @include border-top-right-radius(10px);
+      @include border-bottom-left-radius(10px);
+      @include border-bottom-right-radius(10px);
+    }
+  }
+}

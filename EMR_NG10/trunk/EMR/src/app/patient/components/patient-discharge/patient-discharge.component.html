@@ -1,0 +1,103 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">Update Encounter Status </p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('cancel')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body py-2">
+    <div class="form-row form-group">
+        <!-- <div class="col-12"> Are you sure to Update Status ? </div> -->
+    </div>
+    <div class="form-row form-group" *ngIf="encounterNextStatus == encounterStatus.SendForBiling">
+        <div class="col-12">
+            <div class="custom-control custom-checkbox repeat-answer-checkbox mb-3">
+                <input type="checkbox" class="custom-control-input" [(ngModel)]="isCalculateBedCharges" id="customCheck" name="example1">
+                <label class="custom-control-label" for="customCheck">Include Bed Charge for today ?</label>
+            </div>
+        </div>
+    </div>
+
+    <form [formGroup]="patientDischargeForm" *ngIf="encounterNextStatus == encounterStatus.MarkForDischarge">
+        <div class="form-row form-group" [hidden]="true">
+            <div class="col-5">
+                <label for="doctor">Date</label>
+                <app-date-picker [inputDate]="patientDischargeForm.value.dischargeDate" placeholder="yyyy-mm-dd" [min]="minDate" (dateChange)="patientDischargeForm.patchValue({dischargeDate : $event});">
+                </app-date-picker>
+            </div>
+        </div>
+        <div class="form-row form-group" *ngIf="reasonType === 3">
+            <div class="col-5">
+                <label class="m-0">Date of Death</label>
+                <app-date-picker [inputDate]="patientDischargeForm.value.dateOfDeath" [max]="todayDate" placeholder="yyyy-mm-dd" (dateChange)="patientDischargeForm.patchValue({dateOfDeath : $event});">
+                </app-date-picker>
+            </div>
+            <div class="col-7">
+                <label class="m-0">Death Time</label>
+                <div class="row m-0">
+                  <div class="col-6 p-0">
+                    <ng-select class="w-100 first text-left" [items]="timeArray.hrs" placeholder="Hour" formControlName="deathTimeHr"></ng-select>
+                  </div>
+                  <div class="col-6 p-0">
+                    <ng-select class="w-100 first text-left" [items]="timeArray.min" placeholder="Min" formControlName="deathTimeMin"></ng-select>
+                  </div>
+                  <!-- <div class="col-4 p-0" *ngIf="timeFormateKey === '12_hour'">
+                    <ng-select class="w-100 first text-left" [items]="timeArray.amPm" placeholder="Am/Pm" formControlName="deathTimeAmPm"></ng-select>
+                  </div> -->
+                </div>
+                <span
+                    *ngIf="(((!patientDischargeForm.get('deathTimeHr').valid && patientDischargeForm.get('deathTimeHr').touched) || (!patientDischargeForm.get('deathTimeMin').valid && patientDischargeForm.get('deathTimeMin').touched)) || submitted)"
+                    class="help-block">
+                    <span class="validate-msg"
+                        *ngIf="(patientDischargeForm.get('deathTimeHr').errors?.required || patientDischargeForm.get('deathTimeMin').errors?.required)">
+                        Please Select Value!
+                    </span>
+                </span>
+                <!-- <small class="text-danger" *ngIf="(getFrmCntrols['deathTimeHr'].errors?.required || getFrmCntrols['deathTimeMin'].errors?.required) && submitted">
+                  Please Select Value!</small> -->
+              </div>
+        </div>
+        <div class="form-row form-group">
+            <div class="col-12">
+                <label for="doctor">Reason Type</label>
+                <ng-select [items]="reasonTypeList" bindLabel="name" (change)="onReasonTypeChange($event)" [(ngModel)]="reasonType" bindValue="id" formControlName="reasonType" placeholder="Select Reason">
+                </ng-select>
+            </div>
+        </div>
+      </form>
+        <div class="form-row form-group" *ngIf="patientDischargeForm.value.reasonType">
+            <div class="col-12">
+                <label for="doctor">Reason</label>
+                <!-- <ng-select [items]="reasonList" bindLabel="name" (change)="onReasonChange($event)" bindValue="id" formControlName="reason" placeholder="Select Reason">
+                </ng-select> -->
+                <ng-container *ngFor="let item of reasonList; let i = index">
+                    <div class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                        <input [(ngModel)]="item.isSelected" type="checkbox" id="template{{i}}" name="template{{i}}" class="custom-control-input">
+                        <label class="custom-control-label" for="template{{i}}">
+                          <span>{{item.name}}</span>
+                        </label>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <form [formGroup]="patientDischargeForm" *ngIf="encounterNextStatus == encounterStatus.MarkForDischarge">
+                 <div class="form-row form-group">
+            <div class="col-12">
+                <label for="doctor">Remark</label>
+                <textarea formControlName="remark" placeholder="Remark" class="form-control"></textarea>
+            </div>
+        </div>
+    </form>
+    <ng-container *ngIf="encounterNextStatus == encounterStatus.CancelDischarge">
+        <div class="form-row form-group">
+          <div class="col-12">
+              <label for="doctor">Remark</label>
+              <textarea [(ngModel)]="remark" placeholder="Remark" class="form-control"></textarea>
+          </div>
+      </div>
+      </ng-container>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase" (click)="modal.dismiss();">Cancel</button>
+    <button type="button" class="btn btn-sm btn-outline-primary text-uppercase" (click)="onUpdateEncounterStatus()">{{encounterNextStatus}}</button>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

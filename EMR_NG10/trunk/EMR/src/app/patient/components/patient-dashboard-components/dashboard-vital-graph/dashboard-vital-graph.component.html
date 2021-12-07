@@ -1,0 +1,31 @@
+<div class="form-row mx-0">
+  <div class="col-12 px-0">
+    <div class="card">
+      <div class="card-header cus-head border-dash-bottom px-2 py-1">
+        <div class="form-row align-items-center mx-0">
+          <div class="col-6">
+            <h6 class="mb-0">Vital Graph</h6>
+          </div>
+          <div class="col-6" *ngIf="seriesDateList.length">
+            <ng-multiselect-dropdown [placeholder]="'Select Vital'" [data]="uniqVitalNameList"
+              [(ngModel)]="selectedItems" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+              (onDeSelect)="removeSerie($event)" (onSelectAll)="onSelectAll($event)"
+              (onDeSelectAll)="onDeSelectChartAll($event)">
+            </ng-multiselect-dropdown>
+          </div>
+        </div>
+      </div>
+      <div class="card-body p-0 chart-body">
+        <div *ngIf="seriesDateList.length; else noDataFound">
+          <div [chart]="chart">
+          </div>
+        </div>
+        <ng-template #noDataFound>
+          <div class="alert alert-warning m-1 text-capitalize w-50 mx-auto" role="alert">
+            <p class="mb-0"><i class="far fa-fw fa-lightbulb mr-1" aria-hidden="true"></i>No Data Found</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

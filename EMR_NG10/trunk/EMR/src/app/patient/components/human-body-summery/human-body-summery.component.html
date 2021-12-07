@@ -1,0 +1,619 @@
+<!--&lt;!&ndash; Human Body summery &ndash;&gt;-->
+<!--<section>-->
+    <!--<ng-container *ngIf="!isObjectEmpty(painSummaryData?.humanBody?.bodyPart)">-->
+        <!--<h5 class="text-left bold">Body parts Examination Remarks</h5>-->
+        <!--<ngb-accordion [closeOthers]="false" activeIds="static-1">-->
+            <!--<ngb-panel id="static-1" title="Human body Parts">-->
+                <!--<ng-template ngbPanelContent>-->
+                    <!--<ul class="list-group">-->
+                        <!--<span *ngIf="painSummaryData.humanBody.bodyPart[1] != undefined">-->
+              <!--<li class="list-group-item">Score 1 - -->
+                <!--<span *ngFor="let key of painSummaryData.humanBody.bodyPart[1]; let i = index; let last = last;">-->
+                  <!--<span [innerHTML]="key | splitValue"></span>-->
+                        <!--<span *ngIf="!last">,</span>-->
+                        <!--</span>-->
+                        <!--</li>-->
+                        <!--</span>-->
+                        <!--<span *ngIf="painSummaryData.humanBody.bodyPart[2] != undefined">-->
+              <!--<li class="list-group-item">Score 2 - -->
+                <!--<span *ngFor="let key of painSummaryData.humanBody.bodyPart[2]; let i = index; let last = last;">-->
+                  <!--<span [innerHTML]="key | splitValue"></span>-->
+                        <!--<span *ngIf="!last">,</span>-->
+                        <!--</span>-->
+                        <!--</li>-->
+                        <!--</span>-->
+                        <!--<span *ngIf="painSummaryData.humanBody.bodyPart[3]!=undefined">-->
+              <!--<li class="list-group-item">Score 3 - -->
+                <!--<span *ngFor="let key of painSummaryData.humanBody.bodyPart[3]; let i = index; let last = last;">-->
+                  <!--<span [innerHTML]="key | splitValue"></span>-->
+                        <!--<span *ngIf="!last">,</span>-->
+                        <!--</span>-->
+                        <!--</li>-->
+                        <!--</span>-->
+                        <!--<span *ngIf="painSummaryData.humanBody.bodyPart[4]!=undefined">-->
+              <!--<li class="list-group-item">Score 4 - -->
+                <!--<span *ngFor="let key of painSummaryData.humanBody.bodyPart[4]; let i = index; let last = last;">-->
+                  <!--<span [innerHTML]="key | splitValue"></span>-->
+                        <!--<span *ngIf="!last">,</span>-->
+                        <!--</span>-->
+                        <!--</li>-->
+                        <!--</span>-->
+                        <!--<span *ngIf="painSummaryData.humanBody.bodyPart[5]!=undefined">-->
+              <!--<li class="list-group-item">Score 5 - -->
+                <!--<span *ngFor="let key of painSummaryData.humanBody.bodyPart[5]; let i = index; let last = last;">-->
+                  <!--<span [innerHTML]="key | splitValue"></span>-->
+                        <!--<span *ngIf="!last">,</span>-->
+                        <!--</span>-->
+                        <!--</li>-->
+                        <!--</span>-->
+                        <!--<span *ngIf="painSummaryData.humanBody.bodyPart[6]!=undefined">-->
+              <!--<li class="list-group-item">Score 6 - -->
+                <!--<span *ngFor="let key of painSummaryData.humanBody.bodyPart[6]; let i = index; let last = last;">-->
+                  <!--<span [innerHTML]="key | splitValue"></span>-->
+                        <!--<span *ngIf="!last">,</span>-->
+                        <!--</span>-->
+                        <!--</li>-->
+                        <!--</span>-->
+                        <!--<span *ngIf="painSummaryData.humanBody.bodyPart[7]!=undefined">-->
+              <!--<li class="list-group-item">Score 7 - -->
+                <!--<span *ngFor="let key of painSummaryData.humanBody.bodyPart[7]; let i = index; let last = last;">-->
+                  <!--<span [innerHTML]="key | splitValue"></span>-->
+                        <!--<span *ngIf="!last">,</span>-->
+                        <!--</span>-->
+                        <!--</li>-->
+                        <!--</span>-->
+                        <!--<span *ngIf="painSummaryData.humanBody.bodyPart[8]!=undefined">-->
+              <!--<li class="list-group-item">Score 8 - -->
+                <!--<span *ngFor="let key of painSummaryData.humanBody.bodyPart[8]; let i = index; let last = last;">-->
+                  <!--<span [innerHTML]="key | splitValue"></span>-->
+                        <!--<span *ngIf="!last">,</span>-->
+                        <!--</span>-->
+                        <!--</li>-->
+                        <!--</span>-->
+                        <!--<span *ngIf="painSummaryData.humanBody.bodyPart[9]!=undefined">-->
+              <!--<li class="list-group-item">Score 9 - -->
+                <!--<span *ngFor="let key of painSummaryData.humanBody.bodyPart[9]; let i = index; let last = last;">-->
+                  <!--<span [innerHTML]="key | splitValue"></span>-->
+                        <!--<span *ngIf="!last">,</span>-->
+                        <!--</span>-->
+                        <!--</li>-->
+                        <!--</span>-->
+                        <!--<span *ngIf="painSummaryData.humanBody.bodyPart[10] != undefined">-->
+              <!--<li class="list-group-item">Score 10 - -->
+                <!--<span *ngFor="let key of painSummaryData.humanBody.bodyPart[10]; let i = index; let last = last;">-->
+                  <!--<span [innerHTML]="key | splitValue"></span>-->
+                        <!--<span *ngIf="!last">,</span>-->
+                        <!--</span>-->
+                        <!--</li>-->
+                        <!--</span>-->
+                    <!--</ul>-->
+                <!--</ng-template>-->
+            <!--</ngb-panel>-->
+        <!--</ngb-accordion>-->
+
+    <!--</ng-container>-->
+<!--</section>-->
+
+<!--&lt;!&ndash; Dermatome summery &ndash;&gt;-->
+<!--<section>-->
+    <!--<ng-container>-->
+        <!--<div *ngIf="!isObjectEmpty(painSummaryData.dermatome.lightTouch.right) || !isObjectEmpty(painSummaryData.dermatome.lightTouch.left)">-->
+            <!--<h4 class="text-left bold">Dermatome Examination Remarks</h4>-->
+            <!--<h5 class="text-left bold">sensory points during the “Light Touch” examination:</h5>-->
+        <!--</div>-->
+        <!--<div *ngIf="!isObjectEmpty(painSummaryData.dermatome.lightTouch.right)">-->
+            <!--<ngb-accordion [closeOthers]="false" activeIds="static-1">-->
+                <!--<ngb-panel id="static-1" title="Right Side of the body">-->
+                    <!--<ng-template ngbPanelContent>-->
+                        <!--<ul class="list-group">-->
+                            <!--<span *ngIf="painSummaryData.dermatome.lightTouch.right[0]!=undefined">-->
+                <!--<li class="list-group-item">Sensation is absent (“0” score) at-->
+                  <!--<span *ngFor="let key of painSummaryData.dermatome.lightTouch.right[0]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.dermatome.lightTouch.right[1] != undefined">-->
+                <!--<li class="list-group-item">Sensation is impaired (“1” score) at-->
+                  <!--<span *ngFor="let key of painSummaryData.dermatome.lightTouch.right[1]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.dermatome.lightTouch.right[2] != undefined">-->
+                <!--<li class="list-group-item">Sensation is normal (“2” score) at-->
+                  <!--<span *ngFor="let key of painSummaryData.dermatome.lightTouch.right[2]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.dermatome.lightTouch.right['NT'] != undefined">-->
+                <!--<li class="list-group-item">-->
+                  <!--<span *ngFor="let key of painSummaryData.dermatome.lightTouch.right['NT']; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span> have not been tested.-->
+                            <!--</li>-->
+                            <!--</span>-->
+                        <!--</ul>-->
+                    <!--</ng-template>-->
+                <!--</ngb-panel>-->
+            <!--</ngb-accordion>-->
+        <!--</div>-->
+
+        <!--<div *ngIf="!isObjectEmpty(painSummaryData.dermatome.lightTouch.left)">-->
+            <!--<ngb-accordion [closeOthers]="false" activeIds="static-1">-->
+                <!--<ngb-panel id="static-1" title="Left Side of the body">-->
+                    <!--<ng-template ngbPanelContent>-->
+                        <!--<ul class="list-group">-->
+                            <!--<span *ngIf="painSummaryData.dermatome.lightTouch.left[0] != undefined">-->
+                <!--<li class="list-group-item">Sensation is absent (“0” score) at-->
+                  <!--<span *ngFor="let key of painSummaryData.dermatome.lightTouch.left[0]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span></span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.dermatome.lightTouch.left[1] != undefined">-->
+                <!--<li class="list-group-item">Sensation is impaired (“1” score) at-->
+                  <!--<span *ngFor="let key of painSummaryData.dermatome.lightTouch.left[1]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span></span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.dermatome.lightTouch.left[2] != undefined">-->
+                <!--<li class="list-group-item">Sensation is normal (“2” score) at-->
+                  <!--<span *ngFor="let key of painSummaryData.dermatome.lightTouch.left[2]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span></span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.dermatome.lightTouch.left['NT'] != undefined">-->
+                <!--<li class="list-group-item">-->
+                  <!--<span *ngFor="let key of painSummaryData.dermatome.lightTouch.left['NT']; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span></span> have not been tested.</li>-->
+                            <!--</span>-->
+                        <!--</ul>-->
+                    <!--</ng-template>-->
+                <!--</ngb-panel>-->
+            <!--</ngb-accordion>-->
+        <!--</div>-->
+        <!--<h5 class="text-left bold">-->
+            <!--<span *ngIf="!isObjectEmpty(painSummaryData.dermatome.lightTouch.right)">The total score for right side of the body is <span [innerHTML]="lightTouchRight"> </span>/ 56 </span>-->
+            <!--<span *ngIf="!isObjectEmpty(painSummaryData.dermatome.lightTouch.left)">-->
+        <!--<span *ngIf="isObjectEmpty(painSummaryData.dermatome.lightTouch.right)"> The total score for </span>-->
+            <!--<span *ngIf="!isObjectEmpty(painSummaryData.dermatome.lightTouch.left) && !isObjectEmpty(painSummaryData.dermatome.lightTouch.right)"> and for </span> left side of the body is <span [innerHTML]="lightTouchLeft">-->
+        <!--</span>/ 56.</span>-->
+        <!--</h5>-->
+
+        <!--<div *ngIf="!isObjectEmpty(painSummaryData.dermatome.pinPrick.right) || !isObjectEmpty(painSummaryData.dermatome.pinPrick.left)">-->
+            <!--<h5 class="text-left bold">sensory points during the “Pin Prick” examination:</h5>-->
+        <!--</div>-->
+
+        <!--<div *ngIf="!isObjectEmpty(painSummaryData.dermatome.pinPrick.right)">-->
+            <!--<ngb-accordion [closeOthers]="false" activeIds="static-1">-->
+                <!--<ngb-panel id="static-1" title="Right Side of the body">-->
+                    <!--<ng-template ngbPanelContent>-->
+                        <!--<ul class="list-group">-->
+                            <!--<span *ngIf="painSummaryData.dermatome.pinPrick.right[0]!=undefined">-->
+                <!--<li class="list-group-item">Sensation is absent (“0” score) at-->
+                  <!--<span *ngFor="let key of painSummaryData.dermatome.pinPrick.right[0]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span></span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.dermatome.pinPrick.right[1]!=undefined">-->
+                <!--<li class="list-group-item">Sensation is impaired (“1” score) at-->
+                  <!--<span *ngFor="let key of painSummaryData.dermatome.pinPrick.right[1]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span></span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.dermatome.pinPrick.right[2]!=undefined">-->
+                <!--<li class="list-group-item">Sensation is normal (“2” score) at-->
+                  <!--<span *ngFor="let key of painSummaryData.dermatome.pinPrick.right[2]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span></span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.dermatome.pinPrick.right['NT']!=undefined">-->
+                <!--<li class="list-group-item">-->
+                  <!--<span *ngFor="let key of painSummaryData.dermatome.pinPrick.right['NT']; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span></span> have not been tested.-->
+                            <!--</li>-->
+                            <!--</span>-->
+                        <!--</ul>-->
+                    <!--</ng-template>-->
+                <!--</ngb-panel>-->
+            <!--</ngb-accordion>-->
+        <!--</div>-->
+
+        <!--<div *ngIf="!isObjectEmpty(painSummaryData.dermatome.pinPrick.left)">-->
+            <!--<ngb-accordion [closeOthers]="false" activeIds="static-1">-->
+                <!--<ngb-panel id="static-1" title="Left Side of the body">-->
+                    <!--<ng-template ngbPanelContent>-->
+                        <!--<ul class="list-group">-->
+                            <!--<span *ngIf="painSummaryData.dermatome.pinPrick.left[0]!=undefined">-->
+                <!--<li class="list-group-item">Sensation is absent (“0” score) at-->
+                  <!--<span *ngFor="let key of painSummaryData.dermatome.pinPrick.left[0];  let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span></span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.dermatome.pinPrick.left[1]!=undefined">-->
+                <!--<li class="list-group-item">Sensation is impaired (“1” score) at-->
+                  <!--<span *ngFor="let key of painSummaryData.dermatome.pinPrick.left[1];  let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span></span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.dermatome.pinPrick.left[2]!=undefined">-->
+                <!--<li class="list-group-item">Sensation is normal (“2” score) at-->
+                  <!--<span *ngFor="let key of painSummaryData.dermatome.pinPrick.left[2];  let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span></span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.dermatome.pinPrick.left['NT']!=undefined">-->
+                <!--<li class="list-group-item">-->
+                  <!--<span *ngFor="let key of painSummaryData.dermatome.pinPrick.left['NT']; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span></span> have not been tested.-->
+                            <!--</li>-->
+                            <!--</span>-->
+                        <!--</ul>-->
+                    <!--</ng-template>-->
+                <!--</ngb-panel>-->
+            <!--</ngb-accordion>-->
+        <!--</div>-->
+
+        <!--<h5 class="text-left bold">-->
+            <!--<span *ngIf="!isObjectEmpty(painSummaryData.dermatome.pinPrick.right)">The total score for right side of the body is <span [innerHTML]="pinprickRight"></span>/ 56 </span>-->
+            <!--<span *ngIf="!isObjectEmpty(painSummaryData.dermatome.pinPrick.left)">-->
+        <!--<span *ngIf="isObjectEmpty(painSummaryData.dermatome.pinPrick.right)"> The total score for </span>-->
+            <!--<span *ngIf="!isObjectEmpty(painSummaryData.dermatome.pinPrick.right) && !isObjectEmpty(painSummaryData.dermatome.pinPrick.left)"> and for </span> left side of the body is <span [innerHTML]="pinprickLeft"></span> / 56. </span>-->
+        <!--</h5>-->
+
+
+    <!--</ng-container>-->
+<!--</section>-->
+
+<!--&lt;!&ndash; Myotome summery &ndash;&gt;-->
+<!--<section>-->
+    <!--<ng-container>-->
+        <!--<div *ngIf="!isObjectEmpty(painSummaryData.mytome.upper.right) || !isObjectEmpty(painSummaryData.mytome.upper.left) || !isObjectEmpty(painSummaryData.mytome.lower.left) || !isObjectEmpty(painSummaryData.mytome.lower.right)">-->
+            <!--<h4 class="bold">Myotome Examination Remarks</h4>-->
+            <!--<h5 class="text-left bold">Following scores are assigned for key muscles during the motor examination:</h5>-->
+        <!--</div>-->
+
+        <!--<div *ngIf="!isObjectEmpty(painSummaryData.mytome.upper.right)" class="margin-bottom-5">-->
+            <!--<ngb-accordion [closeOthers]="false" activeIds="static-1">-->
+                <!--<ngb-panel id="static-1" title="Right Side of the Upper Limb">-->
+                    <!--<ng-template ngbPanelContent>-->
+                        <!--<ul class="list-group">-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.right[0] != undefined">-->
+                <!--<li class="list-group-item">Total paralysis (“0” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.upper.right[0];  let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.right[0] == undefined">-->
+                <!--<li class="list-group-item">Total paralysis (“0” score) is not found-->
+                  <!--any of the key muscles.-->
+                <!--</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.right[1]!=undefined">-->
+                <!--<li class="list-group-item">Palpable / visible contraction (“1” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.upper.right[1]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.right[1] == undefined">-->
+                <!--<li class="list-group-item">Palpable / visible contraction (“1” score) is not found at any of the key muscles.-->
+                <!--</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.right[2] != undefined">-->
+                <!--<li class="list-group-item">Active movement, gravity eliminated (“2” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.upper.right[2];  let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="(painSummaryData.mytome.upper.right[2]) == undefined">-->
+                <!--<li class="list-group-item">Active movement, gravity eliminated (“2” score) is not found at-->
+                  <!--any of the key muscles.</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.right[3] != undefined">-->
+                <!--<li class="list-group-item">Active movement, gravity eliminated (“3” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.upper.right[3];  let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="(painSummaryData.mytome.upper.right[3]) == undefined">-->
+                <!--<li class="list-group-item">Active movement against gravity (“3” score) is not found at any of the key muscles.</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.right[4] != undefined">-->
+                <!--<li class="list-group-item">Active movement against some resistance (“4” score) is found at <span *ngFor="let key of painSummaryData.mytome.upper.right[4]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="(painSummaryData.mytome.upper.right[4]) == undefined">-->
+                <!--<li class="list-group-item">Active movement against some resistance (“4” score) is not found at any of the key muscles.</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.right[5] != undefined">-->
+                <!--<li class="list-group-item">Active movement against full resistance (“5” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.upper.right[5];  let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="(painSummaryData.mytome.upper.right[5]) == undefined">-->
+                <!--<li class="list-group-item">Active movement against some resistance (“5” score) is not found at any of the key muscles.</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.right['NT'] != undefined">-->
+                <!--<li class="list-group-item">-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.upper.right['NT']; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span> has not been tested.-->
+                            <!--</li>-->
+                            <!--</span>-->
+                        <!--</ul>-->
+                    <!--</ng-template>-->
+                <!--</ngb-panel>-->
+            <!--</ngb-accordion>-->
+        <!--</div>-->
+
+        <!--<div *ngIf="!isObjectEmpty(painSummaryData.mytome.upper.left)">-->
+            <!--<ngb-accordion [closeOthers]="false" activeIds="static-1">-->
+                <!--<ngb-panel id="static-1" title="Left Side of the Upper Limb">-->
+                    <!--<ng-template ngbPanelContent>-->
+                        <!--<ul class="list-group">-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.left[0] == undefined">-->
+                <!--<li class="list-group-item">Total paralysis (“0” score) is not found at any of the key muscles.</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.left[0] != undefined">-->
+                <!--<li class="list-group-item">Total paralysis (“0” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.upper.left[0]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.left[1] != undefined">-->
+                <!--<li class="list-group-item">Palpable / visible contraction (“1” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.upper.left[1]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.left[1] == undefined">-->
+                <!--<li class="list-group-item">Palpable / visible contraction (“1” score) is not found at any of the key muscles.</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.left[2] != undefined">-->
+                <!--<li class="list-group-item">Active movement, gravity eliminated (“2” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.upper.left[2]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.left[2] == undefined">-->
+                <!--<li class="list-group-item">Active movement, gravity eliminated (“2” score) is not found at any of the key muscles.</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.left[3] == undefined">-->
+                <!--<li class="list-group-item">Active movement against gravity (“3” score) is not found at any of the muscles.</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.left[3] != undefined">-->
+                <!--<li class="list-group-item">Active movement against gravity (“3” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.upper.left[3]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.left[4] == undefined">-->
+                <!--<li class="list-group-item">Active movement against some resistance (“4” score) is not found at any of the muscles.</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.left[4] != undefined">-->
+                <!--<li class="list-group-item">Active movement against some resistance (“4” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.upper.left[4]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.left[5] != undefined">-->
+                <!--<li class="list-group-item">Active movement against full resistance (“5” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.upper.left[5]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.left[5] == undefined">-->
+                <!--<li class="list-group-item">Active movement against full resistance (“5” score) is not found at any of the muscles.</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.upper.left['NT'] != undefined">-->
+                <!--<li class="list-group-item">-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.upper.left['NT'] let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span> has not been tested.-->
+                            <!--</li>-->
+                            <!--</span>-->
+                        <!--</ul>-->
+                    <!--</ng-template>-->
+                <!--</ngb-panel>-->
+            <!--</ngb-accordion>-->
+        <!--</div>-->
+
+        <!--<h5 class="text-left bold">-->
+            <!--<span *ngIf="!isObjectEmpty(painSummaryData.mytome.upper.right)">-->
+        <!--The total score for right side of the upper limb is <span [innerHTML]="UER"></span> / 25 </span>-->
+            <!--<span *ngIf="!isObjectEmpty(painSummaryData.mytome.upper.left)">-->
+        <!--<span *ngIf="isObjectEmpty(painSummaryData.mytome.upper.right)">-->
+          <!--The total score for-->
+        <!--</span>-->
+            <!--<span *ngIf="!isObjectEmpty(painSummaryData.mytome.upper.right) && !isObjectEmpty(painSummaryData.mytome.upper.left)"> and for </span> left side of the upper limb is <span [innerHTML]="UEL"></span>/ 25.-->
+            <!--</span>-->
+        <!--</h5>-->
+
+        <!--<div *ngIf="!isObjectEmpty(painSummaryData.mytome.lower.right)">-->
+            <!--<ngb-accordion [closeOthers]="false" activeIds="static-1">-->
+                <!--<ngb-panel id="static-1" title="Right Side of the Lower Limb">-->
+                    <!--<ng-template ngbPanelContent>-->
+                        <!--<ul class="list-group">-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.right[0] != undefined">-->
+                <!--<li class="list-group-item">Total paralysis (“0” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.lower.right[0]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.right[0] == undefined">-->
+                <!--<li class="list-group-item">Total paralysis (“0” score) is not found at any of the key muscles.-->
+                <!--</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.right[1] != undefined">-->
+                <!--<li class="list-group-item">Palpable / visible contraction (“1” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.lower.right[1]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.right[1] == undefined">-->
+                <!--<li class="list-group-item">Palpable / visible contraction (“1” score) is not found at any of the key muscles.-->
+                <!--</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.right[2] != undefined">-->
+                <!--<li class="list-group-item">Active movement, gravity eliminated (“2” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.lower.right[2]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.right[2] == undefined">-->
+                <!--<li class="list-group-item">Active movement, gravity eliminated (“2” score) is not found at any of the key muscles.-->
+                <!--</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.right[3] != undefined">-->
+                <!--<li class="list-group-item">Active movement against gravity (“3” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.lower.right[3]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.right[3] == undefined">-->
+                <!--<li class="list-group-item">Active movement against gravity (“3” score) is not found at any of the key muscles.-->
+                <!--</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.right[4] == undefined">-->
+                <!--<li class="list-group-item">Active movement against some resistance (“4” score) is not found at any of the key muscles.-->
+                <!--</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.right[4] != undefined">-->
+                <!--<li class="list-group-item">Active movement against some resistance (“4” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.lower.right[4];  let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.right[5] != undefined">-->
+                <!--<li class="list-group-item">Active movement against full resistance (“5” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.lower.right[5];  let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.right[5] == undefined">-->
+                <!--<li class="list-group-item">Active movement against full resistance (“5” score) is not found at any of the key muscles.-->
+                <!--</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.right['NT'] != undefined">-->
+                <!--<li class="list-group-item">-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.lower.right['NT']; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span> has not been tested.-->
+                            <!--</li>-->
+                            <!--</span>-->
+                        <!--</ul>-->
+                    <!--</ng-template>-->
+                <!--</ngb-panel>-->
+            <!--</ngb-accordion>-->
+        <!--</div>-->
+
+        <!--<div *ngIf="!isObjectEmpty(painSummaryData.mytome.lower.left)">-->
+            <!--<ngb-accordion [closeOthers]="false" activeIds="static-1">-->
+                <!--<ngb-panel id="static-1" title="Left Side of the Lower Limb">-->
+                    <!--<ng-template ngbPanelContent>-->
+                        <!--<ul class="list-group">-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.left[0] == undefined">-->
+                <!--<li class="list-group-item">Total paralysis (“0” score) is not found at any of the key muscles.</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.left[0] != undefined">-->
+                <!--<li class="list-group-item">Total paralysis (“0” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.lower.left[0];  let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.left[1]!=undefined">-->
+                <!--<li class="list-group-item">Palpable / visible contraction (“1” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.lower.left[1] ;  let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.left[1]==undefined">-->
+                <!--<li class="list-group-item">Palpable / visible contraction (“1” score) is not found at any of the key muscles.</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.left[2]!=undefined">-->
+                <!--<li class="list-group-item">Active movement, gravity eliminated (“2” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.lower.left[2] ;  let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.left[2]==undefined">-->
+                <!--<li class="list-group-item">Active movement, gravity eliminated (“2” score) is not found at any of the key muscles.</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.left[3]==undefined">-->
+                <!--<li class="list-group-item">Active movement against gravity (“3” score) is not found at any of the muscles.</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.left[3] != undefined">-->
+                <!--<li class="list-group-item">Active movement, against gravity (“3” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.lower.left[3];  let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.right[4]!=undefined">-->
+                <!--<li class="list-group-item">Active movement against some resistance (“4” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.lower.left[4] ;  let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.left[4] == undefined">-->
+                <!--<li class="list-group-item">Active movement against some resistance (“4” score) is not found at any of the muscles.</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.left[5] == undefined">-->
+                <!--<li class="list-group-item">Active movement against full resistance (“5” score) is not found at any of the muscles.</li>-->
+              <!--</span>-->
+                            <!--<span *ngIf="painSummaryData.mytome.lower.right[5] != undefined">-->
+                <!--<li class="list-group-item">Active movement against full resistance (“5” score) is found at-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.lower.left[5]; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span>-->
+                            <!--</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                            <!--<span *ngIf="isTrue()">-->
+                <!--<li class="list-group-item">-->
+                  <!--<span *ngFor="let key of painSummaryData.mytome.lower.right['NT']; let i = index; let last = last;">-->
+                    <!--<span [innerHTML]="key"></span><span *ngIf="!last">,</span> has not been tested.</span>-->
+                            <!--</li>-->
+                            <!--</span>-->
+                        <!--</ul>-->
+                    <!--</ng-template>-->
+                <!--</ngb-panel>-->
+            <!--</ngb-accordion>-->
+        <!--</div>-->
+
+        <!--<h5 class="text-left bold">-->
+            <!--<span *ngIf="!isObjectEmpty(painSummaryData.mytome.lower.right)">The total score for right side of the lower limb is <span [innerHTML]="LER"> / 25 </span>-->
+            <!--<span *ngIf="!isObjectEmpty(painSummaryData.mytome.lower.left)">-->
+          <!--<span *ngIf="isObjectEmpty(painSummaryData.mytome.lower.right)"> The total score for </span>-->
+            <!--<span *ngIf="!isObjectEmpty(painSummaryData.mytome.lower.left)-->
+            <!--&& !isObjectEmpty(painSummaryData.mytome.lower.right)"> and for </span> left side of the lower limb is <span [innerHTML]="LEL"> / 25.</span>-->
+            <!--</span>-->
+            <!--</span>-->
+        <!--</h5>-->
+
+    <!--</ng-container>-->
+<!--</section>-->

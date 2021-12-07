@@ -1,0 +1,309 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">{{supplierData && supplierData.supplierData ? 'Update' : 'Add'}} Item Master
+    </p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body custom-modal-body p-2">
+    <form [formGroup]="itemMasterForm" (ngSubmit)="saveValue()" *ngIf="loadForm">
+        <div class="form-row form-group">
+            <div class="col">
+                <label>Category<sup>*</sup></label>
+                <ng-select #categoryListComp [items]="categoryList$ | async" bindLabel="name" (change)="selectCategory($event)" formControlName="category" placeholder="Select Category" [typeahead]="categoryListInput$">
+                </ng-select>
+                <small class="text-danger" *ngIf="getFrmCntrols['category'].errors?.required && submitted">
+                    Please Select Name!</small>
+            </div>
+            <!-- <div class="col">
+                <label>Primary Group Name<sup>*</sup></label>
+                <ng-select [items]="grpListAll$ | async" bindLabel="name" (change)="selectValueMainGrp($event)" formControlName="mainGrp" placeholder="Select Primary Group Name" [typeahead]="grpListAllInput$">
+                </ng-select>
+                <small class="text-danger" *ngIf="getFrmCntrols['mainGrp'].errors?.required && submitted">
+                  Please Select Name!</small>
+            </div>
+            <div class="col">
+                <label>Sub Group Name<sup>*</sup></label>
+                <ng-select [items]="grpListSubAll$ | async" bindLabel="name" (change)="selectValueSubGrp($event)" formControlName="subGrp" placeholder="Select Sub Group Name" [typeahead]="grpListSubAllInput$">
+                </ng-select>
+                <small class="text-danger" *ngIf="getFrmCntrols['subGrp'].errors?.required && submitted">
+                    Please Select Name!</small>
+            </div> -->
+            <div class="custom-col">
+                <label>Item Code</label>
+                <input type="text" readonly formControlName="code" placeholder="Item Code" class="form-control form-control-sm">
+            </div>
+            <div class="col">
+                <label>Item Description<sup>*</sup></label>
+                <textarea #itemDesc rows="1" class="form-control vresize height-31" formControlName="description" placeholder="Type Item Description"></textarea>
+                <small class="text-danger" *ngIf="getFrmCntrols['description'].errors?.required && submitted">
+                  Please Add Value!</small>
+            </div>
+        </div>
+        <div class="form-row form-group">
+            <div class="col-3">
+                <label>{{addMode.manufacturer ? 'Add' : 'Select'}} Manufacturer<sup>*</sup></label>
+                <div class="form-row form-group">
+                    <ng-container *ngIf="!addMode.manufacturer">
+                        <div class="col-10">
+                            <ng-select #manufectureSelect [items]="manufecturerListAll$ | async" bindLabel="name" (change)="selectValueManufecturer($event, 'select')" formControlName="manufacturer" placeholder="Select Manufacturer" [typeahead]="manufecturerListAllInput$">
+                            </ng-select>
+                            <small class="text-danger" *ngIf="itemMasterForm.value.manufacturerMsg && submitted">
+                              Please Select Value!</small>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="addMode.manufacturer">
+                        <div class="col-10">
+                            <input #manufectureAdd type="text" placeholder="Add Manufacturer" formControlName="manufacturerAdd" class="form-control form-control-sm" (keyup)="selectValueManufecturer(null, add)">
+                            <small class="text-danger" *ngIf="itemMasterForm.value.manufacturerMsg && submitted">
+                              Please Add Value!</small>
+                        </div>
+                    </ng-container>
+                    <div class="col-2">
+                        <button type="button" title="{{addMode.manufacturer ? 'Add Manufecture' : 'Select Manufecture'}}" class="btn btn-sm btn-outline-primary-light" (click)="addMode.manufacturer = !addMode.manufacturer; focusManufecture();"><i class="fa fa-fw" [ngClass]="{'fa-plus': !addMode.manufacturer, 'fa-times': addMode.manufacturer}" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <label>{{addMode.brandName ? 'Add' : 'Select'}} Brand Name<sup>*</sup></label>
+                <div class="form-row form-group">
+                    <ng-container *ngIf="!addMode.brandName">
+                        <div class="col-10">
+                            <ng-select #brandSelect [items]="brandList$ | async" bindLabel="name" (change)="selectValueBrand($event, 'select')" formControlName="brandName" placeholder="Select Brand" [typeahead]="brandListInput$">
+                            </ng-select>
+                            <small class="text-danger" *ngIf="itemMasterForm.value.brandNameMsg && submitted">
+                              Please Select Value!</small>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="addMode.brandName">
+                        <div class="col-10">
+                            <input #brandAdd type="text" formControlName="brandNameAdd" placeholder="Brand Name" class="form-control form-control-sm">
+                            <small class="text-danger" *ngIf="itemMasterForm.value.brandNameMsg && submitted">
+                              Please Add Value!</small>
+                        </div>
+                    </ng-container>
+                    <div class="col-2">
+                        <button type="button" class="btn btn-sm btn-outline-primary-light" (click)="addMode.brandName = !addMode.brandName; focusBrand();"><i class="fa fa-fw" [ngClass]="{'fa-plus': !addMode.brandName, 'fa-times': addMode.brandName}" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <label>HSN/SAC Code</label>
+                <input type="text" formControlName="hsnCode" placeholder="Type HSN/SAC Code" class="form-control form-control-sm">
+
+            </div>
+            <div class="col-3">
+                <label>{{addMode.purcheseUnit ? 'Add' : 'Select'}} Purchase Unit<sup>*</sup></label>
+                <div class="form-row form-group">
+                    <ng-container *ngIf="!addMode.purcheseUnit">
+                        <div class="col-10">
+                            <ng-select #purcheseUnitSelect [items]="unitList$ | async" bindLabel="name" formControlName="unitPurchase" placeholder="Select Unit">
+                            </ng-select>
+                            <small class="text-danger" *ngIf="itemMasterForm.value.unitPurchaseMsg && submitted">
+                              Please Select Value!</small>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="addMode.purcheseUnit">
+                        <div class="col-10">
+                            <input #purchaseUnitAdd type="text" placeholder="Add Unit" formControlName="unitPurchaseAdd" class="form-control form-control-sm" (keyup)="selectValueManufecturer(null, add)">
+                            <small class="text-danger" *ngIf="itemMasterForm.value.unitPurchaseMsg && submitted">
+                              Please Select Value!</small>
+                        </div>
+                    </ng-container>
+                    <div class="col-2">
+                        <button type="button" title="{{addMode.purcheseUnit ? 'Add Unit' : 'Select Unit'}}" class="btn btn-sm btn-outline-primary-light" (click)="addMode.purcheseUnit = !addMode.purcheseUnit; focusPurchaseUnit();"><i class="fa fa-fw" [ngClass]="{'fa-plus': !addMode.purcheseUnit, 'fa-times': addMode.purcheseUnit}" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <label>{{addMode.issueUnit ? 'Add' : 'Select'}} Issue Unit<sup>*</sup></label>
+                <div class="form-row form-group">
+                    <ng-container *ngIf="!addMode.issueUnit">
+                        <div class="col-10">
+                            <ng-select #issueUnitSelect [items]="unitList$ | async" bindLabel="name" formControlName="unitIssue" placeholder="Select Unit">
+                            </ng-select>
+                            <small class="text-danger" *ngIf="itemMasterForm.value.unitIssueMsg && submitted">
+                              Please Select Value!</small>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="addMode.issueUnit">
+                        <div class="col-10">
+                            <input #issueUnitAdd type="text" placeholder="Add Unit" formControlName="unitIssueAdd" class="form-control form-control-sm" (keyup)="selectValueManufecturer(null, add)">
+                            <small class="text-danger" *ngIf="itemMasterForm.value.unitIssueMsg && submitted">
+                              Please Select Value!</small>
+                        </div>
+                    </ng-container>
+                    <div class="col-2">
+                        <button type="button" title="{{addMode.purcheseUnit ? 'Add Unit' : 'Select Unit'}}" class="btn btn-sm btn-outline-primary-light" (click)="addMode.issueUnit = !addMode.issueUnit; focusIssueUnit();"><i class="fa fa-fw" [ngClass]="{'fa-plus': !addMode.issueUnit, 'fa-times': addMode.issueUnit}" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <label>{{addMode.otConsumptionUnit ? 'Add' : 'Select'}} OT Consumption Unit<sup>*</sup></label>
+                <div class="form-row form-group">
+                    <ng-container *ngIf="!addMode.otConsumptionUnit">
+                        <div class="col-10">
+                            <ng-select #otConsumpSelect [items]="unitListOT$ | async" bindLabel="name" formControlName="otConsumption" placeholder="Select Unit">
+                            </ng-select>
+                            <small class="text-danger" *ngIf="itemMasterForm.value.otConsumptionMsg && submitted">
+                              Please Select Value!</small>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="addMode.otConsumptionUnit">
+                        <div class="col-10">
+                            <input #otConsumptionAdd type="text" placeholder="Add Unit" formControlName="otConsumptionAdd" class="form-control form-control-sm" (keyup)="selectValueManufecturer(null, add)">
+                            <small class="text-danger" *ngIf="itemMasterForm.value.otConsumptionMsg && submitted">
+                              Please Select Value!</small>
+                        </div>
+                    </ng-container>
+                    <div class="col-2">
+                        <button type="button" title="{{addMode.purcheseUnit ? 'Add Unit' : 'Select Unit'}}" class="btn btn-sm btn-outline-primary-light" (click)="addMode.otConsumptionUnit = !addMode.otConsumptionUnit; focusOtConsumption();"><i class="fa fa-fw" [ngClass]="{'fa-plus': !addMode.otConsumptionUnit, 'fa-times': addMode.otConsumptionUnit}" aria-hidden="true"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <label>Conversion Factor<sup>*</sup></label>
+                <input type="number" formControlName="conversionFactor" placeholder="Type Pack Quantity" class="form-control form-control-sm">
+                <small class="text-danger" *ngIf="getFrmCntrols['conversionFactor'].errors?.required && submitted">
+            Please Add Quantity!</small>
+            </div>
+            <div class="col-3">
+                <label>Pack Quantity<sup>*</sup></label>
+                <input type="number" formControlName="packSize" placeholder="Type Pack Quantity" class="form-control form-control-sm">
+                <small class="text-danger" *ngIf="getFrmCntrols['packSize'].errors?.required && submitted">
+          Please Add Quantity!</small>
+            </div>
+            <div class="col-3">
+                <label>GST On Purchase<sup>*</sup></label>
+                <ng-select [items]="gstList" bindLabel="value" formControlName="gstOnPurchase" placeholder="Select GST On Purchase" (change)="updateGstSale()">
+                </ng-select>
+                <small class="text-danger" *ngIf="getFrmCntrols['gstOnPurchase'].errors?.required && submitted">
+                Please Select Value!</small>
+            </div>
+            <div class="col-3">
+                <label>GST On Sale<sup>*</sup></label>
+                <ng-select [items]="gstList" bindLabel="value" formControlName="gstOnSale" placeholder="Select GST On Sale">
+                </ng-select>
+            </div>
+            <div class="col-3">
+                <label>Re-Order Level<sup>*</sup></label>
+                <input type="number" formControlName="reOrderLevel" placeholder="Type Re-Order Level" class="form-control form-control-sm">
+                <small class="text-danger" *ngIf="getFrmCntrols['reOrderLevel'].errors?.required && submitted">
+                  Please Add Re-Order!</small>
+            </div>
+            <div class="col-3">
+                <label>Class</label>
+                <ng-select [items]="itemClassListAll$ | async" bindLabel="name" (change)="selectValueItemClass($event)" formControlName="class" placeholder="Select Class" [typeahead]="itemClassListAllInput$">
+                </ng-select>
+            </div>
+            <div class="col-3">
+                <label>Generic Code</label>
+                <ng-select [items]="genCodeList$ | async" bindLabel="name" (change)="selectGenCode($event)" formControlName="genericCode" placeholder="Select Code" [typeahead]="genCodeListInput$">
+                </ng-select>
+                <!-- <input type="text" formControlName="genericCode" placeholder="Genric Code" class="form-control form-control-sm"> -->
+            </div>
+            <div class="col-3">
+                <label>Schedule Drugs</label>
+                <ng-select [items]="scheduleDrugList$ | async" bindLabel="scheduledDrugsTypeName" (change)="selectScheduleDrug($event)" formControlName="scheduleDrug" placeholder="Select Drug" [typeahead]="scheduleDrugListInput$">
+                </ng-select>
+                <!-- <input type="text" formControlName="genericCode" placeholder="Genric Code" class="form-control form-control-sm"> -->
+            </div>
+
+
+            <!-- <div class="col-3">
+                <label>Sale Quantity</label>
+                <input disabled type="number" formControlName="saleQty" placeholder="Type Sale Quantity" class="form-control form-control-sm">
+            </div>
+            <div class="col-3">
+                <label>Type<sup>*</sup></label>
+                <ng-select [items]="itemTypeListAll$ | async" bindLabel="desc" (change)="selectValueItemType($event)" formControlName="type" placeholder="Select Type" [typeahead]="itemTypeListAllInput$">
+                </ng-select>
+                <small class="text-danger" *ngIf="getFrmCntrols['type'].errors?.required && submitted">
+                Please Add Item Type!</small>
+            </div> -->
+        </div>
+        <div class="form-row form-group">
+            <!-- <div class="col">
+                <label>Is Asset</label>
+                <div class="custom-control custom-switch pb-1 mt-1 yes-no">
+                    <input type="checkbox" formControlName="isAsset" class="custom-control-input" id="isAsset">
+                    <label class="custom-control-label pointer" [class.active]="itemMasterForm.value.isAsset" for="isAsset"></label>
+                    <span class="text-uppercase" [class.active]="itemMasterForm.value.isAsset">{{itemMasterForm.value.isAsset ? 'Yes' : 'No'}}</span>
+                </div>
+            </div> -->
+            <div class="col-2">
+                <label>Is Active</label>
+                <div class="custom-control custom-switch pb-1 mt-1">
+                    <input type="checkbox" formControlName="isActive" class="custom-control-input" id="customSwitchActive">
+                    <label class="custom-control-label pointer" [class.active]="itemMasterForm.value.isActive" for="customSwitchActive"></label>
+                    <span class="text-uppercase" [class.active]="itemMasterForm.value.isActive">{{itemMasterForm.value.isActive ? 'Active' : 'InActive'}}</span>
+                </div>
+            </div>
+            <div class="col-2">
+                <label>Is Posted In Patient Bill</label>
+                <div class="custom-control custom-switch pb-1 mt-1 yes-no">
+                    <input type="checkbox" formControlName="isPostedInPatientBill" class="custom-control-input" id="isPostedInPatientBill">
+                    <label class="custom-control-label pointer" [class.active]="itemMasterForm.value.isPostedInPatientBill" for="isPostedInPatientBill"></label>
+                    <span class="text-uppercase" [class.active]="itemMasterForm.value.isPostedInPatientBill">{{itemMasterForm.value.isPostedInPatientBill ? 'Yes' : 'No'}}</span>
+                </div>
+            </div>
+            <div class="col-2">
+                <label>Is Medecine On Hold</label>
+                <div class="custom-control custom-switch pb-1 mt-1 yes-no">
+                    <input type="checkbox" formControlName="isMedicineOnHold" class="custom-control-input" id="isMedicineOnHold">
+                    <label class="custom-control-label pointer" [class.active]="itemMasterForm.value.isMedicineOnHold" for="isMedicineOnHold"></label>
+                    <span class="text-uppercase" [class.active]="itemMasterForm.value.isMedicineOnHold">{{itemMasterForm.value.isMedicineOnHold ? 'Yes' : 'No'}}</span>
+                </div>
+            </div>
+            <!-- <div class="col">
+                <label>Expiry Applicable</label>
+                <div class="custom-control custom-switch pb-1 mt-1 yes-no">
+                    <input type="checkbox" formControlName="expiryApplicable" class="custom-control-input" id="expiryApplicable">
+                    <label class="custom-control-label pointer" [class.active]="itemMasterForm.value.expiryApplicable" for="expiryApplicable"></label>
+                    <span class="text-uppercase" [class.active]="itemMasterForm.value.expiryApplicable">{{itemMasterForm.value.expiryApplicable ? 'Yes' : 'No'}}</span>
+                </div>
+            </div> -->
+        </div>
+        <!-- <div class="form-row form-group">
+            <div class="col">
+                <label>Stock On Batch</label>
+                <div class="custom-control custom-switch pb-1 mt-1 yes-no">
+                    <input type="checkbox" formControlName="stockOnBatch" class="custom-control-input" id="stockOnBatch">
+                    <label class="custom-control-label pointer" [class.active]="itemMasterForm.value.stockOnBatch" for="stockOnBatch"></label>
+                    <span class="text-uppercase" [class.active]="itemMasterForm.value.stockOnBatch">{{itemMasterForm.value.stockOnBatch ? 'Yes' : 'No'}}</span>
+                </div>
+            </div>
+            <div class="col">
+                <label>Issue On Batch</label>
+                <div class="custom-control custom-switch pb-1 mt-1 yes-no">
+                    <input type="checkbox" formControlName="issueOnBatch" class="custom-control-input" id="issueOnBatch">
+                    <label class="custom-control-label pointer" [class.active]="itemMasterForm.value.issueOnBatch" for="issueOnBatch"></label>
+                    <span class="text-uppercase" [class.active]="itemMasterForm.value.issueOnBatch">{{itemMasterForm.value.issueOnBatch ? 'Yes' : 'No'}}</span>
+                </div>
+            </div>
+            <div class="col">
+                <label>Is Saleable</label>
+                <div class="custom-control custom-switch pb-1 mt-1 yes-no">
+                    <input type="checkbox" formControlName="isSelleable" class="custom-control-input" id="isSelleable">
+                    <label class="custom-control-label pointer" [class.active]="itemMasterForm.value.isSelleable" for="isSelleable"></label>
+                    <span class="text-uppercase" [class.active]="itemMasterForm.value.isSelleable">{{itemMasterForm.value.isSelleable ? 'Yes' : 'No'}}</span>
+                </div>
+            </div>
+            <div class="col">
+                <label>Is Posted In Patient Bill</label>
+                <div class="custom-control custom-switch pb-1 mt-1 yes-no">
+                    <input type="checkbox" formControlName="isPostedInPatientBill" class="custom-control-input" id="isPostedInPatientBill">
+                    <label class="custom-control-label pointer" [class.active]="itemMasterForm.value.isPostedInPatientBill" for="isPostedInPatientBill"></label>
+                    <span class="text-uppercase" [class.active]="itemMasterForm.value.isPostedInPatientBill">{{itemMasterForm.value.isPostedInPatientBill ? 'Yes' : 'No'}}</span>
+                </div>
+            </div>
+        </div> -->
+    </form>
+</div>
+<div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm" [ngClass]="supplierData && supplierData.supplierData ? 'btn-outline-primary-light':'btn-outline-primary'" (click)="saveValue()"><i class="fa fa-fw"
+    [ngClass]="supplierData && supplierData.supplierData ? 'fa-sync-alt':'fa-plus'" aria-hidden="true"></i>
+{{supplierData && supplierData.supplierData ? 'UPDATE' : 'ADD'}}</button>
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.close('Cancel')">CANCEL</button>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

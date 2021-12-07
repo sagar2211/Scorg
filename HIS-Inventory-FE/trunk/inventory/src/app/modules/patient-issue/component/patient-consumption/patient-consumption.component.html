@@ -1,0 +1,477 @@
+<div class="form-group px-2 py-1" *ngIf="loadFormPatient === false">
+    <label>Select Store</label>
+    <ng-select name="storeNamme" bindLabel="storeName" [items]="storesArray" (change)="selectStoreData($event)"
+        [(ngModel)]="selectedStore" placeholder="Select Store"></ng-select>
+</div>
+<div class="custom-container-fluid container-patient-issue" [ngClass]="{'partial-view': isPartialLoad}" *ngIf="loadFormPatient === true">
+    <form [formGroup]="patientIssueFrm" (ngSubmit)="saveStoreConsumption()">
+        <div class="card-header p-1 position-relative pt-1 px-0 pb-0 border-bottom-0">
+            <div class="position-absolute patient-search-top" *ngIf="showPatientSearchBox">
+                <div class="input-group">
+                    <ng-select class="patient-search" [items]="patientList$ | async" bindLabel="patientName" (change)="onPatientChange($event)"
+                        bindValue="patientId" formControlName="patientId" placeholder="Patient Select"
+                        [typeahead]="patientListInput$">
+                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                            <div class="form-row align-items-center justify-content-center mx-0 p-1">
+                                <div class="col px-0 col-profile-img">
+                                    <img alt="profile-image-female" src="./assets/img/female.svg">
+                                </div>
+                                <div class="col px-0">
+                                    <p class="mb-0 font-size-dot-875">{{item.patientName}}</p>
+                                    <p class="mb-0 font-size-dot-75 text-muted">
+                                        {{item.gender}} / {{item.age}} Year(s)
+                                    </p>
+                                    <p class="mb-0 font-size-dot-75 text-muted">Date: {{item.admissionDate| customDate:
+                                        '' : 'DD-MM-YYYY'}}</p>
+                                </div>
+                                <div class="col px-0 text-right">
+                                    <p class="mb-0 font-size-dot-75 text-muted">Visit No: {{item.visitNo}}</p>
+                                    <p class="mb-0 font-size-dot-75 text-muted">Visit Type: {{item.visitType}}</p>
+                                    <p class="mb-0 font-size-dot-75 text-muted">Bed No: {{item.bedNo}}</p>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ng-select>
+                    <div class="input-group-append">
+                        <button class="btn btn-white border text-muted" type="button" title="Close"
+                            (click)="enablePatientSearch(false)">
+                            &times;</button>
+                    </div>
+                </div>
+            </div>
+            <div class="custom-backdrop" [ngClass]="{'added': showPatientSearchBox}"></div>
+            <div class="form-row mx-0" *ngIf="patientIssueFrm.value.selectedPatient?.patientId">
+                <div class="col-3">
+                    <div class="card patient-info">
+                        <div class="card-body p-1">
+                            <ng-select [items]="voucherList" bindValue="consumptionId" bindLabel="customName"
+                                (change)="getSelectedVoucher($event)" formControlName="selectedVoucher"
+                                placeholder="Select GST On Sale">
+                                <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                                    <p class="mb-0" *ngIf="item.consumptionId">
+                                        <span>{{item.consumptionNo}}//</span>
+                                        <span>{{item.consumptionDate| customDate: '' : 'DD-MM-YYYY'}}//</span>
+                                        <span>{{item.netTotalAmount}}</span>
+                                    </p>
+                                    <p class="mb-0" *ngIf="item.consumptionId === 0">
+                                        <span>{{item.consumptionNo}}</span>
+                                    </p>
+                                </ng-template>
+                            </ng-select>
+                            <div class="form-row mx-0">
+                                <div class="col px-0">
+                                    <p class="mb-0 text-muted font-size-dot-75">Issue Date -
+                                        {{patientIssueFrm.value.consumptionDate| customDate: '' : 'DD-MM-YYYY'}}
+                                    </p>
+                                </div>
+                                <div class="col px-0 text-right">
+                                    <p class="mb-0 text-muted font-size-dot-75"
+                                        *ngIf="patientIssueFrm.value.consumptionId !== 0">
+                                        Net Total - {{patientIssueFrm.getRawValue().netAmount | number:'1.2-2'}}
+                                    </p>
+                                    <p class="mb-0 text-muted font-size-dot-75"
+                                        *ngIf="patientIssueFrm.value.consumptionId === 0">
+                                        Net Total - 0.00
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card patient-info">
+                        <div class="card-body p-1">
+                            <div class="form-row mx-0">
+                                <div class="col px-0">
+                                    <p class="mb-0">
+                                        <span class="text-muted font-size-dot-75"> Patient Info -
+                                        </span>
+                                        <span
+                                            class="font-weight-500">{{patientIssueFrm.value.selectedPatient?.patientId}}</span>
+                                    </p>
+                                    <div class="patient-name">
+                                        <p class="mb-0 font-size-dot-875 font-weight-500">
+                                            {{patientIssueFrm.value.selectedPatient?.patientName}}</p>
+                                        <p class="mb-0 text-muted font-size-dot-75">
+                                            {{patientIssueFrm.value.selectedPatient?.gender}} /
+                                            {{patientIssueFrm.value.selectedPatient?.age}} Year(s)</p>
+                                    </div>
+                                </div>
+                                <div class="col px-0 text-right col-search-btn">
+                                    <button class="btn btn-sm btn-outline-info" type="button"
+                                        (click)="enablePatientSearch(true)" title="Search New Patient">
+                                        <i class="icon fa-fw icon-search"></i>SEARCH
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card patient-info">
+                        <div class="card-body p-1">
+                            <div class="form-row mx-0">
+                                <div class="col px-0">
+                                    <p class="mb-0">
+                                        <span class="text-muted font-size-dot-75"> Encounter -
+                                        </span>
+                                        <span
+                                            class="font-size-dot-875 font-weight-500">{{patientIssueFrm.value.selectedPatient?.visitType}}/{{patientIssueFrm.value.selectedPatient?.visitNo}}</span>
+                                    </p>
+                                    <div class="patient-name">
+                                        <p class="mb-0 text-muted font-size-dot-75">
+                                            <span class="text-muted font-size-dot-75"> DOA -
+                                            </span>{{patientIssueFrm.value.selectedPatient?.admissionDate| customDate:
+                                            '' : 'DD-MM-YYYY'}}
+                                        </p>
+                                        <p class="mb-0 text-muted font-size-dot-75">
+                                            <span class="text-muted font-size-dot-75"> Bed No. -
+                                            </span>{{patientIssueFrm.value.selectedPatient?.bedNo}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col px-0 text-right col-vouchers-btn">
+                                    <button class="btn btn-sm btn-outline-info" type="button" (click)="getAllVauchers()"
+                                        title="Vouchers">
+                                        <i class="fa fa-fw fa-tag"></i>VOUCHERS
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div class="card patient-info">
+                        <div class="card-body p-1">
+                            <div class="form-row mx-0">
+                                <div class="col px-0">
+                                    <p class="mb-0">
+                                        <span class="text-muted font-size-dot-75"> Doctor Info -
+                                        </span>
+                                        <span class="font-size-dot-875 font-weight-500">Dr.
+                                            {{userData?.user_name}}</span>
+                                    </p>
+                                    <div class="patient-name">
+                                        <p class="mb-0 text-muted font-size-dot-75">
+                                            {{userData?.speciality_name}}
+                                        </p>
+                                        <p class="mb-0 font-size-dot-875 font-weight-500">
+                                            {{storeName}}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-1 card-body-patient-issue" *ngIf="patientIssueFrm.value.selectedPatient?.patientId">
+            <div class="form-row form-group mx-0" *ngIf="patientIssueFrm.value.selectedPatient?.patientId">
+                <div class="col-3" formGroupName="itemObjForm">
+                    <div class="card patient-table">
+                        <div class="card-body p-1">
+                            <div class="form-row align-items-center justify-content-center mx-0 mb-1">
+                                <div class="col-2 px-0"><label>Item</label></div>
+                                <div class="col-10 px-0">
+                                    <ng-select [items]="itemList$ | async" bindLabel="customName"
+                                        (change)="onItemChange($event)" bindValue="itemId" formControlName="itemId"
+                                        placeholder="Item Select" [typeahead]="itemListInput$">
+                                        <ng-template ng-option-tmp let-item="item" let-search="searchTerm">
+                                            <p class="mb-0">
+                                                <span>{{item.itemDescription}}</span>
+                                                <small>
+                                                    {{item.itemCode }} {{item.unitName }}
+                                                </small>
+                                            </p>
+                                        </ng-template>
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row mx-0 mb-1">
+                                <div class="col-7">
+                                    <label>Issue Qty.</label>
+                                    <input type="text" class="form-control form-control-sm text-right" appUpperCase
+                                        appOnlyNumbers placeholder="Issue Qty." formControlName="qty"
+                                        (keyup)="updateItemBatchValue();">
+                                    <span class="px-0 small text-danger"
+                                        *ngIf="patientIssueFrm.get('itemObjForm').get('qty').errors?.isQtyLess && isItemSubmit">Should
+                                        be greater than 0</span>
+                                </div>
+                                <div class="col-5">
+                                    <label>Total</label>
+                                    <input type="number" class="form-control form-control-sm" placeholder="Total"
+                                        formControlName="amount">
+                                </div>
+                            </div>
+                            <div class="form-row mx-0">
+                                <div class="col-7 discount-col">
+                                    <label>Disc. in</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span
+                                                class="input-group-text font-size-dot-7 font-weight-500 p-1">Amt.</span>
+                                        </div>
+                                        <input type="text"
+                                            class="form-control form-control-sm text-right border-right-0"
+                                            (change)="updateItemBatchValueDiscount('amt');" appUpperCase
+                                            appOnlyNumbersWithDecimal placeholder="Amount" formControlName="discAmt">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text p-1">
+                                                <span class="font-size-dot-7 font-weight-500 p-1">%</span></span>
+                                        </div>
+                                        <input type="text" class="form-control form-control-sm text-right"
+                                            (change)="updateItemBatchValueDiscount('percent');" appUpperCase
+                                            appOnlyNumbersWithDecimal placeholder="Percent" formControlName="discPer">
+                                    </div>
+                                </div>
+                                <div class="col-5">
+                                    <label>Net Amt.</label>
+                                    <input type="number" class="form-control form-control-sm" placeholder="Net Amount"
+                                        formControlName="netAmount">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer p-1">
+                            <div class="form-row mx-0">
+                                <div class="col-6">
+                                    <button [disabled]="patientIssueFrm.getRawValue().itemObjForm?.netAmount <= 0"
+                                        type="button" class="btn btn-xs btn-outline-mbd mr-1"
+                                        (click)="openRemarkPopup()">
+                                        <i class="fas fa-fw fa-plus" aria-hidden="true"></i>
+                                        {{patientIssueFrm.getRawValue().itemObjForm?.remark ? 'UPDATE' : 'ADD'}}
+                                        REMARK</button>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <button type="button" class="btn btn-xs btn-outline-warning mr-1"
+                                        (click)="clearItemForm('clear')">
+                                        <i class="fas fa-fw fa-eraser" aria-hidden="true"></i>
+                                        CLEAR</button>
+                                    <button [disabled]="patientIssueFrm.getRawValue().itemObjForm?.netAmount <= 0"
+                                        type="button" class="btn btn-xs btn-outline-primary" (click)="onAddItem()"><i
+                                            class="fa fa-fw fa-plus" aria-hidden="true"></i>
+                                        ADD</button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <ngx-datatable #table ngx-resize-watcher class="bootstrap item-table" columnMode="force"
+                        [headerHeight]="25" [footerHeight]="0" [rowHeight]="30" [rows]="itemBatchArray"
+                        [externalSorting]="true" [externalPaging]="true" [count]="itemBatchArray.length"
+                        [scrollbarH]="true">
+                        <ngx-datatable-column [frozenLeft]="true" [sortable]="false" name="Batch" cellClass="text-right"
+                            [sortable]="false" [width]="85">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.batchNo}}</span>
+                                <span class="small"> ({{row.expiryDate | customDate: '' : 'DD-MM-YYYY' }})</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Bal. Qty." cellClass="text-right" [sortable]="false" [width]="75">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.closingQty}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Qty." cellClass="text-right" [sortable]="false" [width]="75">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.qty}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Unit Rate" cellClass="text-right" [sortable]="false" [width]="75">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.unitRate | number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="MRP" cellClass="text-right" [sortable]="false" [width]="75">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.mrp | number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Amt." cellClass="text-right" [sortable]="false" [width]="75">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.amount | number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Disc. %" cellClass="text-right" [sortable]="false" [width]="75">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.discPer| number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Disc. Amt." cellClass="text-right" [sortable]="false" [width]="75">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.discAmt| number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Net Amt." [frozenRight]="true" cellClass="text-right"
+                            [sortable]="false" [width]="75">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.netAmount| number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+
+            <div class="form-row mx-0 mb-1">
+                <div class="col-12">
+                    <ngx-datatable #table ngx-resize-watcher class="bootstrap boottom-table" columnMode="force"
+                        [headerHeight]="25" [footerHeight]="0" [rowHeight]="30" [rows]="itemList"
+                        [externalSorting]="true" [externalPaging]="true" [count]="itemList.length" [scrollbarH]="true">
+                        <ngx-datatable-column [frozenLeft]="true" name="Item" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.itemName + '('+row.itemCode+')'}} </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Batch No." cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span> {{row.batchNo}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Expiry" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.expiryDate | customDate: '' : 'DD-MM-YYYY' }}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Unit Rate" cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.unitRate | number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Qty." cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.qty}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Amt." cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.amount | number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Disc." cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span *ngIf="row.discountPercent">{{row.discountPercent | number:'1.2-2'}}% / </span>
+                                <span *ngIf="row.discountAmount">{{row.discountAmount | number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Net Total" cellClass="text-right" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.netAmount | number:'1.2-2'}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Remark" [sortable]="false" [width]="100">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex">
+                                <span>{{row.remark}}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+                        <ngx-datatable-column name="Action" [frozenRight]="true" cellClass="text-center"
+                            [sortable]="false" [width]="75">
+                            <ng-template ngx-datatable-cell-template let-row="row" let-rowIndex="rowIndex"
+                                let-value="value" let-isSelected="isSelected">
+                                <button type="button" (click)="onDeleteItem(rowIndex)"
+                                    class="btn btn-xs btn-outline-danger">
+                                    <i class="icon fa-fw icon-trash" aria-hidden="true"></i></button>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+                </div>
+            </div>
+            <div class="form-row align-items-center justify-content-center mx-0">
+                <div class="col-4">
+                    <textarea rows="1" class="form-control vresize" formControlName="remark"
+                        placeholder="Type Remark"></textarea>
+                </div>
+                <div class="col-8 bottom-inputs">
+                    <div class="clearfix">
+                        <div class="float-right">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label class="mr-1">Total Amount</label>
+                                    <input type="number" class="form-control form-control-sm width-140" appUpperCase
+                                        appOnlyNumbersWithDecimal placeholder="Amount" formControlName="totalAmount">
+                                </div>
+                                <span class="d-inline-block mx-2 font-20">-</span>
+                                <div class="form-group">
+                                    <label class="mx-1">Disc. in</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span
+                                                class="input-group-text font-size-dot-7 font-weight-500 p-1">Amt.</span>
+                                        </div>
+                                        <input type="number"
+                                            class="form-control form-control-sm text-right border-right-0 width-100"
+                                            (change)="updateVoucherDiscount('amt');" appUpperCase
+                                            appOnlyNumbersWithDecimal placeholder="Amount"
+                                            formControlName="discountAmount">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text p-1">
+                                                <span class="font-size-dot-7 font-weight-500 p-1">%</span></span>
+                                        </div>
+                                        <input type="number" class="form-control form-control-sm text-right width-100"
+                                            (change)="updateVoucherDiscount('percent');" appUpperCase
+                                            appOnlyNumbersWithDecimal placeholder="Percent"
+                                            formControlName="discountPercent">
+                                    </div>
+                                </div>
+                                <span class="d-inline-block mx-2 font-20">=</span>
+                                <div class="form-inline">
+                                    <div class="form-group">
+                                        <label class="font-size-1 mx-1">Net Amount</label>
+                                        <input type="number" class="form-control form-control-sm width-140" appUpperCase
+                                            appOnlyNumbersWithDecimal placeholder="Amount" formControlName="netAmount">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer py-0 border-top" *ngIf="patientIssueFrm.value.selectedPatient?.patientId">
+            <div class="float-right py-1">
+                <ng-container *ngxPermissionsOnly="constpermissionList.ADD_STORE_CONSUMPTION">
+                    <div class="is-approved form-group" *ngIf="consumptionId === -1">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Print</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isTakePrint" class="custom-control-input"
+                                id="isTakePrint">
+                            <label class="custom-control-label pointer"
+                                [class.active]="patientIssueFrm.value.isTakePrint" for="isTakePrint"></label>
+                            <span class="text-uppercase"
+                                [class.active]="patientIssueFrm.value.isTakePrint">{{patientIssueFrm.value.isTakePrint
+                                ?
+                                'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <button *ngIf="consumptionId === -1" type="submit" class="btn btn-primary btn-sm"><i
+                            class="icon fa-fw icon-save" aria-hidden="true"></i>
+                        SAVE</button>
+                </ng-container>
+                <ng-container *ngxPermissionsOnly="constpermissionList.UPDATE_STORE_CONSUMPTION">
+                    <div class="is-approved form-group" *ngIf="consumptionId !== -1">
+                        <label class="font-size-dot-875 d-inline-block mr-2">Print</label>
+                        <div class="custom-control custom-switch pb-1 mt-1 yes-no d-inline-block">
+                            <input type="checkbox" formControlName="isTakePrint" class="custom-control-input"
+                                id="isTakePrint">
+                            <label class="custom-control-label pointer"
+                                [class.active]="patientIssueFrm.value.isTakePrint" for="isTakePrint"></label>
+                            <span class="text-uppercase"
+                                [class.active]="patientIssueFrm.value.isTakePrint">{{patientIssueFrm.value.isTakePrint
+                                ?
+                                'Yes' : 'No'}}</span>
+                        </div>
+                    </div>
+                    <button *ngIf="consumptionId !== -1" type="submit" class="btn btn-primary btn-sm"><i
+                            class="fas fa-fw fa-sync-alt"></i>
+                        UPDATE</button>
+                </ng-container>
+                <!-- <button *ngIf="consumptionId !== -1" type="button" (click)="onClear()" class="btn btn-outline-warning btn-sm ml-1"><i class="fas fa-fw fa-eraser" aria-hidden="true"></i>
+                  CLEAR</button> -->
+            </div>
+        </div>
+    </form>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>
+<app-print-data [printData]="printData" (printDiaglogClose)="navigateToSummery()"></app-print-data>

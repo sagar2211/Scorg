@@ -1,0 +1,229 @@
+<form [formGroup]="paymentModeForm">
+    <div class="panel-body p-0 custom-panel-body">
+        <!-- <ng-container *ngFor="let payment of paymentForm.controls; let i = index; last as last" [formGroupName]="i"> -->
+        <div class="new-payment mb-1 mx-1 mt-1 p-0">
+            <div class="row align-items-center mx-0 mr-5">
+              <div class="col-12 p-0">
+                <ul ngbNav #nav="ngbNav" [(activeId)]="paymentModeForm.getRawValue().paymentType" class="nav nav-pills">
+                  <li [ngbNavItem]="'collection'" [disabled]="(paymentModeForm.getRawValue().createCreditNote) || (formValue.netPayableAmount < 0)">
+                    <a ngbNavLink (click)="updatePaymentType('collection')">
+                      <span class="">Collection</span>
+                        </a>
+                    </li>
+                    <li [ngbNavItem]="'refund'" [disabled]="formValue.netPayableAmount >= 0">
+                      <a ngbNavLink (click)="updatePaymentType('refund')">
+                        <span class="">Refund</span>
+                          </a>
+                      </li>
+                </ul>
+                </div>
+                <div class="col-12 p-0 mt-1" *ngIf="paymentModeForm.getRawValue().paymentType === 'refund'">
+                  <input type="checkbox" formControlName="createCreditNote" (change)="updateFormMode();">
+                  <label class="ml-1">Create Credit Note</label>
+              </div>
+                <div class="col-4 px-0 mt-1">
+                    <div class="form-group m-0 row">
+                      <div class="col-4 p-0 text-right">
+                        <label class="mb-0">Mode</label>
+                      </div>
+                      <div class="col-8">
+                        <select (change)="paymentMode($event.target.value)" class="form-control form-control-sm mode-all pay-mode" formControlName="mode">
+                          <option *ngFor="let c of paymentModeList" [value]="c.id">{{c.name}}</option>
+                        </select>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-4 px-0 mt-1">
+                  <div class="form-group m-0 row">
+                    <div class="col-4 p-0 text-right">
+                      <label class="mb-0">Amount</label>
+                    </div>
+                    <div class="col-8">
+                      <input id="amount" type="text" autocomplete="off" appOnlyNumbersWithDecimal maxlength="10" value="" placeholder="0.00" class="form-control form-control-sm mode-all text-right" min="0" formControlName="amount" (keyup)="checkAndUpdateAmount();" />
+                    </div>
+                  </div>
+                </div>
+            </div>
+
+            <!--for Card Mode start -->
+            <div *ngIf="paymentModeForm.getRawValue().mode === 'CARD'" formGroupName="cardMode" class="row align-items-center mx-0 mr-5 ">
+                <div class="col-4 px-0">
+                    <div class="form-group mb-0 row">
+                      <div class="col-4 p-0 text-right">
+                        <label class="mb-0">Card Holder Name</label>
+                      </div>
+                      <div class="col-8">
+                        <input id="cardHolderName" type="text" class="form-control form-control-sm " placeholder="Card Holder" formControlName="cardHolderName">
+                        <span *ngIf="((!paymentModeForm.get('cardMode.cardHolderName').valid && paymentModeForm.get('cardMode.cardHolderName').touched) || submitted)" class="help-block">
+                <span class="validate-msg"
+                    *ngIf="paymentModeForm.get('cardMode.cardHolderName').errors?.required">
+                    Card holder name is required!
+                </span>
+                        </span>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-4 px-0">
+                    <div class="form-group mb-0 row">
+                      <div class="col-4 p-0 text-right">
+                        <label class="mb-0">Card No.</label>
+                      </div>
+                      <div class="col-8">
+                        <input id="cardNo" type="text" placeholder="Card No." appOnlyNumbersWithDecimal maxlength="16" class="form-control form-control-sm " formControlName="cardNo">
+                        <span *ngIf="((!paymentModeForm.get('cardMode.cardNo').valid && paymentModeForm.get('cardMode.cardNo').touched) || submitted)" class="help-block">
+              <span class="validate-msg"
+                  *ngIf="paymentModeForm.get('cardMode.cardNo').errors?.required">
+                  Card number is required!
+              </span>
+                        </span>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!--for Card Mode end -->
+
+            <!--for NEFT Mode start -->
+            <div *ngIf="paymentModeForm.getRawValue().mode === 'NEFT' || paymentModeForm.getRawValue().mode === 'RTGS' || paymentModeForm.getRawValue().mode === 'IMPS'" class="row align-items-center mx-0 mr-5 " formGroupName="neftMode">
+                <div class="col-4 px-0">
+                    <div class="form-group mb-0 row">
+                      <div class="col-4 p-0 text-right">
+                        <label class="mb-0">Account Holder Name</label>
+                      </div>
+                      <div class="col-8">
+                        <input id="accHolderName" type="text" class="form-control form-control-sm " placeholder="Account Holder" formControlName="accHolderName">
+                        <span *ngIf="((!paymentModeForm.get('neftMode.accHolderName').valid && paymentModeForm.get('neftMode.accHolderName').touched) || submitted)" class="help-block">
+              <span class="validate-msg"
+                  *ngIf="paymentModeForm.get('neftMode.accHolderName').errors?.required">
+                  Account holder name is required!
+              </span>
+                        </span>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-4 px-0">
+                    <div class="form-group mb-0 row">
+                      <div class="col-4 p-0 text-right">
+                        <label class="mb-0">Transaction No.</label>
+                      </div>
+                      <div class="col-8">
+                        <input id="onlineTransactionNo" type="text" placeholder="Transaction No." maxlength="16" class="form-control form-control-sm " formControlName="onlineTransactionNo">
+                        <span *ngIf="((!paymentModeForm.get('neftMode.onlineTransactionNo').valid && paymentModeForm.get('neftMode.onlineTransactionNo').touched) || submitted)" class="help-block">
+            <span class="validate-msg"
+                *ngIf="paymentModeForm.get('neftMode.onlineTransactionNo').errors?.required">
+                Online transaction number is required!
+            </span>
+                        </span>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!--for NEFT Mode end -->
+
+            <!--for UPI Mode start -->
+            <div *ngIf="paymentModeForm.getRawValue().mode === 'UPI'" class="row align-items-center mx-0 mr-5" formGroupName="upiMode">
+                <div class="col-4 px-0">
+                    <div class="form-group mb-0 row">
+                      <div class="col-4 p-0 text-right">
+                        <label class="mb-0">Transaction No.</label>
+                      </div>
+                      <div class="col-8">
+                        <input id="upiTransactionNo" type="text" placeholder="Transaction No." maxlength="16" class="form-control form-control-sm " formControlName="upiTransactionNo">
+                        <span *ngIf="((!paymentModeForm.get('upiMode.upiTransactionNo').valid && paymentModeForm.get('upiMode.upiTransactionNo').touched) || submitted)" class="help-block">
+            <span class="validate-msg"
+                *ngIf="paymentModeForm.get('upiMode.upiTransactionNo').errors?.required">
+                Transaction number is required!
+            </span>
+                        </span>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <!--for UPI Mode end -->
+
+            <!--for Cheque Mode start -->
+            <div class="row align-items-center mx-0 mr-5">
+                <div *ngIf="paymentModeForm.getRawValue().mode === 'CHEQUE'" class="col-4 px-0" formGroupName="chequeMode">
+                  <div class="form-group mb-0 row">
+                    <div class="col-4 p-0 text-right">
+                      <label class="mb-0">Cheque No.</label>
+                    </div>
+                    <div class="col-8">
+                      <input id="chequeNo" type="text" placeholder="Check No." appOnlyNumbersWithDecimal maxlength="6" class="form-control form-control-sm " formControlName="chequeNo">
+                      <span *ngIf="((!paymentModeForm.get('chequeMode.chequeNo').valid && paymentModeForm.get('chequeMode.chequeNo').touched) || submitted)" class="help-block">
+          <span class="validate-msg"
+              *ngIf="paymentModeForm.get('chequeMode.chequeNo').errors?.required">
+              Cheque number is required!
+          </span>
+                      </span>
+                    </div>
+                </div>
+                </div>
+                <ng-container *ngIf="paymentModeForm.getRawValue().mode === 'NEFT' || paymentModeForm.getRawValue().mode === 'RTGS' || paymentModeForm.getRawValue().mode === 'IMPS'">
+                    <div class="col-4 px-0">
+                        <div class="form-group mb-0 row">
+                          <div class="col-4 p-0 text-right">
+                            <label class="mb-0">Bank Name</label>
+                          </div>
+                          <div class="col-8">
+                            <ng-select [items]="bankList$ | async" bindValue="id" bindLabel="Name" (change)="onBankChange($event)" placeholder="Search Bank.." [typeahead]="bankInput$" formControlName="bankName">
+                            </ng-select>
+                            <span *ngIf="((!paymentModeForm.get('bankName').valid && paymentModeForm.get('bankName').touched) || submitted)" class="help-block">
+                <span class="validate-msg"
+                    *ngIf="paymentModeForm.get('bankName').errors?.required">
+                    Bank name is required!
+                </span>
+                            </span>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-4 px-0">
+                        <div class="form-group mb-0 row">
+                          <div class="col-4 p-0 text-right">
+                            <label class="mb-0">Branch</label>
+                          </div>
+                          <div class="col-8">
+                            <input id="branchName" type="text" placeholder="Brach.." class="form-control form-control-sm" formControlName="branchName">
+                            <span *ngIf="((!paymentModeForm.get('branchName').valid && paymentModeForm.get('branchName').touched) || submitted)" class="help-block">
+                <span class="validate-msg"
+                    *ngIf="paymentModeForm.get('branchName').errors?.required">
+                    Branch name is required!
+                </span>
+                            </span>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-4 px-0">
+                        <div class="form-group mb-0 row">
+                          <div class="col-4 p-0 text-right">
+                            <label class="mb-0">IFSC</label>
+                          </div>
+                          <div class="col-8">
+                            <input id="ifscCode" type="text" placeholder="IFSC" maxlength="11" class="form-control form-control-sm text-uppercase" formControlName="ifscCode">
+                            <span *ngIf="((!paymentModeForm.get('ifscCode').valid && paymentModeForm.get('ifscCode').touched) || submitted)" class="help-block">
+              <span class="validate-msg"
+                  *ngIf="paymentModeForm.get('ifscCode').errors?.required">
+                  IFSC code is required!
+              </span>
+                            </span>
+                          </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+            <!--for Cheque Mode End -->
+            <div class="row align-items-center mx-0 mr-5">
+                <div class="col-12 px-0">
+                    <div class="form-group mb-0 row">
+                      <div class="p-0 text-right" style="width: 85px !important">
+                        <label class="mb-0">Remarks</label>
+                      </div>
+                      <div class="col">
+                        <input type="text" maxlength="155" class="form-control form-control-sm" placeholder="Remark" formControlName="remark" />
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

@@ -1,0 +1,9 @@
+.pain-location {
+    height: 200px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    .pain-location-row {
+        max-width: 2500px;
+        flex-wrap: nowrap;
+    }
+}

@@ -1,0 +1,170 @@
+<form [formGroup]="sectionForm" (ngSubmit)="saveSectionMasterData()" *ngIf="loadForm">
+    <div class="custom-container-fluid mx-2">
+        <div class="card-header p-1 border-dash-bottom">
+            <button title="Back to Section List" (click)="redirectToSectionList()" class="btn btn-sm border-0 back-arrow-btn" type="button">
+        <i class="icon fa-fw icon-arrow" aria-hidden="true"></i>
+      </button>
+            <h6 class="mb-0 d-inline-block align-middle">Back to Section Master</h6>
+        </div>
+        <div class="container-fluid section-height pt-3" [@fadeInOut]>
+            <div class="card shadow-xs border-0 mb-4">
+                <div class="card-body pt-1 pb-0">
+                    <div class="form-row">
+                        <div class="col-4 form-group">
+                            <label>Name<sup>*</sup></label>
+                            <input *ngIf="!editMode" type="text" class="form-control form-control-sm" formControlName="name" placeholder="Name">
+                            <app-ng-select-typeahead *ngIf="editMode" [isSearchDataFromApi]="true" [inputValue]="sectionForm.value.name?.rsm_id" [selectedValue]="sectionForm.value.name?.rsm_name" [thDisplayLabel]="'rsm_name'" [thDisplayKey]="'rsm_id'" [source]="'Name'" (recievedVal)="selectSection($event)"
+                                [searchFun]="getAllSectionMasterData" [returnDataType]="'obj'" [compInstance]="compInstance">
+                            </app-ng-select-typeahead>
+                        </div>
+                        <div class="col-5 form-group">
+                            <label>Remark<sup>*</sup></label>
+                            <textarea class="form-control form-control-sm" formControlName="remark" placeholder="Remark"></textarea>
+                        </div>
+                        <div class="col-3 align-self-center">
+                            <div class="custom-control custom-switch yes-no-btn">
+                                <input type="checkbox" formControlName="isActive" class="custom-control-input" id="customSwitch2">
+                                <label class="custom-control-label pointer" [class.active]="sectionForm.value.isActive" for="customSwitch2"></label>
+                                <span class="text-uppercase" [class.active]="sectionForm.value.isActive">{{sectionForm.value.isActive ? 'Yes' : 'No'}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <h6 class="border-dash-bottom pb-1 mb-4">Select Template<sup>*</sup></h6>
+                    <div class="container-fluid">
+                        <div class="form-row">
+                            <div class="col-4" *ngFor="let item of templateList; let i = index;">
+                                <div class="custom-control custom-radio mb-3">
+                                    <input type="radio" class="custom-control-input" id="{{'selected_template_' + i}}" formControlName="selected_template" value="{{item.key}}" (change)="showFieldSettingList(sectionForm.value.selected_template)">
+                                    <label class="custom-control-label pointer" for="{{'selected_template_' + i}}"><img
+                      class="img-thumbnail" [ngClass]="{'active': sectionForm.value.selected_template == item.key}"
+                      [src]="item.small_img_path">
+                  </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <h6 class="border-dash-bottom pb-1 mb-4">Grid Template</h6>
+                    <div class="container-fluid">
+                        <div class="form-row mb-3">
+                            <div class="col-3" *ngFor="let item of gridTemplateList; let i = index;">
+                                <fieldset [disabled]="!item.isGridTemplateEnabled" [ngClass]="{'disabled': !item.isGridTemplateEnabled }">
+                                    <div class="custom-control custom-radio mb-3">
+                                        <input type="radio" class="custom-control-input" id="{{'grid_template_' + i}}" formControlName="grid_template" value="{{item.key}}">
+                                        <label class="custom-control-label pointer" for="{{'grid_template_' + i}}">
+                      <img class="img-thumbnail" [ngClass]="{'active': sectionForm.value.grid_template == item.key}"
+                        [src]="item.small_img_path">
+                    </label>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card shadow-xs border-0 mb-3">
+                        <div class="card-body pb-2">
+                            <div class="form-row form-group" formArrayName="doctor_fields" *ngIf="showDoctorField">
+                                <div class="col-3 align-self-center">
+                                    <label class="text-muted">Doctors Fields</label>
+                                </div>
+                                <div class="col-9">
+                                    <div class="custom-control custom-checkbox custom-control-inline" *ngFor="let list of doctorFieldsArray; let l=index;" [formGroupName]="l">
+                                        <input class="custom-control-input" formControlName="isSelected" type="checkbox" id="{{'doc_list_'+ l}}">
+                                        <label class="custom-control-label pointer pl-1" for="{{'doc_list_'+ l}}">{{list.get('name').value}}</label>
+                                    </div>
+                                    <p class="text-danger small" *ngIf="showDoctorFieldMsg">{{showDoctorFieldMsg}}</p>
+                                </div>
+                            </div>
+                            <hr *ngIf="showDoctorField">
+                            <div class="form-row form-group" formArrayName="queue_fields" *ngIf="showQueueField">
+                                <div class="col-3 align-self-center">
+                                    <label class="text-muted">Queue List</label>
+                                </div>
+                                <div class="col-9">
+                                    <div class="custom-control custom-checkbox custom-control-inline" *ngFor="let list of queueFieldsArray; let j=index;" [formGroupName]="j">
+                                        <input class="custom-control-input" formControlName="isSelected" type="checkbox" id="{{'queue_list_'+ j}}">
+                                        <label class="custom-control-label pointer pl-1" for="{{'queue_list_'+ j}}">{{list.get('name').value}}</label>
+                                    </div>
+                                    <p class="text-danger small" *ngIf="showQueueFieldMsg">{{showQueueFieldMsg}}</p>
+                                </div>
+                            </div>
+                            <hr *ngIf="showQueueField">
+                            <div class="form-row form-group" formArrayName="calling_fields" *ngIf="showCallingField">
+                                <div class="col-3 align-self-center">
+                                    <label class="text-muted">Calling Fields</label>
+                                </div>
+                                <div class="col-9">
+                                    <div class="custom-control custom-checkbox custom-control-inline" *ngFor="let list of callingFieldsArray; let k=index;" [formGroupName]="k">
+                                        <input class="custom-control-input" formControlName="isSelected" type="checkbox" id="{{'calling_list_'+ k}}">
+                                        <label class="custom-control-label pointer pl-1" for="{{'calling_list_'+ k}}">{{list.get('name').value}}</label>
+                                    </div>
+                                    <p class="text-danger small" *ngIf="showCallingFieldMsg">{{showCallingFieldMsg}}</p>
+                                </div>
+                            </div>
+                            <hr *ngIf="showNextField || showCallingField">
+                            <div class="form-row form-group" formArrayName="next_fields" *ngIf="showNextField">
+                                <div class="col-3 align-self-center">
+                                    <label class="text-muted">Next Fields</label>
+                                </div>
+                                <div class="col-9">
+                                    <div class="custom-control custom-checkbox custom-control-inline" *ngFor="let list of nextFieldsArray; let m=index;" [formGroupName]="m">
+                                        <input class="custom-control-input" formControlName="isSelected" type="checkbox" id="{{'next_list_'+ m}}">
+                                        <label class="custom-control-label pointer pl-1" for="{{'next_list_'+ m}}">{{list.get('name').value}}</label>
+                                    </div>
+                                    <p class="text-danger small" *ngIf="showNextFieldMsg">{{showNextFieldMsg}}</p>
+                                </div>
+                            </div>
+                            <hr *ngIf="showNextField">
+                            <div class="form-row form-group">
+                                <div class="col-3 align-self-center">
+                                    <label class="text-muted">Display Advertisement</label>
+                                </div>
+                                <div class="col-9">
+                                    <div class="custom-control custom-switch switch-w">
+                                        <input type="checkbox" formControlName="displayBranding" class="custom-control-input" id="customSwitch1">
+                                        <label class="custom-control-label pointer" [class.active]="sectionForm.value.displayBranding" for="customSwitch1" (click)="updateDisplayBranding(sectionForm.value.displayBranding)"></label>
+                                        <span class="text-uppercase" [class.active]="sectionForm.value.displayBranding">{{sectionForm.value.displayBranding ? 'Active' : 'InActive'}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="form-row form-group align-items-center">
+                                <div class="col-3 ">
+                                    <label class="text-muted">Choose Color</label>
+                                </div>
+                                <div class="col-9">
+                                    <div class="theme-settings-swatches">
+                                        <div class="swatch-holder option-1" [ngClass]="{'active': activeThemeColor==='option-1'}" (click)="changeTheme('option-1')"></div>
+                                        <div class="swatch-holder option-2" [ngClass]="{'active': activeThemeColor==='option-2'}" (click)="changeTheme('option-2')"></div>
+                                        <div class="swatch-holder option-3" [ngClass]="{'active': activeThemeColor==='option-3'}" (click)="changeTheme('option-3')"></div>
+                                        <div class="swatch-holder option-4" [ngClass]="{'active': activeThemeColor==='option-4'}" (click)="changeTheme('option-4')"></div>
+                                        <div class="swatch-holder option-5" [ngClass]="{'active': activeThemeColor==='option-5'}" (click)="changeTheme('option-5')"></div>
+                                        <div class="swatch-holder option-6" [ngClass]="{'active': activeThemeColor==='option-6'}" (click)="changeTheme('option-6')"></div>
+                                        <div class="swatch-holder option-7" [ngClass]="{'active': activeThemeColor==='option-7'}" (click)="changeTheme('option-7')"></div>
+                                        <div class="swatch-holder option-8" [ngClass]="{'active': activeThemeColor==='option-8'}" (click)="changeTheme('option-8')"></div>
+                                        <div class="swatch-holder option-9" [ngClass]="{'active': activeThemeColor==='option-9'}" (click)="changeTheme('option-9')"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-right py-1">
+            <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase mr-2" (click)="redirectToSectionList();">
+        Cancel</button>
+            <button [disabled]="!sectionForm.value.selected_template" type="button" class="btn btn-sm btn-info text-uppercase mr-2" (click)="viewPreviewImage();"><span><i
+            class="icon fa-fw icon-eye" aria-hidden="true"></i></span> Preview</button>
+            <button [disabled]="!sectionForm.valid" type="submit" class="btn btn-sm btn-success" [attr.title]="sectionForm.value.id ? 'Update' : 'Save'">
+        <span *ngIf="!sectionForm.value.id"> <i class="icon fa-fw icon-save" aria-hidden="true"></i> SAVE</span>
+        <span *ngIf="sectionForm.value.id"><i class="fas fa-fw fa-sync-alt" aria-hidden="true"></i> UPDATE</span>
+      </button>
+        </div>
+    </div>
+</form>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

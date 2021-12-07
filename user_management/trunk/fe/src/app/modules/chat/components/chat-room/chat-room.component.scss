@@ -1,0 +1,54 @@
+@import "../../../../../scss/custom_bootstrap_theme";
+
+.chatting-page {
+  .card-body {
+    height: calc(100vh - 206px);
+    overflow-y: auto;
+
+    @include medium-max {
+      height: calc(100vh - 203px);
+    }
+
+    @include sm-max {
+      height: calc(100vh - 202px);
+    }
+  }
+
+
+  .chat-txtbox {
+    .input-group {
+      .smile-btn {
+        background-color: $gray-50;
+        border-top: 1px solid transparent;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        border-left: 1px solid transparent;
+      }
+
+      .type-msg {
+        height: 74px;
+        resize: none;
+        overflow-y: auto;
+        border-top: 1px solid transparent;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        border-left: 1px solid transparent;
+      }
+
+      .type-msg:focus {
+        border: 1px solid var(--bgColor);
+        @include transition(border-top 0.8s);
+      }
+    }
+
+    .send-btn {
+      width: 50px;
+      height: 50px;
+      border: none;
+
+      i {
+        font-size: 1.4em;
+      }
+    }
+  }
+}

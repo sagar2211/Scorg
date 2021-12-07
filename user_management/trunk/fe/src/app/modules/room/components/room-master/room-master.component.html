@@ -1,0 +1,39 @@
+<form [formGroup]="roomForm" (ngSubmit)="saveRoomMasterData()" *ngIf="loadForm">
+  <div class="form-row form-group">
+    <div class="col-3">
+      <label for="map_doctor">Location<sup>*</sup></label>
+      <ng-select [items]="LocationList" bindLabel="name" placeholder="Select Location"
+                 formControlName="location">
+      </ng-select>
+    </div>
+    <div class="col-3">
+      <label>Name<sup>*</sup></label>
+      <input type="text" class="form-control form-control-sm" formControlName="name" placeholder="Name">
+    </div>
+    <!--<div class="col-3 align-self-center pt-3 mt-1">-->
+      <!--&lt;!&ndash;<div class="custom-control custom-switch yes-no-btn">&ndash;&gt;-->
+        <!--&lt;!&ndash;<input type="checkbox" formControlName="isActive" class="custom-control-input" id="customSwitch2">&ndash;&gt;-->
+        <!--&lt;!&ndash;<label class="custom-control-label pointer" [class.active]="roomForm.value.isActive"&ndash;&gt;-->
+          <!--&lt;!&ndash;for="customSwitch2"></label>&ndash;&gt;-->
+        <!--&lt;!&ndash;<span class="text-uppercase"&ndash;&gt;-->
+          <!--&lt;!&ndash;[class.active]="roomForm.value.isActive">{{roomForm.value.isActive ? 'Yes' : 'No'}}</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--<div class="custom-control custom-checkbox">-->
+        <!--<input type="checkbox"  class="custom-control-input"-->
+               <!--id="customSwitch2" formControlName="isActive" />-->
+        <!--<label class="custom-control-label pointer" for="customSwitch2">Active</label>-->
+      <!--</div>-->
+    <!--</div>-->
+    <div class="col-3 align-self-center text-right pt-3">
+      <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase mr-2"
+        (click)="redirectToRoomList();">
+        Cancel</button>
+      <button [disabled]="!roomForm.valid" type="submit" class="btn btn-sm btn-success"
+        [attr.title]="roomForm.value.id ? 'Update' : 'Save'">
+        <span *ngIf="!roomForm.value.id"> <i class="icon fa-fw icon-save" aria-hidden="true"></i> SAVE</span> <span
+          *ngIf="roomForm.value.id"><i class="fas fa-fw fa-sync-alt" aria-hidden="true"></i> UPDATE</span>
+      </button>
+    </div>
+  </div>
+</form>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

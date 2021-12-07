@@ -1,0 +1,88 @@
+<div class="modal-header">
+    <p class="modal-title text-uppercase">{{messageDetails.modalTitle}}</p>
+    <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+        (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body p-1">
+
+    <ng-container ng-if="messageDetails.selectedOrder">
+        <ng-container >
+            <div class="card">
+                <div class="card-body p-1">
+                    <h6 *ngIf="type==='medicineOrders'" class="mb-0">
+                        {{resOrder.medicineObj.name}}
+                        <small *ngIf="resOrder.medicineObj.dose">
+                            ({{resOrder.medicineObj.dose.dose}}{{resOrder.medicineObj.type.doseUnit}})
+                        </small>&nbsp;
+                        <span *ngIf="resOrder.priority === 'SOS'"
+                            class="alert alert-success d-inline-block mb-0 p-0 px-1">
+                            <small>{{resOrder.priority}}</small>
+                        </span>
+                    </h6>
+                    <h6 *ngIf="type!=='medicineOrders'" class="mb-0">
+                        {{resOrder.name}}
+                        <span *ngIf="resOrder.priority === 'SOS'"
+                            class="alert alert-success d-inline-block mb-0 p-0 px-1">
+                            <small>{{resOrder.priority}}</small>
+                        </span>
+                    </h6>
+                    <p *ngIf="type==='medicineOrders'; else elseBlock" class="mb-0 small">
+                        <span *ngIf="resOrder.medicineObj.route" class="font-weight-500">Route:
+                            {{resOrder.medicineObj.route.name}}&nbsp;</span>
+                        <span *ngIf="resOrder.freqStartTime" class="font-weight-500">- Start Time:
+                            {{resOrder.freqStartTime}}</span>
+                        <span *ngIf="resOrder.medicineObj.instruction" class="font-weight-500">- Instruction:
+                            {{resOrder.medicineObj.instruction}}</span>
+                    </p>
+                    <ng-template #elseBlock>
+                        <p *ngIf="type==='labOrders' || type==='radiologyOrders'"
+                            class="mb-0 small">
+                            <span *ngIf="type==='labOrders' && resOrder.specimen"
+                                class="font-weight-500">Specimen:
+                                {{resOrder.specimen}}</span>
+                            <span
+                                *ngIf="(type==='labOrders' || type==='radiologyOrders') && resOrder.patientConsentNeeded"
+                                class="font-weight-500"> Patient Consent Needed:
+                                {{resOrder.patientConsentNeeded}}</span>
+                            <span
+                                *ngIf="(type==='labOrders' || type==='radiologyOrders') && resOrder.reason"
+                                class="font-weight-500"> Patient Consent Needed: {{resOrder.reason}}</span>
+                            <span *ngIf="type==='labOrders' && resOrder.labInstruction"
+                                class="font-weight-500">
+                                Instruction: {{resOrder.labInstruction}}</span>
+                            <span
+                                *ngIf="type==='radiologyOrders' && resOrder.radiologyInstruction"
+                                class="font-weight-500"> Instruction: {{resOrder.radiologyInstruction}}</span>
+                        </p>
+                    </ng-template>
+                    <p class="mb-0 small">Order Date: <span
+                            class="font-weight-500">{{((type==='medicineOrders') ? resOrder.order_date : resOrder.startDateTime) | customDate : '' : 'DD-MM-YYYY hh:mm A'}}</span>,
+                        By <span class="font-weight-500">Dr. {{resOrder.order_by?.user_name}}</span>
+                    </p>
+                </div>
+            </div>
+        </ng-container>
+        <!-- <ng-container ng-if="messageDetails.selectedOrder.categoryKey === 'dietOrders'">
+            {{messageDetails.selectedOrder | json}}
+        </ng-container> -->
+    </ng-container>
+    <ng-container ng-if="messageDetails.modalBody">
+        <div class="alert m-1" role="alert" [ngClass]="messageDetails.orderStatus === 'INITIATED' ? 'alert-danger':'alert-primary'">
+            <p class="mb-0"><i class="far fa-fw fa-lightbulb mr-1" aria-hidden="true"></i><span
+                    class="font-weight-500 font-size-dot-875" [innerHtml]="messageDetails.modalBody"></span></p>
+        </div>
+    </ng-container>
+</div>
+<div class="modal-footer py-1">
+
+    <button *ngIf="messageDetails.orderStatus === 'INITIATED'" type="button" class="btn btn-sm btn-outline-danger"
+        (click)="modal.close('DISCARD')"><i class="icon fa-fw icon-trash" aria-hidden="true"></i> DISCARD</button>
+    <button *ngIf="messageDetails.orderStatus !== 'INITIATED'" type="button" class="btn btn-sm btn-outline-danger"
+        (click)="modal.close('DC')"><i class="fa fa-fw fa-ban" aria-hidden="true"></i> DIS-CONTINUE</button>
+    <button *ngIf="messageDetails.showEditButton" type="button" class="btn btn-sm btn-outline-primary"
+        (click)="modal.close('edit')"><i class="fas fa-fw fa-sync-alt"></i> UPDATE</button>
+        <button type="button" class="btn btn-sm btn-outline-secondary"
+        (click)="modal.dismiss('Cross click')">CANCEL</button>
+</div>

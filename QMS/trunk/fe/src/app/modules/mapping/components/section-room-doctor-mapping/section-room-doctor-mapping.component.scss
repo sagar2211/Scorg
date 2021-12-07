@@ -1,0 +1,8 @@
+:host ::ng-deep {
+  .ngx-datatable.fixed-header {
+    .datatable-body {
+      height: calc(100vh - 200px) !important;
+      overflow-x: hidden;
+    }
+  }
+}

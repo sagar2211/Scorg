@@ -1,0 +1,360 @@
+{
+  "getAllSectionList": {
+    "status": 200,
+    "apistatus": 1,
+    "authenticated": 1,
+    "message": "USER AUTHENTICATED",
+    "data": [
+      {
+        "service_type_id": 2,
+        "service_type": "OPD",
+        "speciality_name": "ABDOMINAL TRANSPLANT AND HEPATIC SURGERY",
+        "template_id": 12,
+        "template_name": "Knee Examination - Dr. Kothari",
+        "template_key": "knee_examination",
+        "is_generic": true,
+        "speciality_id": 1,
+        "is_Active": true,
+        "is_used": false,
+        "form_data": [
+          {
+            "form_id": 22,
+            "form_name": "Medical / Surgical History",
+            "form_summary": "Medical / Surgical History",
+            "form_sequence": 0,
+            "form_description": "Medical / Surgical History",
+            "que_group_data": [
+              {
+                "question_group_id": 55,
+                "form_id": 22,
+                "question_group_name": "History of Present Illness",
+                "display_format": "horizontal",
+                "question_heading": "0",
+                "summary_merge": true,
+                "tabular_headings_data": [
+                  {
+                    "id": 86,
+                    "answer_group_key": "grp1",
+                    "answer_group_heading": "0",
+                    "user_section_group_id": 55,
+                    "is_show": null
+                  }
+                ],
+                "qus_n_ans": null
+              },
+              {
+                "question_group_id": 107,
+                "form_id": 22,
+                "question_group_name": "Past Medical / Surgical History",
+                "display_format": "horizontal",
+                "question_heading": "0",
+                "summary_merge": true,
+                "tabular_headings_data": [
+                  {
+                    "id": 169,
+                    "answer_group_key": "grp1",
+                    "answer_group_heading": "0",
+                    "user_section_group_id": 107,
+                    "is_show": null
+                  }
+                ],
+                "qus_n_ans": null
+              }
+            ]
+          },
+          {
+            "form_id": 23,
+            "form_name": "Past Medical / Surgical History",
+            "form_summary": "Past Medical / Surgical History",
+            "form_sequence": 0,
+            "form_description": "Past Medical / Surgical History",
+            "que_group_data": [
+              {
+                "question_group_id": 58,
+                "form_id": 23,
+                "question_group_name": "-",
+                "display_format": "horizontal",
+                "question_heading": "0",
+                "summary_merge": true,
+                "tabular_headings_data": [
+                  {
+                    "id": 89,
+                    "answer_group_key": "grp1",
+                    "answer_group_heading": "0",
+                    "user_section_group_id": 58,
+                    "is_show": null
+                  }
+                ],
+                "qus_n_ans": null
+              }
+            ]
+          },
+          {
+            "form_id": 24,
+            "form_name": "Physical Examination",
+            "form_summary": "Physical Examination",
+            "form_sequence": 0,
+            "form_description": "Physical Examination",
+            "que_group_data": [
+              {
+                "question_group_id": 59,
+                "form_id": 24,
+                "question_group_name": "Inspection",
+                "display_format": "horizontal",
+                "question_heading": "0",
+                "summary_merge": true,
+                "tabular_headings_data": [
+                  {
+                    "id": 90,
+                    "answer_group_key": "grp1",
+                    "answer_group_heading": "0",
+                    "user_section_group_id": 59,
+                    "is_show": null
+                  }
+                ],
+                "qus_n_ans": null
+              },
+              {
+                "question_group_id": 60,
+                "form_id": 24,
+                "question_group_name": "Range of Motion",
+                "display_format": "horizontal",
+                "question_heading": "0",
+                "summary_merge": true,
+                "tabular_headings_data": [
+                  {
+                    "id": 91,
+                    "answer_group_key": "grp1",
+                    "answer_group_heading": "0",
+                    "user_section_group_id": 60,
+                    "is_show": null
+                  },
+                  {
+                    "id": 107,
+                    "answer_group_key": "grp2",
+                    "answer_group_heading": "0",
+                    "user_section_group_id": 60,
+                    "is_show": null
+                  }
+                ],
+                "qus_n_ans": null
+              },
+              {
+                "question_group_id": 61,
+                "form_id": 24,
+                "question_group_name": "Strength",
+                "display_format": "horizontal",
+                "question_heading": "0",
+                "summary_merge": true,
+                "tabular_headings_data": [
+                  {
+                    "id": 92,
+                    "answer_group_key": "grp1",
+                    "answer_group_heading": "0",
+                    "user_section_group_id": 61,
+                    "is_show": null
+                  }
+                ],
+                "qus_n_ans": null
+              },
+              {
+                "question_group_id": 62,
+                "form_id": 24,
+                "question_group_name": "Special Tests - Effusion",
+                "display_format": "tabular",
+                "question_heading": "Effusion",
+                "summary_merge": true,
+                "tabular_headings_data": [
+                  {
+                    "id": 93,
+                    "answer_group_key": "grp1",
+                    "answer_group_heading": "Findings",
+                    "user_section_group_id": 62,
+                    "is_show": null
+                  }
+                ],
+                "qus_n_ans": null
+              },
+              {
+                "question_group_id": 63,
+                "form_id": 24,
+                "question_group_name": "Special Tests - Patellar Testing",
+                "display_format": "tabular",
+                "question_heading": "Patellar Testing",
+                "summary_merge": true,
+                "tabular_headings_data": [
+                  {
+                    "id": 94,
+                    "answer_group_key": "grp1",
+                    "answer_group_heading": "Findings",
+                    "user_section_group_id": 63,
+                    "is_show": null
+                  }
+                ],
+                "qus_n_ans": null
+              },
+              {
+                "question_group_id": 64,
+                "form_id": 24,
+                "question_group_name": "Special Tests - Meniscal Tear Assesssment",
+                "display_format": "tabular",
+                "question_heading": "Meniscal Tear Assesssment",
+                "summary_merge": true,
+                "tabular_headings_data": [
+                  {
+                    "id": 95,
+                    "answer_group_key": "grp1",
+                    "answer_group_heading": "Findings",
+                    "user_section_group_id": 64,
+                    "is_show": null
+                  }
+                ],
+                "qus_n_ans": null
+              },
+              {
+                "question_group_id": 65,
+                "form_id": 24,
+                "question_group_name": "Special Tests - Ligamentous Tests",
+                "display_format": "tabular",
+                "question_heading": "Ligamentous Tests",
+                "summary_merge": true,
+                "tabular_headings_data": [
+                  {
+                    "id": 102,
+                    "answer_group_key": "grp1",
+                    "answer_group_heading": "Findings",
+                    "user_section_group_id": 65,
+                    "is_show": null
+                  }
+                ],
+                "qus_n_ans": null
+              },
+              {
+                "question_group_id": 66,
+                "form_id": 24,
+                "question_group_name": "Palpation",
+                "display_format": "horizontal",
+                "question_heading": "0",
+                "summary_merge": true,
+                "tabular_headings_data": [
+                  {
+                    "id": 103,
+                    "answer_group_key": "grp1",
+                    "answer_group_heading": "0",
+                    "user_section_group_id": 66,
+                    "is_show": null
+                  }
+                ],
+                "qus_n_ans": null
+              },
+              {
+                "question_group_id": 67,
+                "form_id": 24,
+                "question_group_name": "Neurovascular",
+                "display_format": "horizontal",
+                "question_heading": "0",
+                "summary_merge": true,
+                "tabular_headings_data": [
+                  {
+                    "id": 104,
+                    "answer_group_key": "grp1",
+                    "answer_group_heading": "0",
+                    "user_section_group_id": 67,
+                    "is_show": null
+                  }
+                ],
+                "qus_n_ans": null
+              }
+            ]
+          },
+          {
+            "form_id": 25,
+            "form_name": "Diagnosis & Treatment Plan",
+            "form_summary": "Diagnosis & Treatment Plan",
+            "form_sequence": 0,
+            "form_description": "Diagnosis & Treatment Plan",
+            "que_group_data": [
+              {
+                "question_group_id": 68,
+                "form_id": 25,
+                "question_group_name": "Assessment",
+                "display_format": "horizontal",
+                "question_heading": "0",
+                "summary_merge": true,
+                "tabular_headings_data": [
+                  {
+                    "id": 105,
+                    "answer_group_key": "grp1",
+                    "answer_group_heading": "0",
+                    "user_section_group_id": 68,
+                    "is_show": null
+                  }
+                ],
+                "qus_n_ans": null
+              },
+              {
+                "question_group_id": 69,
+                "form_id": 25,
+                "question_group_name": "Plan",
+                "display_format": "horizontal",
+                "question_heading": "0",
+                "summary_merge": true,
+                "tabular_headings_data": [
+                  {
+                    "id": 106,
+                    "answer_group_key": "grp1",
+                    "answer_group_heading": "0",
+                    "user_section_group_id": 69,
+                    "is_show": null
+                  }
+                ],
+                "qus_n_ans": null
+              }
+            ]
+          },
+          {
+            "form_id": 26,
+            "form_name": "Inspect",
+            "form_summary": "Inspect",
+            "form_sequence": 0,
+            "form_description": "Inspect",
+            "que_group_data": [
+              {
+                "question_group_id": 70,
+                "form_id": 26,
+                "question_group_name": "-",
+                "display_format": "tabular",
+                "question_heading": "-",
+                "summary_merge": true,
+                "tabular_headings_data": [
+                  {
+                    "id": 108,
+                    "answer_group_key": "grp1",
+                    "answer_group_heading": "Left",
+                    "user_section_group_id": 70,
+                    "is_show": null
+                  },
+                  {
+                    "id": 109,
+                    "answer_group_key": "grp2",
+                    "answer_group_heading": "Right",
+                    "user_section_group_id": 70,
+                    "is_show": null
+                  },
+                  {
+                    "id": 110,
+                    "answer_group_key": "grp3",
+                    "answer_group_heading": "Both",
+                    "user_section_group_id": 70,
+                    "is_show": null
+                  }
+                ],
+                "qus_n_ans": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

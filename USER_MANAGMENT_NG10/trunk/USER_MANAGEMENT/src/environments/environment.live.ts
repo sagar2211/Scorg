@@ -1,0 +1,16 @@
+export const environment = {
+  production: true,
+  baseUrl: '/user-api/api',
+  dashboardBaseURL: '/emr-api/api',
+  baseUrlAppointment: '/qms-api/api',
+  jsonPath: './assets/JSON/',
+  userNotificationUrl: '/hosted-service/userNotificationHub',
+  limitDataToGetFromServer: 100,
+  ALERT_DURATION: 3000,
+  LoginLogoUrl: '/file-server/HospitalImage/',
+  SNOWMED_URL: 'http://172.16.100.71:8181/browser/MAIN',
+  SNOWMED_SEMANTIC_TAG_URL: 'http://172.16.100.71:8181/MAIN',
+  SSO_LOGIN_URL: '/user-web',
+  API_FOR_PDF: '/hmis-report/api',
+  HIMS_API: '/hmis-web/api',
+};

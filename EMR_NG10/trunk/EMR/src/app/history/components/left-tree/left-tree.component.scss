@@ -1,0 +1,6 @@
+:host::ng-deep {
+  .tree-height {
+    height: calc(100vh - 208px);
+    overflow-y: auto;
+  }
+}

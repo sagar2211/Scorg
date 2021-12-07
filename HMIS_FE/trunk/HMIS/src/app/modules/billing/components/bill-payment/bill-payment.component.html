@@ -1,0 +1,577 @@
+<div class="modal-header">
+  <h6 class="mb-0 pt-1 text-uppercase">Patient Bill Payment - {{patientData?.uhId}} -
+    {{patientData?.patientInfo?.fullName}}</h6>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close" (click)="modal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body p-0">
+  <div class="panel-body p-0 panel-panel-body">
+    <!-- <div class="row">
+      <div class="col-4">
+        <div class="form-group mb-0 pb-2">
+          <ul class="nav-tabs" ngbNav [activeId]="paymentType">
+            <li [ngbNavItem]="'cashPayment'">
+              <a ngbNavLink (click)="onChangePaymentMethod('cashPayment')">Bill Payment</a>
+            </li>
+            <li [ngbNavItem]="'debitNote'">
+              <a ngbNavLink (click)="onChangePaymentMethod('debitNote')">Debit Note</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-8 d-flex">
+        <div class="col-6 d-flex">
+          <div class="col-4">
+            <label class="mb-0">Bill Amount</label>
+          </div>
+          <div class="col-7">
+            <input id="billAmount" type="text" [(ngModel)]="billAmount"
+            class="form-control form-control-sm mode-all text-right" readonly />
+          </div>
+        </div>
+        <div class="col-6 d-flex">
+          <div class="col-4">
+            <label class="mb-0">Payment Amount</label>
+          </div>
+          <div class="col-7">
+            <input id="payAmount" type="text" autocomplete="off" appOnlyNumbersWithDecimal min="0" maxlength="10"
+            [(ngModel)]="payAmount" placeholder="0.00" class="form-control form-control-sm mode-all text-right"
+            (change)="onPaymentChange($event.target.value)" />
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="mx-0 row" *ngIf="paymentType === 'cashPayment'">
+      <div class="px-2 py-1 master-height col-4 px-0 overflow-hidden bg-light">
+        <div class="pb-4 bg-left">
+          <div class="panel-header px-1 payment-header py-2 m-0">
+            <h6 class="font-weight-500 text-primary my-0 font-size-14"> EXISTING PAYMENT</h6>
+          </div>
+          <div class="left_part_height">
+            <div class="px-1 bg-group-div" [ngClass]="{'border-class mt-1': (i==0) || ((item.vNo != existingPayment[i-1].vNo))}" *ngFor="let item of existingPayment; let i = index;">
+              <div class="row align-items-center mx-0">
+                <ng-container *ngIf="(i==0) || ((item.vNo != existingPayment[i-1].vNo))" >
+                <div class="col-8 text-left px-0 my-1">
+                  <h6 class="my-0 font-size-14 pr-0"><span>{{item.vNo}}
+                    <!-- <i class="far fa-fw fa-calendar-o"
+                        aria-hidden="true"></i> -->
+                        {{item.date | date:'dd/MM/yyyy h:mm a'}}</span></h6>
+                </div>
+                <div class="col-4 text-right px-0">
+                  <h6 class="my-0 font-size-14 pr-0"><span class="label">Paid Amount: </span><span>{{item.totalVoucherAmount | number:'1.2-2'}}</span></h6>
+                </div>
+              </ng-container>
+                <div class="col-12 px-0">
+                  <div class="bg-white px-1">
+                    <div class="panel m-1 panel-list mb-2">
+                      <div class="row mx-0 align-items-center listing">
+                        <div class="col-9 px-0">
+                          <div class="panel-header p-1 payment-mode">
+                            <div class="row align-items-center mx-0">
+                              <div class="col-6 text-left px-0">
+                                <h6 class="my-0 font-size-14 pr-0">
+                                  <span>{{item.mode}}</span>
+                                </h6>
+                              </div>
+                              <div class="col-6 text-right px-0">
+                                <span *ngIf="item.mode === 'CHEQUE' && item.chqcleared === 'N'" class="badge badge-danger font-weight-400">Uncleared</span>
+                                <!-- <span *ngIf="item.mode === 'CHEQUE' && item.chqcleared === 'Y'" class=" font-weight-400">Cleared</span> -->
+                              </div>
+                            </div>
+                          </div>
+                          <div class="panel-body p-1 bg-white add-section">
+                            <div class="row align-items-center mx-0">
+                              <div class="col-6 px-0">
+                                <p class="mb-0 font-size-12 font-weight-500">
+                                  <span class="text-muted">Bill #: </span>
+                                  <span>{{item.billNo}}</span>
+                                </p>
+                              </div>
+                              <div class="col-6 text-right px-0">
+                                <p class="mb-0 font-size-12 font-weight-500">
+                                  <span class="text-muted">Bill Amount: </span>
+                                  <span>{{item.billAmt | number:'1.2-2'}}</span>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="row align-items-center mx-0 payment-remark">
+                              <div class="px-0" *ngIf="item.mode == 'CARD'">
+                                <p class="mb-0 font-size-12 font-weight-500">
+                                  <span><i>Card Holder Name</i>: <b>{{item.cardHolder}} </b></span>
+                                  <span><i>Card No</i>: <b>{{item.cardNo}} </b></span>
+                                </p>
+                              </div>
+                              <div class="px-0" *ngIf="item.mode == 'CHEQUE'">
+                                <p class="mb-0 font-size-12 font-weight-500">
+                                  <span><i>Cheque</i>: <b>{{item.chequeNo}} </b></span>
+                                  <span><i>Cheque Date</i>: <b>{{item.chequeDate}} </b></span>
+                                  <span><i>Bank Name</i>: <b>{{item.bankName}} </b></span>
+                                  <span><i>Branch Name</i>: <b>{{item.branch}} </b></span>
+                                </p>
+                              </div>
+                              <div class="px-0" *ngIf="item.mode == 'NEFT' || item.mode == 'RTGS' || item.mode == 'IMPS'">
+                                <p class="mb-0 font-size-12 font-weight-500">
+                                  <span><i>Bank Name</i>: <b>{{item.bankName}} </b></span>
+                                  <span><i>IFSC</i>: <b>{{item.ifscCode}} </b></span>
+                                  <span><i>Branch Name</i>: <b>{{item.branch}} </b></span>
+                                  <span><i>Acc Holder</i>: <b>{{item.accHolderName}} </b></span>
+                                  <span><i>Trans No</i>: <b>{{item.onlineTransactionNo}} </b></span>
+                                </p>
+                              </div>
+                              <div class="px-0" *ngIf="item.mode == 'UPI'">
+                                <p class="mb-0 font-size-12 font-weight-500">
+                                  <span><i>Trans No</i>: <b>{{item.upiTransactionNo}} </b></span>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="row align-items-center mx-0 payment-remark">
+                              <div class="px-0">
+                                <p class="mb-0 font-size-12 font-weight-500">
+                                  <span><i> Remarks </i> : <b>{{item.remarks}}</b><br></span>
+                                </p>
+                              </div>
+                              <div class="px-0">
+                                <a href="javascript:void(0)" *ngIf="item.mode === 'DebitNote'"
+                                  (click)="editDebitNote()">Edit</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-3 text-right px-0">
+                          <h3 class="mb-0"><span class="amt">{{item.amount | number:'1.2-2'}}</span></h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-8 px-2  overflow-hidden right-part add-section">
+        <div class="px-0 overflow-hidden right-part pl-2">
+          <div class="panel">
+            <!-- <div class="row m-0 borderB pb-1">
+              <div class="col-3 displayFlex p-0">
+                <label class="mb-0 col-5 p-0">Bill Amount</label>
+                <input id="billAmount" type="text" [(ngModel)]="billAmount"
+                  class="form-control form-control-sm mode-all text-right col-5" readonly />
+              </div>
+              <div class="col-4 displayFlex p-0">
+                <label class="mb-0 col-5 p-0">Payment Amount</label>
+                <input id="payAmount" type="text" autocomplete="off" appOnlyNumbersWithDecimal min="0" maxlength="10"
+                  [(ngModel)]="payAmount" placeholder="0.00" class="form-control form-control-sm mode-all text-right col-4"
+                  (change)="onPaymentChange($event.target.value)" />
+              </div>
+            </div> -->
+            <div class="panel-header px-1 py-1 payment-header">
+              <h6 class="font-weight-500 text-primary my-0 font-size-14">NEW PAYMENT</h6>
+              <div class="row m-0" style="display: flex;justify-content: flex-end;">
+                <div class="col-5 displayFlex p-0">
+                  <label class="mb-0 col-5 p-0">Bill Amount</label>
+                  <input id="billAmount" type="text" [(ngModel)]="billAmount"
+                    class="form-control form-control-sm mode-all text-right col-6" readonly />
+                </div>
+                <div class="col-6 displayFlex p-0">
+                  <label class="mb-0 col-6 p-0">Payment Amount</label>
+                  <input id="payAmount" type="text" autocomplete="off" appOnlyNumbersWithDecimal min="0" maxlength="10"
+                    [(ngModel)]="payAmount" placeholder="0.00" class="form-control form-control-sm mode-all text-right col-4"
+                    (change)="onPaymentChange($event.target.value)" />
+                </div>
+              </div>
+            </div>
+            <form [formGroup]="paymentModeForm">
+              <div class="panel-body p-0 custom-panel-body">
+                <div class="new-payment mt-1 pb-1">
+                  <div class="row align-items-center mx-0 mr-5 mb-1">
+                    <div class="col-3 px-0 mr-0">
+                      <div class="form-group mb-0 displayFlex">
+                        <label class="mb-0 col-6 p-0">Payment Mode</label>
+                        <select (change)="paymentMode($event.target.value)"
+                          class="form-control form-control-sm mode-all pay-mode col-5" formControlName="mode">
+                          <option *ngFor="let c of paymentModes" [value]="c.id">{{c.name}}</option>
+                        </select>
+                        <!-- {{selectedValue | json}} -->
+                      </div>
+                    </div>
+                    <span class="form-group mb-0 col-4 p-0 ">
+                      <div class="col-6 px-0">
+                        <div class="form-group mb-0 mr-2 displayFlex">
+                          <label class="mb-0 col-5 p-0">Amount</label>
+                          <input id="amount" type="text" autocomplete="off" appOnlyNumbersWithDecimal maxlength="10"
+                            value="" placeholder="0.00" class="form-control form-control-sm mode-all text-right" min="0"
+                            formControlName="amount" />
+                        </div>
+                      </div>
+                    </span>
+                    <!-- {{paymentModeForm.value | json}} -->
+                    <div *ngIf="false" class="col-3 px-0">
+                      <div class="form-group mb-0">
+                        <label class="mb-0">Payment Date</label>
+                        <input class="p-5 form-control form-control-sm mode-all" type="text" id="paymentDate"
+                          data-plugin="datepicker" data-autoclose="true" value="" placeholder="Date" readonly="readonly"
+                          disabled>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!--for Card Mode start -->
+                  <div *ngIf="isCard" formGroupName="cardMode" class="row align-items-center mx-0 card-details pb-2 col-12 p-0">
+                    <div class="col-6 px-0 pr-1">
+                      <div class="form-group mb-0 ">
+                      <div class="displayFlex">
+                        <label class="mb-0 col-3 p-0">Card Holder Name</label>
+                        <input id="cardHolderName" type="text" class="form-control form-control-sm col-9 ml-2"
+                          placeholder="Card Holder" formControlName="cardHolderName">
+                       </div>
+                          <span
+                          *ngIf="((!paymentModeForm.get('cardMode.cardHolderName').valid && paymentModeForm.get('cardMode.cardHolderName').touched) || submitted)"
+                          class="help-block">
+                          <span class="validate-msg"
+                            *ngIf="paymentModeForm.get('cardMode.cardHolderName').errors?.required">
+                            Card holder name is required!
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-4 px-0 pl-1">
+                      <div class="form-group mb-0 ">
+                        <div class="displayFlex">
+                        <label class="mb-0 col-3 p-0 pl-3">Card No.</label>
+                        <input id="cardNo" type="text" placeholder="Card No." appOnlyNumbersWithDecimal maxlength="16"
+                          class="form-control form-control-sm col-9 " formControlName="cardNo">
+                       </div>
+                          <span
+                          *ngIf="((!paymentModeForm.get('cardMode.cardNo').valid && paymentModeForm.get('cardMode.cardNo').touched) || submitted)"
+                          class="help-block">
+                          <span class="validate-msg" *ngIf="paymentModeForm.get('cardMode.cardNo').errors?.required">
+                            Card number is required!
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <!--for Card Mode end -->
+
+                  <!--for NEFT Mode start -->
+                  <div *ngIf="isNEFT" class="row align-items-center mx-0 neft-details " formGroupName="neftMode">
+                    <div class="col-6 px-0 pr-1">
+                      <div class="form-group mb-0 ">
+                      <div class="displayFlex mb-1">
+                        <label class="mb-0 col-4 p-0">Account Holder Name</label>
+                        <input id="accHolderName" type="text" class="form-control form-control-sm col-8"
+                          placeholder="Account Holder" formControlName="accHolderName">
+                       </div>
+                          <span
+                          *ngIf="((!paymentModeForm.get('neftMode.accHolderName').valid && paymentModeForm.get('neftMode.accHolderName').touched) || submitted)"
+                          class="help-block">
+                          <span class="validate-msg"
+                            *ngIf="paymentModeForm.get('neftMode.accHolderName').errors?.required">
+                            Account holder name is required!
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-5 px-0 pl-1">
+                      <div class="form-group mb-0">
+                      <div class="displayFlex mb-1">
+                        <label class="mb-0 col-4 p-0">Transaction No.</label>
+                        <input id="onlineTransactionNo" type="text" placeholder="Transaction No." maxlength="16"
+                          class="form-control form-control-sm col-8" formControlName="onlineTransactionNo">
+                        </div>
+                          <span
+                          *ngIf="((!paymentModeForm.get('neftMode.onlineTransactionNo').valid && paymentModeForm.get('neftMode.onlineTransactionNo').touched) || submitted)"
+                          class="help-block">
+                          <span class="validate-msg"
+                            *ngIf="paymentModeForm.get('neftMode.onlineTransactionNo').errors?.required">
+                            Online transaction number is required!
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <!--for NEFT Mode end -->
+
+                  <!--for UPI Mode start -->
+                  <div *ngIf="isUPI" class="row align-items-center mx-0 mr-5" formGroupName="upiMode">
+                    <div class="col-6 px-0">
+                      <div class="form-group mb-0">
+                        <div class="displayFlex">
+                        <label class="mb-0 col-3 p-0">Transaction No.</label>
+                        <input id="upiTransactionNo" type="text" placeholder="Transaction No." maxlength="16"
+                          class="form-control form-control-sm col-9" formControlName="upiTransactionNo">
+                        </div>
+                          <span
+                          *ngIf="((!paymentModeForm.get('upiMode.upiTransactionNo').valid && paymentModeForm.get('upiMode.upiTransactionNo').touched) || submitted)"
+                          class="help-block">
+                          <span class="validate-msg"
+                            *ngIf="paymentModeForm.get('upiMode.upiTransactionNo').errors?.required">
+                            Transaction number is required!
+                          </span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <!--for UPI Mode end -->
+
+                  <!--for Cheque Mode start -->
+                  <div class="row align-items-center mx-0 mr-0 p-0 ">
+                    <div class="p-0 bank-details">
+                      <div *ngIf="isCheque" class="col-3 px-0 pr-1" formGroupName="chequeMode">
+                        <!-- <div class=" px-0 "> -->
+                        <div class="form-group mb-0 ">
+                          <div class="displayFlex">
+                          <label class="mb-0 col-4 p-0">Cheque No.</label>
+                          <input id="chequeNo" type="text" placeholder="Cheque No." appOnlyNumbersWithDecimal
+                            maxlength="6" class="form-control form-control-sm col-8" formControlName="chequeNo">
+                        </div>
+                            <span
+                            *ngIf="((!paymentModeForm.get('chequeMode.chequeNo').valid && paymentModeForm.get('chequeMode.chequeNo').touched) || submitted)"
+                            class="help-block">
+                            <span class="validate-msg"
+                              *ngIf="paymentModeForm.get('chequeMode.chequeNo').errors?.required">
+                              Cheque number is required!
+                            </span>
+                          </span>
+                        </div>
+                        <!-- </div> -->
+                      </div>
+                      <div *ngIf="isCheque" class="col-3 px-0 pr-1" formGroupName="chequeMode">
+                        <!-- <div class=" px-0 "> -->
+                        <div class="form-group mb-0 ">
+                          <div class="displayFlex">
+                            <label class="mb-0 col-4 p-0">Cheque Date.</label>
+                            <!-- <input id="chequeDate" type="text" placeholder="Cheque Date." appOnlyNumbersWithDecimal
+                              maxlength="6" class="form-control form-control-sm col-8" formControlName="chequeDate"> -->
+                              <div class="input-group dob-date">
+                                <app-date-picker [min]="todayDate" [inputDate]="paymentModeForm.value.chequeMode.chequeDate"
+                                    placeholder="DD/MM/YYYY" (dateChange)="chequeDateChange($event)">
+                                </app-date-picker>
+                              </div>
+                            </div>
+                            <span
+                            *ngIf="((!paymentModeForm.get('chequeMode.chequeDate').valid && paymentModeForm.get('chequeMode.chequeDate').touched) || submitted)"
+                            class="help-block">
+                            <span class="validate-msg"
+                              *ngIf="paymentModeForm.get('chequeMode.chequeDate').errors?.required">
+                              Cheque date is required!
+                            </span>
+                          </span>
+                        </div>
+                        <!-- </div> -->
+                      </div>
+                      <!-- <div *ngIf="isDebitNote" class="row align-items-center mx-0 col-12 p-0" formGroupName="debitNoteMode">
+                        <div class="col-3 p-0 mr-4">
+                          <label class="mb-0 font-style">Debitor Type</label>
+                          <ng-select [items]="debitorTypeArray" bindLabel="name" bindValue="id"
+                            formControlName="debitorType" (change)="onDebitorTypeChange()"
+                            [(ngModel)]="selectedDebitorType" placeholder="Debtior Type"></ng-select>
+                        </div>
+                        <div class="col-6 p-0">
+                          <label class="mb-0 font-style">Debitor</label>
+                          <ng-select [items]="debitorArray" bindLabel="name" bindValue="id" formControlName="debitor"
+                            [(ngModel)]="selectedDebitor" placeholder="Debtior"></ng-select>
+                        </div>
+                      </div> -->
+                      <div *ngIf="isBank" class="bank-name">
+                        <div class="col-5 px-0 pr-1 ">
+                          <div class="form-group mb-0 ">
+                          <div class="displayFlex">
+                            <label class="mb-0 p-0 col-3">Bank Name</label>
+                            <ng-select [items]="bankList$ | async" bindLabel="Name" (change)="onBankChange($event)"
+                              placeholder="Search Bank.." [typeahead]="bankInput$" formControlName="bankName" class="col-9 p-0 pl-1">
+                            </ng-select>
+                          </div>
+                            <span
+                              *ngIf="((!paymentModeForm.get('bankName').valid && paymentModeForm.get('bankName').touched) || submitted)"
+                              class="help-block">
+                              <span class="validate-msg" *ngIf="paymentModeForm.get('bankName').errors?.required">
+                                Bank name is required!
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="px-0 pl-1" [ngClass]="{'col-7 ': isBank && isCheque, 'col-4 ': isBank && !isCheque}">
+                          <div class="form-group mb-0 ">
+                            <div class="displayFlex">
+                            <label class="mb-0 col-3 p-0">Branch</label>
+                            <input id="branchName" type="text" placeholder="Branch"
+                              class="form-control form-control-sm pr-1" formControlName="branchName">
+                           </div>
+                              <span
+                              *ngIf="((!paymentModeForm.get('branchName').valid && paymentModeForm.get('branchName').touched) || submitted)"
+                              class="help-block">
+                              <span class="validate-msg" *ngIf="paymentModeForm.get('branchName').errors?.required">
+                                Branch name is required!
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="col-3 px-0 pl-1 " *ngIf="!isCheque">
+                          <div class="form-group mb-0 ">
+                            <div class="displayFlex">
+                            <label class="mb-0 col-3 p-0">IFSC</label>
+                            <input id="ifscCode" type="text" placeholder="IFSC" maxlength="11"
+                              class="form-control form-control-sm text-uppercase pr-1" formControlName="ifscCode">
+                            </div>
+                              <span
+                              *ngIf="((!paymentModeForm.get('ifscCode').valid && paymentModeForm.get('ifscCode').touched) || submitted)"
+                              class="help-block">
+                              <span class="validate-msg" *ngIf="paymentModeForm.get('ifscCode').errors?.required">
+                                IFSC code is required!
+                              </span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--for Cheque Mode End -->
+
+                  <!--for Bank Mode start -->
+                  <div *ngIf="false" class="row align-items-center mx-0 mr-5">
+                  </div>
+                  <!--for Bank Mode End -->
+
+                  <div class="row align-items-center mx-0 mt-1 my-1">
+                    <div class="col-10 px-0 ">
+                      <div class="form-group mb-0 remark-part ">
+                        <label class="mb-0 col-1 pl-0">Remarks</label>
+                        <input type="text" maxlength="155" class="form-control form-control-sm col-11"
+                          placeholder="Remark" formControlName="remark" />
+                      </div>
+                    </div>
+                    <div class="col-2 px-0 ">
+                      <div class="form-group mb-0 ">
+                        <button type="button" id="btnAddNewRow" class="btn btn-sm btn-primary ml-3"
+                          (click)="addNewPaymentRow()"><i class="fa fa-plus"></i>
+                          ADD</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="payment-height">
+                  <div *ngFor="let item of newPayment; let i=index " id="newPaymentDetails"
+                    class="right-side-height py-2 mb-2">
+                    <div class="add-money">
+                      <div class="col-9 p-0">
+                        <div class="edit-delete pl-2">
+                          <div class="cheq-details">
+                            <span>{{item.mode}}</span>
+                          </div>
+                          <!-- <div class="action-btn">
+                            <button type="button" (click)="editNewPayment(item,i)"
+                              class="btn btn-xs btn-outline-primary px-0 col-1"><i class="icon icon-edit"
+                              aria-hidden="true"></i></button>
+                            <button type="button" (click)="deleteNewPayment(i)"
+                              class="btn btn-xs btn-outline-danger px-0 col-1 ml-2"><i class="icon icon-trash"
+                              aria-hidden="true"></i></button>
+                            &nbsp;&nbsp;
+                          </div> -->
+                        </div>
+                        <!-- <span>{{item.amount}}₹</span> -->
+                        <div class="Cheque_Details p-2">
+                          <div *ngIf="item.mode=='CHEQUE'">
+                            <span class="bold text-muted">Cheque : <span class="input-text"> {{item.chequeNo}} </span>&nbsp;</span>
+                            <span class="bold text-muted">Cheque Date : <span class="input-text"> {{item.chequeDate | date:'dd/MM/yyyy'}} </span>&nbsp;</span>
+                          </div>
+                          <div *ngIf="item.mode=='CHEQUE' || item.mode=='NEFT' || item.mode=='RTGS' || item.mode=='IMPS'">
+                            <span class="bold text-muted">Bank : <span class="input-text">{{item.bankName}}</span> &nbsp;</span><br/>
+                            <span class="bold text-muted" *ngIf="item.mode!='CHEQUE'">IFSC : <span class="input-text"> {{item.ifscCode}}</span> &nbsp;</span>
+                            <span class="bold text-muted">Branch : <span class="input-text">{{item.branchName}}</span>&nbsp;</span>
+                          </div>
+                        </div>
+                        <div *ngIf="item.mode=='NEFT' || item.mode=='RTGS' || item.mode=='IMPS'">
+                          <span class='pl-2' style="width: 100%;display: flex;"> Acc Holder :
+                           <span class="input-text">{{item.accHolderName}} </span></span>
+                          <span class='pl-2' style="width: 100%;display: flex;">Trans No :
+                            <span class="input-text"> {{item.onlineTransactionNo}}</span></span>
+                        </div>
+                      </div>
+                      <div class="col-3 item-amt px-2">
+                        <span>₹{{item.amount}}</span>
+                        <div class="action-btn">
+                          <button type="button" (click)="editNewPayment(item,i)"
+                            class="btn btn-xs btn-outline-primary px-0 col-1"><i class="icon icon-edit"
+                            aria-hidden="true"></i></button>
+                          <button type="button" (click)="deleteNewPayment(i)"
+                            class="btn btn-xs btn-outline-danger px-0 col-1 ml-2"><i class="icon icon-trash"
+                            aria-hidden="true"></i></button>
+                          &nbsp;&nbsp;
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div *ngIf="item.mode=='CHEQUE' || item.mode=='NEFT' || item.mode=='RTGS' || item.mode=='IMPS'">
+                    <span>Bank Name : {{item.bankName}} &nbsp;</span>
+                    <span>IFSC : {{item.ifscCode}} &nbsp;</span>
+                    <span>Branch Name : {{item.branchName}}&nbsp;</span>
+                  </div> -->
+                    <div *ngIf="item.mode=='CARD'"  class="col-9 p-0">
+                      <span class='pl-2 bold text-muted'>Card Holder Name: {{item.cardHolderName}}</span>
+                      <span class='pl-2 bold text-muted'> Card No: {{item.cardNo}}</span>
+                    </div>
+                    <div *ngIf="item.mode=='UPI'">
+                      <span class='pl-2 bold text-muted' style="width: 100%;display: flex;">Trans No:
+                        <span class="input-text">
+                          {{item.upiTransactionNumber}}
+                        </span>
+                       </span>
+                    </div>
+                    <span class='pl-2 col-9 pb-0' >
+                    <span class="bold text-muted">Remark:  <span class="input-text">{{item.remark}}</span>&nbsp;</span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="mx-0 row debitNote" *ngIf="paymentType === 'debitNote'">
+      <div class="row">
+        <span>Voucher Date : {{debitNoteInfo?.voucherDate}}</span>
+        <span *ngIf="debitNoteInfo?.voucherNumber">Voucher Number : {{debitNoteInfo?.voucherNumber}}</span>
+      </div>
+    </div> -->
+  </div>
+</div>
+<div class="modal-footer py-2 col-12" *ngIf="paymentType === 'cashPayment'">
+  <div class=" col-4 p-0 m-0">
+    <h3 class="my-0 d-inline"><span class="small ">Unclear:&nbsp;</span><span id="epTotalUnclearAmount">{{unClearAmountTotal | number:'1.2-2'}}</span></h3>
+    <h3 class="my-0 d-inline"><span class="small ">(+) Clear:&nbsp;</span><span id="epTotalClearedAmount">{{clearAmountTotal | number:'1.2-2'}}</span></h3>
+    <h3 class="my-0 d-inline"><span class="small ">(=) Total:&nbsp;</span><span id="epTotalPaidAmount">{{(clearAmountTotal + unClearAmountTotal) | number:'1.2-2'}}</span></h3>
+</div>
+  <div class="row remaining-section col-8 p-0">
+    <div class="col-3 p-0">
+      <div class="form-group mb-0 displayFlex">
+        <label class="mb-0 pr-2">Remaining</label>
+        <input id="remainingAmount" type="text" [(ngModel)]="remaingAmount"
+          class="form-control form-control-sm text-right col-6" readonly />
+      </div>
+    </div>
+    <div class="col-4 p-0">
+      <div class="form-group mb-0 displayFlex">
+        <label class="mb-0 col-2 p-0">Total</label>
+        <input id="newPaymentTotal" type="text" [(ngModel)]="totalAmount"
+          class="form-control form-control-sm text-right col-5" readonly />
+      </div>
+    </div>
+    <div class="col-5 p-0 bottom-Btn">
+    <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
+      (click)="modal.dismiss();">Cancel</button>
+    <button type="button" class="btn btn-sm btn-outline-success text-uppercase" (click)="saveBillPayment()">
+      <i aria-hidden="true" class="icon fa-fw icon-save"></i> Save</button>
+  </div>
+  </div>
+</div>
+<!-- <div class="modal-footer py-2" *ngIf="paymentType === 'debitNote'">
+  <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase"
+    (click)="modal.dismiss();">Cancel</button>
+  <button type="button" class="btn btn-sm btn-outline-success text-uppercase" (click)="saveDebitNote()">
+    <i aria-hidden="true" class="icon fa-fw icon-save"></i> Save</button>
+</div> -->
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

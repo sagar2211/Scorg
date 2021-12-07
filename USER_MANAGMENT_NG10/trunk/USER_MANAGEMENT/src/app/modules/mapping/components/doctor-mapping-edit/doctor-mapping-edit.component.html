@@ -1,0 +1,59 @@
+<div class="modal-header">
+  <p class="modal-title text-uppercase">Edit Doctor Mapping</p>
+  <button type="button" class="close font-weight-normal text-white" aria-label="Close"
+    (click)="modal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<form [formGroup]="editDoctorMapForm" novalidate (ngSubmit)="onSubmit();">
+  <div class="modal-body">
+    <p class="font-size-dot-875 mb-1 font-weight-500">Doctor Details</p>
+    <div class="doctor-details shadow-xs">
+      <div class="profile text-center">
+        <img src="./assets/img/profile.png" width="30" />
+      </div>
+      <p class="font-size-dot-875 mb-0"><span class="font-weight-500">Doctor :</span> &nbsp;
+        {{editDoctorMapForm.value.selecedDoctor}}</p>
+    </div>
+    <div class="card mt-3">
+      <div class="card-header py-1">
+        <p class="mb-0 font-size-dot-875">Mapped With, <span
+            class="font-weight-500">{{editDoctorMapForm.value.mapDoctor}}</span></p>
+      </div>
+      <div class="card-body py-2">
+        <div class="form-row form-group">
+          <div class="col-6">
+            <label>Map From Date</label>
+            <app-date-picker [inputDate]="editDoctorMapForm.value.fromDate" placeholder="dd-mm-yyyy"
+              [min]="searchFromMinDate" [max]="editDoctorMapForm.value.todate"
+              (dateChange)="editDoctorMapForm.patchValue({fromDate : $event});">
+            </app-date-picker>
+          </div>
+          <div class="col-6">
+            <label>Map To Date</label>
+            <app-date-picker [inputDate]="editDoctorMapForm.value.todate" placeholder="dd-mm-yyyy"
+              [min]="editDoctorMapForm.value.fromDate" (dateChange)="editDoctorMapForm.patchValue({todate : $event});">
+            </app-date-picker>
+          </div>
+        </div>
+        <div class="form-row pt-1">
+          <div class="col-4">
+            <div class="custom-control custom-switch">
+              <input type="checkbox" formControlName="isActive" class="custom-control-input" id="customSwitch1">
+              <label class="custom-control-label pointer" [class.active]="editDoctorMapForm.value.isActive"
+                for="customSwitch1"></label>
+              <span class="text-uppercase"
+                [class.active]="editDoctorMapForm.value.isActive">{{editDoctorMapForm.value.isActive ? 'Active' : 'InActive'}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer py-1">
+    <button type="button" class="btn btn-sm btn-outline-secondary" (click)="modal.close('cancel click')">CANCEL</button>
+    <button type="submit" class="btn btn-sm btn-outline-success"><i class="icon fa-fw icon-save" aria-hidden="true"></i>
+      SAVE</button>
+  </div>
+</form>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

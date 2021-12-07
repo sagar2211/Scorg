@@ -1,0 +1,89 @@
+:host ::ng-deep {
+  .otsection {
+    .ng-dropdown-panel {
+      width: 550px !important;
+      .ng-dropdown-panel-items {
+        min-height: 100px;
+        overflow: auto;
+        .ng-option {
+          padding: 0px !important;
+          border-radius: 0px;
+          .detail-row {
+            background-color: #fff !important;
+            &:hover {
+              background-color: #3f51b5 !important;
+              color: #fff;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.scroll-table-section{
+  max-height: calc(100vh - 217px);
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.card-parameter-check {
+  .card-header-parameter-check {
+    .form-inline {
+      .form-group {
+        margin-bottom: 0 !important;
+
+        .min-width-300 {
+          min-width: 300px;
+        }
+      }
+    }
+  }
+
+  >.card-body {
+    height: calc(100vh - 130px) !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    .profile-img {
+      img {
+        height: 80px;
+        width: 80px;
+        max-width: 80px;
+        border-radius: 50%;
+        background-color: #fff;
+        border: 1px solid #e6e6e6;
+      }
+    }
+
+    .gender-blood {
+      background-color: #ebeff3 !important;
+    }
+
+    .custom-control {
+      min-height: 0.9rem;
+      padding-left: 2rem;
+    }
+  }
+}
+:host ::ng-deep {
+  .ng-select.first .ng-select-container {
+    border-right: none !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+
+  .ng-select.second .ng-select-container {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+
+  .ng-select.if-third .ng-select-container {
+    border-right: none !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+
+  .ng-select.third .ng-select-container {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+}

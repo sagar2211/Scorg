@@ -1,0 +1,125 @@
+<div class="container-fluid dr-dashboard px-2">
+    <div class="form-row">
+        <div class="col-2" [ngClass]="{'d-none': checkScreenSize}">
+            <div class="card border-0 top-left p-1">
+                <div class="form-row">
+                    <div class="col-3 text-center">
+                        <img [src]="imageUrl" class="img-fluid rounded-circle user-img">
+                    </div>
+                    <div class="col-9">
+                        <small class="text-muted"> Welcome, </small>
+                        <p class="font-weight-500 mb-0">DR. {{providerDetails.providerName}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card border-0 month-review p-1 mt-2">
+                <div class="card-header p-1">
+                    <p class="mb-0 font-weight-500">Today's Summary </p>
+                </div>
+                <div class="container-fluid px-1 mt-3 pb-2 border-bottom">
+                    <div class="form-row">
+                        <div class="col-4 text-center">
+                            <small class="text-muted">Total Appt</small>
+                            <p class="font-weight-500 mb-0">{{appointmentsCntStatus.total_app}}</p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <small class="text-muted">New Patients</small>
+                            <p class="font-weight-500 mb-0">{{appointmentsCntStatus.total_NewPatient}}</p>
+                        </div>
+                        <div class="col-4 text-center">
+                            <small class="text-muted">Follow Up's</small>
+                            <p class="font-weight-500 mb-0">{{appointmentsCntStatus.total_FollowPatient}}</p>
+                        </div>
+                    </div>
+                </div>
+                <ul class="nav flex-column mb-0 custom-nav">
+                    <li class="nav-item"><a href="javascript:void(0)" class="nav-link text-dark"
+                            (click)="ManageAppointment()"><i class="icon fa-fw icon-manage-appointment mr-2"
+                                aria-hidden="true"></i><span class="link-text font-size-dot-75">Manage
+                                Appointments</span></a></li>
+                    <li class="nav-item"><a class="nav-link text-dark" href="javascript:void(0)"
+                            (click)="CalenderView()"><i class="icon icon-calendar-alt mr-2" aria-hidden="true"></i><span
+                                class="link-text font-size-dot-75">Calender View</span></a></li>
+                    <li class="nav-item"><a href="javascript:void(0)" class="nav-link text-dark"
+                            (click)="HolidayList()"><i class="icon icon-manage-calender mr-2"
+                                aria-hidden="true"></i><span class="link-text font-size-dot-75">Manage Calender</span>
+                        </a></li>
+                    <li *ngxPermissionsOnly="permissionConstList.Queue_Extend_Hour" class="nav-item"><a
+                            href="javascript:void(0)" class="nav-link text-dark" (click)="ModifySchedule()"><i
+                                class="icon fa-fw icon-redo mr-2" aria-hidden="true"></i><span
+                                class="link-text font-size-dot-75">Modify
+                                Schedule</span></a></li>
+                    <!-- <li class="nav-item"><a href="javascript:void(0)" class="nav-link text-dark"><i
+                class="icon fa-fw icon-cogs mr-2" aria-hidden="true"></i><span
+                class="link-text font-size-dot-75">Settings</span></a>
+          </li> -->
+                    <li *ngxPermissionsOnly="permissionConstList.Queue_Delay_Notification" class="nav-item"><a
+                            href="javascript:void(0)" class="nav-link text-dark" (click)="delayNotification()"><i
+                                class="icon fa-fw icon-bell mr-2" aria-hidden="true"></i><span
+                                class="link-text font-size-dot-75">Delay Notification</span></a></li>
+                </ul>
+            </div>
+            <div class="card border-0 p-1 mt-2">
+                <div class="card-header stats-date p-0">
+                    <p class="font-weight-500 mb-0"><i class="icon icon-calendar-alt fa-fw"
+                            aria-hidden="true"></i>{{weeklyData.lastweek_start_date }} - {{weeklyData.current_date }}
+                    </p>
+                </div>
+                <div class="card-body analysis-list p-1">
+                    <div class="analys-details mt-0">
+                        <p class="font-size-dot-8 font-weight-500 mb-0">New Patients</p>
+                        <small class="text-muted">
+                            <label *ngIf="weeklyData.WeekWisePercentageNewPatients<0">Decreased by
+                                {{-weeklyData.WeekWisePercentageNewPatients}}% </label>
+                            <label *ngIf="weeklyData.WeekWisePercentageNewPatients>=0">Increased by
+                                {{weeklyData.WeekWisePercentageNewPatients}}% </label>
+                            last week
+                        </small>
+                        <div class="progress mb-0">
+                            <div *ngIf="weeklyData.WeekWisePercentageNewPatients<0" class="progress-bar"
+                                role="progressbar" [ngStyle]="{width: -weeklyData.WeekWisePercentageNewPatients+ '%'}"
+                                aria-valuenow="-weeklyData.WeekWisePercentageNewPatients" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                            <div *ngIf="weeklyData.WeekWisePercentageNewPatients>=0" class="progress-bar"
+                                role="progressbar" [ngStyle]="{width: weeklyData.WeekWisePercentageNewPatients+ '%'}"
+                                aria-valuenow="weeklyData.WeekWisePercentageNewPatients" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="analys-details mt-2">
+                        <p class="font-size-dot-8 font-weight-500 mb-0">OPD Visits</p>
+                        <small class="text-muted">
+                            <label *ngIf="weeklyData.WeekWisePercentageOPDPatients<0">Decreased by
+                                {{-weeklyData.WeekWisePercentageOPDPatients}}%</label>
+                            <label *ngIf="weeklyData.WeekWisePercentageOPDPatients>=0">Increased by
+                                {{weeklyData.WeekWisePercentageOPDPatients}}%</label>
+                            last week</small>
+                        <div class="progress mb-0">
+                            <div *ngIf="weeklyData.WeekWisePercentageOPDPatients<0" class="progress-bar"
+                                role="progressbar" [ngStyle]="{width: -weeklyData.WeekWisePercentageOPDPatients+ '%'}"
+                                aria-valuenow="-weeklyData.WeekWisePercentageOPDPatients" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                            <div *ngIf="weeklyData.WeekWisePercentageOPDPatients>=0" class="progress-bar"
+                                role="progressbar" [ngStyle]="{width:weeklyData.WeekWisePercentageOPDPatients+ '%'}"
+                                aria-valuenow="weeklyData.WeekWisePercentageOPDPatients" aria-valuemin="0"
+                                aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div [ngClass]="checkScreenSize ? 'col-12' : 'col-10'">
+            <div class="form-row top-counter">
+                <div class="col-12">
+                    <div class="card dr-tabs border-0 p-2">
+                        <lib-qms-qlist-lib [loginUserDetails]="userInfo" [permissions]="PermissionsConstantsListforLib" [environment]="environment" [gridType]="'grid'"
+                            [isShowEmptySlot]="false" [isCompLoadFrom]="'doctorDashboard'"
+                            [getProviderDetails]="providerDetails" (editfromDoctorDashBoard)="editfromDoctorDashBoard($event)">
+                        </lib-qms-qlist-lib>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-alert-message [alertMessage]="alertMsg"></app-alert-message>

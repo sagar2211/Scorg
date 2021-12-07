@@ -1,0 +1,30 @@
+<div class="examination-label">
+    <ngb-accordion [closeOthers]="true" (panelChange)="panelChange($event);openSuggPanel()" (click)="$event.stopPropagation()" [activeIds]="componentInfo?.activeIdsOfPanels">
+        <ngb-panel id="prescription">
+            <ng-template ngbPanelTitle>
+                <div class="form-row align-items-center mx-0">
+                    <div class="col-8 px-0">
+                        <p class="d-inline-block mb-0 font-size-dot-875 mr-2">{{componentInfo?.section_name}}</p>
+                        <div class="d-inline-block lang-w">
+                            <ng-select (click)="$event.stopPropagation()" [items]="languageList" bindLabel="name" (change)="onLanguageChange()" placeholder="Select Lanugage" appendTo="body" [(ngModel)]="selectedLanguage"></ng-select>
+                        </div>
+                    </div>
+                    <div class="col-4 clearfix">
+                        <button class="btn btn-sm btn-link text-white float-right btn-chevron" type="button">
+              <i [ngClass]="isPanelOpen ? 'fa fa-fw fa-chevron-up' : 'fa fa-fw fa-chevron-down'" aria-hidden="true"></i>
+            </button>
+                        <button (click)="openModalPopupSugg(true);openSuggestionPanel();$event.stopPropagation()" class="btn btn-white btn-sm text-uppercase ml-1 float-right" type="button"><i
+                class="far fa-fw fa-lightbulb mr-1" aria-hidden="true"></i>suggestion
+            </button>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template ngbPanelContent>
+              <div (click)="openSuggPanel()">
+                <app-medicine-orders #medicineOrders [source]="'prescription'" [loadSuggestion]="loadSuggestion" [isNonOpdConsultationChart]="false" [selectedLanguage]="selectedLanguage" [orderDisplayType]="'all'" [isOpen]=false [showAddSection]="false" [chartDetailId]="chartDetailId">
+                </app-medicine-orders>
+              </div>
+            </ng-template>
+        </ngb-panel>
+    </ngb-accordion>
+</div>

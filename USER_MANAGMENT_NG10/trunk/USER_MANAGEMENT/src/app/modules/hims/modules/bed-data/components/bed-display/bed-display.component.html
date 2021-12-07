@@ -1,0 +1,110 @@
+<ng-container *ngIf="loadPage">
+    <div class="row">
+        <div class="col" *ngIf="filterObj.level1View">
+            <label>{{filterObj.level1Config.levelName}}</label>
+            <ng-select class="" [items]="level1list$ | async" bindLabel="levelDataName" (change)="onLevelChange($event, 1)" bindValue="levelDataId" [(ngModel)]="filterObj.level1" placeholder="Select" [typeahead]="level1Input$">
+            </ng-select>
+        </div>
+        <div class="col" *ngIf="filterObj.level2View">
+            <label>{{filterObj.level2Config.levelName}}</label>
+            <ng-select [disabled]="!filterObj.level1" class="" [items]="level2list$ | async" bindLabel="levelDataName" (change)="onLevelChange($event, 2)" bindValue="levelDataId" [(ngModel)]="filterObj.level2" placeholder="Select" [typeahead]="level2Input$">
+            </ng-select>
+        </div>
+        <div class="col" *ngIf="filterObj.level3View">
+            <label>{{filterObj.level3Config.levelName}}</label>
+            <ng-select [disabled]="!filterObj.level2" class="" [items]="level3list$ | async" bindLabel="levelDataName" (change)="onLevelChange($event, 3)" bindValue="levelDataId" [(ngModel)]="filterObj.level3" placeholder="Select" [typeahead]="level3Input$">
+            </ng-select>
+        </div>
+        <div class="col" *ngIf="filterObj.level4View">
+            <label>{{filterObj.level4Config.levelName}}</label>
+            <ng-select [disabled]="!filterObj.level3" class="" [items]="level4list$ | async" bindLabel="levelDataName" (change)="onLevelChange($event, 4)" bindValue="levelDataId" [(ngModel)]="filterObj.level4" placeholder="Select" [typeahead]="level4Input$">
+            </ng-select>
+        </div>
+        <div class="col" *ngIf="filterObj.level5View">
+            <label>{{filterObj.level5Config.levelName}}</label>
+            <ng-select [disabled]="!filterObj.level4" class="" [items]="level5list$ | async" bindLabel="levelDataName" (change)="onLevelChange($event, 5)" bindValue="levelDataId" [(ngModel)]="filterObj.level5" placeholder="Select" [typeahead]="level5Input$">
+            </ng-select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Patient</label>
+            <ng-select class="patient-search" [items]="patientList$ | async" bindLabel="patientName" (change)="onPatientChange($event)" bindValue="patientId" [(ngModel)]="filterObj.patientId" placeholder="Select Patient" [typeahead]="patientInput$">
+            </ng-select>
+        </div>
+        <div class="col">
+            <label>Bed Charge</label>
+            <ng-select class="" [items]="bedChargelist" bindLabel="bedChargeName" (change)="onBedChargeChange($event)" bindValue="bedChargeId" [(ngModel)]="filterObj.bedCharge" placeholder="Select">
+            </ng-select>
+        </div>
+        <div class="col">
+            <label>Bed Category</label>
+            <ng-select class="" [items]="bedCategorylist" bindLabel="bedCategoryName" (change)="onBedCategoryChange($event)" bindValue="bedCategoryId" [(ngModel)]="filterObj.bedCategory" placeholder="Select">
+            </ng-select>
+        </div>
+        <div class="col">
+            <label>Bed Type</label>
+            <ng-select class="" [items]="bedTypelist" bindLabel="bedTypeName" (change)="onBedTypeChange($event)" bindValue="bedTypeId" [(ngModel)]="filterObj.bedType" placeholder="Select">
+            </ng-select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label>Bed Status</label>
+            <ng-select class="" [items]="bedStatusArray" bindLabel="name" (change)="onBedStatusChange($event)" bindValue="key" [(ngModel)]="filterObj.bedStatus" placeholder="Select">
+            </ng-select>
+        </div>
+        <div class="col">
+            <label>Bed Class</label>
+            <ng-select class="" [items]="bedClasslist" bindLabel="bedClassName" (change)="onBedClassChange($event)" bindValue="bedClassId" [(ngModel)]="filterObj.bedClass" placeholder="Select">
+            </ng-select>
+        </div>
+        <div class="col">
+            <label>Gender</label>
+            <ng-select class="" [items]="gendarArray" bindLabel="name" (change)="onGendarChange($event)" bindValue="id" [(ngModel)]="filterObj.genderId" placeholder="Select">
+            </ng-select>
+        </div>
+        <div class="col">
+            <label>Date</label>
+            <app-date-picker [inputDate]="filterObj.date" (dateChange)="updateSelectedDate($event)"> </app-date-picker>
+        </div>
+        <div class="col">
+            <label>Available Bed</label>
+            <div class="custom-checkbox custom-control font-size-dot-875 list-group-item border-0 py-1 text-uppercase">
+                <input type="checkbox" class="custom-control-input" id="showAvailableBed" name="showAvailableBed" [(ngModel)]="filterObj.showAvailableBed">
+                <label class="custom-control-label" for="showAvailableBed"><span></span></label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <button type="button" (click)="loadBedFilterData()">Search</button>
+        </div>
+    </div>
+    <div class="row" *ngIf="bedDisplayData.length > 0">
+        <ng-container *ngFor="let item of bedDisplayData;">
+            <div class="col-2">
+                <p>{{item.bedTypeName}}</p>
+                <p>Available Bed: {{item.availableBed}}</p>
+                <p>Occupied Bed: {{item.occupiedBed}}</p>
+                <p>Other Bed: {{item.otherBed}}</p>
+                <p>Total Bed: {{item.totalBed}}</p>
+            </div>
+            <div class="col-10">
+                <ng-container *ngFor="let ward of item.wardWiseData">
+                    <div class="row">
+                        <div class="col-12">
+                            {{ward.wardName}}
+                        </div>
+                        <ng-container *ngFor="let bed of ward.wardBed">
+                            <div class="col-2">
+                                {{bed.bedName}}
+                            </div>
+                        </ng-container>
+                    </div>
+                </ng-container>
+            </div>
+        </ng-container>
+    </div>
+</ng-container>
+<app-bed-design-display></app-bed-design-display>

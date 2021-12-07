@@ -1,0 +1,55 @@
+{
+  "ScheduleInstructions": "",
+  "ScheduleRules": {
+      "ScheduleRule_Id": 13,
+      "Rule_DefTimePer_Patient": 60,
+      "Rule_ApptTimeslot": 20,
+      "ScheduleRuleDetail": [
+        {
+          "ScheduleRuleDetail_Id": 15,
+          "Rule_ServiceId": 1,
+          "Rule_ServiceName": "ADDITIONAL PROCESSING CHARGES",
+          "Rule_TimePerPatient": 10,
+          "Rule_MaxNoOfPatient": 20
+        }
+      ]
+    },
+  "ScheduleTimes": {
+    "ScheduleTime_Id": 2166,
+    "Scheduling_StartDate": "2019-09-01T00:00:00",
+    "Scheduling_EndDate": "2019-09-22T00:00:00",
+    "Weekly_Off": [
+      {
+        "Day": "mon",
+        "Off": false
+      },
+      {
+        "Day": "tue",
+        "Off": true
+      },
+      {
+        "Day": "wed",
+        "Off": true
+      },
+      {
+        "Day": "thu",
+        "Off": true
+      },
+      {
+        "Day": "fri",
+        "Off": true
+      },
+      {
+        "Day": "sat",
+        "Off": true
+      },
+      {
+        "Day": "sun",
+        "Off": true
+      }
+    ]
+  },
+  "status_code": 200,
+  "status_message": "Success",
+  "message": ""
+}

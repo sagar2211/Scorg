@@ -1,0 +1,34 @@
+<div class="modal-header">
+    <h4 class="modal-title">Capture Patient Image </h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true" style="color:#fff">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body py-0" style=" display: flex;
+  justify-content: space-between;">
+    <div >
+        <webcam [height]="400" 
+            [width]="1000" 
+            [trigger]="triggerObservable"
+                (imageCapture)="handleImage($event)"
+                style="padding-top: 60px"
+                >
+        </webcam>
+        <div class="clickBtn" style="position: absolute;left: 20px;top:14px">
+        <button class="actionBtn" (click)="triggerSnapshot();" style="color: #fff;background-color: #3F51B5;border-color: #3F51B5;border-radius: 3px;height: 35px;">
+            <!-- Click Here and take the Shot -->
+            Capture Image
+          </button>
+            <button class="actionBtn ml-2" (click)="submitImg();" style="color: #fff;background-color: #3F51B5;border-color: #3F51B5;border-radius: 3px;height: 35px;">
+                Apply
+              </button>
+              </div>
+        <div class="snapshot" *ngIf="webcamImage" style="width:50%">
+            <h2 style="padding: 10px 20px; margin-bottom: 0;">Captured Image </h2>
+            <img [src]="webcamImage.imageAsDataUrl" style="width: 100%;; height: 400px;margin-left: 20px"/>
+        </div>
+    </div>
+  </div>
+  <div class="modal-footer py-1">
+    <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')" style="color: #3F51B5;border-color: #3F51B5;border-radius: 3px;height: 35px;">Close</button>
+  </div>

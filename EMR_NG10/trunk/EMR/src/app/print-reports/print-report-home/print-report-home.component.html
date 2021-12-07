@@ -1,0 +1,1692 @@
+<!-- for appointment(QMS) -->
+<div class="d-none" #printDivHtml>
+  <div *ngIf="isPrintDataLoad" id="content">
+    <table style="width: 100%;">
+      <thead>
+        <tr id="header">
+          <td colspan="2">
+            <h1 class="repeat">{{printHeading.heading}}</h1>
+          </td>
+        </tr>
+        <tr style="line-height: 26px;">
+          <td style="width: 50%;">
+            <h3 class="font-weight-600">{{printHeading.userData}}</h3>
+          </td>
+          <td style="width: 50%; text-align:right">
+            <p class="apt-date"> {{printDate | date : "d-MMM-yyyy"}} </p>
+          </td>
+        </tr>
+      </thead>
+    </table>
+    <div id="list">
+      <table id="print" class="table-bordered">
+        <thead *ngIf="printHeader.length > 0">
+          <tr>
+            <th *ngFor="let item of printHeader">
+              <h5 class="font-weight-600">{{item}}</h5>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="printBody.length > 0">
+          <tr *ngFor="let item of printBody; let i = index;let last = last;">
+            <td class="sr-no">
+              <h5 class="font-weight-500">{{i + 1}}</h5>
+            </td>
+            <td class="slot-time">
+              <h5 class="font-weight-500">{{item.slotTime}}</h5>
+            </td>
+            <td class="w-50-px">
+              <h5 class="font-weight-500">{{item.patType}}</h5>
+            </td>
+            <td class="w-50-px text-center">
+              <h5 class="font-weight-500">{{item.patUhid}}</h5>
+            </td>
+            <td class="patient-name">
+              <h5 class="font-weight-500">{{item.patName}}</h5>
+            </td>
+            <td class="sr-no">
+              <h5 class="font-weight-500">{{item.patGender.charAt(0)}}</h5>
+            </td>
+            <td class="w-60-px text-center">
+              <h5 *ngIf="item.patDob" class="font-weight-500">{{ modifyAge( item?.patDob | calucalteAge )}}
+              </h5>
+              <h5 *ngIf="!item.patDob" class="font-weight-500">{{modifyAge(item.patAge)}}</h5>
+            </td>
+            <td class="w-50-px text-center">
+              <h5 class="font-weight-500">{{item.patContact}}</h5>
+            </td>
+            <td class="w-50-px text-center">
+              <h5 class="font-weight-500">{{item.visitType}}</h5>
+            </td>
+            <td class="taken-by">
+              <h5 class="font-weight-500">{{item.appTakenBy}}</h5>
+            </td>
+            <td class="remark">
+              <h5 class="font-weight-500">{{item.remark}}</h5>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Chart(EMR) -->
+<div class="d-none" #printChartData>
+  <div class="page-header" *ngIf="chartPatientData">
+    <div class="info clearfix">
+      <div class="right-side">
+        <p class="date-time">
+          {{printDate | date : "d-MMM-yyyy hh:mm a"}}
+        </p>
+        <p *ngIf="chartPatientData && chartPatientData.patientData.city" class="extra-info">
+          <span>Location : </span>{{chartPatientData.patientData.city}}
+        </p>
+        <p *ngIf="chartPatientData.dischargeType?.name && chartPatientData?.type === 'ip'" class="extra-info">
+          <span>Discharge Type : </span>
+          <span [ngClass]="{'text-danger': chartPatientData.dischargeType?.name === 'EXPIRED'}"
+            [ngStyle]="{'color: red !important': chartPatientData.dischargeType?.name === 'EXPIRED'}">{{chartPatientData.dischargeType?.name}}</span>
+          <span [ngClass]="{'text-danger': chartPatientData.dischargeType?.name === 'EXPIRED'}"
+            *ngIf="chartPatientData.dischargeType?.date">{{chartPatientData.dischargeType?.date | date : "d-MMM-yyyy hh:mm a"}}</span>
+        </p>
+        <p *ngIf="chartPatientData.doctorName" class="extra-info">
+          <span>{{chartPatientData?.type !== 'ip' ? 'Consult' : 'Admitted'}} By : </span>Dr. {{chartPatientData.doctorName}}
+        </p>
+        <p *ngIf="chartPatientData.visitNo" class="extra-info">
+          <span>{{chartPatientData?.type !== 'ip' ? 'Visit' : 'Admission'}} No. : </span>{{chartPatientData.visitNo}}
+        </p>
+      </div>
+      <div class="left-side">
+        <p class="name">
+          <span [ngClass]="{'text-danger': chartPatientData.dischargeType?.name === 'EXPIRED'}"
+            [ngStyle]="{'color: red !important': chartPatientData.dischargeType?.name === 'EXPIRED'}">
+            {{chartPatientData.patientData.name}}</span>,
+          {{chartPatientData.patientData.age}}
+          <span *ngIf="chartPatientData.patientData.gender">/{{chartPatientData.patientData.gender}}</span>
+        </p>
+        <p class="extra-info">
+          <span>UHID : </span>{{chartPatientData.patientData.id}}
+        </p>
+        <p class="extra-info">
+          <span>Mobile : </span>{{chartPatientData.patientData.mobileNo}}
+        </p>
+        <p class="extra-info">
+          <span>{{chartPatientData?.type !== 'ip' ? 'Visit' : 'Admission'}} Date : </span>
+          {{chartPatientData.admissionDate | date : 'dd-MM-yyyy hh:mm a'}}
+        </p>
+        <p class="extra-info" *ngIf="chartPatientData?.type === 'ip'">
+          <span> Discharge Date : </span>
+          {{chartPatientData.actualDischargeDate | date : 'dd-MM-yyyy hh:mm a'}}
+        </p>
+        <p class="extra-info" *ngIf="chartPatientData?.type === 'ip'">
+          <span>Ward/Bed : </span>
+          {{chartPatientData.ward}} {{chartPatientData.bed}}
+        </p>
+      </div>
+      <div>
+      </div>
+    </div>
+  </div>
+  <div class="page-footer" *ngIf="chartPatientData">
+    <h5>{{userSig}}</h5>
+    <!-- <div class="info clearfix">
+      <div class="right-side">
+        <p class="date-time">
+          {{printDate | date : "d-MMM-yyyy hh:mm a"}}
+        </p>
+        <p *ngIf="chartPatientData && chartPatientData.patientData.city" class="extra-info">
+          <span>Location : </span>{{chartPatientData.patientData.city}}
+        </p>
+        <p *ngIf="chartPatientData.dischargeType?.name" class="extra-info">
+          <span>Discharge Type : </span>
+          <span [ngClass]="{'text-danger': chartPatientData.dischargeType?.name === 'EXPIRED'}"
+            [ngStyle]="{'color: red !important': chartPatientData.dischargeType?.name === 'EXPIRED'}">{{chartPatientData.dischargeType?.name}}</span>
+          <span [ngClass]="{'text-danger': chartPatientData.dischargeType?.name === 'EXPIRED'}"
+            *ngIf="chartPatientData.dischargeType?.date">{{chartPatientData.dischargeType?.date | date : "d-MMM-yyyy hh:mm a"}}</span>
+        </p>
+        <p *ngIf="chartPatientData.doctorName" class="extra-info">
+          <span>Admitted By : </span>Dr. {{chartPatientData.doctorName}}
+        </p>
+        <p *ngIf="chartPatientData.visitNo" class="extra-info">
+          <span>{{chartPatientData?.type !== 'ip' ? 'Visit' : 'Admission'}} No. : </span>{{chartPatientData.visitNo}}
+        </p>
+      </div>
+      <div class="left-side">
+        <p class="name">
+          <span [ngClass]="{'text-danger': chartPatientData.dischargeType?.name === 'EXPIRED'}"
+            [ngStyle]="{'color: red !important': chartPatientData.dischargeType?.name === 'EXPIRED'}">
+            {{chartPatientData.patientData.name}}</span>,
+          {{chartPatientData.patientData.age}}
+          <span *ngIf="chartPatientData.patientData.gender">/{{chartPatientData.patientData.gender}}</span>
+        </p>
+        <p class="extra-info">
+          <span>UHID : </span>{{chartPatientData.patientData.id}}
+        </p>
+        <p class="extra-info">
+          <span>Mobile : </span>{{chartPatientData.patientData.mobileNo}}
+        </p>
+        <p class="extra-info">
+          <span>{{chartPatientData?.type !== 'ip' ? 'Visit' : 'Admission'}} Date : </span>
+          {{chartPatientData.admissionDate | date : 'dd-MM-yyyy hh:mm a'}}
+        </p>
+        <p class="extra-info">
+          <span> Discharge Date : </span>
+          {{chartPatientData.actualDischargeDate | date : 'dd-MM-yyyy hh:mm a'}}
+        </p>
+        <p class="extra-info">
+          <span>Ward/Bed : </span>
+          {{chartPatientData.ward}} {{chartPatientData.bed}}
+        </p>
+      </div>
+      <div>
+      </div>
+    </div> -->
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          <div class="t-head">&nbsp;</div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="content">
+            <div class="page">
+              <table>
+                <tbody>
+                  <tr class="" *ngIf="chartPatientData?.dischargeReason && chartPatientData?.dischargeReason.length > 0">
+                    <td>
+                      <table class="table-bordered">
+                        <tbody>
+                          <tr>
+                            <td class="header">
+                              <h6>Discharge Reason</h6>
+                            </td>
+                            <td class="left">
+                              <ul>
+                                <li>
+                                  <p>
+                                    <ng-container *ngFor="let item of chartPatientData.dischargeReason; let l=last;">
+                                      {{item.name}}<span *ngIf="!l">, </span>
+                                    </ng-container>
+                                  </p>
+                                </li>
+                              </ul>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr class="" *ngIf="chartPatientData?.typeOfDeath">
+                    <td>
+                      <table class="table-bordered">
+                        <tbody>
+                          <tr>
+                            <td class="header">
+                              <h6>Death Type</h6>
+                            </td>
+                            <td class="left">
+                              <ul>
+                                <li>
+                                  <p>
+                                    {{chartPatientData?.typeOfDeath}}
+                                  </p>
+                                </li>
+                              </ul>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr class="" *ngIf="chartPatientData?.isPregnancy !== null">
+                    <td>
+                      <table class="table-bordered">
+                        <tbody>
+                          <tr>
+                            <td class="header">
+                              <h6>Death is associated with pregnancy?</h6>
+                            </td>
+                            <td class="left">
+                              <ul>
+                                <li>
+                                  <p>
+                                    {{chartPatientData?.isPregnancy ? 'Yes' : 'No'}}
+                                  </p>
+                                </li>
+                              </ul>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr class="" *ngIf="chartPatientData?.isDelevery !== null">
+                    <td>
+                      <table class="table-bordered">
+                        <tbody>
+                          <tr>
+                            <td class="header">
+                              <h6>Was there a delivery?</h6>
+                            </td>
+                            <td class="left">
+                              <ul>
+                                <li>
+                                  <p>
+                                    {{chartPatientData?.isDelevery ? 'Yes' : 'No'}}
+                                  </p>
+                                </li>
+                              </ul>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <ng-container *ngFor="let item of printChartDataList; let i = index;">
+                    <tr class="" *ngIf="i === 0">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td colspan="2" class="header">
+                                <h5>{{item.main_chart_name}}</h5>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="diagnosis" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'diagnosis' && (item.data.length)">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td class="header">
+                                <h6>{{item.displayName}}</h6>
+                              </td>
+                              <td class="left">
+                                <ul>
+                                  <li *ngFor="let dig of item.data">
+                                    <p [ngClass]="{'dark': dig.isPrimary}">
+                                      {{dig.diagnosis || dig}}
+                                      <span *ngIf="dig.remark">{{dig.remark}}</span>
+                                    </p>
+                                  </li>
+                                </ul>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="advice" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'advice' && (item.data)">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td class="header">
+                                <h6>{{item.displayName}}</h6>
+                              </td>
+                              <td class="left">
+                                <p [innerHTML]="item.data.advice"></p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="complaints" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'complaints' && (item.data.length)">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td class="header">
+                                <h6>{{item.displayName}}</h6>
+                              </td>
+                              <td class="left">
+                                <ul>
+                                  <li *ngFor="let com of item.data">
+                                    <p class="m-0">
+                                      {{com.complaint_name}}
+                                      <span *ngIf="com.year">{{com.year}} Year</span>
+                                      <span *ngIf="com.month">{{com.month}} Month</span>
+                                      <span *ngIf="com.year">{{com.day}} Day</span>
+                                    </p>
+                                  </li>
+                                </ul>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="pain_scale" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'pain_scale'">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td class="header">
+                                <h6>{{item.displayName}}</h6>
+                              </td>
+                              <td class="left">
+                                {{item.data}}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="pain_relief" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'pain_relief'">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td class="header">
+                                <h6>{{item.displayName}}</h6>
+                              </td>
+                              <td class="left">
+                                {{item.data}}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="prescription" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'prescription' && item.data.length">
+                      <td>
+                        <p class="label">Prescription</p>
+                        <table class="table-bordered">
+                          <thead>
+                            <tr>
+                              <th class="service" colspan="2"><img src="./../../../assets/img/rx.png"></th>
+                              <th>
+                                <h6>FREQUENCY</h6>
+                                <p><small>&#91;MN &#8211; AF &#8211; EN &#8211; NT&#93;</small></p>
+                              </th>
+                              <th>
+                                <h6>DURATION</h6>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let med of item.data; let a = index;">
+                              <td class="service">
+                                <p class="m-0">{{med.rowNo}}</p>
+                              </td>
+                              <td class="desc">
+                                <h5>{{med.medicine.medicine_name + ' ' + med.type.name}}</h5>
+                                <h6><small *ngIf="med?.instruction">Remark: {{med?.instruction}}</small></h6>
+                              </td>
+                              <td class="unit">
+                                <h5 *ngIf="med?.frequency_schedule">{{med?.frequency_schedule}}</h5>
+                                <h6 *ngIf="med?.meal_type_instruction">
+                                  <small>&#91;{{med?.meal_type_instruction}}</small>
+                                </h6>
+                              </td>
+                              <td class="qty">
+                                <h5>{{med?.days}} Day<small>&#91;s&#93;</small></h5>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="allergies" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'allergies' && (item.data.length)">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td class="header">
+                                <h6>{{item.displayName}}</h6>
+                              </td>
+                              <td class="left">
+                                <ul>
+                                  <li *ngFor="let alr of item.data">
+                                    <ng-container *ngIf="alr.allergy_type_id !== 2">
+                                      <p class="m-0">{{alr.allergy_type}} : {{alr.remarks}}</p>
+                                    </ng-container>
+                                    <ng-container *ngIf="alr.allergy_type_id === 2">
+                                      <p class="m-0">{{alr.allergy_type}} : {{alr.remarks}} ({{alr.medicine_name}})
+                                      </p>
+                                    </ng-container>
+                                  </li>
+                                </ul>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="image_annotation"
+                      *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'image_annotation' && (item.data.length)">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td class="header">
+                                <h6>Image Annotation</h6>
+                              </td>
+                              <td class="left">
+                                <div class="vital-list">
+                                  <div class="vital-item" *ngFor="let chartData of item.data">
+                                    <div class="p-7 vital-header">
+                                      <img style="width: inherit; max-width: 100px;" src="{{fileServePath + chartData.file_path}}">
+                                    </div>
+                                    <div class="p-7">
+                                      <p>{{chartData.orginal_file_name}}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="advice"  *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'advice' && (item.data.length)">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td class="header">
+                                <h6>{{item.displayName}}</h6>
+                              </td>
+                              <td class="left">
+                                <p class="m-0">
+                                  {{item.data.advice}}
+                                </p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="investigation"
+                      *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && (item.secType === 'investigation' || item.secType === 'lab_investigation' || item.secType === 'radiology_investigation')">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td class="header">
+                                <h6>{{item.displayName}}</h6>
+                              </td>
+                              <td class="left">
+                                <ul>
+                                  <li *ngFor="let inv of item.data">
+                                    <p class="m-0">
+                                      {{inv.investigation}}
+                                      <span *ngIf="inv.comment">{{inv.comment}}</span>
+                                      <span *ngIf="inv.date">/Advised Date:{{inv.dateDisplay}}</span>
+                                    </p>
+                                  </li>
+                                </ul>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="EXAMINATION_HEADS" *ngIf="item.secMasterType === 'EXAMINATION_HEADS' && item.secType === 'EXAMINATION_HEADS'">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td class="header">
+                                <h6>{{item.displayName}}</h6>
+                              </td>
+                              <td class="left">
+                                <ul>
+                                  <li *ngFor="let exm of item.data">
+                                    <p class="m-0">
+                                      <span [innerHTML]="exm.examination_text"></span>
+                                      <span *ngIf="exm.severity" [innerHTML]="exm.severity"></span>
+                                    </p>
+                                  </li>
+                                </ul>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <ng-container *ngIf="item.secType === 'CUSTOM_TEMPLATES'">
+                      <tr *ngFor="let template of item.data">
+                        <td>
+                          <table class="table-bordered">
+                            <tbody>
+                              <tr>
+                                <td class="header">
+                                  <h6>{{template.templateName}}</h6>
+                                </td>
+                                <td class="left">
+                                  <p class="m-0"
+                                    *ngFor="let t of template.templateData | generateCustomTemplateSummery: printData.patientData.patientData.name">
+                                    <span [innerHTML]="t.value"></span>
+                                  </p>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </ng-container>
+                    <ng-container *ngIf="item.secType === 'SCORE_TEMPLATES'">
+                      <tr *ngFor="let sTemlate of item.data;">
+                        <td>
+                          <table class="table-bordered">
+                            <tbody>
+                              <tr>
+                                <td class="header">
+                                  <h6>{{sTemlate.template_name}}</h6>
+                                </td>
+                                <td class="left">
+                                  <table>
+                                    <tbody>
+                                      <tr style="border-top: none;"
+                                        *ngFor="let questionObject of sTemlate.question_list;let $index = index;">
+                                        <td width="10%" style="border-left: none;border-top: none;">
+                                          {{$index + 1}}.</td>
+                                        <td class="left" width="70%" style="border-top: none;">
+                                          <h6 class="font-weight-500">
+                                            {{questionObject.question_name}}</h6>
+                                          <p style="line-height: 2;"
+                                            *ngFor="let ansObject of questionObject.answer_option_list;">
+                                            <span
+                                              *ngIf="questionObject.selected_optionValue == ansObject.options_value">
+                                              <span class="custom-bullet bold">{{ansObject.option_label}}</span>
+                                            </span>
+                                          </p>
+                                        </td>
+                                        <td width="20%" style="border-top: none;border-right: none;">
+                                          <span>{{questionObject.selected_optionValue}}</span>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </ng-container>
+                    <tr class="followup_date" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'followup_date' && item.data">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td class="header">
+                                <h6>{{item.displayName}}</h6>
+                              </td>
+                              <td class="left">
+                                <p class="font-weight-600 m-0">{{ item.data?.next_appointment | date: 'dd-MM-yyyy' }}
+                                </p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="chart_date_time" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'chart_date_time' && item.data">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td class="header">
+                                <h6>{{item.displayName}}</h6>
+                              </td>
+                              <td class="left">
+                                <p class="font-weight-600 m-0">{{ item.data?.chart_date | date: 'dd-MM-yyyy' }}</p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="chart_user"
+                      *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'chart_user' && item.data">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td class="header">
+                                <h6>{{item.displayName}}</h6>
+                              </td>
+                              <td class="left">
+                                <p class="font-weight-600 m-0">{{ item.data?.user_full_name }}</p>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="human_body"
+                      *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'human_body' && item.data.length > 0">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td class="header">
+                                <h6>{{item.displayName}}</h6>
+                              </td>
+                              <td class="left">
+                                <div *ngIf="isSvgExist(item.data,'rightFlag','humanBody')"
+                                  style="width: 100px; height: 150px; float: left;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'15'" [svg_name]="'rightFlag'"
+                                    [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                                <div *ngIf="isSvgExist(item.data,'rightzoomFlag','humanBody')"
+                                  style="width: 100px; height: 150px; float: left;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'15_x'"
+                                    [svg_name]="'rightzoomFlag'" [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                                <div *ngIf="isSvgExist(item.data,'leftFlag','humanBody')"
+                                  style="width: 100px; height: 150px; float: left;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'14'" [svg_name]="'leftFlag'"
+                                    [dummyData]='item.data'></app-svg-map-print>
+                                </div>
+                                <div *ngIf="isSvgExist(item.data,'leftzoomFlag','humanBody')"
+                                  style="width: 100px; height: 150px; float: left;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'14_x'"
+                                    [svg_name]="'leftzoomFlag'" [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                                <div *ngIf="isSvgExist(item.data,'BackzoomFlag','humanBody')"
+                                  style="width: 100px; height: 150px; float: left;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'12_x'"
+                                    [svg_name]="'BackzoomFlag'" [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                                <div *ngIf="isSvgExist(item.data,'svgBackFlag','humanBody')"
+                                  style="width: 100px; height: 150px; float: left;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'12'" [svg_name]="'svgBackFlag'"
+                                    [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                                <div *ngIf="isSvgExist(item.data,'FrontzoomFlag','humanBody')"
+                                  style="width: 100px; height: 150px; float: left;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'11_x'"
+                                    [svg_name]="'FrontzoomFlag'" [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                                <div *ngIf="isSvgExist(item.data,'svgFrontFlag','humanBody')"
+                                  style="width: 100px; height: 150px; float: left;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'11'" [svg_name]="'svgFrontFlag'"
+                                    [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                                <div *ngIf="isSvgExist(item.data,'headzoomFlag','humanBody')"
+                                  style="width: 100px; height: 150px; float: left;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'13_x'"
+                                    [svg_name]="'headzoomFlag'" [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                                <div *ngIf="isSvgExist(item.data, 'headFlag','humanBody')"
+                                  style="width: 100px; height: 150px; float: left;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'13'" [svg_name]="'headFlag'"
+                                    [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="foot_examination"
+                      *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'foot_examination' && item.data.length > 0">
+                      <td>
+                        <!-- <p class="label">{{item.displayName}}</p> -->
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <!-- <td class="header" style="width: 150px !important;">
+                                <app-foot-examination [footExaminationDataInputs]="item.data"
+                                  [componentInfo]="{activeIdsOfPanels: ['foot_examination']}" [source]="'history'">
+                                </app-foot-examination>
+                              </td> -->
+                              <td class="header">
+                                <h6>{{item.displayName}}</h6>
+                              </td>
+                              <td class="left">
+                                <div style="width: 150px !important;">
+                                  <app-foot-examination [footExaminationDataInputs]="item.data"
+                                  [componentInfo]="{activeIdsOfPanels: ['foot_examination']}" [source]="'history'">
+                                </app-foot-examination>
+                                </div>
+                                <!-- <div *ngFor="let dt of item.data;let last = last">
+                                  <ul>
+                                    <li
+                                      *ngIf="dt.pain_score == 'Absent' || dt.pain_score == 'Normal' || dt.pain_score == 'Reduced'">
+                                      <strong>Score {{dt.pain_score}} - </strong>
+                                      <span>
+                                        <span
+                                          *ngIf="dt.pain_score == 'Absent' || dt.pain_score == 'Normal' || dt.pain_score == 'Reduced'">{{dt.body_part.split('_').join('
+                                          ')}}<span *ngIf="!last">,</span></span>
+                                      </span>
+                                    </li>
+                                  </ul>
+                                </div> -->
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr class="vitals"
+                      *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'vitals' && item.data.length">
+                      <td>
+                        <p class="label">Vitals</p>
+                        <div class="vital-list">
+                          <div class="vital-item" *ngFor="let vtl of item.data">
+                            <div class="p-7 vital-header">
+                              <h6>{{vtl.vital_name}} <span
+                                  *ngIf="vtl.clubbedVital">/{{vtl.clubbedVital.vital_name}}</span>
+                              </h6>
+                            </div>
+                            <div class="p-7">
+                              <p>{{vtl.vital_text}} <span
+                                  *ngIf="vtl.clubbedVital">/{{vtl.clubbedVital.vital_text}}</span></p>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>
+          <div class="t-foot">&nbsp;</div>
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<!-- for discharge sumery -->
+<div class="d-none" *ngIf="printType === 'discharge_summery'" #printDischargeSummery>
+  <!-- print header -->
+  <div class="page-header" *ngIf="chartPatientData">
+    <div class="info clearfix">
+      <div class="right-side">
+        <p class="date-time">
+          {{printDate | date : "d-MMM-yyyy hh:mm a"}}
+        </p>
+        <p *ngIf="chartPatientData && chartPatientData.patientData.city" class="extra-info">
+          <span>Location : </span>{{chartPatientData.patientData.city}}
+        </p>
+        <p *ngIf="chartPatientData.dischargeType?.name" class="extra-info">
+          <span>Discharge Type : </span>
+          <span [ngClass]="{'text-danger': chartPatientData.dischargeType?.name === 'EXPIRED'}"
+            [ngStyle]="{'color: red !important': chartPatientData.dischargeType?.name === 'EXPIRED'}">{{chartPatientData.dischargeType?.name}}</span>
+          <span [ngClass]="{'text-danger': chartPatientData.dischargeType?.name === 'EXPIRED'}"
+            *ngIf="chartPatientData.dischargeType?.date">{{chartPatientData.dischargeType?.date | date : "d-MMM-yyyy hh:mm a"}}</span>
+        </p>
+        <p *ngIf="chartPatientData.doctorName" class="extra-info">
+          <span>Admitted By : </span>Dr. {{chartPatientData.doctorName}}
+        </p>
+        <p *ngIf="chartPatientData.visitNo" class="extra-info">
+          <span>{{chartPatientData?.type !== 'ip' ? 'Visit' : 'Admission'}} No. : </span>{{chartPatientData.visitNo}}
+        </p>
+      </div>
+      <div class="left-side">
+        <p class="name">
+          <span [ngClass]="{'text-danger': chartPatientData.dischargeType?.name === 'EXPIRED'}"
+            [ngStyle]="{'color: red !important': chartPatientData.dischargeType?.name === 'EXPIRED'}">
+            {{chartPatientData.patientData.name}}</span>,
+          {{chartPatientData.patientData.age}}
+          <span *ngIf="chartPatientData.patientData.gender">/{{chartPatientData.patientData.gender}}</span>
+        </p>
+        <p class="extra-info">
+          <span>UHID : </span>{{chartPatientData.patientData.id}}
+        </p>
+        <p class="extra-info">
+          <span>Mobile : </span>{{chartPatientData.patientData.mobileNo}}
+        </p>
+        <p class="extra-info">
+          <span>{{chartPatientData?.type !== 'ip' ? 'Visit' : 'Admission'}} Date : </span>
+          {{chartPatientData.admissionDate | date : 'dd-MM-yyyy hh:mm a'}}
+        </p>
+        <p class="extra-info">
+          <span> Discharge Date : </span>
+          {{chartPatientData.actualDischargeDate | date : 'dd-MM-yyyy hh:mm a'}}
+        </p>
+        <p class="extra-info">
+          <span>Ward/Bed : </span>
+          {{chartPatientData.ward}} {{chartPatientData.bed}}
+        </p>
+      </div>
+      <div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="page-footer" *ngIf="chartPatientData">
+    <div class="info clearfix">
+      <div class="right-side">
+        <p class="date-time">
+          {{printDate | date : "d-MMM-yyyy hh:mm a"}}
+        </p>
+        <p *ngIf="chartPatientData && chartPatientData.patientData.city" class="extra-info">
+          <span>Location : </span>{{chartPatientData.patientData.city}}
+        </p>
+        <p *ngIf="chartPatientData.dischargeType?.name" class="extra-info">
+          <span>Discharge Type : </span>
+          <span [ngClass]="{'text-danger': chartPatientData.dischargeType?.name === 'EXPIRED'}"
+            [ngStyle]="{'color: red !important': chartPatientData.dischargeType?.name === 'EXPIRED'}">{{chartPatientData.dischargeType?.name}}</span>
+          <span [ngClass]="{'text-danger': chartPatientData.dischargeType?.name === 'EXPIRED'}"
+            *ngIf="chartPatientData.dischargeType?.date">{{chartPatientData.dischargeType?.date | date : "d-MMM-yyyy hh:mm a"}}</span>
+        </p>
+        <p *ngIf="chartPatientData.doctorName" class="extra-info">
+          <span>Admitted By : </span>Dr. {{chartPatientData.doctorName}}
+        </p>
+        <p *ngIf="chartPatientData.visitNo" class="extra-info">
+          <span>{{chartPatientData?.type !== 'ip' ? 'Visit' : 'Admission'}} No. : </span>{{chartPatientData.visitNo}}
+        </p>
+      </div>
+      <div class="left-side">
+        <p class="name">
+          <span [ngClass]="{'text-danger': chartPatientData.dischargeType?.name === 'EXPIRED'}"
+            [ngStyle]="{'color: red !important': chartPatientData.dischargeType?.name === 'EXPIRED'}">
+            {{chartPatientData.patientData.name}}</span>,
+          {{chartPatientData.patientData.age}}
+          <span *ngIf="chartPatientData.patientData.gender">/{{chartPatientData.patientData.gender}}</span>
+        </p>
+        <p class="extra-info">
+          <span>UHID : </span>{{chartPatientData.patientData.id}}
+        </p>
+        <p class="extra-info">
+          <span>Mobile : </span>{{chartPatientData.patientData.mobileNo}}
+        </p>
+        <p class="extra-info">
+          <span>{{chartPatientData?.type !== 'ip' ? 'Visit' : 'Admission'}} Date : </span>
+          {{chartPatientData.admissionDate | date : 'dd-MM-yyyy hh:mm a'}}
+        </p>
+        <p class="extra-info">
+          <span> Discharge Date : </span>
+          {{chartPatientData.actualDischargeDate | date : 'dd-MM-yyyy hh:mm a'}}
+        </p>
+        <p class="extra-info">
+          <span>Ward/Bed : </span>
+          {{chartPatientData.ward}} {{chartPatientData.bed}}
+        </p>
+      </div>
+      <div>
+      </div>
+    </div>
+  </div> -->
+  <table>
+    <thead>
+      <tr>
+        <th>
+          <div class="t-head">&nbsp;</div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div class="content">
+            <div class="page">
+              <table>
+                <tbody>
+                  <tr class="" *ngIf="chartPatientData?.dischargeReason && chartPatientData?.dischargeReason.length > 0">
+                    <td>
+                      <table class="table-bordered">
+                        <tbody>
+                          <tr>
+                            <td class="header">
+                              <h6>Discharge Reason</h6>
+                            </td>
+                            <td class="left">
+                              <ul>
+                                <li>
+                                  <p>
+                                    <ng-container *ngFor="let item of chartPatientData.dischargeReason; let l=last;">
+                                      {{item.name}}<span *ngIf="!l">, </span>
+                                    </ng-container>
+                                  </p>
+                                </li>
+                              </ul>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr class="" *ngIf="chartPatientData?.typeOfDeath">
+                    <td>
+                      <table class="table-bordered">
+                        <tbody>
+                          <tr>
+                            <td class="header">
+                              <h6>Death Type</h6>
+                            </td>
+                            <td class="left">
+                              <ul>
+                                <li>
+                                  <p>
+                                    {{chartPatientData?.typeOfDeath}}
+                                  </p>
+                                </li>
+                              </ul>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr class="" *ngIf="chartPatientData?.isPregnancy !== null">
+                    <td>
+                      <table class="table-bordered">
+                        <tbody>
+                          <tr>
+                            <td class="header">
+                              <h6>Death is associated with pregnancy?</h6>
+                            </td>
+                            <td class="left">
+                              <ul>
+                                <li>
+                                  <p>
+                                    {{chartPatientData?.isPregnancy ? 'Yes' : 'No'}}
+                                  </p>
+                                </li>
+                              </ul>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr class="" *ngIf="chartPatientData?.isDelevery !== null">
+                    <td>
+                      <table class="table-bordered">
+                        <tbody>
+                          <tr>
+                            <td class="header">
+                              <h6>Was there a delivery?</h6>
+                            </td>
+                            <td class="left">
+                              <ul>
+                                <li>
+                                  <p>
+                                    {{chartPatientData?.isDelevery ? 'Yes' : 'No'}}
+                                  </p>
+                                </li>
+                              </ul>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                  <ng-container *ngFor="let printChart of printChartDataList; let i = index;">
+                    <tr class="" *ngIf="printChart.chartName">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td colspan="2" class="header">
+                                <h6>{{printChart.chartName}}</h6>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <ng-container *ngFor="let item of printChart.summeryData; let sumIndx = index;">
+                      <tr class="prescription" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'prescription' && item.data.length">
+                        <td>
+                          <ng-template *ngTemplateOutlet="displaySummerySection;context: { 'item': item  }">
+                          </ng-template>
+                        </td>
+                      </tr>
+                      <tr class="vitals" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'vitals' && item.data.length && printType === 'discharge_summery'">
+                      <td>
+                        <p class="label">Vitals</p>
+                         <ng-container *ngFor="let vd of item.visitorData">
+                            <div class="vital-list">
+                              <div class="vital-item" *ngFor="let vtl of item.vitalData">
+                                <div class="p-7 vital-header">
+                                  <h6>{{vtl.label}} </h6>
+                                </div>
+                                <div class="p-7">
+                                  <p>{{vtl.val ? vtl.val : '-'}}</p>
+                                </div>
+                              </div>
+                            </div>
+                          </ng-container>
+                      </td>
+                    </tr>
+                    <!-- allergies start -->
+                    <tr class="allergies" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'allergies' && (item.data.length)">
+                      <td>
+                        <ng-template *ngTemplateOutlet="displaySummerySection;context: { 'item': item  }">
+                        </ng-template>
+                      </td>
+                    </tr>
+                    <!-- complaints start -->
+                    <tr class="complaints" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'complaints' && item.data.length">
+                      <td>
+                        <ng-template *ngTemplateOutlet="displaySummerySection;context: { 'item': item  }">
+                        </ng-template>
+                      </td>
+                    </tr>
+                    <tr class="image-annotation" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'image_annotation' && item.data.length">
+                      <td>
+                        <p class="label">Image Annotation</p>
+                        <table class="table-bordered">
+                          <tbody>
+                            <ng-container *ngFor="let chartData of item.data">
+                              <tr>
+                                <td class="header" style="width: 50%;vertical-align: middle; background-color: #F5F5F5;">
+                                  <img [src]="fileServePath + chartData.file_path">
+                                </td>
+                                <td class="left" style="width: 50%;text-align: left;">
+                                  <ul>
+                                    <li>
+                                      <span class="font-weight-600 mb-0">{{chartData.orginal_file_name}}</span>
+                                    </li>
+                                  </ul>
+                                </td>
+                              </tr>
+                            </ng-container>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <!-- advice start -->
+                    <tr class="advice" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'advice' && item.data.length">
+                      <td>
+                        <ng-template *ngTemplateOutlet="displaySummerySection;context: { 'item': item  }">
+                        </ng-template>
+                      </td>
+                    </tr>
+                    <!-- diagnosis start -->
+                    <tr class="diagnosis" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'diagnosis' && item.data.length">
+                      <td>
+                        <ng-template *ngTemplateOutlet="displaySummerySection;context: { 'item': item  }">
+                        </ng-template>
+                      </td>
+                    </tr>
+                    <!-- attachment start -->
+                    <tr *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'attachment'">
+                      <td style="width: 100%;" colspan="2">
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <ng-container *ngFor="let chartData of item.data">
+                                  <ng-container *ngIf="chartData.file_type==='img'">
+                                    <img src="{{fileServePath + chartData.file_path}}">
+                                    <p>{{chartData.orginal_file_name}}</p>
+                                  </ng-container>
+                                  <ng-container>
+                                    <p>PDF File</p>
+                                    <p>{{chartData.orginal_file_name}}</p>
+                                  </ng-container>
+                                </ng-container>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <!-- pain_scale start -->
+                    <tr class="pain-scale" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'pain_scale'">
+                      <td>
+                        <ng-template *ngTemplateOutlet="displaySummerySection;context: { 'item': item  }">
+                        </ng-template>
+                      </td>
+                    </tr>
+                    <!-- pain_scale end -->
+                    <!-- pain_relief start -->
+                    <tr class="pain-relief" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'pain_relief'">
+                      <td>
+                        <ng-template *ngTemplateOutlet="displaySummerySection;context: { 'item': item  }">
+                        </ng-template>
+                      </td>
+                    </tr>
+                    <tr class="lab-radio-section" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && (item.secType === 'lab_investigation' || item.secType === 'radiology_investigation')">
+                      <td>
+                        <ng-template *ngTemplateOutlet="displaySummerySection;context: { 'item': item  }">
+                        </ng-template>
+                      </td>
+                    </tr>
+                    <!-- EXAMINATION_HEADS start -->
+                    <tr *ngIf="item.secMasterType === 'EXAMINATION_HEADS'">
+                      <td>
+                        <ng-template *ngTemplateOutlet="displaySummerySection;context: { 'item': item  }">
+                        </ng-template>
+                      </td>
+                    </tr>
+                    <!-- EXAMINATION_HEADS end -->
+                    <!-- Service Order start -->
+                    <tr *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && (item.secType === 'dietOrders' || item.secType === 'instructionOrders'
+                                  || item.secType === 'labOrders' || item.secType === 'medicineOrders' || item.secType === 'nursingOrders'
+                                  || item.secType === 'radiologyOrders' || item.secType === 'serviceOrders')">
+                      <td>
+                        <ng-template *ngTemplateOutlet="displaySummerySection;context: { 'item': item  }">
+                        </ng-template>
+                      </td>
+                    </tr>
+                    <!-- Service Order end -->
+                    <!-- human_body start -->
+                    <tr *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'human_body' && item.data.length && isSvgExist(item.data, 'headFlag','humanBody')">
+                      <td>
+                        <p class="label">{{item.displayName}}</p>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td style="width: 50%;vertical-align: middle; background-color: #F5F5F5;"
+                                *ngIf="isSvgExist(item.data, 'headFlag','humanBody')">
+                                <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'13'" [svg_name]="'headFlag'"
+                                    [dummyData]='item.data'></app-svg-map-print>
+                                </div>
+                              </td>
+                              <td class="left" style="width: 50%;text-align: left;">
+                                <span *ngFor="let dt of item.data;let last = last">
+                                  <ul>
+                                    <li *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                      <b>Score {{dt.pain_score}} - </b>
+                                      <span>
+                                        {{ dt.body_part | bodyPainScorePipe }}<span *ngIf="!last">,</span>
+                                      </span>
+                                    </li>
+                                  </ul>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'human_body' && item.data.length && isSvgExist(item.data,'headzoomFlag','humanBody')">
+                      <td>
+                        <p class="label">{{item.displayName}}</p>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td style="width: 50%;vertical-align: middle; background-color: #F5F5F5;"
+                                *ngIf="isSvgExist(item.data,'headzoomFlag','humanBody')">
+                                <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'13_x'" [svg_name]="'headzoomFlag'"
+                                    [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                              </td>
+                              <td class="left" style="width: 50%;text-align: left;">
+                                <span *ngFor="let dt of item.data;let last = last">
+                                  <ul>
+                                    <li *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                      <strong>Score {{dt.pain_score}} - </strong>
+                                      <span>
+                                        {{ dt.body_part | bodyPainScorePipe }}<span *ngIf="!last">,</span>
+                                      </span>
+                                    </li>
+                                  </ul>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'human_body' && item.data.length && isSvgExist(item.data,'headzoomFlag','humanBody')">
+                      <td>
+                        <p class="label">{{item.displayName}}</p>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td style="width: 50%;vertical-align: middle; background-color: #F5F5F5;"
+                                *ngIf="isSvgExist(item.data,'svgFrontFlag','humanBody')">
+                                <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'11'" [svg_name]="'svgFrontFlag'"
+                                    [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                              </td>
+                              <td class="left" style="width: 50%;text-align: left;">
+                                <span *ngFor="let dt of item.data;let last = last">
+                                  <ul>
+                                    <li *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                      <strong>Score {{dt.pain_score}} - </strong>
+                                      <span>
+                                        {{ dt.body_part | bodyPainScorePipe }}<span *ngIf="!last">,</span>
+                                      </span>
+                                    </li>
+                                  </ul>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'human_body' && item.data.length && isSvgExist(item.data,'FrontzoomFlag','humanBody')">
+                      <td>
+                        <p class="label">{{item.displayName}}</p>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td style="width: 50%;vertical-align: middle; background-color: #F5F5F5;"
+                                *ngIf="isSvgExist(item.data,'FrontzoomFlag','humanBody')">
+                                <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'11_x'" [svg_name]="'FrontzoomFlag'"
+                                    [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                              </td>
+                              <td class="left" style="width: 50%;text-align: left;">
+                                <span *ngFor="let dt of item.data;let last = last">
+                                  <ul>
+                                    <li *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                      <strong>Score {{dt.pain_score}} - </strong>
+                                      <span>
+                                        {{ dt.body_part | bodyPainScorePipe }}<span *ngIf="!last">,</span>
+                                      </span>
+                                    </li>
+                                  </ul>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'human_body' && item.data.length && isSvgExist(item.data,'svgBackFlag','humanBody')">
+                      <td>
+                        <p class="label">{{item.displayName}}</p>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td style="width: 50%;vertical-align: middle; background-color: #F5F5F5;"
+                                *ngIf="isSvgExist(item.data,'svgBackFlag','humanBody')">
+                                <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'12'" [svg_name]="'svgBackFlag'"
+                                    [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                              </td>
+                              <td class="left" style="width: 50%;text-align: left;">
+                                <span *ngFor="let dt of item.data;let last = last">
+                                  <ul>
+                                    <li *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                      <strong>Score {{dt.pain_score}} - </strong>
+                                      <span>
+                                        {{ dt.body_part | bodyPainScorePipe }}<span *ngIf="!last">,</span>
+                                      </span>
+                                    </li>
+                                  </ul>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'human_body' && item.data.length && isSvgExist(item.data,'BackzoomFlag','humanBody')">
+                      <td>
+                        <p class="label">{{item.displayName}}</p>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td style="width: 50%;vertical-align: middle; background-color: #F5F5F5;"
+                                *ngIf="isSvgExist(item.data,'BackzoomFlag','humanBody')">
+                                <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'12_x'" [svg_name]="'BackzoomFlag'"
+                                    [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                              </td>
+                              <td class="left" style="width: 50%;text-align: left;">
+                                <span *ngFor="let dt of item.data;let last = last">
+                                  <ul>
+                                    <li *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                      <strong>Score {{dt.pain_score}} - </strong>
+                                      <span>
+                                        {{ dt.body_part | bodyPainScorePipe }}<span *ngIf="!last">,</span>
+                                      </span>
+                                    </li>
+                                  </ul>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'human_body' && item.data.length && isSvgExist(item.data,'rightFlag','humanBody')">
+                      <td>
+                        <p class="label">{{item.displayName}}</p>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td style="width: 50%;vertical-align: middle; background-color: #F5F5F5;"
+                                *ngIf="isSvgExist(item.data,'rightFlag','humanBody')">
+                                <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'15'" [svg_name]="'rightFlag'"
+                                    [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                              </td>
+                              <td class="left" style="width: 50%;text-align: left;">
+                                <span *ngFor="let dt of item.data;let last = last">
+                                  <ul>
+                                    <li *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                      <strong>Score {{dt.pain_score}} - </strong>
+                                      <span>
+                                        {{ dt.body_part | bodyPainScorePipe }}<span *ngIf="!last">,</span>
+                                      </span>
+                                    </li>
+                                  </ul>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'human_body' && item.data.length && isSvgExist(item.data,'rightzoomFlag','humanBody')">
+                      <td>
+                        <p class="label">{{item.displayName}}</p>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td style="width: 50%;vertical-align: middle; background-color: #F5F5F5;"
+                                *ngIf="isSvgExist(item.data,'rightzoomFlag','humanBody')">
+                                <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'15_x'" [svg_name]="'rightzoomFlag'"
+                                    [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                              </td>
+                              <td class="left" style="width: 50%;text-align: left;">
+                                <span *ngFor="let dt of item.data;let last = last">
+                                  <ul>
+                                    <li *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                      <strong>Score {{dt.pain_score}} - </strong>
+                                      <span>
+                                        {{ dt.body_part | bodyPainScorePipe }}<span *ngIf="!last">,</span>
+                                      </span>
+                                    </li>
+                                  </ul>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'human_body' && item.data.length && isSvgExist(item.data,'leftFlag','humanBody')">
+                      <td>
+                        <p class="label">{{item.displayName}}</p>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td style="width: 50%;vertical-align: middle; background-color: #F5F5F5;"
+                                *ngIf="isSvgExist(item.data,'leftFlag','humanBody')">
+                                <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'14'" [svg_name]="'leftFlag'"
+                                    [dummyData]='item.data'></app-svg-map-print>
+                                </div>
+                              </td>
+                              <td class="left" style="width: 50%;text-align: left;">
+                                <span *ngFor="let dt of item.data;let last = last">
+                                  <ul>
+                                    <li *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                      <strong>Score {{dt.pain_score}} - </strong>
+                                      <span>
+                                        {{ dt.body_part | bodyPainScorePipe }}<span *ngIf="!last">,</span>
+                                      </span>
+                                    </li>
+                                  </ul>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'human_body' && item.data.length && isSvgExist(item.data,'leftzoomFlag','humanBody')">
+                      <td>
+                        <p class="label">{{item.displayName}}</p>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td style="width: 50%;vertical-align: middle; background-color: #F5F5F5;"
+                                *ngIf="isSvgExist(item.data,'leftzoomFlag','humanBody')">
+                                <div style="width: 150px; height: 250px;margin: 0 auto;">
+                                  <app-svg-map-print [svg_type]="'humanBody'" [svgno]="'14_x'" [svg_name]="'leftzoomFlag'"
+                                    [dummyData]='item.data'>
+                                  </app-svg-map-print>
+                                </div>
+                              </td>
+                              <td class="left" style="width: 50%;text-align: left;">
+                                <span *ngFor="let dt of item.data;let last = last">
+                                  <ul>
+                                    <li *ngIf="dt.pain_score!='Absent' && dt.pain_score!='Normal' && dt.pain_score!='Reduced'">
+                                      <strong>Score {{dt.pain_score}} - </strong>
+                                      <span>
+                                        {{ dt.body_part | bodyPainScorePipe }}<span *ngIf="!last">,</span>
+                                      </span>
+                                    </li>
+                                  </ul>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <!-- foot_examination start -->
+                    <tr id="foot" *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType === 'foot_examination' && item.data.length">
+                      <td>
+                        <p class="label">{{item.displayName}}</p>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td style="width: 50%;vertical-align: middle; background-color: #F5F5F5;">
+                                <div style="width: 110px; height: 100px;">
+                                  <app-foot-examination [footExaminationDataInputs]="item.data" [source]="'history'">
+                                  </app-foot-examination>
+                                </div>
+                              </td>
+                              <td class="left" style="width: 50%;text-align: left;">
+                                <span *ngFor="let dt of item.data;let last = last">
+                                  <ul>
+                                    <li
+                                      *ngIf="dt.pain_score == 'Absent' || dt.pain_score == 'Normal' || dt.pain_score == 'Reduced'">
+                                      <strong>Score {{dt.pain_score}} - </strong>
+                                      <span>
+                                        <span
+                                          *ngIf="dt.pain_score == 'Absent' || dt.pain_score == 'Normal' || dt.pain_score == 'Reduced'">{{dt.body_part.split('_').join('
+                                          ')}}<span *ngIf="!last">,</span></span>
+                                      </span>
+                                    </li>
+                                  </ul>
+                                </span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr *ngIf="item.secMasterType === 'CONSULTATION_SECTION' && item.secType== 'faq_section'">
+                      <td>
+                        <ng-template *ngTemplateOutlet="displaySummerySection;context: { 'item': item  }">
+                        </ng-template>
+                      </td>
+                    </tr>
+                    <tr *ngIf="item.secType== 'score_template'">
+                      <td>
+                        <table class="table-bordered">
+                          <tbody>
+                            <tr>
+                              <td class="header" style="width: 85px;">
+                                <h6>{{item.displayName}}</h6>
+                              </td>
+                              <td class="left">
+                                <ng-container [ngSwitch]="item.dataDisplayType">
+                                  <ul *ngSwitchCase="'bullet'">
+                                    <li>
+                                      <p *ngFor="let com of item.data;let last = last"><span
+                                          [innerHTML]="replaceString(com)"></span><span *ngIf="!last">,</span></p>
+                                    </li>
+
+                                  </ul>
+                                  <ul *ngSwitchCase="'comma'">
+                                    <li>
+                                      <p *ngFor="let com of item.data;let last = last"><span
+                                          [innerHTML]="replaceString(com)"></span><span *ngIf="!last">,</span></p>
+                                    </li>
+                                  </ul>
+                                  <ul *ngSwitchDefault>
+                                    <li>
+                                      <p *ngFor="let com of item.data;let last = last"><span
+                                          [innerHTML]="replaceString(com)"></span><span *ngIf="!last">,</span></p>
+                                    </li>
+                                  </ul>
+                                </ng-container>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                    <tr *ngIf="item.secType == 'followup_date' && item.data">
+                      <td>
+                        <ng-template *ngTemplateOutlet="displaySummerySection;context: { 'item': item  }">
+                        </ng-template>
+                      </td>
+                    </tr>
+                    </ng-container>
+                    <tr class="">
+                      <td>
+                        <table class="table-bordered-2">
+                          <tbody>
+                            <tr>
+                              <td colspan="2" class="header">
+
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <!-- <tfoot>
+      <tr>
+        <td>
+          <div class="t-foot">&nbsp;</div>
+        </td>
+      </tr>
+    </tfoot> -->
+  </table>
+</div>
+
+<!-- display summery data by key value pair -->
+<ng-template #displaySummerySection let-item="item">
+  <table class="table-bordered">
+    <tbody>
+      <tr>
+        <td class="header">
+          <h6>{{item.displayName}}</h6>
+        </td>
+        <td class="left">
+          <ng-container *ngFor="let vd of item.visitorData">
+            <ng-container *ngIf="item.sectionKey === 'custom_template_detail'">
+              <ng-container *ngFor="let data of vd.summaryData">
+                <h3 class="text-danger">{{data.form_summary_heading}}</h3>...
+                <ng-container *ngFor="let groupData of data.table_data">
+                  <h4>{{groupData.que_group_name}}</h4>
+                  <table>
+                    <thead>
+                      <th [ngStyle]="{'width.%': (100 / (groupData.table_head.length+1)) }"></th>
+                      <th [ngStyle]="{'width.%': (100 / (groupData.table_head.length+1)) }"
+                        *ngFor="let answerHeading of groupData.table_head">
+                        <span [innerHTML]="answerHeading.ans_group_heading"></span>
+                      </th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let question of groupData.que_list">
+                        <td class="first-td">{{question.question_text}}</td>
+                        <td *ngFor="let headingData of groupData.table_head">
+                          <div
+                            *ngFor="let answer of question.answer_list | filterArray:'ans_group_key':headingData.ans_group_key; let answerIndex = index;"
+                            class="col-xs-12 p-0">
+                            {{answer.answer_text}}
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+            <ng-container *ngIf="item.sectionKey !== 'custom_template_detail'" [ngSwitch]="item.dataDisplayType">
+              <ul *ngSwitchCase="'bullet'">
+                <li *ngFor="let com of vd.visitor;let last = last">
+                  <span [innerHTML]="com"></span>
+                </li>
+                <li *ngFor="let com of vd.summaryData;let last = last">
+                  <span [innerHTML]="com"></span>
+                </li>
+              </ul>
+              <ng-container *ngSwitchCase="'comma'">
+                <p style="line-height: 1.3;">
+                  <ng-container *ngFor="let com of vd.visitor;let last = last">
+                    <span [innerHTML]="com"></span>
+                    <ng-container *ngIf="!last">,$nbsp;</ng-container>
+                  </ng-container>
+                </p>
+               <p style="line-height: 1.3;">
+                <ng-container *ngFor="let com of vd.summaryData;let last = last">
+                  <span [innerHTML]="com"></span>
+                  <ng-container *ngIf="!last">,&nbsp;</ng-container>
+                </ng-container>
+               </p>
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+               <p style="line-height: 1.3;">
+                <ng-container *ngFor="let com of vd.visitor;let last = last">
+                  <span [innerHTML]="com"></span>
+                  <ng-container *ngIf="!last">,&nbsp;</ng-container>
+                </ng-container>
+               </p>
+                <p style="line-height: 1.3;">
+                  <ng-container *ngFor="let com of vd.summaryData;let last = last">
+                    <span [innerHTML]="com"></span>
+                    <ng-container *ngIf="!last">,&nbsp;</ng-container>
+                  </ng-container>
+                </p>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-template>
+

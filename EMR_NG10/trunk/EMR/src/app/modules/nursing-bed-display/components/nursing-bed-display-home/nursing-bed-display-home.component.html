@@ -1,0 +1,398 @@
+<div class="emr-container-fluid container-bed-display">
+    <div *ngIf="loadPage">
+        <div class="card border-0">
+            <div class="card-body card-body-filter p-0 bg-light">
+                <div class="form-row form-group mx-0 mb-2">
+                    <div class="col">
+                        <label>Patient</label>
+                        <ng-select class="patient-search" [items]="patientList$ | async" bindLabel="patientName" (change)="onPatientChange($event)" bindValue="patientId" [(ngModel)]="filterObj.patientId" placeholder="Select Patient" [typeahead]="patientInput$">
+                        </ng-select>
+                    </div>
+                    <div class="col-5">
+                        <label>Nursing Station</label>
+                        <ng-select class="" [multiple]="true" [items]="storesArray" bindLabel="nursingStation" (change)="onNursingStationChange($event)" bindValue="nursingStationId" [(ngModel)]="filterObj.nursingStation" placeholder="Select Nursing Station">
+                        </ng-select>
+                    </div>
+                    <div class="col-2">
+                        <label>Status</label>
+                        <select class="form-control form-control-sm" [(ngModel)]="filterObj.bedStatus">
+                            <option *ngFor="let status of bedStatusArray" value="{{status.key}}">{{status.name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label class="d-block custom-mb">&nbsp;</label>
+                        <button class="btn btn-sm btn-info" type="submit" (click)="loadBedFilterData()"> <i
+                                class="icon fa-fw icon-search"></i>
+                            SEARCH</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="my-0" />
+        <div class="bed-accordion">
+            <ng-container *ngIf="bedDisplayData.length > 0">
+                <ng-container *ngFor="let item of bedDisplayData; let i = index;">
+                    <div class="form-row mx-0 bed-show" *ngIf="item.isShow">
+                        <div class="col custom-col-bed-name py-1">
+                            <div class="card position-sticky top-5 ward-card">
+                                <div class="card-body p-1">
+                                    <div class="form-row align-items-center mx-0">
+                                        <div class="col pl-0">
+                                            <button (click)="onExpandCollapse(item)" type="button" title="{{item.isExpand ? 'Collapse' : 'Expand'}}" class="btn btn-xs btn-outline-primary-light p-0"><i aria-hidden="true"
+                                                    class="fas fa-fw"
+                                                    [ngClass]="{'align-top fa-sort-down': item.isExpand, 'align-text-bottom fa-sort-up': !item.isExpand}"></i></button>
+                                        </div>
+                                        <div class="col px-0">
+                                            <h6 class="mb-0 text-truncate font-size-dot-875 bed-name" title="{{item.nursingStation}}">
+                                                {{item.nursingStation}}
+                                            </h6>
+                                        </div>
+                                    </div>
+                                    <ng-container *ngIf="item.isExpand">
+                                        <div class="form-row align-items-center mx-0">
+                                            <div class="col">
+                                                <h6 class="mb-0 small font-weight-500"><span class="d-inline-block text-right">{{item.totalBed}}</span> - Total Bed
+                                                </h6>
+                                            </div>
+                                            <div class="col">
+                                                <p class="mb-0 text-success small"><span class="d-inline-block text-right">{{item.availableBed}}</span> - Available Bed</p>
+                                                <p class="mb-0 text-danger small"><span class="d-inline-block text-right">{{item.occupiedBed}}</span> - Occupied Bed
+                                                </p>
+                                                <p class="mb-0 text-warning small"><span class="d-inline-block text-right">{{item.otherBed}}</span> - Other Bed
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col beds border-left py-1">
+                            <ng-container *ngIf="!item.isExpand">
+                                <div class="d-flex pt-1">
+                                    <h6 class="mb-0 small font-weight-500 pr-4"><span class="d-inline-block">{{item.totalBed}}</span> - Total Bed</h6>
+                                    <p class="mb-0 text-success small"><span class="d-inline-block">{{item.availableBed}}</span> - Available Bed,&nbsp;
+                                    </p>
+                                    <p class="mb-0 text-danger small"><span class="d-inline-block">{{item.occupiedBed}}</span> - Occupied Bed,&nbsp;
+                                    </p>
+                                    <p class="mb-0 text-warning small"><span class="d-inline-block">{{item.otherBed}}</span> - Other Bed</p>
+                                </div>
+                            </ng-container>
+                            <div class="form-row mx-0 bed-form-row" [ngClass]="{'d-none': !item.isExpand}">
+                                
+                                <ng-container *ngFor="let bed of item.bedData">
+                                    <div class="col custom-col" *ngIf="bed.isShow && bed.status === 'O'">
+                                        <div class="card card-occupied" [ngClass]="{'blinked-border': bed?.patientData?.patientStatus === 'MARK FOR DISCHARGE'}">
+                                            <div class="card-header p-1">
+                                                <div class="form-row align-items-center mx-0">
+                                                    <div class="col-9">
+                                                        <p class="mb-0 font-size-dot-875 pointer" [ngbPopover]="popBedContent" placement="bottom" #p="ngbPopover">
+                                                            {{bed.bedName}}
+                                                        </p>
+                                                        <ng-template #popBedContent>
+                                                            <div class="text-left custom-tooltip">
+                                                                <p class="mb-0 font-size-dot-8"><span class="small badge-primary px-1 rounded mr-1">Bed
+                                                                        Detail :</span>{{bed.bedAttributeInfo}}</p>
+                                                                <p class="mb-0 font-size-dot-8"><span class="small badge-primary px-1 rounded mr-1">Bed
+                                                                        Info :</span>{{bed.bedInfo}}</p>
+                                                                <p class="mb-0 font-size-dot-8"><span class="small badge-primary px-1 rounded mr-1">Bed
+                                                                        Split/Merge :</span>{{bed.splitMergeType === 'S' ? 'Split' : (bed.splitMergeType === 'M' ? 'Merge' : 'NA')}}
+                                                                </p>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                    <div class="col text-right" *ngIf="bed?.patientData?.notificationCount > 0">
+                                                        <a class="badge custom-badge font-weight-500 p-1 mb-0" (click)="openNotificationPopup(bed)">{{bed?.patientData?.notificationCount}}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body p-1">
+                                                <p class="mb-0 font-size-dot-7">
+                                                    {{bed?.patientData?.uhid}}
+                                                </p>
+                                                <p class="mb-0 small text-truncate font-weight-500 p-name">
+                                                    {{bed?.patientData?.title}} {{bed?.patientData?.fullName}}
+                                                </p>
+                                                <div class="custom-badge text-center">
+                                                    <p class="mb-0 small px-1 text-truncate font-weight-500 pointer" placement="bottom" [ngbPopover]="popPatientContent" #p="ngbPopover" tooltipClass="patient-name">
+                                                        Dr. {{bed?.patientData?.primaryDoctorName}}
+
+                                                    </p>
+                                                    <ng-template #popPatientContent>
+                                                        <div class="text-left custom-tooltip">
+                                                            <p class="mb-0 font-size-dot-8"><span class="small badge-primary px-1 rounded mr-1">Age
+                                                                    :</span>{{bed?.patientData?.age}} {{bed?.patientData?.ageUnit}}
+                                                            </p>
+                                                            <p class="mb-0 font-size-dot-8"><span class="small badge-primary px-1 rounded mr-1">Gender
+                                                                    :</span>{{bed?.patientData?.gender}}</p>
+                                                            <p class="mb-0 font-size-dot-8"><span class="small badge-primary px-1 rounded mr-1">Mobile
+                                                                    :</span>{{bed?.patientData?.mobile}}</p>
+                                                        </div>
+                                                    </ng-template>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer p-1">
+                                                <div class="form-row align-items-center mx-0 text-center">
+                                                    <div class="col">
+                                                        <button type="button" title="Orders" (click)="redirectOrderPage(bed?.patientData)" class="btn btn-sm btn-outline-primary-light custom-btn"><i
+                                                                class="icon fa-fw icon-rx"
+                                                                aria-hidden="true"></i></button>
+                                                    </div>
+                                                    <div class="col">
+                                                        <button type="button" title="Service Orders" (click)="redirectServiceOrdersPage(bed?.patientData)" class="btn btn-sm btn-outline-primary-light custom-btn"><i
+                                                                class="icon fa-fw icon-clipboard-list"
+                                                                aria-hidden="true"></i></button>
+                                                    </div>
+                                                    <div class="col">
+                                                        <button type="button" title="Patient Issue" (click)="openPatientIssuePopup(bed?.patientData)" class="btn btn-sm btn-outline-primary-light custom-btn"><i
+                                                                class="icon fa-fw icon-notes-medical"
+                                                                aria-hidden="true"></i></button>
+                                                    </div>
+                                                    <div class="col">
+                                                        <button class="bg-transparent border-0 align-bottom" placement="left" [ngbPopover]="dropdownListContent" #p="ngbPopover">
+                                                            <i class="fa fa-fw fa-bars text-primary-light"
+                                                                aria-hidden="true"></i>
+                                                            <i class="fa fa-xs fa-caret-down text-primary-light"
+                                                                aria-hidden="true"></i>
+                                                        </button>
+                                                        <ng-template #dropdownListContent>
+                                                            <!-- <span>{{bed?.patientData | json}}</span> -->
+                                                            <ul class="list-unstyled popover-content mb-0">
+                                                                <li>
+                                                                    <button (click)="openOrdersPopup(bed?.patientData)" class="btn btn-sm btn-block text-left primary"><i
+                                                                            class="icon fa-fw icon-clipboard-list mr-1"
+                                                                            aria-hidden="true"></i> Orders</button>
+                                                                </li>
+                                                                <li>
+                                                                    <button (click)="openServiceOrdersPopup(bed?.patientData)" class="btn btn-sm btn-block text-left warning"><i
+                                                                            class="icon fa-fw icon-clipboard-list-check mr-1"
+                                                                            aria-hidden="true"></i> Service
+                                                                        Orders</button>
+                                                                </li>
+                                                                <li>
+                                                                    <button (click)="openPatientIssuePopup(bed?.patientData)" class="btn btn-sm btn-block text-left del"><i
+                                                                            class="icon fa-fw icon-info mr-1"
+                                                                            aria-hidden="true"></i>Patient
+                                                                        Issue</button>
+                                                                </li>
+                                                                <li>
+                                                                    <button (click)="openPatientConsentPopup(bed?.patientData)" class="btn btn-sm btn-block text-left edit"><i
+                                                                            class="icon fa-fw icon-emr-orders mr-1"
+                                                                            aria-hidden="true"></i>Printable Forms</button>
+                                                                </li>
+                                                                <ng-container *ngIf="bed?.patientData.patId === selectedPatientId">
+                                                                    <li *ngFor="let data of dischargeStatusList">
+                                                                        <button (click)="changeActionStatus(data,bed?.patientData)" class="btn btn-sm btn-block text-left edit"><i
+                                                                            class="icon fa-fw icon-emr-orders mr-1"
+                                                                            aria-hidden="true"></i>{{data}}
+                                                                        </button>
+                                                                    </li>
+                                                                </ng-container>
+                                                                <ng-container *ngIf="bed?.patientData.patId !== selectedPatientId">
+                                                                    <li *ngFor="let data of  getDischargeActions(bed?.patientData)">
+                                                                        <button (click)="changeActionStatus(data,bed?.patientData)" class="btn btn-sm btn-block text-left edit"><i
+                                                                            class="icon fa-fw icon-emr-orders mr-1"
+                                                                            aria-hidden="true"></i>{{data}}
+                                                                        </button>
+                                                                    </li>
+                                                                </ng-container>
+                                                                
+                                                                <!-- <li *ngIf="bed?.patientData.patientStatus === 'IP TREATMENT' ||
+                                                                bed?.patientData.patientStatus !== 'MARK FOR DISCHARGE' || bed?.patientData.patientStatus !== 'SEND FOR BILLING' || 
+                                                                bed?.patientData.patientStatus !== 'DISCHARGE APPROVED' ||
+                                                                bed?.patientData.patientStatus !== 'ACTUAL DISCHARGE'">
+                                                                    <button (click)="changeActionStatus('MARK FOR DISCHARGE',bed?.patientData)" class="btn btn-sm btn-block text-left edit"><i
+                                                                            class="icon fa-fw icon-emr-orders mr-1"
+                                                                            aria-hidden="true"></i>MARK FOR DISCHARGE</button>
+                                                                </li>
+                                                                <li *ngIf="bed?.patientData.patientStatus === 'SEND FOR BILLING' || 
+                                                                    bed?.patientData.patientStatus === 'DISCHARGE APPROVED'">
+                                                                    <button (click)="changeActionStatus('CANCELLED DISCHARGE',bed?.patientData)" class="btn btn-sm btn-block text-left edit"><i
+                                                                            class="icon fa-fw icon-emr-orders mr-1"
+                                                                            aria-hidden="true"></i>CANCELLED DISCHARGE
+                                                                    </button>
+                                                                </li>
+                                                                <li *ngIf="bed?.patientData.patientStatus === 'MARK FOR DISCHARGE'">
+                                                                    <button (click)="changeActionStatus('SEND FOR BILLING',bed?.patientData)" class="btn btn-sm btn-block text-left edit"><i
+                                                                            class="icon fa-fw icon-emr-orders mr-1"
+                                                                            aria-hidden="true"></i>SEND FOR BILLING</button>
+                                                                </li>
+                                                                <li *ngIf="bed?.patientData.patientStatus === 'DISCHARGE APPROVED'">
+                                                                    <button (click)="changeActionStatus('DISCHARGE APPROVED',bed?.patientData)" class="btn btn-sm btn-block text-left edit"><i
+                                                                            class="icon fa-fw icon-emr-orders mr-1"
+                                                                            aria-hidden="true"></i>DISCHARGE APPROVED</button>
+                                                                </li>
+                                                                <li  *ngIf="bed?.patientData.patientStatus === 'ACTUAL DISCHARGE'">
+                                                                    <button (click)="changeActionStatus('ACTUAL DISCHARGE',bed?.patientData)" class="btn btn-sm btn-block text-left edit"><i
+                                                                            class="icon fa-fw icon-emr-orders mr-1"
+                                                                            aria-hidden="true"></i>ACTUAL DISCHARGE</button>
+                                                                </li>
+                                                                <li>
+                                                                    <button (click)="changeActionStatus('TRANSFER',bed?.patientData)" class="btn btn-sm btn-block text-left edit"><i
+                                                                            class="icon fa-fw icon-emr-orders mr-1"
+                                                                            aria-hidden="true"></i>TRANSFER</button>
+                                                                </li>
+                                                                <li>
+                                                                    <button (click)="changeActionStatus('HAND OVER',bed?.patientData)" class="btn btn-sm btn-block text-left edit"><i
+                                                                            class="icon fa-fw icon-emr-orders mr-1"
+                                                                            aria-hidden="true"></i>HAND OVER</button>
+                                                                </li>
+                                                                <li>
+                                                                    <button (click)="changeActionStatus('REFER',bed?.patientData)" class="btn btn-sm btn-block text-left edit"><i
+                                                                            class="icon fa-fw icon-emr-orders mr-1"
+                                                                            aria-hidden="true"></i>REFER</button>
+                                                                </li> -->
+                                                            </ul>
+                                                        </ng-template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p *ngIf="bed?.patientData?.patientStatus === 'MARK FOR DISCHARGE'" class="mb-0 small text-center text-primary blink-text">Marked for Discharge
+                                        </p>
+                                    </div>
+                                    <div class="col custom-col" *ngIf="bed.isShow && bed.status === 'V'">
+                                        <div class="card card-vacant pointer">
+                                            <div class="card-header p-1">
+                                                <div class="form-row align-items-center mx-0">
+                                                    <div class="col">
+                                                        <p class="mb-0 font-size-dot-875 text-success" [ngbPopover]="popBedContent" placement="bottom" #p="ngbPopover" tooltipClass="custom-class">
+                                                            {{bed.bedName}}
+                                                        </p>
+                                                        <ng-template #popBedContent>
+                                                            <div class="text-left custom-tooltip">
+                                                                <p class="mb-0 font-size-dot-8"><span class="small badge-success px-1 rounded mr-1">Bed
+                                                                        Detail :
+                                                                    </span>{{bed.bedAttributeInfo}}</p>
+                                                                <p class="mb-0 font-size-dot-8"><span class="small badge-success px-1 rounded mr-1">
+                                                                        Bed Info : </span>{{bed.bedInfo}}</p>
+                                                                <p class="mb-0 font-size-dot-8"><span class="small badge-success px-1 rounded mr-1">Bed
+                                                                        Split/Merge :
+                                                                    </span>{{bed.splitMergeType === 'S' ? 'Split' : (bed.splitMergeType === 'M' ? 'Merge' : 'NA')}}
+                                                                </p>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body p-1">
+                                                <div class="w-100 text-center bed-empty">
+                                                    <i class="icon fa-fw icon-bed-empty text-success align-text-bottom " aria-hidden="true"></i>
+                                                </div>
+                                                <div class="custom-badge text-center">
+                                                    <p class="mb-0 small px-1 text-truncate font-weight-500">
+                                                        {{getStatusName(bed.status)}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col custom-col" *ngIf="bed.isShow && bed.status === 'M'">
+                                        <div class="card card-under-maintenance">
+                                            <div class="card-header p-1">
+                                                <div class="form-row align-items-center mx-0">
+                                                    <div class="col">
+                                                        <p class="mb-0 font-size-dot-875 text-secondary" [ngbPopover]="popBedContent" placement="bottom" #p="ngbPopover">
+                                                            {{bed.bedName}}
+                                                        </p>
+                                                        <ng-template #popBedContent>
+                                                            <div class="text-left custom-tooltip">
+                                                                <p class="mb-0 font-size-dot-8"><span class="small badge-secondary px-1 rounded mr-1">Bed
+                                                                        Detail :</span>{{bed.bedAttributeInfo}}</p>
+                                                                <p class="mb-0 font-size-dot-8"><span class="small badge-secondary px-1 rounded mr-1">Bed
+                                                                        Info :</span>{{bed.bedInfo}}</p>
+                                                                <p class="mb-0 font-size-dot-8"><span class="small badge-secondary px-1 rounded mr-1">Bed
+                                                                        Split/Merge :</span>{{bed.splitMergeType === 'S' ? 'Split' : (bed.splitMergeType === 'M' ? 'Merge' : 'NA')}}
+                                                                </p>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body p-1">
+                                                <div class="w-100 text-center bed-empty">
+                                                    <i class="icon fa-fw icon-bed-empty text-secondary align-text-bottom " aria-hidden="true"></i>
+                                                    <i class="icon fa-xs icon-cogs text-secondary align-top" aria-hidden="true"></i>
+                                                </div>
+                                                <div class="custom-badge text-center">
+                                                    <p class="mb-0 small px-1 text-truncate font-weight-500">
+                                                        {{getStatusName(bed.status)}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col custom-col" *ngIf="bed.isShow && bed.status === 'B'">
+                                        <div class="card card-booked">
+                                            <div class="card-header p-1">
+                                                <div class="form-row align-items-center mx-0">
+                                                    <div class="col">
+                                                        <p class="mb-0 font-size-dot-875 text-orange" [ngbPopover]="popBedContent" placement="bottom" #p="ngbPopover">
+                                                            {{bed.bedName}}
+                                                        </p>
+                                                        <ng-template #popBedContent>
+                                                            <div class="text-left custom-tooltip">
+                                                                <p class="mb-0 font-size-dot-8"><span class="small badge-secondary px-1 rounded mr-1">Bed
+                                                                        Detail :</span>{{bed.bedAttributeInfo}}</p>
+                                                                <p class="mb-0 font-size-dot-8"><span class="small badge-secondary px-1 rounded mr-1">Bed
+                                                                        Info :</span>{{bed.bedInfo}}</p>
+                                                                <p class="mb-0 font-size-dot-8"><span class="small badge-secondary px-1 rounded mr-1">Bed
+                                                                        Split/Merge :</span>{{bed.splitMergeType === 'S' ? 'Split' : (bed.splitMergeType === 'M' ? 'Merge' : 'NA')}}
+                                                                </p>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body p-1">
+                                                <div class="w-100 text-center bed-empty">
+                                                    <i class="icon fa-fw icon-bed-empty text-orange align-text-bottom " aria-hidden="true"></i>
+                                                </div>
+                                                <div class="custom-badge text-center">
+                                                    <p class="mb-0 small px-1 text-truncate font-weight-500">
+                                                        {{getStatusName(bed.status)}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col custom-col" *ngIf="bed.isShow && bed.status === 'R'">
+                                        <div class="card card-reserved">
+                                            <div class="card-header p-1">
+                                                <div class="form-row align-items-center mx-0">
+                                                    <div class="col">
+                                                        <p class="mb-0 font-size-dot-875 text-orange" [ngbPopover]="popBedContent" placement="bottom" #p="ngbPopover">
+                                                            {{bed.bedName}}
+                                                        </p>
+                                                        <ng-template #popBedContent>
+                                                            <div class="text-left custom-tooltip">
+                                                                <p class="mb-0 font-size-dot-8"><span class="small badge-primary px-1 rounded mr-1">Bed
+                                                                        Detail :</span>{{bed.bedAttributeInfo}}</p>
+                                                                <p class="mb-0 font-size-dot-8"><span class="small badge-primary px-1 rounded mr-1">Bed
+                                                                        Info :</span>{{bed.bedInfo}}</p>
+                                                                <p class="mb-0 font-size-dot-8"><span class="small badge-primary px-1 rounded mr-1">Bed
+                                                                        Split/Merge :</span>{{bed.splitMergeType === 'S' ? 'Split' : (bed.splitMergeType === 'M' ? 'Merge' : 'NA')}}
+                                                                </p>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-body p-1">
+                                                <div class="w-100 text-center bed-empty">
+                                                    <i class="icon fa-fw icon-bed-empty text-orange align-text-bottom " aria-hidden="true"></i>
+                                                </div>
+                                                <div class="custom-badge text-center">
+                                                    <p class="mb-0 small px-1 text-truncate font-weight-500">
+                                                        {{getStatusName(bed.status)}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-0" />
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+</div>

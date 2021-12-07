@@ -1,0 +1,28 @@
+<div class="fullscreen-img vh-100 d-flex justify-content-center align-items-center">
+  <div class="user-content bg-white">
+    <div class="top text-center">
+      <img [src]="loginLogUrl">
+      <!-- ./assets/img/hospital-logo.png -->
+      <h6 class="mb-0">Inventory</h6>
+      <span class="brand-border d-inline-block"></span>
+    </div>
+    <div class="user-box px-4 py-1">
+      <h4 class="my-3">Select Store</h4>
+      <form (ngSubmit)="onSubmit()">
+        <div class="form-group view-height position-relative">
+          <ng-select name="storeNamme" bindLabel="storeName"  [items]="storesArray" [(ngModel)]="selectedStore" placeholder="Select Store"></ng-select>
+        </div>
+        <div class="form-group text-right">
+          <!-- <a class="text-decoration-none font-italic pointer" (click)="forgotPasswordRoute()">Forgot Password?</a> -->
+        </div>
+        <div class="form-group view-height">
+          <button type="submit" [disabled]="!selectedStore" class="btn btn-block btn-lg btn-primary">
+            <i class="icon fa-fw icon-sign-in-alt" aria-hidden="true"></i>
+            LOGIN</button>
+        </div>
+        <!--<p class="text-danger" *ngIf="submitted && errorMsg"><small>{{errorMsg}}</small></p>-->
+      </form>
+    </div>
+  </div>
+</div>
+<!--<app-alert-message [alertMessage]="alertMsg"></app-alert-message>-->

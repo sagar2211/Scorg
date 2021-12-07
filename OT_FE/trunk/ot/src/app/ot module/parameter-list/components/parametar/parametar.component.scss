@@ -1,0 +1,52 @@
+@import "../../../../../scss/main";
+
+.card-parameter {
+  .card-body {
+    height: calc(100vh - 130px) !important;
+    overflow-x: hidden !important;
+    overflow-x: auto;
+    // .scrollable-data {
+    //   height: calc(100vh - 213px) !important;
+    // }
+    .scroll-section-table{
+      height: calc(100vh - 182px) !important;
+      overflow-x: hidden !important;
+      overflow-x: auto;
+    }
+  }
+
+  .form-inline {
+    .form-group {
+      margin-bottom: 0 !important;
+
+      .width-120 {
+        width: 120px;
+        min-width: 120px;
+      }
+
+      .width-200 {
+        width: 200px;
+        min-width: 200px;
+      }
+
+      .width-350 {
+        width: 350px;
+        min-width: 350px;
+      }
+    }
+  }
+
+  .height-31 {
+    height: 31px;
+
+    &::placeholder {
+      color: #999999;
+      font-size: 0.8rem;
+    }
+  }
+
+  .custom-col-1 {
+    flex: 0 0 10%;
+    max-width: 10%;
+  }
+}

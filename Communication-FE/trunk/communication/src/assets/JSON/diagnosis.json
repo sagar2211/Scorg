@@ -1,0 +1,661 @@
+{
+  "diagnosisDefaultObject" : {
+    "icdCode": "",
+    "remarks": "",
+    "diagnosisName": "",
+    "description": "",
+    "offline_added": false,
+    "offline_key": "",
+    "isIcd":"0",
+    "isPrimary":"0"
+  },
+
+  "data": [
+    {
+      "id": "A04",
+      "Name": "A04: Other bacterial intestinal infections",
+      "description": "Other bacterial intestinal infections",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "49"
+    },
+    {
+      "id": "A25",
+      "Name": "A25: Rat-bite fevers",
+      "description": "Rat-bite fevers",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "42"
+    },
+    {
+      "id": "A03",
+      "Name": "A03: Shigellosis",
+      "description": "Shigellosis",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "41"
+    },
+    {
+      "id": "A05",
+      "Name": "A05: Other bacterial foodborne intoxications, not elsewhere classified",
+      "description": "Other bacterial foodborne intoxications, not elsewhere classified",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "32"
+    },
+    {
+      "id": "P04.41",
+      "Name": "P04.41: Newborn  affected by maternal use of drugs of addiction Newborn affected by maternal use of cocaine",
+      "description": "Newborn  affected by maternal use of drugs of addiction Newborn affected by maternal use of cocaine",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "14"
+    },
+    {
+      "id": "A65",
+      "Name": "A65: Nonvenereal syphilis",
+      "description": "Nonvenereal syphilis",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "7"
+    },
+    {
+      "id": "A59",
+      "Name": "A59: Trichomoniasis",
+      "description": "Trichomoniasis",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "6"
+    },
+    {
+      "id": "A63",
+      "Name": "A63: Other predominantly sexually transmitted diseases, not elsewhere classified",
+      "description": "Other predominantly sexually transmitted diseases, not elsewhere classified",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "4"
+    },
+    {
+      "id": "A19",
+      "Name": "A19: Miliary tuberculosis",
+      "description": "Miliary tuberculosis",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "2"
+    },
+    {
+      "id": "A60",
+      "Name": "A60: Anogenital herpesviral [herpes simplex] infections",
+      "description": "Anogenital herpesviral [herpes simplex] infections",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "2"
+    },
+    {
+      "id": "A32",
+      "Name": "A32: Listeriosis",
+      "description": "Listeriosis",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "1"
+    },
+    {
+      "id": "A64",
+      "Name": "A64: Unspecified sexually transmitted disease",
+      "description": "Unspecified sexually transmitted disease",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "1"
+    },
+    {
+      "id": "A66",
+      "Name": "A66: Yaws",
+      "description": "Yaws",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "1"
+    },
+    {
+      "id": "A68",
+      "Name": "A68: Relapsing fevers",
+      "description": "Relapsing fevers",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "1"
+    },
+    {
+      "id": "A77",
+      "Name": "A77: Spotted fever [tick-borne rickettsioses]",
+      "description": "Spotted fever [tick-borne rickettsioses]",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "1"
+    },
+    {
+      "id": "A79",
+      "Name": "A79: Other rickettsioses",
+      "description": "Other rickettsioses",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "1"
+    },
+    {
+      "id": "P00.8",
+      "Name": "P00.8: Newborn affected by other maternal conditions",
+      "description": "Newborn affected by other maternal conditions",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "1"
+    },
+    {
+      "id": "A08",
+      "Name": "A08: Viral and other specified intestinal infections",
+      "description": "Viral and other specified intestinal infections",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A15",
+      "Name": "A15: Respiratory tuberculosis",
+      "description": "Respiratory tuberculosis",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A17",
+      "Name": "A17: Tuberculosis of nervous system",
+      "description": "Tuberculosis of nervous system",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A18",
+      "Name": "A18: Tuberculosis of other organs",
+      "description": "Tuberculosis of other organs",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A27",
+      "Name": "A27: Leptospirosis",
+      "description": "Leptospirosis",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A30",
+      "Name": "A30: Leprosy [Hansen's disease]",
+      "description": "Leprosy [Hansen's disease]",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A33",
+      "Name": "A33: Tetanus neonatorum",
+      "description": "Tetanus neonatorum",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A34",
+      "Name": "A34: Obstetrical tetanus",
+      "description": "Obstetrical tetanus",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A35",
+      "Name": "A35: Other tetanus",
+      "description": "Other tetanus",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A38",
+      "Name": "A38: Scarlet fever",
+      "description": "Scarlet fever",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A40",
+      "Name": "A40: Streptococcal sepsis",
+      "description": "Streptococcal sepsis",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A41",
+      "Name": "A41: Other sepsis",
+      "description": "Other sepsis",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A48",
+      "Name": "A48: Other bacterial diseases, not elsewhere classified",
+      "description": "Other bacterial diseases, not elsewhere classified",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A50",
+      "Name": "A50: Congenital syphilis",
+      "description": "Congenital syphilis",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A51",
+      "Name": "A51: Early syphilis",
+      "description": "Early syphilis",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A56",
+      "Name": "A56: Other sexually transmitted chlamydial diseases",
+      "description": "Other sexually transmitted chlamydial diseases",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A70",
+      "Name": "A70: Chlamydia psittaci infections",
+      "description": "Chlamydia psittaci infections",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A74",
+      "Name": "A74: Other diseases caused by chlamydiae",
+      "description": "Other diseases caused by chlamydiae",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A75",
+      "Name": "A75: Typhus fever",
+      "description": "Typhus fever",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A80",
+      "Name": "A80: Acute poliomyelitis",
+      "description": "Acute poliomyelitis",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A81",
+      "Name": "A81: Atypical virus infections of central nervous system",
+      "description": "Atypical virus infections of central nervous system",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A82",
+      "Name": "A82: Rabies",
+      "description": "Rabies",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A84",
+      "Name": "A84: Tick-borne viral encephalitis",
+      "description": "Tick-borne viral encephalitis",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A85",
+      "Name": "A85: Other viral encephalitis, not elsewhere classified",
+      "description": "Other viral encephalitis, not elsewhere classified",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A86",
+      "Name": "A86: Unspecified viral encephalitis",
+      "description": "Unspecified viral encephalitis",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A87",
+      "Name": "A87: Viral meningitis",
+      "description": "Viral meningitis",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A88",
+      "Name": "A88: Other viral infections of central nervous system, not elsewhere classified",
+      "description": "Other viral infections of central nervous system, not elsewhere classified",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A89",
+      "Name": "A89: Unspecified viral infection of central nervous system",
+      "description": "Unspecified viral infection of central nervous system",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A90",
+      "Name": "A90: Dengue fever [classical dengue]",
+      "description": "Dengue fever [classical dengue]",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A92",
+      "Name": "A92: Other mosquito-borne viral fevers",
+      "description": "Other mosquito-borne viral fevers",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A93",
+      "Name": "A93: Other arthropod-borne viral fevers, not elsewhere classified",
+      "description": "Other arthropod-borne viral fevers, not elsewhere classified",
+      "is_icd": "1",
+      "is_favourite": "1",
+      "use_count": "0"
+    },
+    {
+      "id": "A01",
+      "Name": "A01: Typhoid and paratyphoid fevers",
+      "description": "Typhoid and paratyphoid fevers",
+      "is_icd": "1",
+      "is_favourite": "0",
+      "use_count": "99"
+    },
+    {
+      "id": "P00",
+      "Name": "P00: Newborn affected by maternal conditions that may be unrelated to present pregnancy",
+      "description": "Newborn affected by maternal conditions that may be unrelated to present pregnancy",
+      "is_icd": "1",
+      "is_favourite": "0",
+      "use_count": "63"
+    }
+  ],
+
+  "diagnosisPrescriptions":  [
+      {
+        "set_id": "16",
+        "set_data": [
+          {
+            "diagnosis_id": null,
+            "icd_code": "A25",
+            "medicine_id": "669497",
+            "MorningA": "",
+            "MorningB": "",
+            "LunchB": "",
+            "LunchA": "",
+            "DinnerB": "",
+            "DinnerA": "",
+            "Days": "",
+            "Dosage": "",
+            "Instruction": "",
+            "FontId": "102",
+            "Prescription_count": "16",
+            "Freq": null,
+            "Quantity": null,
+            "dose_unit": "6",
+            "sig": {
+              "id": "1",
+              "sig": "Take"
+            },
+            "route": {
+              "id": "1",
+              "route": "by mouth"
+            },
+            "genericFreq": "1time",
+            "genericDose": "1",
+            "generic_duration": "1",
+            "genericRemarks": null,
+            "dose_view_type": "2",
+            "FreqSchedule": "",
+            "genric_name": null,
+            "medicineName": "TAB 13JULY",
+            "medicineId": "669497",
+            "medicineTypeName": "TABLET",
+            "medicineTypeId": "2",
+            "ShortName": "TAB",
+            "Morning": null,
+            "Lunch": null,
+            "Dinner": null,
+            "dosageUnit": {
+              "id": "6",
+              "dose_unit": "1"
+            },
+            "genericDuration": {
+              "id": "1",
+              "duration": "1 day"
+            }
+          },
+          {
+            "diagnosis_id": null,
+            "icd_code": "A25",
+            "medicine_id": "669487",
+            "MorningA": "",
+            "MorningB": "",
+            "LunchB": "",
+            "LunchA": "",
+            "DinnerB": "",
+            "DinnerA": "",
+            "Days": "",
+            "Dosage": "",
+            "Instruction": "",
+            "FontId": "102",
+            "Prescription_count": "16",
+            "Freq": "",
+            "Quantity": "1",
+            "dose_unit": null,
+            "sig": "",
+            "route": "",
+            "genericFreq": null,
+            "genericDose": null,
+            "generic_duration": null,
+            "genericRemarks": null,
+            "dose_view_type": "1",
+            "FreqSchedule": "",
+            "genric_name": null,
+            "medicineName": "ALEXA",
+            "medicineId": "669487",
+            "medicineTypeName": "SYRUP",
+            "medicineTypeId": "1",
+            "ShortName": "SYP",
+            "Morning": null,
+            "Lunch": null,
+            "Dinner": null,
+            "dosageUnit": "",
+            "genericDuration": ""
+          }
+        ]
+      },
+      {
+        "set_id": "15",
+        "set_data": [
+          {
+            "diagnosis_id": null,
+            "icd_code": "A25",
+            "medicine_id": "669497",
+            "MorningA": "",
+            "MorningB": "",
+            "LunchB": "",
+            "LunchA": "",
+            "DinnerB": "",
+            "DinnerA": "",
+            "Days": "",
+            "Dosage": "",
+            "Instruction": "",
+            "FontId": "102",
+            "Prescription_count": "15",
+            "Freq": null,
+            "Quantity": null,
+            "dose_unit": "6",
+            "sig": {
+              "id": "1",
+              "sig": "Take"
+            },
+            "route": {
+              "id": "1",
+              "route": "by mouth"
+            },
+            "genericFreq": "1time",
+            "genericDose": "1",
+            "generic_duration": "1",
+            "genericRemarks": null,
+            "dose_view_type": "2",
+            "FreqSchedule": "",
+            "genric_name": null,
+            "medicineName": "TAB 13JULY",
+            "medicineId": "669497",
+            "medicineTypeName": "TABLET",
+            "medicineTypeId": "2",
+            "ShortName": "TAB",
+            "Morning": null,
+            "Lunch": null,
+            "Dinner": null,
+            "dosageUnit": {
+              "id": "6",
+              "dose_unit": "1"
+            },
+            "genericDuration": {
+              "id": "1",
+              "duration": "1 day"
+            }
+          }
+        ]
+      }
+    ],
+
+  "deleteDiagnosisPrescription": {
+    "status":200,
+    "apistatus":1,
+    "authenticated":1,
+    "message":"USER AUTHENTICATED",
+    "delete_status":true
+  },
+
+  "prescriptionInput": {
+    "medicineType": "4",
+    "medicine": "",
+    "medicineId": "54102",
+    "medicineName": "INJECTION 12",
+    "genric_name": null,
+    "medicineNameObj": {
+      "id": "54102",
+      "Name": "INJECTION 12",
+      "MedicineTypeID": "4",
+      "is_favourite": "0",
+      "use_count": "5",
+      "genric_name": null,
+      "Price": null,
+      "name": "INJECTION 12"
+    },
+    "Dosage": "",
+    "Days": "",
+    "morningTime": "NULL",
+    "MorningA": "",
+    "MorningB": "",
+    "lunchTime": "NULL",
+    "LunchA": "",
+    "LunchB": "",
+    "dinnerTime": "NULL",
+    "DinnerA": "",
+    "DinnerB": "",
+    "Instruction": "",
+    "instructions_english": "",
+    "instructions_hindi": "",
+    "instructions_marathi": "",
+    "Freq": "",
+    "Quantity": "1",
+    "FreqSchedule": "",
+    "tapering": false,
+    "instrOverwrite": false,
+    "language": {
+      "name": "English",
+      "id": 101
+    },
+    "dose_view_type": "2",
+    "offline_added": false,
+    "offline_key": "",
+    "sig": {
+      "id": "32",
+      "sig": "1"
+    },
+    "route": {
+      "id": "1",
+      "route": "by mouth"
+    },
+    "genericFreq": "four times a day ",
+    "genericDose": "20mg",
+    "dosageUnit": {
+      "id": "63",
+      "dose_unit": "1 ML"
+    },
+    "genericDuration": {
+      "id": "35",
+      "duration": "15days"
+    },
+    "taperedFromDate": "2018-11-30T05:46:17.176Z",
+    "taperedToDate": "2018-12-14T05:46:17.000Z",
+    "genericRemarks": "after test dose",
+    "genericRemarksEnglish": "after test dose",
+    "genericRemarksHindi": "",
+    "genericRemarksMarathi": "",
+    "ShortName": "INJ",
+    "medicineTypeName": "INJECTION",
+    "instructions_english_master": "",
+    "instructions_hindi_master": "",
+    "instructions_marathi_master": "",
+    "genericRemarksEnglish_master": "after test dose",
+    "genericRemarksHindi_master": "",
+    "genericRemarksMarathi_master": "",
+    "instruction": ""
+  },
+  "patient_diagnosis": [],
+
+  "diagnosisSuggestionList" : {
+    "frequently_used":[{"id":"A02","Name":"A02: Other salmonella infections","description":"Other salmonella infections","is_icd":"1","is_favourite":"0","use_count":"7"}],
+    "others":[{"id":"A05","Name":"A05: Other bacterial foodborne intoxications, not elsewhere classified","description":"Other bacterial foodborne intoxications, not elsewhere classified","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A06","Name":"A06: Amebiasis","description":"Amebiasis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A07","Name":"A07: Other protozoal intestinal diseases","description":"Other protozoal intestinal diseases","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A08","Name":"A08: Viral and other specified intestinal infections","description":"Viral and other specified intestinal infections","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A09","Name":"A09: Infectious gastroenteritis and colitis, unspecified","description":"Infectious gastroenteritis and colitis, unspecified","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A15","Name":"A15: Respiratory tuberculosis","description":"Respiratory tuberculosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A17","Name":"A17: Tuberculosis of nervous system","description":"Tuberculosis of nervous system","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A18","Name":"A18: Tuberculosis of other organs","description":"Tuberculosis of other organs","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A19","Name":"A19: Miliary tuberculosis","description":"Miliary tuberculosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A20","Name":"A20: Plague","description":"Plague","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A21","Name":"A21: Tularemia","description":"Tularemia","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A22","Name":"A22: Anthrax","description":"Anthrax","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A23","Name":"A23: Brucellosis","description":"Brucellosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A24","Name":"A24: Glanders and melioidosis","description":"Glanders and melioidosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A25","Name":"A25: Rat-bite fevers","description":"Rat-bite fevers","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A26","Name":"A26: Erysipeloid","description":"Erysipeloid","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A27","Name":"A27: Leptospirosis","description":"Leptospirosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A28","Name":"A28: Other zoonotic bacterial diseases, not elsewhere classified","description":"Other zoonotic bacterial diseases, not elsewhere classified","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A30","Name":"A30: Leprosy [Hansen's disease]","description":"Leprosy [Hansen's disease]","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A31","Name":"A31: Infection due to other mycobacteria","description":"Infection due to other mycobacteria","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A32","Name":"A32: Listeriosis","description":"Listeriosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A33","Name":"A33: Tetanus neonatorum","description":"Tetanus neonatorum","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A34","Name":"A34: Obstetrical tetanus","description":"Obstetrical tetanus","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A35","Name":"A35: Other tetanus","description":"Other tetanus","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A36","Name":"A36: Diphtheria","description":"Diphtheria","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A37","Name":"A37: Whooping cough","description":"Whooping cough","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A38","Name":"A38: Scarlet fever","description":"Scarlet fever","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A39","Name":"A39: Meningococcal infection","description":"Meningococcal infection","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A40","Name":"A40: Streptococcal sepsis","description":"Streptococcal sepsis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A41","Name":"A41: Other sepsis","description":"Other sepsis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A42","Name":"A42: Actinomycosis","description":"Actinomycosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A43","Name":"A43: Nocardiosis","description":"Nocardiosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A44","Name":"A44: Bartonellosis","description":"Bartonellosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A46","Name":"A46: Erysipelas","description":"Erysipelas","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A48","Name":"A48: Other bacterial diseases, not elsewhere classified","description":"Other bacterial diseases, not elsewhere classified","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A49","Name":"A49: Bacterial infection of unspecified site","description":"Bacterial infection of unspecified site","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A50","Name":"A50: Congenital syphilis","description":"Congenital syphilis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A51","Name":"A51: Early syphilis","description":"Early syphilis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A52","Name":"A52: Late syphilis","description":"Late syphilis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A53","Name":"A53: Other and unspecified syphilis","description":"Other and unspecified syphilis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A54","Name":"A54: Gonococcal infection","description":"Gonococcal infection","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A55","Name":"A55: Chlamydial lymphogranuloma (venereum)","description":"Chlamydial lymphogranuloma (venereum)","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A56","Name":"A56: Other sexually transmitted chlamydial diseases","description":"Other sexually transmitted chlamydial diseases","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A57","Name":"A57: Chancroid","description":"Chancroid","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A58","Name":"A58: Granuloma inguinale","description":"Granuloma inguinale","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A59","Name":"A59: Trichomoniasis","description":"Trichomoniasis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A60","Name":"A60: Anogenital herpesviral [herpes simplex] infections","description":"Anogenital herpesviral [herpes simplex] infections","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A63","Name":"A63: Other predominantly sexually transmitted diseases, not elsewhere classified","description":"Other predominantly sexually transmitted diseases, not elsewhere classified","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A64","Name":"A64: Unspecified sexually transmitted disease","description":"Unspecified sexually transmitted disease","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A65","Name":"A65: Nonvenereal syphilis","description":"Nonvenereal syphilis","is_icd":"1","is_favourite":"0","use_count":"0"}],
+    "favourites":[{"id":"A00","Name":"A00: Cholera","description":"Cholera","is_icd":"1","is_favourite":"1","use_count":"17"},{"id":"A01","Name":"A01: Typhoid and paratyphoid fevers","description":"Typhoid and paratyphoid fevers","is_icd":"1","is_favourite":"1","use_count":"6"}]
+  },
+
+  "diagnosisTypDataOfPagination": [{"id":"A00","Name":"A00: Cholera","description":"Cholera","is_icd":"1","is_favourite":"1","use_count":"20"},{"id":"A02","Name":"A02: Other salmonella infections","description":"Other salmonella infections","is_icd":"1","is_favourite":"1","use_count":"7"},{"id":"A01","Name":"A01: Typhoid and paratyphoid fevers","description":"Typhoid and paratyphoid fevers","is_icd":"1","is_favourite":"1","use_count":"6"},{"id":"A05","Name":"A05: Other bacterial foodborne intoxications, not elsewhere classified","description":"Other bacterial foodborne intoxications, not elsewhere classified","is_icd":"1","is_favourite":"1","use_count":"0"},{"id":"A15","Name":"A15: Respiratory tuberculosis","description":"Respiratory tuberculosis","is_icd":"1","is_favourite":"1","use_count":"0"},{"id":"A03","Name":"A03: Shigellosis","description":"Shigellosis","is_icd":"1","is_favourite":"0","use_count":"4"},{"id":"A04","Name":"A04: Other bacterial intestinal infections","description":"Other bacterial intestinal infections","is_icd":"1","is_favourite":"0","use_count":"3"},{"id":"A06","Name":"A06: Amebiasis","description":"Amebiasis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A07","Name":"A07: Other protozoal intestinal diseases","description":"Other protozoal intestinal diseases","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A08","Name":"A08: Viral and other specified intestinal infections","description":"Viral and other specified intestinal infections","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A09","Name":"A09: Infectious gastroenteritis and colitis, unspecified","description":"Infectious gastroenteritis and colitis, unspecified","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A17","Name":"A17: Tuberculosis of nervous system","description":"Tuberculosis of nervous system","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A18","Name":"A18: Tuberculosis of other organs","description":"Tuberculosis of other organs","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A19","Name":"A19: Miliary tuberculosis","description":"Miliary tuberculosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A20","Name":"A20: Plague","description":"Plague","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A21","Name":"A21: Tularemia","description":"Tularemia","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A22","Name":"A22: Anthrax","description":"Anthrax","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A23","Name":"A23: Brucellosis","description":"Brucellosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A24","Name":"A24: Glanders and melioidosis","description":"Glanders and melioidosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A25","Name":"A25: Rat-bite fevers","description":"Rat-bite fevers","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A26","Name":"A26: Erysipeloid","description":"Erysipeloid","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A27","Name":"A27: Leptospirosis","description":"Leptospirosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A28","Name":"A28: Other zoonotic bacterial diseases, not elsewhere classified","description":"Other zoonotic bacterial diseases, not elsewhere classified","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A30","Name":"A30: Leprosy [Hansen's disease]","description":"Leprosy [Hansen's disease]","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A31","Name":"A31: Infection due to other mycobacteria","description":"Infection due to other mycobacteria","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A32","Name":"A32: Listeriosis","description":"Listeriosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A33","Name":"A33: Tetanus neonatorum","description":"Tetanus neonatorum","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A34","Name":"A34: Obstetrical tetanus","description":"Obstetrical tetanus","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A35","Name":"A35: Other tetanus","description":"Other tetanus","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A36","Name":"A36: Diphtheria","description":"Diphtheria","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A37","Name":"A37: Whooping cough","description":"Whooping cough","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A38","Name":"A38: Scarlet fever","description":"Scarlet fever","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A39","Name":"A39: Meningococcal infection","description":"Meningococcal infection","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A40","Name":"A40: Streptococcal sepsis","description":"Streptococcal sepsis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A41","Name":"A41: Other sepsis","description":"Other sepsis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A42","Name":"A42: Actinomycosis","description":"Actinomycosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A43","Name":"A43: Nocardiosis","description":"Nocardiosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A44","Name":"A44: Bartonellosis","description":"Bartonellosis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A46","Name":"A46: Erysipelas","description":"Erysipelas","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A48","Name":"A48: Other bacterial diseases, not elsewhere classified","description":"Other bacterial diseases, not elsewhere classified","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A49","Name":"A49: Bacterial infection of unspecified site","description":"Bacterial infection of unspecified site","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A50","Name":"A50: Congenital syphilis","description":"Congenital syphilis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A51","Name":"A51: Early syphilis","description":"Early syphilis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A52","Name":"A52: Late syphilis","description":"Late syphilis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A53","Name":"A53: Other and unspecified syphilis","description":"Other and unspecified syphilis","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A54","Name":"A54: Gonococcal infection","description":"Gonococcal infection","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A55","Name":"A55: Chlamydial lymphogranuloma (venereum)","description":"Chlamydial lymphogranuloma (venereum)","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A56","Name":"A56: Other sexually transmitted chlamydial diseases","description":"Other sexually transmitted chlamydial diseases","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A57","Name":"A57: Chancroid","description":"Chancroid","is_icd":"1","is_favourite":"0","use_count":"0"},{"id":"A58","Name":"A58: Granuloma inguinale","description":"Granuloma inguinale","is_icd":"1","is_favourite":"0","use_count":"0"}]
+}
